@@ -5,3 +5,5 @@ __pycache__/
 Rplots.pdf
 .Rhistory
 .venv/
+figures/**/figure*.png
+figures/**/figure*.pdf
