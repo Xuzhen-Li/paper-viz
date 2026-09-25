@@ -1,0 +1,23 @@
+title: Taxa bar with tree
+title_zh: 带树的物种组成柱
+slug: taxa-tree-bar
+category: microbiome-ecology
+tags:
+  - microbiome
+  - composition
+  - dendrogram
+packages:
+  - ggtree
+  - ggplot2
+  - vegan
+  - ape
+  - cowplot
+data_columns:
+  sample: 样品编号（字符串）
+  group: 样品分组（字符串）
+  taxon: 类群名（字符串）
+  abundance: 计数或丰度（数值）
+  tip: 与样品对应的树尖名（字符串）
+when_to_use: 按样品聚类树的顺序展示类群相对丰度时用。
+customize: relative 为 TRUE 时按样品归一化；top_n 保留平均丰度最高的类群，其余并入 Other；group_order 控制分组颜色。
+lang: R

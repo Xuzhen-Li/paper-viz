@@ -1,0 +1,21 @@
+title: Correlation network
+title_zh: 相关性网络
+slug: network
+category: network
+tags:
+  - network
+  - correlation
+  - community
+packages:
+  - ggraph
+  - igraph
+  - ggplot2
+data_columns:
+  from: 边的起点节点（字符串）
+  to: 边的终点节点（字符串）
+  weight: 相关或边权，0 到 1（数值）
+  community: 起点节点所属社区（字符串）
+  node: data_nodes.csv 中的节点名（字符串）
+when_to_use: 看特征之间的相关边、边权和社区结构时用。
+customize: weight_min 过滤弱边；show_labels 开关节点名；colour_by 设为 none 时节点不再按社区着色。
+lang: R

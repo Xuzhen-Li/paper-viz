@@ -1,0 +1,22 @@
+title: Annotated phylogeny
+title_zh: 分组着色系统树
+slug: phylo-tree
+category: phylogeny
+tags:
+  - phylogeny
+  - ggtree
+  - population
+packages:
+  - ggtree
+  - ggplot2
+  - ape
+  - cowplot
+data_columns:
+  tip: 子节点名；内部节点为 N 加编号（字符串）
+  parent: 父节点名（字符串）
+  length: 枝长（数值）
+  group: 叶节点群体；内部节点留空（字符串）
+  bootstrap: 进入该节点的支持率；叶节点和根留空（数值）
+when_to_use: 按群体给分支上色，并在内部节点标出支持率时用。
+customize: layout 取 rectangular、circular、fan 或 dendrogram；show_bootstrap 与 bootstrap_min 控制支持率；show_tip_bar 在直角布局下加叶枝长条形。
+lang: R

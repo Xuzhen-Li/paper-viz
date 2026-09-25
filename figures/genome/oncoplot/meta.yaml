@@ -1,0 +1,18 @@
+title: Oncoplot
+title_zh: 突变景观图
+slug: oncoplot
+category: genome
+tags:
+  - oncoplot
+  - mutation
+  - genome
+packages:
+  - ComplexHeatmap
+data_columns:
+  sample: 样品编号（字符串）
+  gene: 基因名（字符串）
+  variant_class: Missense_Ti、Missense_Tv、Nonsense、Frameshift 或 Splice（字符串）
+  cohort: 样品队列，用于注释条（字符串）
+when_to_use: 展示多样品、多基因的突变类型，并在上方汇总转换与颠换时用。
+customize: show_titv 开关顶部 Ti/Tv 柱；show_sample_lane 开关队列注释条。突变类型颜色在 col。
+lang: R

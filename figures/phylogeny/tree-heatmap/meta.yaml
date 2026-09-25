@@ -1,0 +1,21 @@
+title: Tree with heatmap
+title_zh: 树加热图或条形注释
+slug: tree-heatmap
+category: phylogeny
+tags:
+  - phylogeny
+  - heatmap
+  - annotation
+packages:
+  - ggtree
+  - ggplot2
+  - ape
+data_columns:
+  tip: 子节点或叶名（字符串）
+  parent: 父节点；性状行留空（字符串）
+  length: 枝长；性状行留空（数值）
+  trait: 性状名；树边行留空（字符串）
+  value: 性状值，已标准化；树边行留空（数值）
+when_to_use: 把系统树和叶节点性状矩阵或单个性状条形对齐展示时用。
+customize: anno_mode 取 heatmap 或 bar；bar_trait 指定条形所用性状；n_clade 控制按树切分的分支着色数。
+lang: R

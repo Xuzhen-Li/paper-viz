@@ -1,0 +1,19 @@
+title: STAMP difference bar
+title_zh: STAMP 差异条形
+slug: stamp-diffbar
+category: microbiome-ecology
+tags:
+  - stamp
+  - microbiome
+  - difference
+packages:
+  - ggplot2
+data_columns:
+  taxon: 类群名（字符串）
+  diff: 两组平均相对丰度之差，B 减 A（数值）
+  low: 95% 置信区间下界（数值）
+  high: 95% 置信区间上界（数值）
+  p: 双侧 p 值（数值）
+when_to_use: 展示两组微生物类群平均比例差及置信区间时用。
+customize: p_cut 决定实心点的显著性；show_ci 开关误差线；label_p 开关右侧 p 值。方向颜色在 cols。
+lang: R

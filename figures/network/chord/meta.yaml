@@ -1,0 +1,17 @@
+title: Chord diagram
+title_zh: 弦图
+slug: chord
+category: network
+tags:
+  - chord
+  - flow
+  - network
+packages:
+  - circlize
+data_columns:
+  source: 流出组（字符串）
+  target: 流入组（字符串）
+  value: 流量强度（数值）
+when_to_use: 展示若干组别之间的定向流量或互作强度时用。
+customize: show_labels 开关外圈组名；link_alpha 调色带透明度；directional 为 FALSE 时去掉箭头。组颜色按类别色板顺序。
+lang: R

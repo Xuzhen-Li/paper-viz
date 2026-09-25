@@ -1,0 +1,21 @@
+title: Synteny ribbon and dotplot
+title_zh: 共线性带与点图
+slug: synteny
+category: genome
+tags:
+  - synteny
+  - ribbon
+  - dotplot
+packages:
+  - ggplot2
+  - cowplot
+data_columns:
+  genome: 基因组 A 或 B（字符串）
+  chr: 染色体名（字符串）
+  start: 起点 bp；反向区块终点小于起点；锚点 start 等于 end（整数）
+  end: 终点 bp（整数）
+  block: 共线性区块编号；染色体骨架行留空（字符串）
+  identity: 序列一致性（%）；骨架行留空（数值）
+when_to_use: 比较两个基因组的共线性区块、方向和锚点一致性时用。
+customize: show_ribbon 与 show_dotplot 开关色带和点图；chr_layout 设为 pair 时只画 pair_chr 上的锚点。正向与反向色带颜色在 orient_cols。
+lang: R

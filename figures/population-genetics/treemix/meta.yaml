@@ -1,0 +1,23 @@
+title: TreeMix migration tree
+title_zh: TreeMix 迁移树
+slug: treemix
+category: population-genetics
+tags:
+  - treemix
+  - migration
+  - population
+packages:
+  - ggtree
+  - ggplot2
+  - ape
+  - cowplot
+data_columns:
+  pop: 子节点或群体名；迁移行留空（字符串）
+  parent: 父节点；迁移行留空（字符串）
+  drift: 漂移枝长；迁移行留空（数值）
+  mig_from: 迁移来源群体；树边行留空（字符串）
+  mig_to: 迁移去向群体；树边行留空（字符串）
+  weight: 迁移权重；树边行留空（数值）
+when_to_use: 在最大似然群体树上画出迁移边，并用颜色表示迁移权重时用。
+customize: show_migration 开关迁移箭头；show_residual 在右侧加残差热图；arrow_curvature 调整箭头弯曲。
+lang: R

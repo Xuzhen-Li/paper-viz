@@ -1,0 +1,20 @@
+title: Mantel test plot
+title_zh: Mantel 检验图
+slug: mantel-plot
+category: microbiome-ecology
+tags:
+  - mantel
+  - environment
+  - correlation
+packages:
+  - ggplot2
+  - vegan
+data_columns:
+  var_a: 环境变量或组学距离名（字符串）
+  var_b: 配对的环境变量（字符串）
+  r: 环境变量之间的 Pearson 相关；Mantel 行留空（数值）
+  p: 相关或 Mantel 的 p 值（数值）
+  mantel_r: Mantel r；环境相关行留空（数值）
+when_to_use: 同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。
+customize: p_cut 控制画出的 Mantel 连线；link_p_only 为 FALSE 时画出全部连线；show_env_heatmap 与 show_links 分别开关热图和连线。
+lang: R

@@ -1,0 +1,19 @@
+title: Rarefaction curve
+title_zh: 稀释曲线
+slug: rarefaction
+category: microbiome-ecology
+tags:
+  - rarefaction
+  - richness
+  - microbiome
+packages:
+  - ggplot2
+  - vegan
+data_columns:
+  sample: 样品编号（字符串）
+  group: 生境或处理（字符串）
+  depth: 抽平深度，reads（整数）
+  richness: 该深度下的期望物种丰富度（数值）
+when_to_use: 比较各组物种丰富度是否随测序深度趋于饱和时用。
+customize: show_individuals 开关单样品细线；show_ribbon 开关组内均值加减标准差色带；group_order 改图例和配色顺序。
+lang: R
