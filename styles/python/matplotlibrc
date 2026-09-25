@@ -1,0 +1,30 @@
+# AI_lib visualization shared style — import via py.style.apply_style()
+# Ideas from fig_style.py + cnsplots journal defaults (cite; not a fork).
+
+figure.dpi: 150
+savefig.dpi: 300
+savefig.bbox: tight
+figure.facecolor: white
+axes.facecolor: white
+axes.unicode_minus: False
+
+font.size: 8
+axes.titlesize: 9
+axes.labelsize: 8
+xtick.labelsize: 7
+ytick.labelsize: 7
+legend.fontsize: 7
+
+axes.spines.top: False
+axes.spines.right: False
+axes.linewidth: 0.6
+axes.grid: False
+xtick.major.width: 0.6
+ytick.major.width: 0.6
+xtick.major.size: 2.5
+ytick.major.size: 2.5
+
+lines.linewidth: 1.2
+lines.markersize: 4
+
+axes.prop_cycle: cycler('color', ['1e3a5f', '2A629A', 'D98324', '518B60', 'C75050', '6B6B6B'])
