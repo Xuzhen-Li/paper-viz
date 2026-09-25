@@ -1,0 +1,331 @@
+{
+  "figures": [
+    {
+      "title": "Forest plot",
+      "title_zh": "森林图",
+      "slug": "forest",
+      "category": "clinical",
+      "tags": [
+        "forest",
+        "hazard-ratio",
+        "confidence-interval"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "study": "研究或亚组名（字符串，行顺序即从上到下的反向）",
+        "hr": "风险比（数值，大于 0）",
+        "ci_low": "95% 区间下限（数值）",
+        "ci_high": "95% 区间上限（数值）"
+      },
+      "when_to_use": "多个研究或亚组要并列展示效应量和区间时用。",
+      "customize": "改 data.csv 的 study 名称和行序；点颜色用 pv_palette(\"categorical\") 的第一色，竖线固定在 HR = 1。",
+      "lang": "R",
+      "dir": "figures/clinical/forest",
+      "preview": "figures/clinical/forest/preview.png",
+      "docs_preview": "previews/forest.png",
+      "code": "figures/clinical/forest/plot.R",
+      "data": "figures/clinical/forest/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/forest/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/forest/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/forest",
+      "code_text": "# Forest plot. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$study <- factor(df$study, levels = rev(df$study))\ncols <- pv_palette(\"categorical\", 1)\n\np <- ggplot2::ggplot(df, ggplot2::aes(hr, study)) +\n  ggplot2::geom_vline(xintercept = 1, linetype = \"dashed\", linewidth = 0.3) +\n  ggplot2::geom_errorbarh(ggplot2::aes(xmin = ci_low, xmax = ci_high), height = 0.15, linewidth = 0.4) +\n  ggplot2::geom_point(size = 2, colour = cols[1]) +\n  ggplot2::scale_x_log10() +\n  ggplot2::labs(x = \"Hazard ratio\", y = NULL) +\n  theme_viz()\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 80)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "Kaplan-Meier curves",
+      "title_zh": "Kaplan-Meier 生存曲线",
+      "slug": "km",
+      "category": "clinical",
+      "tags": [
+        "survival",
+        "kaplan-meier"
+      ],
+      "packages": [
+        "ggplot2",
+        "survival"
+      ],
+      "data_columns": {
+        "id": "个体编号（字符串）",
+        "time": "随访时间（数值）",
+        "status": "事件指示，1 为发生事件，0 为删失（整数）",
+        "arm": "分组（字符串）"
+      },
+      "when_to_use": "要比较两组或多组的时间-事件结局时用。",
+      "customize": "改 arm 的取值可换分组名；颜色按出现顺序取 pv_palette(\"categorical\")。随访上限在 make_data.R 的 pmin(..., 40)。",
+      "lang": "R",
+      "dir": "figures/clinical/km",
+      "preview": "figures/clinical/km/preview.png",
+      "docs_preview": "previews/km.png",
+      "code": "figures/clinical/km/plot.R",
+      "data": "figures/clinical/km/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/km/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/km/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/km",
+      "code_text": "# Kaplan-Meier step curves. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nfit <- survival::survfit(survival::Surv(time, status) ~ arm, data = df)\nsf <- summary(fit)\narm <- sub(\"^arm=\", \"\", sf$strata)\nplot_df <- data.frame(time = sf$time, surv = sf$surv, arm = arm, n_censor = sf$n.censor)\ncens <- plot_df[plot_df$n_censor > 0, , drop = FALSE]\npal <- pv_palette(\"categorical\", 2)\nkm_cols <- setNames(pal[1:2], unique(plot_df$arm))\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(time, surv, colour = arm)) +\n  ggplot2::geom_step(linewidth = 0.6) +\n  ggplot2::geom_point(\n    data = cens,\n    ggplot2::aes(time, surv),\n    shape = \"|\",\n    size = 2.4,\n    show.legend = FALSE\n  ) +\n  ggplot2::scale_colour_manual(values = km_cols) +\n  ggplot2::scale_y_continuous(limits = c(0, 1)) +\n  ggplot2::labs(x = \"Time\", y = \"Survival probability\", colour = NULL) +\n  theme_viz()\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 70)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "Grouped bar chart",
+      "title_zh": "分组柱状图",
+      "slug": "bar-grouped",
+      "category": "comparison",
+      "tags": [
+        "bar",
+        "grouped",
+        "comparison"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy"
+      ],
+      "data_columns": {
+        "group": "横轴类别（字符串）",
+        "series": "并排系列名（字符串）",
+        "value": "该格的均值（数值）"
+      },
+      "when_to_use": "类别少、要并排比较两个或多个系列的汇总数值时用。",
+      "customize": "改 data.csv 的 series 可换组别名称；plot.py 里 pal 的下标决定各系列颜色。",
+      "lang": "Python",
+      "dir": "figures/comparison/bar-grouped",
+      "preview": "figures/comparison/bar-grouped/preview.png",
+      "docs_preview": "previews/bar-grouped.png",
+      "code": "figures/comparison/bar-grouped/plot.py",
+      "data": "figures/comparison/bar-grouped/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped",
+      "code_text": "#!/usr/bin/env python3\n\"\"\"Grouped bars. Reads data.csv only. Run from this directory.\"\"\"\nfrom __future__ import annotations\n\nimport csv\nimport sys\nfrom collections import defaultdict\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nSTYLES = Path(__file__).resolve().parents[3] / \"styles\" / \"python\"\nsys.path.insert(0, str(STYLES))\nimport style  # noqa: E402\nfrom helpers import despine  # noqa: E402\n\nstyle.apply_style()\n\nrows = list(csv.DictReader(open(\"data.csv\")))\ngroups = []\nfor row in rows:\n    if row[\"group\"] not in groups:\n        groups.append(row[\"group\"])\nseries = []\nfor row in rows:\n    if row[\"series\"] not in series:\n        series.append(row[\"series\"])\nvals = defaultdict(dict)\nfor row in rows:\n    vals[row[\"series\"]][row[\"group\"]] = float(row[\"value\"])\n\nx = np.arange(len(groups))\nw = 0.8 / max(len(series), 1)\npal = style.PALETTES[\"bio\"]\nfig, ax = plt.subplots(figsize=(3.5, 2.4))\nfor i, name in enumerate(series):\n    heights = [vals[name][g] for g in groups]\n    ax.bar(x + (i - (len(series) - 1) / 2) * w, heights, w, label=name, color=pal[1 + i])\nax.set_xticks(x, groups)\nax.set_ylabel(\"Value\")\nax.legend(frameon=False, loc=\"upper left\", bbox_to_anchor=(1.02, 1), borderaxespad=0)\ndespine(ax)\nfig.savefig(\"figure.pdf\")\nfig.savefig(\"figure.png\", dpi=600)\nw_in = fig.get_size_inches()[0]\nfig.savefig(\"preview.png\", dpi=1200 / w_in)\nprint(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "Grouped boxplot with significance",
+      "title_zh": "分组箱线图与显著性",
+      "slug": "grouped-boxplot-signif",
+      "category": "comparison",
+      "tags": [
+        "boxplot",
+        "significance",
+        "wilcoxon"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "group": "分组（字符串）",
+        "value": "观测值（数值）"
+      },
+      "when_to_use": "少数组的连续指标要看分布并标两两比较时用。",
+      "customize": "plot.R 的 comparisons 列出要比的组对；填充色按组水平顺序取 pv_palette(\"categorical\")。",
+      "lang": "R",
+      "dir": "figures/comparison/grouped-boxplot-signif",
+      "preview": "figures/comparison/grouped-boxplot-signif/preview.png",
+      "docs_preview": "previews/grouped-boxplot-signif.png",
+      "code": "figures/comparison/grouped-boxplot-signif/plot.R",
+      "data": "figures/comparison/grouped-boxplot-signif/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/grouped-boxplot-signif/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/grouped-boxplot-signif/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/grouped-boxplot-signif",
+      "code_text": "# Grouped boxplot with two Wilcoxon brackets. Reads data.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\ncomparisons <- list(c(\"A\", \"B\"), c(\"B\", \"C\"))\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = unique(df$group))\ncols <- pv_palette(\"categorical\", nlevels(df$group))\n\nstar <- function(p) {\n  if (p < 0.001) return(\"***\")\n  if (p < 0.01) return(\"**\")\n  if (p < 0.05) return(\"*\")\n  \"ns\"\n}\nymax <- max(df$value)\nstep <- diff(range(df$value)) * 0.12\nbrackets <- lapply(seq_along(comparisons), function(i) {\n  pair <- comparisons[[i]]\n  x1 <- match(pair[1], levels(df$group))\n  x2 <- match(pair[2], levels(df$group))\n  p <- stats::wilcox.test(value ~ group, data = df[df$group %in% pair, ])$p.value\n  y <- ymax + step * i\n  data.frame(x1 = x1, x2 = x2, y = y, label = star(p))\n})\nbr <- do.call(rbind, brackets)\n\np <- ggplot2::ggplot(df, ggplot2::aes(group, value, fill = group)) +\n  ggplot2::geom_boxplot(width = 0.6, outlier.size = 0.6) +\n  ggplot2::scale_fill_manual(values = cols, guide = \"none\") +\n  ggplot2::geom_segment(data = br, ggplot2::aes(x = x1, xend = x2, y = y, yend = y), inherit.aes = FALSE, linewidth = 0.3) +\n  ggplot2::geom_segment(data = br, ggplot2::aes(x = x1, xend = x1, y = y - step * 0.2, yend = y), inherit.aes = FALSE, linewidth = 0.3) +\n  ggplot2::geom_segment(data = br, ggplot2::aes(x = x2, xend = x2, y = y - step * 0.2, yend = y), inherit.aes = FALSE, linewidth = 0.3) +\n  ggplot2::geom_text(data = br, ggplot2::aes(x = (x1 + x2) / 2, y = y + step * 0.15, label = label), inherit.aes = FALSE, size = 2.2) +\n  ggplot2::labs(x = NULL, y = \"Value\") +\n  ggplot2::coord_cartesian(ylim = c(min(df$value), max(br$y) + step * 0.45)) +\n  theme_viz()\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 80)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "Line chart",
+      "title_zh": "折线图",
+      "slug": "line-basic",
+      "category": "correlation",
+      "tags": [
+        "line",
+        "time-series"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy"
+      ],
+      "data_columns": {
+        "x": "有序自变量，这里是时间（数值）",
+        "y": "信号强度（数值）"
+      },
+      "when_to_use": "自变量有顺序、要看一条轨迹的起伏时用。",
+      "customize": "改 data.csv 的 x、y 即换曲线；plot.py 里 color 可换成 style.PALETTES 中的色。",
+      "lang": "Python",
+      "dir": "figures/correlation/line-basic",
+      "preview": "figures/correlation/line-basic/preview.png",
+      "docs_preview": "previews/line-basic.png",
+      "code": "figures/correlation/line-basic/plot.py",
+      "data": "figures/correlation/line-basic/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/line-basic/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/line-basic/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/line-basic",
+      "code_text": "#!/usr/bin/env python3\n\"\"\"Line chart. Reads data.csv only. Run from this directory.\"\"\"\nfrom __future__ import annotations\n\nimport csv\nimport sys\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\n\nSTYLES = Path(__file__).resolve().parents[3] / \"styles\" / \"python\"\nsys.path.insert(0, str(STYLES))\nimport style  # noqa: E402\nfrom helpers import despine  # noqa: E402\n\nstyle.apply_style()\nrows = list(csv.DictReader(open(\"data.csv\")))\nx = [float(r[\"x\"]) for r in rows]\ny = [float(r[\"y\"]) for r in rows]\nfig, ax = plt.subplots(figsize=(3.5, 2.4))\nax.plot(x, y, color=style.ACCENT, lw=1.4)\nax.set_xlabel(\"Time (a.u.)\")\nax.set_ylabel(\"Signal\")\ndespine(ax)\nfig.savefig(\"figure.pdf\")\nfig.savefig(\"figure.png\", dpi=600)\nw_in = fig.get_size_inches()[0]\nfig.savefig(\"preview.png\", dpi=1200 / w_in)\nprint(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "Volcano plot",
+      "title_zh": "火山图",
+      "slug": "volcano",
+      "category": "differential-expression",
+      "tags": [
+        "volcano",
+        "differential-expression",
+        "fold-change"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "gene": "基因或特征编号（字符串）",
+        "log2_fold_change": "log2 倍数变化（数值）",
+        "pvalue": "原始 p 值（数值，0 到 1）"
+      },
+      "when_to_use": "两组比较要同时看倍数变化和显著性时用。",
+      "customize": "plot.R 顶部 lfc_cut 与 p_cut 改阈值；显著上调、下调、不显著三色在 cols 里换。可选 plot.py 用同一张 data.csv，阈值变量同名。",
+      "lang": "R",
+      "dir": "figures/differential-expression/volcano",
+      "preview": "figures/differential-expression/volcano/preview.png",
+      "docs_preview": "previews/volcano.png",
+      "code": "figures/differential-expression/volcano/plot.R",
+      "data": "figures/differential-expression/volcano/data.csv",
+      "code_python": "figures/differential-expression/volcano/plot.py",
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/volcano/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/volcano/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/volcano",
+      "code_text": "# Volcano. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nlfc_cut <- 1\np_cut <- 0.01\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$nlp <- -log10(df$pvalue)\ndf$direction <- ifelse(\n  df$pvalue >= p_cut | abs(df$log2_fold_change) < lfc_cut, \"ns\",\n  ifelse(df$log2_fold_change > 0, \"up\", \"down\")\n)\ncols <- c(ns = pv_palette(\"categorical\", 8)[8], up = pv_palette(\"categorical\", 4)[4], down = pv_palette(\"categorical\", 3)[3])\n# black is index 8 and would hide points; use grey for ns\ncols[\"ns\"] <- \"#6B6B6B\"\n\np <- ggplot2::ggplot(df, ggplot2::aes(log2_fold_change, nlp, colour = direction)) +\n  ggplot2::geom_point(size = 0.8, alpha = 0.7) +\n  ggplot2::scale_colour_manual(values = cols, guide = \"none\") +\n  ggplot2::geom_vline(xintercept = c(-lfc_cut, lfc_cut), linetype = \"dashed\", linewidth = 0.3) +\n  ggplot2::geom_hline(yintercept = -log10(p_cut), linetype = \"dashed\", linewidth = 0.3) +\n  ggplot2::labs(x = \"log2 fold change\", y = \"-log10(p)\") +\n  theme_viz()\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 70)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "NMDS",
+      "title_zh": "非度量多维标度",
+      "slug": "nmds",
+      "category": "dimension-reduction",
+      "tags": [
+        "nmds",
+        "ordination",
+        "bray-curtis"
+      ],
+      "packages": [
+        "ggplot2",
+        "MASS"
+      ],
+      "data_columns": {
+        "sample": "样本编号（字符串）",
+        "group": "分组（字符串）",
+        "taxon": "分类单元（字符串）",
+        "abundance": "非负丰度（数值）"
+      },
+      "when_to_use": "距离矩阵不适合线性主坐标、只要看样本远近时用。",
+      "customize": "颜色按 group 取 pv_palette(\"categorical\")；k 在 isoMDS 调用里，默认 2。",
+      "lang": "R",
+      "dir": "figures/dimension-reduction/nmds",
+      "preview": "figures/dimension-reduction/nmds/preview.png",
+      "docs_preview": "previews/nmds.png",
+      "code": "figures/dimension-reduction/nmds/plot.R",
+      "data": "figures/dimension-reduction/nmds/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/nmds/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/nmds/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/nmds",
+      "code_text": "# NMDS from a Bray-Curtis matrix. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nbray <- function(x) {\n  n <- nrow(x)\n  d <- matrix(0, n, n)\n  for (i in seq_len(n - 1)) {\n    for (j in (i + 1):n) {\n      num <- sum(abs(x[i, ] - x[j, ]))\n      den <- sum(x[i, ] + x[j, ])\n      d[i, j] <- d[j, i] <- num / den\n    }\n  }\n  stats::as.dist(d)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsamples <- unique(df$sample)\ntaxa <- unique(df$taxon)\nmat <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\nmat[cbind(match(df$sample, samples), match(df$taxon, taxa))] <- df$abundance\ngroup <- df$group[match(samples, df$sample)]\nnm <- MASS::isoMDS(bray(mat), k = 2, trace = FALSE)\nplot_df <- data.frame(x = nm$points[, 1], y = nm$points[, 2], group = group)\ncols <- pv_palette(\"categorical\", length(unique(group)))\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(x, y, colour = group)) +\n  ggplot2::geom_point(size = 1.6) +\n  ggplot2::scale_colour_manual(values = cols) +\n  ggplot2::labs(x = \"NMDS1\", y = \"NMDS2\", colour = NULL) +\n  theme_viz()\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 70)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "PCA score plot",
+      "title_zh": "PCA 得分散点",
+      "slug": "pca-biplot",
+      "category": "dimension-reduction",
+      "tags": [
+        "pca",
+        "ordination",
+        "biplot"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy"
+      ],
+      "data_columns": {
+        "sample": "样本编号（字符串）",
+        "group": "分组（字符串）",
+        "pc1": "第一主成分得分（数值）",
+        "pc2": "第二主成分得分（数值）"
+      },
+      "when_to_use": "已有样本的主成分坐标、要按组看分离时用。",
+      "customize": "改 group 的取值可换分组名和颜色数；颜色取 style.PALETTES bio 的前若干色。",
+      "lang": "Python",
+      "dir": "figures/dimension-reduction/pca-biplot",
+      "preview": "figures/dimension-reduction/pca-biplot/preview.png",
+      "docs_preview": "previews/pca-biplot.png",
+      "code": "figures/dimension-reduction/pca-biplot/plot.py",
+      "data": "figures/dimension-reduction/pca-biplot/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot",
+      "code_text": "#!/usr/bin/env python3\n\"\"\"PCA score scatter. Reads data.csv only. Run from this directory.\"\"\"\nfrom __future__ import annotations\n\nimport csv\nimport sys\nfrom collections import defaultdict\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\n\nSTYLES = Path(__file__).resolve().parents[3] / \"styles\" / \"python\"\nsys.path.insert(0, str(STYLES))\nimport style  # noqa: E402\nfrom helpers import despine  # noqa: E402\n\nstyle.apply_style()\nrows = list(csv.DictReader(open(\"data.csv\")))\nby = defaultdict(lambda: ([], []))\norder = []\nfor row in rows:\n    g = row[\"group\"]\n    if g not in by:\n        order.append(g)\n    by[g][0].append(float(row[\"pc1\"]))\n    by[g][1].append(float(row[\"pc2\"]))\ncolors = style.PALETTES[\"bio\"][: len(order)]\nfig, ax = plt.subplots(figsize=(3.5, 2.8))\nfor name, c in zip(order, colors):\n    xs, ys = by[name]\n    ax.scatter(xs, ys, s=12, c=c, label=name, alpha=0.85, linewidths=0)\nax.set_xlabel(\"PC1\")\nax.set_ylabel(\"PC2\")\nax.legend(frameon=False, markerscale=1.2)\ndespine(ax)\nfig.savefig(\"figure.pdf\")\nfig.savefig(\"figure.png\", dpi=600)\nw_in = fig.get_size_inches()[0]\nfig.savefig(\"preview.png\", dpi=1200 / w_in)\nprint(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "PCoA",
+      "title_zh": "主坐标分析",
+      "slug": "pcoa",
+      "category": "dimension-reduction",
+      "tags": [
+        "pcoa",
+        "ordination",
+        "bray-curtis"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "sample": "样本编号（字符串）",
+        "group": "分组（字符串）",
+        "taxon": "分类单元（字符串）",
+        "abundance": "非负丰度（数值）"
+      },
+      "when_to_use": "有样本×分类单元的丰度、要用距离看组间分离时用。",
+      "customize": "颜色按 group 的出现顺序取 pv_palette(\"categorical\")；距离在 plot.R 的 bray()，改函数即换距离。",
+      "lang": "R",
+      "dir": "figures/dimension-reduction/pcoa",
+      "preview": "figures/dimension-reduction/pcoa/preview.png",
+      "docs_preview": "previews/pcoa.png",
+      "code": "figures/dimension-reduction/pcoa/plot.R",
+      "data": "figures/dimension-reduction/pcoa/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pcoa/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pcoa/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pcoa",
+      "code_text": "# PCoA from a Bray-Curtis matrix. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nbray <- function(x) {\n  n <- nrow(x)\n  d <- matrix(0, n, n)\n  for (i in seq_len(n - 1)) {\n    for (j in (i + 1):n) {\n      num <- sum(abs(x[i, ] - x[j, ]))\n      den <- sum(x[i, ] + x[j, ])\n      d[i, j] <- d[j, i] <- num / den\n    }\n  }\n  stats::as.dist(d)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsamples <- unique(df$sample)\ntaxa <- unique(df$taxon)\nmat <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\nmat[cbind(match(df$sample, samples), match(df$taxon, taxa))] <- df$abundance\ngroup <- df$group[match(samples, df$sample)]\npc <- stats::cmdscale(bray(mat), k = 2, eig = TRUE)\nplot_df <- data.frame(x = pc$points[, 1], y = pc$points[, 2], group = group)\ncols <- pv_palette(\"categorical\", length(unique(group)))\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(x, y, colour = group)) +\n  ggplot2::geom_point(size = 1.6) +\n  ggplot2::scale_colour_manual(values = cols) +\n  ggplot2::labs(x = \"PCoA1\", y = \"PCoA2\", colour = NULL) +\n  theme_viz()\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 70)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
+      "title": "Clustered expression heatmap",
+      "title_zh": "聚类表达热图",
+      "slug": "heatmap",
+      "category": "heatmap",
+      "tags": [
+        "heatmap",
+        "clustering",
+        "expression"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "gene": "行特征名（字符串）",
+        "sample": "列样本名（字符串）",
+        "value": "格子里的数值，通常是标准化表达（数值）",
+        "group": "样本分组（字符串，随样本重复）"
+      },
+      "when_to_use": "基因对样本的矩阵要同时看模块和样本顺序时用。",
+      "customize": "配色用 pv_palette(\"diverging\")；行列是否聚类由 plot.R 的 hclust 决定，删掉 rg/cg 两行即保持 data.csv 原顺序。",
+      "lang": "R",
+      "dir": "figures/heatmap/heatmap",
+      "preview": "figures/heatmap/heatmap/preview.png",
+      "docs_preview": "previews/heatmap.png",
+      "code": "figures/heatmap/heatmap/plot.R",
+      "data": "figures/heatmap/heatmap/data.csv",
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/heatmap/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/heatmap/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/heatmap",
+      "code_text": "# Clustered expression heatmap. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ngenes <- unique(df$gene)\nsamples <- unique(df$sample)\nmat <- matrix(NA_real_, length(genes), length(samples), dimnames = list(genes, samples))\nmat[cbind(match(df$gene, genes), match(df$sample, samples))] <- df$value\nann <- df[!duplicated(df$sample), c(\"sample\", \"group\")]\nrownames(ann) <- ann$sample\n\nrg <- stats::hclust(stats::dist(mat))$order\ncg <- stats::hclust(stats::dist(t(mat)))$order\nmat <- mat[rg, cg, drop = FALSE]\nlong <- data.frame(\n  gene = factor(rownames(mat)[row(mat)], levels = rev(rownames(mat))),\n  sample = factor(colnames(mat)[col(mat)], levels = colnames(mat)),\n  value = as.vector(mat)\n)\nfills <- pv_palette(\"diverging\", 50)\n\np <- ggplot2::ggplot(long, ggplot2::aes(sample, gene, fill = value)) +\n  ggplot2::geom_tile() +\n  ggplot2::scale_fill_gradientn(colours = fills, name = \"z\") +\n  ggplot2::labs(x = NULL, y = NULL) +\n  theme_viz() +\n  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 5), axis.text.x = ggplot2::element_text(size = 6))\n\npv_save(p, \"figure\", width_mm = 89, height_mm = 100)\nmessage(\"wrote preview.png\")\n"
+    }
+  ]
+}

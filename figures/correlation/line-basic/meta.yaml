@@ -1,0 +1,16 @@
+title: Line chart
+title_zh: 折线图
+slug: line-basic
+category: correlation
+tags:
+  - line
+  - time-series
+packages:
+  - matplotlib
+  - numpy
+data_columns:
+  x: 有序自变量，这里是时间（数值）
+  y: 信号强度（数值）
+when_to_use: 自变量有顺序、要看一条轨迹的起伏时用。
+customize: 改 data.csv 的 x、y 即换曲线；plot.py 里 color 可换成 style.PALETTES 中的色。
+lang: Python

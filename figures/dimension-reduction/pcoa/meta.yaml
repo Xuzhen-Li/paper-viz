@@ -1,0 +1,18 @@
+title: PCoA
+title_zh: 主坐标分析
+slug: pcoa
+category: dimension-reduction
+tags:
+  - pcoa
+  - ordination
+  - bray-curtis
+packages:
+  - ggplot2
+data_columns:
+  sample: 样本编号（字符串）
+  group: 分组（字符串）
+  taxon: 分类单元（字符串）
+  abundance: 非负丰度（数值）
+when_to_use: 有样本×分类单元的丰度、要用距离看组间分离时用。
+customize: 颜色按 group 的出现顺序取 pv_palette("categorical")；距离在 plot.R 的 bray()，改函数即换距离。
+lang: R

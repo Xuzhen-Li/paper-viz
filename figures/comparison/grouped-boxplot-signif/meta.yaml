@@ -1,0 +1,16 @@
+title: Grouped boxplot with significance
+title_zh: 分组箱线图与显著性
+slug: grouped-boxplot-signif
+category: comparison
+tags:
+  - boxplot
+  - significance
+  - wilcoxon
+packages:
+  - ggplot2
+data_columns:
+  group: 分组（字符串）
+  value: 观测值（数值）
+when_to_use: 少数组的连续指标要看分布并标两两比较时用。
+customize: plot.R 的 comparisons 列出要比的组对；填充色按组水平顺序取 pv_palette("categorical")。
+lang: R

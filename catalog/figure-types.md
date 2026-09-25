@@ -8,10 +8,10 @@
 
 | 图型 | 何时用 | recipe |
 |------|--------|--------|
-| 火山图 volcano | 两组差异基因，同时看倍数和显著性 | [Python](../recipes/python/volcano/plot.py) · [R](../recipes/r/volcano.R) |
+| 火山图 volcano | 两组差异基因，同时看倍数和显著性 | [R](../figures/differential-expression/volcano/plot.R) · [Python](../figures/differential-expression/volcano/plot.py) |
 | MA 图 | 看表达量与倍数的关系，检查低表达偏差 | 待写 |
-| 分组箱线图 + 显著性 | 少数组的连续指标，要标两两比较 | [R](../recipes/r/grouped-boxplot-signif.R) |
-| 分组柱状图 | 类别均值对比，组数少 | [Python](../recipes/python/bar-grouped/plot.py) |
+| 分组箱线图 + 显著性 | 少数组的连续指标，要标两两比较 | [R](../figures/comparison/grouped-boxplot-signif/plot.R) |
+| 分组柱状图 | 类别均值对比，组数少 | [Python](../figures/comparison/bar-grouped/plot.py) |
 | 小提琴图 | 要看分布形状而不只看四分位 | 待写 |
 | 分面小提琴 | 同一指标按第二个因子拆开 | 待写 |
 | 云雨图 | 同时给原始点、密度和汇总 | 待写 |
@@ -25,8 +25,8 @@
 
 | 图型 | 何时用 | recipe |
 |------|--------|--------|
-| Kaplan–Meier 曲线 | 时间-事件，比较分组生存 | [R](../recipes/r/km.R) |
-| 森林图 | 多个研究或亚组的效应量和区间 | [R](../recipes/r/forest.R) |
+| Kaplan–Meier 曲线 | 时间-事件，比较分组生存 | [R](../figures/clinical/km/plot.R) |
+| 森林图 | 多个研究或亚组的效应量和区间 | [R](../figures/clinical/forest/plot.R) |
 | ROC | 二分类判别能力 | 待写 |
 | 列线图 nomogram | 把回归系数变成个体风险 | 待写 |
 | DCA 决策曲线 | 比较模型和默认策略的净获益 | 待写 |
@@ -41,9 +41,9 @@
 | 饼图 / 环形图 | 一个总体的少数类别占比 | 待写 |
 | 稀释曲线 | 测序深度是否够覆盖多样性 | 待写 |
 | Alpha 多样性箱线 | 组间丰富度或均匀度 | 待写 |
-| PCA | 连续变量的线性降维 | [Python biplot](../recipes/python/pca-biplot/plot.py) |
-| PCoA | 距离矩阵的主坐标 | [R](../recipes/r/pcoa-nmds.R) |
-| NMDS | 距离矩阵的非度量排序 | [R](../recipes/r/pcoa-nmds.R) |
+| PCA | 连续变量的线性降维 | [Python biplot](../figures/dimension-reduction/pca-biplot/plot.py) |
+| PCoA | 距离矩阵的主坐标 | [R](../figures/dimension-reduction/pcoa/plot.R) |
+| NMDS | 距离矩阵的非度量排序 | [R](../figures/dimension-reduction/nmds/plot.R) |
 | PLS-DA / OPLS-DA | 有监督的组间分离 | 待写 |
 | t-SNE | 非线性嵌入，看簇不看轴解释 | 待写 |
 | 三元图 | 三个组分的相对比例 | 待写 |
@@ -53,10 +53,10 @@
 
 | 图型 | 何时用 | recipe |
 |------|--------|--------|
-| 表达热图 | 基因 × 样本，看模块和分组 | [R](../recipes/r/heatmap.R) |
+| 表达热图 | 基因 × 样本，看模块和分组 | [R](../figures/heatmap/heatmap/plot.R) |
 | 相关性热图 | 变量两两相关，常加显著性 | 待写 |
 | 散点 + 回归 | 两个连续变量的趋势 | 待写 |
-| 折线 | 有序自变量上的轨迹 | [Python](../recipes/python/line-basic/plot.py) |
+| 折线 | 有序自变量上的轨迹 | [Python](../figures/correlation/line-basic/plot.py) |
 | 网络图 | 相关或互作超过阈值的边 | 待写 |
 | 气泡图 | 第三维用点大小编码 | 待写 |
 
@@ -64,7 +64,7 @@
 
 | 图型 | 何时用 | recipe |
 |------|--------|--------|
-| 曼哈顿图 | 全基因组关联的位点扫描 | [Plotly 草稿](../recipes/web/interactive/plotly_manhattan.py) |
+| 曼哈顿图 | 全基因组关联的位点扫描 | [Plotly 草稿](../extras/web/interactive/plotly_manhattan.py) |
 | Circos | 染色体间连锁、共线或互作 | 待写 |
 | 基因结构 / 结构域 | 外显子、结构域沿转录本排列 | 待写 |
 | 系统发育树 | 物种或基因的分支关系 | 待写 |
@@ -88,8 +88,8 @@
 | 流程图 | 实验或分析步骤 | [schematic-design](../skills/schematic-design/SKILL.md) |
 | 架构 / 时序图 | 模块关系和调用顺序 | [schematic-design](../skills/schematic-design/SKILL.md) |
 | 论文原图重绘 | 栅格终图改成可编辑 draw.io | [drawio-source-redraw](../skills/drawio-source-redraw/SKILL.md) |
-| 静态报告嵌图 | 把已有 PNG 嵌进 HTML | [build_report.py](../recipes/web/static-embed/build_report.py) |
-| 交互散点 | 需要悬停查看点身份 | [plotly_scatter.py](../recipes/web/interactive/plotly_scatter.py) |
+| 静态报告嵌图 | 把已有 PNG 嵌进 HTML | [build_report.py](../extras/web/static-embed/build_report.py) |
+| 交互散点 | 需要悬停查看点身份 | [plotly_scatter.py](../extras/web/interactive/plotly_scatter.py) |
 
 ## 其他常见版式
 

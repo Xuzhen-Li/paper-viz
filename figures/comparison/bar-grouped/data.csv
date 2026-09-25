@@ -1,0 +1,9 @@
+group,series,value
+A,Control,3.1
+B,Control,2.4
+C,Control,4.0
+D,Control,2.9
+A,Treatment,4.2
+B,Treatment,3.5
+C,Treatment,4.8
+D,Treatment,3.7

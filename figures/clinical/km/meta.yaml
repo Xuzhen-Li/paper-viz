@@ -1,0 +1,18 @@
+title: Kaplan-Meier curves
+title_zh: Kaplan-Meier 生存曲线
+slug: km
+category: clinical
+tags:
+  - survival
+  - kaplan-meier
+packages:
+  - ggplot2
+  - survival
+data_columns:
+  id: 个体编号（字符串）
+  time: 随访时间（数值）
+  status: 事件指示，1 为发生事件，0 为删失（整数）
+  arm: 分组（字符串）
+when_to_use: 要比较两组或多组的时间-事件结局时用。
+customize: 改 arm 的取值可换分组名；颜色按出现顺序取 pv_palette("categorical")。随访上限在 make_data.R 的 pmin(..., 40)。
+lang: R

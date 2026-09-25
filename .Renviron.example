@@ -1,0 +1,18 @@
+# Project R library
+#
+# This file is an example. Do not commit a machine-specific absolute path.
+# The package library is the directory `.Rlib` next to this repository
+# (the parent folder of the repo), not a folder inside the repo.
+#
+# From the repository root, in the shell:
+#
+#   export R_LIBS_USER="$(CDPATH= cd -- .. && pwd)/.Rlib"
+#   mkdir -p "$R_LIBS_USER"
+#
+# R 4.2.2 matches Bioconductor 3.16. Install into that library only:
+#
+#   CRAN: vegan igraph ggraph circlize ggrepel patchwork ggtext
+#   Bioconductor 3.16 (BiocManager): ComplexHeatmap ggtree
+#
+# Copy what you need into an untracked `.Renviron` if you want R to see the
+# library without exporting the variable. Leave the expanded path out of git.

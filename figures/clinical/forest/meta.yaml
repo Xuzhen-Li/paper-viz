@@ -1,0 +1,18 @@
+title: Forest plot
+title_zh: 森林图
+slug: forest
+category: clinical
+tags:
+  - forest
+  - hazard-ratio
+  - confidence-interval
+packages:
+  - ggplot2
+data_columns:
+  study: 研究或亚组名（字符串，行顺序即从上到下的反向）
+  hr: 风险比（数值，大于 0）
+  ci_low: 95% 区间下限（数值）
+  ci_high: 95% 区间上限（数值）
+when_to_use: 多个研究或亚组要并列展示效应量和区间时用。
+customize: 改 data.csv 的 study 名称和行序；点颜色用 pv_palette("categorical") 的第一色，竖线固定在 HR = 1。
+lang: R

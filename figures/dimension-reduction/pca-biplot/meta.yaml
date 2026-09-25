@@ -1,0 +1,19 @@
+title: PCA score plot
+title_zh: PCA 得分散点
+slug: pca-biplot
+category: dimension-reduction
+tags:
+  - pca
+  - ordination
+  - biplot
+packages:
+  - matplotlib
+  - numpy
+data_columns:
+  sample: 样本编号（字符串）
+  group: 分组（字符串）
+  pc1: 第一主成分得分（数值）
+  pc2: 第二主成分得分（数值）
+when_to_use: 已有样本的主成分坐标、要按组看分离时用。
+customize: 改 group 的取值可换分组名和颜色数；颜色取 style.PALETTES bio 的前若干色。
+lang: Python

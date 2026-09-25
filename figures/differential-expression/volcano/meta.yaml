@@ -1,0 +1,17 @@
+title: Volcano plot
+title_zh: 火山图
+slug: volcano
+category: differential-expression
+tags:
+  - volcano
+  - differential-expression
+  - fold-change
+packages:
+  - ggplot2
+data_columns:
+  gene: 基因或特征编号（字符串）
+  log2_fold_change: log2 倍数变化（数值）
+  pvalue: 原始 p 值（数值，0 到 1）
+when_to_use: 两组比较要同时看倍数变化和显著性时用。
+customize: plot.R 顶部 lfc_cut 与 p_cut 改阈值；显著上调、下调、不显著三色在 cols 里换。可选 plot.py 用同一张 data.csv，阈值变量同名。
+lang: R

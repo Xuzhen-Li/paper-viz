@@ -1,0 +1,19 @@
+title: NMDS
+title_zh: 非度量多维标度
+slug: nmds
+category: dimension-reduction
+tags:
+  - nmds
+  - ordination
+  - bray-curtis
+packages:
+  - ggplot2
+  - MASS
+data_columns:
+  sample: 样本编号（字符串）
+  group: 分组（字符串）
+  taxon: 分类单元（字符串）
+  abundance: 非负丰度（数值）
+when_to_use: 距离矩阵不适合线性主坐标、只要看样本远近时用。
+customize: 颜色按 group 取 pv_palette("categorical")；k 在 isoMDS 调用里，默认 2。
+lang: R

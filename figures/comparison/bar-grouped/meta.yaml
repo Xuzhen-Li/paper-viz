@@ -1,0 +1,18 @@
+title: Grouped bar chart
+title_zh: 分组柱状图
+slug: bar-grouped
+category: comparison
+tags:
+  - bar
+  - grouped
+  - comparison
+packages:
+  - matplotlib
+  - numpy
+data_columns:
+  group: 横轴类别（字符串）
+  series: 并排系列名（字符串）
+  value: 该格的均值（数值）
+when_to_use: 类别少、要并排比较两个或多个系列的汇总数值时用。
+customize: 改 data.csv 的 series 可换组别名称；plot.py 里 pal 的下标决定各系列颜色。
+lang: Python
