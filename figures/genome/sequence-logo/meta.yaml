@@ -1,0 +1,20 @@
+title: Sequence logo
+title_zh: 序列模体图
+slug: sequence-logo
+category: genome
+tags:
+  - sequence-logo
+  - motif
+  - genome
+packages:
+  - ggplot2
+  - ggseqlogo
+data_columns:
+  pos: 模体位置（整数，从 1 起）
+  base: 碱基（A、C、G、T）
+  bits: 该碱基的信息量高度，频率乘以该位总信息量（bit，非负）
+  prob: 该位置碱基频率（0 到 1）
+  count: 该碱基的计数（整数，列和为序列条数）
+when_to_use: 展示一个 DNA 模体各位置的保守性和碱基偏好时用。
+customize: plot.R 顶部 method 取 bits 或 prob。bits 时纵轴为 0–2 bit，字母高度为频率乘以信息量；prob 时纵轴为频率。base_cols 改 A/C/G/T 配色。
+lang: R
