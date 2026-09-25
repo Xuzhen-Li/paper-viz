@@ -8,128 +8,243 @@
   :root { color-scheme: light; }
   * { box-sizing: border-box; }
   body { margin: 0; font: 15px/1.45 system-ui, sans-serif; background: #fff; color: #1a1a1a; }
-  header, main { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
-  h1 { font-size: 1.4rem; margin: 0 0 8px; }
-  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
+  h1 { font-size: 1.5rem; margin: 0 0 6px; }
+  #stats { margin: 0; color: #333; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; align-items: center; }
   input, select { font: inherit; padding: 6px 8px; border: 1px solid #ccc; background: #fff; }
-  input[type="search"] { min-width: min(100%, 240px); }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-  button.card { display: block; width: 100%; padding: 8px; border: 1px solid #e5e5e5; background: #fff; text-align: left; cursor: pointer; }
-  button.card img { width: 100%; height: 120px; object-fit: contain; background: #fafafa; }
+  input[type="search"] { min-width: min(100%, 260px); }
+  .cats { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+  .cats button {
+    font: inherit; padding: 4px 10px; border: 1px solid #ccc; border-radius: 999px;
+    background: #fff; cursor: pointer; color: #1a1a1a;
+  }
+  .cats button[aria-pressed="true"] { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 720px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 980px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 1240px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  button.card {
+    display: block; width: 100%; padding: 8px; border: 1px solid #e5e5e5;
+    background: #fff; text-align: left; cursor: pointer;
+  }
+  button.card img { width: 100%; height: 150px; object-fit: contain; background: #fff; }
   button.card strong { display: block; margin-top: 6px; font-size: 0.92rem; }
   button.card span { color: #555; font-size: 0.8rem; }
-  dialog { border: 1px solid #ddd; width: min(720px, calc(100% - 24px)); padding: 16px; }
-  dialog img { max-width: 100%; height: auto; }
+  dialog { border: 1px solid #ddd; width: min(860px, calc(100% - 24px)); padding: 16px; }
+  dialog img { max-width: 100%; height: auto; background: #fff; }
   table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
   th, td { border-bottom: 1px solid #eee; text-align: left; padding: 4px 6px; vertical-align: top; }
-  pre { overflow: auto; background: #f6f6f6; padding: 10px; font-size: 12px; }
+  pre { overflow: auto; max-height: 360px; background: #f6f6f6; padding: 10px; font-size: 12px; }
   a { color: #0b57d0; }
   .row { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+  .hint { color: #333; }
+  h2 { font-size: 1rem; margin: 16px 0 6px; }
 </style>
 </head>
 <body>
 <header>
   <h1>paper-viz</h1>
-  <p>论文图库。点开一张图可看说明、列定义和出图代码。</p>
+  <p id="stats">加载中…</p>
   <div class="tools">
     <input id="q" type="search" placeholder="搜索标题或标签" aria-label="搜索">
-    <select id="cat" aria-label="分类"><option value="">全部分类</option></select>
     <select id="tag" aria-label="标签"><option value="">全部标签</option></select>
   </div>
+  <div id="cats" class="cats" role="group" aria-label="分类"></div>
 </header>
 <main><div id="grid" class="grid"></div></main>
 <dialog id="dlg">
   <div class="row"><strong id="dlg-title"></strong><button id="close" type="button">关闭</button></div>
   <p id="dlg-when"></p>
   <img id="dlg-img" alt="">
-  <h2>列</h2>
-  <table id="dlg-cols"></table>
-  <p id="dlg-links"></p>
-  <h2>代码</h2>
-  <pre id="dlg-code"></pre>
+  <div id="dlg-data">
+    <h2>列</h2>
+    <table id="dlg-cols"></table>
+    <h2>可调参数</h2>
+    <p id="dlg-custom"></p>
+    <p id="dlg-links"></p>
+    <h2>代码</h2>
+    <pre id="dlg-code"></pre>
+  </div>
+  <div id="dlg-drawio" hidden>
+    <p class="hint">用 draw.io 打开直接改字。</p>
+    <p id="dlg-draw-links"></p>
+  </div>
 </dialog>
 <script>
-const state = { figures: [] };
+const GITHUB = "https://github.com/Xuzhen-Li/paper-viz/blob/main/";
+const CATEGORY_ZH = {
+  distribution: "分布",
+  comparison: "比较",
+  correlation: "相关",
+  composition: "组成",
+  heatmap: "热图",
+  "dimension-reduction": "降维",
+  "differential-expression": "差异表达",
+  enrichment: "富集",
+  "population-genetics": "群体遗传",
+  genome: "基因组",
+  phylogeny: "系统发育",
+  network: "网络",
+  "microbiome-ecology": "微生物与生态",
+  clinical: "临床",
+  schematic: "流程图模板"
+};
+const CATEGORY_ORDER = Object.keys(CATEGORY_ZH);
+const state = { figures: [], category: "" };
 const grid = document.querySelector("#grid");
 const q = document.querySelector("#q");
-const cat = document.querySelector("#cat");
 const tag = document.querySelector("#tag");
+const cats = document.querySelector("#cats");
 const dlg = document.querySelector("#dlg");
 
-function fillSelect(el, values) {
-  const cur = el.value;
-  el.innerHTML = el.querySelector("option").outerHTML;
-  [...values].sort().forEach((v) => {
-    const o = document.createElement("option");
-    o.value = v;
-    o.textContent = v;
-    el.appendChild(o);
-  });
-  el.value = cur;
+function zh(cat) {
+  return CATEGORY_ZH[cat] || cat;
+}
+
+function blobUrl(path) {
+  return GITHUB + String(path || "").replace(/^\/+/, "");
 }
 
 function matches(fig) {
   const query = q.value.trim().toLowerCase();
-  if (cat.value && fig.category !== cat.value) return false;
-  if (tag.value && !fig.tags.includes(tag.value)) return false;
+  if (state.category && fig.category !== state.category) return false;
+  if (tag.value && !(fig.tags || []).includes(tag.value)) return false;
   if (!query) return true;
-  const blob = [fig.title, fig.title_zh, fig.slug, fig.category, ...(fig.tags || [])].join(" ").toLowerCase();
+  const blob = [fig.title, fig.title_zh, fig.slug, fig.category, zh(fig.category), ...(fig.tags || [])].join(" ").toLowerCase();
   return blob.includes(query);
 }
 
+function renderStats() {
+  const counts = {};
+  state.figures.forEach((fig) => {
+    counts[fig.category] = (counts[fig.category] || 0) + 1;
+  });
+  const parts = CATEGORY_ORDER.filter((cat) => counts[cat]).map((cat) => zh(cat) + " " + counts[cat]);
+  document.querySelector("#stats").textContent = "共 " + state.figures.length + " 张 · " + parts.join(" · ");
+}
+
+function renderCats() {
+  const counts = {};
+  state.figures.forEach((fig) => {
+    counts[fig.category] = (counts[fig.category] || 0) + 1;
+  });
+  cats.innerHTML = "";
+  const all = document.createElement("button");
+  all.type = "button";
+  all.textContent = "全部 " + state.figures.length;
+  all.setAttribute("aria-pressed", state.category ? "false" : "true");
+  all.addEventListener("click", () => { state.category = ""; render(); });
+  cats.appendChild(all);
+  CATEGORY_ORDER.filter((cat) => counts[cat]).forEach((cat) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = zh(cat) + " " + counts[cat];
+    btn.setAttribute("aria-pressed", state.category === cat ? "true" : "false");
+    btn.addEventListener("click", () => { state.category = cat; render(); });
+    cats.appendChild(btn);
+  });
+}
+
 function render() {
+  renderCats();
   grid.innerHTML = "";
   state.figures.filter(matches).forEach((fig) => {
     const btn = document.createElement("button");
     btn.className = "card";
     btn.type = "button";
-    btn.innerHTML = `<img alt="" src="${fig.docs_preview}"><strong></strong><span></span>`;
-    btn.querySelector("strong").textContent = fig.title_zh;
-    btn.querySelector("span").textContent = fig.title;
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = fig.docs_preview;
+    const strong = document.createElement("strong");
+    strong.textContent = fig.title_zh;
+    const span = document.createElement("span");
+    span.textContent = zh(fig.category);
+    btn.append(img, strong, span);
     btn.addEventListener("click", () => openFig(fig));
     grid.appendChild(btn);
   });
 }
 
+function link(href, label) {
+  const a = document.createElement("a");
+  a.href = href;
+  a.textContent = label;
+  return a;
+}
+
 function openFig(fig) {
-  document.querySelector("#dlg-title").textContent = `${fig.title_zh} / ${fig.title}`;
+  document.querySelector("#dlg-title").textContent = fig.title_zh + " / " + fig.title;
   document.querySelector("#dlg-when").textContent = fig.when_to_use;
   const img = document.querySelector("#dlg-img");
   img.src = fig.docs_preview;
   img.alt = fig.title;
-  const table = document.querySelector("#dlg-cols");
-  table.innerHTML = "<tr><th>列</th><th>含义</th></tr>";
-  Object.entries(fig.data_columns).forEach(([k, v]) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = "<td></td><td></td>";
-    tr.children[0].textContent = k;
-    tr.children[1].textContent = v;
-    table.appendChild(tr);
-  });
-  const links = document.querySelector("#dlg-links");
-  links.innerHTML = "";
-  const a1 = document.createElement("a");
-  a1.href = fig.github_data;
-  a1.textContent = "下载 data.csv";
-  const a2 = document.createElement("a");
-  a2.href = fig.github_code;
-  a2.textContent = fig.lang === "Python" ? "下载 plot.py" : "下载 plot.R";
-  links.append(a1, " · ", a2);
-  document.querySelector("#dlg-code").textContent = fig.code_text || "";
+  const dataBlock = document.querySelector("#dlg-data");
+  const drawBlock = document.querySelector("#dlg-drawio");
+  if (fig.lang === "drawio") {
+    dataBlock.hidden = true;
+    drawBlock.hidden = false;
+    const box = document.querySelector("#dlg-draw-links");
+    box.innerHTML = "";
+    box.append(
+      link(blobUrl(fig.dir + "/template.drawio"), "下载 template.drawio"),
+      document.createTextNode(" · "),
+      link(blobUrl(fig.dir + "/figure.svg"), "下载 figure.svg")
+    );
+  } else {
+    dataBlock.hidden = false;
+    drawBlock.hidden = true;
+    const table = document.querySelector("#dlg-cols");
+    table.innerHTML = "<tr><th>列</th><th>含义</th></tr>";
+    Object.entries(fig.data_columns || {}).forEach(([k, v]) => {
+      const tr = document.createElement("tr");
+      const td1 = document.createElement("td");
+      const td2 = document.createElement("td");
+      td1.textContent = k;
+      td2.textContent = String(v);
+      tr.append(td1, td2);
+      table.appendChild(tr);
+    });
+    document.querySelector("#dlg-custom").textContent = fig.customize || "";
+    const links = document.querySelector("#dlg-links");
+    links.innerHTML = "";
+    const codeName = fig.lang === "Python" ? "plot.py" : "plot.R";
+    const files = fig.data_files && fig.data_files.length ? fig.data_files : (fig.data ? [fig.data] : []);
+    files.forEach((path, i) => {
+      if (i) links.append(document.createTextNode(" · "));
+      const name = String(path).split("/").pop();
+      links.append(link(blobUrl(path), "下载 " + name));
+    });
+    if (files.length) links.append(document.createTextNode(" · "));
+    links.append(link(blobUrl(fig.code), "下载 " + codeName));
+    document.querySelector("#dlg-code").textContent = fig.code_text || "";
+  }
   dlg.showModal();
 }
 
 document.querySelector("#close").addEventListener("click", () => dlg.close());
-[q, cat, tag].forEach((el) => el.addEventListener("input", render));
-cat.addEventListener("change", render);
+q.addEventListener("input", render);
 tag.addEventListener("change", render);
 
 fetch("catalog.json")
   .then((r) => r.json())
   .then((data) => {
     state.figures = data.figures || [];
-    fillSelect(cat, new Set(state.figures.map((f) => f.category)));
-    fillSelect(tag, new Set(state.figures.flatMap((f) => f.tags)));
+    const tags = new Set(state.figures.flatMap((f) => f.tags || []));
+    const cur = tag.value;
+    tag.innerHTML = "";
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = "全部标签";
+    tag.appendChild(first);
+    [...tags].sort().forEach((v) => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      tag.appendChild(o);
+    });
+    tag.value = cur;
+    renderStats();
     render();
   });
 </script>

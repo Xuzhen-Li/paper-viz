@@ -44,6 +44,40 @@ CATEGORIES = {
 }
 START = "<!-- CATALOG:START -->"
 END = "<!-- CATALOG:END -->"
+CATEGORY_ZH = {
+    "distribution": "分布",
+    "comparison": "比较",
+    "correlation": "相关",
+    "composition": "组成",
+    "heatmap": "热图",
+    "dimension-reduction": "降维",
+    "differential-expression": "差异表达",
+    "enrichment": "富集",
+    "population-genetics": "群体遗传",
+    "genome": "基因组",
+    "phylogeny": "系统发育",
+    "network": "网络",
+    "microbiome-ecology": "微生物与生态",
+    "clinical": "临床",
+    "schematic": "流程图模板",
+}
+CATEGORY_ORDER = (
+    "distribution",
+    "comparison",
+    "correlation",
+    "composition",
+    "heatmap",
+    "dimension-reduction",
+    "differential-expression",
+    "enrichment",
+    "population-genetics",
+    "genome",
+    "phylogeny",
+    "network",
+    "microbiome-ecology",
+    "clinical",
+    "schematic",
+)
 
 
 def _unquote(value: str) -> str:
@@ -142,11 +176,18 @@ def build() -> list[dict]:
             if not drawio.exists():
                 raise SystemExit(f"missing {drawio}")
             rel_data = None
+            rel_data_files: list[str] = []
         else:
-            data = fig_dir / "data.csv"
-            if not data.exists():
-                raise SystemExit(f"missing {data}")
-            rel_data = str(data.relative_to(ROOT)).replace("\\", "/")
+            data_files = sorted(fig_dir.glob("data*.csv"))
+            if not data_files:
+                raise SystemExit(f"missing data csv in {fig_dir}")
+            rel_data_files = [str(p.relative_to(ROOT)).replace("\\", "/") for p in data_files]
+            preferred = fig_dir / "data.csv"
+            rel_data = (
+                str(preferred.relative_to(ROOT)).replace("\\", "/")
+                if preferred.exists()
+                else rel_data_files[0]
+            )
         rel_preview = str(preview.relative_to(ROOT)).replace("\\", "/")
         rel_code = code_rel(fig_dir, meta)
         rel_dir = str(fig_dir.relative_to(ROOT)).replace("\\", "/")
@@ -170,6 +211,7 @@ def build() -> list[dict]:
                 "docs_preview": f"previews/{slug}.png",
                 "code": rel_code,
                 "data": rel_data,
+                "data_files": rel_data_files,
                 "code_python": (
                     str(py.relative_to(ROOT)).replace("\\", "/") if py.exists() and rel_code.endswith(".R") else None
                 ),
@@ -184,17 +226,23 @@ def build() -> list[dict]:
 
 
 def render_readme(figures: list[dict]) -> str:
-    lines = ["", "前 12 张缩略图。", ""]
-    for row in figures[:12]:
-        lines.append(f"![{row['slug']}]({row['preview']})")
-    lines.append("")
-    lines.append("| 图 | 分类 | 语言 | 何时用 |")
-    lines.append("|----|------|------|--------|")
+    counts: dict[str, int] = {}
     for row in figures:
-        lines.append(
-            f"| [{row['title_zh']}]({row['dir']}) | `{row['category']}` | {row['lang']} | {row['when_to_use']} |"
-        )
+        counts[row["category"]] = counts.get(row["category"], 0) + 1
+    lines = ["", f"共 {len(figures)} 张。", "", "| 分类 | 中文 | 数量 |", "|------|------|------|"]
+    present = [cat for cat in CATEGORY_ORDER if counts.get(cat)]
+    for cat in present:
+        lines.append(f"| `{cat}` | {CATEGORY_ZH[cat]} | {counts[cat]} |")
     lines.append("")
+    for cat in present:
+        rows = [row for row in figures if row["category"] == cat]
+        lines.append(f"### {CATEGORY_ZH[cat]} `{cat}`（{len(rows)}）")
+        lines.append("")
+        for row in rows[:4]:
+            lines.append(
+                f'<img src="{row["preview"]}" width="200" alt="{row["title_zh"]}">'
+            )
+        lines.append("")
     return "\n".join(lines)
 
 
