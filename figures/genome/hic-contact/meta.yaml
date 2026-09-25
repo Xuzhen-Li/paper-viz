@@ -1,0 +1,18 @@
+title: Hi-C contact map
+title_zh: Hi-C 接触图
+slug: hic-contact
+category: genome
+tags:
+  - hic
+  - contact-map
+  - chromosome-conformation
+packages:
+  - ggplot2
+data_columns:
+  bin_i: 行 bin，全基因组顺序编号（整数）
+  bin_j: 列 bin（整数）
+  chr: bin_i 所在染色体（字符串）
+  count: 接触次数（整数）
+when_to_use: 查看染色体领地、距离衰减，以及植物中着丝粒之间的 Rabl 接触时用。
+customize: log_color 开关对数配色；show_chr_split 开关染色体边界线。chr 记录的是 bin_i 的染色体，bin 按基因组顺序编号。
+lang: R

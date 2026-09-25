@@ -1,0 +1,20 @@
+title: k-mer spectrum
+title_zh: k-mer 频谱
+slug: kmer-spectrum
+category: genome
+tags:
+  - kmer
+  - heterozygosity
+  - genomescope
+packages:
+  - ggplot2
+  - cowplot
+data_columns:
+  library: 文库，High-het 或 Low-het（字符串）
+  multiplicity: k-mer 覆盖次数（整数）
+  count: 该覆盖次数上的不同 k-mer 数（数值）
+  model: 无噪声的负二项加误差模型（数值）
+  lambda: 该文库纯合峰覆盖度 λ（数值）
+when_to_use: 从 k-mer 频谱看错误峰、杂合 1n 峰和纯合 2n 峰，判断植物基因组杂合度时用。
+customize: 默认线性 y，coord_cartesian 把显示上限裁到峰高的 1.25 倍，数据不改，错误峰伸出画框。log_y 可改回对数。label_peaks 把 1n 与 2n 标在峰顶；show_model 画拟合虚线；show_trunc_note 显示截断说明；x_coverage_mult 控制横轴到几倍 λ。
+lang: R
