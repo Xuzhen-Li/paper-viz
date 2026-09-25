@@ -1,0 +1,17 @@
+title: Dumbbell chart
+title_zh: 哑铃图
+slug: dumbbell
+category: comparison
+tags:
+  - dumbbell
+  - comparison
+  - before-after
+packages:
+  - ggplot2
+data_columns:
+  item: 位点或对象（字符串）
+  stage: 时间点（字符串）
+  value: 得分（数值）
+when_to_use: 同一批对象要比较两个时间点或两种状态的变化方向时用。
+customize: use_arrow 在变化方向上加箭头；sort_by 取 change、week12 或 input；colour_by_stage 按阶段着色。颜色取 pv_palette("categorical")。
+lang: R

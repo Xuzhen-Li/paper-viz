@@ -29,19 +29,19 @@ fi
 if [ -f make_data.R ]; then
   Rscript make_data.R
 elif [ -f make_data.py ]; then
-  python3 make_data.py
+  "${PYTHON:-python3}" make_data.py
 else
   echo "no make_data script" >&2
   exit 1
 fi
 
 if [ -f plot.R ] && [ -f plot.py ]; then
-  python3 plot.py
+  "${PYTHON:-python3}" plot.py
 fi
 if [ -f plot.R ]; then
   Rscript plot.R
 elif [ -f plot.py ]; then
-  python3 plot.py
+  "${PYTHON:-python3}" plot.py
 else
   echo "no plot script" >&2
   exit 1

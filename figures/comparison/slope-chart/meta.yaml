@@ -1,0 +1,18 @@
+title: Slope chart
+title_zh: 斜率图
+slug: slope-chart
+category: comparison
+tags:
+  - slope
+  - comparison
+  - before-after
+packages:
+  - ggplot2
+  - ggrepel
+data_columns:
+  item: 指标名（字符串）
+  stage: 阶段（字符串）
+  value: 指数（数值）
+when_to_use: 一批指标只有前后两个时间点、要看谁升谁降时用。
+customize: highlight 列出强调的指标名，其余用灰色；label_ends 在两端标出强调项的名字。强调色按顺序取 pv_palette("categorical")。
+lang: R

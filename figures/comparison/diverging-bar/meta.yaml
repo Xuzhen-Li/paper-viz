@@ -1,0 +1,17 @@
+title: Diverging bar chart
+title_zh: 正负条形图
+slug: diverging-bar
+category: comparison
+tags:
+  - bar
+  - diverging
+  - comparison
+packages:
+  - ggplot2
+data_columns:
+  item: 指标名（字符串）
+  value: 相对基线的变化，百分比（数值）
+  class: 升高或降低（字符串）
+when_to_use: 一批指标有正有负、需要以 0 为中心比较方向和幅度时用。
+customize: sort_bars 按数值排序；center_at_zero 为 FALSE 时参考线改到中位数；class_levels 决定图例顺序。颜色取 pv_palette("diverging") 两端。
+lang: R

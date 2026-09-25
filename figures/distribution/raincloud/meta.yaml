@@ -1,0 +1,17 @@
+title: Raincloud plot
+title_zh: 云雨图
+slug: raincloud
+category: distribution
+tags:
+  - raincloud
+  - distribution
+  - boxplot
+packages:
+  - ggplot2
+data_columns:
+  sample: 样本编号（字符串）
+  group: 剂量或处理组（字符串）
+  value: 响应分数（数值）
+when_to_use: 要在同一张图里看原始点、箱线摘要和分布形状时用。
+customize: show_signif 开关括号；comparisons 指定组对；use_facet 为 TRUE 时按低/高剂量分成两栏；group_levels 决定顺序，颜色取 pv_palette("categorical")。gghalves 在 R 4.2.2 的 CRAN 上不可用，半小提琴用密度多边形绘制。
+lang: R

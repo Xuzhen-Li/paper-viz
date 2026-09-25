@@ -1,0 +1,17 @@
+title: Lollipop chart
+title_zh: 棒棒糖图
+slug: lollipop
+category: comparison
+tags:
+  - lollipop
+  - ranking
+  - importance
+packages:
+  - ggplot2
+data_columns:
+  item: 特征名（字符串）
+  value: 重要性得分（数值）
+  signif: 是否强调（逻辑值）
+when_to_use: 特征较多、要按大小排序并标出需要强调的条目时用。
+customize: rank_items 按得分从下到上排列；highlight_signif 用 signif 列着强调色；map_importance 为 TRUE 时点的大小跟随得分。颜色取 pv_palette("categorical")。
+lang: R

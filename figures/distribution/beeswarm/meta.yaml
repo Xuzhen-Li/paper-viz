@@ -1,0 +1,18 @@
+title: Beeswarm plot
+title_zh: 蜂群图
+slug: beeswarm
+category: distribution
+tags:
+  - beeswarm
+  - distribution
+  - significance
+packages:
+  - ggplot2
+  - ggbeeswarm
+data_columns:
+  sample: 样本编号（字符串）
+  group: 剂量组（字符串）
+  value: 响应值（数值）
+when_to_use: 样本量中等、想看每个点又不想堆成一条线时用。
+customize: show_signif 与 comparisons 控制括号；use_facet 把四组拆成低剂量和高剂量两栏；group_levels 决定顺序。颜色取 pv_palette("categorical")。
+lang: R

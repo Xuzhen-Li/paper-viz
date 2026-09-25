@@ -1,0 +1,16 @@
+title: Density plot
+title_zh: 密度图
+slug: density
+category: distribution
+tags:
+  - density
+  - distribution
+packages:
+  - ggplot2
+  - ggrepel
+data_columns:
+  group: 品系或组别（字符串）
+  value: 测量值（数值）
+when_to_use: 要在同一坐标上比较几组平滑分布，并标出主峰位置时用。
+customize: show_mode_labels 开关峰顶标签；group_levels 决定图例顺序；fill_alpha 改填充透明度。颜色取 pv_palette("categorical")。
+lang: R

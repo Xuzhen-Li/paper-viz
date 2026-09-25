@@ -1,0 +1,18 @@
+title: Violin plot
+title_zh: 小提琴图
+slug: violin
+category: distribution
+tags:
+  - violin
+  - distribution
+  - significance
+packages:
+  - ggplot2
+data_columns:
+  sample: 样本编号（字符串）
+  group: 处理组（字符串）
+  facet: 组织或分面（字符串）
+  value: 表达量，log2 尺度（数值）
+when_to_use: 要同时看组间位置和分布形状，并标两两比较时用。
+customize: layout 取 split（左右半小提琴）或 facet（按组织分面）；show_signif 开关 Wilcoxon 星号；group_levels 与 facet_levels 决定顺序和配色（pv_palette categorical）。
+lang: R

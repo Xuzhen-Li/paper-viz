@@ -1,0 +1,17 @@
+title: Radar chart
+title_zh: 雷达图
+slug: radar
+category: comparison
+tags:
+  - radar
+  - comparison
+  - profile
+packages:
+  - ggplot2
+data_columns:
+  group: 品系或组别（字符串）
+  axis: 性状轴（字符串）
+  value: 0 到 100 的得分（数值）
+when_to_use: 少数组别要在同一组性状上比较轮廓差异时用。
+customize: fill_polygon 开关半透明填充；facet_groups 为 TRUE 时每组单独一面；axis_levels 与 group_levels 决定轴序和图例。颜色取 pv_palette("categorical")。
+lang: R
