@@ -2,25 +2,29 @@
 # Ideas from fig_style.py + cnsplots journal defaults (cite; not a fork).
 
 figure.dpi: 150
-savefig.dpi: 300
+savefig.dpi: 600
 savefig.bbox: tight
 figure.facecolor: white
 axes.facecolor: white
 axes.unicode_minus: False
 
-font.size: 8
-axes.titlesize: 9
-axes.labelsize: 8
+font.family: sans-serif
+font.sans-serif: Arial, Helvetica, DejaVu Sans
+font.size: 7
+axes.titlesize: 7
+axes.labelsize: 7
 xtick.labelsize: 7
 ytick.labelsize: 7
 legend.fontsize: 7
+pdf.fonttype: 42
+svg.fonttype: none
 
 axes.spines.top: False
 axes.spines.right: False
-axes.linewidth: 0.6
+axes.linewidth: 0.8
 axes.grid: False
-xtick.major.width: 0.6
-ytick.major.width: 0.6
+xtick.major.width: 0.8
+ytick.major.width: 0.8
 xtick.major.size: 2.5
 ytick.major.size: 2.5
 

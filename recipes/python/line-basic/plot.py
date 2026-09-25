@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 STYLES = Path(__file__).resolve().parents[3] / "styles" / "python"
 sys.path.insert(0, str(STYLES))
 import style  # noqa: E402
-from helpers import add_panel_tag, despine  # noqa: E402
+from helpers import despine  # noqa: E402
 
 style.apply_style()
 rng = np.random.default_rng(0)
@@ -23,7 +23,6 @@ ax.plot(x, y, color=style.ACCENT, lw=1.4)
 ax.set_xlabel("Time (a.u.)")
 ax.set_ylabel("Signal")
 despine(ax)
-add_panel_tag(ax, "a")
 out = Path(__file__).resolve().parents[3] / "gallery" / "line-basic.png"
 style.save_fig(fig, out)
 print(f"wrote {out}")

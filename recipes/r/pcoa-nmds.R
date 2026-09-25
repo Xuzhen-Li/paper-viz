@@ -34,7 +34,7 @@ df_pc <- data.frame(x = pc$points[, 1], y = pc$points[, 2], group = group)
 p1 <- ggplot2::ggplot(df_pc, ggplot2::aes(x, y, colour = group)) +
   ggplot2::geom_point(size = 1.6) +
   ggplot2::scale_colour_manual(values = cols) +
-  ggplot2::labs(x = "PCoA1", y = "PCoA2", colour = NULL, tag = "a") +
+  ggplot2::labs(x = "PCoA1", y = "PCoA2", colour = NULL) +
   theme_viz()
 ggplot2::ggsave("../../gallery/pcoa.png", p1, width = 89 / 25.4, height = 70 / 25.4, dpi = 300)
 
@@ -43,7 +43,7 @@ df_nm <- data.frame(x = nm$points[, 1], y = nm$points[, 2], group = group)
 p2 <- ggplot2::ggplot(df_nm, ggplot2::aes(x, y, colour = group)) +
   ggplot2::geom_point(size = 1.6) +
   ggplot2::scale_colour_manual(values = cols) +
-  ggplot2::labs(x = "NMDS1", y = "NMDS2", colour = NULL, tag = "b") +
+  ggplot2::labs(x = "NMDS1", y = "NMDS2", colour = NULL) +
   theme_viz()
 ggplot2::ggsave("../../gallery/nmds.png", p2, width = 89 / 25.4, height = 70 / 25.4, dpi = 300)
 message("wrote ../../gallery/pcoa.png and ../../gallery/nmds.png")

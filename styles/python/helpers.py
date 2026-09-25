@@ -26,11 +26,23 @@ def label_outer(axes) -> None:
             ax.label_outer()
 
 
-def add_panel_tag(ax: Axes, tag: str, *, x: float = -0.12, y: float = 1.05, fontsize: float = 9) -> None:
+def add_panel_tag(
+    ax: Axes,
+    tag: str | None = None,
+    *,
+    panel_label: str | None = None,
+    x: float = -0.12,
+    y: float = 1.05,
+    fontsize: float = 8,
+) -> None:
+    """Bold panel letter. ``panel_label=None`` (the default) draws nothing."""
+    label = panel_label if panel_label is not None else tag
+    if not label:
+        return
     ax.text(
         x,
         y,
-        tag,
+        label,
         transform=ax.transAxes,
         fontsize=fontsize,
         fontweight="bold",

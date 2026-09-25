@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 STYLES = Path(__file__).resolve().parents[3] / "styles" / "python"
 sys.path.insert(0, str(STYLES))
 import style  # noqa: E402
-from helpers import add_panel_tag, despine  # noqa: E402
+from helpers import despine  # noqa: E402
 
 style.apply_style()
 groups = ["A", "B", "C", "D"]
@@ -25,9 +25,8 @@ ax.bar(x - w / 2, ctrl, w, label="Control", color=style.PALETTES["bio"][1])
 ax.bar(x + w / 2, trt, w, label="Treatment", color=style.PALETTES["bio"][2])
 ax.set_xticks(x, groups)
 ax.set_ylabel("Value")
-ax.legend(frameon=False)
+ax.legend(frameon=False, loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0)
 despine(ax)
-add_panel_tag(ax, "b")
 out = Path(__file__).resolve().parents[3] / "gallery" / "bar-grouped.png"
 style.save_fig(fig, out)
 print(f"wrote {out}")

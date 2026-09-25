@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 STYLES = Path(__file__).resolve().parents[3] / "styles" / "python"
 sys.path.insert(0, str(STYLES))
 import style  # noqa: E402
-from helpers import add_panel_tag, despine  # noqa: E402
+from helpers import despine  # noqa: E402
 
 style.apply_style()
 rng = np.random.default_rng(2)
@@ -29,7 +29,6 @@ ax.set_xlabel("PC1")
 ax.set_ylabel("PC2")
 ax.legend(frameon=False, markerscale=1.2)
 despine(ax)
-add_panel_tag(ax, "d")
 out = Path(__file__).resolve().parents[3] / "gallery" / "pca-biplot.png"
 style.save_fig(fig, out)
 print(f"wrote {out}")

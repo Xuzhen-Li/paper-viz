@@ -9,6 +9,9 @@ despine_gg <- function() {
   )
 }
 
-panel_tag <- function(tag) {
-  list(ggplot2::labs(tag = tag))
+panel_tag <- function(panel_label = NULL) {
+  if (is.null(panel_label)) {
+    return(list())
+  }
+  list(ggplot2::labs(tag = panel_label))
 }

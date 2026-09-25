@@ -35,20 +35,33 @@ def apply_style(base: str | Path | None = None) -> None:
         plt.rcParams.update(
             {
                 "figure.dpi": 150,
-                "savefig.dpi": 300,
-                "font.size": 8,
+                "savefig.dpi": 600,
+                "font.family": "sans-serif",
+                "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
+                "font.size": 7,
+                "axes.titlesize": 7,
+                "axes.labelsize": 7,
+                "axes.linewidth": 0.8,
+                "xtick.major.width": 0.8,
+                "ytick.major.width": 0.8,
+                "pdf.fonttype": 42,
+                "svg.fonttype": "none",
                 "axes.spines.top": False,
                 "axes.spines.right": False,
             }
         )
     plt.rcParams["axes.unicode_minus"] = False
+    plt.rcParams["pdf.fonttype"] = 42
+    plt.rcParams["svg.fonttype"] = "none"
     plt.rcParams["figure.facecolor"] = "white"
     plt.rcParams["axes.facecolor"] = "white"
     plt.rcParams["savefig.facecolor"] = "white"
 
 
-def save_fig(fig, path, *, dpi: int = 300, **kw) -> Path:
+def save_fig(fig, path, *, dpi: int = 600, **kw) -> Path:
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
+    plt.rcParams["pdf.fonttype"] = 42
+    plt.rcParams["svg.fonttype"] = "none"
     fig.savefig(out, dpi=dpi, bbox_inches="tight", pad_inches=0.08, **kw)
     return out

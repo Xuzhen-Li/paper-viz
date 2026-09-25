@@ -12,7 +12,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(group, value, fill = group)) +
   ggplot2::geom_boxplot(width = 0.6, outlier.size = 0.6) +
   ggplot2::scale_fill_manual(values = cols, guide = "none") +
   ggpubr::stat_compare_means(comparisons = list(c("A", "B"), c("B", "C")), size = 2.2) +
-  ggplot2::labs(x = NULL, y = "Value", tag = "c") +
+  ggplot2::labs(x = NULL, y = "Value") +
   theme_viz()
 
 ggplot2::ggsave(
