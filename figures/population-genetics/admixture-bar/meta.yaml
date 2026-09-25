@@ -1,0 +1,19 @@
+title: ADMIXTURE stacked bar
+title_zh: ADMIXTURE 堆积条
+slug: admixture-bar
+category: population-genetics
+tags:
+  - admixture
+  - ancestry
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  sample: 个体编号（字符串）
+  pop: 群体（字符串）
+  k: 该行所属的 K（整数，2 到 6）
+  ancestry: 祖先成分名 A1–Ak（字符串）
+  q: 该成分比例（数值，同一个体同一 K 下加总为 1）
+when_to_use: 展示个体祖先成分，并沿群体比较 K = 2 到 6 的结构。
+customize: k_values 选择画哪些 K；sort_k 决定个体在群体内按哪一个 K 的主成份从高到低排序，各 K 共用这一顺序；pop_gap 是群体之间空开的柱宽；pop_order 是地理或驯化顺序，不要按字母排。
+lang: R

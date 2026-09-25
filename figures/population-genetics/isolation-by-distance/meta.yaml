@@ -1,0 +1,17 @@
+title: Isolation by distance
+title_zh: 距离隔离散点
+slug: isolation-by-distance
+category: population-genetics
+tags:
+  - isolation-by-distance
+  - fst
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  dist_km: 群体对的地理距离，单位 km（数值）
+  fst_linear: Rousset 线性化 Fst/(1−Fst)（数值）
+  region: 这对比较所在的区域（字符串）
+when_to_use: 检验分化是否随地理距离增加，并看不同区域斜率是否不一样。
+customize: show_regression 开关线性回归；by_region 为 TRUE 时每个区域一条线，FALSE 时全体一条黑线、点仍按区域着色；regions_show 选择区域。
+lang: R

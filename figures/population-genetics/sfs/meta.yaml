@@ -1,0 +1,18 @@
+title: Site frequency spectrum
+title_zh: 位点频谱
+slug: sfs
+category: population-genetics
+tags:
+  - sfs
+  - allele-frequency
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  pop: 群体（字符串）
+  bin: 等位基因计数分箱，1 到 20（整数；40 条染色体的折叠频谱对应次等位基因数）
+  count: 该分箱的位点数（整数）
+  folded: 1 为折叠频谱，0 为展开频谱（整数）
+when_to_use: 比较野生种、农家种和栽培种的稀有等位基因是过多还是被瓶颈削平。
+customize: use_folded 为 TRUE 时画折叠频谱（横轴为次等位基因数），FALSE 画展开频谱（衍生等位基因数）；pops_show 选择群体。纵轴是群体内位点比例，不是原始计数。
+lang: R

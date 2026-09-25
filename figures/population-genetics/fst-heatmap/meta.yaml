@@ -1,0 +1,17 @@
+title: Pairwise Fst heatmap
+title_zh: 成对 Fst 热图
+slug: fst-heatmap
+category: population-genetics
+tags:
+  - fst
+  - heatmap
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  pop_a: 群体甲（字符串）
+  pop_b: 群体乙（字符串）
+  fst: 成对 Fst（数值，对角线为 0；文件存上三角含对角线，作图时镜像）
+when_to_use: 十二个群体的成对分化要按地理或驯化顺序排开、而不是按聚类字母序时用。
+customize: pop_order 是地理顺序（野生北到栽培）；show_values 在格子里写两位小数。颜色从低 Fst 的浅色到高 Fst 的深蓝，不用发散色。
+lang: R

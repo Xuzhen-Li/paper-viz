@@ -1,0 +1,20 @@
+title: Effective population size
+title_zh: 有效群体大小（PSMC / SMC++）
+slug: psmc-ne
+category: population-genetics
+tags:
+  - psmc
+  - smcpp
+  - effective-population-size
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  pop: 群体（字符串）
+  years_ago: 距今年数（数值）
+  ne: 有效群体大小点估计（数值）
+  ne_low: 自助法下界（数值）
+  ne_high: 自助法上界（数值）
+when_to_use: 看驯化瓶颈和野生种、栽培种在哪个时间尺度上 Ne 分开或重新汇合。
+customize: model 取 psmc（横轴约 10^4–10^6 年）或 smcpp（含更近的 10^3 年）；show_ribbon 开关自助法色带。两轴都是对数。时间从左（近）到右（远），与 psmc_plot 一致。
+lang: R

@@ -1,0 +1,17 @@
+title: LD decay
+title_zh: LD 衰减曲线
+slug: ld-decay
+category: population-genetics
+tags:
+  - linkage-disequilibrium
+  - ld-decay
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  pop: 群体（字符串）
+  dist_kb: 距离分箱中点，单位 kb（数值）
+  r2: 该距离上的平均 r²（数值，0 到 1）
+when_to_use: 比较野生、农家种和栽培种的连锁不平衡随物理距离衰减有多快。
+customize: show_loess 开关平滑线；pops_show 选择群体及图例顺序；log_x 为 TRUE 时横轴按 kb 取对数，短距离的衰减不会挤在原点。
+lang: R

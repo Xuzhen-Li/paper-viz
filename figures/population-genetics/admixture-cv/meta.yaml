@@ -1,0 +1,17 @@
+title: ADMIXTURE CV error
+title_zh: ADMIXTURE 交叉验证折线
+slug: admixture-cv
+category: population-genetics
+tags:
+  - admixture
+  - cross-validation
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  k: 祖先成分数 K（整数）
+  cv_mean: 交叉验证误差均值（数值，越低越好）
+  cv_sd: 重复或折次之间的标准差（数值）
+when_to_use: 选 ADMIXTURE 的 K 时，看交叉验证误差在哪一档最低。
+customize: show_errorbar 开关误差线；mark_best 用数据中 cv_mean 最小的 K 标出最低点，不手写 K。
+lang: R

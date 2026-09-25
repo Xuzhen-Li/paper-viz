@@ -1,0 +1,20 @@
+title: Geographic sampling map
+title_zh: 采样点地图
+slug: sampling-map
+category: population-genetics
+tags:
+  - map
+  - sampling
+  - population-genetics
+packages:
+  - ggplot2
+  - maps
+data_columns:
+  site: 采样点编号（字符串）
+  pop: 群体（字符串）
+  x: 经度（数值）
+  y: 纬度（数值）
+  n: 该点样本数（整数）
+when_to_use: 采样点要按群体着色、按样本量缩放，并看出群体的地理范围时用。
+customize: show_hull 画每个群体的凸包；show_labels 标群体名（不标每个点，避免重叠）；pops_show 控制群体。点的大小映射 n。底图只用本地地图数据，不联网。
+lang: R

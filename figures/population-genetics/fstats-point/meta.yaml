@@ -1,0 +1,20 @@
+title: f-statistic point range
+title_zh: f3 / f4 / D 点距图
+slug: fstats-point
+category: population-genetics
+tags:
+  - d-statistic
+  - f4
+  - f3
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  test: 检验写法，如 D(P1, P2; P3, OG)（字符串）
+  estimate: 估计值（数值；本表示例为 D 的量级）
+  low: 95% 区间下界（数值）
+  high: 95% 区间上界（数值）
+  z: estimate / 标准误（数值；|Z| > 3 通常视为偏离 0）
+when_to_use: 一组 D 或 f4 检验要同时看估计、置信区间和是否跨过 0 时用。
+customize: show_ci 开关区间；z_cut 默认 3；statistic 改 x 轴标题为 D、f4 或 f3（本数据是 D 量级，换 f3 需重做 data.csv）；order_by_estimate 按估计值排序。正负用蓝和朱红，不显著为灰。
+lang: R

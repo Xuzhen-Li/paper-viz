@@ -1,0 +1,19 @@
+title: Selection scan
+title_zh: 选择扫描（XP-CLR / iHS）
+slug: selection-scan
+category: population-genetics
+tags:
+  - xp-clr
+  - ihs
+  - selection
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  chr: 染色体（chr1–chr5）
+  pos: 窗口中点，单位 bp（整数）
+  score: XP-CLR 分数或 |iHS|（数值，由 method 决定）
+  method: xpclr 或 ihs
+when_to_use: 沿基因组找选择信号，XP-CLR 看群体间扫描，|iHS| 看单倍型纯合延伸。
+customize: methods_show 选择 xpclr 与 ihs 分面；show_threshold 画虚线；xpclr_q 是 XP-CLR 的经验分位阈值；ihs_cut 默认 2，即常用的 |iHS| 界线。染色体奇偶交替配色。
+lang: R

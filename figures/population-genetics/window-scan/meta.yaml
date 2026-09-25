@@ -1,0 +1,19 @@
+title: Diversity window scan
+title_zh: 多样性滑窗曼哈顿
+slug: window-scan
+category: population-genetics
+tags:
+  - fst
+  - nucleotide-diversity
+  - tajima
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  chr: 染色体（chr1–chr5）
+  pos: 窗口中点，单位 bp（整数）
+  stat: fst、pi 或 tajima
+  value: fst 为 Weir–Cockerham Fst；pi 为 π×10^3（每 kb）；tajima 为 Tajima's D
+when_to_use: 沿染色体看分化高峰、多样性低谷和 Tajima's D 偏负是否落在同一段。
+customize: stats_show 选择 fst、pi、tajima 哪些分面；show_threshold 画虚线（Fst 用高分位 fst_q，π 用低分位 pi_q，Tajima 用 tajima_line，默认 −2）；染色体奇偶交替配色。
+lang: R

@@ -23,7 +23,8 @@ theme_viz <- function(base_size = 6.5, base_family = viz_sans_family()) {
       plot.title = ggplot2::element_text(size = 7),
       legend.text = ggplot2::element_text(size = 6),
       plot.tag = ggplot2::element_text(face = "bold", size = 8),
-      legend.background = ggplot2::element_blank()
+      legend.background = ggplot2::element_blank(),
+      legend.key = ggplot2::element_blank()
     )
 }
 

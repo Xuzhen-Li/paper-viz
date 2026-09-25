@@ -1,0 +1,20 @@
+title: Population PCA
+title_zh: 群体 PCA（着色与椭圆）
+slug: pca-population
+category: population-genetics
+tags:
+  - pca
+  - population-structure
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  sample: 个体编号（字符串）
+  pop: 群体（字符串）
+  PC1: 第一主成分得分（数值）
+  PC2: 第二主成分得分（数值）
+  PC3: 第三主成分得分（数值，供 pc-pair 切换）
+  var_explained: data.csv 中为 PC1 方差百分比的重复值；data_variance.csv 的 pc / var_explained 给出 PC1–PC3 各轴百分比
+when_to_use: 用个体主成分看群体是否分开、栽培种是否比野生种更紧时用。
+customize: show_ellipse 开关 95% 正态椭圆；show_labels 用防重叠标签标群体质心；ellipse_level 改置信水平；pc_x 与 pc_y 在 PC1、PC2、PC3 之间换轴。
+lang: R

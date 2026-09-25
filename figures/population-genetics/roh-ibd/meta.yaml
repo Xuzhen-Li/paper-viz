@@ -1,0 +1,17 @@
+title: ROH and IBD lengths
+title_zh: ROH / IBD 长度分布
+slug: roh-ibd
+category: population-genetics
+tags:
+  - roh
+  - ibd
+  - population-genetics
+packages:
+  - ggplot2
+data_columns:
+  pop: 群体（字符串）
+  kind: ROH 或 IBD（字符串）
+  length_mb: 片段长度，单位 Mb（数值）
+when_to_use: 比较群体的纯合片段和同源 IBD 片段是短而多，还是出现很长的尾巴。
+customize: kinds_show 选择 ROH、IBD 或两者分面；pop_order 从野生到栽培；log_y 用对数纵轴，避免长片段把主体压扁。横轴群体顺序即图例，不再单列填充图例。
+lang: R
