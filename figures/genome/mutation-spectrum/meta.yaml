@@ -1,0 +1,17 @@
+title: Mutation spectrum
+title_zh: 突变频谱
+slug: mutation-spectrum
+category: genome
+tags:
+  - mutation-spectrum
+  - sbs96
+  - genome
+packages:
+  - ggplot2
+data_columns:
+  context: 三核苷酸上下文（字符串，中间为嘧啶参考碱基）
+  substitution: 替换类型，嘧啶归一的六类（字符串）
+  count: 该通道的突变计数（整数）
+when_to_use: 按 SBS96 展示 6 类替换乘 16 种三核苷酸上下文的突变计数或比例时用。
+customize: plot.R 顶部 as_proportion 为 TRUE 时纵轴改为占全部突变的比例；sbs_cols 改六类替换的颜色。
+lang: R

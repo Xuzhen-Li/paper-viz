@@ -1,0 +1,19 @@
+title: Stacked area
+title_zh: 堆叠面积图
+slug: stacked-area
+category: composition
+tags:
+  - stacked-area
+  - streamgraph
+  - composition
+  - time-series
+packages:
+  - ggplot2
+  - scales
+data_columns:
+  time: 时间点（整数，第几天）
+  part: 组成分名称（字符串）
+  value: 该时间点的丰度（正数）
+when_to_use: 若干组分随时间同时变化、要看总量和份额时用。
+customize: plot.R 顶部 chart_mode 取 stack、stream 或 percent；part_levels 改组分顺序和配色顺序。
+lang: R

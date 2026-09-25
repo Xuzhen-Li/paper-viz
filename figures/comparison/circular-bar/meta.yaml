@@ -1,0 +1,18 @@
+title: Circular bar
+title_zh: 环状柱形图
+slug: circular-bar
+category: comparison
+tags:
+  - circular-bar
+  - comparison
+  - polar
+packages:
+  - ggplot2
+  - scales
+data_columns:
+  category: 类别名称（字符串）
+  group: 分组（字符串）
+  value: 数值（正数）
+when_to_use: 类别较多、又要并排比较两组时，用环形柱代替长条形图。
+customize: plot.R 顶部 show_groups 控制是否分组并排；labels_outside 控制环外标签；inner_hole 为内圆半径占最大值的比例。
+lang: R

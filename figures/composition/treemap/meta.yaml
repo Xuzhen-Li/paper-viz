@@ -1,0 +1,16 @@
+title: Treemap
+title_zh: 矩形树图
+slug: treemap
+category: composition
+tags:
+  - treemap
+  - composition
+packages:
+  - ggplot2
+data_columns:
+  group: 上级分组（字符串）
+  tile: 矩形块名称（字符串）
+  value: 面积权重（正数）
+when_to_use: 两组里各有多块、要用面积比较大小时用。
+customize: plot.R 顶部 show_subgroup 控制组边界；show_labels 控制块内文字；group_levels 改组顺序和配色。
+lang: R

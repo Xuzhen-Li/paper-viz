@@ -1,0 +1,16 @@
+title: Waffle chart
+title_zh: 华夫图
+slug: waffle
+category: composition
+tags:
+  - waffle
+  - parliament
+  - composition
+packages:
+  - ggplot2
+data_columns:
+  cell: 单元格序号（整数，共 100 个）
+  part: 该格所属组成分（字符串）
+when_to_use: 用可数的格子表示份额、总数固定为一百时用。
+customize: plot.R 顶部 layout 取 square 或 parliament；part_levels 改组成分顺序和配色。
+lang: R

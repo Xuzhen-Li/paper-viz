@@ -1,0 +1,17 @@
+title: Bump chart
+title_zh: 凹凸图
+slug: bump-chart
+category: comparison
+tags:
+  - bump-chart
+  - rank
+  - comparison
+packages:
+  - ggplot2
+data_columns:
+  item: 项目名称（字符串）
+  time: 时间点（字符串）
+  rank: 该时间点的名次（整数，1 为最高）
+when_to_use: 比较多个对象在若干时间点的名次升降时用。
+customize: plot.R 顶部 highlight_items 填写要高亮的项目名，其余画成灰色。
+lang: R
