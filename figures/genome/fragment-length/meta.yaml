@@ -1,0 +1,15 @@
+title: Fragment length distribution
+title_zh: 片段长度分布
+slug: fragment-length
+category: genome
+tags:
+  - ancient-dna
+  - fragment-length
+packages:
+  - ggplot2
+data_columns:
+  library: 文库，Ancient、Nucleosome 或 Modern（字符串）
+  length_bp: 插入片段长度，bp（整数）
+when_to_use: 比较古 DNA 短片段、核小体保护峰和现代文库插入长度时用。
+customize: binwidth 改直方图组距；xmax 改横轴上限；facet_by_library 为 FALSE 时三条分布叠在同一面板。
+lang: R

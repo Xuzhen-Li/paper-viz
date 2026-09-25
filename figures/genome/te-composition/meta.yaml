@@ -1,0 +1,18 @@
+title: TE composition
+title_zh: 转座子组成
+slug: te-composition
+category: genome
+tags:
+  - transposable-element
+  - repeat-landscape
+packages:
+  - ggplot2
+  - cowplot
+data_columns:
+  genome: 基因组，以组装大小标记（字符串）
+  te_class: Gypsy、Copia、LINE、TIR 或 Helitron（字符串）
+  divergence: Kimura 分歧度，百分比（整数）
+  fraction: 该分歧度箱占基因组的比例（数值）
+when_to_use: 比较植物基因组的 TE 类别占比，并看 Gypsy/Copia 等的分歧度（年龄）景观时用。
+customize: show_stacked 与 show_landscape 开关堆积条和分歧度景观；class_order 改类别顺序与配色。
+lang: R

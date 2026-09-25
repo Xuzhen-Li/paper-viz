@@ -1,0 +1,16 @@
+title: BUSCO stacked bar
+title_zh: BUSCO 堆积条形
+slug: busco-bar
+category: genome
+tags:
+  - busco
+  - assembly-quality
+packages:
+  - ggplot2
+data_columns:
+  assembly: 组装名（字符串）
+  status: Complete single-copy、Complete duplicated、Fragmented 或 Missing（字符串）
+  percent: 该类别占 BUSCO 基因的百分比（数值）
+when_to_use: 比较多份基因组组装的完整度、重复、碎片和缺失比例时用。
+customize: sort_by_completeness 按完整度（单拷贝+重复）排序；show_percent 在条右侧标出完整度百分比。
+lang: R

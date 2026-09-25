@@ -1,0 +1,18 @@
+title: Coverage and signal tracks
+title_zh: 覆盖度与信号轨道
+slug: coverage-track
+category: genome
+tags:
+  - coverage
+  - atac
+  - cnv
+packages:
+  - ggplot2
+  - cowplot
+data_columns:
+  track: Depth、ATAC、RNA 或 CNV（字符串）
+  pos: 位点坐标，bp（数值）
+  value: 该轨道的信号；CNV 为拷贝数（数值）
+when_to_use: 在同一 2 Mb 位点上对照测序深度、ATAC、RNA 和拷贝数变化时用。
+customize: show_depth、show_atac、show_rna、show_cnv 分别开关四条轨道。
+lang: R

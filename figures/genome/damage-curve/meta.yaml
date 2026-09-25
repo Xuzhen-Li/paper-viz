@@ -1,0 +1,19 @@
+title: aDNA damage curve
+title_zh: 古 DNA 损伤曲线
+slug: damage-curve
+category: genome
+tags:
+  - ancient-dna
+  - damage
+  - misincorporation
+packages:
+  - ggplot2
+data_columns:
+  library: 文库，no-UDG 或 half-UDG（字符串）
+  end: 读段末端，5' 或 3'（字符串）
+  pos: 距该末端的碱基位置，1 为末端（整数）
+  rate: 替代频率（数值）
+  substitution: C>T 或 G>A（字符串）
+when_to_use: 检查古 DNA 是否表现为 5' 端 C→T、3' 端 G→A 的末端损伤时用。
+customize: show_ct 与 show_ga 开关两种替代；libraries_keep 选择要画的文库。
+lang: R

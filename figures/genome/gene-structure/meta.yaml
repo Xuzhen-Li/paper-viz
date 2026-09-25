@@ -1,0 +1,19 @@
+title: Gene structure
+title_zh: 基因结构图
+slug: gene-structure
+category: genome
+tags:
+  - gene-structure
+  - exon
+  - isoform
+packages:
+  - ggplot2
+data_columns:
+  gene: 基因或转录本名（字符串）
+  feature: exon、utr、domain 或 mutation（字符串）
+  start: 位点内起点，bp（整数）
+  end: 位点内终点，bp（整数）
+  strand: 链方向，+ 或 -（字符串）
+when_to_use: 比较转录本外显子、UTR、结构域和点突变位置时用。
+customize: show_domains、show_isoforms、show_mutations 分别开关结构域、Gene2.2 异构体和突变三角。
+lang: R

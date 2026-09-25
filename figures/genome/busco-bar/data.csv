@@ -1,0 +1,49 @@
+"assembly","status","percent"
+"Asm01","Complete single-copy",96.4
+"Asm02","Complete single-copy",95.23
+"Asm03","Complete single-copy",92.83
+"Asm04","Complete single-copy",70.95
+"Asm05","Complete single-copy",93.74
+"Asm06","Complete single-copy",88.33
+"Asm07","Complete single-copy",85.41
+"Asm08","Complete single-copy",79.21
+"Asm09","Complete single-copy",76.52
+"Asm10","Complete single-copy",71.48
+"Asm11","Complete single-copy",63.23
+"Asm12","Complete single-copy",57.16
+"Asm01","Complete duplicated",2
+"Asm02","Complete duplicated",2.54
+"Asm03","Complete duplicated",2.34
+"Asm04","Complete duplicated",24.7
+"Asm05","Complete duplicated",1.58
+"Asm06","Complete duplicated",3.29
+"Asm07","Complete duplicated",2.74
+"Asm08","Complete duplicated",12.18
+"Asm09","Complete duplicated",3.09
+"Asm10","Complete duplicated",4.33
+"Asm11","Complete duplicated",5.12
+"Asm12","Complete duplicated",3.78
+"Asm01","Fragmented",0.8
+"Asm02","Fragmented",1.09
+"Asm03","Fragmented",2.16
+"Asm04","Fragmented",2.12
+"Asm05","Fragmented",2.12
+"Asm06","Fragmented",3.99
+"Asm07","Fragmented",5.85
+"Asm08","Fragmented",4.46
+"Asm09","Fragmented",9.18
+"Asm10","Fragmented",10.94
+"Asm11","Fragmented",14.28
+"Asm12","Fragmented",16.27
+"Asm01","Missing",0.8
+"Asm02","Missing",1.14
+"Asm03","Missing",2.66
+"Asm04","Missing",2.23
+"Asm05","Missing",2.55
+"Asm06","Missing",4.39
+"Asm07","Missing",6
+"Asm08","Missing",4.15
+"Asm09","Missing",11.21
+"Asm10","Missing",13.25
+"Asm11","Missing",17.37
+"Asm12","Missing",22.79

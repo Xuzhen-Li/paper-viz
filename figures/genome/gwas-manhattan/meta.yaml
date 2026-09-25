@@ -1,0 +1,21 @@
+title: GWAS Manhattan and QQ
+title_zh: GWAS 曼哈顿与 QQ
+slug: gwas-manhattan
+category: genome
+tags:
+  - gwas
+  - manhattan
+  - qq-plot
+packages:
+  - ggplot2
+  - ggrepel
+  - cowplot
+data_columns:
+  chr: 染色体编号（整数）
+  pos: 染色体位置，bp（整数）
+  p: 关联 p 值（数值）
+  snp: 位点名（字符串）
+  highlight: 1 为要高亮的 QTL，0 为背景（整数）
+when_to_use: 全基因组关联要同时看染色体峰和 p 值校准（QQ）时用。
+customize: sig_threshold 与 sug_threshold 改显著性线；show_qq 开关 QQ 面板；show_labels 与 n_label 控制 QTL 标签。
+lang: R
