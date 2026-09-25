@@ -1,0 +1,14 @@
+title: Multi-omics from one cohort
+title_zh: 同一队列的多组学并行
+slug: multiomics-parallel
+category: schematic
+tags:
+  - multi-omics
+  - parallel
+  - integration
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 同一批样本分出多条测定，再汇到整合。
+customize: 并列组学可增删，但要等宽排布，汇合箭头在组学框下方的空白处汇入。
+lang: drawio

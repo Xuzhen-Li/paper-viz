@@ -1,0 +1,14 @@
+title: GWAS analysis flow
+title_zh: GWAS 输入模型输出
+slug: gwas-io
+category: schematic
+tags:
+  - gwas
+  - inputs
+  - outputs
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 表型、基因型和协变量进入模型，右侧是结果。
+customize: 左列是输入，中列是模型，右列是输出。三列标题颜色固定：海军蓝、蓝、绿。
+lang: drawio

@@ -1,0 +1,14 @@
+title: Sample routing by material
+title_zh: 按材料分流样本
+slug: sample-routing
+category: schematic
+tags:
+  - routing
+  - decision
+  - materials
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 新鲜组织、馆藏标本和沉积物走不同前处理。
+customize: 菱形之后分三列。列宽相等，列内步骤垂直对齐。
+lang: drawio

@@ -1,0 +1,14 @@
+title: Pangenome construction
+title_zh: 泛基因组构建阶段
+slug: pangenome-phases
+category: schematic
+tags:
+  - pangenome
+  - phases
+  - graph
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 把泛基因组工作分成采集、组装、图和下游四段。
+customize: 每条色带左侧是阶段名，右侧三个任务从左到右。换阶段时改色带标题和三个方框。
+lang: drawio

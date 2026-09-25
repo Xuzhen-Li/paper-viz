@@ -1,0 +1,14 @@
+title: Analysis platform layers
+title_zh: 分析平台分层
+slug: platform-layers
+category: schematic
+tags:
+  - architecture
+  - layers
+  - platform
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 从数据、处理、模型到报告，自下而上四层。
+customize: 阅读顺序是从下往上。每层左侧是层名，右侧是该层的三块。层与层之间不画箭头。
+lang: drawio

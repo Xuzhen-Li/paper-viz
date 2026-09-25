@@ -1,0 +1,14 @@
+title: Case-control sequencing design
+title_zh: 病例对照测序设计
+slug: case-control-arms
+category: schematic
+tags:
+  - case-control
+  - design
+  - arms
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 病例和对照两条臂平行取样测序，再联合分析。
+customize: 两臂步骤保持左右对齐。汇合框用绿色，箭头从每臂最后一步向下进入。
+lang: drawio

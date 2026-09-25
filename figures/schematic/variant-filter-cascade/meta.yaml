@@ -1,0 +1,14 @@
+title: Variant filtering cascade
+title_zh: 变异过滤漏斗
+slug: variant-filter-cascade
+category: schematic
+tags:
+  - variants
+  - filter
+  - cascade
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 变异集逐级变窄，直到高置信集合。
+customize: 方框逐级变窄并居中。最后一层用绿色表示保留下来的集合。
+lang: drawio

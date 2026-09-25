@@ -1,0 +1,14 @@
+title: Field sampling timeline
+title_zh: 野外采样时间线
+slug: sampling-timeline
+category: schematic
+tags:
+  - timeline
+  - sampling
+  - field
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 按年份排采样和分析里程碑。
+customize: 轴上方和下方交替放事项。改年份时只改轴上的标签，保持圆点落在轴上。
+lang: drawio

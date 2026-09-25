@@ -1,0 +1,14 @@
+title: Sequencing quality gate
+title_zh: 测序质控分支
+slug: sequencing-qc-gate
+category: schematic
+tags:
+  - qc
+  - decision
+  - rework
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 质控通过才继续，不通过回到建库。
+customize: 菱形只放短句。失败箭头走方框外侧的空白，不要穿过文字。通过用绿，退回用红。
+lang: drawio

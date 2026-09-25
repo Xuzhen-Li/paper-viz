@@ -1,0 +1,14 @@
+title: Ancient DNA processing
+title_zh: 古 DNA 处理步骤
+slug: adna-processing
+category: schematic
+tags:
+  - ancient-dna
+  - steps
+  - authenticity
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 按顺序写古 DNA 从取样到真实性检验。
+customize: 左侧数字圆与右侧说明成对出现。增删一行时每行下移 68 px，并加高页面。
+lang: drawio

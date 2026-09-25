@@ -1,0 +1,14 @@
+title: Genome assembly iteration
+title_zh: 基因组组装迭代
+slug: assembly-iteration
+category: schematic
+tags:
+  - assembly
+  - iteration
+  - busco
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 组装、抛光、评估、修订构成循环，通过后再发布。
+customize: 循环四边走方框外侧。发布框只从评估框引出，并标 Pass。
+lang: drawio

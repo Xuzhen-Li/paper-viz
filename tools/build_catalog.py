@@ -73,8 +73,8 @@ def load_meta(path: Path) -> dict:
         raise SystemExit(f"{path}: missing {', '.join(missing)}")
     if data["category"] not in CATEGORIES:
         raise SystemExit(f"{path}: illegal category {data['category']}")
-    if data["lang"] not in ("R", "Python"):
-        raise SystemExit(f"{path}: lang must be R or Python")
+    if data["lang"] not in ("R", "Python", "drawio"):
+        raise SystemExit(f"{path}: lang must be R, Python, or drawio")
     if not isinstance(data["tags"], list) or not isinstance(data["packages"], list):
         raise SystemExit(f"{path}: tags and packages must be lists")
     if not isinstance(data["data_columns"], dict):
@@ -109,7 +109,9 @@ def _parse_fallback(text: str) -> dict:
 
 
 def code_rel(fig_dir: Path, meta: dict) -> str:
-    if meta["lang"] == "R" or (fig_dir / "plot.R").exists():
+    if meta["lang"] == "drawio":
+        name = "template.drawio"
+    elif meta["lang"] == "R" or (fig_dir / "plot.R").exists():
         name = "plot.R" if (fig_dir / "plot.R").exists() else "plot.py"
     else:
         name = "plot.py"
@@ -135,11 +137,17 @@ def build() -> list[dict]:
         preview = fig_dir / "preview.png"
         if not preview.exists():
             raise SystemExit(f"missing {preview}")
-        data = fig_dir / "data.csv"
-        if not data.exists():
-            raise SystemExit(f"missing {data}")
+        if meta["lang"] == "drawio":
+            drawio = fig_dir / "template.drawio"
+            if not drawio.exists():
+                raise SystemExit(f"missing {drawio}")
+            rel_data = None
+        else:
+            data = fig_dir / "data.csv"
+            if not data.exists():
+                raise SystemExit(f"missing {data}")
+            rel_data = str(data.relative_to(ROOT)).replace("\\", "/")
         rel_preview = str(preview.relative_to(ROOT)).replace("\\", "/")
-        rel_data = str(data.relative_to(ROOT)).replace("\\", "/")
         rel_code = code_rel(fig_dir, meta)
         rel_dir = str(fig_dir.relative_to(ROOT)).replace("\\", "/")
         code_text = (ROOT / rel_code).read_text(encoding="utf-8")
@@ -166,7 +174,7 @@ def build() -> list[dict]:
                     str(py.relative_to(ROOT)).replace("\\", "/") if py.exists() and rel_code.endswith(".R") else None
                 ),
                 "github_code": f"{GITHUB}/{rel_code}",
-                "github_data": f"{GITHUB}/{rel_data}",
+                "github_data": f"{GITHUB}/{rel_data}" if rel_data else None,
                 "github_dir": f"{GITHUB}/{rel_dir}",
                 "code_text": code_text,
             }

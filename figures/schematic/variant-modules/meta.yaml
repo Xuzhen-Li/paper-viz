@@ -1,0 +1,14 @@
+title: Variant discovery modules
+title_zh: 变异检出模块
+slug: variant-modules
+category: schematic
+tags:
+  - variants
+  - modules
+  - tree
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 比对读段分到 SNV、indel、SV 和 CNV，再合并。
+customize: 模块数改变时重新均分宽度。汇合框放在所有模块下方居中。
+lang: drawio
