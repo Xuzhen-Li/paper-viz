@@ -1,0 +1,19 @@
+title: Alluvial and Sankey
+title_zh: 桑基 / 冲积图
+slug: alluvial
+category: composition
+tags:
+  - alluvial
+  - sankey
+  - flow
+packages:
+  - ggplot2
+  - ggalluvial
+data_columns:
+  stage1: 第一轴类别，这里是队列（字符串）
+  stage2: 第二轴类别，这里是分子亚型（字符串）
+  stage3: 第三轴类别，这里是治疗反应（字符串）
+  value: 该路径的人数（数值）
+when_to_use: 同一批样本在两三个分类之间怎么分流时用。
+customize: plot.R 顶部 highlight 指定要高亮的层名（例如 CR；基因–通路数据可改成通路名）；axis_labels 改三根轴的标题，基因到通路到方向时写成对应名字；show_bubbles 在层上加面积点。
+lang: R

@@ -1,0 +1,18 @@
+title: Correlation matrix
+title_zh: 相关矩阵
+slug: correlation-matrix
+category: correlation
+tags:
+  - correlation
+  - matrix
+  - heatmap
+packages:
+  - ggplot2
+data_columns:
+  var_a: 变量甲的短名（字符串）
+  var_b: 变量乙的短名（字符串）
+  r: 皮尔逊相关系数（数值，-1 到 1）
+  p: 相关检验的 p 值（数值，0 到 1）
+when_to_use: 十几个连续指标要一眼看出谁和谁同向或反向时用。
+customize: plot.R 顶部 cell_shape 取 circle 或 square；show_significance 是否标 p < sig_cut 的星号；upper_only 只画上三角。变量顺序按 1-r 聚类，不要在数据里预先切显著与否。
+lang: R

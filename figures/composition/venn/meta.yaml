@@ -1,0 +1,17 @@
+title: Venn diagram
+title_zh: 韦恩图
+slug: venn
+category: composition
+tags:
+  - venn
+  - sets
+  - overlap
+packages:
+  - ggplot2
+  - ggvenn
+data_columns:
+  set: 集合名（字符串）
+  id: 元素编号；出现在几个集合就有几行（字符串）
+when_to_use: 两三个集合要看共享和独有的元素个数时用。
+customize: plot.R 顶部 n_sets 取 2 或 3；show_labels 为 TRUE 时在区域里写元素编号（默认只写计数）。颜色用 pv_palette。
+lang: R

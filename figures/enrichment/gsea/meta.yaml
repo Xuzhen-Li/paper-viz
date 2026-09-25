@@ -1,0 +1,20 @@
+title: GSEA running score
+title_zh: GSEA 富集图
+slug: gsea
+category: enrichment
+tags:
+  - gsea
+  - enrichment
+  - rank
+packages:
+  - ggplot2
+  - patchwork
+data_columns:
+  set: 基因集名称（字符串）
+  rank: 排序名次，1 为最高（整数）
+  es: 走到该名次的 running enrichment score（数值）
+  hit: 该名次是否命中基因集，1 或 0（整数）
+  metric: 排序统计量，两套基因集相同（数值）
+when_to_use: 要看一个基因集在排序列表的哪一头富集时用。
+customize: plot.R 顶部 sets_keep 选择要画的基因集（一条或两条）；show_ranked_bar 是否在下方画排序统计量。命中位置来自带权抽样，不是按名次一刀切开。
+lang: R

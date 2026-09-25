@@ -1,0 +1,19 @@
+title: Dot heatmap
+title_zh: 点状热图
+slug: dot-heatmap
+category: heatmap
+tags:
+  - heatmap
+  - dot
+  - composition
+packages:
+  - ggplot2
+  - scatterpie
+data_columns:
+  row: 行名，这里是细胞类型（字符串）
+  col: 列名，这里是病人（字符串）
+  value: 连续得分（数值）
+  size: 检出比例，0 到 1（数值）
+when_to_use: 格子要同时编码强度和比例，又不想用色块铺满时用。
+customize: plot.R 顶部 mode 取 dot 或 pie（pie 读 data_pie.csv，三份组成画成小饼）；map_size 是否把 size 映成点面积。颜色用 diverging 色板，不在数据里按阈值切开。
+lang: R

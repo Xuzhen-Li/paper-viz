@@ -1,0 +1,18 @@
+title: Bubble chart
+title_zh: 气泡图
+slug: bubble
+category: correlation
+tags:
+  - bubble
+  - scatter
+  - effect-size
+packages:
+  - ggplot2
+data_columns:
+  x: 效应量（数值，连续）
+  y: -log10(p)（数值，连续）
+  size: 样本量 N（数值）
+  group: 组织来源（字符串）
+when_to_use: 两个连续坐标之外还要用点的面积表示第三个数时用。
+customize: plot.R 顶部 map_size 是否把 N 映成面积；colour_by 取 group 或 size（第三变量上色）；x_categorical 为 TRUE 时按 x 的四分位做成分类横轴。分组在 plot 里做，数据保持连续。
+lang: R

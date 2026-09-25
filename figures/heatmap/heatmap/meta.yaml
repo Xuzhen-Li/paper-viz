@@ -1,5 +1,5 @@
-title: Clustered expression heatmap
-title_zh: 聚类表达热图
+title: Clustered heatmap
+title_zh: 聚类热图
 slug: heatmap
 category: heatmap
 tags:
@@ -8,11 +8,12 @@ tags:
   - expression
 packages:
   - ggplot2
+  - patchwork
 data_columns:
-  gene: 行特征名（字符串）
-  sample: 列样本名（字符串）
-  value: 格子里的数值，通常是标准化表达（数值）
-  group: 样本分组（字符串，随样本重复）
-when_to_use: 基因对样本的矩阵要同时看模块和样本顺序时用。
-customize: 配色用 pv_palette("diverging")；行列是否聚类由 plot.R 的 hclust 决定，删掉 rg/cg 两行即保持 data.csv 原顺序。
+  feature: 行名，基因或基因集（字符串）
+  sample: 列名（字符串）
+  value: 连续表达或得分（数值）
+  group: 样本分组，随样本重复（字符串）
+when_to_use: 基因对样本的矩阵要同时看模块和组别时用。
+customize: plot.R 顶部 view 取 expression、geneset（读 data_geneset.csv）或 module-trait（读 data_module.csv）；show_annotation 打开样本色条；split_columns 在组间留空并只在组内聚类。z 分数在绑图时按行计算。
 lang: R

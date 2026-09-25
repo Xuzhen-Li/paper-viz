@@ -5,12 +5,13 @@ category: correlation
 tags:
   - line
   - time-series
+  - ribbon
 packages:
-  - matplotlib
-  - numpy
+  - ggplot2
 data_columns:
-  x: 有序自变量，这里是时间（数值）
-  y: 信号强度（数值）
-when_to_use: 自变量有顺序、要看一条轨迹的起伏时用。
-customize: 改 data.csv 的 x、y 即换曲线；plot.py 里 color 可换成 style.PALETTES 中的色。
-lang: Python
+  x: 有序自变量，这里是天数（数值）
+  y: 相对丰度（数值）
+  series: 曲线名称（字符串）
+when_to_use: 自变量有顺序、要比较几条带噪声的轨迹时用。
+customize: plot.R 顶部 series_keep 选择曲线；show_ribbon 加 loess 置信带；show_area 铺面积；show_points 在折线上加点。同目录 plot.py 仍读 x 和 y，作单序列 Python 变体。
+lang: R

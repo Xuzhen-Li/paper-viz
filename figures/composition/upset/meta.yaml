@@ -1,0 +1,18 @@
+title: UpSet plot
+title_zh: UpSet 图
+slug: upset
+category: composition
+tags:
+  - upset
+  - sets
+  - intersection
+packages:
+  - ggplot2
+  - patchwork
+data_columns:
+  element: 元素编号（字符串）
+  set: 集合名（字符串）
+  present: 是否属于该集合，1 或 0（整数）
+when_to_use: 四个以上集合要看组合交集的大小时用。
+customize: plot.R 顶部 n_sets 取前几个集合；sort_by 取 degree（按参与集合数）或 size（按交集大小）；max_intersections 限制柱子根数。成员关系按连续风险抽样，不按分数阈值硬切。
+lang: R

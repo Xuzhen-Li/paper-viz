@@ -1,0 +1,19 @@
+title: Enrichment bar
+title_zh: 富集柱状图
+slug: enrichment-bar
+category: enrichment
+tags:
+  - enrichment
+  - bar
+  - gene-ontology
+packages:
+  - ggplot2
+data_columns:
+  term: 通路或 GO 条目名（字符串）
+  ontology: 本体，BP / MF / CC（字符串）
+  fold: 富集倍数（数值）
+  p: 富集 p 值（数值，0 到 1）
+  count: 命中基因数（整数）
+when_to_use: 少量显著通路要按倍数或 p 值排开比较时用。
+customize: plot.R 顶部 horizontal 控制横条或竖条；facet_ontology 按本体分面；bar_stat 取 nlp（-log10 p）或 fold。颜色按本体，不按 p 阈值把条目拆成两张表。
+lang: R

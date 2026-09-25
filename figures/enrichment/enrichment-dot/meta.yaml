@@ -1,0 +1,19 @@
+title: Enrichment dot plot
+title_zh: 富集气泡图
+slug: enrichment-dot
+category: enrichment
+tags:
+  - enrichment
+  - dotplot
+  - gene-ontology
+packages:
+  - ggplot2
+data_columns:
+  term: 通路名（字符串）
+  ontology: 本体，BP / MF / CC（字符串）
+  ratio: 基因比例（数值，0 到 1）
+  count: 命中基因数（整数）
+  p: 富集 p 值（数值）
+when_to_use: 通路要同时看基因比例、命中数和显著性时用。
+customize: plot.R 顶部 size_maps_count 用点面积表示 count；colour_maps_p 用颜色表示 -log10(p)；facet_by_ontology 按本体分面。p 的着色在绑图时计算。
+lang: R

@@ -1,0 +1,17 @@
+title: Scatter with regression
+title_zh: 回归散点图
+slug: scatter
+category: correlation
+tags:
+  - scatter
+  - regression
+  - correlation
+packages:
+  - ggplot2
+data_columns:
+  x: 自变量，这里是基因 A 的 log2 CPM（数值）
+  y: 因变量，这里是基因 B 的 log2 CPM（数值）
+  group: 样本来源细胞系（字符串）
+when_to_use: 两个连续变量要看趋势，并按组别比较斜率时用。
+customize: plot.R 顶部 show_regression 开关回归线和置信带；colour_by_group 是否按细胞系上色；show_density 叠加二维等高线。三组颜色在 pal 里换。
+lang: R

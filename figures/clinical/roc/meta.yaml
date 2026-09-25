@@ -1,0 +1,20 @@
+title: ROC curve
+title_zh: ROC 曲线
+slug: roc
+category: clinical
+tags:
+  - roc
+  - auc
+  - biomarker
+packages:
+  - ggplot2
+  - pROC
+data_columns:
+  subject: 受试者编号（字符串）
+  marker: 标志物名称（字符串）
+  score: 连续得分（数值）
+  label: 观察期内是否发生事件，1 或 0（整数）
+  time: 事件或删失时间，月（数值）
+when_to_use: 几个连续标志物要比较区分病例和对照的能力时用。
+customize: plot.R 顶部 markers_keep 选择曲线；show_auc 在图例里写 AUC；time_dependent 为 TRUE 时按 landmark_time 重定义病例（该时点前发生事件）和对照（随访超过该时点）。得分保持连续，不按阈值生成两类。
+lang: R

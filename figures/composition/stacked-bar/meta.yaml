@@ -1,0 +1,19 @@
+title: Stacked bar
+title_zh: 堆积柱状图
+slug: stacked-bar
+category: composition
+tags:
+  - stacked-bar
+  - composition
+  - microbiome
+packages:
+  - ggplot2
+  - scales
+data_columns:
+  sample: 样本编号（字符串）
+  group: 临床分组（字符串）
+  part: 组成分，这里是门水平类群（字符串）
+  value: 读段计数（整数）
+when_to_use: 每个样本由若干组分构成、要比较组间比例时用。
+customize: plot.R 顶部 as_percent 为 TRUE 时画相对丰度，FALSE 时画原始计数；part_levels 改类群顺序和配色顺序。比例在绑图时由 position fill 计算。
+lang: R
