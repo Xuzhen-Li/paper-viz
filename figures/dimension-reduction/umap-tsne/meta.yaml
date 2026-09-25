@@ -1,0 +1,20 @@
+title: UMAP and t-SNE
+title_zh: UMAP / t-SNE
+slug: umap-tsne
+category: dimension-reduction
+tags:
+  - umap
+  - tsne
+  - embedding
+  - single-cell
+packages:
+  - ggplot2
+data_columns:
+  cell: 细胞或样本编号（字符串）
+  cluster: 聚类标签（字符串）
+  dim1: 第一维坐标（数值）
+  dim2: 第二维坐标（数值）
+  method: 嵌入方法，UMAP 或 t-SNE（字符串）
+when_to_use: 要看非线性降维后的类群是否分开时用。
+customize: method_keep 选 UMAP、t-SNE 或 both；show_labels 开关类群中位标签；颜色按 cluster 取 pv_palette("categorical")。
+lang: R

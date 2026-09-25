@@ -1,0 +1,18 @@
+title: Multiple sequence alignment
+title_zh: 多序列比对
+slug: msa
+category: genome
+tags:
+  - msa
+  - alignment
+  - protein
+packages:
+  - ggplot2
+  - cowplot
+data_columns:
+  seq: 序列名称（字符串）
+  pos: 比对位点，从 1 起（整数）
+  base: 该位点氨基酸单字母（字符串）
+when_to_use: 短蛋白片段要同时看残基差异和逐位保守性时用。
+customize: show_conservation 开关下方保守性条；highlight_diff 给与该列多数残基不同的格子加黑边。氨基酸按理化类着色，颜色取自 pv_palette("categorical")。
+lang: R

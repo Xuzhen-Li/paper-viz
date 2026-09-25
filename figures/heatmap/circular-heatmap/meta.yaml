@@ -1,0 +1,20 @@
+title: Circular heatmap
+title_zh: 环状热图
+slug: circular-heatmap
+category: heatmap
+tags:
+  - heatmap
+  - circular
+  - circlize
+packages:
+  - circlize
+  - ggplotify
+  - ggplot2
+data_columns:
+  row: 特征编号（字符串）
+  col: 样本编号（字符串）
+  module: 扇区模块（字符串）
+  value: 矩阵取值（数值）
+when_to_use: 特征较多、又要按模块分成扇区并加一圈汇总轨道时用。
+customize: split_sectors 按 module 分扇区；show_track 加内圈，数值是前三分之一列均值减去后三分之一列均值。色标用 pv_palette("diverging")。
+lang: R

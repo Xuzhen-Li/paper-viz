@@ -1,0 +1,19 @@
+title: Pseudotime trajectory
+title_zh: 拟时序轨迹
+slug: trajectory
+category: dimension-reduction
+tags:
+  - trajectory
+  - pseudotime
+  - single-cell
+packages:
+  - ggplot2
+data_columns:
+  cell: 细胞编号（字符串）
+  dim1: 第一维坐标（数值）
+  dim2: 第二维坐标（数值）
+  pseudotime: 拟时序，0 到 1（数值）
+  branch: 分支，trunk、fate-a 或 fate-b（字符串）
+when_to_use: 要在低维嵌入上看细胞沿拟时序如何分叉时用。
+customize: color_by 选 pseudotime 或 branch；show_path 开关各分支的分箱中位轨迹。
+lang: R

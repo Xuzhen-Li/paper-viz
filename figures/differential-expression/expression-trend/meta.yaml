@@ -1,0 +1,18 @@
+title: Expression trend
+title_zh: 表达趋势图
+slug: expression-trend
+category: differential-expression
+tags:
+  - expression
+  - time-course
+  - trend
+packages:
+  - ggplot2
+data_columns:
+  gene: 基因编号（字符串）
+  cluster: 趋势类群（字符串）
+  time: 时间，小时（数值）
+  value: 标准化表达（数值）
+when_to_use: 时间序列基因已分成几种变化模式、要叠看单基因和类群均值时用。
+customize: facet_clusters 分面类群；show_smooth 开关类群均值折线。颜色按 cluster 取 pv_palette("categorical")。
+lang: R
