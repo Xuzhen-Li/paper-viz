@@ -1,0 +1,138 @@
+# Quality gates for figure PRs. Same checks as Contributing:
+#   bash tools/check_figure.sh figures/<category>/<slug>
+#   python3 tools/build_catalog.py
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  catalog-check:
+    name: catalog-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # PyYAML is the parser build_catalog.py prefers; the fallback cannot
+      # read `data_columns: {}` on drawio metas, so install the light dep.
+      - name: Install PyYAML
+        run: python3 -m pip install --user pyyaml
+
+      - name: Regenerated catalog must match the committed files
+        run: |
+          python3 tools/build_catalog.py
+          git diff --exit-code -- catalog.json docs/catalog.json README.md
+
+  figure-check:
+    name: figure-check
+    runs-on: ubuntu-latest
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Select figures to check
+        id: select
+        run: |
+          set -euo pipefail
+          out="${RUNNER_TEMP}/ci-figures.txt"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            printf '%s\n' ALL > "$out"
+            {
+              echo "mode=all"
+              echo "need_r=true"
+              echo "need_py=true"
+            } >> "$GITHUB_OUTPUT"
+          else
+            git fetch --no-tags --prune origin "${{ github.base_ref }}"
+            git diff --name-only "origin/${{ github.base_ref }}...HEAD" \
+              | tools/ci_select_figures.sh | tee "$out"
+          fi
+          echo "selection:"
+          cat "$out"
+
+      - uses: actions/setup-python@v5
+        if: steps.select.outputs.need_py == 'true'
+        with:
+          python-version: "3.x"
+
+      - name: Install Python figure packages
+        if: steps.select.outputs.need_py == 'true'
+        run: python3 -m pip install matplotlib numpy
+
+      - uses: r-lib/actions/setup-r@v2
+        if: steps.select.outputs.need_r == 'true'
+        with:
+          use-public-rspm: true
+
+      # README CRAN + Bioconductor lists. pak caches via setup-r-dependencies.
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        if: steps.select.outputs.need_r == 'true'
+        with:
+          cache-version: 1
+          install-quarto: "false"
+          dependencies: '"hard"'
+          packages: |
+            any::MASS
+            any::ape
+            any::circlize
+            any::cowplot
+            any::ggalluvial
+            any::ggbeeswarm
+            any::ggplot2
+            any::ggraph
+            any::ggrepel
+            any::ggridges
+            any::ggseqlogo
+            any::ggvenn
+            any::igraph
+            any::maps
+            any::pROC
+            any::patchwork
+            any::scales
+            any::scatterpie
+            any::survival
+            any::vegan
+            bioc::ComplexHeatmap
+            bioc::ggplotify
+            bioc::ggtree
+
+      - name: DejaVu for theme_viz() on Ubuntu
+        if: steps.select.outputs.need_r == 'true'
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-dejavu-core
+
+      - name: Run figure quality gates
+        run: |
+          set -euo pipefail
+          list="${RUNNER_TEMP}/ci-figures.txt"
+          mode="${{ steps.select.outputs.mode }}"
+          if [ "$mode" = "skip" ] || grep -qx SKIP "$list"; then
+            echo "No figure dirs to check (no figures/, styles/, or quality-gate tools/ changes)."
+            exit 0
+          fi
+          if [ "$mode" = "all" ] || grep -qx ALL "$list"; then
+            echo "Full suite: tools/check_all.sh"
+            bash tools/check_all.sh
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r dir || [ -n "${dir:-}" ]; do
+            [ -z "$dir" ] && continue
+            echo "check $dir"
+            if ! bash tools/check_figure.sh "$dir"; then
+              fail=1
+            fi
+          done < "$list"
+          exit "$fail"
