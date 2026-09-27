@@ -18,12 +18,12 @@ R-first paper-figure library: each figure is simulated data, code, and a preview
 
 <!-- CATALOG:START -->
 
-共 112 张。
+共 113 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 8 |
-| `comparison` | 比较 | 9 |
+| `comparison` | 比较 | 10 |
 | `correlation` | 相关 | 5 |
 | `composition` | 组成 | 10 |
 | `heatmap` | 热图 | 3 |
@@ -45,12 +45,12 @@ R-first paper-figure library: each figure is simulated data, code, and a preview
 <img src="figures/distribution/ecdf/preview.png" width="200" alt="经验累积分布">
 <img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
 
-### 比较 `comparison`（9）
+### 比较 `comparison`（10）
 
 <img src="figures/comparison/bar-grouped/preview.png" width="200" alt="分组柱状图">
 <img src="figures/comparison/bump-chart/preview.png" width="200" alt="凹凸图">
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
-<img src="figures/comparison/diverging-bar/preview.png" width="200" alt="正负条形图">
+<img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
 ### 相关 `correlation`（5）
 
