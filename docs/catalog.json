@@ -139,7 +139,7 @@
       "data_files": [
         "figures/comparison/bar-grouped/data.csv"
       ],
-      "code_python": "figures/comparison/bar-grouped/plot.py",
+      "code_python": null,
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped",
@@ -1174,7 +1174,7 @@
       "data_files": [
         "figures/dimension-reduction/pca-biplot/data.csv"
       ],
-      "code_python": "figures/dimension-reduction/pca-biplot/plot.py",
+      "code_python": null,
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot",
