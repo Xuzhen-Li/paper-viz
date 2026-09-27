@@ -1,5 +1,11 @@
 # paper-viz
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
+[![Figures](https://img.shields.io/badge/figures-110-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
+
+![paper-viz figure contact sheet](docs/hero.png)
+
 R 优先的科研绘图库：每张图 = 模拟数据 + 代码 + 预览，统一期刊风格，agent 可调用。
 
 R-first paper-figure library: each figure is simulated data, code, and a preview, in one journal style, and callable by an agent.
