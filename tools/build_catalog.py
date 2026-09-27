@@ -138,7 +138,12 @@ def _parse_fallback(text: str) -> dict:
         key = key.strip()
         value = value.strip()
         current = key
-        data[key] = {} if value == "" else _unquote(value)
+        if value in ("", "{}"):
+            data[key] = {}
+        elif value == "[]":
+            data[key] = []
+        else:
+            data[key] = _unquote(value)
     return data
 
 
@@ -268,3 +273,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
