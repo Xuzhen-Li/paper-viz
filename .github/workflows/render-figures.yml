@@ -1,0 +1,465 @@
+name: render-figures
+
+on:
+  pull_request:
+    paths:
+      - "figures/**"
+      - "styles/**"
+      - "tools/**"
+  workflow_dispatch:
+    inputs:
+      render_all:
+        description: "Render and check all figures"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: render-figures-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuse fork pull requests
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "::error::Fork pull requests cannot receive commits from GITHUB_TOKEN. Open the pull request from a branch in this repository (Xuzhen-Li/paper-viz), not from a fork."
+          exit 1
+
+      - name: Checkout pull request head
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout branch
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Select targets
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RENDER_ALL: ${{ github.event.inputs.render_all }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # step:select
+          set -euo pipefail
+          FIGFILE="${RUNNER_TEMP:-/tmp}/render-figure-dirs.txt"
+
+          list_all_figures() {
+            find figures -mindepth 2 -maxdepth 2 -type d -print | sort | while IFS= read -r d; do
+              [ -f "$d/meta.yaml" ] || continue
+              printf '%s\n' "$d"
+            done
+          }
+
+          lang_of() {
+            d="$1"
+            f="$d/meta.yaml"
+            if [ ! -f "$f" ]; then
+              printf '%s\n' missing
+              return 0
+            fi
+            if grep -Eq '^lang:[[:space:]]*drawio[[:space:]]*$' "$f"; then
+              printf '%s\n' drawio
+            elif [ -f "$d/plot.R" ] || [ -f "$d/make_data.R" ]; then
+              printf '%s\n' R
+            elif [ -f "$d/plot.py" ] || [ -f "$d/make_data.py" ]; then
+              printf '%s\n' Python
+            else
+              printf '%s\n' unknown
+            fi
+          }
+
+          choose_targets() {
+            MODE=catalog_only
+            CHECK_ALL=false
+            NEED_R=false
+            NEED_PY=false
+            FIGURES=""
+
+            case "${RENDER_ALL:-}" in
+              true|True|TRUE) RENDER_ALL=true ;;
+              *) RENDER_ALL=false ;;
+            esac
+
+            if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$RENDER_ALL" = true ]; then
+              MODE=all
+              CHECK_ALL=true
+              FIGURES="$(list_all_figures)"
+            elif [ "$EVENT_NAME" = "pull_request" ]; then
+              if [ "${SELECT_LIB_ONLY:-}" = 1 ]; then
+                CHANGED="${CHANGED_FILES-}"
+              else
+                if [ -z "${BASE_SHA}" ] || [ -z "${HEAD_SHA}" ]; then
+                  echo "::error::pull request is missing base or head SHA"
+                  exit 1
+                fi
+                git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null || git fetch --no-tags origin "$BASE_SHA"
+                git cat-file -e "${HEAD_SHA}^{commit}" 2>/dev/null || git fetch --no-tags origin "$HEAD_SHA"
+                CHANGED="$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}")"
+              fi
+              printf '%s\n' "Changed files:"
+              printf '%s\n' "$CHANGED"
+
+              FORCE_ALL=false
+              if printf '%s\n' "$CHANGED" | grep -Eq '^styles/'; then
+                FORCE_ALL=true
+              fi
+              if printf '%s\n' "$CHANGED" | grep -Eq '^tools/(check_figure\.sh|check_all\.sh|build_catalog\.py|r-packages\.txt)$'; then
+                FORCE_ALL=true
+              fi
+
+              FIG_DIRS="$(printf '%s\n' "$CHANGED" | grep -E '^figures/[^/]+/[^/]+/' | sed -E 's|^(figures/[^/]+/[^/]+)/.*|\1|' | sort -u || true)"
+
+              if [ "$FORCE_ALL" = true ]; then
+                MODE=all
+                FIGURES="$(list_all_figures)"
+              elif [ -n "$FIG_DIRS" ]; then
+                MODE=selected
+                FIGURES="$FIG_DIRS"
+              else
+                MODE=catalog_only
+                FIGURES=""
+              fi
+            fi
+
+            if [ -n "$FIGURES" ]; then
+              printf '%s\n' "$FIGURES" > "$FIGFILE"
+            else
+              : > "$FIGFILE"
+            fi
+
+            if [ -s "$FIGFILE" ]; then
+              while IFS= read -r d; do
+                [ -n "$d" ] || continue
+                case "$(lang_of "$d")" in
+                  R)
+                    NEED_R=true
+                    if [ -f "$d/plot.py" ] || [ -f "$d/make_data.py" ]; then
+                      NEED_PY=true
+                    fi
+                    ;;
+                  Python)
+                    NEED_PY=true
+                    ;;
+                esac
+              done < "$FIGFILE"
+            fi
+
+            echo "mode=$MODE" >> "${GITHUB_OUTPUT:-/dev/null}"
+            echo "need_r=$NEED_R" >> "${GITHUB_OUTPUT:-/dev/null}"
+            echo "need_py=$NEED_PY" >> "${GITHUB_OUTPUT:-/dev/null}"
+            echo "check_all=$CHECK_ALL" >> "${GITHUB_OUTPUT:-/dev/null}"
+            echo "figure_count=$(grep -c . "$FIGFILE" || true)" >> "${GITHUB_OUTPUT:-/dev/null}"
+            echo "Selection mode=$MODE need_r=$NEED_R need_py=$NEED_PY check_all=$CHECK_ALL"
+            cat "$FIGFILE" || true
+          }
+
+          if [ "${SELECT_LIB_ONLY:-}" != 1 ]; then
+            choose_targets
+          fi
+
+      - name: Set R_LIBS_USER inside the workspace
+        run: |
+          set -euo pipefail
+          mkdir -p "${GITHUB_WORKSPACE}/.Rlib"
+          echo "R_LIBS_USER=${GITHUB_WORKSPACE}/.Rlib" >> "$GITHUB_ENV"
+
+      - name: Setup R
+        id: setup-r
+        if: steps.select.outputs.need_r == 'true'
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Cache R packages
+        if: steps.select.outputs.need_r == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.Rlib
+          key: ${{ runner.os }}-r-${{ steps.setup-r.outputs.installed-r-version }}-${{ hashFiles('tools/r-packages.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-r-${{ steps.setup-r.outputs.installed-r-version }}-
+
+      - name: Install system libraries for R
+        if: steps.select.outputs.need_r == 'true'
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential gfortran cmake pkg-config \
+            libcurl4-openssl-dev libssl-dev libxml2-dev \
+            libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
+            libpng-dev libtiff-dev libjpeg-dev \
+            libcairo2-dev libxt-dev \
+            libglpk-dev libgmp-dev \
+            libblas-dev liblapack-dev \
+            fonts-dejavu-core
+
+      - name: Install R packages from tools/r-packages.txt
+        if: steps.select.outputs.need_r == 'true'
+        run: |
+          # step:r-install
+          set -euo pipefail
+          export R_LIBS_USER="${GITHUB_WORKSPACE}/.Rlib"
+          mkdir -p "$R_LIBS_USER"
+          Rscript - <<'RS'
+          pkg_file <- "tools/r-packages.txt"
+          if (!file.exists(pkg_file)) {
+            message("::error::missing tools/r-packages.txt")
+            quit(status = 1)
+          }
+          cran <- character()
+          bioc <- character()
+          section <- "CRAN"
+          for (line in readLines(pkg_file, warn = FALSE)) {
+            t <- trimws(line)
+            if (!nzchar(t)) next
+            if (startsWith(t, "#")) {
+              if (grepl("Bioconductor", t, ignore.case = TRUE)) {
+                section <- "Bioc"
+              } else if (grepl("^#\\s*CRAN\\b", t, ignore.case = TRUE)) {
+                section <- "CRAN"
+              }
+              next
+            }
+            if (identical(section, "Bioc")) bioc <- c(bioc, t) else cran <- c(cran, t)
+          }
+          lib <- Sys.getenv("R_LIBS_USER")
+          if (!nzchar(lib)) {
+            message("::error::R_LIBS_USER is unset")
+            quit(status = 1)
+          }
+          dir.create(lib, recursive = TRUE, showWarnings = FALSE)
+          .libPaths(c(lib, .libPaths()))
+          message("CRAN packages: ", paste(cran, collapse = ", "))
+          message("Bioconductor packages: ", paste(bioc, collapse = ", "))
+          report_missing <- function(pkgs) {
+            missing <- pkgs[!vapply(pkgs, function(p) requireNamespace(p, quietly = TRUE), logical(1))]
+            if (length(missing)) {
+              for (pkg in missing) message("::error::R package install failed: ", pkg)
+              quit(status = 1)
+            }
+          }
+          if (length(cran)) {
+            tryCatch(
+              install.packages(cran, lib = lib),
+              error = function(e) message(conditionMessage(e))
+            )
+            report_missing(cran)
+          }
+          if (length(bioc)) {
+            if (!requireNamespace("BiocManager", quietly = TRUE)) {
+              install.packages("BiocManager", lib = lib)
+            }
+            if (!requireNamespace("BiocManager", quietly = TRUE)) {
+              message("::error::R package install failed: BiocManager")
+              quit(status = 1)
+            }
+            tryCatch(
+              BiocManager::install(bioc, ask = FALSE, update = FALSE, lib = lib),
+              error = function(e) message(conditionMessage(e))
+            )
+            report_missing(bioc)
+          }
+          RS
+
+      - name: Setup Python
+        if: steps.select.outputs.need_py == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python packages
+        if: steps.select.outputs.need_py == 'true'
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install matplotlib numpy pandas
+          echo "PYTHON=$(command -v python)" >> "$GITHUB_ENV"
+
+      - name: Render and check figures
+        if: steps.select.outputs.mode == 'selected' || steps.select.outputs.mode == 'all'
+        env:
+          CHECK_ALL: ${{ steps.select.outputs.check_all }}
+        run: |
+          # step:render
+          set -euo pipefail
+          FIGFILE="${RUNNER_TEMP:-/tmp}/render-figure-dirs.txt"
+
+          render_one() {
+            dir="$1"
+            py="${PYTHON:-python3}"
+            echo "== render $dir =="
+            if [ ! -d "$dir" ] || [ ! -f "$dir/meta.yaml" ]; then
+              echo "skip missing figure: $dir"
+              return 0
+            fi
+            if grep -Eq '^lang:[[:space:]]*drawio[[:space:]]*$' "$dir/meta.yaml"; then
+              echo "drawio: check only $dir"
+              bash tools/check_figure.sh "$dir" || return 1
+              return 0
+            fi
+            (
+              cd "$dir" || exit 1
+              if [ -f make_data.R ]; then
+                Rscript make_data.R || exit 1
+              elif [ -f make_data.py ]; then
+                "$py" make_data.py || exit 1
+              else
+                echo "no make_data script in $dir" >&2
+                exit 1
+              fi
+              if [ -f plot.R ] && [ -f plot.py ]; then
+                "$py" plot.py || exit 1
+              fi
+              if [ -f plot.R ]; then
+                Rscript plot.R || exit 1
+              elif [ -f plot.py ]; then
+                "$py" plot.py || exit 1
+              else
+                echo "no plot script in $dir" >&2
+                exit 1
+              fi
+              if [ ! -f preview.png ]; then
+                echo "preview.png was not written in $dir" >&2
+                exit 1
+              fi
+            ) || return 1
+            bash tools/check_figure.sh "$dir" || return 1
+          }
+
+          if [ "${RENDER_LIB_ONLY:-}" = 1 ]; then
+            return 0
+          fi
+
+          if [ -z "${GITHUB_WORKSPACE:-}" ]; then
+            echo "::error::GITHUB_WORKSPACE is unset"
+            exit 1
+          fi
+          export R_LIBS_USER="${GITHUB_WORKSPACE}/.Rlib"
+          mkdir -p "$R_LIBS_USER"
+          export PYTHON="${PYTHON:-python3}"
+
+          if [ ! -f "$FIGFILE" ]; then
+            echo "::error::figure list missing"
+            exit 1
+          fi
+
+          fail=0
+          while IFS= read -r dir; do
+            [ -n "$dir" ] || continue
+            render_one "$dir" || {
+              echo "::error::failed $dir"
+              fail=1
+            }
+          done < "$FIGFILE"
+
+          if [ "${CHECK_ALL:-false}" = "true" ]; then
+            echo "== check_all =="
+            bash tools/check_all.sh || fail=1
+          fi
+
+          exit "$fail"
+
+      - name: Build catalog
+        run: |
+          set -euo pipefail
+          python3 tools/build_catalog.py
+
+      - name: Commit previews and catalog
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          TARGET_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
+        run: |
+          # step:commit
+          set -euo pipefail
+
+          refuse_unsafe_ref() {
+            case "$TARGET_REF" in
+              ""|-*|*[!A-Za-z0-9._/-]*|*/|*//*|*..*)
+                echo "::error::Refusing to push to unsafe branch name"
+                exit 1
+                ;;
+            esac
+          }
+
+          assert_staged_allowed() {
+            bad=0
+            while IFS= read -r f; do
+              [ -n "$f" ] || continue
+              case "$f" in
+                figures/*/figure*.png|figures/*/figure*.pdf|figures/*/*/figure*.png|figures/*/*/figure*.pdf)
+                  echo "::error::Refusing to commit figure.png or figure.pdf: $f"
+                  bad=1
+                  continue
+                  ;;
+              esac
+              case "$f" in
+                README.md|catalog.json|docs/catalog.json|docs/previews/*.png|figures/*/*/preview.png|figures/*/*/data*.csv)
+                  ;;
+                *)
+                  echo "::error::Refusing to commit unexpected path: $f"
+                  bad=1
+                  ;;
+              esac
+            done < <(git diff --cached --name-only)
+            [ "$bad" -eq 0 ]
+          }
+
+          stage_outputs() {
+            git add -- README.md catalog.json docs/catalog.json
+            if [ -d docs/previews ]; then
+              git add -- docs/previews
+            fi
+            find figures -mindepth 3 -maxdepth 3 -type f \( -name preview.png -o -name 'data*.csv' \) -print0 |
+              xargs -0 -r git add --
+          }
+
+          refuse_fork() {
+            if [ "${EVENT_NAME:-}" = "pull_request" ] && [ "${HEAD_REPO:-}" != "${GITHUB_REPOSITORY:-}" ]; then
+              echo "::error::Fork pull requests cannot receive commits from GITHUB_TOKEN. Open the pull request from a branch in ${GITHUB_REPOSITORY}, not from a fork."
+              return 1
+            fi
+            return 0
+          }
+
+          commit_outputs() {
+            refuse_fork || return 1
+            refuse_unsafe_ref
+            stage_outputs
+            if printf '%s\n' "$(git diff --cached --name-only)" | grep -E '^figures/.*/figure[^/]*\.(png|pdf)$'; then
+              echo "::error::Refusing to commit figure.png or figure.pdf"
+              return 1
+            fi
+            assert_staged_allowed
+            if git diff --cached --quiet; then
+              echo "No changes to commit"
+              return 0
+            fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "ci: render changed figure previews"
+            git push origin "HEAD:refs/heads/${TARGET_REF}"
+          }
+
+          if [ "${COMMIT_LIB_ONLY:-}" = 1 ]; then
+            return 0
+          fi
+
+          commit_outputs
