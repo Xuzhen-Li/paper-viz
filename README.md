@@ -18,11 +18,11 @@ R-first paper-figure library: each figure is simulated data, code, and a preview
 
 <!-- CATALOG:START -->
 
-共 110 张。
+共 111 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
-| `distribution` | 分布 | 6 |
+| `distribution` | 分布 | 7 |
 | `comparison` | 比较 | 9 |
 | `correlation` | 相关 | 5 |
 | `composition` | 组成 | 10 |
@@ -38,12 +38,12 @@ R-first paper-figure library: each figure is simulated data, code, and a preview
 | `clinical` | 临床 | 3 |
 | `schematic` | 流程图模板 | 20 |
 
-### 分布 `distribution`（6）
+### 分布 `distribution`（7）
 
 <img src="figures/distribution/beeswarm/preview.png" width="200" alt="蜂群图">
 <img src="figures/distribution/density/preview.png" width="200" alt="密度图">
 <img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
-<img src="figures/distribution/raincloud/preview.png" width="200" alt="云雨图">
+<img src="figures/distribution/qq-plot/preview.png" width="200" alt="正态 QQ 图">
 
 ### 比较 `comparison`（9）
 
