@@ -1,0 +1,18 @@
+title: Cleveland dot plot
+title_zh: Cleveland 点图
+slug: cleveland-dot
+category: comparison
+tags:
+  - cleveland
+  - dot
+  - ranking
+  - comparison
+packages:
+  - ggplot2
+data_columns:
+  category: 指标或类别名（字符串）
+  group: 系列名（字符串）
+  value: 得分（数值）
+when_to_use: 多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。
+customize: sort_by_group 指定按哪一组数值排序类别；show_segment 在同行最值间画浅灰导引线；point_size 调点大小；group_levels 定系列顺序与配色。颜色取 pv_palette("categorical") 前 n 色（勿用第 8 色纯黑作数据点）。
+lang: R

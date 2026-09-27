@@ -217,6 +217,42 @@
       "code_text": "# Circular bars. Grouped dodge, optional outside labels, optional inner hole.\nsource(\"../../../styles/r/theme_viz.R\")\n\nshow_groups <- TRUE\nlabels_outside <- TRUE\ninner_hole <- 0.42\ncategory_levels <- c(\n  \"Liver\", \"Lung\", \"Colon\", \"Breast\", \"Skin\", \"Kidney\", \"Brain\", \"Pancreas\",\n  \"Stomach\", \"Ovary\", \"Prostate\", \"Bladder\", \"Thyroid\", \"Uterus\", \"Esophagus\", \"Blood\"\n)\ngroup_levels <- c(\"Primary\", \"Metastasis\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nif (!isTRUE(show_groups)) df <- df[df$group == group_levels[1], , drop = FALSE]\ndf$category <- factor(df$category, levels = category_levels)\ndf$group <- factor(df$group, levels = intersect(group_levels, unique(df$group)))\npal <- stats::setNames(pv_palette(\"categorical\", nlevels(df$group)), levels(df$group))\n\nymax <- max(df$value)\npretty_v <- scales::pretty_breaks(n = 3)(c(0, ymax))\npad <- if (inner_hole > 0) inner_hole * ymax else 0\nncat <- nlevels(df$category)\nng <- nlevels(df$group)\ndf$x <- as.numeric(df$category)\noff <- if (ng == 1L) 0 else (as.numeric(df$group) - (ng + 1) / 2) * 0.46\nhalf <- if (ng == 1L) 0.34 else 0.18\ndf$xmin <- df$x + off - half\ndf$xmax <- df$x + off + half\ndf$ymin <- pad\ndf$ymax <- pad + df$value\nang <- 90 - 360 * (seq_len(ncat) - 0.5) / ncat\nlab <- data.frame(\n  x = seq_len(ncat),\n  y = pad + ymax * 1.16,\n  label = category_levels,\n  angle = ifelse(ang < -90, ang + 180, ang),\n  hjust = ifelse(ang < -90, 1, 0)\n)\n\np <- ggplot2::ggplot(df) +\n  ggplot2::geom_rect(\n    ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = group),\n    colour = NA\n  ) +\n  ggplot2::scale_fill_manual(values = pal, name = NULL) +\n  ggplot2::scale_x_continuous(limits = c(0.35, ncat + 0.65), expand = c(0, 0)) +\n  ggplot2::scale_y_continuous(\n    limits = c(0, pad + ymax * 1.48),\n    expand = c(0, 0),\n    breaks = pad + pretty_v,\n    labels = pretty_v\n  ) +\n  ggplot2::coord_polar(clip = \"off\") +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.x = ggplot2::element_blank(),\n    axis.text.y = ggplot2::element_text(size = 5),\n    axis.ticks.x = ggplot2::element_blank(),\n    axis.title = ggplot2::element_blank(),\n    axis.line = ggplot2::element_blank(),\n    legend.position = \"bottom\",\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    plot.margin = ggplot2::margin(7, 10, 2, 10, \"mm\")\n  )\n\nif (isTRUE(labels_outside)) {\n  p <- p + ggplot2::geom_text(\n    data = lab,\n    ggplot2::aes(x = x, y = y, label = label, angle = angle, hjust = hjust),\n    inherit.aes = FALSE,\n    size = 1.9,\n    colour = \"black\"\n  )\n}\n\npv_save(p, \"figure\", width_mm = 140, height_mm = 145)\nmessage(\"wrote preview.png\")\n"
     },
     {
+      "title": "Cleveland dot plot",
+      "title_zh": "Cleveland 点图",
+      "slug": "cleveland-dot",
+      "category": "comparison",
+      "tags": [
+        "cleveland",
+        "dot",
+        "ranking",
+        "comparison"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "category": "指标或类别名（字符串）",
+        "group": "系列名（字符串）",
+        "value": "得分（数值）"
+      },
+      "when_to_use": "多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。",
+      "customize": "sort_by_group 指定按哪一组数值排序类别；show_segment 在同行最值间画浅灰导引线；point_size 调点大小；group_levels 定系列顺序与配色。颜色取 pv_palette(\"categorical\") 前 n 色（勿用第 8 色纯黑作数据点）。",
+      "lang": "R",
+      "dir": "figures/comparison/cleveland-dot",
+      "preview": "figures/comparison/cleveland-dot/preview.png",
+      "docs_preview": "previews/cleveland-dot.png",
+      "code": "figures/comparison/cleveland-dot/plot.R",
+      "data": "figures/comparison/cleveland-dot/data.csv",
+      "data_files": [
+        "figures/comparison/cleveland-dot/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/cleveland-dot/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/cleveland-dot/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/cleveland-dot",
+      "code_text": "# Cleveland dot plot: categories sorted by value, multi-group points.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nsort_by_group <- \"Urban\"   # which group drives category order\nshow_segment <- TRUE       # light guide from min to max within row\npoint_size <- 2.0\ngroup_levels <- c(\"Urban\", \"Rural\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_levels)\n# Order categories by the chosen group's value (ascending = low at bottom)\nord_vals <- df$value[df$group == sort_by_group]\nnames(ord_vals) <- df$category[df$group == sort_by_group]\ncat_order <- names(sort(ord_vals, decreasing = FALSE))\ndf$category <- factor(df$category, levels = cat_order)\n\ncols <- setNames(pv_palette(\"categorical\", length(group_levels)), group_levels)\n\n# Per-category min/max for optional Cleveland guide segments\nseg <- aggregate(value ~ category, data = df, FUN = function(x) c(min = min(x), max = max(x)))\nseg <- data.frame(\n  category = seg$category,\n  xmin = seg$value[, \"min\"],\n  xmax = seg$value[, \"max\"],\n  stringsAsFactors = FALSE\n)\n\np <- ggplot2::ggplot()\nif (isTRUE(show_segment)) {\n  p <- p + ggplot2::geom_segment(\n    data = seg,\n    ggplot2::aes(x = xmin, xend = xmax, y = category, yend = category),\n    linewidth = 0.35,\n    colour = \"grey70\"\n  )\n}\np <- p +\n  ggplot2::geom_point(\n    data = df,\n    ggplot2::aes(value, category, colour = group),\n    size = point_size\n  ) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.02, 0.06))) +\n  ggplot2::labs(x = \"Score\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(legend.position = \"top\")\n\npv_save(p, \"figure\", width_mm = 100, height_mm = 110)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
       "title": "Diverging bar chart",
       "title_zh": "正负条形图",
       "slug": "diverging-bar",
