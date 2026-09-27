@@ -1,8 +1,8 @@
 # paper-viz
 
-R 优先的科研绘图库：每张图 = 模拟数据 + 代码 + 预览，统一期刊风格，agent 可调用。
+R 优先的科研绘图库：复制一张图的文件夹，按列接口换掉 `data.csv`，就能用统一期刊风格出图；也方便 agent 检索调用。
 
-R-first paper-figure library: each figure is simulated data, code, and a preview, in one journal style, and callable by an agent.
+R-first paper-figure library: copy a figure folder, swap `data.csv` to the declared columns, and export in one journal style—also easy for agents to find and reuse.
 
 在线画廊 / Gallery: <https://xuzhen-li.github.io/paper-viz/>
 
