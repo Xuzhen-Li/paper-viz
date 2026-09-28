@@ -452,8 +452,8 @@ jobs:
               echo "No changes to commit"
               return 0
             fi
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config user.name "Xuzhen Li"
+            git config user.email "jasonlixuzhen@gmail.com"
             git commit -m "ci: render changed figure previews"
             git push origin "HEAD:refs/heads/${TARGET_REF}"
           }
