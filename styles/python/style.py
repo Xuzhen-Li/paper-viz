@@ -15,15 +15,30 @@ _HERE = Path(__file__).resolve().parent
 _RC = _HERE / "matplotlibrc"
 
 # Single-ink / CNS-friendly palette (inspired by fig_style.py + journal restraint)
+# Chip-paper categorical order (same as R pv_palette("categorical")).
+# Control / background point clouds (not a data category): #E0E0E0.
+_CHIP_CATEGORICAL = [
+    "#134aa3",
+    "#f6a3b1",
+    "#0b5475",
+    "#dc1f26",
+    "#835ca6",
+    "#f7922c",
+    "#fbee61",
+    "#981b1e",
+]
+
 PALETTES = {
-    "bio": ["#1e3a5f", "#2A629A", "#D98324", "#518B60", "#C75050", "#6B6B6B"],
-    "contrast": ["#111827", "#1e3a5f", "#9f1239", "#14532d", "#92400e", "#6b7280"],
-    "muted": ["#6b7280", "#9ca3af", "#d1d5db", "#e5e7eb"],
+    "categorical": list(_CHIP_CATEGORICAL),
+    "bio": list(_CHIP_CATEGORICAL),
+    "contrast": list(_CHIP_CATEGORICAL),
+    "muted": ["#E0E0E0", "#BDBDBD", "#9E9E9E", "#757575"],
 }
 
 INK = "#111827"
-MUTED = "#6b7280"
-ACCENT = "#1e3a5f"
+MUTED = "#E0E0E0"
+ACCENT = "#134aa3"
+CONTROL = "#E0E0E0"
 
 
 def apply_style(base: str | Path | None = None) -> None:
@@ -37,17 +52,19 @@ def apply_style(base: str | Path | None = None) -> None:
                 "figure.dpi": 150,
                 "savefig.dpi": 600,
                 "font.family": "sans-serif",
-                "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
+                "font.sans-serif": ["Helvetica", "Arial", "DejaVu Sans"],
                 "font.size": 11,
                 "axes.titlesize": 12,
                 "axes.labelsize": 12,
-                "axes.linewidth": 0.8,
-                "xtick.major.width": 0.8,
-                "ytick.major.width": 0.8,
+                "axes.linewidth": 0.5,
+                "xtick.major.width": 0.5,
+                "ytick.major.width": 0.5,
                 "pdf.fonttype": 42,
                 "svg.fonttype": "none",
                 "axes.spines.top": True,
                 "axes.spines.right": True,
+                "axes.spines.left": True,
+                "axes.spines.bottom": True,
             }
         )
     plt.rcParams["axes.unicode_minus"] = False

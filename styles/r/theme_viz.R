@@ -4,7 +4,7 @@
 #      ../../coding/r/visualization/r-ggplot2.md
 
 viz_sans_family <- function() {
-  candidates <- c("Arial", "Helvetica", "DejaVu Sans")
+  candidates <- c("Helvetica", "Arial", "DejaVu Sans")
   if (requireNamespace("systemfonts", quietly = TRUE)) {
     fam <- tryCatch(unique(systemfonts::system_fonts()$family), error = function(e) character())
     hit <- candidates[candidates %in% fam]
@@ -21,10 +21,10 @@ theme_viz <- function(base_size = 12, base_family = viz_sans_family()) {
   ggplot2::theme_classic(base_size = base_size, base_family = base_family) +
     ggplot2::theme(
       axis.line = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_line(linewidth = 0.45, colour = "black"),
+      axis.ticks = ggplot2::element_line(linewidth = 0.5, colour = "black"),
       axis.text = ggplot2::element_text(size = base_size, colour = "black"),
       axis.title = ggplot2::element_text(size = base_size + 1, colour = "black"),
-      panel.border = ggplot2::element_rect(colour = "black", fill = NA, linewidth = 0.7),
+      panel.border = ggplot2::element_rect(colour = "black", fill = NA, linewidth = 0.5),
       panel.grid = ggplot2::element_blank(),
       plot.title = ggplot2::element_text(size = base_size + 1),
       legend.text = ggplot2::element_text(size = base_size - 1),
@@ -40,7 +40,7 @@ theme_viz <- function(base_size = 12, base_family = viz_sans_family()) {
 pv_text_mm <- function(pt = 12) pt / 72 * 25.4
 
 palette_viz <- function(n = 6) {
-  cols <- c("#1e3a5f", "#2A629A", "#D98324", "#518B60", "#C75050", "#6B6B6B")
+  cols <- c("#134aa3", "#f6a3b1", "#0b5475", "#dc1f26", "#835ca6", "#f7922c", "#fbee61", "#981b1e")
   if (n <= length(cols)) cols[seq_len(n)] else grDevices::colorRampPalette(cols)(n)
 }
 
@@ -51,14 +51,15 @@ save_pub <- function(plot, filename, width_mm = 183, height_mm = 120, dpi = 600)
   ggplot2::ggsave(paste0(filename, ".png"), plot, width = w, height = h, dpi = dpi)
 }
 
-# Colorblind-friendly palettes. name: categorical | sequential | diverging.
-# categorical = Okabe-Ito; sequential = single-hue blue; diverging = blue–orange.
+# Palettes. name: categorical | sequential | diverging.
+# categorical = chip-paper fixed order; sequential = single-hue blue; diverging = blue–orange.
+# Control / background point clouds (not a data category): #E0E0E0.
 pv_palette <- function(name = "categorical", n = NULL) {
   name <- match.arg(name, c("categorical", "sequential", "diverging"))
   stops <- switch(name,
     categorical = c(
-      "#0072B2", "#E69F00", "#009E73", "#D55E00",
-      "#CC79A7", "#56B4E9", "#F0E442", "#999999"
+      "#134aa3", "#f6a3b1", "#0b5475", "#dc1f26",
+      "#835ca6", "#f7922c", "#fbee61", "#981b1e"
     ),
     sequential = c("#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B"),
     diverging = c("#2166AC", "#67A9CF", "#D1E5F0", "#F7F7F7", "#FEE0B6", "#FDB863", "#E08214")
