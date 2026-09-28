@@ -192,14 +192,15 @@ def _ink_color(image: np.ndarray, box: dict, background: np.ndarray) -> str:
 def place_text(text: str, box_w: int, box_h: int) -> tuple[int, float, float]:
     """Font size and offsets from the box origin. The glyph bbox stays inside the box."""
     size = max(8, int(box_h * 0.98))
-    font = ImageFont.truetype(FONT_PATH, size)
     while size > 8:
         font = ImageFont.truetype(FONT_PATH, size)
-        left, top, right, bottom = font.getbbox(text)
+        # anchor "ls" is the baseline, which is what SVG and PDF use.
+        left, top, right, bottom = font.getbbox(text, anchor="ls")
         if (right - left) <= box_w and (bottom - top) <= box_h:
             return size, float(-left), float(-top)
         size -= 1
-    left, top, _, _ = font.getbbox(text)
+    font = ImageFont.truetype(FONT_PATH, 8)
+    left, top, _, _ = font.getbbox(text, anchor="ls")
     return 8, float(-left), float(-top)
 
 
@@ -213,9 +214,9 @@ def _font_face() -> str:
     )
 
 
-def build_svg(page: Image.Image | None = None, labels: list[dict] | None = None) -> str:
+def compose(page: Image.Image | None = None, labels: list[dict] | None = None):
+    """Return the artwork with letters painted out, and the replacement labels."""
     page = load_page() if page is None else page
-    width, height = page.size
     original = np.array(page)
     raw = ocr_boxes(page) if labels is None else labels
     labels = select_labels(raw) if labels is None else labels
@@ -227,10 +228,10 @@ def build_svg(page: Image.Image | None = None, labels: list[dict] | None = None)
         label["size"], label["dx"], label["dy"] = place_text(
             label["text"], label["x1"] - label["x0"], label["y1"] - label["y0"]
         )
-    cleaned = paint_out_text(page, labels)
-    buf = io.BytesIO()
-    cleaned.save(buf, format="PNG", optimize=True)
-    encoded = base64.b64encode(buf.getvalue()).decode("ascii")
+    return paint_out_text(page, labels), labels
+
+
+def _svg_text(labels: list[dict]) -> str:
     texts = []
     for label in labels:
         x = label["x0"] + label["dx"]
@@ -240,22 +241,76 @@ def build_svg(page: Image.Image | None = None, labels: list[dict] | None = None)
             f'<text x="{x:.1f}" y="{y:.1f}" font-family="Noto Sans" font-weight="700" '
             f'font-size="{label["size"]}" fill="{label["color"]}">{body}</text>'
         )
+    return "\n".join(texts)
+
+
+def svg_from(cleaned: Image.Image, labels: list[dict], image_href: str = "figure.png") -> str:
+    """SVG whose picture is a sibling file. A data-URI image is stripped when the file is opened on GitHub."""
+    width, height = cleaned.size
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">\n'
+        '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+        f'width="{width}" height="{height}" viewBox="0 0 {width} {height}">\n'
         "<title>可编辑文字</title>\n"
-        "<desc>Same figure as converted-600dpi.pdf. Labels are text elements in their original boxes.</desc>\n"
+        "<desc>Same figure as converted-600dpi.pdf. Labels are text elements. Keep figure.png beside this file.</desc>\n"
         + _font_face()
-        + f'<image width="{width}" height="{height}" href="data:image/png;base64,{encoded}"/>\n'
-        + "\n".join(texts)
+        + f'<image width="{width}" height="{height}" href="{image_href}" xlink:href="{image_href}"/>\n'
+        + _svg_text(labels)
         + "\n</svg>\n"
     )
 
 
+def build_svg(page: Image.Image | None = None, labels: list[dict] | None = None, image_href: str = "figure.png") -> str:
+    cleaned, labels = compose(page, labels)
+    return svg_from(cleaned, labels, image_href)
+
+
+def _rgb(hex_color: str) -> tuple[float, float, float]:
+    value = hex_color.lstrip("#")
+    return tuple(int(value[i:i + 2], 16) / 255 for i in (0, 2, 4))
+
+
+def write_pdf(cleaned: Image.Image, labels: list[dict], path: Path) -> None:
+    import pymupdf
+
+    width, height = cleaned.size
+    doc = pymupdf.open()
+    page = doc.new_page(width=width, height=height)
+    buf = io.BytesIO()
+    cleaned.save(buf, format="PNG")
+    page.insert_image(page.rect, stream=buf.getvalue())
+    page.insert_font(fontname="NotoSans", fontfile=FONT_PATH)
+    for label in labels:
+        page.insert_text(
+            pymupdf.Point(label["x0"] + label["dx"], label["y0"] + label["dy"]),
+            label["text"],
+            fontname="NotoSans",
+            fontsize=label["size"],
+            color=_rgb(label["color"]),
+        )
+    doc.save(path, deflate=True, garbage=4)
+    doc.close()
+
+
 def main() -> None:
-    svg = build_svg()
+    import zipfile
+
+    cleaned, labels = compose()
+    png_path = HERE / "figure.png"
+    pdf_path = HERE / "figure.pdf"
+    zip_path = HERE / "figure.zip"
+    cleaned.save(png_path, format="PNG", optimize=True)
+    svg = svg_from(cleaned, labels)
     OUTPUT.write_text(svg, encoding="utf-8")
-    print(f"wrote {OUTPUT} ({OUTPUT.stat().st_size} bytes, texts {svg.count('<text')})")
+    write_pdf(cleaned, labels, pdf_path)
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
+        bundle.write(png_path, "figure.png")
+        bundle.write(OUTPUT, "figure.svg")
+    print(
+        f"wrote {OUTPUT.name} {OUTPUT.stat().st_size} bytes, "
+        f"png {png_path.stat().st_size}, pdf {pdf_path.stat().st_size}, "
+        f"zip {zip_path.stat().st_size}, texts {svg.count('<text')}"
+    )
 
 
 if __name__ == "__main__":

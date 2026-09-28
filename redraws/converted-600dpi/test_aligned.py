@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 from PIL import Image, ImageFont
 
-from build_aligned import FONT_PATH, build_svg, place_text, select_labels
+from build_aligned import FONT_PATH, build_svg, compose, place_text, select_labels, write_pdf
 
 
 class SelectLabelsTest(unittest.TestCase):
@@ -34,7 +34,7 @@ class PlaceTextTest(unittest.TestCase):
     def test_descenders_stay_inside_the_box(self):
         box_w, box_h = 180, 59
         size, dx, dy = place_text("fastp", box_w, box_h)
-        left, top, right, bottom = ImageFont.truetype(FONT_PATH, size).getbbox("fastp")
+        left, top, right, bottom = ImageFont.truetype(FONT_PATH, size).getbbox("fastp", anchor="ls")
         self.assertGreaterEqual(dx + left, -0.01)
         self.assertGreaterEqual(dy + top, -0.01)
         self.assertLessEqual(dx + right, box_w + 0.01)
@@ -51,8 +51,28 @@ class BuildSvgTest(unittest.TestCase):
         self.assertIn(">Trim</text>", svg)
         self.assertIn('font-family="Noto Sans"', svg)
         self.assertIn("@font-face", svg)
+        self.assertIn('xlink:href="figure.png"', svg)
+        self.assertNotIn("data:image", svg)
         self.assertNotIn("<path", svg)
         self.assertIn('width="160"', svg)
+
+    def test_pdf_keeps_the_picture_and_the_word(self):
+        page = Image.fromarray(np.full((80, 200, 3), 255, dtype=np.uint8))
+        painted = np.array(page)
+        painted[:, :30] = (180, 40, 40)
+        page = Image.fromarray(painted)
+        labels = [{"x0": 40, "y0": 10, "x1": 160, "y1": 70, "text": "Trim", "score": 1.0}]
+        cleaned, labels = compose(page, labels)
+        path = "/tmp/aligned_test.pdf"
+        write_pdf(cleaned, labels, path)
+        import pymupdf
+
+        doc = pymupdf.open(path)
+        self.assertIn("Trim", doc[0].get_text())
+        pix = doc[0].get_pixmap()
+        pixels = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+        self.assertGreater(int(pixels[40, 10, 0]), 150)
+        self.assertLess(int(pixels[40, 10, 2]), 80)
 
 
 if __name__ == "__main__":
