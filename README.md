@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
-[![Figures](https://img.shields.io/badge/figures-114-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
+[![Figures](https://img.shields.io/badge/figures-116-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
 ![paper-viz banner](docs/banner.png)
 
