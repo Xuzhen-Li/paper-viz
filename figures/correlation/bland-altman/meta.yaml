@@ -1,0 +1,17 @@
+title: Bland–Altman plot
+title_zh: Bland–Altman 图
+slug: bland-altman
+category: correlation
+tags:
+  - bland-altman
+  - agreement
+  - method-comparison
+  - correlation
+packages:
+  - ggplot2
+data_columns:
+  method_a: 方法 A 的测量值（数值）
+  method_b: 方法 B 的测量值（数值）
+when_to_use: 比较两种测量方法是否一致时用；看差值是否随均值漂移，并标出均值差与一致性界限。
+customize: plot.R 顶部 loa_mult 调一致性界限（默认 1.96 SD）；point_size / point_alpha 调点；show_loa_labels 开关三条参考线旁的数值标签。点色与参考线色取自 pv_palette("categorical") 前 3 色（勿用第 8 色纯黑）。
+lang: R
