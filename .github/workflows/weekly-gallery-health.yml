@@ -1,0 +1,72 @@
+name: weekly-gallery-health
+
+on:
+  schedule:
+    # Monday 01:00 UTC = Monday 09:00 Asia/Shanghai
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: weekly-gallery-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run weekly gallery health check
+        id: check
+        continue-on-error: true
+        run: |
+          set +e
+          python3 tools/weekly_health_check.py > weekly-health-body.md 2>weekly-health-report.jsonl
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -ne 0 ]; then
+            title="$(grep '^ISSUE_TITLE::' weekly-health-body.md | head -n1 | sed 's/^ISSUE_TITLE:://' || true)"
+            echo "issue_title=${title:-每周巡检失败：详见正文}" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
+
+      - name: Open issue on failure
+        if: steps.check.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: ${{ steps.check.outputs.issue_title }}
+        run: |
+          set -euo pipefail
+          title="${TITLE:-每周巡检失败：详见正文}"
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "每周巡检失败 in:title" --json number,title --jq '.[0].number // empty' || true)"
+          body_file=weekly-health-issue.md
+          grep -v '^ISSUE_TITLE::' weekly-health-body.md > "$body_file"
+          {
+            echo ""
+            echo "---"
+            echo "- workflow: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "- commit: ${GITHUB_SHA}"
+            echo "- gallery: https://xuzhen-li.github.io/paper-viz/"
+          } >> "$body_file"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file "$body_file"
+            echo "Commented on existing issue #$existing"
+          else
+            gh issue create --title "$title" --body-file "$body_file"
+          fi
+          exit 1
+
+      - name: Pass
+        if: steps.check.outputs.exit_code == '0'
+        run: echo "weekly gallery health passed; no issue opened"
