@@ -58,7 +58,7 @@ pv_palette <- function(name = "categorical", n = NULL) {
   stops <- switch(name,
     categorical = c(
       "#0072B2", "#E69F00", "#009E73", "#D55E00",
-      "#CC79A7", "#56B4E9", "#F0E442", "#000000"
+      "#CC79A7", "#56B4E9", "#F0E442", "#999999"
     ),
     sequential = c("#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B"),
     diverging = c("#2166AC", "#67A9CF", "#D1E5F0", "#F7F7F7", "#FEE0B6", "#FDB863", "#E08214")
