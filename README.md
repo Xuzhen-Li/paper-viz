@@ -1,5 +1,13 @@
 # paper-viz
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
+[![Figures](https://img.shields.io/badge/figures-114-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
+
+![paper-viz banner](docs/banner.png)
+
+![paper-viz figure contact sheet](docs/hero.png)
+
 R 优先的科研绘图库：复制一张图的文件夹，按列接口换掉 `data.csv`，就能用统一期刊风格出图；也方便 agent 检索调用。
 
 R-first paper-figure library: copy a figure folder, swap `data.csv` to the declared columns, and export in one journal style—also easy for agents to find and reuse.
@@ -10,12 +18,12 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 
 <!-- CATALOG:START -->
 
-共 110 张。
+共 114 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
-| `distribution` | 分布 | 6 |
-| `comparison` | 比较 | 9 |
+| `distribution` | 分布 | 8 |
+| `comparison` | 比较 | 11 |
 | `correlation` | 相关 | 5 |
 | `composition` | 组成 | 10 |
 | `heatmap` | 热图 | 3 |
@@ -30,19 +38,19 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 | `clinical` | 临床 | 3 |
 | `schematic` | 流程图模板 | 20 |
 
-### 分布 `distribution`（6）
+### 分布 `distribution`（8）
 
 <img src="figures/distribution/beeswarm/preview.png" width="200" alt="蜂群图">
 <img src="figures/distribution/density/preview.png" width="200" alt="密度图">
+<img src="figures/distribution/ecdf/preview.png" width="200" alt="经验累积分布">
 <img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
-<img src="figures/distribution/raincloud/preview.png" width="200" alt="云雨图">
 
-### 比较 `comparison`（9）
+### 比较 `comparison`（11）
 
 <img src="figures/comparison/bar-grouped/preview.png" width="200" alt="分组柱状图">
 <img src="figures/comparison/bump-chart/preview.png" width="200" alt="凹凸图">
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
-<img src="figures/comparison/diverging-bar/preview.png" width="200" alt="正负条形图">
+<img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
 ### 相关 `correlation`（5）
 

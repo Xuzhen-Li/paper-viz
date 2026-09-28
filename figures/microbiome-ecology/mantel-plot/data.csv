@@ -11,7 +11,7 @@
 "pH","Clay",0.271,0.201,NA
 "pH","NPP",0.524,0.00863,NA
 "pH","Elevation",-0.065,0.762,NA
-"SOC","SOC",1,0,NA
+"SOC","SOC",1,1.09e-173,NA
 "SOC","TN",0.757,1.82e-05,NA
 "SOC","TP",0.436,0.033,NA
 "SOC","Moisture",0.023,0.914,NA
@@ -32,7 +32,7 @@
 "TN","Clay",-0.122,0.57,NA
 "TN","NPP",0.549,0.00544,NA
 "TN","Elevation",-0.29,0.169,NA
-"TP","TP",1,0,NA
+"TP","TP",1,1.09e-173,NA
 "TP","Moisture",0.248,0.242,NA
 "TP","Temp",-0.02,0.926,NA
 "TP","NH4",-0.181,0.398,NA
@@ -62,16 +62,16 @@
 "NH4","Clay",-0.259,0.221,NA
 "NH4","NPP",0.208,0.33,NA
 "NH4","Elevation",-0.351,0.0923,NA
-"NO3","NO3",1,0,NA
+"NO3","NO3",1,1.09e-173,NA
 "NO3","Salinity",0.173,0.42,NA
 "NO3","Clay",0.504,0.0121,NA
 "NO3","NPP",-0.084,0.697,NA
 "NO3","Elevation",-0.043,0.841,NA
-"Salinity","Salinity",1,0,NA
+"Salinity","Salinity",1,1.09e-173,NA
 "Salinity","Clay",0.457,0.0249,NA
 "Salinity","NPP",-0.125,0.559,NA
 "Salinity","Elevation",0.042,0.845,NA
-"Clay","Clay",1,0,NA
+"Clay","Clay",1,2.23e-170,NA
 "Clay","NPP",-0.17,0.426,NA
 "Clay","Elevation",0.263,0.214,NA
 "NPP","NPP",1,0,NA

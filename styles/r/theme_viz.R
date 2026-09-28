@@ -14,19 +14,30 @@ viz_sans_family <- function() {
   if (sys %in% c("Darwin", "Windows")) "Arial" else "DejaVu Sans"
 }
 
-theme_viz <- function(base_size = 6.5, base_family = viz_sans_family()) {
+# 12 pt on the working canvas. Gallery previews are all 1200 px wide, so 6.5 pt
+# on a 183 mm figure shrank to about 15 px. 12 pt is about twice that.
+# The main panel is a closed rectangle, not an L-shaped axis.
+theme_viz <- function(base_size = 12, base_family = viz_sans_family()) {
   ggplot2::theme_classic(base_size = base_size, base_family = base_family) +
     ggplot2::theme(
-      axis.line = ggplot2::element_line(linewidth = 0.35, colour = "black"),
-      axis.ticks = ggplot2::element_line(linewidth = 0.35, colour = "black"),
+      axis.line = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_line(linewidth = 0.45, colour = "black"),
+      axis.text = ggplot2::element_text(size = base_size, colour = "black"),
+      axis.title = ggplot2::element_text(size = base_size + 1, colour = "black"),
+      panel.border = ggplot2::element_rect(colour = "black", fill = NA, linewidth = 0.7),
       panel.grid = ggplot2::element_blank(),
-      plot.title = ggplot2::element_text(size = 7),
-      legend.text = ggplot2::element_text(size = 6),
-      plot.tag = ggplot2::element_text(face = "bold", size = 8),
+      plot.title = ggplot2::element_text(size = base_size + 1),
+      legend.text = ggplot2::element_text(size = base_size - 1),
+      legend.title = ggplot2::element_text(size = base_size),
+      plot.tag = ggplot2::element_text(face = "bold", size = base_size + 2),
       legend.background = ggplot2::element_blank(),
-      legend.key = ggplot2::element_blank()
+      legend.key = ggplot2::element_blank(),
+      plot.background = ggplot2::element_rect(fill = "white", colour = NA)
     )
 }
+
+# ggplot2::geom_text(size=) is in millimetres. 12 pt is about 4.2 mm.
+pv_text_mm <- function(pt = 12) pt / 72 * 25.4
 
 palette_viz <- function(n = 6) {
   cols <- c("#1e3a5f", "#2A629A", "#D98324", "#518B60", "#C75050", "#6B6B6B")

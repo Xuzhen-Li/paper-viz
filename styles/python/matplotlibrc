@@ -10,17 +10,17 @@ axes.unicode_minus: False
 
 font.family: sans-serif
 font.sans-serif: Arial, Helvetica, DejaVu Sans
-font.size: 7
-axes.titlesize: 7
-axes.labelsize: 7
-xtick.labelsize: 7
-ytick.labelsize: 7
-legend.fontsize: 7
+font.size: 11
+axes.titlesize: 12
+axes.labelsize: 12
+xtick.labelsize: 11
+ytick.labelsize: 11
+legend.fontsize: 10
 pdf.fonttype: 42
 svg.fonttype: none
 
-axes.spines.top: False
-axes.spines.right: False
+axes.spines.top: True
+axes.spines.right: True
 axes.linewidth: 0.8
 axes.grid: False
 xtick.major.width: 0.8

@@ -1,0 +1,17 @@
+title: Normal QQ plot
+title_zh: 正态 QQ 图
+slug: qq-plot
+category: distribution
+tags:
+  - qq
+  - normality
+  - diagnostic
+  - distribution
+packages:
+  - ggplot2
+data_columns:
+  sample: 观测编号（字符串）
+  value: 观测值（数值）
+when_to_use: 检查单变量是否近似正态、或看尾部偏离时用。
+customize: plot.R 顶部 point_size 与 point_alpha 调点；show_ref_line 开关四分位参考线；点色取 pv_palette("categorical") 第 1 色。
+lang: R

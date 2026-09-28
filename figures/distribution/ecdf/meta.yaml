@@ -1,0 +1,17 @@
+title: Empirical CDF
+title_zh: 经验累积分布
+slug: ecdf
+category: distribution
+tags:
+  - ecdf
+  - cumulative
+  - distribution
+packages:
+  - ggplot2
+data_columns:
+  sample: 观测编号（字符串）
+  group: 组别（字符串）
+  value: 观测值（数值）
+when_to_use: 要在同一坐标上比较多组累积分布、看整体偏移或尾部差异时用。
+customize: plot.R 顶部 line_width 调线宽；show_legend 开关图例；group_levels 定组别顺序与配色；色取 pv_palette("categorical") 前 n 色。
+lang: R

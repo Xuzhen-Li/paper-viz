@@ -1,0 +1,18 @@
+title: Waterfall chart
+title_zh: 瀑布图
+slug: waterfall
+category: comparison
+tags:
+  - waterfall
+  - contribution
+  - bridge
+  - comparison
+packages:
+  - ggplot2
+data_columns:
+  label: 步骤名（字符串；首尾为期初/期末总量）
+  kind: total 或 step（字符串）
+  value: 总量水平或有符号增量（数值）
+when_to_use: 要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。
+customize: plot.R 顶部 bar_width 调柱宽；show_connectors 画步骤间水平桥接线；show_value_labels 与 label_size 控制柱顶数值。Increase/Decrease/Total 三色取自 pv_palette("categorical") 前几格（勿用第 8 色纯黑作数据填充）。
+lang: R

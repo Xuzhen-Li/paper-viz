@@ -1,0 +1,27 @@
+# CRAN
+ape
+circlize
+cowplot
+ggalluvial
+ggbeeswarm
+ggplot2
+ggplotify
+ggraph
+ggrepel
+ggridges
+ggseqlogo
+ggvenn
+igraph
+maps
+MASS
+pROC
+patchwork
+scales
+scatterpie
+survival
+systemfonts
+vegan
+
+# Bioconductor
+ComplexHeatmap
+ggtree

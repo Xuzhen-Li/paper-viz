@@ -54,7 +54,7 @@ draw_heat <- function() {
       cell.border = NA
     )
   }
-  graphics::text(0, 0, "z-score", cex = 0.65)
+  graphics::text(0, 0, "z-score", cex = 1.05)
   circlize::circos.clear()
 }
 

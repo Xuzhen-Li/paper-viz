@@ -7,12 +7,11 @@ tags:
   - grouped
   - comparison
 packages:
-  - matplotlib
-  - numpy
+  - ggplot2
 data_columns:
   group: 横轴类别（字符串）
   series: 并排系列名（字符串）
   value: 该格的均值（数值）
 when_to_use: 类别少、要并排比较两个或多个系列的汇总数值时用。
-customize: 改 data.csv 的 series 可换组别名称；plot.py 里 pal 的下标决定各系列颜色。
-lang: Python
+customize: plot.R 顶部 bar_width 与 dodge_width 调柱宽与并排间距；show_legend 开关图例；系列色取 pv_palette("categorical") 前 n 色。
+lang: R

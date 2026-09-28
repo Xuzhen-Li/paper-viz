@@ -72,13 +72,13 @@ draw <- function() {
   top <- if (length(top_list)) {
     do.call(ComplexHeatmap::HeatmapAnnotation, c(top_list, list(
       col = list(Cohort = setNames(pv_palette("categorical", 2), cohort_order)),
-      annotation_name_gp = grid::gpar(fontsize = 6, fontfamily = fam),
+      annotation_name_gp = grid::gpar(fontsize = 11, fontfamily = fam),
       annotation_name_side = "left",
       simple_anno_size = grid::unit(3, "mm"),
       show_legend = TRUE,
       annotation_legend_param = list(
-        title_gp = grid::gpar(fontsize = 6.5, fontfamily = fam),
-        labels_gp = grid::gpar(fontsize = 6, fontfamily = fam)
+        title_gp = grid::gpar(fontsize = 12, fontfamily = fam),
+        labels_gp = grid::gpar(fontsize = 11, fontfamily = fam)
       )
     )))
   } else {
@@ -89,16 +89,16 @@ draw <- function() {
     alter_fun = alter_fun,
     col = col,
     top_annotation = top,
-    row_names_gp = grid::gpar(fontsize = 6.5, fontfamily = fam),
-    column_names_gp = grid::gpar(fontsize = 5.5, fontfamily = fam),
+    row_names_gp = grid::gpar(fontsize = 12, fontfamily = fam),
+    column_names_gp = grid::gpar(fontsize = 10, fontfamily = fam),
     column_title = "Sample",
-    column_title_gp = grid::gpar(fontsize = 7, fontfamily = fam),
+    column_title_gp = grid::gpar(fontsize = 13, fontfamily = fam),
     row_title = "Gene",
-    row_title_gp = grid::gpar(fontsize = 7, fontfamily = fam),
+    row_title_gp = grid::gpar(fontsize = 13, fontfamily = fam),
     show_column_names = TRUE,
     remove_empty_columns = FALSE,
     remove_empty_rows = FALSE,
-    pct_gp = grid::gpar(fontsize = 5.5, fontfamily = fam),
+    pct_gp = grid::gpar(fontsize = 10, fontfamily = fam),
     alter_fun_is_vectorized = FALSE
   )
   ComplexHeatmap::draw(ht, padding = grid::unit(c(2, 2, 2, 2), "mm"))

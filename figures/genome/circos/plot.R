@@ -59,7 +59,7 @@ draw <- function() {
       circlize::circos.rect(xlim[1], 0, xlim[2], 1, col = chr_col[[chr]], border = NA)
       circlize::circos.text(
         mean(xlim), 1.6, chr,
-        cex = 0.85, facing = "bending.inside", niceFacing = TRUE, adj = c(0.5, 0)
+        cex = 1.15, facing = "bending.inside", niceFacing = TRUE, adj = c(0.5, 0)
       )
     }
   )

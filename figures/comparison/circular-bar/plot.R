@@ -54,10 +54,11 @@ p <- ggplot2::ggplot(df) +
   theme_viz() +
   ggplot2::theme(
     axis.text.x = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_text(size = 5),
+    axis.text.y = ggplot2::element_text(size = 11),
     axis.ticks.x = ggplot2::element_blank(),
     axis.title = ggplot2::element_blank(),
     axis.line = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank(),
     legend.position = "bottom",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
     plot.margin = ggplot2::margin(7, 10, 2, 10, "mm")
