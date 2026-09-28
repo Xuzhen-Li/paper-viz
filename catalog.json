@@ -927,6 +927,42 @@
       "code_text": "# Correlation matrix. Circle or square; optional stars; optional upper triangle.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\ncell_shape <- \"circle\"\nshow_significance <- TRUE\nupper_only <- TRUE\nsig_cut <- 0.05\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nvars <- unique(c(df$var_a, df$var_b))\nr_mat <- matrix(0, length(vars), length(vars), dimnames = list(vars, vars))\ndiag(r_mat) <- 1\nr_mat[cbind(df$var_a, df$var_b)] <- df$r\nr_mat[cbind(df$var_b, df$var_a)] <- df$r\nord <- vars[stats::hclust(stats::as.dist(1 - r_mat))$order]\ndf$var_a <- factor(df$var_a, levels = ord)\ndf$var_b <- factor(df$var_b, levels = ord)\nia <- as.integer(df$var_a)\nib <- as.integer(df$var_b)\nkeep <- if (isTRUE(upper_only)) ia < ib else ia != ib\nplot_df <- df[keep, , drop = FALSE]\nplot_df$stars <- ifelse(plot_df$p < sig_cut, \"*\", \"\")\nfills <- pv_palette(\"diverging\", 9)\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(var_a, var_b, fill = r))\nif (cell_shape == \"square\") {\n  p <- p + ggplot2::geom_tile(colour = \"white\", linewidth = 0.2)\n} else {\n  p <- p + ggplot2::geom_point(ggplot2::aes(size = abs(r)), shape = 21, stroke = 0.15)\n  p <- p + ggplot2::scale_size_area(max_size = 5.5, limits = c(0, 1), guide = \"none\")\n}\nif (isTRUE(show_significance)) {\n  p <- p + ggplot2::geom_text(ggplot2::aes(label = stars), size = 2.2, colour = \"black\")\n}\np <- p +\n  ggplot2::scale_fill_gradientn(colours = fills, limits = c(-1, 1), name = \"r\") +\n  ggplot2::scale_x_discrete(drop = FALSE) +\n  ggplot2::scale_y_discrete(drop = FALSE) +\n  ggplot2::labs(x = NULL, y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 5.5),\n    axis.text.y = ggplot2::element_text(size = 5.5),\n    legend.key.height = ggplot2::unit(8, \"mm\")\n  )\n\npv_save(p, \"figure\", width_mm = 140, height_mm = 120)\nmessage(\"wrote preview.png\")\n"
     },
     {
+      "title": "Hexbin density",
+      "title_zh": "六边形分箱密度图",
+      "slug": "hexbin",
+      "category": "correlation",
+      "tags": [
+        "hexbin",
+        "density",
+        "scatter",
+        "correlation"
+      ],
+      "packages": [
+        "ggplot2",
+        "hexbin"
+      ],
+      "data_columns": {
+        "x": "横轴连续变量（数值）",
+        "y": "纵轴连续变量（数值）"
+      },
+      "when_to_use": "散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。",
+      "customize": "plot.R 顶部 bins 调六边形粒度；show_counts 在格心标计数；legend_title 改图例名。填充色取 pv_palette(\"sequential\")（不用 categorical 第 8 色纯黑作数据色）。geom_hex 依赖 hexbin 包。",
+      "lang": "R",
+      "dir": "figures/correlation/hexbin",
+      "preview": "figures/correlation/hexbin/preview.png",
+      "docs_preview": "previews/hexbin.png",
+      "code": "figures/correlation/hexbin/plot.R",
+      "data": "figures/correlation/hexbin/data.csv",
+      "data_files": [
+        "figures/correlation/hexbin/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/hexbin/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/hexbin/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/hexbin",
+      "code_text": "# Hexbin density of a bivariate scatter. Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nbins <- 28\nshow_counts <- FALSE\nlegend_title <- \"Count\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nseq_cols <- pv_palette(\"sequential\", 5)\n\np <- ggplot2::ggplot(df, ggplot2::aes(x, y)) +\n  ggplot2::geom_hex(bins = bins, colour = NA) +\n  ggplot2::scale_fill_gradientn(\n    colours = seq_cols,\n    name = legend_title,\n    guide = ggplot2::guide_colorbar(barwidth = 0.5, barheight = 4)\n  ) +\n  ggplot2::coord_fixed(ratio = 1, expand = TRUE) +\n  ggplot2::labs(x = \"Feature X\", y = \"Feature Y\") +\n  theme_viz() +\n  ggplot2::theme(legend.position = \"right\")\n\nif (isTRUE(show_counts)) {\n  p <- p + ggplot2::stat_bin_hex(\n    ggplot2::aes(label = ggplot2::after_stat(count)),\n    bins = bins,\n    geom = \"text\",\n    size = 1.6,\n    colour = \"grey20\"\n  )\n}\n\npv_save(p, \"figure\", width_mm = 100, height_mm = 90)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
       "title": "Line chart",
       "title_zh": "折线图",
       "slug": "line-basic",

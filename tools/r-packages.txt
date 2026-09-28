@@ -11,6 +11,7 @@ ggrepel
 ggridges
 ggseqlogo
 ggvenn
+hexbin
 igraph
 maps
 MASS

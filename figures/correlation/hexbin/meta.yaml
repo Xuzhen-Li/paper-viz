@@ -1,0 +1,18 @@
+title: Hexbin density
+title_zh: 六边形分箱密度图
+slug: hexbin
+category: correlation
+tags:
+  - hexbin
+  - density
+  - scatter
+  - correlation
+packages:
+  - ggplot2
+  - hexbin
+data_columns:
+  x: 横轴连续变量（数值）
+  y: 纵轴连续变量（数值）
+when_to_use: 散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。
+customize: plot.R 顶部 bins 调六边形粒度；show_counts 在格心标计数；legend_title 改图例名。填充色取 pv_palette("sequential")（不用 categorical 第 8 色纯黑作数据色）。geom_hex 依赖 hexbin 包。
+lang: R
