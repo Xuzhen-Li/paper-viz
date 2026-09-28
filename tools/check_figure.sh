@@ -26,6 +26,34 @@ if [ -z "${R_LIBS_USER:-}" ]; then
   export R_LIBS_USER="$(CDPATH= cd -- "$ROOT/.." && pwd)/.Rlib"
 fi
 
+
+# Blocklist check: scripts/csv + meta fields except `reference` values.
+blocklist_check() {
+  hit=0
+  if grep -RInF -i -f "$ROOT/tools/blocklist.txt" \
+      --exclude='*.png' --exclude='*.pdf' --exclude='meta.yaml' .; then
+    hit=1
+  fi
+  if [ -f meta.yaml ]; then
+    awk '
+      /^[[:space:]]*#/ { print; next }
+      /^reference:[[:space:]]*$/ { skip=1; next }
+      /^reference:[[:space:]]+.+/ { skip=1; next }
+      /^[^[:space:]#]/ { skip=0 }
+      skip { next }
+      { print }
+    ' meta.yaml > "$WORK/_meta_no_reference.yaml"
+    if grep -InF -i -f "$ROOT/tools/blocklist.txt" "$WORK/_meta_no_reference.yaml"; then
+      hit=1
+    fi
+  fi
+  if [ "$hit" -ne 0 ]; then
+    echo "blocklist hit in $REL" >&2
+    return 1
+  fi
+  return 0
+}
+
 # lang: drawio has no R/Python scripts. Check the template and preview only.
 if [ -f meta.yaml ] && grep -Eq '^lang:[[:space:]]*drawio[[:space:]]*$' meta.yaml; then
   if [ ! -f template.drawio ]; then
@@ -40,8 +68,7 @@ if [ -f meta.yaml ] && grep -Eq '^lang:[[:space:]]*drawio[[:space:]]*$' meta.yam
     echo "absolute path in $REL" >&2
     exit 1
   fi
-  if grep -RInF -i -f "$ROOT/tools/blocklist.txt" --exclude='*.png' --exclude='*.pdf' .; then
-    echo "blocklist hit in $REL" >&2
+  if ! blocklist_check; then
     exit 1
   fi
   echo "ok $REL"
@@ -79,8 +106,7 @@ if grep -RInE --exclude='*.png' --exclude='*.pdf' '(/Users/|/home/|[A-Za-z]:\\)'
   exit 1
 fi
 
-if grep -RInF -i -f "$ROOT/tools/blocklist.txt" --exclude='*.png' --exclude='*.pdf' .; then
-  echo "blocklist hit in $REL" >&2
+if ! blocklist_check; then
   exit 1
 fi
 
