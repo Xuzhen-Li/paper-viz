@@ -9,6 +9,6 @@ tags:
 packages:
   - draw.io
 data_columns: {}
-when_to_use: 按顺序写古 DNA 从取样到真实性检验。
-customize: 左侧数字圆与右侧说明成对出现。增删一行时每行下移 68 px，并加高页面。
+when_to_use: 按顺序交代古 DNA 从取样到真实性检验的主线步骤。
+customize: 左侧数字圆与右侧说明成对出现。增删一行时每行下移 68 px，并加高页面。副标题保持一句术语习语。
 lang: drawio
