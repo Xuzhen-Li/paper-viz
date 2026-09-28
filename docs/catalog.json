@@ -536,6 +536,41 @@
       "code_text": "# Alluvial / Sankey. Highlight one label, rename axes, optional stratum bubbles.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\nlibrary(ggalluvial)\n\nhighlight <- \"CR\"\naxis_labels <- c(\"Cohort\", \"Subtype\", \"Response\")\nshow_bubbles <- FALSE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$stage1 <- factor(df$stage1, levels = c(\"Control\", \"Case\", \"Treated\"))\ndf$stage2 <- factor(df$stage2, levels = c(\"LumA\", \"LumB\", \"HER2\", \"Basal\"))\ndf$stage3 <- factor(df$stage3, levels = c(\"CR\", \"PR\", \"SD\", \"PD\", \"NE\"))\ndf$on <- df$stage1 == highlight | df$stage2 == highlight | df$stage3 == highlight\npal <- pv_palette(\"categorical\", nlevels(df$stage1))\nnames(pal) <- levels(df$stage1)\n\np <- ggplot2::ggplot(\n  df,\n  ggplot2::aes(y = value, axis1 = stage1, axis2 = stage2, axis3 = stage3)\n) +\n  ggalluvial::geom_alluvium(\n    ggplot2::aes(fill = stage1, alpha = on),\n    width = 0.22, colour = NA, curve_type = \"sigmoid\"\n  ) +\n  ggalluvial::geom_stratum(width = 0.22, fill = \"grey96\", colour = \"grey35\", linewidth = 0.25) +\n  ggplot2::geom_text(\n    stat = \"stratum\",\n    ggplot2::aes(label = after_stat(stratum)),\n    size = 2.1\n  ) +\n  ggplot2::scale_x_discrete(limits = axis_labels, expand = ggplot2::expansion(add = 0.28)) +\n  ggplot2::scale_fill_manual(values = pal, name = NULL) +\n  ggplot2::scale_alpha_manual(values = c(`TRUE` = 0.9, `FALSE` = 0.22), guide = \"none\") +\n  ggplot2::labs(x = NULL, y = \"Patients\") +\n  theme_viz() +\n  ggplot2::theme(legend.position = \"none\")\n\nif (isTRUE(show_bubbles)) {\n  p <- p + ggplot2::geom_point(\n    stat = \"stratum\",\n    ggplot2::aes(size = after_stat(y)),\n    shape = 21, fill = \"white\", colour = \"grey30\"\n  ) +\n    ggplot2::scale_size_area(max_size = 6, guide = \"none\")\n}\n\npv_save(p, \"figure\", width_mm = 170, height_mm = 110)\nmessage(\"wrote preview.png\")\n"
     },
     {
+      "title": "Donut chart",
+      "title_zh": "环形图",
+      "slug": "donut",
+      "category": "composition",
+      "tags": [
+        "donut",
+        "ring",
+        "composition",
+        "proportion"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "part": "组成分名称（字符串）",
+        "value": "份额权重（正数；图中换算为占比）"
+      },
+      "when_to_use": "一个整体拆成少数几份、要用中空环强调份额时用；需要独立 slug 的环形图，而不是改 pie。",
+      "customize": "plot.R 顶部 inner_r / outer_r 调环宽；show_labels 控制扇区外名称与百分比；part_drop 可丢掉类别。填充色按类别出现顺序取 pv_palette(\"categorical\")（芯片文八色）；勿用",
+      "lang": "R",
+      "dir": "figures/composition/donut",
+      "preview": "figures/composition/donut/preview.png",
+      "docs_preview": "previews/donut.png",
+      "code": "figures/composition/donut/plot.R",
+      "data": "figures/composition/donut/data.csv",
+      "data_files": [
+        "figures/composition/donut/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/donut/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/donut/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/donut",
+      "code_text": "# Donut (annular proportion). Reads data.csv only. Run from this directory.\n# Dedicated slug; does not modify figures/composition/pie/.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nshow_labels <- TRUE\ninner_r <- 1.15\nouter_r <- 2.2\npart_drop <- character(0)\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nif (length(part_drop)) df <- df[!df$part %in% part_drop, , drop = FALSE]\ndf <- df[order(df$value, decreasing = TRUE), , drop = FALSE]\ndf$part <- factor(df$part, levels = df$part)\ndf$share <- df$value / sum(df$value)\ndf$label <- sprintf(\"%s\\n%.0f%%\", df$part, 100 * df$share)\nn_part <- nlevels(df$part)\npal <- stats::setNames(pv_palette(\"categorical\", n_part), levels(df$part))\n\ncx <- (inner_r + outer_r) / 2\ncw <- outer_r - inner_r\nlab_r <- outer_r + 0.42\n\np <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = value, fill = part)) +\n  ggplot2::geom_col(width = cw, colour = \"white\", linewidth = 0.35) +\n  ggplot2::scale_fill_manual(values = pal, name = NULL) +\n  ggplot2::coord_polar(theta = \"y\", clip = \"off\") +\n  ggplot2::xlim(0, 3.15) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text = ggplot2::element_blank(),\n    axis.title = ggplot2::element_blank(),\n    axis.ticks = ggplot2::element_blank(),\n    axis.line = ggplot2::element_blank(),\n    panel.border = ggplot2::element_blank(),\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    plot.margin = ggplot2::margin(4, 4, 4, 4, \"mm\"),\n    legend.position = if (isTRUE(show_labels)) \"none\" else \"right\"\n  )\n\nif (isTRUE(show_labels)) {\n  p <- p + ggplot2::geom_text(\n    ggplot2::aes(x = lab_r, label = label),\n    position = ggplot2::position_stack(vjust = 0.5),\n    size = 2.05,\n    lineheight = 0.9,\n    colour = \"black\"\n  )\n}\n\n# Ring charts stay near square; not forced to 85×60 mm.\npv_save(p, \"figure\", width_mm = 110, height_mm = 100)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
       "title": "Mosaic plot",
       "title_zh": "马赛克图",
       "slug": "mosaic",

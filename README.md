@@ -18,14 +18,14 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 
 <!-- CATALOG:START -->
 
-共 116 张。
+共 117 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 8 |
 | `comparison` | 比较 | 11 |
 | `correlation` | 相关 | 7 |
-| `composition` | 组成 | 10 |
+| `composition` | 组成 | 11 |
 | `heatmap` | 热图 | 3 |
 | `dimension-reduction` | 降维 | 6 |
 | `differential-expression` | 差异表达 | 3 |
@@ -59,12 +59,12 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
 
-### 组成 `composition`（10）
+### 组成 `composition`（11）
 
 <img src="figures/composition/alluvial/preview.png" width="200" alt="桑基 / 冲积图">
+<img src="figures/composition/donut/preview.png" width="200" alt="环形图">
 <img src="figures/composition/mosaic/preview.png" width="200" alt="马赛克图">
 <img src="figures/composition/pie/preview.png" width="200" alt="饼图与环形图">
-<img src="figures/composition/stacked-area/preview.png" width="200" alt="堆叠面积图">
 
 ### 热图 `heatmap`（3）
 
