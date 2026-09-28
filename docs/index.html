@@ -56,6 +56,7 @@
 <dialog id="dlg">
   <div class="row"><strong id="dlg-title"></strong><button id="close" type="button">关闭</button></div>
   <p id="dlg-when"></p>
+  <p id="dlg-ref" class="hint" hidden></p>
   <img id="dlg-img" alt="">
   <div id="dlg-data">
     <h2>列</h2>
@@ -176,6 +177,26 @@ function link(href, label) {
 function openFig(fig) {
   document.querySelector("#dlg-title").textContent = fig.title_zh + " / " + fig.title;
   document.querySelector("#dlg-when").textContent = fig.when_to_use;
+  const refEl = document.querySelector("#dlg-ref");
+  const ref = fig.reference;
+  if (ref && ref.source_name) {
+    refEl.hidden = false;
+    refEl.textContent = "";
+    refEl.append(document.createTextNode("来源："));
+    if (ref.source_url) {
+      const a = document.createElement("a");
+      a.href = ref.source_url;
+      a.textContent = ref.source_name;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      refEl.append(a);
+    } else {
+      refEl.append(document.createTextNode(ref.source_name));
+    }
+  } else {
+    refEl.hidden = true;
+    refEl.textContent = "";
+  }
   const img = document.querySelector("#dlg-img");
   img.src = fig.docs_preview;
   img.alt = fig.title;
