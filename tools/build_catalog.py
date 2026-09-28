@@ -113,6 +113,20 @@ def load_meta(path: Path) -> dict:
         raise SystemExit(f"{path}: tags and packages must be lists")
     if not isinstance(data["data_columns"], dict):
         raise SystemExit(f"{path}: data_columns must be a mapping")
+    if "reference" in data:
+        ref = data["reference"]
+        if not isinstance(ref, dict):
+            raise SystemExit(f"{path}: reference must be a mapping")
+        name = ref.get("source_name")
+        if not isinstance(name, str) or not name.strip():
+            raise SystemExit(f"{path}: reference.source_name is required when reference is set")
+        url = ref.get("source_url")
+        if url is not None and not isinstance(url, str):
+            raise SystemExit(f"{path}: reference.source_url must be a string when set")
+        cleaned = {"source_name": name.strip()}
+        if isinstance(url, str) and url.strip():
+            cleaned["source_url"] = url.strip()
+        data["reference"] = cleaned
     return data
 
 
@@ -199,33 +213,35 @@ def build() -> list[dict]:
         code_text = (ROOT / rel_code).read_text(encoding="utf-8")
         shutil.copyfile(preview, PREVIEWS / f"{slug}.png")
         py = fig_dir / "plot.py"
-        figures.append(
-            {
-                "title": meta["title"],
-                "title_zh": meta["title_zh"],
-                "slug": slug,
-                "category": meta["category"],
-                "tags": list(meta["tags"]),
-                "packages": list(meta["packages"]),
-                "data_columns": dict(meta["data_columns"]),
-                "when_to_use": meta["when_to_use"],
-                "customize": meta["customize"],
-                "lang": meta["lang"],
-                "dir": rel_dir,
-                "preview": rel_preview,
-                "docs_preview": f"previews/{slug}.png",
-                "code": rel_code,
-                "data": rel_data,
-                "data_files": rel_data_files,
-                "code_python": (
-                    str(py.relative_to(ROOT)).replace("\\", "/") if py.exists() and rel_code.endswith(".R") else None
-                ),
-                "github_code": f"{GITHUB}/{rel_code}",
-                "github_data": f"{GITHUB}/{rel_data}" if rel_data else None,
-                "github_dir": f"{GITHUB}/{rel_dir}",
-                "code_text": code_text,
-            }
-        )
+        row = {
+            "title": meta["title"],
+            "title_zh": meta["title_zh"],
+            "slug": slug,
+            "category": meta["category"],
+            "tags": list(meta["tags"]),
+            "packages": list(meta["packages"]),
+            "data_columns": dict(meta["data_columns"]),
+            "when_to_use": meta["when_to_use"],
+            "customize": meta["customize"],
+            "lang": meta["lang"],
+            "dir": rel_dir,
+            "preview": rel_preview,
+            "docs_preview": f"previews/{slug}.png",
+            "code": rel_code,
+            "data": rel_data,
+            "data_files": rel_data_files,
+            "code_python": (
+                str(py.relative_to(ROOT)).replace("\\", "/") if py.exists() and rel_code.endswith(".R") else None
+            ),
+            "github_code": f"{GITHUB}/{rel_code}",
+            "github_data": f"{GITHUB}/{rel_data}" if rel_data else None,
+            "github_dir": f"{GITHUB}/{rel_dir}",
+            "code_text": code_text,
+        }
+        if "reference" in meta:
+            row["reference"] = dict(meta["reference"])
+        figures.append(row)
+
     figures.sort(key=lambda row: (row["category"], row["slug"]))
     return figures
 
