@@ -1,0 +1,17 @@
+title: Donut chart
+title_zh: 环形图
+slug: donut
+category: composition
+tags:
+  - donut
+  - ring
+  - composition
+  - proportion
+packages:
+  - ggplot2
+data_columns:
+  part: 组成分名称（字符串）
+  value: 份额权重（正数；图中换算为占比）
+when_to_use: 一个整体拆成少数几份、要用中空环强调份额时用；需要独立 slug 的环形图，而不是改 pie。
+customize: plot.R 顶部 inner_r / outer_r 调环宽；show_labels 控制扇区外名称与百分比；part_drop 可丢掉类别。填充色按类别出现顺序取 pv_palette("categorical")（芯片文八色）；勿用 #E0E0E0 作数据色。
+lang: R
