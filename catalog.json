@@ -463,6 +463,42 @@
       "code_text": "# Slope chart. Highlighted series are coloured and both ends are labeled.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nhighlight <- c(\"P04\", \"P07\", \"P11\")\nlabel_ends <- TRUE\nstage_levels <- c(\"Before\", \"After\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$stage <- factor(df$stage, levels = stage_levels)\ndf$item <- factor(df$item, levels = unique(df$item))\ndf$emph <- ifelse(df$item %in% highlight, as.character(df$item), \"Other\")\nemph_levels <- c(\"Other\", highlight)\npal <- setNames(\n  c(\"#B0B0B0\", pv_palette(\"categorical\", length(highlight))),\n  emph_levels\n)\n\np <- ggplot2::ggplot(df, ggplot2::aes(stage, value, group = item, colour = emph)) +\n  ggplot2::geom_line(linewidth = 0.45) +\n  ggplot2::geom_point(size = 1.6) +\n  ggplot2::scale_colour_manual(values = pal, breaks = highlight, name = NULL) +\n  ggplot2::labs(x = NULL, y = \"Index\") +\n  theme_viz() +\n  ggplot2::theme(legend.position = \"top\")\n\nif (label_ends) {\n  ends <- df[df$emph != \"Other\", ]\n  p <- p + ggrepel::geom_text_repel(\n    data = ends,\n    ggplot2::aes(label = item),\n    size = 2.1,\n    direction = \"y\",\n    min.segment.length = 0,\n    segment.size = 0.2,\n    box.padding = 0.25,\n    show.legend = FALSE,\n    seed = 51\n  )\n}\n\npv_save(p, \"figure\", width_mm = 100, height_mm = 105)\nmessage(\"wrote preview.png\")\n"
     },
     {
+      "title": "Waterfall chart",
+      "title_zh": "瀑布图",
+      "slug": "waterfall",
+      "category": "comparison",
+      "tags": [
+        "waterfall",
+        "contribution",
+        "bridge",
+        "comparison"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "label": "步骤名（字符串；首尾为期初/期末总量）",
+        "kind": "total 或 step（字符串）",
+        "value": "总量水平或有符号增量（数值）"
+      },
+      "when_to_use": "要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。",
+      "customize": "plot.R 顶部 bar_width 调柱宽；show_connectors 画步骤间水平桥接线；show_value_labels 与 label_size 控制柱顶数值。Increase/Decrease/Total 三色取自 pv_palette(\"categorical\") 前几格（勿用第 8 色纯黑作数据填充）。",
+      "lang": "R",
+      "dir": "figures/comparison/waterfall",
+      "preview": "figures/comparison/waterfall/preview.png",
+      "docs_preview": "previews/waterfall.png",
+      "code": "figures/comparison/waterfall/plot.R",
+      "data": "figures/comparison/waterfall/data.csv",
+      "data_files": [
+        "figures/comparison/waterfall/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/waterfall/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/waterfall/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/waterfall",
+      "code_text": "# Waterfall: opening → signed steps → closing. Reads data.csv only.\n# Run from this directory. Pure ggplot2 (no waterfalls package).\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nbar_width <- 0.62\nshow_connectors <- TRUE\nshow_value_labels <- TRUE\nlabel_size <- 2.2\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$label <- factor(df$label, levels = unique(df$label))\nn <- nrow(df)\n\nymin <- numeric(n)\nymax <- numeric(n)\nfill_key <- character(n)\nleave <- numeric(n)\nrunning <- 0\nfor (i in seq_len(n)) {\n  if (df$kind[i] == \"total\") {\n    ymin[i] <- 0\n    ymax[i] <- df$value[i]\n    running <- df$value[i]\n    fill_key[i] <- \"Total\"\n  } else {\n    start <- running\n    end <- running + df$value[i]\n    ymin[i] <- min(start, end)\n    ymax[i] <- max(start, end)\n    running <- end\n    fill_key[i] <- if (df$value[i] >= 0) \"Increase\" else \"Decrease\"\n  }\n  leave[i] <- running\n}\n\nplot_df <- data.frame(\n  label = df$label,\n  xmin = as.numeric(df$label) - bar_width / 2,\n  xmax = as.numeric(df$label) + bar_width / 2,\n  ymin = ymin,\n  ymax = ymax,\n  fill_key = factor(fill_key, levels = c(\"Increase\", \"Decrease\", \"Total\")),\n  stringsAsFactors = FALSE\n)\n\nconn <- NULL\nif (isTRUE(show_connectors) && n > 1) {\n  conn <- data.frame(\n    x = as.numeric(df$label[-n]) + bar_width / 2,\n    xend = as.numeric(df$label[-1]) - bar_width / 2,\n    y = leave[-n],\n    yend = leave[-n]\n  )\n}\n\npal <- pv_palette(\"categorical\", 4)\ncols <- c(Increase = pal[3], Decrease = pal[4], Total = pal[1])\n\np <- ggplot2::ggplot() +\n  ggplot2::geom_rect(\n    data = plot_df,\n    ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_key),\n    colour = NA\n  )\nif (!is.null(conn)) {\n  p <- p + ggplot2::geom_segment(\n    data = conn,\n    ggplot2::aes(x = x, xend = xend, y = y, yend = yend),\n    linewidth = 0.3,\n    colour = \"grey55\"\n  )\n}\nif (isTRUE(show_value_labels)) {\n  lab_df <- plot_df\n  lab_df$txt <- ifelse(\n    df$kind == \"total\",\n    sprintf(\"%.1f\", df$value),\n    sprintf(\"%+.1f\", df$value)\n  )\n  p <- p + ggplot2::geom_text(\n    data = lab_df,\n    ggplot2::aes(x = (xmin + xmax) / 2, y = ymax, label = txt),\n    vjust = -0.35,\n    size = label_size,\n    colour = \"grey20\"\n  )\n}\np <- p +\n  ggplot2::scale_fill_manual(values = cols, name = NULL) +\n  ggplot2::scale_x_continuous(\n    breaks = as.numeric(df$label),\n    labels = as.character(levels(df$label)),\n    expand = ggplot2::expansion(mult = c(0.02, 0.02))\n  ) +\n  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.12))) +\n  ggplot2::labs(x = NULL, y = \"Value\") +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"top\",\n    axis.text.x = ggplot2::element_text(angle = 35, hjust = 1)\n  )\n\npv_save(p, \"figure\", width_mm = 120, height_mm = 85)\nmessage(\"wrote preview.png\")\n"
+    },
+    {
       "title": "Alluvial and Sankey",
       "title_zh": "桑基 / 冲积图",
       "slug": "alluvial",
