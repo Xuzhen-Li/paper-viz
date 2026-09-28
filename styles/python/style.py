@@ -38,16 +38,16 @@ def apply_style(base: str | Path | None = None) -> None:
                 "savefig.dpi": 600,
                 "font.family": "sans-serif",
                 "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
-                "font.size": 7,
-                "axes.titlesize": 7,
-                "axes.labelsize": 7,
+                "font.size": 11,
+                "axes.titlesize": 12,
+                "axes.labelsize": 12,
                 "axes.linewidth": 0.8,
                 "xtick.major.width": 0.8,
                 "ytick.major.width": 0.8,
                 "pdf.fonttype": 42,
                 "svg.fonttype": "none",
-                "axes.spines.top": False,
-                "axes.spines.right": False,
+                "axes.spines.top": True,
+                "axes.spines.right": True,
             }
         )
     plt.rcParams["axes.unicode_minus"] = False

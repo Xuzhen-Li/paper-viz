@@ -45,10 +45,10 @@ draw <- function() {
     top <- ComplexHeatmap::HeatmapAnnotation(
       compartment = comp,
       col = list(compartment = comp_cols),
-      annotation_name_gp = grid::gpar(fontsize = 6.5, fontfamily = fam),
+      annotation_name_gp = grid::gpar(fontsize = 12, fontfamily = fam),
       annotation_legend_param = list(
-        title_gp = grid::gpar(fontsize = 6.5, fontfamily = fam),
-        labels_gp = grid::gpar(fontsize = 6, fontfamily = fam)
+        title_gp = grid::gpar(fontsize = 12, fontfamily = fam),
+        labels_gp = grid::gpar(fontsize = 11, fontfamily = fam)
       ),
       simple_anno_size = grid::unit(3.2, "mm"),
       show_legend = TRUE
@@ -61,18 +61,18 @@ draw <- function() {
     cluster_rows = isTRUE(cluster_genomes),
     cluster_columns = FALSE,
     show_column_names = FALSE,
-    row_names_gp = grid::gpar(fontsize = 6, fontfamily = fam),
+    row_names_gp = grid::gpar(fontsize = 11, fontfamily = fam),
     column_title = "Gene family",
-    column_title_gp = grid::gpar(fontsize = 7, fontfamily = fam),
+    column_title_gp = grid::gpar(fontsize = 13, fontfamily = fam),
     row_title = "Genome",
-    row_title_gp = grid::gpar(fontsize = 7, fontfamily = fam),
+    row_title_gp = grid::gpar(fontsize = 13, fontfamily = fam),
     top_annotation = top,
     heatmap_legend_param = list(
       title = "Present",
       at = c(0, 1),
       labels = c("absent", "present"),
-      title_gp = grid::gpar(fontsize = 6.5, fontfamily = fam),
-      labels_gp = grid::gpar(fontsize = 6, fontfamily = fam)
+      title_gp = grid::gpar(fontsize = 12, fontfamily = fam),
+      labels_gp = grid::gpar(fontsize = 11, fontfamily = fam)
     ),
     border = TRUE,
     rect_gp = grid::gpar(col = "white", lwd = 0.2)

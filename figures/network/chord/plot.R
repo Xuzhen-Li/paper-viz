@@ -50,7 +50,7 @@ draw <- function() {
           circlize::CELL_META$ylim[1],
           circlize::CELL_META$sector.index,
           facing = "clockwise", niceFacing = TRUE,
-          adj = c(0, 0.5), cex = 0.85
+          adj = c(0, 0.5), cex = 1.15
         )
       }, bg.border = NA
     )

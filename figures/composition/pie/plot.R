@@ -33,6 +33,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = value, fill = part)) +
     axis.title = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     axis.line = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
     plot.margin = ggplot2::margin(4, 4, 4, 4, "mm"),
     legend.position = if (isTRUE(show_labels)) "none" else "right"
