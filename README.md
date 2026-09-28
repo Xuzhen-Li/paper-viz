@@ -18,13 +18,13 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 
 <!-- CATALOG:START -->
 
-共 115 张。
+共 116 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 8 |
 | `comparison` | 比较 | 11 |
-| `correlation` | 相关 | 6 |
+| `correlation` | 相关 | 7 |
 | `composition` | 组成 | 10 |
 | `heatmap` | 热图 | 3 |
 | `dimension-reduction` | 降维 | 6 |
@@ -52,12 +52,12 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
 <img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
-### 相关 `correlation`（6）
+### 相关 `correlation`（7）
 
+<img src="figures/correlation/bland-altman/preview.png" width="200" alt="Bland–Altman 图">
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
-<img src="figures/correlation/line-basic/preview.png" width="200" alt="折线图">
 
 ### 组成 `composition`（10）
 
