@@ -28,13 +28,13 @@ if (isTRUE(show_ribbon)) {
 }
 p <- p + ggplot2::geom_line(linewidth = 0.55)
 if (isTRUE(show_points)) {
-  p <- p + ggplot2::geom_point(size = 0.9)
+  p <- p + ggplot2::geom_point(size = 1.8)
 }
 p <- p +
   ggplot2::scale_colour_manual(values = pal, name = NULL) +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::labs(x = "Day", y = "Relative abundance") +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 140, height_mm = 85)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

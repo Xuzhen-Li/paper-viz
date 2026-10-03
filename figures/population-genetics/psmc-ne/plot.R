@@ -35,8 +35,8 @@ p <- p +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::coord_cartesian(xlim = xlim) +
   ggplot2::labs(x = "Years ago", y = expression(italic(N)[e])) +
-  theme_viz() +
+  theme_viz(base_size = 7) +
   ggplot2::theme(legend.key = ggplot2::element_blank())
 
-pv_save(p, "figure", width_mm = 150, height_mm = 95)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

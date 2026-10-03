@@ -40,11 +40,11 @@ p <- p +
   ggplot2::scale_colour_manual(values = cols, name = NULL) +
   ggplot2::scale_fill_manual(values = cols, name = NULL) +
   ggplot2::labs(x = "Reads", y = "Expected richness") +
-  theme_viz() +
+  theme_viz(base_size = 7) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "right"
+    legend.position = "inside"
   )
 
-pv_save(p, "figure", width_mm = 140, height_mm = 90)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

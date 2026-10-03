@@ -15,12 +15,12 @@ x_lab <- if (isTRUE(use_folded)) "Minor allele count" else "Derived allele count
 
 p <- ggplot2::ggplot(df, ggplot2::aes(bin, prop, colour = pop, group = pop)) +
   ggplot2::geom_line(linewidth = 0.5) +
-  ggplot2::geom_point(size = 1.15) +
+  ggplot2::geom_point(size = 1.8) +
   ggplot2::scale_colour_manual(values = pal, name = "Population") +
   ggplot2::scale_x_continuous(breaks = c(1, 5, 10, 15, 20)) +
   ggplot2::labs(x = x_lab, y = "Proportion of sites") +
-  theme_viz() +
+  theme_viz(base_size = 7) +
   ggplot2::theme(legend.key = ggplot2::element_blank())
 
-pv_save(p, "figure", width_mm = 140, height_mm = 90)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

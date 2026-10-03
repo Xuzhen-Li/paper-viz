@@ -28,7 +28,7 @@ cen$lx <- cen$x + cen$dx / len * 2.2
 cen$ly <- cen$y + cen$dy / len * 1.7
 
 p <- ggplot2::ggplot(df, ggplot2::aes(.data[[pc_x]], .data[[pc_y]], colour = pop, fill = pop)) +
-  ggplot2::geom_point(size = 1.35, alpha = 0.9)
+  ggplot2::geom_point(size = 2.2, alpha = 0.9)
 if (isTRUE(show_ellipse)) {
   p <- p + ggplot2::stat_ellipse(
     geom = "polygon", type = "norm", level = ellipse_level,
@@ -51,8 +51,11 @@ p <- p +
   ggplot2::scale_colour_manual(values = pal, name = "Population") +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::labs(x = axis_lab(pc_x), y = axis_lab(pc_y)) +
-  theme_viz() +
-  ggplot2::theme(legend.key = ggplot2::element_blank())
+  theme_viz(base_size = 7) +
+  ggplot2::theme(
+    legend.key = ggplot2::element_blank(),
+    legend.position = if (isTRUE(show_labels)) "none" else "inside"
+  )
 
-pv_save(p, "figure", width_mm = 140, height_mm = 100)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

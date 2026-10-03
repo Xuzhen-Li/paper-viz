@@ -33,7 +33,7 @@ if (isTRUE(mark_best)) {
 p <- p +
   ggplot2::scale_x_continuous(breaks = df$k) +
   ggplot2::labs(x = "K", y = "Cross-validation error") +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 120, height_mm = 80)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

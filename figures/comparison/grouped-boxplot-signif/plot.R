@@ -33,7 +33,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(group, value, fill = group)) +
   ggplot2::geom_text(data = br, ggplot2::aes(x = (x1 + x2) / 2, y = y + step * 0.15, label = label), inherit.aes = FALSE, size = 2.2) +
   ggplot2::labs(x = NULL, y = "Value") +
   ggplot2::coord_cartesian(ylim = c(min(df$value), max(br$y) + step * 0.45)) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 89, height_mm = 80)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

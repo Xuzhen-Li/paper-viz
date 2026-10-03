@@ -13,13 +13,13 @@ p <- ggplot2::ggplot(df, ggplot2::aes(value, colour = group)) +
   ggplot2::stat_ecdf(linewidth = line_width, pad = FALSE) +
   ggplot2::scale_colour_manual(values = cols, name = NULL) +
   ggplot2::labs(x = "Value", y = "ECDF") +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (!isTRUE(show_legend)) {
   p <- p + ggplot2::theme(legend.position = "none")
 } else {
-  p <- p + ggplot2::theme(legend.position = "top")
+  p <- p + ggplot2::theme(legend.position = "inside")
 }
 
-pv_save(p, "figure", width_mm = 110, height_mm = 75)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

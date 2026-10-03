@@ -19,13 +19,19 @@ p <- ggplot2::ggplot(df, ggplot2::aes(group, value, fill = series)) +
   ) +
   ggplot2::scale_fill_manual(values = cols) +
   ggplot2::labs(x = NULL, y = "Value", fill = NULL) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (!isTRUE(show_legend)) {
   p <- p + ggplot2::theme(legend.position = "none")
 } else {
-  p <- p + ggplot2::theme(legend.position = "right")
+  p <- p + ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.98, 0.98),
+    legend.justification.inside = c(1, 1),
+    legend.key.height = ggplot2::unit(3.2, "mm"),
+    legend.key.width = ggplot2::unit(4, "mm")
+  )
 }
 
-pv_save(p, "figure", width_mm = 89, height_mm = 70)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

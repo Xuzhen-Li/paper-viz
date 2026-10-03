@@ -69,7 +69,7 @@ p_bar <- ggplot2::ggplot(long, ggplot2::aes(abundance, y, fill = taxon)) +
     axis.ticks.y = ggplot2::element_blank(),
     axis.line.y = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "right"
+    legend.position = "inside"
   )
 
 p <- cowplot::plot_grid(p_tree, p_bar, nrow = 1, align = "h", axis = "tb", rel_widths = c(0.7, 1.3))

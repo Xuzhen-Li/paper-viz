@@ -50,7 +50,10 @@ p <- p +
   ggplot2::labs(x = "Day", y = y_lab) +
   theme_viz() +
   ggplot2::theme(
-    legend.position = "right",
+    legend.position = "inside",
+    legend.position.inside = c(0.01, 0.99),
+    legend.justification.inside = c(0, 1),
+    legend.direction = "horizontal",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
 

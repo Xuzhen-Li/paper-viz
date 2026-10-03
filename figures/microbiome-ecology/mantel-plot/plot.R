@@ -72,7 +72,7 @@ p <- p +
   ggplot2::theme(
     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "right",
+    legend.position = "inside",
     panel.border = ggplot2::element_blank()
   ) +
   ggplot2::coord_fixed(clip = "off")

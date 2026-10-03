@@ -41,8 +41,8 @@ if (layout == "mirrored") {
     ggplot2::geom_hline(yintercept = 0, linewidth = 0.3) +
     ggplot2::scale_fill_manual(values = cols, name = NULL) +
     ggplot2::labs(x = "Measurement", y = "Count") +
-    theme_viz() +
-    ggplot2::theme(legend.position = "top")
+    theme_viz(base_size = 7) +
+    ggplot2::theme(legend.position = "inside")
   if (show_density) {
     dens <- rbind(
       dens_one(df$value[df$group == group_levels[1]], group_levels[1], 1),
@@ -62,7 +62,7 @@ if (layout == "mirrored") {
     ggplot2::facet_wrap(~group, ncol = 1) +
     ggplot2::scale_fill_manual(values = cols) +
     ggplot2::labs(x = "Measurement", y = "Count") +
-    theme_viz()
+    theme_viz(base_size = 7)
   if (show_density) {
     dens <- do.call(rbind, lapply(group_levels, function(g) dens_one(df$value[df$group == g], g, 1)))
     p <- p + ggplot2::geom_line(
@@ -75,5 +75,5 @@ if (layout == "mirrored") {
   }
 }
 
-pv_save(p, "figure", width_mm = 89, height_mm = 85)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

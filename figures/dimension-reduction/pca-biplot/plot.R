@@ -1,7 +1,7 @@
 # PCA score scatter. Reads data.csv only. Run from this directory.
 source("../../../styles/r/theme_viz.R")
 
-point_size <- 1.6
+point_size <- 2.2
 point_alpha <- 0.85
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
@@ -12,7 +12,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(pc1, pc2, colour = group)) +
   ggplot2::geom_point(size = point_size, alpha = point_alpha) +
   ggplot2::scale_colour_manual(values = cols) +
   ggplot2::labs(x = "PC1", y = "PC2", colour = NULL) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 89, height_mm = 70)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

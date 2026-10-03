@@ -1,7 +1,7 @@
 # Normal QQ plot. Reads data.csv only. Run from this directory.
 source("../../../styles/r/theme_viz.R")
 
-point_size <- 1.1
+point_size <- 1.8
 point_alpha <- 0.75
 show_ref_line <- TRUE
 
@@ -20,7 +20,7 @@ p_plot <- ggplot2::ggplot(qq, ggplot2::aes(theoretical, sample)) +
     x = "Theoretical quantiles",
     y = "Sample quantiles"
   ) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (isTRUE(show_ref_line)) {
   qy <- stats::quantile(x, c(0.25, 0.75), names = FALSE, type = 7)
@@ -33,5 +33,5 @@ if (isTRUE(show_ref_line)) {
   )
 }
 
-pv_save(p_plot, "figure", width_mm = 89, height_mm = 89)
+pv_save(p_plot, "figure", width_mm = 85, height_mm = 85)
 message("wrote preview.png")

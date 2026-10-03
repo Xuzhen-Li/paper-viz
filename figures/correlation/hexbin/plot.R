@@ -19,8 +19,8 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y)) +
   ) +
   ggplot2::coord_fixed(ratio = 1, expand = TRUE) +
   ggplot2::labs(x = "Feature X", y = "Feature Y") +
-  theme_viz() +
-  ggplot2::theme(legend.position = "right")
+  theme_viz(base_size = 7) +
+  ggplot2::theme(legend.position = "inside")
 
 if (isTRUE(show_counts)) {
   p <- p + ggplot2::stat_bin_hex(
@@ -32,5 +32,5 @@ if (isTRUE(show_counts)) {
   )
 }
 
-pv_save(p, "figure", width_mm = 100, height_mm = 90)
+pv_save(p, "figure", width_mm = 85, height_mm = 85)
 message("wrote preview.png")

@@ -13,7 +13,7 @@ pal <- pv_palette("categorical", length(pops_show))
 names(pal) <- pops_show
 
 p <- ggplot2::ggplot(df, ggplot2::aes(dist_kb, r2, colour = pop, group = pop)) +
-  ggplot2::geom_point(size = 1.15, alpha = 0.9)
+  ggplot2::geom_point(size = 1.8, alpha = 0.9)
 if (isTRUE(show_loess)) {
   p <- p + ggplot2::geom_smooth(
     method = "loess", formula = y ~ x, se = FALSE, span = 0.65, linewidth = 0.45
@@ -29,8 +29,8 @@ p <- p +
   ggplot2::scale_colour_manual(values = pal, name = "Population") +
   ggplot2::scale_y_continuous(limits = c(0, 0.85), expand = ggplot2::expansion(mult = c(0, 0.04))) +
   ggplot2::labs(x = "Distance (kb)", y = expression(italic(r)^2)) +
-  theme_viz() +
+  theme_viz(base_size = 7) +
   ggplot2::theme(legend.key = ggplot2::element_blank())
 
-pv_save(p, "figure", width_mm = 140, height_mm = 90)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

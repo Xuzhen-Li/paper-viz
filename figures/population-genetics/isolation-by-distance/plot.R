@@ -13,7 +13,7 @@ pal <- pv_palette("categorical", length(regions_show))
 names(pal) <- regions_show
 
 p <- ggplot2::ggplot(df, ggplot2::aes(dist_km, fst_linear, colour = region)) +
-  ggplot2::geom_point(size = 1.05, alpha = 0.75)
+  ggplot2::geom_point(size = 1.8, alpha = 0.75)
 if (isTRUE(show_regression) && isTRUE(by_region)) {
   p <- p + ggplot2::geom_smooth(
     method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.45
@@ -31,8 +31,8 @@ p <- p +
     x = "Geographic distance (km)",
     y = expression(italic(F)[ST] / (1 - italic(F)[ST]))
   ) +
-  theme_viz() +
+  theme_viz(base_size = 7) +
   ggplot2::theme(legend.key = ggplot2::element_blank())
 
-pv_save(p, "figure", width_mm = 140, height_mm = 95)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

@@ -14,15 +14,15 @@ df$direction <- ifelse(
   df$pvalue >= p_cut | abs(df$log2fc) < lfc_cut, "ns",
   ifelse(df$log2fc > 0, "up", "down")
 )
-cols <- c(ns = "#6B6B6B", up = pv_palette("categorical", 4)[4], down = pv_palette("categorical", 1)[1])
+cols <- c(ns = "#E0E0E0", up = pv_palette("categorical", 4)[4], down = pv_palette("categorical", 1)[1])
 
 p <- ggplot2::ggplot(df, ggplot2::aes(A, log2fc, colour = direction)) +
-  ggplot2::geom_point(size = 0.55, alpha = 0.65) +
+  ggplot2::geom_point(size = 1.2, alpha = 0.65) +
   ggplot2::scale_colour_manual(values = cols, guide = "none") +
   ggplot2::geom_hline(yintercept = c(-lfc_cut, 0, lfc_cut), linetype = c("dashed", "solid", "dashed"), linewidth = 0.3, colour = c("black", "grey60", "black")) +
   ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0.06, 0.14))) +
   ggplot2::labs(x = "log2 mean expression", y = "log2 fold change") +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (isTRUE(show_labels) && n_label > 0) {
   lab <- df[df$direction != "ns", , drop = FALSE]
@@ -40,5 +40,5 @@ if (isTRUE(show_labels) && n_label > 0) {
   )
 }
 
-pv_save(p, "figure", width_mm = 89, height_mm = 74)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

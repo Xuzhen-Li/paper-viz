@@ -1,17 +1,17 @@
 # 期刊终稿规范 / Journal figure contract
 
-> **English Summary:** Sans-serif figures with a closed black frame, white background, and one shared categorical palette in R and Python. Default working canvas uses 12 pt axis text; chip-paper single panels may use 85×60 mm with `theme_viz(base_size = 7)`.
+> **English Summary:** Sans-serif figures with a closed black frame, white background, and one shared categorical palette in R and Python. Ordinary single panels are 85×60 mm with 7 pt ticks and the legend inside the frame. Square panels are 85×85 mm. Wide, circular, and multi-panel figures keep their canvas.
 
-主图是四边闭合的黑框，白底，默认无网格，图例无框。分类数据色只用下面固定八色顺序；对照或背景点云用 `#E0E0E0`（不是数据色）。
+主图是四边闭合的黑框，白底，默认无网格，图例无框，放在框内空白处，不放在图外侧。分类数据色只用下面固定八色顺序；对照或背景点云用 `#E0E0E0`（不是数据色）。
 
 ## 字体与字号
 
 - 字体候选顺序：Helvetica，Arial，DejaVu Sans。
-- `theme_viz()` 默认 `base_size = 12`（不要改成 7）。工作画布上轴刻度跟随 `base_size`，轴标题约为 `base_size + 1`。
-- 芯片文说明：轴标题约 8 pt、刻度约 7 pt，是画在 **85×60 mm** 终稿幅面上的印刷效果，不是把默认 `base_size` 改成 7。
-- **新的普通单面板**（散点、箱线、柱、火山）：`pv_save` 宽 85、高 60，并 `theme_viz(base_size = 7)`。
-- **已有图**保持现有宽高，不要为对齐芯片文尺寸而批量改脚本。
-- **不要压成 85 mm** 的图类：环图、曼哈顿、热图、circos，以及多面板或特殊版式图。
+- `theme_viz()` 默认 `base_size = 12`，给仍保持宽画布的图用。轴刻度跟随 `base_size`，轴标题约为 `base_size + 1`。
+- **普通单面板**（散点、箱线、柱、火山、密度、生存曲线等）：`pv_save` 宽 85、高 60，并 `theme_viz(base_size = 7)`。刻度 7 pt，轴标题 8 pt。
+- **需要正方形的单面板**（QQ、ROC、hexbin）：宽 85、高 85，同样 `theme_viz(base_size = 7)`。
+- **不要压成 85 mm** 的图类：环图、曼哈顿、热图、circos，以及多面板或按类别拉高的图（棒棒糖、瀑布、富集条形）。这些保持现有宽高。
+- 图例默认在框内右上角。某张图右上角有数据时，改到框内真正的空白处。不要把图例放回图外侧。
 - 画廊预览一律 1200 px 宽、白底，不要透明底。
 - 分面字母：粗体，略大于轴刻度。
 

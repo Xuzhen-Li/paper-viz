@@ -21,8 +21,10 @@ p <- ggplot2::ggplot(df, ggplot2::aes(value, colour = group, fill = group)) +
   ggplot2::scale_colour_manual(values = cols, guide = "none") +
   ggplot2::scale_fill_manual(values = cols, name = NULL) +
   ggplot2::labs(x = "Measurement", y = "Density") +
-  theme_viz() +
-  ggplot2::theme(legend.position = "top")
+  theme_viz(base_size = 7) +
+  ggplot2::theme(
+    legend.position = if (isTRUE(show_mode_labels)) "none" else "inside"
+  )
 
 if (show_mode_labels) {
   p <- p + ggrepel::geom_text_repel(
@@ -39,5 +41,5 @@ if (show_mode_labels) {
   )
 }
 
-pv_save(p, "figure", width_mm = 110, height_mm = 75)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

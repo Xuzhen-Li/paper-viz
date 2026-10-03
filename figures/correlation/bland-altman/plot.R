@@ -4,7 +4,7 @@ source("../../../styles/r/theme_viz.R")
 
 # 可调参数
 loa_mult <- 1.96          # limits of agreement multiplier (SD)
-point_size <- 1.5
+point_size <- 2.2
 point_alpha <- 0.75
 show_loa_labels <- TRUE
 
@@ -37,7 +37,7 @@ p <- ggplot2::ggplot(ba, ggplot2::aes(mean, diff)) +
     x = "Mean of methods ((A + B) / 2)",
     y = "Difference (A − B)"
   ) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (isTRUE(show_loa_labels)) {
   xr <- range(ba$mean)
@@ -61,5 +61,5 @@ if (isTRUE(show_loa_labels)) {
   )
 }
 
-pv_save(p, "figure", width_mm = 110, height_mm = 85)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

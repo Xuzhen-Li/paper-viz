@@ -25,10 +25,10 @@ plot_df <- data.frame(x = nm$points[, 1], y = nm$points[, 2], group = group)
 cols <- pv_palette("categorical", length(unique(group)))
 
 p <- ggplot2::ggplot(plot_df, ggplot2::aes(x, y, colour = group)) +
-  ggplot2::geom_point(size = 1.6) +
+  ggplot2::geom_point(size = 2.2) +
   ggplot2::scale_colour_manual(values = cols) +
   ggplot2::labs(x = "NMDS1", y = "NMDS2", colour = NULL) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 89, height_mm = 70)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

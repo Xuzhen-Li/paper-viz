@@ -14,7 +14,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(size_bp, colour = sv_type, fill = sv_type)
   ggplot2::scale_colour_manual(values = cols, name = NULL) +
   ggplot2::scale_fill_manual(values = cols, name = NULL) +
   ggplot2::labs(x = "SV size", y = "Density") +
-  theme_viz() +
+  theme_viz(base_size = 7) +
   ggplot2::theme(legend.key.size = ggplot2::unit(3, "mm"))
 
 if (isTRUE(log_x)) {
@@ -24,5 +24,5 @@ if (isTRUE(log_x)) {
   )
 }
 
-pv_save(p, "figure", width_mm = 160, height_mm = 80)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

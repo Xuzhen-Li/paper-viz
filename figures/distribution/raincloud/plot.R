@@ -58,7 +58,7 @@ p <- ggplot2::ggplot() +
   ggplot2::scale_colour_manual(values = cols, guide = "none") +
   ggplot2::scale_x_continuous(breaks = seq_along(group_levels), labels = group_levels) +
   ggplot2::labs(x = NULL, y = "Response score") +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (show_signif) {
   step <- diff(range(df$value)) * 0.1
@@ -92,5 +92,5 @@ if (use_facet) {
   p <- p + ggplot2::facet_wrap(~panel, scales = "free_x")
 }
 
-pv_save(p, "figure", width_mm = 120, height_mm = 82)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

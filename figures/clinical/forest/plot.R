@@ -11,7 +11,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(hr, study)) +
   ggplot2::geom_point(size = 2, colour = cols[1]) +
   ggplot2::scale_x_log10() +
   ggplot2::labs(x = "Hazard ratio", y = NULL) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 89, height_mm = 80)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

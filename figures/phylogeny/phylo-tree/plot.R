@@ -47,7 +47,7 @@ p <- ggtree::ggtree(tr, ggplot2::aes(colour = group), layout = lay, branch.lengt
     axis.line.y = ggplot2::element_blank(),
     axis.text.y = ggplot2::element_blank(),
     axis.ticks.y = ggplot2::element_blank(),
-    legend.position = "right",
+    legend.position = "inside",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
 

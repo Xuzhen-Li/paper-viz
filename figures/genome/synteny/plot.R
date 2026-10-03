@@ -102,7 +102,7 @@ p_rib <- ggplot2::ggplot() +
     axis.ticks.y = ggplot2::element_blank(),
     axis.line.y = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "right"
+    legend.position = "inside"
   )
 
 # anchors: pair rows that share block order

@@ -74,8 +74,8 @@ if (layout == "split") {
     ggplot2::scale_fill_manual(values = cols, name = NULL) +
     ggplot2::scale_x_continuous(breaks = seq_along(facet_levels), labels = facet_levels) +
     ggplot2::labs(x = NULL, y = "Expression (log2)") +
-    theme_viz() +
-    ggplot2::theme(legend.position = "top")
+    theme_viz(base_size = 7) +
+    ggplot2::theme(legend.position = "inside")
   if (!is.null(br)) {
     p <- p +
       ggplot2::geom_segment(
@@ -107,7 +107,7 @@ if (layout == "split") {
     ggplot2::facet_wrap(~facet) +
     ggplot2::scale_fill_manual(values = cols, guide = "none") +
     ggplot2::labs(x = NULL, y = "Expression (log2)") +
-    theme_viz()
+    theme_viz(base_size = 7)
   if (show_signif) {
     br <- do.call(rbind, lapply(seq_along(facet_levels), function(i) {
       sub <- df[df$facet == facet_levels[i], ]
@@ -133,5 +133,5 @@ if (layout == "split") {
   }
 }
 
-pv_save(p, "figure", width_mm = 110, height_mm = 78)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

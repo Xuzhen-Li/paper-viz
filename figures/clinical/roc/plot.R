@@ -50,7 +50,12 @@ p <- ggplot2::ggplot(plot_df, ggplot2::aes(fpr, tpr, colour = legend)) +
     y = "True positive rate",
     title = if (isTRUE(time_dependent)) sprintf("Status at %s months", landmark_time) else NULL
   ) +
-  theme_viz()
+  theme_viz(base_size = 7) +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.98, 0.04),
+    legend.justification.inside = c(1, 0)
+  )
 
-pv_save(p, "figure", width_mm = 120, height_mm = 110)
+pv_save(p, "figure", width_mm = 85, height_mm = 85)
 message("wrote preview.png")

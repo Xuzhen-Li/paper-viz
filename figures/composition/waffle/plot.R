@@ -54,7 +54,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y, fill = part)) +
     axis.text = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     axis.line = ggplot2::element_blank(),
-    legend.position = "right",
+    legend.position = "inside",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
     plot.margin = ggplot2::margin(2, 2, 2, 2, "mm")
   )

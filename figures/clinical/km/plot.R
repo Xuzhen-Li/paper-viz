@@ -22,7 +22,7 @@ p <- ggplot2::ggplot(plot_df, ggplot2::aes(time, surv, colour = arm)) +
   ggplot2::scale_colour_manual(values = km_cols) +
   ggplot2::scale_y_continuous(limits = c(0, 1)) +
   ggplot2::labs(x = "Time", y = "Survival probability", colour = NULL) +
-  theme_viz()
+  theme_viz(base_size = 7)
 
-pv_save(p, "figure", width_mm = 89, height_mm = 70)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

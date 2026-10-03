@@ -40,7 +40,7 @@ p <- p +
     y = expression(-log[10](italic(p)))
   ) +
   theme_viz() +
-  ggplot2::theme(legend.position = "right")
+  ggplot2::theme(legend.position = "inside")
 
 pv_save(p, "figure", width_mm = 130, height_mm = 95)
 message("wrote preview.png")

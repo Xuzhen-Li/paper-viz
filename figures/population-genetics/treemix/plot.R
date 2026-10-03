@@ -31,7 +31,7 @@ p <- ggtree::ggtree(tr, linewidth = 0.35, colour = "#1e3a5f") +
     axis.text.y = ggplot2::element_blank(),
     axis.ticks.y = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "right"
+    legend.position = "inside"
   )
 
 if (isTRUE(show_migration) && nrow(migs)) {

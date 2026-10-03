@@ -23,14 +23,14 @@ if (use_facet) {
 }
 
 p <- ggplot2::ggplot(df, ggplot2::aes(group, value, colour = group)) +
-  ggbeeswarm::geom_quasirandom(size = 0.7, width = 0.28, alpha = 0.85) +
+  ggbeeswarm::geom_quasirandom(size = 1.2, width = 0.28, alpha = 0.85) +
   ggplot2::stat_summary(
     fun = stats::median, geom = "crossbar",
     width = 0.45, linewidth = 0.3, colour = "grey15", show.legend = FALSE
   ) +
   ggplot2::scale_colour_manual(values = cols, guide = "none") +
   ggplot2::labs(x = NULL, y = "Response") +
-  theme_viz()
+  theme_viz(base_size = 7)
 
 if (show_signif && !use_facet) {
   step <- diff(range(df$value)) * 0.14
@@ -71,5 +71,5 @@ if (use_facet) {
   p <- p + ggplot2::facet_wrap(~panel, scales = "free_x")
 }
 
-pv_save(p, "figure", width_mm = 100, height_mm = 82)
+pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")
