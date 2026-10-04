@@ -1,6 +1,8 @@
 title: Radar chart
 title_zh: 雷达图
 slug: radar
+variant_of: parallel-coordinates
+variant_label: "Radar"
 category: comparison
 tags:
   - radar

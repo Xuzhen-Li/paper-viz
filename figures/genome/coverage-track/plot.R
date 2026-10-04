@@ -26,11 +26,15 @@ track_theme <- function(bottom = FALSE) {
 
 panels <- list()
 heights <- numeric()
+track_pal <- pv_palette("categorical", 6)
 
 if (isTRUE(show_depth)) {
   sub <- df[df$track == "Depth", , drop = FALSE]
   panels[[length(panels) + 1L]] <- ggplot2::ggplot(sub, ggplot2::aes(mb, value)) +
-    ggplot2::geom_area(fill = "#C6DBEF", colour = "#2171B5", linewidth = 0.25) +
+    ggplot2::geom_area(
+      fill = grDevices::adjustcolor(track_pal[1], alpha.f = 0.45),
+      colour = track_pal[1], linewidth = 0.25
+    ) +
     ggplot2::labs(x = NULL, y = "Depth") +
     track_theme(FALSE)
   heights <- c(heights, 1)
@@ -38,7 +42,10 @@ if (isTRUE(show_depth)) {
 if (isTRUE(show_atac)) {
   sub <- df[df$track == "ATAC", , drop = FALSE]
   panels[[length(panels) + 1L]] <- ggplot2::ggplot(sub, ggplot2::aes(mb, value)) +
-    ggplot2::geom_area(fill = "#FEE0B6", colour = "#E08214", linewidth = 0.25) +
+    ggplot2::geom_area(
+      fill = grDevices::adjustcolor(track_pal[6], alpha.f = 0.45),
+      colour = track_pal[6], linewidth = 0.25
+    ) +
     ggplot2::labs(x = NULL, y = "ATAC") +
     track_theme(FALSE)
   heights <- c(heights, 0.9)
@@ -46,7 +53,10 @@ if (isTRUE(show_atac)) {
 if (isTRUE(show_rna)) {
   sub <- df[df$track == "RNA", , drop = FALSE]
   panels[[length(panels) + 1L]] <- ggplot2::ggplot(sub, ggplot2::aes(mb, value)) +
-    ggplot2::geom_area(fill = "#C7E9C0", colour = "#238B45", linewidth = 0.25) +
+    ggplot2::geom_area(
+      fill = grDevices::adjustcolor(track_pal[3], alpha.f = 0.45),
+      colour = track_pal[3], linewidth = 0.25
+    ) +
     ggplot2::labs(x = NULL, y = "RNA") +
     track_theme(!isTRUE(show_cnv))
   heights <- c(heights, 0.9)
@@ -61,18 +71,23 @@ if (isTRUE(show_cnv)) {
   seg <- data.frame(
     xmin = sub$mb[start_ix] - half,
     xmax = sub$mb[end_ix] + half,
-    cn = factor(runs$values, levels = c(0, 1, 2, 3, 4))
+    cn = factor(runs$values)
   )
-  cn_cols <- c("0" = "#2166AC", "1" = "#67A9CF", "2" = "#D9D9D9", "3" = "#E08214", "4" = "#B35806")
+  cn_pal <- pv_palette("categorical", 8)
+  cn_all <- c("0" = cn_pal[3], "1" = cn_pal[1], "2" = "#E0E0E0", "3" = cn_pal[6], "4" = cn_pal[4])
+  cn_cols <- cn_all[levels(seg$cn)]
   panels[[length(panels) + 1L]] <- ggplot2::ggplot(seg, ggplot2::aes(fill = cn)) +
     ggplot2::geom_rect(ggplot2::aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = as.numeric(as.character(cn)))) +
     ggplot2::geom_hline(yintercept = 2, linetype = "dashed", linewidth = 0.25) +
-    ggplot2::scale_fill_manual(values = cn_cols, name = "CN", drop = FALSE) +
+    ggplot2::scale_fill_manual(values = cn_cols, name = "CN", drop = TRUE) +
     ggplot2::scale_y_continuous(breaks = 0:4, limits = c(0, 4.4)) +
     ggplot2::labs(x = "Position on Chr5 (Mb)", y = "Copy number") +
     track_theme(TRUE) +
-    ggplot2::theme(legend.key.size = ggplot2::unit(2.6, "mm"))
-  heights <- c(heights, 0.85)
+    ggplot2::theme(
+      legend.key.size = ggplot2::unit(2.6, "mm"),
+      legend.position = "bottom"
+    )
+  heights <- c(heights, 1.25)
 }
 
 if (length(panels) == 1L) {

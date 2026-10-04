@@ -1,6 +1,8 @@
 title: NMDS
 title_zh: 非度量多维标度
 slug: nmds
+variant_of: pca-biplot
+variant_label: "NMDS"
 category: dimension-reduction
 tags:
   - nmds

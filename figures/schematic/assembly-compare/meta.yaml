@@ -1,6 +1,8 @@
 title: Assembly strategy comparison
 title_zh: 组装策略对比
 slug: assembly-compare
+variant_of: multiomics-parallel
+variant_label: "Assembly"
 category: schematic
 tags:
   - assembly

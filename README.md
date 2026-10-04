@@ -14,18 +14,22 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 
 在线画廊 / Gallery: <https://xuzhen-li.github.io/paper-viz/>
 
+画廊一张卡片是一个主图。近重复图写在 `meta.yaml` 的 `variant_of` 上，变成这张卡片里的切换，不再各占一格。顶栏按任务筛选，也可以把数据图和流程图分开。搜索匹配中英文标题、标签、`when_to_use`、`customize` 和列名（例如「差异基因」会找到火山图和 MA 图）。打开卡片可以看大图、用途、列说明、CSV 表头和前 5 行、脚本顶部赋值参数和画布毫米；可以复制 `plot.R`，并下载原始的 `plot.R`、`data.csv`、`make_data.R`（流程图则是 `template.drawio` 和 `figure.svg`）。地址栏 `#slug` 直接打开该图，例如 <https://xuzhen-li.github.io/paper-viz/#volcano> 。
+
+One gallery card is one main figure. Near-duplicates set `variant_of` in `meta.yaml` and show up as toggles on that card. Filter by task, and separate data figures from schematics. Search matches titles, tags, when-to-use text, customize notes, and column names. Open a card for the large preview, column descriptions, a CSV sample, top-of-file parameters, and canvas size; copy `plot.R` or download the raw files. `#slug` opens that figure, for example <https://xuzhen-li.github.io/paper-viz/#volcano>.
+
 ## 分类 / Categories
 
 <!-- CATALOG:START -->
 
-共 117 张。
+共 120 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 8 |
 | `comparison` | 比较 | 11 |
-| `correlation` | 相关 | 7 |
-| `composition` | 组成 | 11 |
+| `correlation` | 相关 | 8 |
+| `composition` | 组成 | 12 |
 | `heatmap` | 热图 | 3 |
 | `dimension-reduction` | 降维 | 6 |
 | `differential-expression` | 差异表达 | 3 |
@@ -34,7 +38,7 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 | `genome` | 基因组 | 20 |
 | `phylogeny` | 系统发育 | 2 |
 | `network` | 网络 | 2 |
-| `microbiome-ecology` | 微生物与生态 | 4 |
+| `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
 | `schematic` | 流程图模板 | 20 |
 
@@ -52,14 +56,14 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
 <img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
-### 相关 `correlation`（7）
+### 相关 `correlation`（8）
 
 <img src="figures/correlation/bland-altman/preview.png" width="200" alt="Bland–Altman 图">
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
 
-### 组成 `composition`（11）
+### 组成 `composition`（12）
 
 <img src="figures/composition/alluvial/preview.png" width="200" alt="桑基 / 冲积图">
 <img src="figures/composition/donut/preview.png" width="200" alt="环形图">
@@ -115,12 +119,12 @@ R-first paper-figure library: copy a figure folder, swap `data.csv` to the decla
 <img src="figures/network/chord/preview.png" width="200" alt="弦图">
 <img src="figures/network/network/preview.png" width="200" alt="相关性网络">
 
-### 微生物与生态 `microbiome-ecology`（4）
+### 微生物与生态 `microbiome-ecology`（5）
 
 <img src="figures/microbiome-ecology/mantel-plot/preview.png" width="200" alt="Mantel 检验图">
 <img src="figures/microbiome-ecology/rarefaction/preview.png" width="200" alt="稀释曲线">
+<img src="figures/microbiome-ecology/rda-biplot/preview.png" width="200" alt="RDA 双序图">
 <img src="figures/microbiome-ecology/stamp-diffbar/preview.png" width="200" alt="STAMP 差异条形">
-<img src="figures/microbiome-ecology/taxa-tree-bar/preview.png" width="200" alt="带树的物种组成柱">
 
 ### 临床 `clinical`（3）
 

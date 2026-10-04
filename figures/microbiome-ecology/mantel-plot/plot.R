@@ -53,27 +53,50 @@ if (isTRUE(show_links) && nrow(man)) {
 }
 om_df <- data.frame(name = omics, x = length(env_names) + 2.55, y = om_y[omics], stringsAsFactors = FALSE)
 p <- p +
-  ggplot2::geom_point(data = om_df, ggplot2::aes(x, y), size = 1.4, colour = "#1e3a5f") +
+  ggplot2::geom_point(data = om_df, ggplot2::aes(x, y), size = 1.6, colour = "grey30") +
   ggplot2::geom_text(
     data = om_df, ggplot2::aes(x + 0.15, y, label = name),
     hjust = 0, size = 2.0, family = viz_sans_family()
   ) +
-  ggplot2::scale_fill_gradientn(colours = cols_div, limits = c(-1, 1), name = "Pearson r", na.value = "grey90") +
-  ggplot2::scale_colour_gradientn(colours = cols_div, limits = c(-1, 1), name = "Mantel r") +
+  ggplot2::scale_fill_gradientn(
+    colours = cols_div, limits = c(-1, 1), name = "Pearson r", na.value = "grey90",
+    breaks = c(-1, 0, 1)
+  ) +
+  ggplot2::scale_colour_gradientn(
+    colours = cols_div, limits = c(-1, 1), name = "Mantel r",
+    breaks = c(-1, 0, 1)
+  ) +
   ggplot2::scale_linewidth(range = c(0.25, 0.9), guide = "none") +
   ggplot2::scale_linetype_manual(values = c("p < 0.01" = "solid", "p < 0.05" = "dashed"), name = NULL) +
   ggplot2::scale_x_continuous(
     breaks = seq_along(env_names), labels = env_names,
-    expand = ggplot2::expansion(add = c(0.4, 2.2))
+    expand = ggplot2::expansion(add = c(0.55, 2.8))
   ) +
-  ggplot2::scale_y_continuous(breaks = seq_along(env_names), labels = env_names, expand = ggplot2::expansion(add = 0.4)) +
+  ggplot2::scale_y_continuous(breaks = seq_along(env_names), labels = env_names, expand = ggplot2::expansion(add = 0.45)) +
   ggplot2::labs(x = NULL, y = NULL) +
+  ggplot2::guides(
+    fill = ggplot2::guide_colourbar(
+      title.position = "top", title.hjust = 0.5,
+      barwidth = ggplot2::unit(32, "mm"), barheight = ggplot2::unit(3, "mm"),
+      order = 1
+    ),
+    colour = ggplot2::guide_colourbar(
+      title.position = "top", title.hjust = 0.5,
+      barwidth = ggplot2::unit(32, "mm"), barheight = ggplot2::unit(3, "mm"),
+      order = 2
+    ),
+    linetype = ggplot2::guide_legend(order = 3, nrow = 2)
+  ) +
   theme_viz() +
   ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1),
+    axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5, size = 7),
+    axis.text.y = ggplot2::element_text(size = 7),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "inside",
-    panel.border = ggplot2::element_blank()
+    plot.margin = ggplot2::margin(3, 8, 2, 2, "mm"),
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.box.spacing = ggplot2::unit(2, "mm"),
+    panel.border = ggplot2::element_rect(colour = "black", fill = NA, linewidth = 0.5)
   ) +
   ggplot2::coord_fixed(clip = "off")
 

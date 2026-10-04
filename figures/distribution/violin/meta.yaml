@@ -1,6 +1,8 @@
 title: Violin plot
 title_zh: 小提琴图
 slug: violin
+variant_of: raincloud
+variant_label: "Violin"
 category: distribution
 tags:
   - violin

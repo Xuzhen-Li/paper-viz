@@ -1,6 +1,8 @@
 title: RNA-seq analysis route
 title_zh: RNA-seq 分析路线
 slug: rnaseq-stages
+variant_of: project-phases
+variant_label: "RNA-seq"
 category: schematic
 tags:
   - rna-seq

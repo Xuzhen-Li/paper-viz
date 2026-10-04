@@ -6,6 +6,8 @@ tags:
   - volcano
   - differential-expression
   - fold-change
+  - 差异基因
+  - log2FC
 packages:
   - ggplot2
 data_columns:

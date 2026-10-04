@@ -1,6 +1,8 @@
 title: Diversity window scan
 title_zh: 多样性滑窗曼哈顿
 slug: window-scan
+variant_of: selection-scan
+variant_label: "Window"
 category: population-genetics
 tags:
   - fst

@@ -35,15 +35,19 @@ p <- ggplot2::ggplot(plot_df, ggplot2::aes(x, q, fill = ancestry)) +
     breaks = mids$x, labels = as.character(mids$pop),
     expand = ggplot2::expansion(add = 0.8)
   ) +
-  ggplot2::scale_y_continuous(expand = c(0, 0), breaks = c(0, 0.5, 1)) +
+  ggplot2::scale_y_continuous(
+    expand = ggplot2::expansion(mult = c(0.06, 0.03)),
+    breaks = c(0, 0.5, 1)
+  ) +
   ggplot2::labs(x = NULL, y = "Ancestry proportion") +
   theme_viz() +
   ggplot2::theme(
+    legend.position = "bottom",
     legend.key = ggplot2::element_blank(),
     legend.key.size = ggplot2::unit(3.2, "mm"),
     strip.background = ggplot2::element_blank(),
     strip.text = ggplot2::element_text(size = 6.5, hjust = 0),
-    panel.spacing.y = ggplot2::unit(1.2, "mm"),
+    panel.spacing.y = ggplot2::unit(4, "mm"),
     axis.ticks.x = ggplot2::element_blank()
   )
 

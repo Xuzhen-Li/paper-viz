@@ -3,15 +3,8 @@ source("../../../styles/r/theme_viz.R")
 
 as_proportion <- FALSE
 sub_levels <- c("C>A", "C>G", "C>T", "T>A", "T>G", "T>C")
-# COSMIC SBS96 class colours.
-sbs_cols <- c(
-  "C>A" = "#03BCEE",
-  "C>G" = "#3D3D3D",
-  "C>T" = "#E32926",
-  "T>A" = "#999999",
-  "T>G" = "#A1CE63",
-  "T>C" = "#EBC6C4"
-)
+# Six classes. categorical n=6 stops before yellow.
+sbs_cols <- stats::setNames(pv_palette("categorical", 6), sub_levels)
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$substitution <- factor(df$substitution, levels = sub_levels)
@@ -57,18 +50,6 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y, fill = substitution)) +
   ) +
   ggplot2::scale_fill_manual(values = sbs_cols, guide = "none") +
   ggplot2::scale_colour_manual(values = sbs_cols, guide = "none") +
-  ggplot2::geom_text(
-    ggplot2::aes(x, y = -0.05 * top, label = b5),
-    size = 1.15, colour = "black"
-  ) +
-  ggplot2::geom_text(
-    ggplot2::aes(x, y = -0.105 * top, label = midb),
-    size = 1.15, colour = "black"
-  ) +
-  ggplot2::geom_text(
-    ggplot2::aes(x, y = -0.16 * top, label = b3),
-    size = 1.15, colour = "black"
-  ) +
   ggplot2::scale_x_continuous(expand = c(0.01, 0.01)) +
   ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.06))) +
   ggplot2::coord_cartesian(ylim = c(0, max(df$y) * 1.22), clip = "off") +
@@ -79,7 +60,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y, fill = substitution)) +
     axis.ticks.x = ggplot2::element_blank(),
     axis.title.x = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(1, 2, 14, 2, "mm")
+    plot.margin = ggplot2::margin(2, 2, 2, 2, "mm")
   )
 
 pv_save(p, "figure", width_mm = 183, height_mm = 98)

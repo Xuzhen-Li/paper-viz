@@ -22,63 +22,88 @@ ord <- order(comp, -colMeans(mat))
 mat <- mat[, ord, drop = FALSE]
 comp <- comp[ord]
 
-comp_cols <- c(core = "#08306B", shell = "#6BAED6", cloud = "#FDB863")
-cell_cols <- c("0" = "#F2F2F2", "1" = "#0072B2")
+pal <- pv_palette("categorical", 6)
+comp_cols <- c(core = pal[1], shell = pal[3], cloud = pal[6])
+cell_cols <- c("0" = "#E0E0E0", "1" = pal[1])
 
-save_base <- function(draw, width_mm, height_mm) {
-  w <- width_mm / 25.4
-  h <- height_mm / 25.4
-  grDevices::cairo_pdf("figure.pdf", width = w, height = h, family = fam, pointsize = 6.5)
-  draw()
-  grDevices::dev.off()
-  grDevices::png("figure.png", width = w, height = h, units = "in", res = 600, type = "cairo", family = fam, pointsize = 6.5)
-  draw()
-  grDevices::dev.off()
-  grDevices::png("preview.png", width = w, height = h, units = "in", res = 1200 / w, type = "cairo", family = fam, pointsize = 6.5)
-  draw()
-  grDevices::dev.off()
+if (isTRUE(cluster_genomes)) {
+  hc <- stats::hclust(stats::dist(mat, method = "binary"))
+  mat <- mat[hc$order, , drop = FALSE]
 }
 
-draw <- function() {
-  top <- NULL
-  if (isTRUE(show_compartment)) {
-    top <- ComplexHeatmap::HeatmapAnnotation(
-      compartment = comp,
-      col = list(compartment = comp_cols),
-      annotation_name_gp = grid::gpar(fontsize = 12, fontfamily = fam),
-      annotation_legend_param = list(
-        title_gp = grid::gpar(fontsize = 12, fontfamily = fam),
-        labels_gp = grid::gpar(fontsize = 11, fontfamily = fam)
-      ),
-      simple_anno_size = grid::unit(3.2, "mm"),
-      show_legend = TRUE
-    )
-  }
-  ht <- ComplexHeatmap::Heatmap(
-    mat,
-    name = "PAV",
-    col = cell_cols,
-    cluster_rows = isTRUE(cluster_genomes),
-    cluster_columns = FALSE,
-    show_column_names = FALSE,
-    row_names_gp = grid::gpar(fontsize = 11, fontfamily = fam),
-    column_title = "Gene family",
-    column_title_gp = grid::gpar(fontsize = 13, fontfamily = fam),
-    row_title = "Genome",
-    row_title_gp = grid::gpar(fontsize = 13, fontfamily = fam),
-    top_annotation = top,
-    heatmap_legend_param = list(
-      title = "Present",
-      at = c(0, 1),
-      labels = c("absent", "present"),
-      title_gp = grid::gpar(fontsize = 12, fontfamily = fam),
-      labels_gp = grid::gpar(fontsize = 11, fontfamily = fam)
-    ),
-    border = TRUE,
-    rect_gp = grid::gpar(col = "white", lwd = 0.2)
+long <- data.frame(
+  genome = rownames(mat)[row(mat)],
+  family = colnames(mat)[col(mat)],
+  present = factor(as.vector(mat), levels = c("0", "1")),
+  stringsAsFactors = FALSE
+)
+long$genome <- factor(long$genome, levels = rev(rownames(mat)))
+long$family <- factor(long$family, levels = colnames(mat))
+
+p_heat <- ggplot2::ggplot(long, ggplot2::aes(family, genome, fill = present)) +
+  ggplot2::geom_tile(colour = "white", linewidth = 0.05) +
+  ggplot2::scale_fill_manual(
+    values = cell_cols, name = "Present",
+    labels = c("0" = "absent", "1" = "present")
+  ) +
+  ggplot2::scale_x_discrete(expand = c(0, 0)) +
+  ggplot2::labs(x = "Gene family", y = "Genome") +
+  theme_viz() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_blank(),
+    axis.ticks.x = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
-  ComplexHeatmap::draw(ht, padding = grid::unit(c(2, 2, 2, 8), "mm"))
+
+if (isTRUE(show_compartment)) {
+  ann <- data.frame(
+    family = factor(names(comp), levels = colnames(mat)),
+    compartment = comp,
+    stringsAsFactors = FALSE
+  )
+  spacer <- rownames(mat)[which.max(nchar(rownames(mat)))]
+  p_ann <- ggplot2::ggplot(ann, ggplot2::aes(family, y = 1, fill = compartment)) +
+    ggplot2::geom_tile(height = 1) +
+    ggplot2::scale_fill_manual(values = comp_cols, name = "Compartment") +
+    ggplot2::scale_x_discrete(expand = c(0, 0), drop = FALSE) +
+    ggplot2::scale_y_continuous(breaks = 1, labels = spacer, expand = c(0, 0)) +
+    ggplot2::labs(x = NULL, y = "Genome") +
+    theme_viz() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_text(colour = "white"),
+      axis.ticks = ggplot2::element_blank(),
+      axis.title.x = ggplot2::element_blank(),
+      axis.title.y = ggplot2::element_text(colour = "white"),
+      panel.border = ggplot2::element_blank(),
+      legend.position = "bottom",
+      plot.margin = ggplot2::margin(1, 0, 0, 0, "mm"),
+      plot.background = ggplot2::element_rect(fill = "white", colour = NA)
+    )
+  grab_legend <- function(plot) {
+    g <- ggplot2::ggplotGrob(plot)
+    k <- which(vapply(g$grobs, function(x) identical(x$name, "guide-box"), logical(1)))
+    if (!length(k)) return(ggplot2::zeroGrob())
+    g$grobs[[k[[1]]]]
+  }
+  p_ann <- p_ann + ggplot2::theme(legend.position = "none")
+  p_heat <- p_heat + ggplot2::theme(legend.position = "none")
+  body <- cowplot::plot_grid(
+    p_ann, p_heat, ncol = 1, align = "v", axis = "lr",
+    rel_heights = c(0.045, 1)
+  )
+  legs <- cowplot::plot_grid(
+    grab_legend(p_ann + ggplot2::theme(legend.position = "bottom")),
+    grab_legend(p_heat + ggplot2::theme(legend.position = "bottom")),
+    nrow = 1
+  ) +
+    ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
+  p <- cowplot::plot_grid(body, legs, ncol = 1, rel_heights = c(1, 0.14)) +
+    ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
+} else {
+  p <- p_heat
 }
 
-save_base(draw, width_mm = 183, height_mm = 110)
+pv_save(p, "figure", width_mm = 183, height_mm = 110)
 message("wrote preview.png")

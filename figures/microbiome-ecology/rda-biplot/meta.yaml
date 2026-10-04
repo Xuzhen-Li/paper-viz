@@ -1,0 +1,26 @@
+title: RDA biplot
+title_zh: RDA 双序图
+slug: rda-biplot
+category: microbiome-ecology
+tags:
+  - rda
+  - biplot
+  - ordination
+  - environment
+packages:
+  - ggplot2
+  - vegan
+  - ggrepel
+data_columns:
+  sample: 样方编号（字符串）；data.csv 与 data_env.csv 用它对齐
+  group: 生境分组（字符串，只在 data.csv）
+  taxon: 物种名（字符串）
+  abundance: 该样方该物种的个体计数（非负整数）
+  pH: 土壤 pH（数值，data_env.csv）
+  Moisture: 土壤含水量，百分数（数值，data_env.csv）
+  Nitrogen: 全氮，g/kg（数值，data_env.csv）
+  Temp: 生长季均温，摄氏度（数值，data_env.csv）
+  OrganicC: 有机碳，百分数（数值，data_env.csv）
+when_to_use: "样方群落要同时看生境分组和几个环境因子的方向时用。Use when sites should be ordinated with environmental arrows on the same RDA axes."
+customize: "plot.R 顶部 scaling 传给 vegan::scores（2 为物种相关双序图）；arrow_frac 控制环境箭头相对样方云的显示长度。分组色取 pv_palette(\"categorical\") 前三色。轴标题百分比是该轴占全部惯量的比例。"
+lang: R

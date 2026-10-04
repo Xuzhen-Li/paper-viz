@@ -16,7 +16,7 @@ nodes <- nodes[nodes$node %in% keep, , drop = FALSE]
 g <- igraph::graph_from_data_frame(edges[, c("from", "to", "weight")], directed = FALSE, vertices = nodes)
 igraph::V(g)$degree <- igraph::degree(g)
 if (colour_by == "none") {
-  cols <- setNames(rep("#2A629A", 4), c("C1", "C2", "C3", "C4"))
+  cols <- setNames(rep(pv_palette("categorical", 1), 4), c("C1", "C2", "C3", "C4"))
 } else {
   cols <- setNames(pv_palette("categorical", 4), c("C1", "C2", "C3", "C4"))
 }
@@ -35,7 +35,7 @@ p <- ggraph::ggraph(g, layout = "fr") +
     axis.text = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "right"
+    legend.position = "bottom"
   )
 
 if (isTRUE(show_labels)) {

@@ -1,6 +1,8 @@
 title: Dumbbell chart
 title_zh: 哑铃图
 slug: dumbbell
+variant_of: cleveland-dot
+variant_label: "Dumbbell"
 category: comparison
 tags:
   - dumbbell

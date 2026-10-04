@@ -1,6 +1,8 @@
 title: Enrichment bar
 title_zh: 富集柱状图
 slug: enrichment-bar
+variant_of: enrichment-dot
+variant_label: "Bar"
 category: enrichment
 tags:
   - enrichment

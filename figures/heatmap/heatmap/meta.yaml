@@ -1,6 +1,7 @@
 title: Clustered heatmap
 title_zh: 聚类热图
 slug: heatmap
+variant_label: "Clustered"
 category: heatmap
 tags:
   - heatmap

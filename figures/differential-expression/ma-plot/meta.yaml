@@ -6,6 +6,7 @@ tags:
   - ma-plot
   - differential-expression
   - fold-change
+  - 差异基因
 packages:
   - ggplot2
   - ggrepel

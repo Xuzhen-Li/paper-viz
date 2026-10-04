@@ -40,7 +40,7 @@ brlen <- if (layout == "dendrogram") "none" else "branch.length"
 pop_cols <- setNames(pv_palette("categorical", 4), c("North", "South", "East", "West"))
 
 p <- ggtree::ggtree(tr, ggplot2::aes(colour = group), layout = lay, branch.length = brlen, linewidth = 0.3) +
-  ggplot2::scale_colour_manual(values = pop_cols, name = "Population", na.value = "#6B6B6B") +
+  ggplot2::scale_colour_manual(values = pop_cols, name = "Population", na.value = "grey30") +
   ggplot2::labs(x = if (layout == "dendrogram") NULL else "Divergence") +
   theme_viz() +
   ggplot2::theme(
@@ -48,19 +48,31 @@ p <- ggtree::ggtree(tr, ggplot2::aes(colour = group), layout = lay, branch.lengt
     axis.text.y = ggplot2::element_blank(),
     axis.ticks.y = ggplot2::element_blank(),
     legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification.inside = c(0, 1),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
 
 if (isTRUE(show_tip_label) && layout %in% c("rectangular", "dendrogram")) {
-  p <- p + ggtree::geom_tiplab(size = 1.7, colour = "black", offset = 0.002, family = viz_sans_family())
+  p <- p + ggtree::geom_tiplab(size = 2.1, colour = "black", offset = 0.02, family = viz_sans_family())
 }
 if (isTRUE(show_tip_label) && layout %in% c("circular", "fan")) {
   p <- p + ggtree::geom_tiplab2(size = 1.6, colour = "black", offset = 0.02, family = viz_sans_family())
 }
 if (isTRUE(show_bootstrap)) {
-  p <- p + ggtree::geom_nodelab(
-    ggplot2::aes(label = ifelse(as.numeric(label) >= bootstrap_min, label, "")),
-    size = 1.5, hjust = 1.15, colour = "#333333", family = viz_sans_family()
+  nd <- p$data[!p$data$isTip & nzchar(p$data$label), , drop = FALSE]
+  nd$bs <- suppressWarnings(as.numeric(nd$label))
+  nd <- nd[!is.na(nd$bs) & nd$bs >= bootstrap_min & !is.na(nd$branch.length), , drop = FALSE]
+  # Very short branches have no room; their numbers collide with the parent node.
+  short <- stats::quantile(nd$branch.length, 0.2, na.rm = TRUE)
+  nd <- nd[nd$branch.length > short, , drop = FALSE]
+  nd$xlab <- nd$x - 0.55 * nd$branch.length
+  p <- p + ggplot2::geom_text(
+    data = nd,
+    ggplot2::aes(x = xlab, y = y, label = label),
+    nudge_y = 0.55, vjust = 0, hjust = 0.5,
+    size = 1.6, colour = "grey30", family = viz_sans_family(),
+    inherit.aes = FALSE
   )
 }
 

@@ -45,7 +45,7 @@ p <- ggplot2::ggplot(rd) +
   ggplot2::labs(x = "Stage", y = "Share within stage") +
   theme_viz() +
   ggplot2::theme(
-    legend.position = "inside",
+    legend.position = "bottom",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
 

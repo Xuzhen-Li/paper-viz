@@ -31,14 +31,15 @@ clade_cols <- setNames(pv_palette("categorical", n_clade), paste0("C", seq_len(n
 
 p <- ggtree::ggtree(tr, ggplot2::aes(colour = clade), linewidth = 0.3) +
   ggtree::geom_tiplab(size = 1.8, colour = "black", offset = 0.01, family = viz_sans_family()) +
-  ggplot2::scale_colour_manual(values = clade_cols, name = "Clade", na.value = "#6B6B6B") +
+  ggplot2::scale_colour_manual(values = clade_cols, name = "Clade", na.value = "grey30") +
   ggplot2::labs(x = "Divergence") +
   theme_viz() +
   ggplot2::theme(
     axis.line.y = ggplot2::element_blank(),
     axis.text.y = ggplot2::element_blank(),
     axis.ticks.y = ggplot2::element_blank(),
-    legend.position = "left",
+    legend.position = "bottom",
+    legend.box = "horizontal",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
 
@@ -50,7 +51,7 @@ if (anno_mode == "bar") {
   p <- p + ggplot2::geom_rect(
     data = sub,
     ggplot2::aes(xmin = x0, xmax = x0 + value * 0.12, ymin = y - 0.35, ymax = y + 0.35),
-    fill = "#0072B2", inherit.aes = FALSE
+    fill = pv_palette("categorical", 1), inherit.aes = FALSE
   ) +
     ggplot2::annotate(
       "text", x = x0, y = max(yd$y) + 1.2, label = bar_trait,
@@ -71,7 +72,12 @@ if (anno_mode == "bar") {
       ggplot2::aes(tx, max(yd$y) + 1.15, label = trait),
       size = 1.7, angle = 45, hjust = 0, inherit.aes = FALSE, family = viz_sans_family()
     ) +
-    ggplot2::scale_fill_gradientn(colours = pv_palette("diverging", 7), name = "Value")
+    ggplot2::scale_fill_gradientn(colours = pv_palette("diverging", 7), name = "Value") +
+    ggplot2::guides(fill = ggplot2::guide_colourbar(
+      title.position = "top", title.hjust = 0,
+      barwidth = ggplot2::unit(42, "mm"),
+      barheight = ggplot2::unit(3, "mm")
+    ))
 }
 p <- p + ggplot2::expand_limits(x = xmax + 2.3, y = max(yd$y) + 2.2) +
   ggplot2::coord_cartesian(clip = "off") +

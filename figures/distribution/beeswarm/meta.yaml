@@ -1,6 +1,8 @@
 title: Beeswarm plot
 title_zh: 蜂群图
 slug: beeswarm
+variant_of: raincloud
+variant_label: "Beeswarm"
 category: distribution
 tags:
   - beeswarm

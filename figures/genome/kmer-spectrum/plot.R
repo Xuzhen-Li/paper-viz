@@ -31,14 +31,14 @@ one_panel <- function(d) {
   if (isTRUE(show_model)) {
     p <- p + ggplot2::geom_line(
       ggplot2::aes(y = model),
-      linetype = "dashed", linewidth = 0.3, colour = "#6B6B6B"
+      linetype = "dashed", linewidth = 0.3, colour = "grey30"
     )
   }
   if (isTRUE(label_peaks)) {
     p <- p + ggplot2::geom_text(
       data = labs,
       ggplot2::aes(multiplicity, count, label = peak),
-      size = 1.8, family = viz_sans_family(), colour = "#1e3a5f",
+      size = 2.0, family = viz_sans_family(), colour = "black",
       vjust = 0, nudge_y = ymax * 0.015
     )
   }
@@ -49,7 +49,7 @@ one_panel <- function(d) {
       y = ymax * 0.93,
       label = "error peak truncated",
       hjust = 0, vjust = 1,
-      size = 1.7, family = viz_sans_family(), colour = "#6B6B6B"
+      size = 2.0, family = viz_sans_family(), colour = "grey30"
     )
   }
   p <- p +

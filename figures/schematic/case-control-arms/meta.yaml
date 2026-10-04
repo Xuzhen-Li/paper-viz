@@ -1,6 +1,8 @@
 title: Case-control sequencing design
 title_zh: 病例对照测序设计
 slug: case-control-arms
+variant_of: multiomics-parallel
+variant_label: "Case-control"
 category: schematic
 tags:
   - case-control

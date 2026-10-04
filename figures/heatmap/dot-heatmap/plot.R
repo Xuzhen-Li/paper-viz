@@ -42,10 +42,10 @@ df$col <- factor(df$col, levels = unique(df$col))
 lim <- max(abs(df$value))
 p <- ggplot2::ggplot(df, ggplot2::aes(col, row, fill = value))
 if (isTRUE(map_size)) {
-  p <- p + ggplot2::geom_point(ggplot2::aes(size = size), shape = 21, colour = "grey40", stroke = 0.15)
+  p <- p + ggplot2::geom_point(ggplot2::aes(size = size), shape = 21, colour = "black", stroke = 0.15)
   p <- p + ggplot2::scale_size_area(max_size = 5.2, name = "Fraction", limits = c(0, 1))
 } else {
-  p <- p + ggplot2::geom_point(size = 3.2, shape = 21, colour = "grey40", stroke = 0.15)
+  p <- p + ggplot2::geom_point(size = 3.2, shape = 21, colour = "black", stroke = 0.15)
 }
 p <- p +
   ggplot2::scale_fill_gradientn(
@@ -54,8 +54,9 @@ p <- p +
   ggplot2::labs(x = NULL, y = NULL) +
   theme_viz() +
   ggplot2::theme(
-    axis.text.y = ggplot2::element_text(size = 5),
-    panel.grid.major = ggplot2::element_line(colour = "grey92", linewidth = 0.2)
+    axis.text.y = ggplot2::element_text(size = 7),
+    legend.position = "bottom",
+    legend.box = "vertical"
   )
 
 pv_save(p, "figure", width_mm = 160, height_mm = 140)

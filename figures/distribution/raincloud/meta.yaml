@@ -1,6 +1,7 @@
 title: Raincloud plot
 title_zh: 云雨图
 slug: raincloud
+variant_label: "Raincloud"
 category: distribution
 tags:
   - raincloud

@@ -20,8 +20,9 @@ p_bar <- ggplot2::ggplot(bar, ggplot2::aes(genome, percent, fill = te_class)) +
   ggplot2::labs(x = NULL, y = "Genome (%)") +
   theme_viz() +
   ggplot2::theme(
+    legend.position = "bottom",
     legend.key.size = ggplot2::unit(3, "mm"),
-    axis.text.x = ggplot2::element_text(angle = 30, hjust = 1)
+    axis.text.x = ggplot2::element_text(angle = 0, hjust = 0.5)
   )
 
 p_land <- ggplot2::ggplot(df, ggplot2::aes(divergence, percent, fill = te_class)) +

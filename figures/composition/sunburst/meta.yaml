@@ -1,0 +1,17 @@
+title: Sunburst
+title_zh: 旭日图
+slug: sunburst
+category: composition
+tags:
+  - sunburst
+  - composition
+  - hierarchy
+packages:
+  - ggplot2
+data_columns:
+  parent: 内环大类（字符串）
+  child: 外环子类，属于对应的 parent（字符串）
+  value: 组成权重（正数，图中按总和换算成圆心角）
+when_to_use: "一个整体分成大类、大类再分成子类，要在同一张圆图里看两层份额时用。Use when a whole splits into parent categories and their children, drawn as two concentric rings."
+customize: "plot.R 顶部 label_min_share 是写标签的最小份额，更小的扇区留空；hole 是中心圆孔半径（数据坐标）。内环按 parent 从大到小取 pv_palette(\"categorical\")，外环是对应父色的深浅变体。"
+lang: R

@@ -1,6 +1,8 @@
 title: Circular bar
 title_zh: 环状柱形图
 slug: circular-bar
+variant_of: bar-grouped
+variant_label: "Circular"
 category: comparison
 tags:
   - circular-bar

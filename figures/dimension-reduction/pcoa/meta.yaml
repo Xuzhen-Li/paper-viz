@@ -1,6 +1,8 @@
 title: PCoA
 title_zh: 主坐标分析
 slug: pcoa
+variant_of: pca-biplot
+variant_label: "PCoA"
 category: dimension-reduction
 tags:
   - pcoa

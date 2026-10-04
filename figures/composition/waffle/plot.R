@@ -8,7 +8,9 @@ df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$part <- factor(df$part, levels = part_levels)
 df <- df[order(df$part, df$cell), , drop = FALSE]
 df$cell <- seq_len(nrow(df))
-pal <- stats::setNames(pv_palette("categorical", nlevels(df$part)), levels(df$part))
+named <- setdiff(levels(df$part), "Other")
+pal <- stats::setNames(pv_palette("categorical", length(named)), named)
+if ("Other" %in% levels(df$part)) pal["Other"] <- "#E0E0E0"
 
 if (layout == "parliament") {
   n <- nrow(df)
@@ -54,7 +56,7 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y, fill = part)) +
     axis.text = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     axis.line = ggplot2::element_blank(),
-    legend.position = "inside",
+    legend.position = "bottom",
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
     plot.margin = ggplot2::margin(2, 2, 2, 2, "mm")
   )

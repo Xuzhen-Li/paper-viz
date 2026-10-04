@@ -1,6 +1,7 @@
 title: Selection scan
 title_zh: 选择扫描（XP-CLR / iHS）
 slug: selection-scan
+variant_label: "Selection"
 category: population-genetics
 tags:
   - xp-clr

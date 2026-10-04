@@ -3,15 +3,17 @@ source("../../../styles/r/theme_viz.R")
 
 show_domains <- TRUE
 class_levels <- c("Missense", "Nonsense", "Frameshift", "Inframe")
+pal <- pv_palette("categorical", 8)
 class_cols <- c(
-  Missense = "#0072B2",
-  Nonsense = "#D55E00",
-  Frameshift = "#009E73",
-  Inframe = "#CC79A7"
+  Missense = pal[1],
+  Nonsense = pal[4],
+  Frameshift = pal[5],
+  Inframe = pal[6]
 )
+# Yellow (index 7) is skipped: domain blocks are wide fills.
 domain_cols <- c(
-  SP = "#6B6B6B", LBD = "#0072B2", Fn3 = "#56B4E9", TM = "#1e3a5f",
-  JM = "#E69F00", Kinase = "#D55E00", "C-lobe" = "#009E73", PEST = "#CC79A7"
+  SP = "#E0E0E0", LBD = pal[1], Fn3 = pal[3], TM = pal[6],
+  JM = pal[2], Kinase = pal[8], "C-lobe" = pal[5], PEST = pal[4]
 )
 
 mut <- utils::read.csv("data.csv", stringsAsFactors = FALSE)

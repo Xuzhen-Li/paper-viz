@@ -13,8 +13,6 @@ bins <- df[!is.na(df$value), , drop = FALSE]
 links <- df[is.na(df$value) & nzchar(df$link_to), , drop = FALSE]
 
 fam <- viz_sans_family()
-chr_col <- c(pv_palette("categorical", 7), "#882255")
-names(chr_col) <- sprintf("Chr%d", 1:8)
 heat_cols <- pv_palette("sequential", 64)
 
 parse_link <- function(x) {
@@ -38,7 +36,7 @@ save_base <- function(draw, width_mm, height_mm) {
 }
 
 draw <- function() {
-  graphics::par(mar = c(0.4, 0.4, 0.6, 0.4), family = fam)
+  graphics::par(mar = c(1.8, 1.8, 1.8, 1.8), family = fam)
   ideo <- stats::aggregate(end ~ chr, bins, max)
   ideo$start <- 0
   ideo <- ideo[, c("chr", "start", "end")]
@@ -56,10 +54,10 @@ draw <- function() {
     panel.fun = function(x, y) {
       chr <- circlize::get.cell.meta.data("sector.index")
       xlim <- circlize::get.cell.meta.data("xlim")
-      circlize::circos.rect(xlim[1], 0, xlim[2], 1, col = chr_col[[chr]], border = NA)
+      circlize::circos.rect(xlim[1], 0, xlim[2], 1, col = "#E0E0E0", border = "black")
       circlize::circos.text(
         mean(xlim), 1.6, chr,
-        cex = 1.15, facing = "bending.inside", niceFacing = TRUE, adj = c(0.5, 0)
+        cex = 0.9, facing = "bending.inside", niceFacing = TRUE, adj = c(0.5, 0)
       )
     }
   )
@@ -86,7 +84,7 @@ draw <- function() {
       panel.fun = function(region, value, ...) {
         circlize::circos.genomicRect(
           region, value, ytop = value[[1]], ybottom = 0,
-          col = "#2A629A", border = NA
+          col = pv_palette("categorical", 1), border = NA
         )
       }
     )
@@ -96,7 +94,7 @@ draw <- function() {
     from <- links[, c("chr", "start", "end")]
     circlize::circos.genomicLink(
       from, to,
-      col = grDevices::adjustcolor("#E69F00", alpha.f = link_alpha),
+      col = grDevices::adjustcolor(pv_palette("categorical", 6)[6], alpha.f = link_alpha),
       border = NA
     )
   }

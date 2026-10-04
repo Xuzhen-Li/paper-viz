@@ -26,7 +26,19 @@ p <- p +
   ) +
   ggplot2::labs(x = "Gene ratio", y = NULL) +
   theme_viz() +
-  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 5))
+  ggplot2::theme(
+    axis.text.y = ggplot2::element_text(size = 7),
+    legend.position = "bottom",
+    legend.box = "vertical"
+  ) +
+  ggplot2::guides(
+    colour = ggplot2::guide_colourbar(
+      barwidth = ggplot2::unit(42, "mm"),
+      barheight = ggplot2::unit(3, "mm"),
+      title.position = "top",
+      title.hjust = 0.5
+    )
+  )
 if (isTRUE(facet_by_ontology)) {
   p <- p + ggplot2::facet_grid(ontology ~ ., scales = "free_y", space = "free_y")
 }

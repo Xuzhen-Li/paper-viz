@@ -32,13 +32,17 @@ df$edge <- tile_col
 
 p_aln <- ggplot2::ggplot(df, ggplot2::aes(pos, seq, fill = class)) +
   ggplot2::geom_tile(ggplot2::aes(colour = edge), linewidth = 0.25) +
-  ggplot2::geom_text(ggplot2::aes(label = base), size = 1.7, colour = "black") +
+  ggplot2::geom_text(ggplot2::aes(label = base), size = 2.4, colour = "black") +
   ggplot2::scale_fill_manual(values = class_cols, name = NULL) +
   ggplot2::scale_colour_identity(guide = "none") +
   ggplot2::scale_x_continuous(breaks = seq(5, 40, by = 5), expand = c(0, 0)) +
   ggplot2::labs(x = NULL, y = NULL) +
   theme_viz() +
-  ggplot2::theme(axis.text.x = ggplot2::element_blank(), axis.ticks.x = ggplot2::element_blank())
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_blank(),
+    axis.ticks.x = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
 
 if (!isTRUE(show_conservation)) {
   p <- p_aln + ggplot2::labs(x = "Position") +
@@ -48,10 +52,11 @@ if (!isTRUE(show_conservation)) {
   p_bar <- ggplot2::ggplot(cons, ggplot2::aes(pos, conservation)) +
     ggplot2::geom_col(width = 1, fill = pv_palette("sequential", 5)[4]) +
     ggplot2::scale_x_continuous(breaks = seq(5, 40, by = 5), expand = c(0, 0)) +
-    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = c(0, 0.5, 1)) +
+    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = c(0, 1), labels = c("0", "1")) +
     ggplot2::labs(x = "Position", y = "Conservation") +
-    theme_viz()
-  p <- cowplot::plot_grid(p_aln, p_bar, ncol = 1, rel_heights = c(3.2, 1), align = "v")
-  pv_save(p, "figure", width_mm = 183, height_mm = 78)
+    theme_viz() +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 7))
+  p <- cowplot::plot_grid(p_aln, p_bar, ncol = 1, rel_heights = c(2.1, 1.15), align = "v")
+  pv_save(p, "figure", width_mm = 183, height_mm = 88)
 }
 message("wrote preview.png")

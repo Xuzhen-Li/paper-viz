@@ -1,6 +1,7 @@
 title: Enrichment dot plot
 title_zh: 富集气泡图
 slug: enrichment-dot
+variant_label: "Dot"
 category: enrichment
 tags:
   - enrichment

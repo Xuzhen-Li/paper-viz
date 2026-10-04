@@ -17,7 +17,6 @@ df$group <- factor(df$group, levels = intersect(group_levels, unique(df$group)))
 pal <- stats::setNames(pv_palette("categorical", nlevels(df$group)), levels(df$group))
 
 ymax <- max(df$value)
-pretty_v <- scales::pretty_breaks(n = 3)(c(0, ymax))
 pad <- if (inner_hole > 0) inner_hole * ymax else 0
 ncat <- nlevels(df$category)
 ng <- nlevels(df$group)
@@ -28,13 +27,15 @@ df$xmin <- df$x + off - half
 df$xmax <- df$x + off + half
 df$ymin <- pad
 df$ymax <- pad + df$value
-ang <- 90 - 360 * (seq_len(ncat) - 0.5) / ncat
+# Horizontal labels. Tangential angles flip the category that crosses
+# 12 o'clock (ggplot2 draws angle in screen degrees; the seam inverts it).
+theta <- (seq_len(ncat) - 0.5) / ncat
 lab <- data.frame(
   x = seq_len(ncat),
-  y = pad + ymax * 1.16,
+  y = pad + ymax * 1.28,
   label = category_levels,
-  angle = ifelse(ang < -90, ang + 180, ang),
-  hjust = ifelse(ang < -90, 1, 0)
+  angle = 0,
+  hjust = ifelse(theta < 0.5, 0, 1)
 )
 
 p <- ggplot2::ggplot(df) +
@@ -46,16 +47,22 @@ p <- ggplot2::ggplot(df) +
   ggplot2::scale_x_continuous(limits = c(0.35, ncat + 0.65), expand = c(0, 0)) +
   ggplot2::scale_y_continuous(
     limits = c(0, pad + ymax * 1.48),
-    expand = c(0, 0),
-    breaks = pad + pretty_v,
-    labels = pretty_v
+    expand = c(0, 0)
   ) +
   ggplot2::coord_polar(clip = "off") +
+  ggplot2::annotate(
+    "text",
+    x = ncat / 2,
+    y = 0,
+    label = sprintf("max %.0f", ymax),
+    size = 3.2,
+    colour = "black",
+    family = viz_sans_family()
+  ) +
   theme_viz() +
   ggplot2::theme(
-    axis.text.x = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_text(size = 11),
-    axis.ticks.x = ggplot2::element_blank(),
+    axis.text = ggplot2::element_blank(),
+    axis.ticks = ggplot2::element_blank(),
     axis.title = ggplot2::element_blank(),
     axis.line = ggplot2::element_blank(),
     panel.border = ggplot2::element_blank(),
@@ -69,7 +76,7 @@ if (isTRUE(labels_outside)) {
     data = lab,
     ggplot2::aes(x = x, y = y, label = label, angle = angle, hjust = hjust),
     inherit.aes = FALSE,
-    size = 1.9,
+    size = 2.2,
     colour = "black"
   )
 }

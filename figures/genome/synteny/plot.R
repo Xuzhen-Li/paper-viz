@@ -78,7 +78,7 @@ p_rib <- ggplot2::ggplot() +
   ggplot2::geom_rect(
     data = rbind(bars_a, bars_b),
     ggplot2::aes(xmin = xmin / 1e6, xmax = xmax / 1e6, ymin = ymin, ymax = ymax),
-    fill = "#F4F4F4", colour = "#1e3a5f", linewidth = 0.25
+    fill = "#F4F4F4", colour = "black", linewidth = 0.25
   ) +
   ggplot2::geom_text(
     data = bars_a,
@@ -102,7 +102,7 @@ p_rib <- ggplot2::ggplot() +
     axis.ticks.y = ggplot2::element_blank(),
     axis.line.y = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "inside"
+    legend.position = "bottom"
   )
 
 # anchors: pair rows that share block order
@@ -127,11 +127,16 @@ if (chr_layout == "pair") {
 }
 
 p_dot <- ggplot2::ggplot(dots, ggplot2::aes(x / 1e6, y / 1e6, colour = identity)) +
-  ggplot2::geom_point(size = 0.35, alpha = 0.75) +
+  ggplot2::geom_point(size = 0.7, alpha = 0.75) +
   ggplot2::scale_colour_gradientn(colours = pv_palette("sequential", 5), name = "Identity (%)") +
   ggplot2::labs(x = "Genome A (Mb)", y = "Genome B (Mb)") +
   theme_viz() +
-  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
+  ggplot2::theme(
+    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
+    legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification.inside = c(0, 1)
+  )
 
 plots <- list()
 if (isTRUE(show_ribbon)) plots[[length(plots) + 1L]] <- p_rib

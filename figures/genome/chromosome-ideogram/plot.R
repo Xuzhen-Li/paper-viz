@@ -37,12 +37,12 @@ p <- p +
   ggplot2::geom_rect(
     data = ideo,
     ggplot2::aes(xmin = start / 1e6, xmax = end / 1e6, ymin = y - h, ymax = y + h),
-    fill = NA, colour = "#1e3a5f", linewidth = 0.25
+    fill = NA, colour = "black", linewidth = 0.25
   ) +
   ggplot2::geom_rect(
     data = cen,
     ggplot2::aes(xmin = start / 1e6, xmax = end / 1e6, ymin = y - h, ymax = y + h),
-    fill = "#1e3a5f", colour = NA
+    fill = "black", colour = NA
   ) +
   ggplot2::geom_rect(
     data = nor,
@@ -50,7 +50,7 @@ p <- p +
       xmin = start / 1e6, xmax = end / 1e6,
       ymin = y + h * 0.15, ymax = y + h
     ),
-    fill = "#E69F00", colour = NA
+    fill = pv_palette("categorical", 6)[6], colour = NA
   )
 
 if (isTRUE(show_band_labels)) {
@@ -87,6 +87,9 @@ p <- p +
   ggplot2::labs(x = "Position (Mb)", y = NULL) +
   theme_viz() +
   ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.98, 0.05),
+    legend.justification.inside = c(1, 0),
     legend.key.height = ggplot2::unit(4, "mm"),
     legend.key.width = ggplot2::unit(2.5, "mm")
   )

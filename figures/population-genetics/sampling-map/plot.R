@@ -35,18 +35,23 @@ p <- p +
   ggplot2::geom_point(
     data = df, ggplot2::aes(x, y, colour = pop, size = n), alpha = 0.95
   ) +
-  ggplot2::scale_colour_manual(values = pal, name = "Population") +
+  ggplot2::scale_colour_manual(values = pal, name = "Population", guide = "none") +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::scale_size_continuous(name = "Samples", range = c(1.1, 3.2), breaks = c(10, 20, 30)) +
   ggplot2::coord_quickmap(xlim = c(100, 126), ylim = c(20, 45)) +
   ggplot2::labs(x = "Longitude", y = "Latitude") +
   theme_viz() +
-  ggplot2::theme(legend.key = ggplot2::element_blank())
+  ggplot2::theme(
+    legend.key = ggplot2::element_blank(),
+    legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification.inside = c(0, 1)
+  )
 if (isTRUE(show_labels)) {
   cen <- do.call(rbind, lapply(split(df, df$pop), function(d) {
     data.frame(
       pop = d$pop[1], x = median(d$x), y = median(d$y),
-      lx = median(d$x), ly = max(d$y) + 0.9,
+      lx = min(d$x) - 2.0, ly = stats::median(d$y),
       stringsAsFactors = FALSE
     )
   }))
@@ -57,7 +62,8 @@ if (isTRUE(show_labels)) {
     ) +
     ggplot2::geom_label(
       data = cen, ggplot2::aes(lx, ly, label = pop),
-      size = 1.9, colour = "black", fill = "white", linewidth = 0,
+      size = 2.0, colour = "black", fill = "white", linewidth = 0,
+      hjust = 1,
       label.padding = ggplot2::unit(0.1, "lines"), inherit.aes = FALSE
     )
 }

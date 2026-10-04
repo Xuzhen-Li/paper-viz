@@ -12,7 +12,8 @@ if (!isTRUE(show_ga)) df <- df[df$substitution != "G>A", , drop = FALSE]
 
 df$end <- factor(df$end, levels = c("5'", "3'"))
 df$library <- factor(df$library, levels = libraries_keep)
-sub_cols <- c("C>T" = "#D55E00", "G>A" = "#0072B2")
+sub_pal <- pv_palette("categorical", 4)
+sub_cols <- c("C>T" = sub_pal[4], "G>A" = sub_pal[1])
 
 p <- ggplot2::ggplot(df, ggplot2::aes(pos, rate, colour = substitution)) +
   ggplot2::geom_line(linewidth = 0.4) +

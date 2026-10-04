@@ -7,7 +7,8 @@ facet_by_library <- TRUE
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$library <- factor(df$library, levels = c("Ancient", "Nucleosome", "Modern"))
-lib_cols <- c(Ancient = "#0072B2", Nucleosome = "#E69F00", Modern = "#009E73")
+lib_pal <- pv_palette("categorical", 6)
+lib_cols <- c(Ancient = lib_pal[1], Nucleosome = lib_pal[6], Modern = lib_pal[3])
 
 p <- ggplot2::ggplot(df, ggplot2::aes(length_bp, fill = library, colour = library)) +
   ggplot2::geom_histogram(

@@ -7,245 +7,747 @@
 <style>
   :root { color-scheme: light; }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 15px/1.45 system-ui, sans-serif; background: #fff; color: #1a1a1a; }
-  header, main { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
-  h1 { font-size: 1.5rem; margin: 0 0 6px; }
-  #stats { margin: 0; color: #333; }
-  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; align-items: center; }
-  input, select { font: inherit; padding: 6px 8px; border: 1px solid #ccc; background: #fff; }
-  input[type="search"] { min-width: min(100%, 260px); }
-  .cats { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
-  .cats button {
-    font: inherit; padding: 4px 10px; border: 1px solid #ccc; border-radius: 999px;
-    background: #fff; cursor: pointer; color: #1a1a1a;
+  body {
+    margin: 0;
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f3f4f6;
+    color: #1a1a1a;
   }
-  .cats button[aria-pressed="true"] { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-  .grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: #fff;
+    border-top: 3px solid #134aa3;
+    border-bottom: 1px solid #e6e8eb;
+  }
+  .header-inner, main { max-width: 1400px; margin: 0 auto; padding: 14px 16px 12px; }
+  main { padding-top: 16px; }
+  h1 { font-size: 1.35rem; font-weight: 650; margin: 0; letter-spacing: -0.02em; }
+  .lede, #stats { margin: 2px 0 0; color: #3d4a5c; }
+  .lede { font-size: 0.92rem; }
+  #stats { font-size: 0.85rem; color: #6b7280; }
+  .tools { display: flex; flex-wrap: nowrap; gap: 8px; margin: 10px 0 8px; align-items: center; }
+  input, select, button { font: inherit; }
+  input, select {
+    padding: 8px 10px;
+    border: 1px solid #d5d8de;
+    border-radius: 8px;
+    background: #fff;
+    color: #1a1a1a;
+  }
+  input[type="search"] { flex: 1 1 auto; min-width: 0; width: auto; }
+  #tag { flex: 0 1 220px; min-width: 7.2rem; max-width: 42%; }
+  .filter-row { display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; margin: 0 0 8px; }
+  .filter-label { flex: none; color: #6b7280; font-size: 0.8rem; }
+  .chips {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    min-width: 0;
+    flex: 1;
+    padding-bottom: 2px;
+  }
+  .chips::-webkit-scrollbar { display: none; height: 0; }
+  .chips button, .vchips button, #dlg-files button {
+    flex: none;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border: 1px solid #d5d8de;
+    border-radius: 999px;
+    background: #fff;
+    color: #1a1a1a;
+    cursor: pointer;
+  }
+  .chips button[aria-pressed="true"],
+  .vchips button[aria-pressed="true"] {
+    background: #134aa3;
+    color: #fff;
+    border-color: #134aa3;
+  }
+  .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 521px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 720px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 980px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   @media (min-width: 1240px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-  button.card {
-    display: block; width: 100%; padding: 8px; border: 1px solid #e5e5e5;
-    background: #fff; text-align: left; cursor: pointer;
+  article.card {
+    border: 1px solid #e6e8eb;
+    border-radius: 12px;
+    background: #fff;
+    padding: 8px 8px 12px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  button.card img { width: 100%; height: 150px; object-fit: contain; background: #fff; }
-  button.card strong { display: block; margin-top: 6px; font-size: 0.92rem; }
-  button.card span { color: #555; font-size: 0.8rem; }
-  dialog { border: 1px solid #ddd; width: min(860px, calc(100% - 24px)); padding: 16px; }
-  dialog img { max-width: 100%; height: auto; background: #fff; }
-  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
-  th, td { border-bottom: 1px solid #eee; text-align: left; padding: 4px 6px; vertical-align: top; }
-  pre { overflow: auto; max-height: 360px; background: #f6f6f6; padding: 10px; font-size: 12px; }
-  a { color: #0b57d0; }
-  .row { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
-  .hint { color: #333; }
-  h2 { font-size: 1rem; margin: 16px 0 6px; }
+  article.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+  }
+  button.hit {
+    display: block; width: 100%; padding: 0; border: 0; background: transparent;
+    text-align: left; cursor: pointer; color: inherit; border-radius: 8px;
+  }
+  .thumb {
+    aspect-ratio: 4 / 3;
+    background: #f6f7f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 4px; }
+  button.hit strong { display: block; margin-top: 8px; font-size: 0.95rem; font-weight: 650; }
+  button.hit .en { display: block; color: #6b7280; font-size: 0.8rem; }
+  button.hit .meta { display: block; min-height: 1.15em; color: #3d4a5c; font-size: 0.8rem; }
+  .vchips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .vchips button { padding: 2px 8px; font-size: 0.75rem; }
+  .empty { color: #3d4a5c; margin: 12px 0; }
+  dialog {
+    border: 0;
+    border-radius: 16px;
+    width: min(960px, calc(100% - 24px));
+    max-width: 960px;
+    max-height: min(860px, calc(100% - 24px));
+    padding: 0;
+    background: #fff;
+    color: #1a1a1a;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+    overflow: auto;
+  }
+  dialog::backdrop { background: rgba(17, 24, 39, 0.45); }
+  .dlg-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 16px 16px 12px;
+    background: #fff;
+    border-bottom: 1px solid #e6e8eb;
+  }
+  .dlg-body { padding: 12px 16px 20px; }
+  dialog h2 { font-size: 1.15rem; margin: 0; }
+  dialog h3 { font-size: 0.95rem; margin: 16px 0 6px; }
+  .en-title { margin: 2px 0 0; color: #6b7280; }
+  .figure-frame {
+    margin-top: 12px;
+    background: #f6f7f9;
+    border-radius: 12px;
+    padding: 12px;
+  }
+  dialog img {
+    display: block;
+    width: 100%;
+    max-height: 520px;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid #e6e8eb;
+    border-radius: 8px;
+  }
+  #close {
+    flex: none;
+    border: 1px solid #d5d8de;
+    border-radius: 8px;
+    background: #fff;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  #copy {
+    border: 0;
+    border-radius: 8px;
+    background: #134aa3;
+    color: #fff;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+  th, td { border-bottom: 1px solid #e6e8eb; text-align: left; padding: 4px 6px; vertical-align: top; }
+  .table-wrap { overflow-x: auto; }
+  #dlg-csv td { white-space: nowrap; }
+  pre {
+    overflow: auto;
+    max-height: 360px;
+    margin: 8px 0 0;
+    background: #f4f5f7;
+    padding: 12px;
+    font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    border: 1px solid #e6e8eb;
+    border-radius: 8px;
+  }
+  .code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 16px; }
+  .code-head h3 { margin: 0; }
+  a { color: #134aa3; }
+  #dlg-files, #dlg-draw-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+  .hint, #dlg-status { color: #3d4a5c; font-size: 0.85rem; }
+  #dlg-variants { margin: 0 0 4px; }
+  @media (max-width: 520px) {
+    .header-inner { padding: 10px 12px 8px; }
+    main { padding: 12px; }
+    h1 { font-size: 1.2rem; }
+  }
 </style>
 </head>
 <body>
 <header>
+  <div class="header-inner">
   <h1>paper-viz</h1>
+  <p class="lede">按任务找图，复制代码，换上自己的 data.csv。</p>
   <p id="stats">加载中…</p>
   <div class="tools">
-    <input id="q" type="search" placeholder="搜索标题或标签" aria-label="搜索">
+    <input id="q" type="search" placeholder="搜索标题、用途或列名" aria-label="搜索">
     <select id="tag" aria-label="标签"><option value="">全部标签</option></select>
   </div>
-  <div id="cats" class="cats" role="group" aria-label="分类"></div>
+  <div class="filter-row">
+    <span class="filter-label">类型</span>
+    <div id="kinds" class="chips" role="group" aria-label="类型"></div>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">任务</span>
+    <div id="tasks" class="chips" role="group" aria-label="任务"></div>
+  </div>
+  </div>
 </header>
-<main><div id="grid" class="grid"></div></main>
+<main>
+  <div id="grid" class="grid"></div>
+  <p id="empty" class="empty" hidden>没有匹配的图。</p>
+</main>
 <dialog id="dlg">
-  <div class="row"><strong id="dlg-title"></strong><button id="close" type="button">关闭</button></div>
-  <p id="dlg-when"></p>
+  <div class="dlg-head">
+    <div>
+      <h2 id="dlg-zh"></h2>
+      <p id="dlg-en" class="en-title"></p>
+    </div>
+    <button id="close" type="button">关闭</button>
+  </div>
+  <div class="dlg-body">
+  <div id="dlg-variants" class="chips"></div>
+  <div class="figure-frame">
   <img id="dlg-img" alt="">
+  </div>
+  <p id="dlg-when"></p>
+  <p id="dlg-canvas" class="hint"></p>
   <div id="dlg-data">
-    <h2>列</h2>
-    <table id="dlg-cols"></table>
-    <h2>可调参数</h2>
+    <h3>需要的列</h3>
+    <div class="table-wrap"><table id="dlg-cols"></table></div>
+    <h3>data.csv 表头和前 5 行</h3>
+    <div id="dlg-csv" class="table-wrap"></div>
+    <h3>可调参数</h3>
+    <div class="table-wrap"><table id="dlg-params"></table></div>
     <p id="dlg-custom"></p>
-    <p id="dlg-links"></p>
-    <h2>代码</h2>
+    <div id="dlg-files"></div>
+    <p id="dlg-status" class="hint"></p>
+    <div class="code-head">
+      <h3 id="dlg-code-label">plot.R</h3>
+      <button id="copy" type="button">复制代码</button>
+    </div>
     <pre id="dlg-code"></pre>
   </div>
   <div id="dlg-drawio" hidden>
-    <p class="hint">用 draw.io 打开直接改字。</p>
-    <p id="dlg-draw-links"></p>
+    <p id="dlg-draw-custom"></p>
+    <div id="dlg-draw-links"></div>
+    <p id="dlg-draw-status" class="hint"></p>
+  </div>
   </div>
 </dialog>
 <script>
-const GITHUB = "https://github.com/Xuzhen-Li/paper-viz/blob/main/";
-const CATEGORY_ZH = {
-  distribution: "分布",
-  comparison: "比较",
-  correlation: "相关",
-  composition: "组成",
-  heatmap: "热图",
-  "dimension-reduction": "降维",
-  "differential-expression": "差异表达",
-  enrichment: "富集",
-  "population-genetics": "群体遗传",
-  genome: "基因组",
-  phylogeny: "系统发育",
-  network: "网络",
-  "microbiome-ecology": "微生物与生态",
-  clinical: "临床",
-  schematic: "流程图模板"
+const RAW_DEFAULT = "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/";
+const BLOB_DEFAULT = "https://github.com/Xuzhen-Li/paper-viz/blob/main/";
+window.__jsErrors = [];
+window.addEventListener("error", (event) => {
+  window.__jsErrors.push(String(event.message || event.error || "error"));
+});
+window.addEventListener("unhandledrejection", (event) => {
+  window.__jsErrors.push(String(event.reason || "rejection"));
+});
+
+const state = {
+  figures: [],
+  bySlug: {},
+  tasks: [],
+  rawBase: RAW_DEFAULT,
+  blobBase: BLOB_DEFAULT,
+  kind: "all",
+  task: "",
+  shown: {}
 };
-const CATEGORY_ORDER = Object.keys(CATEGORY_ZH);
-const state = { figures: [], category: "" };
 const grid = document.querySelector("#grid");
+const empty = document.querySelector("#empty");
 const q = document.querySelector("#q");
-const tag = document.querySelector("#tag");
-const cats = document.querySelector("#cats");
+const tagSelect = document.querySelector("#tag");
+const kindsEl = document.querySelector("#kinds");
+const tasksEl = document.querySelector("#tasks");
 const dlg = document.querySelector("#dlg");
+let syncing = false;
+let loadToken = 0;
 
-function zh(cat) {
-  return CATEGORY_ZH[cat] || cat;
+function joinUrl(base, path) {
+  return String(base || "").replace(/\/$/, "") + "/" + String(path || "").replace(/^\/+/, "");
 }
 
-function blobUrl(path) {
-  return GITHUB + String(path || "").replace(/^\/+/, "");
+function mains() {
+  return state.figures.filter((fig) => !fig.variant_of);
 }
 
-function matches(fig) {
+function isSchematic(fig) {
+  return fig.lang === "drawio";
+}
+
+function passesKind(fig) {
+  if (state.kind === "all") return true;
+  return state.kind === "schematic" ? isSchematic(fig) : !isSchematic(fig);
+}
+
+function variantFigs(main) {
+  return (main.variants || [])
+    .map((item) => state.bySlug[item.slug])
+    .filter((fig) => fig && fig.slug !== main.slug);
+}
+
+function cardBlob(main) {
+  const bits = [main.search_text || ""];
+  variantFigs(main).forEach((fig) => bits.push(fig.search_text || ""));
+  return bits.join("\n");
+}
+
+function cardMatches(main) {
+  if (!passesKind(main)) return false;
+  if (state.task && main.task !== state.task) return false;
+  if (tagSelect.value) {
+    const tagged = [main, ...variantFigs(main)].some((fig) => (fig.tags || []).includes(tagSelect.value));
+    if (!tagged) return false;
+  }
   const query = q.value.trim().toLowerCase();
-  if (state.category && fig.category !== state.category) return false;
-  if (tag.value && !(fig.tags || []).includes(tag.value)) return false;
   if (!query) return true;
-  const blob = [fig.title, fig.title_zh, fig.slug, fig.category, zh(fig.category), ...(fig.tags || [])].join(" ").toLowerCase();
-  return blob.includes(query);
+  return cardBlob(main).includes(query);
 }
 
-function renderStats() {
-  const counts = {};
-  state.figures.forEach((fig) => {
-    counts[fig.category] = (counts[fig.category] || 0) + 1;
-  });
-  const parts = CATEGORY_ORDER.filter((cat) => counts[cat]).map((cat) => zh(cat) + " " + counts[cat]);
-  document.querySelector("#stats").textContent = "共 " + state.figures.length + " 张 · " + parts.join(" · ");
+function preferredSlug(main) {
+  const query = q.value.trim().toLowerCase();
+  const stored = state.shown[main.slug];
+  if (!query) return stored || main.slug;
+  const members = [main, ...variantFigs(main)];
+  const mainHit = (main.search_text || "").includes(query);
+  if (!mainHit) {
+    const hit = members.find((fig) => fig.slug !== main.slug && (fig.search_text || "").includes(query));
+    if (hit) return hit.slug;
+  }
+  return stored || main.slug;
 }
 
-function renderCats() {
-  const counts = {};
-  state.figures.forEach((fig) => {
-    counts[fig.category] = (counts[fig.category] || 0) + 1;
+function activeFig(main) {
+  const slug = preferredSlug(main);
+  return state.bySlug[slug] || main;
+}
+
+function shortCanvas(fig) {
+  const label = fig.canvas && fig.canvas.label;
+  if (!label) return "";
+  return /^\d+(?:\.\d+)? × \d+(?:\.\d+)? mm$/.test(label) ? label : "";
+}
+
+function renderStats(shownCount) {
+  const cards = mains().length;
+  const total = state.figures.length;
+  let text = cards + " 张卡片 · " + total + " 张图";
+  if (shownCount !== cards) text += " · 当前 " + shownCount + " 张卡片";
+  document.querySelector("#stats").textContent = text;
+}
+
+function chipButton(label, pressed, onClick) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = label;
+  btn.setAttribute("aria-pressed", pressed ? "true" : "false");
+  btn.addEventListener("click", onClick);
+  return btn;
+}
+
+function renderFilters() {
+  const cards = mains();
+  const dataN = cards.filter((fig) => !isSchematic(fig)).length;
+  const schemeN = cards.filter((fig) => isSchematic(fig)).length;
+  const kindDefs = [
+    ["all", "全部 All", cards.length],
+    ["data", "数据图 Data", dataN],
+    ["schematic", "流程图 Schematics", schemeN]
+  ];
+  kindsEl.replaceChildren();
+  kindDefs.forEach(([id, label, count]) => {
+    kindsEl.appendChild(chipButton(label + " " + count, state.kind === id, () => {
+      state.kind = id;
+      render();
+    }));
   });
-  cats.innerHTML = "";
-  const all = document.createElement("button");
-  all.type = "button";
-  all.textContent = "全部 " + state.figures.length;
-  all.setAttribute("aria-pressed", state.category ? "false" : "true");
-  all.addEventListener("click", () => { state.category = ""; render(); });
-  cats.appendChild(all);
-  CATEGORY_ORDER.filter((cat) => counts[cat]).forEach((cat) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.textContent = zh(cat) + " " + counts[cat];
-    btn.setAttribute("aria-pressed", state.category === cat ? "true" : "false");
-    btn.addEventListener("click", () => { state.category = cat; render(); });
-    cats.appendChild(btn);
+  tasksEl.replaceChildren();
+  const allTask = chipButton("全部任务 All tasks", !state.task, () => {
+    state.task = "";
+    render();
+  });
+  tasksEl.appendChild(allTask);
+  state.tasks.forEach((task) => {
+    const count = cards.filter((fig) => fig.task === task.id && passesKind(fig)).length;
+    if (!count && state.task !== task.id) return;
+    tasksEl.appendChild(chipButton(task.zh + " " + task.en + " " + count, state.task === task.id, () => {
+      state.task = state.task === task.id ? "" : task.id;
+      render();
+    }));
+  });
+}
+
+function fillCard(card, main, fig) {
+  card.dataset.slug = fig.slug;
+  state.shown[main.slug] = fig.slug;
+  const img = card.querySelector("img");
+  img.src = fig.docs_preview;
+  img.alt = fig.title_zh;
+  card.querySelector("strong").textContent = fig.title_zh;
+  card.querySelector(".en").textContent = fig.title;
+  const bits = [fig.task_zh || "", shortCanvas(fig)].filter(Boolean);
+  card.querySelector(".meta").textContent = bits.join(" · ");
+  card.querySelectorAll(".vchips button").forEach((btn) => {
+    btn.setAttribute("aria-pressed", btn.dataset.slug === fig.slug ? "true" : "false");
+  });
+}
+
+function renderGrid() {
+  const shown = mains().filter(cardMatches);
+  shown.sort((a, b) => {
+    const ia = state.tasks.findIndex((task) => task.id === a.task);
+    const ib = state.tasks.findIndex((task) => task.id === b.task);
+    if (ia !== ib) return ia - ib;
+    return String(a.title_zh).localeCompare(String(b.title_zh), "zh");
+  });
+  renderStats(shown.length);
+  grid.replaceChildren();
+  empty.hidden = shown.length !== 0;
+  shown.forEach((main) => {
+    const card = document.createElement("article");
+    card.className = "card";
+    const hit = document.createElement("button");
+    hit.type = "button";
+    hit.className = "hit";
+    const thumb = document.createElement("div");
+    thumb.className = "thumb";
+    const img = document.createElement("img");
+    img.alt = "";
+    thumb.appendChild(img);
+    const strong = document.createElement("strong");
+    const en = document.createElement("span");
+    en.className = "en";
+    const meta = document.createElement("span");
+    meta.className = "meta";
+    hit.append(thumb, strong, en, meta);
+    hit.addEventListener("click", () => openSlug(card.dataset.slug || main.slug));
+    card.appendChild(hit);
+    const variants = main.variants || [];
+    if (variants.length > 1) {
+      const box = document.createElement("div");
+      box.className = "vchips";
+      variants.forEach((item) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.slug = item.slug;
+        btn.textContent = item.variant_label || item.slug;
+        btn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const fig = state.bySlug[item.slug];
+          if (fig) fillCard(card, main, fig);
+        });
+        box.appendChild(btn);
+      });
+      card.appendChild(box);
+    }
+    const fig = activeFig(main);
+    fillCard(card, main, fig);
+    grid.appendChild(card);
   });
 }
 
 function render() {
-  renderCats();
-  grid.innerHTML = "";
-  state.figures.filter(matches).forEach((fig) => {
-    const btn = document.createElement("button");
-    btn.className = "card";
-    btn.type = "button";
-    const img = document.createElement("img");
-    img.alt = "";
-    img.src = fig.docs_preview;
-    const strong = document.createElement("strong");
-    strong.textContent = fig.title_zh;
-    const span = document.createElement("span");
-    span.textContent = zh(fig.category);
-    btn.append(img, strong, span);
-    btn.addEventListener("click", () => openFig(fig));
-    grid.appendChild(btn);
-  });
+  renderFilters();
+  renderGrid();
 }
 
-function link(href, label) {
+function clearNode(node) {
+  node.replaceChildren();
+}
+
+function addRow(table, cells, header) {
+  const tr = document.createElement("tr");
+  cells.forEach((text) => {
+    const cell = document.createElement(header ? "th" : "td");
+    cell.textContent = text;
+    tr.appendChild(cell);
+  });
+  table.appendChild(tr);
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  const src = String(text || "").replace(/^\uFEFF/, "");
+  for (let i = 0; i < src.length; i += 1) {
+    const ch = src[i];
+    if (quoted) {
+      if (ch === '"') {
+        if (src[i + 1] === '"') { cell += '"'; i += 1; }
+        else quoted = false;
+      } else cell += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ",") { row.push(cell); cell = ""; }
+    else if (ch === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else if (ch !== "\r") cell += ch;
+  }
+  if (cell.length || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter((item) => item.some((value) => String(value).length));
+}
+
+async function saveFile(url, filename) {
+  const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
+  if (!res.ok) throw new Error(String(res.status));
+  const blob = await res.blob();
+  const href = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = href;
-  a.textContent = label;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(href), 2000);
+}
+
+function fileButton(label, url, filename, statusEl) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = label;
+  btn.addEventListener("click", () => {
+    statusEl.textContent = "正在下载 " + filename + "…";
+    saveFile(url, filename).then(() => {
+      statusEl.textContent = "已开始下载 " + filename;
+    }).catch(() => {
+      statusEl.textContent = "下载失败：" + filename + "（raw 上可能还没有这个文件）";
+    });
+  });
+  return btn;
+}
+
+function githubLink(fig) {
+  const a = document.createElement("a");
+  a.href = fig.github_dir || joinUrl(state.blobBase, fig.dir);
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.textContent = "View on GitHub";
   return a;
 }
 
-function openFig(fig) {
-  document.querySelector("#dlg-title").textContent = fig.title_zh + " / " + fig.title;
-  document.querySelector("#dlg-when").textContent = fig.when_to_use;
+async function copyCode() {
+  const text = document.querySelector("#dlg-code").textContent || "";
+  const btn = document.querySelector("#copy");
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(text);
+    ok = true;
+  } catch (err) {
+    try {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.left = "-9999px";
+      document.body.appendChild(area);
+      area.select();
+      ok = document.execCommand("copy");
+      area.remove();
+    } catch (err2) {
+      ok = false;
+    }
+  }
+  btn.textContent = ok ? "已复制" : "复制失败";
+  setTimeout(() => { btn.textContent = "复制代码"; }, 1400);
+}
+
+function fillDialog(fig) {
+  const token = ++loadToken;
+  document.querySelector("#dlg-zh").textContent = fig.title_zh || "";
+  document.querySelector("#dlg-en").textContent = fig.title || "";
   const img = document.querySelector("#dlg-img");
   img.src = fig.docs_preview;
-  img.alt = fig.title;
+  img.alt = fig.title_zh || fig.title || "";
+  document.querySelector("#dlg-when").textContent = fig.when_to_use || "";
+  const canvas = document.querySelector("#dlg-canvas");
+  if (fig.lang === "drawio") canvas.textContent = "";
+  else canvas.textContent = fig.canvas && fig.canvas.label ? "画布 " + fig.canvas.label : "画布大小未写在 pv_save 里";
+  const main = fig.variant_of ? state.bySlug[fig.variant_of] : fig;
+  const chips = document.querySelector("#dlg-variants");
+  clearNode(chips);
+  const variants = (main && main.variants) || [];
+  if (variants.length > 1) {
+    variants.forEach((item) => {
+      chips.appendChild(chipButton(item.variant_label || item.slug, item.slug === fig.slug, () => {
+        openSlug(item.slug);
+      }));
+    });
+  }
   const dataBlock = document.querySelector("#dlg-data");
   const drawBlock = document.querySelector("#dlg-drawio");
   if (fig.lang === "drawio") {
     dataBlock.hidden = true;
     drawBlock.hidden = false;
-    const box = document.querySelector("#dlg-draw-links");
-    box.innerHTML = "";
-    box.append(
-      link(blobUrl(fig.dir + "/template.drawio"), "下载 template.drawio"),
-      document.createTextNode(" · "),
-      link(blobUrl(fig.dir + "/figure.svg"), "下载 figure.svg")
-    );
-  } else {
-    dataBlock.hidden = false;
-    drawBlock.hidden = true;
-    const table = document.querySelector("#dlg-cols");
-    table.innerHTML = "<tr><th>列</th><th>含义</th></tr>";
-    Object.entries(fig.data_columns || {}).forEach(([k, v]) => {
-      const tr = document.createElement("tr");
-      const td1 = document.createElement("td");
-      const td2 = document.createElement("td");
-      td1.textContent = k;
-      td2.textContent = String(v);
-      tr.append(td1, td2);
-      table.appendChild(tr);
+    document.querySelector("#dlg-draw-custom").textContent = fig.customize || "";
+    const links = document.querySelector("#dlg-draw-links");
+    const status = document.querySelector("#dlg-draw-status");
+    clearNode(links);
+    status.textContent = "";
+    (fig.downloads || []).forEach((item) => {
+      const url = item.raw || joinUrl(state.rawBase, item.path);
+      links.appendChild(fileButton("下载 " + item.name, url, item.name, status));
     });
-    document.querySelector("#dlg-custom").textContent = fig.customize || "";
-    const links = document.querySelector("#dlg-links");
-    links.innerHTML = "";
-    const codeName = fig.lang === "Python" ? "plot.py" : "plot.R";
-    const files = fig.data_files && fig.data_files.length ? fig.data_files : (fig.data ? [fig.data] : []);
-    files.forEach((path, i) => {
-      if (i) links.append(document.createTextNode(" · "));
-      const name = String(path).split("/").pop();
-      links.append(link(blobUrl(path), "下载 " + name));
-    });
-    if (files.length) links.append(document.createTextNode(" · "));
-    links.append(link(blobUrl(fig.code), "下载 " + codeName));
-    document.querySelector("#dlg-code").textContent = fig.code_text || "";
+    links.appendChild(githubLink(fig));
+    return;
   }
-  dlg.showModal();
+  dataBlock.hidden = false;
+  drawBlock.hidden = true;
+  const cols = document.querySelector("#dlg-cols");
+  clearNode(cols);
+  addRow(cols, ["列", "含义"], true);
+  Object.entries(fig.data_columns || {}).forEach(([key, value]) => addRow(cols, [key, String(value)], false));
+  const params = document.querySelector("#dlg-params");
+  clearNode(params);
+  if (fig.parameters && fig.parameters.length) {
+    addRow(params, ["参数", "当前值"], true);
+    fig.parameters.forEach((item) => addRow(params, [item.name, item.value], false));
+  } else {
+    addRow(params, ["这份脚本在读入数据之前没有单独的赋值参数。"], false);
+  }
+  document.querySelector("#dlg-custom").textContent = fig.customize || "";
+  const codeName = String(fig.code || "").split("/").pop() || "plot.R";
+  document.querySelector("#dlg-code-label").textContent = codeName;
+  document.querySelector("#dlg-code").textContent = fig.code_text || "";
+  const files = document.querySelector("#dlg-files");
+  const status = document.querySelector("#dlg-status");
+  clearNode(files);
+  status.textContent = "";
+  (fig.downloads || []).forEach((item) => {
+    const url = item.raw || joinUrl(state.rawBase, item.path);
+    files.appendChild(fileButton("下载 " + item.name, url, item.name, status));
+  });
+  files.appendChild(githubLink(fig));
+  const csvBox = document.querySelector("#dlg-csv");
+  clearNode(csvBox);
+  csvBox.textContent = "正在读取 data.csv…";
+  const dataPath = fig.data;
+  if (!dataPath) {
+    csvBox.textContent = "没有 data.csv。";
+    return;
+  }
+  const dataUrl = joinUrl(state.rawBase, dataPath);
+  fetch(dataUrl, { signal: AbortSignal.timeout(8000) }).then((res) => {
+    if (!res.ok) throw new Error(String(res.status));
+    return res.text();
+  }).then((text) => {
+    if (token !== loadToken) return;
+    const rows = parseCsv(text).slice(0, 6);
+    clearNode(csvBox);
+    if (!rows.length) {
+      csvBox.textContent = "data.csv 是空的。";
+      return;
+    }
+    const table = document.createElement("table");
+    rows.forEach((row, index) => addRow(table, row, index === 0));
+    csvBox.appendChild(table);
+  }).catch(() => {
+    if (token !== loadToken) return;
+    csvBox.textContent = "GitHub main 上还读不到这个 data.csv。";
+  });
 }
 
-document.querySelector("#close").addEventListener("click", () => dlg.close());
-q.addEventListener("input", render);
-tag.addEventListener("change", render);
+function openSlug(slug) {
+  const fig = state.bySlug[slug];
+  if (!fig) return;
+  fillDialog(fig);
+  if (!dlg.open) dlg.showModal();
+  const next = "#" + encodeURIComponent(fig.slug);
+  if (location.hash !== next) {
+    syncing = true;
+    history.replaceState(null, "", location.pathname + location.search + next);
+    syncing = false;
+  }
+}
+
+function clearHash() {
+  if (!location.hash) return;
+  syncing = true;
+  history.replaceState(null, "", location.pathname + location.search);
+  syncing = false;
+}
+
+function closeDialog() {
+  clearHash();
+  if (dlg.open) dlg.close();
+}
+
+document.querySelector("#close").addEventListener("click", closeDialog);
+document.querySelector("#copy").addEventListener("click", () => { copyCode(); });
+dlg.addEventListener("click", (event) => {
+  if (event.target === dlg) closeDialog();
+});
+dlg.addEventListener("close", () => {
+  if (dlg.open) return;
+  loadToken += 1;
+  clearHash();
+});
+q.addEventListener("input", renderGrid);
+tagSelect.addEventListener("change", renderGrid);
+window.addEventListener("hashchange", () => {
+  if (syncing) return;
+  const slug = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (!slug) {
+    if (dlg.open) dlg.close();
+    return;
+  }
+  openSlug(slug);
+});
 
 fetch("catalog.json")
-  .then((r) => r.json())
+  .then((res) => {
+    if (!res.ok) throw new Error("catalog " + res.status);
+    return res.json();
+  })
   .then((data) => {
     state.figures = data.figures || [];
-    const tags = new Set(state.figures.flatMap((f) => f.tags || []));
-    const cur = tag.value;
-    tag.innerHTML = "";
+    state.bySlug = Object.fromEntries(state.figures.map((fig) => [fig.slug, fig]));
+    state.tasks = data.tasks || [];
+    if (data.raw_base) state.rawBase = data.raw_base;
+    if (data.github_base) state.blobBase = data.github_base;
+    const tags = new Set(state.figures.flatMap((fig) => fig.tags || []));
+    const current = tagSelect.value;
+    tagSelect.replaceChildren();
     const first = document.createElement("option");
     first.value = "";
     first.textContent = "全部标签";
-    tag.appendChild(first);
-    [...tags].sort().forEach((v) => {
-      const o = document.createElement("option");
-      o.value = v;
-      o.textContent = v;
-      tag.appendChild(o);
+    tagSelect.appendChild(first);
+    [...tags].sort().forEach((value) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      tagSelect.appendChild(option);
     });
-    tag.value = cur;
-    renderStats();
+    tagSelect.value = current;
     render();
+    const slug = decodeURIComponent(location.hash.replace(/^#/, ""));
+    if (slug) openSlug(slug);
+  })
+  .catch((err) => {
+    document.querySelector("#stats").textContent = "catalog.json 没有加载";
+    window.__jsErrors.push(String(err));
   });
 </script>
 </body>

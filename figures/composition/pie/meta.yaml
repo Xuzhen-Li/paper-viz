@@ -1,6 +1,7 @@
 title: Pie and donut
 title_zh: 饼图与环形图
 slug: pie
+variant_label: "Pie"
 category: composition
 tags:
   - pie

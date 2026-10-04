@@ -24,17 +24,24 @@ p <- ggplot2::ggplot(df, ggplot2::aes(bin_j, bin_i, fill = fill)) +
   ggplot2::labs(x = NULL, y = NULL) +
   theme_viz() +
   ggplot2::theme(
-    legend.key.height = ggplot2::unit(5, "mm"),
-    legend.key.width = ggplot2::unit(2.6, "mm"),
+    legend.position = "bottom",
+    legend.key.height = ggplot2::unit(3.2, "mm"),
+    legend.key.width = ggplot2::unit(28, "mm"),
     axis.line = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank()
-  )
+  ) +
+  ggplot2::guides(fill = ggplot2::guide_colourbar(
+    title.position = "top",
+    title.hjust = 0,
+    barwidth = ggplot2::unit(60, "mm"),
+    barheight = ggplot2::unit(3.2, "mm")
+  ))
 
 if (isTRUE(show_chr_split)) {
   edges <- head(bounds, -1) + 0.5
   p <- p +
-    ggplot2::geom_hline(yintercept = edges, linewidth = 0.25, colour = "#1e3a5f") +
-    ggplot2::geom_vline(xintercept = edges, linewidth = 0.25, colour = "#1e3a5f")
+    ggplot2::geom_hline(yintercept = edges, linewidth = 0.25, colour = "grey30") +
+    ggplot2::geom_vline(xintercept = edges, linewidth = 0.25, colour = "grey30")
 }
 
 pv_save(p, "figure", width_mm = 130, height_mm = 120)

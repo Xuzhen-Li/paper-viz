@@ -29,7 +29,7 @@ if (isTRUE(show_ref_line)) {
   intercept <- qy[1] - slope * qx[1]
   p_plot <- p_plot + ggplot2::geom_abline(
     intercept = intercept, slope = slope,
-    linewidth = 0.35, colour = "#6B6B6B"
+    linewidth = 0.35, colour = "grey30"
   )
 }
 

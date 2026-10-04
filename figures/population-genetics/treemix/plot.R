@@ -22,7 +22,7 @@ tr <- list(
 )
 class(tr) <- "phylo"
 
-p <- ggtree::ggtree(tr, linewidth = 0.35, colour = "#1e3a5f") +
+p <- ggtree::ggtree(tr, linewidth = 0.35, colour = "black") +
   ggtree::geom_tiplab(size = 2.1, offset = 0.15, family = viz_sans_family()) +
   ggplot2::labs(x = "Drift") +
   theme_viz() +
@@ -62,7 +62,7 @@ if (isTRUE(show_migration) && nrow(migs)) {
     inherit.aes = FALSE
   ) +
     ggplot2::scale_colour_gradientn(
-      colours = c("#FEE0B6", "#FDB863", "#E08214", "#B35806"),
+      colours = pv_palette("sequential"),
       name = "Weight"
     )
 }

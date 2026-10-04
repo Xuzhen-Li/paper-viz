@@ -1,6 +1,7 @@
 title: Grouped bar chart
 title_zh: 分组柱状图
 slug: bar-grouped
+variant_label: "Grouped"
 category: comparison
 tags:
   - bar

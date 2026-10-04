@@ -35,7 +35,8 @@ muts <- df[df$feature == "mutation", , drop = FALSE]
 exons$part <- "CDS"
 utrs$part <- "UTR"
 if (nrow(doms)) doms$part <- "Domain"
-part_cols <- c(CDS = "#0072B2", UTR = "#56B4E9", Domain = "#E69F00")
+part_pal <- pv_palette("categorical", 6)
+part_cols <- c(CDS = part_pal[1], UTR = part_pal[2], Domain = part_pal[6])
 
 span$x_tip <- ifelse(span$strand == "+", span$end, span$start)
 span$x_end <- ifelse(span$strand == "+", span$end + 160, span$start - 160)
@@ -74,7 +75,7 @@ if (nrow(muts)) {
   p <- p + ggplot2::geom_point(
     data = muts,
     ggplot2::aes(x = start, y = y + 0.34, shape = "Mutation"),
-    size = 1.1, colour = "#D55E00"
+    size = 2.0, colour = pv_palette("categorical", 4)[4]
   )
 }
 

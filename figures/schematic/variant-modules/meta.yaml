@@ -1,6 +1,8 @@
 title: Variant discovery modules
 title_zh: 变异检出模块
 slug: variant-modules
+variant_of: multiomics-parallel
+variant_label: "Modules"
 category: schematic
 tags:
   - variants

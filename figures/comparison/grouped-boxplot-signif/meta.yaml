@@ -1,6 +1,8 @@
 title: Grouped boxplot with significance
 title_zh: 分组箱线图与显著性
 slug: grouped-boxplot-signif
+variant_of: raincloud
+variant_label: "Boxplot"
 category: comparison
 tags:
   - boxplot

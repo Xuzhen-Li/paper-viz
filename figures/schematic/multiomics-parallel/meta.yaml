@@ -1,6 +1,7 @@
 title: Multi-omics from one cohort
 title_zh: 同一队列的多组学并行
 slug: multiomics-parallel
+variant_label: "Multi-omics"
 category: schematic
 tags:
   - multi-omics

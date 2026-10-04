@@ -21,14 +21,19 @@ path_df <- do.call(rbind, lapply(split(df, df$branch), function(d) {
 p <- ggplot2::ggplot(df, ggplot2::aes(dim1, dim2))
 
 if (color_by == "branch") {
-  cols <- c("trunk" = "#6B6B6B", "fate-a" = pv_palette("categorical", 2)[1], "fate-b" = pv_palette("categorical", 4)[4])
+  cols <- c("trunk" = "grey30", "fate-a" = pv_palette("categorical", 2)[1], "fate-b" = pv_palette("categorical", 4)[4])
   p <- p +
     ggplot2::geom_point(ggplot2::aes(colour = branch), size = 1.8, alpha = 0.85) +
     ggplot2::scale_colour_manual(values = cols, name = "Branch")
 } else {
   p <- p +
     ggplot2::geom_point(ggplot2::aes(colour = pseudotime), size = 1.8, alpha = 0.85) +
-    ggplot2::scale_colour_gradientn(colours = pv_palette("sequential"), name = "Pseudotime")
+    ggplot2::scale_colour_gradientn(colours = pv_palette("sequential"), name = "Pseudotime") +
+    ggplot2::guides(colour = ggplot2::guide_colourbar(
+      title.position = "top", title.hjust = 0,
+      barwidth = ggplot2::unit(3, "mm"),
+      barheight = ggplot2::unit(14, "mm")
+    ))
 }
 
 if (isTRUE(show_path) && !is.null(path_df)) {
@@ -41,7 +46,13 @@ if (isTRUE(show_path) && !is.null(path_df)) {
   )
 }
 
-p <- p + ggplot2::labs(x = "Component 1", y = "Component 2") + theme_viz(base_size = 7)
+p <- p + ggplot2::labs(x = "Component 1", y = "Component 2") +
+  theme_viz(base_size = 7) +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.42, 0.02),
+    legend.justification.inside = c(0, 0)
+  )
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

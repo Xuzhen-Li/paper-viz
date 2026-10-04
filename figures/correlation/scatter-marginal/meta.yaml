@@ -1,0 +1,19 @@
+title: Scatter with marginal distributions
+title_zh: 带边缘分布的散点图
+slug: scatter-marginal
+category: correlation
+tags:
+  - scatter
+  - marginal
+  - density
+  - regression
+packages:
+  - ggplot2
+  - patchwork
+data_columns:
+  x: 自变量，基因 A 的 log2 CPM（数值）
+  y: 因变量，基因 B 的 log2 CPM（数值）
+  group: 样本来源细胞系，三组（字符串）
+when_to_use: "要同时看两个连续变量的组间相关，以及各变量在各组里的边缘分布时用。Use when a grouped scatter should also show each axis as a marginal density, histogram, or boxplot."
+customize: "plot.R 顶部 marginal 取 density、histogram 或 boxplot，决定上侧和右侧边缘图；show_regression 为 TRUE 时主图按组画回归线和置信带。图例放在主图左上角空白处。"
+lang: R

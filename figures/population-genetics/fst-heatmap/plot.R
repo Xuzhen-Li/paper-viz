@@ -27,12 +27,21 @@ p <- ggplot2::ggplot(df, ggplot2::aes(pop_a, pop_b, fill = fst)) +
   ggplot2::labs(x = NULL, y = NULL) +
   theme_viz() +
   ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1),
-    legend.key.height = ggplot2::unit(8, "mm")
-  )
+    axis.text.x = ggplot2::element_text(angle = 0, hjust = 0.5, vjust = 0.5, size = 7),
+    axis.text.y = ggplot2::element_text(size = 7),
+    legend.position = "bottom",
+    legend.key.height = ggplot2::unit(3.2, "mm"),
+    legend.key.width = ggplot2::unit(36, "mm")
+  ) +
+  ggplot2::guides(fill = ggplot2::guide_colourbar(
+    title.position = "top",
+    title.hjust = 0,
+    barwidth = ggplot2::unit(55, "mm"),
+    barheight = ggplot2::unit(3.2, "mm")
+  ))
 if (isTRUE(show_values)) {
   p <- p + ggplot2::geom_text(
-    ggplot2::aes(label = label, colour = txt), size = 1.55, show.legend = FALSE
+    ggplot2::aes(label = label, colour = txt), size = 2.0, show.legend = FALSE
   )
 }
 

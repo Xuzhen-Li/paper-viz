@@ -15,7 +15,7 @@ df$class <- ifelse(
 if (isTRUE(order_by_estimate)) {
   df$test <- factor(df$test, levels = df$test[order(df$estimate)])
 }
-pal <- c(ns = "#6B6B6B", positive = pv_palette("categorical", 1), negative = pv_palette("categorical", 4)[4])
+pal <- c(ns = "#E0E0E0", positive = pv_palette("categorical", 1), negative = pv_palette("categorical", 4)[4])
 x_lab <- switch(statistic,
   f3 = "f3 statistic",
   f4 = "f4 statistic",

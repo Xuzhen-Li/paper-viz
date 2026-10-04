@@ -1,6 +1,7 @@
 title: PCA score plot
 title_zh: PCA 得分散点
 slug: pca-biplot
+variant_label: "PCA"
 category: dimension-reduction
 tags:
   - pca

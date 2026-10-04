@@ -1,6 +1,8 @@
 title: Circular heatmap
 title_zh: 环状热图
 slug: circular-heatmap
+variant_of: heatmap
+variant_label: "Circular"
 category: heatmap
 tags:
   - heatmap
