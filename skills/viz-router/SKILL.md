@@ -4,8 +4,8 @@ description: >-
   Route plotting/charting requests to the right skill so figures stay readable.
   Trigger on 画图、作图、配图、图表、chart、plot、可视化、dashboard、公众号图、论文图、选图、示意图.
   First hop: open a live gallery URL when the user is picking a look.
-  Prefer nature-figure for manuscript data plots; schematic-design for
-  architecture/flow/sequence HTML+SVG; draw.io for native .drawio or paper redraw.
+  Prefer nature-figure for manuscript data plots. Architecture, flow,
+  sequence, and native .drawio go to draw.io. schematic-design is retired.
 ---
 
 # Viz Router（画图路由）
@@ -18,7 +18,7 @@ description: >-
 |------|--------|------|
 | 选图 / 火山图 / 热图 / 配色 — 先打开别人的站 | **LIVE URL** | `python3 visualization/skill/query.py routes --need …` |
 | 论文数据图 / Nature 向 / ggplot·matplotlib | **nature-figure** | `~/.cursor/skills/nature-figure/SKILL.md` |
-| 架构 / 流程 / 时序 / 编辑示意图（HTML+SVG） | **schematic-design** | `~/.cursor/skills/schematic-design/SKILL.md` |
+| 架构 / 流程 / 时序 / 编辑示意图 | **draw.io** | `~/.agents/skills/drawio-skill/SKILL.md` |
 | 论文栅格重绘 / 原生 `.drawio` | **drawio** | `~/.agents/skills/drawio-skill/SKILL.md` |
 | 公众号 / 汇报 / dashboard / 彩色 HTML 页 | **visualize-html** | `~/.cursor/skills/visualize-html/SKILL.md` |
 | 明确要单色编辑感 / Lupi / 年报海报灰阶 | **lieflat-charts** | `~/.cursor/skills/lieflat-charts/SKILL.md` |
@@ -27,7 +27,7 @@ description: >-
 
 1. 「找一张火山图/热图长什么样」→ `query.py routes`，打开 LIVE URL
 2. 「自己画」论文数据图 → `nature-figure`（先问 Python or R）
-3. 架构 / 流程 / 时序 → **schematic-design**（不要用 bar/line 代替 volcano）
+3. 架构 / 流程 / 时序 → **draw.io**（不要用 bar/line 代替 volcano，也不要再用 schematic-design）
 4. 其它「做成好看的图/页」→ `visualize-html`
 5. 仅当用户说「单色 / Lupi / lieflat / 编辑灰阶」→ `lieflat-charts`
 
@@ -39,9 +39,9 @@ lieflat 的产品定义就是 **Mono 灰阶**（`mono-tokens.js`）。需要彩�
 
 - [ ] 读过目标 skill 的 SKILL.md
 - [ ] 选图任务打开了 LIVE URL，没有 clone
-- [ ] 数据图没有用 schematic-design 的示意图资产冒充 volcano/heatmap
-- [ ] 没有再把示意图指到第三方 `diagram-design` 入口
+- [ ] 数据图没有用示意图资产冒充 volcano/heatmap
+- [ ] 没有调用已停用的 schematic-design，也没有把示意图指到第三方 `diagram-design` 入口
 
 ## 本库笔记
 
-见 `AI_lib/ai-use-note/tools/viz-skills-routing.md`。Fork 说明：`visualization/references/diagram-design-fork.md`。
+见 `AI_lib/ai-use-note/tools/viz-skills-routing.md`。`schematic-design` 已于 2026-10-06 停用，说明留在 `visualization/references/diagram-design-fork.md`。
