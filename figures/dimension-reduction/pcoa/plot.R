@@ -28,7 +28,12 @@ p <- ggplot2::ggplot(plot_df, ggplot2::aes(x, y, colour = group)) +
   ggplot2::geom_point(size = 2.2) +
   ggplot2::scale_colour_manual(values = cols) +
   ggplot2::labs(x = "PCoA1", y = "PCoA2", colour = NULL) +
-  theme_viz(base_size = 7)
+  theme_viz(base_size = 7) +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.58, 0.62),
+    legend.justification.inside = c(0.5, 0.5)
+  )
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

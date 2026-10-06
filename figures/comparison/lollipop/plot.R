@@ -29,7 +29,11 @@ p <- ggplot2::ggplot(df, ggplot2::aes(value, item)) +
   ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.06))) +
   ggplot2::labs(x = "Importance", y = NULL) +
   theme_viz() +
-  ggplot2::theme(legend.position = "top")
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.72, 0.18),
+    legend.justification.inside = c(0.5, 0.5)
+  )
 
 pv_save(p, "figure", width_mm = 100, height_mm = 140)
 message("wrote preview.png")

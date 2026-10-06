@@ -32,7 +32,10 @@ p <- p +
     y = expression(italic(F)[ST] / (1 - italic(F)[ST]))
   ) +
   theme_viz(base_size = 7) +
-  ggplot2::theme(legend.key = ggplot2::element_blank())
+  ggplot2::theme(
+    legend.key = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

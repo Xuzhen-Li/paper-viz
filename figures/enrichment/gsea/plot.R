@@ -20,7 +20,8 @@ curve <- ggplot2::ggplot(df, ggplot2::aes(rank, es, colour = set)) +
   theme_viz() +
   ggplot2::theme(
     axis.text.x = ggplot2::element_blank(),
-    axis.ticks.x = ggplot2::element_blank()
+    axis.ticks.x = ggplot2::element_blank(),
+    legend.position = "bottom"
   )
 
 hits <- df[df$hit == 1, , drop = FALSE]

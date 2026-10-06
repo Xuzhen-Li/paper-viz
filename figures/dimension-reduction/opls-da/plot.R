@@ -22,7 +22,12 @@ if (isTRUE(show_scores)) {
     ggplot2::geom_point(size = 1.6) +
     ggplot2::scale_colour_manual(values = cols, name = NULL) +
     ggplot2::labs(x = "Predictive component", y = "Orthogonal component", tag = "a") +
-    theme_viz()
+    theme_viz() +
+    ggplot2::theme(
+      legend.position = "inside",
+      legend.position.inside = c(0.02, 0.98),
+      legend.justification.inside = c(0, 1)
+    )
   if (isTRUE(show_ellipse)) {
     p_scores <- p_scores + ggplot2::stat_ellipse(linewidth = 0.35, level = 0.8, show.legend = FALSE)
   }

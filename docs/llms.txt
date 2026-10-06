@@ -1,0 +1,113 @@
+# paper-viz
+
+paper-viz is a free MIT R library of journal-style scientific figures with plotting code and synthetic sample data. An AI agent finds a figure with tools/find_figure.py or catalog.json, copies that folder, replaces data.csv without renaming the declared columns, edits the parameters at the top of plot.R, and renders with Rscript. Schematic templates open template.drawio instead of an R script.
+
+- [README](https://github.com/Xuzhen-Li/paper-viz/blob/main/README.md)
+- [AGENTS.md](https://github.com/Xuzhen-Li/paper-viz/blob/main/AGENTS.md)
+- [catalog.json](https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/catalog.json)
+
+- [Forest plot](https://xuzhen-li.github.io/paper-viz/#forest): 多个研究或亚组要并列展示效应量和区间时用。
+- [Kaplan-Meier curves](https://xuzhen-li.github.io/paper-viz/#km): 要比较两组或多组的时间-事件结局时用。
+- [ROC curve](https://xuzhen-li.github.io/paper-viz/#roc): 几个连续标志物要比较区分病例和对照的能力时用。
+- [Grouped bar chart](https://xuzhen-li.github.io/paper-viz/#bar-grouped): 类别少、要并排比较两个或多个系列的汇总数值时用。
+- [Bump chart](https://xuzhen-li.github.io/paper-viz/#bump-chart): 比较多个对象在若干时间点的名次升降时用。
+- [Cleveland dot plot](https://xuzhen-li.github.io/paper-viz/#cleveland-dot): 多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。
+- [Diverging bar chart](https://xuzhen-li.github.io/paper-viz/#diverging-bar): 一批指标有正有负、需要以 0 为中心比较方向和幅度时用。
+- [Lollipop chart](https://xuzhen-li.github.io/paper-viz/#lollipop): 特征较多、要按大小排序并标出需要强调的条目时用。
+- [Slope chart](https://xuzhen-li.github.io/paper-viz/#slope-chart): 一批指标只有前后两个时间点、要看谁升谁降时用。
+- [Waterfall chart](https://xuzhen-li.github.io/paper-viz/#waterfall): 要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。
+- [Alluvial and Sankey](https://xuzhen-li.github.io/paper-viz/#alluvial): 同一批样本在两三个分类之间怎么分流时用。
+- [Mosaic plot](https://xuzhen-li.github.io/paper-viz/#mosaic): 两个分类变量的联合计数要同时看边际和条件比例时用。
+- [Pie and donut](https://xuzhen-li.github.io/paper-viz/#pie): 一个整体拆成少数几份、要强调份额时用。
+- [Stacked area](https://xuzhen-li.github.io/paper-viz/#stacked-area): 若干组分随时间同时变化、要看总量和份额时用。
+- [Stacked bar](https://xuzhen-li.github.io/paper-viz/#stacked-bar): 每个样本由若干组分构成、要比较组间比例时用。
+- [Sunburst](https://xuzhen-li.github.io/paper-viz/#sunburst): 一个整体分成大类、大类再分成子类，要在同一张圆图里看两层份额时用。Use when a whole splits into parent categories and their children, drawn as two concentric rings.
+- [Ternary plot](https://xuzhen-li.github.io/paper-viz/#ternary): 三个组分之和为 1、要看样本落在单纯形的哪一区时用。
+- [Treemap](https://xuzhen-li.github.io/paper-viz/#treemap): 两组里各有多块、要用面积比较大小时用。
+- [UpSet plot](https://xuzhen-li.github.io/paper-viz/#upset): 四个以上集合要看组合交集的大小时用。
+- [Venn diagram](https://xuzhen-li.github.io/paper-viz/#venn): 两三个集合要看共享和独有的元素个数时用。
+- [Waffle chart](https://xuzhen-li.github.io/paper-viz/#waffle): 用可数的格子表示份额、总数固定为一百时用。
+- [Bland–Altman plot](https://xuzhen-li.github.io/paper-viz/#bland-altman): 比较两种测量方法是否一致时用；看差值是否随均值漂移，并标出均值差与一致性界限。
+- [Bubble chart](https://xuzhen-li.github.io/paper-viz/#bubble): 两个连续坐标之外还要用点的面积表示第三个数时用。
+- [Correlation matrix](https://xuzhen-li.github.io/paper-viz/#correlation-matrix): 十几个连续指标要一眼看出谁和谁同向或反向时用。
+- [Hexbin density](https://xuzhen-li.github.io/paper-viz/#hexbin): 散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。
+- [Line chart](https://xuzhen-li.github.io/paper-viz/#line-basic): 自变量有顺序、要比较几条带噪声的轨迹时用。
+- [Parallel coordinates](https://xuzhen-li.github.io/paper-viz/#parallel-coordinates): 多个量纲不同的指标要放在一起比较各组轮廓时用。
+- [Scatter with regression](https://xuzhen-li.github.io/paper-viz/#scatter): 两个连续变量要看趋势，并按组别比较斜率时用。
+- [Scatter with marginal distributions](https://xuzhen-li.github.io/paper-viz/#scatter-marginal): 要同时看两个连续变量的组间相关，以及各变量在各组里的边缘分布时用。Use when a grouped scatter should also show each axis as a marginal density, histogram, or boxplot.
+- [Expression trend](https://xuzhen-li.github.io/paper-viz/#expression-trend): 时间序列基因已分成几种变化模式、要叠看单基因和类群均值时用。
+- [MA plot](https://xuzhen-li.github.io/paper-viz/#ma-plot): 要同时看平均表达和倍数变化、并标出显著基因时用。
+- [Volcano plot](https://xuzhen-li.github.io/paper-viz/#volcano): 两组比较要同时看倍数变化和显著性时用。
+- [OPLS-DA scores](https://xuzhen-li.github.io/paper-viz/#opls-da): 两组代谢或表型数据要看监督分离是否高于置换空分布时用。
+- [PCA score plot](https://xuzhen-li.github.io/paper-viz/#pca-biplot): 已有样本的主成分坐标、要按组看分离时用。
+- [Pseudotime trajectory](https://xuzhen-li.github.io/paper-viz/#trajectory): 要在低维嵌入上看细胞沿拟时序如何分叉时用。
+- [UMAP and t-SNE](https://xuzhen-li.github.io/paper-viz/#umap-tsne): 要看非线性降维后的类群是否分开时用。
+- [Density plot](https://xuzhen-li.github.io/paper-viz/#density): 要在同一坐标上比较几组平滑分布，并标出主峰位置时用。
+- [Empirical CDF](https://xuzhen-li.github.io/paper-viz/#ecdf): 要在同一坐标上比较多组累积分布、看整体偏移或尾部差异时用。
+- [Histogram](https://xuzhen-li.github.io/paper-viz/#histogram): 要看一两个组的取值频数，并对照分布形状时用。
+- [Normal QQ plot](https://xuzhen-li.github.io/paper-viz/#qq-plot): 检查单变量是否近似正态、或看尾部偏离时用。
+- [Raincloud plot](https://xuzhen-li.github.io/paper-viz/#raincloud): 要在同一张图里看原始点、箱线摘要和分布形状时用。
+- [Ridgeline plot](https://xuzhen-li.github.io/paper-viz/#ridgeline): 组数较多、要比较多条分布的位置和重叠时用。
+- [Enrichment dot plot](https://xuzhen-li.github.io/paper-viz/#enrichment-dot): 通路要同时看基因比例、命中数和显著性时用。
+- [GSEA running score](https://xuzhen-li.github.io/paper-viz/#gsea): 要看一个基因集在排序列表的哪一头富集时用。
+- [BUSCO stacked bar](https://xuzhen-li.github.io/paper-viz/#busco-bar): 比较多份基因组组装的完整度、重复、碎片和缺失比例时用。
+- [Chromosome ideogram](https://xuzhen-li.github.io/paper-viz/#chromosome-ideogram): 展示植物染色体相对长度、着丝粒与短臂 NOR，并叠加基因密度时用。
+- [Circos plot](https://xuzhen-li.github.io/paper-viz/#circos): 在一张圈图里同时看染色体密度和区间之间的连线时用。
+- [Coverage and signal tracks](https://xuzhen-li.github.io/paper-viz/#coverage-track): 在同一 2 Mb 位点上对照测序深度、ATAC、RNA 和拷贝数变化时用。
+- [aDNA damage curve](https://xuzhen-li.github.io/paper-viz/#damage-curve): 检查古 DNA 是否表现为 5' 端 C→T、3' 端 G→A 的末端损伤时用。
+- [Fragment length distribution](https://xuzhen-li.github.io/paper-viz/#fragment-length): 比较古 DNA 短片段、核小体保护峰和现代文库插入长度时用。
+- [Gene structure](https://xuzhen-li.github.io/paper-viz/#gene-structure): 比较转录本外显子、UTR、结构域和点突变位置时用。
+- [GWAS Manhattan and QQ](https://xuzhen-li.github.io/paper-viz/#gwas-manhattan): 全基因组关联要同时看染色体峰和 p 值校准（QQ）时用。
+- [Hi-C contact map](https://xuzhen-li.github.io/paper-viz/#hic-contact): 查看染色体领地、距离衰减，以及植物中着丝粒之间的 Rabl 接触时用。
+- [k-mer spectrum](https://xuzhen-li.github.io/paper-viz/#kmer-spectrum): 从 k-mer 频谱看错误峰、杂合 1n 峰和纯合 2n 峰，判断植物基因组杂合度时用。
+- [Multiple sequence alignment](https://xuzhen-li.github.io/paper-viz/#msa): 短蛋白片段要同时看残基差异和逐位保守性时用。
+- [Mutation spectrum](https://xuzhen-li.github.io/paper-viz/#mutation-spectrum): 按 SBS96 展示 6 类替换乘 16 种三核苷酸上下文的突变计数或比例时用。
+- [Oncoplot](https://xuzhen-li.github.io/paper-viz/#oncoplot): 展示多样品、多基因的突变类型，并在上方汇总转换与颠换时用。
+- [Pangenome pie and growth](https://xuzhen-li.github.io/paper-viz/#pangenome-curve): 概括植物泛基因组的 core/shell/cloud 组成，并看 pan 与 core 随基因组数的饱和时用。
+- [PAV heatmap](https://xuzhen-li.github.io/paper-viz/#pav-heatmap): 比较多个基因组里基因家族的有无，并按核心、外壳和云基因查看时用。
+- [Protein lollipop](https://xuzhen-li.github.io/paper-viz/#protein-lollipop): 把突变位点标在蛋白结构域上、并用高度表示复发次数时用。
+- [Sequence logo](https://xuzhen-li.github.io/paper-viz/#sequence-logo): 展示一个 DNA 模体各位置的保守性和碱基偏好时用。
+- [SV size distribution](https://xuzhen-li.github.io/paper-viz/#sv-size): 比较缺失、插入、重复和倒位的长度谱，尤其是植物 LTR 尺度的插入峰时用。
+- [Synteny ribbon and dotplot](https://xuzhen-li.github.io/paper-viz/#synteny): 比较两个基因组的共线性区块、方向和锚点一致性时用。
+- [TE composition](https://xuzhen-li.github.io/paper-viz/#te-composition): 比较植物基因组的 TE 类别占比，并看 Gypsy/Copia 等的分歧度（年龄）景观时用。
+- [Dot heatmap](https://xuzhen-li.github.io/paper-viz/#dot-heatmap): 格子要同时编码强度和比例，又不想用色块铺满时用。
+- [Clustered heatmap](https://xuzhen-li.github.io/paper-viz/#heatmap): 基因对样本的矩阵要同时看模块和组别时用。
+- [Composite figure](https://xuzhen-li.github.io/paper-viz/#composite-figure): 一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。Use when a double-column figure should assemble those four panels in one font, palette, and legend.
+- [Mantel test plot](https://xuzhen-li.github.io/paper-viz/#mantel-plot): 同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。
+- [Rarefaction curve](https://xuzhen-li.github.io/paper-viz/#rarefaction): 比较各组物种丰富度是否随测序深度趋于饱和时用。
+- [RDA biplot](https://xuzhen-li.github.io/paper-viz/#rda-biplot): 样方群落要同时看生境分组和几个环境因子的方向时用。Use when sites should be ordinated with environmental arrows on the same RDA axes.
+- [STAMP difference bar](https://xuzhen-li.github.io/paper-viz/#stamp-diffbar): 展示两组微生物类群平均比例差及置信区间时用。
+- [Taxa bar with tree](https://xuzhen-li.github.io/paper-viz/#taxa-tree-bar): 按样品聚类树的顺序展示类群相对丰度时用。
+- [Chord diagram](https://xuzhen-li.github.io/paper-viz/#chord): 展示若干组别之间的定向流量或互作强度时用。
+- [Correlation network](https://xuzhen-li.github.io/paper-viz/#network): 看特征之间的相关边、边权和社区结构时用。
+- [Annotated phylogeny](https://xuzhen-li.github.io/paper-viz/#phylo-tree): 按群体给分支上色，并在内部节点标出支持率时用。
+- [Tree with heatmap](https://xuzhen-li.github.io/paper-viz/#tree-heatmap): 把系统树和叶节点性状矩阵或单个性状条形对齐展示时用。
+- [ADMIXTURE stacked bar](https://xuzhen-li.github.io/paper-viz/#admixture-bar): 展示个体祖先成分，并沿群体比较 K = 2 到 6 的结构。
+- [ADMIXTURE CV error](https://xuzhen-li.github.io/paper-viz/#admixture-cv): 选 ADMIXTURE 的 K 时，看交叉验证误差在哪一档最低。
+- [Pairwise Fst heatmap](https://xuzhen-li.github.io/paper-viz/#fst-heatmap): 十二个群体的成对分化要按地理或驯化顺序排开、而不是按聚类字母序时用。
+- [f-statistic point range](https://xuzhen-li.github.io/paper-viz/#fstats-point): 一组 D 或 f4 检验要同时看估计、置信区间和是否跨过 0 时用。
+- [Isolation by distance](https://xuzhen-li.github.io/paper-viz/#isolation-by-distance): 检验分化是否随地理距离增加，并看不同区域斜率是否不一样。
+- [LD decay](https://xuzhen-li.github.io/paper-viz/#ld-decay): 比较野生、农家种和栽培种的连锁不平衡随物理距离衰减有多快。
+- [Population PCA](https://xuzhen-li.github.io/paper-viz/#pca-population): 用个体主成分看群体是否分开、栽培种是否比野生种更紧时用。
+- [Effective population size](https://xuzhen-li.github.io/paper-viz/#psmc-ne): 看驯化瓶颈和野生种、栽培种在哪个时间尺度上 Ne 分开或重新汇合。
+- [ROH and IBD lengths](https://xuzhen-li.github.io/paper-viz/#roh-ibd): 比较群体的纯合片段和同源 IBD 片段是短而多，还是出现很长的尾巴。
+- [Geographic sampling map](https://xuzhen-li.github.io/paper-viz/#sampling-map): 采样点要按群体着色、按样本量缩放，并看出群体的地理范围时用。
+- [Selection scan](https://xuzhen-li.github.io/paper-viz/#selection-scan): 沿基因组找选择信号，XP-CLR 看群体间扫描，|iHS| 看单倍型纯合延伸。
+- [Site frequency spectrum](https://xuzhen-li.github.io/paper-viz/#sfs): 比较野生种、农家种和栽培种的稀有等位基因是过多还是被瓶颈削平。
+- [TreeMix migration tree](https://xuzhen-li.github.io/paper-viz/#treemix): 在最大似然群体树上画出迁移边，并用颜色表示迁移权重时用。
+- [Ancient DNA processing](https://xuzhen-li.github.io/paper-viz/#adna-processing): 按顺序交代古 DNA 从取样到真实性检验的主线步骤。
+- [Ancient DNA workflow by role](https://xuzhen-li.github.io/paper-viz/#adna-swimlane): 野外、实验和计算分成三条泳道。
+- [Genome assembly iteration](https://xuzhen-li.github.io/paper-viz/#assembly-iteration): 组装、抛光、评估、修订构成循环，通过后再发布。
+- [GWAS analysis flow](https://xuzhen-li.github.io/paper-viz/#gwas-io): 表型、基因型和协变量进入模型，右侧是结果。
+- [Multi-omics integration](https://xuzhen-li.github.io/paper-viz/#multiomics-hub): 基因组、转录组、表观和表型汇入一个联合模型。
+- [Multi-omics from one cohort](https://xuzhen-li.github.io/paper-viz/#multiomics-parallel): 同一批样本分出多条测定，再汇到整合。
+- [Pangenome construction](https://xuzhen-li.github.io/paper-viz/#pangenome-phases): 把泛基因组工作分成采集、组装、图和下游四段。
+- [Analysis platform layers](https://xuzhen-li.github.io/paper-viz/#platform-layers): 从数据、处理、模型到报告，自下而上四层。
+- [Population-genetic study design](https://xuzhen-li.github.io/paper-viz/#popgen-three-aims): 一个问题拆成结构、历史和选择三条线，再汇合。
+- [Technical route for a genomics project](https://xuzhen-li.github.io/paper-viz/#project-phases): 课题按设计、产生数据、分析和写作四段往下走。
+- [Sample routing by material](https://xuzhen-li.github.io/paper-viz/#sample-routing): 新鲜组织、馆藏标本和沉积物走不同前处理。
+- [Field sampling timeline](https://xuzhen-li.github.io/paper-viz/#sampling-timeline): 按年份排采样和分析里程碑。
+- [Convergent evidence for selection](https://xuzhen-li.github.io/paper-viz/#selection-evidence): 多种选择或关联证据汇到候选位点，再做功能验证。
+- [Sequencing quality gate](https://xuzhen-li.github.io/paper-viz/#sequencing-qc-gate): 质控通过才继续，不通过回到建库。
+- [Variant filtering cascade](https://xuzhen-li.github.io/paper-viz/#variant-filter-cascade): 变异集逐级变窄，直到高置信集合。
+- [Whole-genome sequencing pipeline](https://xuzhen-li.github.io/paper-viz/#wgs-pipeline): 从采样到变异检出的一条直线流程。

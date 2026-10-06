@@ -26,6 +26,32 @@ cen$dy <- cen$y - cy
 len <- sqrt(cen$dx^2 + cen$dy^2)
 cen$lx <- cen$x + cen$dx / len * 2.2
 cen$ly <- cen$y + cen$dy / len * 1.7
+cen$sx <- cen$x
+cen$sy <- cen$y
+cen$hjust <- 0.5
+cen$vjust <- 0.5
+# Cultivar A is the left-hand cluster; a leftward label is cut by the frame.
+# Place it on the open side, toward Landrace E.
+a <- cen$pop == "Cultivar A"
+if (any(a)) {
+  right <- max(df[[pc_x]][df$pop == "Cultivar A"])
+  cen$sx[a] <- right + 0.12
+  cen$sy[a] <- cen$y[a]
+  cen$lx[a] <- right + 0.42
+  cen$ly[a] <- cen$y[a] + 0.05
+  cen$hjust[a] <- 0
+}
+b <- cen$pop == "Cultivar B"
+if (any(b)) {
+  left <- min(df[[pc_x]][df$pop == "Cultivar B"])
+  bottom <- min(df[[pc_y]][df$pop == "Cultivar B"])
+  cen$sx[b] <- left
+  cen$sy[b] <- bottom - 0.05
+  cen$lx[b] <- left - 0.2
+  cen$ly[b] <- bottom - 0.9
+  cen$hjust[b] <- 1
+  cen$vjust[b] <- 0.5
+}
 
 p <- ggplot2::ggplot(df, ggplot2::aes(.data[[pc_x]], .data[[pc_y]], colour = pop, fill = pop)) +
   ggplot2::geom_point(size = 2.2, alpha = 0.9)
@@ -38,16 +64,18 @@ if (isTRUE(show_ellipse)) {
 if (isTRUE(show_labels)) {
   p <- p +
     ggplot2::geom_segment(
-      data = cen, ggplot2::aes(x = x, y = y, xend = lx, yend = ly),
+      data = cen, ggplot2::aes(x = sx, y = sy, xend = lx, yend = ly),
       inherit.aes = FALSE, linewidth = 0.2, colour = "grey35"
     ) +
     ggplot2::geom_label(
-      data = cen, ggplot2::aes(lx, ly, label = pop), inherit.aes = FALSE,
+      data = cen, ggplot2::aes(lx, ly, label = pop, hjust = hjust, vjust = vjust),
+      inherit.aes = FALSE,
       size = 2.0, colour = "black", fill = "white", linewidth = 0,
       label.padding = ggplot2::unit(0.12, "lines"), show.legend = FALSE
     )
 }
 p <- p +
+  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.22, 0.06))) +
   ggplot2::scale_colour_manual(values = pal, name = "Population") +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::labs(x = axis_lab(pc_x), y = axis_lab(pc_y)) +

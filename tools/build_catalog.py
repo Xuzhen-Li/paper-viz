@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Scan figures/**/meta.yaml and write catalog.json, docs/catalog.json, README block.
 
+Also rewrites the README figures badge and docs/llms.txt.
+
 Gallery extras (still keeps the required meta keys):
 - variant_of / variant_label on each figure, and variants on each main entry
 - task derived from category (heatmap shares 相关/关系 with correlation)
@@ -50,6 +52,7 @@ CATEGORIES = {
     "microbiome-ecology",
     "clinical",
     "schematic",
+    "layout",
 }
 START = "<!-- CATALOG:START -->"
 END = "<!-- CATALOG:END -->"
@@ -69,6 +72,7 @@ CATEGORY_ZH = {
     "microbiome-ecology": "微生物与生态",
     "clinical": "临床",
     "schematic": "流程图模板",
+    "layout": "拼图",
 }
 CATEGORY_ORDER = (
     "distribution",
@@ -86,6 +90,7 @@ CATEGORY_ORDER = (
     "microbiome-ecology",
     "clinical",
     "schematic",
+    "layout",
 )
 # Task list is the gallery filter. heatmap has no task of its own; those
 # matrices sit with correlation under 相关/关系.
@@ -105,6 +110,7 @@ CATEGORY_TASK = {
     "clinical": "clinical",
     "microbiome-ecology": "microbiome",
     "schematic": "schematic",
+    "layout": "layout",
 }
 TASKS = (
     ("compare", "比较组", "Compare groups"),
@@ -121,6 +127,7 @@ TASKS = (
     ("clinical", "临床", "Clinical"),
     ("microbiome", "微生物/生态", "Microbiome & ecology"),
     ("schematic", "流程图", "Schematic"),
+    ("layout", "拼图", "Layout"),
 )
 TASK_LABELS = {task_id: (zh, en) for task_id, zh, en in TASKS}
 # Audit A merges. Main slug first, then variant chips in this order.
@@ -128,7 +135,7 @@ VARIANT_ORDER = {
     "pca-biplot": ("pca-biplot", "pcoa", "nmds"),
     "cleveland-dot": ("cleveland-dot", "dumbbell"),
     "pie": ("pie", "donut"),
-    "raincloud": ("raincloud", "violin", "beeswarm", "grouped-boxplot-signif"),
+    "raincloud": ("raincloud", "violin", "beeswarm", "grouped-boxplot-signif", "split-violin"),
     "bar-grouped": ("bar-grouped", "circular-bar"),
     "parallel-coordinates": ("parallel-coordinates", "radar"),
     "enrichment-dot": ("enrichment-dot", "enrichment-bar"),
@@ -808,6 +815,56 @@ def assert_catalog(figures: list[dict]) -> None:
         raise SystemExit("variant search text")
 
 
+BADGE_RE = re.compile(r"(https://img\.shields\.io/badge/figures-)\d+")
+GALLERY_PAGE = "https://xuzhen-li.github.io/paper-viz"
+
+
+def rewrite_badge(figure_count: int) -> None:
+    text = README.read_text(encoding="utf-8")
+    new, n = BADGE_RE.subn(rf"\g<1>{figure_count}", text, count=1)
+    if n != 1:
+        raise SystemExit("README missing figures badge")
+    README.write_text(new, encoding="utf-8")
+
+
+def render_llms(figures: list[dict]) -> str:
+    """Plain-text index: one paragraph, three links, then one line per main figure."""
+    paragraph = (
+        "paper-viz is a free MIT R library of journal-style scientific figures "
+        "with plotting code and synthetic sample data. An AI agent finds a figure "
+        "with tools/find_figure.py or catalog.json, copies that folder, replaces "
+        "data.csv without renaming the declared columns, edits the parameters at "
+        "the top of plot.R, and renders with Rscript. Schematic templates open "
+        "template.drawio instead of an R script."
+    )
+    lines = [
+        "# paper-viz",
+        "",
+        paragraph,
+        "",
+        f"- [README]({GITHUB}/README.md)",
+        f"- [AGENTS.md]({GITHUB}/AGENTS.md)",
+        f"- [catalog.json]({RAW}/catalog.json)",
+        "",
+    ]
+    for row in figures:
+        if row.get("variant_of"):
+            continue
+        use = re.sub(r"\s+", " ", str(row["when_to_use"])).strip()
+        lines.append(f"- [{row['title']}]({GALLERY_PAGE}/#{row['slug']}): {use}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_llms(figures: list[dict]) -> None:
+    text = render_llms(figures)
+    mains = [row["slug"] for row in figures if not row.get("variant_of")]
+    for slug in mains:
+        if f"{GALLERY_PAGE}/#{slug}" not in text:
+            raise SystemExit(f"llms.txt missing {slug}")
+    (DOCS / "llms.txt").write_text(text, encoding="utf-8")
+
+
 def main() -> None:
     self_check()
     figures = build()
@@ -824,8 +881,12 @@ def main() -> None:
     DOCS.mkdir(parents=True, exist_ok=True)
     (DOCS / "catalog.json").write_text(raw, encoding="utf-8")
     rewrite_readme(render_readme(figures))
+    rewrite_badge(len(figures))
+    write_llms(figures)
     cards = sum(1 for row in figures if not row["variant_of"])
     print(f"catalog {len(figures)} figures, {cards} cards")
+    print(f"badge figures-{len(figures)}")
+    print("wrote docs/llms.txt")
 
 
 if __name__ == "__main__":

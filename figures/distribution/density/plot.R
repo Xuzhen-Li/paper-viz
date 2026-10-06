@@ -27,18 +27,31 @@ p <- ggplot2::ggplot(df, ggplot2::aes(value, colour = group, fill = group)) +
   )
 
 if (show_mode_labels) {
-  p <- p + ggrepel::geom_text_repel(
-    data = modes,
-    ggplot2::aes(x, y, label = group, colour = group),
-    inherit.aes = FALSE,
-    size = 2.1,
-    direction = "y",
-    min.segment.length = 0.2,
-    segment.size = 0.2,
-    box.padding = 0.25,
-    show.legend = FALSE,
-    seed = 45
-  )
+  line_b <- modes[modes$group == "Line B", , drop = FALSE]
+  others <- modes[modes$group != "Line B", , drop = FALSE]
+  # Line B's pink label was sitting on the pink fill. Lift it into the white gap.
+  line_b$y <- line_b$y + 0.22
+  p <- p +
+    ggrepel::geom_text_repel(
+      data = others,
+      ggplot2::aes(x, y, label = group, colour = group),
+      inherit.aes = FALSE,
+      size = 2.1,
+      direction = "y",
+      min.segment.length = 0.2,
+      segment.size = 0.2,
+      box.padding = 0.25,
+      show.legend = FALSE,
+      seed = 45
+    ) +
+    ggplot2::geom_text(
+      data = line_b,
+      ggplot2::aes(x, y, label = group, colour = group),
+      inherit.aes = FALSE,
+      size = 2.1,
+      vjust = 0,
+      show.legend = FALSE
+    )
 }
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)

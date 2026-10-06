@@ -75,7 +75,11 @@ if (layout == "split") {
     ggplot2::scale_x_continuous(breaks = seq_along(facet_levels), labels = facet_levels) +
     ggplot2::labs(x = NULL, y = "Expression (log2)") +
     theme_viz(base_size = 7) +
-    ggplot2::theme(legend.position = "inside")
+    ggplot2::theme(
+      legend.position = "inside",
+      legend.position.inside = c(0.50, 0.78),
+      legend.justification.inside = c(0.5, 0.5)
+    )
   if (!is.null(br)) {
     p <- p +
       ggplot2::geom_segment(

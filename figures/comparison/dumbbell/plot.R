@@ -42,7 +42,11 @@ p <- ggplot2::ggplot() +
   ggplot2::scale_colour_manual(values = cols, name = NULL) +
   ggplot2::labs(x = "Score", y = NULL) +
   theme_viz() +
-  ggplot2::theme(legend.position = "top")
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.98, 0.04),
+    legend.justification.inside = c(1, 0)
+  )
 
 pv_save(p, "figure", width_mm = 110, height_mm = 115)
 message("wrote preview.png")

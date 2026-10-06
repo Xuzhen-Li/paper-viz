@@ -18,7 +18,11 @@ p <- ggplot2::ggplot(df, ggplot2::aes(value, colour = group)) +
 if (!isTRUE(show_legend)) {
   p <- p + ggplot2::theme(legend.position = "none")
 } else {
-  p <- p + ggplot2::theme(legend.position = "inside")
+  p <- p + ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification.inside = c(0, 1)
+  )
 }
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)

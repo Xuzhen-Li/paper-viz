@@ -1,0 +1,20 @@
+title: Split violin
+title_zh: 分半小提琴图
+slug: split-violin
+variant_of: raincloud
+variant_label: "Split"
+category: distribution
+tags:
+  - violin
+  - split
+  - distribution
+packages:
+  - ggplot2
+data_columns:
+  sample: 样本编号（字符串）
+  group: 组织或分组，横轴一类一根（字符串）
+  condition: 两个条件，左半为第一水平，右半为第二水平（字符串）
+  value: 表达量，log2 尺度（数值）
+when_to_use: "每个分组里都有两个条件，要并排比较分布形状和中位数时用。Use when each group has two conditions and the two density shapes should share one axis position."
+customize: "plot.R 顶部 group_levels 与 condition_levels 决定顺序。左半是 condition_levels 的第一项，右半是第二项。两色按这个顺序取 pv_palette(\"categorical\")。half_width 是半边小提琴的最大宽度。中位线画在该高度的密度宽度内。密度用多边形镜像，不依赖额外几何包。"
+lang: R

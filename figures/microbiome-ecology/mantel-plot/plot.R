@@ -26,6 +26,10 @@ env_full$y <- match(env_full$var_a, env_names)
 tri <- env_full[env_full$y >= env_full$x, , drop = FALSE]
 
 if (isTRUE(link_p_only)) man <- man[man$p < p_cut, , drop = FALSE]
+# Significant Mantel r values are all positive, so a [-1, 1] scale piled every
+# link on the orange end. Keep the stronger links and stretch those colours
+# across the diverging palette so neighbouring curves can be told apart.
+if (nrow(man)) man <- man[abs(man$mantel_r) >= 0.30, , drop = FALSE]
 man$x <- length(env_names) + 0.35
 man$xend <- length(env_names) + 2.4
 man$y <- match(man$var_b, env_names)
@@ -35,6 +39,8 @@ man$yend <- om_y[man$var_a]
 man$sig <- ifelse(man$p < 0.01, "p < 0.01", "p < 0.05")
 
 cols_div <- pv_palette("diverging", 7)
+mantel_lim <- if (nrow(man)) range(man$mantel_r) else c(-1, 1)
+mantel_breaks <- if (nrow(man)) signif(c(mantel_lim[1], mean(mantel_lim), mantel_lim[2]), 2) else c(-1, 0, 1)
 
 p <- ggplot2::ggplot()
 if (isTRUE(show_env_heatmap)) {
@@ -63,8 +69,8 @@ p <- p +
     breaks = c(-1, 0, 1)
   ) +
   ggplot2::scale_colour_gradientn(
-    colours = cols_div, limits = c(-1, 1), name = "Mantel r",
-    breaks = c(-1, 0, 1)
+    colours = cols_div, limits = mantel_lim, name = "Mantel r",
+    breaks = mantel_breaks
   ) +
   ggplot2::scale_linewidth(range = c(0.25, 0.9), guide = "none") +
   ggplot2::scale_linetype_manual(values = c("p < 0.01" = "solid", "p < 0.05" = "dashed"), name = NULL) +

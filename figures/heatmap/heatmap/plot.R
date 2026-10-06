@@ -71,7 +71,14 @@ heat <- ggplot2::ggplot(long, ggplot2::aes(sample, feature, fill = value)) +
   ggplot2::geom_tile() +
   ggplot2::scale_fill_gradientn(
     colours = pv_palette("diverging", 11),
-    limits = c(-lim, lim), name = "z"
+    limits = c(-lim, lim),
+    name = "z",
+    guide = ggplot2::guide_colourbar(
+      direction = "horizontal",
+      title.position = "top",
+      barwidth = ggplot2::unit(40, "mm"),
+      barheight = ggplot2::unit(3, "mm")
+    )
   ) +
   ggplot2::scale_x_discrete(
     drop = FALSE,
@@ -80,9 +87,8 @@ heat <- ggplot2::ggplot(long, ggplot2::aes(sample, feature, fill = value)) +
   ggplot2::labs(x = NULL, y = NULL) +
   theme_viz() +
   ggplot2::theme(
-    axis.text.y = ggplot2::element_text(size = 4.6),
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 5),
-    legend.key.height = ggplot2::unit(8, "mm")
+    axis.text.y = ggplot2::element_text(size = 6.5),
+    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 6.5)
   )
 
 if (isTRUE(show_annotation)) {
@@ -98,7 +104,9 @@ if (isTRUE(show_annotation)) {
       axis.line = ggplot2::element_blank(),
       plot.margin = ggplot2::margin(0, 5, 0, 5)
     )
-  p <- bar / heat + patchwork::plot_layout(heights = c(0.06, 1), guides = "collect")
+  p <- bar / heat +
+    patchwork::plot_layout(heights = c(0.06, 1), guides = "collect") &
+    ggplot2::theme(legend.position = "bottom", legend.box = "horizontal")
 } else {
   p <- heat
 }

@@ -13,5 +13,5 @@ data_columns:
   child: 外环子类，属于对应的 parent（字符串）
   value: 组成权重（正数，图中按总和换算成圆心角）
 when_to_use: "一个整体分成大类、大类再分成子类，要在同一张圆图里看两层份额时用。Use when a whole splits into parent categories and their children, drawn as two concentric rings."
-customize: "plot.R 顶部 label_min_share 是写标签的最小份额，更小的扇区留空；hole 是中心圆孔半径（数据坐标）。内环按 parent 从大到小取 pv_palette(\"categorical\")，外环是对应父色的深浅变体。"
+customize: "plot.R 顶部 label_min_share 是沿弧书写的最小份额。份额更小、或名字长于弧长的扇区，把名字写在环内并沿半径方向，不再拉到圆外，这样圆盘能铺满画布。hole 是中心圆孔半径（数据坐标）。内环按 parent 从大到小取 pv_palette(\"categorical\")，外环是对应父色冲淡后的浅色。"
 lang: R

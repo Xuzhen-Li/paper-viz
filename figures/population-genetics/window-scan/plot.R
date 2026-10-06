@@ -22,7 +22,15 @@ mids <- off + chr_max / 2
 pal <- pv_palette("categorical", 2)
 df$chr_col <- ifelse(as.integer(df$chr) %% 2 == 1, pal[1], pal[2])
 
-stat_lab <- c(fst = "Fst", pi = "pi x 10^-3", tajima = "Tajima's D")
+scan_labeller <- function(labels) {
+  labels$stat <- lapply(as.character(labels$stat), function(s) {
+    if (s == "pi") parse(text = "pi %*% 10^{-3}")[[1]]
+    else if (s == "fst") "Fst"
+    else if (s == "tajima") "Tajima's D"
+    else s
+  })
+  labels
+}
 thr <- data.frame(
   stat = factor(stats_show, levels = stats_show),
   y = c(
@@ -41,7 +49,10 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, value, colour = chr_col)) +
     breaks = mids, labels = gsub("chr", "", names(mids)),
     expand = ggplot2::expansion(mult = 0.01)
   ) +
-  ggplot2::facet_grid(stat ~ ., scales = "free_y", labeller = ggplot2::as_labeller(stat_lab)) +
+  ggplot2::facet_grid(
+    stat ~ ., scales = "free_y",
+    labeller = scan_labeller
+  ) +
   ggplot2::labs(x = "Chromosome", y = NULL) +
   theme_viz() +
   ggplot2::theme(

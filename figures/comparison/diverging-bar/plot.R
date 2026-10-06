@@ -22,7 +22,11 @@ p <- ggplot2::ggplot(df, ggplot2::aes(value, item, fill = class)) +
   ggplot2::scale_x_continuous(labels = function(x) paste0(x, "%")) +
   ggplot2::labs(x = "Change from baseline", y = NULL) +
   theme_viz() +
-  ggplot2::theme(legend.position = "top")
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.98, 0.06),
+    legend.justification.inside = c(1, 0)
+  )
 
 pv_save(p, "figure", width_mm = 110, height_mm = 125)
 message("wrote preview.png")

@@ -25,9 +25,9 @@ set.seed(1)
 p <- ggraph::ggraph(g, layout = "fr") +
   ggraph::geom_edge_link(ggplot2::aes(width = weight), colour = "#9A9A9A", alpha = 0.75) +
   ggraph::geom_node_point(ggplot2::aes(colour = community, size = degree)) +
-  ggraph::scale_edge_width(range = c(0.15, 0.9), name = "Weight") +
+  ggraph::scale_edge_width(range = c(0.15, 0.9), guide = "none") +
   ggplot2::scale_colour_manual(values = cols, name = "Community") +
-  ggplot2::scale_size(range = c(1.2, 3.2), name = "Degree") +
+  ggplot2::scale_size(range = c(1.2, 3.2), guide = "none") +
   ggplot2::labs(x = NULL, y = NULL) +
   theme_viz() +
   ggplot2::theme(
@@ -35,7 +35,11 @@ p <- ggraph::ggraph(g, layout = "fr") +
     axis.text = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "bottom"
+    legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification.inside = c(0, 1),
+    legend.key.height = ggplot2::unit(3.2, "mm"),
+    legend.key.width = ggplot2::unit(4, "mm")
   )
 
 if (isTRUE(show_labels)) {

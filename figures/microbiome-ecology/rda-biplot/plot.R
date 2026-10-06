@@ -46,6 +46,11 @@ arrows$lx <- arrows$x * stretch
 arrows$ly <- arrows$y * stretch
 arrows$hjust <- ifelse(arrows$x >= 0, 0, 1)
 arrows$vjust <- ifelse(arrows$y >= 0, 0, 1)
+# Temp's label sits on the arrowhead. Shift it down-left, off the tip.
+# Nitrogen is left where it is.
+temp_pull <- arrows$lab == "Temp"
+arrows$lx[temp_pull] <- arrows$lx[temp_pull] - 0.11
+arrows$ly[temp_pull] <- arrows$ly[temp_pull] - 0.08
 panel_mm <- 54
 lim <- max(abs(c(site_sc$RDA1, site_sc$RDA2, arrows$lx, arrows$ly))) * 1.25
 for (step in seq_len(5)) {
@@ -77,8 +82,8 @@ if (collide) {
   label_layer <- ggrepel::geom_text_repel(
     data = arrows,
     ggplot2::aes(x = x, y = y, label = lab, hjust = hjust, vjust = vjust),
-    nudge_x = arrows$x * (stretch - 1),
-    nudge_y = arrows$y * (stretch - 1),
+    nudge_x = arrows$lx - arrows$x,
+    nudge_y = arrows$ly - arrows$y,
     size = lab_size,
     colour = "black",
     min.segment.length = 0,

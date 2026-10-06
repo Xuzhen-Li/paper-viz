@@ -31,13 +31,58 @@ if (nlevels(df$method) > 1) {
 
 if (isTRUE(show_labels)) {
   centres <- stats::aggregate(cbind(dim1, dim2) ~ cluster + method, df, stats::median)
-  p <- p + ggplot2::geom_text(
+  centres$nudge_x <- 0
+  centres$nudge_y <- 0
+  # Place each label just outside its own cloud. Coordinates are method-specific.
+  u_c1 <- centres$method == "UMAP" & centres$cluster == "C1"
+  u_c2 <- centres$method == "UMAP" & centres$cluster == "C2"
+  u_c3 <- centres$method == "UMAP" & centres$cluster == "C3"
+  u_c4 <- centres$method == "UMAP" & centres$cluster == "C4"
+  u_c5 <- centres$method == "UMAP" & centres$cluster == "C5"
+  centres$nudge_x[u_c1] <- -1.1
+  centres$nudge_y[u_c1] <- -2.0
+  centres$nudge_y[u_c2] <- -2.8
+  centres$nudge_x[u_c3] <- -2.2
+  centres$nudge_y[u_c3] <- 0.9
+  # Right of the cloud. An upward nudge lands back on the points once the
+  # label is kept inside the panel.
+  centres$nudge_x[u_c4] <- 1.8
+  centres$nudge_y[u_c4] <- 0.15
+  centres$nudge_x[u_c5] <- 1.7
+  centres$nudge_y[u_c5] <- 0.55
+  t_c1 <- centres$method == "t-SNE" & centres$cluster == "C1"
+  t_c2 <- centres$method == "t-SNE" & centres$cluster == "C2"
+  t_c3 <- centres$method == "t-SNE" & centres$cluster == "C3"
+  t_c4 <- centres$method == "t-SNE" & centres$cluster == "C4"
+  t_c5 <- centres$method == "t-SNE" & centres$cluster == "C5"
+  centres$nudge_x[t_c1] <- -12
+  centres$nudge_y[t_c2] <- 13
+  centres$nudge_x[t_c3] <- -12
+  centres$nudge_y[t_c3] <- 1.2
+  centres$nudge_y[t_c4] <- -12
+  centres$nudge_y[t_c5] <- -10
+  p <- p +
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.20, 0.28))) +
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.20)) +
+    ggrepel::geom_text_repel(
     data = centres,
     ggplot2::aes(dim1, dim2, label = cluster),
     colour = "black",
     size = 2.1,
     fontface = "bold",
-    inherit.aes = FALSE
+    inherit.aes = FALSE,
+    nudge_x = centres$nudge_x,
+    nudge_y = centres$nudge_y,
+    min.segment.length = 0,
+    segment.size = 0.2,
+    segment.colour = "grey35",
+    box.padding = 0.25,
+    point.padding = 0.15,
+    force = 0.5,
+    force_pull = 0,
+    max.overlaps = Inf,
+    seed = 11,
+    show.legend = FALSE
   )
 }
 

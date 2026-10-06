@@ -20,7 +20,11 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y)) +
   ggplot2::coord_fixed(ratio = 1, expand = TRUE) +
   ggplot2::labs(x = "Feature X", y = "Feature Y") +
   theme_viz(base_size = 7) +
-  ggplot2::theme(legend.position = "inside")
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification.inside = c(0, 1)
+  )
 
 if (isTRUE(show_counts)) {
   p <- p + ggplot2::stat_bin_hex(

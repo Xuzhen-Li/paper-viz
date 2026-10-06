@@ -43,10 +43,14 @@ p <- p +
     size = point_size
   ) +
   ggplot2::scale_colour_manual(values = cols, name = NULL) +
-  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.02, 0.06))) +
+  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.08, 0.04))) +
   ggplot2::labs(x = "Score", y = NULL) +
   theme_viz() +
-  ggplot2::theme(legend.position = "top")
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.42, 0.55),
+    legend.justification.inside = c(0, 0.5)
+  )
 
 pv_save(p, "figure", width_mm = 100, height_mm = 110)
 message("wrote preview.png")

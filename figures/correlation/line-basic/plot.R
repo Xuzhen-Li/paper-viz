@@ -28,13 +28,18 @@ if (isTRUE(show_ribbon)) {
 }
 p <- p + ggplot2::geom_line(linewidth = 0.55)
 if (isTRUE(show_points)) {
-  p <- p + ggplot2::geom_point(size = 1.8)
+  p <- p + ggplot2::geom_point(size = 1.1)
 }
 p <- p +
   ggplot2::scale_colour_manual(values = pal, name = NULL) +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::labs(x = "Day", y = "Relative abundance") +
-  theme_viz(base_size = 7)
+  theme_viz(base_size = 7) +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.98, 0.02),
+    legend.justification.inside = c(1, 0)
+  )
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)
 message("wrote preview.png")

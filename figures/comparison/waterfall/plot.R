@@ -97,7 +97,9 @@ p <- p +
   ggplot2::labs(x = NULL, y = "Value") +
   theme_viz() +
   ggplot2::theme(
-    legend.position = "top",
+    legend.position = "inside",
+    legend.position.inside = c(0.55, 0.32),
+    legend.justification.inside = c(0.5, 0.5),
     axis.text.x = ggplot2::element_text(angle = 35, hjust = 1)
   )
 

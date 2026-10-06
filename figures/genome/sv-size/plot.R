@@ -11,11 +11,14 @@ cols <- setNames(pv_palette("categorical", 4), sv_keep)
 
 p <- ggplot2::ggplot(df, ggplot2::aes(size_bp, colour = sv_type, fill = sv_type)) +
   ggplot2::geom_density(alpha = 0.18, linewidth = 0.4) +
-  ggplot2::scale_colour_manual(values = cols, name = NULL) +
+  ggplot2::scale_colour_manual(values = cols, guide = "none") +
   ggplot2::scale_fill_manual(values = cols, name = NULL) +
   ggplot2::labs(x = "SV size", y = "Density") +
   theme_viz(base_size = 7) +
-  ggplot2::theme(legend.key.size = ggplot2::unit(3, "mm"))
+  ggplot2::theme(
+    legend.key.size = ggplot2::unit(3, "mm"),
+    legend.position = "bottom"
+  )
 
 if (isTRUE(log_x)) {
   p <- p + ggplot2::scale_x_log10(

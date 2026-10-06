@@ -38,12 +38,12 @@ p <- p +
     linewidth = 0.6
   ) +
   ggplot2::scale_colour_manual(values = cols, name = NULL) +
-  ggplot2::scale_fill_manual(values = cols, name = NULL) +
+  ggplot2::scale_fill_manual(values = cols, guide = "none") +
   ggplot2::labs(x = "Reads", y = "Expected richness") +
   theme_viz(base_size = 7) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "inside"
+    legend.position = "bottom"
   )
 
 pv_save(p, "figure", width_mm = 85, height_mm = 60)

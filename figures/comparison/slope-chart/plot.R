@@ -22,7 +22,9 @@ p <- ggplot2::ggplot(df, ggplot2::aes(stage, value, group = item, colour = emph)
   ggplot2::scale_colour_manual(values = pal, breaks = highlight, name = NULL) +
   ggplot2::labs(x = NULL, y = "Index") +
   theme_viz() +
-  ggplot2::theme(legend.position = "top")
+  ggplot2::theme(
+    legend.position = "bottom"
+  )
 
 if (label_ends) {
   ends <- df[df$emph != "Other", ]
