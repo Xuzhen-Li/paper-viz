@@ -183,7 +183,7 @@
   .code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 16px; }
   .code-head h3 { margin: 0; }
   a { color: #134aa3; }
-  #dlg-files, #dlg-draw-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+  #dlg-files { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
   .hint, #dlg-status { color: #3d4a5c; font-size: 0.85rem; }
   #dlg-variants { margin: 0 0 4px; }
   @media (max-width: 520px) {
@@ -202,10 +202,6 @@
   <div class="tools">
     <input id="q" type="search" placeholder="搜索标题、用途或列名" aria-label="搜索">
     <select id="tag" aria-label="标签"><option value="">全部标签</option></select>
-  </div>
-  <div class="filter-row">
-    <span class="filter-label">类型</span>
-    <div id="kinds" class="chips" role="group" aria-label="类型"></div>
   </div>
   <div class="filter-row">
     <span class="filter-label">任务</span>
@@ -247,12 +243,7 @@
       <button id="copy" type="button">复制代码</button>
     </div>
     <pre id="dlg-code"></pre>
-  </div>
-  <div id="dlg-drawio" hidden>
-    <p id="dlg-draw-custom"></p>
-    <div id="dlg-draw-links"></div>
-    <p id="dlg-draw-status" class="hint"></p>
-  </div>
+    </div>
   </div>
 </dialog>
 <script>
@@ -272,7 +263,6 @@ const state = {
   tasks: [],
   rawBase: RAW_DEFAULT,
   blobBase: BLOB_DEFAULT,
-  kind: "all",
   task: "",
   shown: {}
 };
@@ -280,7 +270,6 @@ const grid = document.querySelector("#grid");
 const empty = document.querySelector("#empty");
 const q = document.querySelector("#q");
 const tagSelect = document.querySelector("#tag");
-const kindsEl = document.querySelector("#kinds");
 const tasksEl = document.querySelector("#tasks");
 const dlg = document.querySelector("#dlg");
 let syncing = false;
@@ -292,15 +281,6 @@ function joinUrl(base, path) {
 
 function mains() {
   return state.figures.filter((fig) => !fig.variant_of);
-}
-
-function isSchematic(fig) {
-  return fig.lang === "drawio";
-}
-
-function passesKind(fig) {
-  if (state.kind === "all") return true;
-  return state.kind === "schematic" ? isSchematic(fig) : !isSchematic(fig);
 }
 
 function variantFigs(main) {
@@ -316,7 +296,6 @@ function cardBlob(main) {
 }
 
 function cardMatches(main) {
-  if (!passesKind(main)) return false;
   if (state.task && main.task !== state.task) return false;
   if (tagSelect.value) {
     const tagged = [main, ...variantFigs(main)].some((fig) => (fig.tags || []).includes(tagSelect.value));
@@ -370,20 +349,6 @@ function chipButton(label, pressed, onClick) {
 
 function renderFilters() {
   const cards = mains();
-  const dataN = cards.filter((fig) => !isSchematic(fig)).length;
-  const schemeN = cards.filter((fig) => isSchematic(fig)).length;
-  const kindDefs = [
-    ["all", "全部 All", cards.length],
-    ["data", "数据图 Data", dataN],
-    ["schematic", "流程图 Schematics", schemeN]
-  ];
-  kindsEl.replaceChildren();
-  kindDefs.forEach(([id, label, count]) => {
-    kindsEl.appendChild(chipButton(label + " " + count, state.kind === id, () => {
-      state.kind = id;
-      render();
-    }));
-  });
   tasksEl.replaceChildren();
   const allTask = chipButton("全部任务 All tasks", !state.task, () => {
     state.task = "";
@@ -391,7 +356,7 @@ function renderFilters() {
   });
   tasksEl.appendChild(allTask);
   state.tasks.forEach((task) => {
-    const count = cards.filter((fig) => fig.task === task.id && passesKind(fig)).length;
+    const count = cards.filter((fig) => fig.task === task.id).length;
     if (!count && state.task !== task.id) return;
     tasksEl.appendChild(chipButton(task.zh + " " + task.en + " " + count, state.task === task.id, () => {
       state.task = state.task === task.id ? "" : task.id;
@@ -583,8 +548,7 @@ function fillDialog(fig) {
   img.alt = fig.title_zh || fig.title || "";
   document.querySelector("#dlg-when").textContent = fig.when_to_use || "";
   const canvas = document.querySelector("#dlg-canvas");
-  if (fig.lang === "drawio") canvas.textContent = "";
-  else canvas.textContent = fig.canvas && fig.canvas.label ? "画布 " + fig.canvas.label : "画布大小未写在 pv_save 里";
+  canvas.textContent = fig.canvas && fig.canvas.label ? "画布 " + fig.canvas.label : "画布大小未写在 pv_save 里";
   const main = fig.variant_of ? state.bySlug[fig.variant_of] : fig;
   const chips = document.querySelector("#dlg-variants");
   clearNode(chips);
@@ -596,25 +560,6 @@ function fillDialog(fig) {
       }));
     });
   }
-  const dataBlock = document.querySelector("#dlg-data");
-  const drawBlock = document.querySelector("#dlg-drawio");
-  if (fig.lang === "drawio") {
-    dataBlock.hidden = true;
-    drawBlock.hidden = false;
-    document.querySelector("#dlg-draw-custom").textContent = fig.customize || "";
-    const links = document.querySelector("#dlg-draw-links");
-    const status = document.querySelector("#dlg-draw-status");
-    clearNode(links);
-    status.textContent = "";
-    (fig.downloads || []).forEach((item) => {
-      const url = item.raw || joinUrl(state.rawBase, item.path);
-      links.appendChild(fileButton("下载 " + item.name, url, item.name, status));
-    });
-    links.appendChild(githubLink(fig));
-    return;
-  }
-  dataBlock.hidden = false;
-  drawBlock.hidden = true;
   const cols = document.querySelector("#dlg-cols");
   clearNode(cols);
   addRow(cols, ["列", "含义"], true);

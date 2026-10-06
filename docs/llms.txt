@@ -1,6 +1,6 @@
 # paper-viz
 
-paper-viz is a free MIT R library of journal-style scientific figures with plotting code and synthetic sample data. An AI agent finds a figure with tools/find_figure.py or catalog.json, copies that folder, replaces data.csv without renaming the declared columns, edits the parameters at the top of plot.R, and renders with Rscript. Schematic templates open template.drawio instead of an R script.
+paper-viz is a free MIT R library of journal-style scientific figures with plotting code and synthetic sample data. An AI agent finds a figure with tools/find_figure.py or catalog.json, copies that folder, replaces data.csv without renaming the declared columns, edits the parameters at the top of plot.R, and renders with Rscript.
 
 - [README](https://github.com/Xuzhen-Li/paper-viz/blob/main/README.md)
 - [AGENTS.md](https://github.com/Xuzhen-Li/paper-viz/blob/main/AGENTS.md)
@@ -95,19 +95,3 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Selection scan](https://xuzhen-li.github.io/paper-viz/#selection-scan): 沿基因组找选择信号，XP-CLR 看群体间扫描，|iHS| 看单倍型纯合延伸。
 - [Site frequency spectrum](https://xuzhen-li.github.io/paper-viz/#sfs): 比较野生种、农家种和栽培种的稀有等位基因是过多还是被瓶颈削平。
 - [TreeMix migration tree](https://xuzhen-li.github.io/paper-viz/#treemix): 在最大似然群体树上画出迁移边，并用颜色表示迁移权重时用。
-- [Ancient DNA processing](https://xuzhen-li.github.io/paper-viz/#adna-processing): 按顺序交代古 DNA 从取样到真实性检验的主线步骤。
-- [Ancient DNA workflow by role](https://xuzhen-li.github.io/paper-viz/#adna-swimlane): 野外、实验和计算分成三条泳道。
-- [Genome assembly iteration](https://xuzhen-li.github.io/paper-viz/#assembly-iteration): 组装、抛光、评估、修订构成循环，通过后再发布。
-- [GWAS analysis flow](https://xuzhen-li.github.io/paper-viz/#gwas-io): 表型、基因型和协变量进入模型，右侧是结果。
-- [Multi-omics integration](https://xuzhen-li.github.io/paper-viz/#multiomics-hub): 基因组、转录组、表观和表型汇入一个联合模型。
-- [Multi-omics from one cohort](https://xuzhen-li.github.io/paper-viz/#multiomics-parallel): 同一批样本分出多条测定，再汇到整合。
-- [Pangenome construction](https://xuzhen-li.github.io/paper-viz/#pangenome-phases): 把泛基因组工作分成采集、组装、图和下游四段。
-- [Analysis platform layers](https://xuzhen-li.github.io/paper-viz/#platform-layers): 从数据、处理、模型到报告，自下而上四层。
-- [Population-genetic study design](https://xuzhen-li.github.io/paper-viz/#popgen-three-aims): 一个问题拆成结构、历史和选择三条线，再汇合。
-- [Technical route for a genomics project](https://xuzhen-li.github.io/paper-viz/#project-phases): 课题按设计、产生数据、分析和写作四段往下走。
-- [Sample routing by material](https://xuzhen-li.github.io/paper-viz/#sample-routing): 新鲜组织、馆藏标本和沉积物走不同前处理。
-- [Field sampling timeline](https://xuzhen-li.github.io/paper-viz/#sampling-timeline): 按年份排采样和分析里程碑。
-- [Convergent evidence for selection](https://xuzhen-li.github.io/paper-viz/#selection-evidence): 多种选择或关联证据汇到候选位点，再做功能验证。
-- [Sequencing quality gate](https://xuzhen-li.github.io/paper-viz/#sequencing-qc-gate): 质控通过才继续，不通过回到建库。
-- [Variant filtering cascade](https://xuzhen-li.github.io/paper-viz/#variant-filter-cascade): 变异集逐级变窄，直到高置信集合。
-- [Whole-genome sequencing pipeline](https://xuzhen-li.github.io/paper-viz/#wgs-pipeline): 从采样到变异检出的一条直线流程。

@@ -34,7 +34,7 @@ CATEGORIES = {
     "network",
     "microbiome-ecology",
     "clinical",
-    "schematic",
+    "layout",
 }
 ABS_PATH_RE = re.compile(
     r"(?:/Users/|/home/(?!runner\b)|[A-Za-z]:\\|/Volumes/|\\\\[A-Za-z])"

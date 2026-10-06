@@ -51,7 +51,6 @@ CATEGORIES = {
     "network",
     "microbiome-ecology",
     "clinical",
-    "schematic",
     "layout",
 }
 START = "<!-- CATALOG:START -->"
@@ -71,7 +70,6 @@ CATEGORY_ZH = {
     "network": "网络",
     "microbiome-ecology": "微生物与生态",
     "clinical": "临床",
-    "schematic": "流程图模板",
     "layout": "拼图",
 }
 CATEGORY_ORDER = (
@@ -89,7 +87,6 @@ CATEGORY_ORDER = (
     "network",
     "microbiome-ecology",
     "clinical",
-    "schematic",
     "layout",
 )
 # Task list is the gallery filter. heatmap has no task of its own; those
@@ -109,7 +106,6 @@ CATEGORY_TASK = {
     "network": "network",
     "clinical": "clinical",
     "microbiome-ecology": "microbiome",
-    "schematic": "schematic",
     "layout": "layout",
 }
 TASKS = (
@@ -126,7 +122,6 @@ TASKS = (
     ("network", "网络", "Network"),
     ("clinical", "临床", "Clinical"),
     ("microbiome", "微生物/生态", "Microbiome & ecology"),
-    ("schematic", "流程图", "Schematic"),
     ("layout", "拼图", "Layout"),
 )
 TASK_LABELS = {task_id: (zh, en) for task_id, zh, en in TASKS}
@@ -141,13 +136,6 @@ VARIANT_ORDER = {
     "enrichment-dot": ("enrichment-dot", "enrichment-bar"),
     "heatmap": ("heatmap", "circular-heatmap"),
     "selection-scan": ("selection-scan", "window-scan"),
-    "project-phases": ("project-phases", "rnaseq-stages"),
-    "multiomics-parallel": (
-        "multiomics-parallel",
-        "assembly-compare",
-        "variant-modules",
-        "case-control-arms",
-    ),
 }
 PREAMBLE_RE = re.compile(
     r"^(source|library|require|suppressPackageStartupMessages|suppressMessages)\s*\("
@@ -776,7 +764,7 @@ p <- ggplot2::ggplot(df)
         raise SystemExit(f"multiline knobs {knob_names}")
     if task_of("heatmap") != "relationship" or task_of("comparison") != "compare":
         raise SystemExit("task map")
-    if task_of("schematic") != "schematic" or TASK_LABELS["de"][0] != "差异表达":
+    if task_of("genome") != "genome" or task_of("layout") != "layout" or TASK_LABELS["de"][0] != "差异表达":
         raise SystemExit("task labels")
     for plot in FIGURES.glob("*/*/plot.R"):
         text = plot.read_text(encoding="utf-8")
@@ -801,10 +789,6 @@ def assert_catalog(figures: list[dict]) -> None:
         raise SystemExit(f"pca chips {labels}")
     if by_slug["pcoa"]["variant_of"] != "pca-biplot":
         raise SystemExit("pcoa parent")
-    if by_slug["rnaseq-stages"]["variant_of"] != "project-phases":
-        raise SystemExit("rnaseq parent")
-    if by_slug["case-control-arms"]["variant_of"] != "multiomics-parallel":
-        raise SystemExit("case-control parent")
     volcano = by_slug["volcano"]
     if not isinstance(volcano["parameters"], list):
         raise SystemExit("parameters type")
@@ -834,8 +818,7 @@ def render_llms(figures: list[dict]) -> str:
         "with plotting code and synthetic sample data. An AI agent finds a figure "
         "with tools/find_figure.py or catalog.json, copies that folder, replaces "
         "data.csv without renaming the declared columns, edits the parameters at "
-        "the top of plot.R, and renders with Rscript. Schematic templates open "
-        "template.drawio instead of an R script."
+        "the top of plot.R, and renders with Rscript."
     )
     lines = [
         "# paper-viz",

@@ -33,7 +33,7 @@ You can also filter `catalog.json` → `figures`. Fields that matter: `slug`, `t
 
 `pv_save` writes a PDF, a 600 dpi PNG, and `preview.png`. The script sources `../../../styles/r/theme_viz.R`. If you move the folder, copy `styles/r/theme_viz.R` with it and fix `source()`.
 
-`lang: Python` uses `python3 plot.py` and the same columns. `lang: drawio` (schematics): open `template.drawio` and edit the text. Do not convert a schematic into R. The preview file is `figure.svg`.
+`lang: Python` uses `python3 plot.py` and the same columns.
 
 Raw downloads follow `https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/` plus the path, for `plot.R`, `data.csv`, and `make_data.R`.
 
@@ -57,10 +57,9 @@ Control or background points use `#E0E0E0`. The legend stays inside the panel, w
 ## Add a figure
 
 1. Create `figures/<category>/<slug>/`.
-2. R folder: `make_data.R` (fixed random seed; `data.csv` under 200KB), `data.csv`, `plot.R`, `preview.png`, `meta.yaml`. `plot.R` only reads the CSV, sources `../../../styles/r/theme_viz.R`, and calls `theme_viz()`, `pv_palette()`, and `pv_save()`.
-3. Schematic folder: `template.drawio`, `figure.svg`, `preview.png`, `meta.yaml`, with `lang: drawio`.
-4. Required `meta.yaml` keys: `title`, `title_zh`, `slug`, `category`, `tags` (English), `packages`, `data_columns` (name → description), `when_to_use`, `customize`, `lang` (`R`, `Python`, or `drawio`). `title_zh`, `when_to_use`, and `customize` must be non-empty. `slug` equals the directory name. A gallery toggle also needs `variant_of` and `variant_label`.
-5. `category` is one of: `distribution`, `comparison`, `correlation`, `composition`, `heatmap`, `dimension-reduction`, `differential-expression`, `enrichment`, `population-genetics`, `genome`, `phylogeny`, `network`, `microbiome-ecology`, `clinical`, `schematic`, `layout`.
-6. Run `python3 tools/build_catalog.py`. That refreshes `catalog.json`, `docs/catalog.json`, `docs/llms.txt`, the README catalog block, and the figures badge.
+2. R folder: `make_data.R` (fixed random seed; `data.csv` under 200KB), `data.csv`, `plot.R`, `preview.png`, `meta.yaml`. `plot.R` only reads the CSV, sources `../../../styles/r/theme_viz.R`, and calls `theme_viz()`, `pv_palette()`, and `pv_save()`. The `layout` category uses this same folder; multi-panel arrangement stays in `plot.R`.
+3. Required `meta.yaml` keys: `title`, `title_zh`, `slug`, `category`, `tags` (English), `packages`, `data_columns` (name → description), `when_to_use`, `customize`, `lang` (`R` or `Python`). `title_zh`, `when_to_use`, and `customize` must be non-empty. `slug` equals the directory name. A gallery toggle also needs `variant_of` and `variant_label`.
+4. `category` is one of: `distribution`, `comparison`, `correlation`, `composition`, `heatmap`, `dimension-reduction`, `differential-expression`, `enrichment`, `population-genetics`, `genome`, `phylogeny`, `network`, `microbiome-ecology`, `clinical`, `layout`.
+5. Run `python3 tools/build_catalog.py`. That refreshes `catalog.json`, `docs/catalog.json`, `docs/llms.txt`, the README catalog block, and the figures badge.
 
 Keep one main folder per chart type. Small options belong in the parameters at the top of `plot.R` and in `customize`.

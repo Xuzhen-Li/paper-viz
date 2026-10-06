@@ -149,23 +149,18 @@ class TestFindFigure(unittest.TestCase):
             )
         self.assertIn("gene", row["data_columns"])
 
-    def test_variants_and_drawio(self) -> None:
+    def test_variants(self) -> None:
         main_row = json.loads(run("--slug", "pca-biplot", "--json").stdout)[0]
         self.assertGreaterEqual(len(main_row["variants"]), 2)
         self.assertIsNone(main_row["variant_of"])
         self.assertIn("variants:", run("--slug", "pca-biplot").stdout)
+        self.assertIn("Rscript plot.R", main_row["run"])
 
         variant = json.loads(run("--slug", "pcoa", "--json").stdout)[0]
         self.assertEqual(variant["variant_of"], "pca-biplot")
         self.assertEqual(variant["variants"], [])
         self.assertIn("variant_of: pca-biplot", run("--slug", "pcoa").stdout)
-
-        schematic = json.loads(run("--slug", "rnaseq-stages", "--json").stdout)[0]
-        self.assertEqual(
-            schematic["run"],
-            "cd figures/schematic/rnaseq-stages && open template.drawio",
-        )
-        self.assertIn("template.drawio", [item["name"] for item in schematic["downloads"]])
+        self.assertIn("Rscript plot.R", variant["run"])
 
     def test_default_limit_is_five(self) -> None:
         rows = json.loads(run("--category", "comparison", "--json").stdout)
