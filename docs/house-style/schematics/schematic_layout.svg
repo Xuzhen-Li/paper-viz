@@ -1,265 +1,239 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="195.000mm" height="192.000mm" viewBox="0 0 195.000 192.000" font-family="Arial, Helvetica, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="191.000mm" height="358.453mm" viewBox="0 0 191.000 358.453" font-family="Arial, Helvetica, sans-serif">
 <title>schematic_layout</title>
-<text x="1.500" y="3.600" font-size="2.8222" fill="#000000" text-anchor="start" xml:space="preserve"><tspan font-weight="bold">Double column, 183 mm</tspan><tspan>  ·  3 panels per row  ·  fonts do not shrink with panel width</tspan></text>
-<rect x="1.500" y="13.500" width="183.000" height="108.500" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="2.500" y="14.500" width="58.333" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="10.728" y="18.640" width="49.605" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="12.728,58.673 12.728,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="12.728" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="9.728,56.673 10.728,56.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="57.562" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="27.930,58.673 27.930,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="27.930" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="9.728,44.662 10.728,44.662" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="45.551" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="43.132,58.673 43.132,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="43.132" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="9.728,32.651 10.728,32.651" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="33.540" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="58.333,58.673 58.333,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="58.333" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="9.728,20.640 10.728,20.640" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="21.529" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="35.531" y="65.551" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="4.155" y="39.634" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 4.155 38.656)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="2.800" y="17.640" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
-<text x="12.228" y="21.840" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>plot area 49.6 × 40.0 mm</tspan></text>
-<text x="12.228" y="24.853" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>= 65% of panel (target ≥60%)</tspan></text>
-<text x="12.228" y="27.865" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>legend, stats, direct labels</tspan></text>
-<text x="12.228" y="30.878" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>go inside this area</tspan></text>
-<rect x="63.833" y="14.500" width="58.333" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="72.061" y="18.640" width="49.605" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="74.061,58.673 74.061,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="74.061" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="71.061,56.673 72.061,56.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="57.562" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="89.263,58.673 89.263,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="89.263" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="71.061,44.662 72.061,44.662" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="45.551" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="104.465,58.673 104.465,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="104.465" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="71.061,32.651 72.061,32.651" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="33.540" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="119.667,58.673 119.667,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="119.667" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="71.061,20.640 72.061,20.640" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="21.529" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="96.864" y="65.551" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="65.488" y="39.634" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 65.488 38.656)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="64.133" y="17.640" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
-<text x="73.561" y="21.840" font-size="2.4694" fill="#F77E12" text-anchor="start" xml:space="preserve"><tspan>ticks outward 1.0 mm, 0.5 pt</tspan></text>
-<text x="73.561" y="24.853" font-size="2.4694" fill="#F77E12" text-anchor="start" xml:space="preserve"><tspan>tick text 0.7 mm from tick</tspan></text>
-<text x="73.561" y="27.865" font-size="2.4694" fill="#F77E12" text-anchor="start" xml:space="preserve"><tspan>axis title 0.8 mm from tick text</tspan></text>
-<text x="73.561" y="30.878" font-size="2.4694" fill="#F77E12" text-anchor="start" xml:space="preserve"><tspan>frame 0.5 pt on all four sides</tspan></text>
-<rect x="125.167" y="14.500" width="58.333" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="133.395" y="18.640" width="49.605" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="135.395,58.673 135.395,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="135.395" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="132.395,56.673 133.395,56.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="57.562" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="150.596,58.673 150.596,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="150.596" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="132.395,44.662 133.395,44.662" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="45.551" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="165.798,58.673 165.798,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="165.798" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="132.395,32.651 133.395,32.651" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="33.540" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="181.000,58.673 181.000,59.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="181.000" y="62.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="132.395,20.640 133.395,20.640" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="21.529" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="158.197" y="65.551" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="126.821" y="39.634" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 126.821 38.656)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="125.467" y="17.640" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>c</tspan></text>
-<text x="134.895" y="21.840" font-size="2.4694" fill="#119B76" text-anchor="start" xml:space="preserve"><tspan>panel letter 10 pt bold, lowercase</tspan></text>
-<text x="134.895" y="24.853" font-size="2.4694" fill="#119B76" text-anchor="start" xml:space="preserve"><tspan>left edge = y-title left edge</tspan></text>
-<text x="134.895" y="27.865" font-size="2.4694" fill="#119B76" text-anchor="start" xml:space="preserve"><tspan>baseline 1 mm above plot top</tspan></text>
-<text x="134.895" y="30.878" font-size="2.4694" fill="#119B76" text-anchor="start" xml:space="preserve"><tspan>tick 7 pt · axis title 8 pt</tspan></text>
-<rect x="2.500" y="69.000" width="58.333" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="10.728" y="73.140" width="49.605" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="12.728,113.173 12.728,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="12.728" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="9.728,111.173 10.728,111.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="112.062" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="27.930,113.173 27.930,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="27.930" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="9.728,99.162 10.728,99.162" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="100.051" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="43.132,113.173 43.132,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="43.132" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="9.728,87.151 10.728,87.151" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="88.040" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="58.333,113.173 58.333,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="58.333" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="9.728,75.140 10.728,75.140" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="76.029" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="35.531" y="120.051" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="4.155" y="94.134" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 4.155 93.156)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="2.800" y="72.140" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>d</tspan></text>
-<text x="12.228" y="76.340" font-size="2.4694" fill="#595594" text-anchor="start" xml:space="preserve"><tspan>row height ~55–65 mm typical</tspan></text>
-<text x="12.228" y="79.353" font-size="2.4694" fill="#595594" text-anchor="start" xml:space="preserve"><tspan>panel aspect ~0.9 (0.6–1.2)</tspan></text>
-<rect x="63.833" y="69.000" width="58.333" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="72.061" y="73.140" width="49.605" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="74.061,113.173 74.061,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="74.061" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="71.061,111.173 72.061,111.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="112.062" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="89.263,113.173 89.263,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="89.263" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="71.061,99.162 72.061,99.162" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="100.051" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="104.465,113.173 104.465,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="104.465" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="71.061,87.151 72.061,87.151" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="88.040" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="119.667,113.173 119.667,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="119.667" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="71.061,75.140 72.061,75.140" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="70.361" y="76.029" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="96.864" y="120.051" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="65.488" y="94.134" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 65.488 93.156)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="64.133" y="72.140" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>e</tspan></text>
-<text x="73.561" y="76.340" font-size="2.4694" fill="#595594" text-anchor="start" xml:space="preserve"><tspan>simple panels: 4 per row</tspan></text>
-<text x="73.561" y="79.353" font-size="2.4694" fill="#595594" text-anchor="start" xml:space="preserve"><tspan>(≈44 mm each) also allowed</tspan></text>
-<rect x="125.167" y="69.000" width="58.333" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="133.395" y="73.140" width="49.605" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="135.395,113.173 135.395,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="135.395" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="132.395,111.173 133.395,111.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="112.062" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="150.596,113.173 150.596,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="150.596" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="132.395,99.162 133.395,99.162" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="100.051" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="165.798,113.173 165.798,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="165.798" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="132.395,87.151 133.395,87.151" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="88.040" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="181.000,113.173 181.000,114.173" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="181.000" y="116.651" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="132.395,75.140 133.395,75.140" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="131.695" y="76.029" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="158.197" y="120.051" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="126.821" y="94.134" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 126.821 93.156)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="125.467" y="72.140" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>f</tspan></text>
-<text x="134.895" y="76.340" font-size="2.4694" fill="#595594" text-anchor="start" xml:space="preserve"><tspan>shared axes: drop repeated</tspan></text>
-<text x="134.895" y="79.353" font-size="2.4694" fill="#595594" text-anchor="start" xml:space="preserve"><tspan>tick labels and titles</tspan></text>
-<polyline points="1.500,8.000 184.500,8.000" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="1.500,7.550 1.500,8.450" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="184.500,7.550 184.500,8.450" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="93.000" y="7.400" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>183 mm</tspan></text>
-<polyline points="2.500,11.900 60.833,11.900" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="2.500,11.450 2.500,12.350" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="60.833,11.450 60.833,12.350" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="31.667" y="11.300" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>≈58.3 mm (= (183 − 2 × 1 − 2 × 3) / 3)</tspan></text>
-<polyline points="60.833,11.900 63.833,11.900" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="60.833,11.450 60.833,12.350" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="63.833,11.450 63.833,12.350" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="64.833" y="11.300" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>3 mm gap</tspan></text>
-<polyline points="122.167,11.900 125.167,11.900" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="122.167,11.450 122.167,12.350" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="125.167,11.450 125.167,12.350" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="126.167" y="11.300" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>3 mm gap</tspan></text>
-<polyline points="185.700,14.500 185.700,66.500" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="185.250,14.500 186.150,14.500" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="185.250,66.500 186.150,66.500" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="186.600" y="41.400" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>52 mm</tspan></text>
-<polyline points="185.700,66.500 185.700,69.000" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="185.250,66.500 186.150,66.500" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="185.250,69.000 186.150,69.000" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="186.600" y="71.250" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>2.5</tspan></text>
-<text x="186.600" y="73.850" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>mm</tspan></text>
-<polyline points="1.500,123.000 1.500,124.400" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="2.500,121.000 2.500,124.400" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="5.000,123.700 3.460,123.700" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polygon points="2.500,123.700 3.700,123.250 3.700,124.150" fill="#333333" stroke="none"/>
-<text x="5.500" y="124.500" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>outer margin ≤1 mm on every side; no outer title strip, no legend strip</tspan></text>
-<text x="1.500" y="129.300" font-size="2.8222" fill="#000000" text-anchor="start" xml:space="preserve"><tspan font-weight="bold">Single column, 89 mm</tspan><tspan>  ·  2 panels per row (left) or 1 panel (right)</tspan></text>
-<rect x="1.500" y="131.500" width="89.000" height="54.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="2.500" y="132.500" width="42.000" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="10.728" y="136.640" width="33.272" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="12.728,176.673 12.728,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="12.728" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="9.728,174.673 10.728,174.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="175.562" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="22.485,176.673 22.485,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="22.485" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="9.728,162.662 10.728,162.662" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="163.551" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="32.243,176.673 32.243,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="32.243" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="9.728,150.651 10.728,150.651" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="151.540" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="42.000,176.673 42.000,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="42.000" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="9.728,138.640 10.728,138.640" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="9.028" y="139.529" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="27.364" y="183.551" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="4.155" y="157.634" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 4.155 156.656)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="2.800" y="135.640" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
-<text x="12.228" y="139.840" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>61% plot area</tspan></text>
-<text x="12.228" y="142.853" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>(target ≥60%)</tspan></text>
-<text x="12.228" y="145.865" font-size="2.4694" fill="#1F72AE" text-anchor="start" xml:space="preserve"><tspan>fonts as double col.</tspan></text>
-<rect x="47.500" y="132.500" width="42.000" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="55.728" y="136.640" width="33.272" height="40.033" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="57.728,176.673 57.728,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="57.728" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="54.728,174.673 55.728,174.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="54.028" y="175.562" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="67.485,176.673 67.485,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="67.485" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="54.728,162.662 55.728,162.662" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="54.028" y="163.551" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="77.243,176.673 77.243,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="77.243" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="54.728,150.651 55.728,150.651" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="54.028" y="151.540" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="87.000,176.673 87.000,177.673" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="87.000" y="180.151" font-size="2.4694" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="54.728,138.640 55.728,138.640" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="54.028" y="139.529" font-size="2.4694" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="72.364" y="183.551" font-size="2.8222" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="49.155" y="157.634" font-size="2.8222" fill="#000000" text-anchor="start" transform="rotate(-90 49.155 156.656)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="47.800" y="135.640" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
-<text x="57.228" y="139.840" font-size="2.4694" fill="#F77E12" text-anchor="start" xml:space="preserve"><tspan>7 / 8 / 10 pt</tspan></text>
-<text x="57.228" y="142.853" font-size="2.4694" fill="#F77E12" text-anchor="start" xml:space="preserve"><tspan>unchanged</tspan></text>
-<polyline points="2.500,187.100 44.500,187.100" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="2.500,186.650 2.500,187.550" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="44.500,186.650 44.500,187.550" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="23.500" y="190.000" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>42 mm</tspan></text>
-<polyline points="44.500,187.100 47.500,187.100" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="44.500,186.650 44.500,187.550" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="47.500,186.650 47.500,187.550" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="48.500" y="190.000" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>3 mm</tspan></text>
-<rect x="95.500" y="131.500" width="89.000" height="54.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="96.500" y="132.500" width="87.000" height="52.000" fill="none" stroke="#BFBFBF" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
-<rect x="106.183" y="133.500" width="76.817" height="41.832" fill="#F0F0F0" stroke="#000000" stroke-width="0.1764"/>
-<polyline points="108.183,175.332 108.183,176.332" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="108.183" y="179.318" font-size="3.1750" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="105.183,173.332 106.183,173.332" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="104.483" y="174.475" font-size="3.1750" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>0</tspan></text>
-<polyline points="132.455,175.332 132.455,176.332" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="132.455" y="179.318" font-size="3.1750" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="105.183,160.722 106.183,160.722" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="104.483" y="161.865" font-size="3.1750" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>10</tspan></text>
-<polyline points="156.728,175.332 156.728,176.332" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="156.728" y="179.318" font-size="3.1750" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="105.183,148.111 106.183,148.111" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="104.483" y="149.254" font-size="3.1750" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>20</tspan></text>
-<polyline points="181.000,175.332 181.000,176.332" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="181.000" y="179.318" font-size="3.1750" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>30</tspan></text>
-<polyline points="105.183,135.500 106.183,135.500" fill="none" stroke="#000000" stroke-width="0.1764"/>
-<text x="104.483" y="136.643" font-size="3.1750" fill="#000000" text-anchor="end" xml:space="preserve"><tspan>30</tspan></text>
-<text x="144.591" y="183.389" font-size="3.5278" fill="#000000" text-anchor="middle" xml:space="preserve"><tspan>x title (unit)</tspan></text>
-<text x="98.493" y="155.639" font-size="3.5278" fill="#000000" text-anchor="start" transform="rotate(-90 98.493 154.416)" xml:space="preserve"><tspan>y title (unit)</tspan></text>
-<text x="107.683" y="136.700" font-size="2.4694" fill="#CC312C" text-anchor="start" xml:space="preserve"><tspan>single panel: +2 pt font</tspan></text>
-<text x="107.683" y="139.713" font-size="2.4694" fill="#CC312C" text-anchor="start" xml:space="preserve"><tspan>tick labels 9 pt · axis titles 10 pt</tspan></text>
-<text x="107.683" y="142.725" font-size="2.4694" fill="#CC312C" text-anchor="start" xml:space="preserve"><tspan>direct labels and statistics 8–9 pt</tspan></text>
-<text x="107.683" y="145.738" font-size="2.4694" fill="#CC312C" text-anchor="start" xml:space="preserve"><tspan>no panel letter needed</tspan></text>
-<polyline points="96.500,187.100 183.500,187.100" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="96.500,186.650 96.500,187.550" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<polyline points="183.500,186.650 183.500,187.550" fill="none" stroke="#333333" stroke-width="0.1764"/>
-<text x="140.000" y="190.000" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>87 mm (89 − 2 × 1)</tspan></text>
+<text x="4.000" y="3.600" font-size="2.8222" fill="#000000" text-anchor="start" xml:space="preserve"><tspan font-weight="bold">Panel grid</tspan><tspan>: square base cell 43 × 43 mm, gap 3 mm; a panel spans n cells</tspan></text>
+<text x="4.000" y="7.128" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan font-weight="bold">width of n cells = n × 43 + (n − 1) × 3 mm</tspan><tspan>   →   1 cell = 43 · 2 cells = 89 · 3 cells = 135 · 4 cells = 181 mm</tspan></text>
+<text x="4.000" y="10.140" font-size="2.4694" fill="#333333" text-anchor="start" xml:space="preserve"><tspan>Double column: 4 cells (181 mm) + 1 mm margin each side = 183 mm.   Single column: 2 cells = 89 mm.   Row height = 43 mm.</tspan></text>
+<text x="4.000" y="13.153" font-size="2.4694" fill="#6B6B6B" text-anchor="start" xml:space="preserve"><tspan>Fonts do not change with span: ticks 7 pt, axis titles 8 pt, panel letters 10 pt bold lowercase; a lone 89 mm panel uses +2 pt (9/10 pt).</tspan></text>
+<polyline points="4.000,17.153 187.000,17.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,16.703 4.000,17.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,16.703 187.000,17.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="95.500" y="16.553" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>double column 183 mm</tspan></text>
+<text x="4.000" y="21.253" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Double column · 1 + 1 + 1 + 1</tspan></text>
+<text x="187.000" y="21.253" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>1 + 43 + 3 + 43 + 3 + 43 + 3 + 43 + 1 = 183 mm</tspan></text>
+<rect x="4.000" y="22.353" width="183.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="5.000" y="23.353" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="6.000" y="26.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="26.500" y="44.253" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="26.500" y="47.853" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="51.000" y="23.353" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="52.000" y="26.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
+<text x="72.500" y="44.253" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="72.500" y="47.853" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="97.000" y="23.353" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="98.000" y="26.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>c</tspan></text>
+<text x="118.500" y="44.253" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="118.500" y="47.853" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="143.000" y="23.353" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="144.000" y="26.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>d</tspan></text>
+<text x="164.500" y="44.253" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="164.500" y="47.853" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<polyline points="4.000,68.653 5.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,68.203 4.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,68.203 5.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="4.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<polyline points="5.000,68.653 48.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,68.203 5.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="48.000,68.203 48.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="26.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="48.000,68.653 51.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="48.000,68.203 48.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="51.000,68.203 51.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="49.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="51.000,68.653 94.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="51.000,68.203 51.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="94.000,68.203 94.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="72.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="94.000,68.653 97.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="94.000,68.203 94.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="97.000,68.203 97.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="95.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="97.000,68.653 140.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="97.000,68.203 97.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="140.000,68.203 140.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="118.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="140.000,68.653 143.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="140.000,68.203 140.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="143.000,68.203 143.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="141.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="143.000,68.653 186.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="143.000,68.203 143.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,68.203 186.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="164.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="186.000,68.653 187.000,68.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,68.203 186.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,68.203 187.000,69.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="186.500" y="71.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<text x="4.000" y="76.753" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Double column · 1 + 1 + 2</tspan></text>
+<text x="187.000" y="76.753" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>1 + 43 + 3 + 43 + 3 + 89 + 1 = 183 mm</tspan></text>
+<rect x="4.000" y="77.853" width="183.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="5.000" y="78.853" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="6.000" y="82.393" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="26.500" y="99.753" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="26.500" y="103.353" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="51.000" y="78.853" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="52.000" y="82.393" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
+<text x="72.500" y="99.753" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="72.500" y="103.353" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="97.000" y="78.853" width="89.000" height="43.000" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.1764"/>
+<text x="98.000" y="82.393" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>c</tspan></text>
+<text x="141.500" y="99.753" font-size="2.8222" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>2 cells</tspan></text>
+<text x="141.500" y="103.353" font-size="2.4694" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>89 × 43 mm</tspan></text>
+<text x="141.500" y="106.366" font-size="2.4694" fill="#6B6B6B" text-anchor="middle" xml:space="preserve"><tspan>2 × 43 + 1 × 3 = 89 mm</tspan></text>
+<polyline points="4.000,124.153 5.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,123.703 4.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,123.703 5.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="4.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<polyline points="5.000,124.153 48.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,123.703 5.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="48.000,123.703 48.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="26.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="48.000,124.153 51.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="48.000,123.703 48.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="51.000,123.703 51.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="49.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="51.000,124.153 94.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="51.000,123.703 51.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="94.000,123.703 94.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="72.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="94.000,124.153 97.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="94.000,123.703 94.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="97.000,123.703 97.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="95.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="97.000,124.153 186.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="97.000,123.703 97.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,123.703 186.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="141.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>89 mm</tspan></text>
+<polyline points="186.000,124.153 187.000,124.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,123.703 186.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,123.703 187.000,124.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="186.500" y="127.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<text x="4.000" y="132.253" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Double column · 2 + 2</tspan></text>
+<text x="187.000" y="132.253" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>1 + 89 + 3 + 89 + 1 = 183 mm</tspan></text>
+<rect x="4.000" y="133.353" width="183.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="5.000" y="134.353" width="89.000" height="43.000" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.1764"/>
+<text x="6.000" y="137.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="49.500" y="155.253" font-size="2.8222" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>2 cells</tspan></text>
+<text x="49.500" y="158.853" font-size="2.4694" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>89 × 43 mm</tspan></text>
+<text x="49.500" y="161.866" font-size="2.4694" fill="#6B6B6B" text-anchor="middle" xml:space="preserve"><tspan>2 × 43 + 1 × 3 = 89 mm</tspan></text>
+<rect x="97.000" y="134.353" width="89.000" height="43.000" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.1764"/>
+<text x="98.000" y="137.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
+<text x="141.500" y="155.253" font-size="2.8222" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>2 cells</tspan></text>
+<text x="141.500" y="158.853" font-size="2.4694" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>89 × 43 mm</tspan></text>
+<text x="141.500" y="161.866" font-size="2.4694" fill="#6B6B6B" text-anchor="middle" xml:space="preserve"><tspan>2 × 43 + 1 × 3 = 89 mm</tspan></text>
+<polyline points="4.000,179.653 5.000,179.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,179.203 4.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,179.203 5.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="4.500" y="182.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<polyline points="5.000,179.653 94.000,179.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,179.203 5.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="94.000,179.203 94.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="49.500" y="182.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>89 mm</tspan></text>
+<polyline points="94.000,179.653 97.000,179.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="94.000,179.203 94.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="97.000,179.203 97.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="95.500" y="182.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="97.000,179.653 186.000,179.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="97.000,179.203 97.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,179.203 186.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="141.500" y="182.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>89 mm</tspan></text>
+<polyline points="186.000,179.653 187.000,179.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,179.203 186.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,179.203 187.000,180.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="186.500" y="182.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<text x="4.000" y="187.753" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Double column · 1 + 3</tspan></text>
+<text x="187.000" y="187.753" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>1 + 43 + 3 + 135 + 1 = 183 mm</tspan></text>
+<rect x="4.000" y="188.853" width="183.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="5.000" y="189.853" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="6.000" y="193.393" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="26.500" y="210.753" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="26.500" y="214.353" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="51.000" y="189.853" width="135.000" height="43.000" fill="#F0F0F0" stroke="#F77E12" stroke-width="0.1764"/>
+<text x="52.000" y="193.393" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
+<text x="118.500" y="210.753" font-size="2.8222" fill="#F77E12" text-anchor="middle" xml:space="preserve"><tspan>3 cells</tspan></text>
+<text x="118.500" y="214.353" font-size="2.4694" fill="#F77E12" text-anchor="middle" xml:space="preserve"><tspan>135 × 43 mm</tspan></text>
+<text x="118.500" y="217.366" font-size="2.4694" fill="#6B6B6B" text-anchor="middle" xml:space="preserve"><tspan>3 × 43 + 2 × 3 = 135 mm</tspan></text>
+<polyline points="4.000,235.153 5.000,235.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,234.703 4.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,234.703 5.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="4.500" y="238.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<polyline points="5.000,235.153 48.000,235.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,234.703 5.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="48.000,234.703 48.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="26.500" y="238.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="48.000,235.153 51.000,235.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="48.000,234.703 48.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="51.000,234.703 51.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="49.500" y="238.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="51.000,235.153 186.000,235.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="51.000,234.703 51.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,234.703 186.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="118.500" y="238.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>135 mm</tspan></text>
+<polyline points="186.000,235.153 187.000,235.153" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,234.703 186.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,234.703 187.000,235.603" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="186.500" y="238.153" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<text x="4.000" y="243.253" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Double column · 4</tspan></text>
+<text x="187.000" y="243.253" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>1 + 181 + 1 = 183 mm</tspan></text>
+<rect x="4.000" y="244.353" width="183.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="5.000" y="245.353" width="181.000" height="43.000" fill="#F0F0F0" stroke="#119B76" stroke-width="0.1764"/>
+<text x="6.000" y="248.893" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="95.500" y="266.253" font-size="2.8222" fill="#119B76" text-anchor="middle" xml:space="preserve"><tspan>4 cells</tspan></text>
+<text x="95.500" y="269.853" font-size="2.4694" fill="#119B76" text-anchor="middle" xml:space="preserve"><tspan>181 × 43 mm</tspan></text>
+<text x="95.500" y="272.866" font-size="2.4694" fill="#6B6B6B" text-anchor="middle" xml:space="preserve"><tspan>4 × 43 + 3 × 3 = 181 mm</tspan></text>
+<polyline points="4.000,290.653 5.000,290.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,290.203 4.000,291.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,290.203 5.000,291.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="4.500" y="293.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<polyline points="5.000,290.653 186.000,290.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="5.000,290.203 5.000,291.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,290.203 186.000,291.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="95.500" y="293.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>181 mm</tspan></text>
+<polyline points="186.000,290.653 187.000,290.653" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="186.000,290.203 186.000,291.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,290.203 187.000,291.103" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="186.500" y="293.653" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>1</tspan></text>
+<polyline points="4.000,298.353 93.000,298.353" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,297.903 4.000,298.803" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="93.000,297.903 93.000,298.803" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="48.500" y="297.753" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>single column 89 mm</tspan></text>
+<polyline points="98.000,298.353 187.000,298.353" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="98.000,297.903 98.000,298.803" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,297.903 187.000,298.803" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="142.500" y="297.753" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>single column 89 mm</tspan></text>
+<text x="4.000" y="302.453" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Single column · 1 + 1</tspan></text>
+<text x="93.000" y="302.453" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>43 + 3 + 43 = 89 mm</tspan></text>
+<rect x="4.000" y="303.553" width="89.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="4.000" y="304.553" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="5.000" y="308.093" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="25.500" y="325.453" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="25.500" y="329.053" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<rect x="50.000" y="304.553" width="43.000" height="43.000" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.1764"/>
+<text x="51.000" y="308.093" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>b</tspan></text>
+<text x="71.500" y="325.453" font-size="2.8222" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>1 cell</tspan></text>
+<text x="71.500" y="329.053" font-size="2.4694" fill="#1F72AE" text-anchor="middle" xml:space="preserve"><tspan>43 × 43 mm</tspan></text>
+<polyline points="4.000,349.853 47.000,349.853" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="4.000,349.403 4.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="47.000,349.403 47.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="25.500" y="352.853" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<polyline points="47.000,349.853 50.000,349.853" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="47.000,349.403 47.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="50.000,349.403 50.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="48.500" y="352.853" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>3</tspan></text>
+<polyline points="50.000,349.853 93.000,349.853" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="50.000,349.403 50.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="93.000,349.403 93.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="71.500" y="352.853" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>43 mm</tspan></text>
+<text x="98.000" y="302.453" font-size="2.8222" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>Single column · 2</tspan></text>
+<text x="187.000" y="302.453" font-size="2.4694" fill="#6B6B6B" text-anchor="end" xml:space="preserve"><tspan>2 × 43 + 1 × 3 = 89 mm</tspan></text>
+<rect x="98.000" y="303.553" width="89.000" height="45.000" fill="none" stroke="#757575" stroke-width="0.1764" stroke-dasharray="0.600 0.600"/>
+<rect x="98.000" y="304.553" width="89.000" height="43.000" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.1764"/>
+<text x="99.000" y="308.093" font-size="3.5278" fill="#000000" text-anchor="start" font-weight="bold" xml:space="preserve"><tspan>a</tspan></text>
+<text x="142.500" y="325.453" font-size="2.8222" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>2 cells</tspan></text>
+<text x="142.500" y="329.053" font-size="2.4694" fill="#CC312C" text-anchor="middle" xml:space="preserve"><tspan>89 × 43 mm</tspan></text>
+<text x="142.500" y="332.066" font-size="2.4694" fill="#6B6B6B" text-anchor="middle" xml:space="preserve"><tspan>2 × 43 + 1 × 3 = 89 mm</tspan></text>
+<polyline points="98.000,349.853 187.000,349.853" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="98.000,349.403 98.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<polyline points="187.000,349.403 187.000,350.303" fill="none" stroke="#333333" stroke-width="0.1764"/>
+<text x="142.500" y="352.853" font-size="2.4694" fill="#333333" text-anchor="middle" xml:space="preserve"><tspan>89 mm</tspan></text>
+<text x="4.000" y="356.853" font-size="2.4694" fill="#6B6B6B" text-anchor="start" xml:space="preserve"><tspan>Single column has no extra margin: 43 + 3 + 43 = 89 mm. A lone 89 mm panel (right) uses fonts +2 pt (9/10 pt).</tspan></text>
 </svg>
