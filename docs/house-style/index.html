@@ -63,6 +63,7 @@
   .card .path a { color: #6b7280; }
   ol.steps { margin: 6px 0 8px; padding-left: 1.4em; }
   table.refs td { padding: 3px 8px; }
+  table.cells { width: auto; min-width: 50%; }
   details summary { cursor: pointer; color: #134aa3; }
   table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
   th, td { text-align: left; vertical-align: top; padding: 5px 8px; border-top: 1px solid #e6e8eb; }
@@ -168,10 +169,10 @@
   <ol class="steps">
     <li><code>source("../../../styles/r/theme_house.R")</code></li>
     <li><code>theme_house()</code> + <code>pv_palette("house")</code></li>
-    <li><code>pv_save_house(p, "figure", width = "single" | "double")</code></li>
+    <li><code>pv_save_house(p, "figure", cells = "2x1")</code></li>
   </ol>
-<p lang="zh-CN">中文：<code>theme_house.R</code> 会顺带加载 <code>theme_viz.R</code>。<code>theme_house()</code> 默认 7/8 pt；非用图例不可时用 <code>theme_house(legend = "inside")</code>，放框内右上。<code>pv_save_house()</code> 对单栏单面板自动 +2 pt（9/10 pt），<code>bump = 0</code> 关掉。<code>pv_save_house()</code> 会在输出目录写 <code>&lt;file&gt;.pdf</code>、<code>&lt;file&gt;.png</code> 和 <code>preview.png</code>，覆盖同目录里同名的 <code>preview.png</code>；试跑请在临时目录里进行。</p>
-  <p lang="en">English: <code>theme_house.R</code> also loads <code>theme_viz.R</code>. <code>theme_house()</code> defaults to 7/8 pt; when a legend is unavoidable, use <code>theme_house(legend = "inside")</code> to place it top-right inside the frame. <code>pv_save_house()</code> adds +2 pt (9/10 pt) to a single panel on 89 mm; <code>bump = 0</code> switches this off. <code>pv_save_house()</code> writes <code>&lt;file&gt;.pdf</code>, <code>&lt;file&gt;.png</code> and <code>preview.png</code> to the output folder and overwrites any <code>preview.png</code> already there, so try it in a scratch folder.</p>
+<p lang="zh-CN">中文：<code>theme_house.R</code> 会顺带加载 <code>theme_viz.R</code>。<code>theme_house()</code> 默认 7/8 pt；非用图例不可时用 <code>theme_house(legend = "inside")</code>，放框内右上。尺寸只用网格格数 <code>cells = c(宽, 高)</code>（或 <code>"2x1"</code> 这样的字符串），不在网格上的尺寸直接报错，旧写法 <code>width = "single", height_mm = 76</code> 现在会报错。只有单个面板存成 2×2（89 × 89 mm）时 <code>pv_save_house()</code> 自动 +2 pt（9/10 pt），<code>bump = 0</code> 关掉。多张图拼成一页用 <code>pv_house_mosaic()</code>，见下方第二段代码，导出时 cells 与拼页相同。<code>pv_save_house()</code> 会在输出目录写 <code>&lt;file&gt;.pdf</code>、<code>&lt;file&gt;.png</code> 和 <code>preview.png</code>，覆盖同目录里同名的 <code>preview.png</code>；试跑请在临时目录里进行。</p>
+  <p lang="en">English: <code>theme_house.R</code> also loads <code>theme_viz.R</code>. <code>theme_house()</code> defaults to 7/8 pt; when a legend is unavoidable, use <code>theme_house(legend = "inside")</code> to place it top-right inside the frame. Sizes are given only as grid cells, <code>cells = c(width, height)</code> (or a string such as <code>"2x1"</code>); sizes off the grid are errors, so the old <code>width = "single", height_mm = 76</code> now fails. <code>pv_save_house()</code> adds +2 pt (9/10 pt) only to a single panel saved at 2×2 (89 × 89 mm); <code>bump = 0</code> switches this off. To put several plots on one page, use <code>pv_house_mosaic()</code> (second code block below) and export with the same cells. <code>pv_save_house()</code> writes <code>&lt;file&gt;.pdf</code>, <code>&lt;file&gt;.png</code> and <code>preview.png</code> to the output folder and overwrites any <code>preview.png</code> already there, so try it in a scratch folder.</p>
 <pre><code># R: figures/&lt;category&gt;/&lt;slug&gt;/plot.R
 source("../../../styles/r/theme_house.R")
 library(ggplot2)
@@ -182,7 +183,7 @@ p &lt;- ggplot(df, aes(x, y, colour = group)) +
   geom_line(linewidth = pv_house_lw("main")) +
   scale_colour_manual(values = unname(pv_palette("house", 3))) +
   theme_house()
-pv_save_house(p, "figure", width = "single", height_mm = 76)
+pv_save_house(p, "figure", cells = "2x1")   # 89 x 43 mm
 
 # Python
 import sys
@@ -192,9 +193,35 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "styles" / "python"
 import house
 house.apply_house_style()
 x = np.arange(1, 11)
-fig, ax = house.house_figure("single", height_mm=76)
+fig, ax = house.house_figure(cells="2x1")
 ax.plot(x, 0.8 * x + 1, color=house.pv_palette("house")[0])
 house.save_house(fig, "figure")</code></pre>
+<pre><code># R: several plots on one page (1 + 1 + 2 cells, 183 x 43 mm)
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+set.seed(1)
+df &lt;- data.frame(x = 1:30, y = 1:30 + rnorm(30, 0, 4))
+fit &lt;- summary(lm(y ~ x, data = df))
+p_lab &lt;- pv_fmt_p(coef(fit)[2, 4])                  # "P &lt; 0.001" at 7/8 pt
+p_exact &lt;- pv_fmt_p(coef(fit)[2, 4], exact = TRUE)  # "P = m × 10^−k", only for text ≥ 8.6 pt
+pa &lt;- ggplot(df, aes(x, y)) +
+  geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,
+             fill = pv_palette("house")[["blue"]]) +
+  annotate("text", x = 1, y = 35, hjust = 0, vjust = 1, size = pv_pt2size(7),
+           label = p_lab, parse = TRUE) +
+  labs(x = "Dose (mg)", y = "Response", tag = "a") + theme_house()
+pb &lt;- ggplot(df, aes(y)) +
+  geom_histogram(bins = 8, fill = pv_palette("house")[["sky"]], colour = "white") +
+  labs(x = "Response", y = "Count", tag = "b") + theme_house()
+pc &lt;- ggplot(df, aes(x, y)) +
+  geom_line(linewidth = pv_house_lw("main"), colour = pv_palette("house")[["red"]]) +
+  labs(x = "Day", y = "Response", tag = "c") + theme_house()
+page &lt;- pv_house_mosaic(list(
+  list(plot = pa, at = c(1, 1), cells = c(1, 1)),
+  list(plot = pb, at = c(2, 1), cells = c(1, 1)),
+  list(plot = pc, at = c(3, 1), cells = c(2, 1))
+), cells = c(4, 1))
+pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
   <figure class="schem">
     <img src="schematics/schematic_pipeline.svg" width="4323" height="792" alt="出图流程：data → theme_house() → pv_save_house() → PDF / PNG" loading="lazy">
     <figcaption>出图流程 / Pipeline · <a href="schematics/schematic_pipeline.svg">SVG</a> · <a href="schematics/schematic_pipeline.png">PNG</a> · <a href="schematics/schematic_pipeline.drawio">.drawio</a></figcaption>
@@ -204,7 +231,7 @@ house.save_house(fig, "figure")</code></pre>
 <section id="typescale" class="schem">
   <h2>字号层级 / Type scale</h2>
   <figure>
-    <img src="schematics/schematic_typescale.svg" width="4323" height="1669" alt="字号层级：面板字母 10 pt、轴标题 8 pt、刻度 7 pt、最小 6 pt；单栏单面板 +2 pt" loading="lazy">
+    <img src="schematics/schematic_typescale.svg" width="4323" height="1669" alt="字号层级：面板字母 10 pt、轴标题 8 pt、刻度 7 pt、最小 6 pt；单个 2×2（89 × 89 mm）面板 +2 pt" loading="lazy">
     <figcaption>字号层级 / Type scale · <a href="schematics/schematic_typescale.svg">SVG</a> · <a href="schematics/schematic_typescale.png">PNG</a> · <a href="schematics/schematic_typescale.drawio">.drawio</a></figcaption>
   </figure>
 </section>
@@ -214,8 +241,9 @@ house.save_house(fig, "figure")</code></pre>
   <p>新加的图一律用 house style；已有的图不重渲染，继续用旧版 <code>theme_viz()</code>。完整规则以 <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a> 为准。</p>
   <table>
     <tbody>
-      <tr><th>字号（印刷尺寸）</th><td>双栏 / 多面板：刻度 <b>7 pt</b>、轴标题 <b>8 pt</b>（7/8 pt）；面板字母 10 pt 粗体小写 a b c；任何文字 ≥6 pt。<br>单栏只放 1 个面板：全部 +2 pt，刻度 <b>9 pt</b>、轴标题 <b>10 pt</b>（9/10 pt），<code>pv_save_house()</code> 自动加。字号不随面板缩小。</td></tr>
-      <tr><th>画布</th><td>单栏 <b>89 mm</b>（<code>width = "single"</code>），双栏 <b>183 mm</b>（<code>width = "double"</code>）。双栏每行 3 个面板（约 58 mm），单栏每行 2 个，面板间距水平约 3 mm、垂直约 2.5 mm，外边距 ≤1 mm。</td></tr>
+      <tr><th>字号（印刷尺寸）</th><td>默认：刻度 <b>7 pt</b>、轴标题 <b>8 pt</b>（7/8 pt）；面板字母 10 pt 粗体小写 a b c；任何文字 ≥6 pt。<br>只有单个面板存成 2×2（89 × 89 mm）时全部 +2 pt：刻度 <b>9 pt</b>、轴标题 <b>10 pt</b>（9/10 pt），<code>pv_save_house()</code> 自动加；组合图、分面图、拼页不加。字号不随面板缩小。</td></tr>
+      <tr><th>网格</th><td>格宽 <b>43 mm</b>、格间距 <b>3 mm</b>；n 格跨度 = n × 43 + (n − 1) × 3，1–4 格为 <b>43 / 89 / 135 / 181 mm</b>。占满 4 格的边两侧各加 1 mm，导出 <b>183 mm</b>；1–3 格不加边距。宽、高分别算。</td></tr>
+      <tr><th>画布与排法</th><td><code>pv_save_house(p, "figure", cells = c(w, h))</code>，w、h 为 1–4 格。双栏每行 4 格，可排 1+1+1+1 / 1+1+2 / 2+2 / 1+3 / 4；单栏每行 2 格。不在网格上的尺寸报错。多图拼一页用 <code>pv_house_mosaic()</code>。</td></tr>
       <tr><th>轴标题</th><td>常规字重，<b>不加粗</b>；写变量名和单位，单位用括号，如「温度 (°C)」。</td></tr>
       <tr><th>边框与刻度</th><td>四边 <b>0.5 pt</b> 黑框，刻度 0.5 pt、长 1 mm、向外；无网格，无次刻度（对数轴除外）。</td></tr>
       <tr><th>线、点与置信带</th><td>主数据线 1.5 pt，强调 / 拟合线 2.0 pt，次要系列 0.8 pt，参考虚线 0.5 pt，误差棒 0.7 pt。点 shape 21 加黑描边（<code>size = 2.3, stroke = 0.3</code>）。置信带与线同色，透明度 0.2。</td></tr>
@@ -224,6 +252,23 @@ house.save_house(fig, "figure")</code></pre>
       <tr><th>导出</th><td>Cairo PDF（文字保留为文本）+ 600 dpi PNG + 1200 px 宽 <code>preview.png</code>。</td></tr>
     </tbody>
   </table>
+  <h3>默认格数</h3>
+  <p>拿不准时用下表；太挤或太空可在网格内升降一档。</p>
+  <div class="tablewrap"><table class="cells">
+    <thead><tr><th>图型</th><th>默认 cells</th></tr></thead>
+    <tbody>
+      <tr><td>散点</td><td>1×1</td></tr>
+      <tr><td>直方图 / 密度</td><td>1×1</td></tr>
+      <tr><td>箱线 / 小提琴 / 雨云</td><td>1×1；组多时 2×1</td></tr>
+      <tr><td>柱图</td><td>1×1；类别多时 2×1</td></tr>
+      <tr><td>折线 / 时间序列</td><td>2×1</td></tr>
+      <tr><td>堆叠构成</td><td>2×1</td></tr>
+      <tr><td>森林图</td><td>1×2；行多时 2×2</td></tr>
+      <tr><td>热图</td><td>2×2</td></tr>
+      <tr><td>小多图</td><td>每张小图 1×1</td></tr>
+      <tr><td>基因组轨道 / 曼哈顿图</td><td>4×1</td></tr>
+    </tbody>
+  </table></div>
 </section>
 
 <section id="style-en" lang="en">
@@ -231,8 +276,9 @@ house.save_house(fig, "figure")</code></pre>
   <p>New figures use the house style. Existing figures are not re-rendered and keep the legacy <code>theme_viz()</code>. The full rules are in <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a>.</p>
   <table>
     <tbody>
-      <tr><th>Text (print size)</th><td>Double column / multi-panel: <b>7 pt</b> ticks, <b>8 pt</b> axis titles (7/8 pt); 10 pt bold lowercase panel letters; nothing under 6 pt.<br>One panel on 89 mm: everything +2 pt, <b>9 pt</b> ticks and <b>10 pt</b> axis titles (9/10 pt); <code>pv_save_house()</code> adds it. Text does not shrink with the panel.</td></tr>
-      <tr><th>Canvas</th><td><b>89 mm</b> single column (<code>width = "single"</code>), <b>183 mm</b> double column (<code>width = "double"</code>). Three panels per row on 183 mm (about 58 mm each), two on 89 mm; gaps about 3 mm across and 2.5 mm down; outer margin ≤1 mm.</td></tr>
+      <tr><th>Text (print size)</th><td>Default: <b>7 pt</b> ticks, <b>8 pt</b> axis titles (7/8 pt); 10 pt bold lowercase panel letters; nothing under 6 pt.<br>Only a single panel saved at 2×2 (89 × 89 mm) gets +2 pt on everything: <b>9 pt</b> ticks and <b>10 pt</b> axis titles (9/10 pt); <code>pv_save_house()</code> adds it. Compositions, faceted plots and mosaics do not. Text does not shrink with the panel.</td></tr>
+      <tr><th>Grid</th><td>Cells <b>43 mm</b> wide with <b>3 mm</b> gaps; n cells span n × 43 + (n − 1) × 3, so 1–4 cells are <b>43 / 89 / 135 / 181 mm</b>. A side spanning all 4 cells gets 1 mm on each end and exports at <b>183 mm</b>; 1–3 cells get no margin. Width and height are handled separately.</td></tr>
+      <tr><th>Canvas and layout</th><td><code>pv_save_house(p, "figure", cells = c(w, h))</code>, 1–4 cells each way. A double column has 4 cells per row, combined as 1+1+1+1, 1+1+2, 2+2, 1+3 or 4; a single column has 2. Sizes off the grid are errors. Use <code>pv_house_mosaic()</code> to put several plots on one page.</td></tr>
       <tr><th>Axis titles</th><td>Plain weight, <b>not bold</b>; variable name, then the unit in parentheses, e.g. Temperature (°C).</td></tr>
       <tr><th>Frame and ticks</th><td>Four-sided <b>0.5 pt</b> black frame; ticks 0.5 pt, 1 mm, outward; no grid, no minor ticks (except log axes).</td></tr>
       <tr><th>Lines, points, CI ribbons</th><td>Main lines 1.5 pt, emphasis / fit 2.0 pt, minor series 0.8 pt, dashed reference 0.5 pt, error bars 0.7 pt. Points: shape 21 with a black outline (<code>size = 2.3, stroke = 0.3</code>). CI ribbons in the line colour, alpha 0.2.</td></tr>
@@ -241,15 +287,26 @@ house.save_house(fig, "figure")</code></pre>
       <tr><th>Export</th><td>Cairo PDF (text stays text) + 600 dpi PNG + 1200 px wide <code>preview.png</code>.</td></tr>
     </tbody>
   </table>
+  <h3>Default cells</h3>
+  <p>Use these when unsure; if a figure is crowded or empty, move one size up or down within the grid.</p>
+  <div class="tablewrap"><table class="cells">
+    <thead><tr><th>Chart</th><th>Default cells</th></tr></thead>
+    <tbody>
+      <tr><td>Scatter</td><td>1×1</td></tr>
+      <tr><td>Histogram / density</td><td>1×1</td></tr>
+      <tr><td>Box / violin / raincloud</td><td>1×1; 2×1 with many groups</td></tr>
+      <tr><td>Bar</td><td>1×1; 2×1 with many categories</td></tr>
+      <tr><td>Line / time series</td><td>2×1</td></tr>
+      <tr><td>Stacked composition</td><td>2×1</td></tr>
+      <tr><td>Forest</td><td>1×2; 2×2 with many rows</td></tr>
+      <tr><td>Heatmap</td><td>2×2</td></tr>
+      <tr><td>Small multiples</td><td>1×1 per small plot</td></tr>
+      <tr><td>Genome track / Manhattan</td><td>4×1</td></tr>
+    </tbody>
+  </table></div>
 </section>
 
-<section id="layout" class="schem">
-  <h2>版面与间距 / Layout</h2>
-  <figure>
-    <img src="schematics/schematic_layout.svg" width="4607" height="4536" alt="版面：183 mm 双栏每行 3 个面板，89 mm 单栏 2 个或 1 个面板" loading="lazy">
-    <figcaption>版面与间距 / Layout · <a href="schematics/schematic_layout.svg">SVG</a> · <a href="schematics/schematic_layout.png">PNG</a> · <a href="schematics/schematic_layout.drawio">.drawio</a></figcaption>
-  </figure>
-</section>
+<!-- schematic_layout (3 x 58 mm per row) predates the 43 mm grid; hidden until it is redrawn. Files stay in schematics/. -->
 
 <section id="palette">
   <h2>色板 / Palettes</h2>

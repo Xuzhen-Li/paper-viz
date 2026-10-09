@@ -1,6 +1,6 @@
 # 期刊终稿规范 / Journal figure contract
 
-> **English Summary:** New figures use the **house style** (`styles/r/theme_house.R`, `styles/python/house.py`): compact, text-dense, little white space. 89 mm single / 183 mm double column, 7 pt ticks, 8 pt plain axis titles, 10 pt bold lowercase panel tags, four-sided 0.5 pt frame, ticks outward 1 mm, no grid, direct labels instead of legends, the nine-colour house palette. A single-column single panel gets +2 pt (9/10 pt). Export cairo PDF (text stays text) plus a 600 dpi PNG. Existing figures keep the legacy `theme_viz()` contract below and are not re-rendered; `theme_viz()`, `pv_save()` and `pv_palette("categorical")` (chip eight) stay available.
+> **English Summary:** New figures use the **house style** (`styles/r/theme_house.R`, `styles/python/house.py`): compact, text-dense, little white space. sizes on a 43 mm grid given as `cells = c(w, h)` (1–4 cells per side: 43 / 89 / 135 / 183 mm), 7 pt ticks, 8 pt plain axis titles, 10 pt bold lowercase panel tags, four-sided 0.5 pt frame, ticks outward 1 mm, no grid, direct labels instead of legends, the nine-colour house palette. Only a single panel saved at 2×2 (89 × 89 mm) gets +2 pt (9/10 pt). Export cairo PDF (text stays text) plus a 600 dpi PNG. Existing figures keep the legacy `theme_viz()` contract below and are not re-rendered; `theme_viz()`, `pv_save()` and `pv_palette("categorical")` (chip eight) stay available.
 
 ## House style（新图默认，2026-10 起）
 
@@ -10,19 +10,21 @@
 
 - R：`source("../../../styles/r/theme_house.R")`（会顺带加载同目录的 `theme_viz.R`），然后 `theme_house()`、`pv_palette("house")`、`pv_save_house()`。
 - Python：`import house`（`styles/python/house.py`），然后 `house.apply_house_style()`、`house.house_figure()`、`house.save_house()`。
-- 规范页（九张示例与三张示意图）：<https://xuzhen-li.github.io/paper-viz/house-style/>
+- 规范页（九张示例、出图流程与字号层级示意图；网格示意图待重画）：<https://xuzhen-li.github.io/paper-viz/house-style/>
 
 ### 用法 / Usage
 
-中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house()`。默认 7/8 pt，单栏单面板自动 +2 pt，`bump = 0` 关掉。非用图例不可时用 `legend = "inside"`，放框内右上。
+中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house(p, "figure", cells = "2x1")`。尺寸只用 `cells = c(宽格数, 高格数)`（或 `"WxH"`），不在网格上的尺寸直接报错；旧写法 `width = "single", height_mm = 76` 现在会报错。默认 7/8 pt；只有单个面板存成 2×2（89 × 89 mm）时自动 +2 pt，`bump = 0` 关掉。多张图拼一页用 `pv_house_mosaic()`。非用图例不可时用 `legend = "inside"`，放框内右上。*P* 值用 `pv_fmt_p(p)`（配 `parse = TRUE`），7/8 pt 的图不写上标。
 
-English: source `theme_house.R`, then use `theme_house()` for the theme, `pv_palette("house")` for colours and `pv_save_house()` to export. Defaults are 7 pt ticks and 8 pt plain axis titles; with bump = NULL a single panel at ≤89 mm gets +2 pt; bump = 0 switches this off. When a legend is unavoidable, use `legend = "inside"` (top-right inside the frame, no box). Use pv_house_lw() for line widths, HOUSE_POINT for points, pv_pt2size(pt) for in-panel text size and pv_fmt_p(p) for *P* labels (with parse = TRUE). `pv_save_house()` overwrites any `preview.png` in the output folder.
+English: source `theme_house.R`, then use `theme_house()` for the theme, `pv_palette("house")` for colours and `pv_save_house(p, "figure", cells = "2x1")` to export. Sizes are given only as `cells = c(width, height)` in grid cells (or `"WxH"`); a size off the grid is an error, so the old call `width = "single", height_mm = 76` now fails. Defaults are 7 pt ticks and 8 pt plain axis titles; only a single panel saved at 2×2 (89 × 89 mm) gets +2 pt, and `bump = 0` switches this off. To put several plots on one page, use `pv_house_mosaic()`. When a legend is unavoidable, use `legend = "inside"` (top-right inside the frame, no box). Use `pv_house_lw()` for line widths, `HOUSE_POINT` for points, `pv_pt2size(pt)` for in-panel text size and `pv_fmt_p(p)` for *P* labels (with `parse = TRUE`); at 7/8 pt keep the default form without superscripts. `pv_save_house()` overwrites any `preview.png` in the output folder.
 
 ```r
 theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3),
             base_family = house_family(), legend = c("none", "inside"))
-pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL,
-              bump = NULL, dpi = 600, preview = TRUE)   # width 也可写毫米数 / or a width in mm
+pv_save_house(plot, file, width = NULL, height_mm = NULL, cells = NULL,
+              bump = NULL, dpi = 600, preview = TRUE)   # 用 cells = c(w, h) 或 "WxH" / use cells
+pv_house_mosaic(tiles, cells)   # tiles = list(list(plot = , at = c(col, row), cells = c(w, h)), ...)
+pv_fmt_p(p, digits = 1, exact = FALSE)
 ```
 
 ```r
@@ -36,15 +38,129 @@ p <- ggplot(df, aes(x, y, colour = group)) +
   geom_line(linewidth = pv_house_lw("main")) +
   scale_colour_manual(values = unname(pv_palette("house", 3))) +
   theme_house()                               # 7/8 pt；非用图例不可时 theme_house(legend = "inside")
-pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板自动 +2 pt；会覆盖同目录的 preview.png
+pv_save_house(p, "figure", cells = "2x1")     # 折线默认 2×1 = 89 × 43 mm；会覆盖同目录的 preview.png
 ```
 
-### 画布
+拼页示例（三张图排成 1 + 1 + 2，导出 183 × 43 mm）/ Mosaic example (three plots as 1 + 1 + 2, exported at 183 × 43 mm):
 
-- 宽度预设：单栏 **89 mm**（`width = "single"`），双栏 **183 mm**（`width = "double"`）。高度按内容定，常见单行 55–65 mm；单栏单面板默认 76 mm，双栏默认 118 mm。
-- 双栏每行 3 个面板（约 58 mm），单栏每行 2 个；面板间距水平约 3 mm、垂直约 2.5 mm；外边距 ≤1 mm；绘图区 ≥60% 面板面积。
+```r
+# figures/<category>/<slug>/plot.R
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+set.seed(1)
+df <- data.frame(x = 1:30, y = 1:30 + rnorm(30, 0, 4))
+fit <- summary(lm(y ~ x, data = df))
+p_lab <- pv_fmt_p(coef(fit)[2, 4])                  # "P < 0.001"，7/8 pt 用这个
+p_exact <- pv_fmt_p(coef(fit)[2, 4], exact = TRUE)  # "P = m × 10^−k"，只用于 ≥8.6 pt 的文字
+pa <- ggplot(df, aes(x, y)) +
+  geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,
+             fill = pv_palette("house")[["blue"]]) +
+  annotate("text", x = 1, y = 35, hjust = 0, vjust = 1, size = pv_pt2size(7),
+           label = p_lab, parse = TRUE) +
+  labs(x = "Dose (mg)", y = "Response", tag = "a") + theme_house()
+pb <- ggplot(df, aes(y)) +
+  geom_histogram(bins = 8, fill = pv_palette("house")[["sky"]], colour = "white") +
+  labs(x = "Response", y = "Count", tag = "b") + theme_house()
+pc <- ggplot(df, aes(x, y)) +
+  geom_line(linewidth = pv_house_lw("main"), colour = pv_palette("house")[["red"]]) +
+  labs(x = "Day", y = "Response", tag = "c") + theme_house()
+page <- pv_house_mosaic(list(
+  list(plot = pa, at = c(1, 1), cells = c(1, 1)),
+  list(plot = pb, at = c(2, 1), cells = c(1, 1)),
+  list(plot = pc, at = c(3, 1), cells = c(2, 1))
+), cells = c(4, 1))
+pv_save_house(page, "figure", cells = c(4, 1))      # cells 必须与 mosaic 的 cells 相同 / must match
+```
+
+Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(fig, "figure")`（cells 沿用 `house_figure` 的设置）。/ Python: `fig, ax = house.house_figure(cells="2x1")`, then `house.save_house(fig, "figure")`, which reuses the cells given to `house_figure`.
+
+### 网格与画布 / Grid and canvas
+
+中文：
+
+- **网格单位**：格宽 S = 43 mm，格间距 g = 3 mm。n 格跨度 = n × 43 + (n − 1) × 3，即 1–4 格分别为 **43 / 89 / 135 / 181 mm**。
+- **外边距**：某一边占满 4 格时，这一边两侧各加 1 mm，导出 **183 mm**（1 + 181 + 1）；1–3 格的边不加边距，画布就是跨度本身。宽和高分别算。
+- **画布 = 导出页面**：`cells = c(w, h)`，w、h 各为 1–4 的整数。例：`"1x1"` = 43 × 43，`"2x1"` = 89 × 43，`"2x2"` = 89 × 89，`"4x2"` = 183 × 89，`"4x3"` = 183 × 135 mm。
+- **排法**：双栏每行 4 格，可组合为 1+1+1+1 / 1+1+2 / 2+2 / 1+3 / 4；单栏每行 2 格（`width = "single"` 等于 2 格宽）。
+- **报错**：不在网格上的尺寸直接报错，不会悄悄取整。`cells` 超出 1–4 或不是整数时报错；只给 `width` / `height_mm` 时只认 43 / 89 / 135 / 183 mm，报错信息会给出最近的网格尺寸；`cells` 与 `width` / `height_mm` 同时给也报错；什么都不给时报错，提示写 `cells`。
+- **+2 pt**：只有**单个面板存成 2×2（89 × 89 mm）**时全部字号 +2 pt（刻度 9、轴标题 10）。其他尺寸、patchwork 组合图、分面图、拼页（mosaic）一律不加。
+- **拼页**：`pv_house_mosaic(tiles, cells)` 把几张图放到同一页的格子上：每张图写 `at = c(列, 行)`（从 1 起，左上为 1, 1）和 `cells = c(w, h)`；第 c 列的图从 1 + 46 × (c − 1) mm 处开始（4 格宽的页）。超出页面、互相重叠时报错。结果交给 `pv_save_house()`，cells 必须与拼页相同。
 - `theme_house()` 的 plot.margin 为上 1.6 / 右 0.8 / 下 0.9 / 左 0.4 mm。底边 0.9 mm 是专门留的：ragg 和 cairo-png 排出的文字比 cairo PDF 略低，底边只留 0.4 mm 时，600 dpi PNG 的最后一行像素会切到 x 轴标题的下伸部分（g、y、括号）。`tests/test_theme_house.R` 检查最后一行像素全白。自定义 plot.margin 时，底边不要小于 0.9 mm。
-- 字号不随面板缩小。
+- 字号不随面板缩小；绘图区 ≥60% 面板面积。
+
+默认格数（拿不准时用这个；太挤或太空可在网格内升降一档，并在 meta.yaml 写明原因）：
+
+| 图型 | 默认 cells |
+|---|---|
+| 散点 | 1×1 |
+| 直方图 / 密度 | 1×1 |
+| 箱线 / 小提琴 / 雨云 | 1×1；组多时 2×1 |
+| 柱图 | 1×1；类别多时 2×1 |
+| 折线 / 时间序列 | 2×1 |
+| 堆叠构成 | 2×1 |
+| 森林图 | 1×2；行多时 2×2 |
+| 热图 | 2×2 |
+| 小多图 | 每张小图 1×1 |
+| 基因组轨道 / 曼哈顿图 | 4×1 |
+
+九张示例的实际格数：
+
+| 示例 | 默认 | 实际 | 画布 (mm) | +2 pt | 说明 |
+|---|---|---|---|---|---|
+| house-scatter | 1×1 | 2×2 | 89 × 89 | 是 | 升一档：6 个直接标签加 3 行 *R*² / *P*，43 mm 里 “Wild” 压在点上，“Cabernet Sauvignon” 的引线穿过点云 |
+| house-density | 1×1 | 1×1 | 43 × 43 | 否 | x 轴标题缩短为 “Flowering to véraison (d)” |
+| house-raincloud | 1×1 | 1×1 | 43 × 43 | 否 | n 标签放在各组下方居中 |
+| house-bar | 1×1 | 1×1 | 43 × 43 | 否 | 4 组不算多，不升档 |
+| house-line | 2×1 | 2×1 | 89 × 43 | 否 | — |
+| house-donut | 2×1（按堆叠构成） | 2×1 | 89 × 43 | 否 | 1×1 时环直径约 18 mm，标签放不下 |
+| house-forest | 1×2；行多时 2×2 | 2×2 | 89 × 89 | 是 | 16 行算“行多”；1×2 时 2024 / 2025 图例重叠、数值被截 |
+| house-heatmap | 2×2 | 2×2 | 89 × 89 | 是 | — |
+| house-small-multiples | 每张小图 1×1 | 4×2 | 183 × 89（内容 181 × 89） | 否 | 8 个区域排 4 × 2，面板间距 3 mm |
+
+另有拼页示例 `house-grid-mosaic`：七种图排在一页 4×3（183 × 135 mm）上。7/8 pt 的图不用 plotmath 上标（上标按 0.7 倍排，会低于 6 pt）：*P* < 0.001 用 `pv_fmt_p()` 默认写法，*R*² 写 Unicode 字符 ²，单位写 mg/g。
+
+English:
+
+- **Grid unit**: cell width S = 43 mm, gap g = 3 mm. A span of n cells is n × 43 + (n − 1) × 3, so 1–4 cells span **43 / 89 / 135 / 181 mm**.
+- **Margin**: a side that spans all 4 cells gets 1 mm on each end and is exported at **183 mm** (1 + 181 + 1); a side of 1–3 cells gets no margin and the canvas equals the span. Width and height are handled separately.
+- **Canvas = exported page**: `cells = c(w, h)`, with w and h whole numbers from 1 to 4. Examples: `"1x1"` = 43 × 43, `"2x1"` = 89 × 43, `"2x2"` = 89 × 89, `"4x2"` = 183 × 89, `"4x3"` = 183 × 135 mm.
+- **Layout**: a double column has 4 cells per row, combined as 1+1+1+1, 1+1+2, 2+2, 1+3 or 4; a single column has 2 cells per row (`width = "single"` means 2 cells wide).
+- **Errors**: sizes off the grid are errors and are never rounded silently. `cells` outside 1–4 or not whole is an error; `width` / `height_mm` alone accept only 43, 89, 135 or 183 mm, and the message names the nearest grid size; giving `cells` together with `width` / `height_mm` is an error; giving neither is an error that asks for `cells`.
+- **+2 pt**: only a **single panel saved at 2×2 (89 × 89 mm)** gets +2 pt on all text (9 pt ticks, 10 pt axis titles). Other sizes, patchwork compositions, faceted plots and mosaics never get it.
+- **Mosaic**: `pv_house_mosaic(tiles, cells)` places several plots on one grid page. Each tile gives `at = c(col, row)` (from 1, top-left is 1, 1) and `cells = c(w, h)`; on a 4-cell-wide page a tile in column c starts at 1 + 46 × (c − 1) mm. Tiles that leave the page or overlap are errors. Pass the result to `pv_save_house()` with the same cells.
+- `theme_house()` uses plot.margin top 1.6 / right 0.8 / bottom 0.9 / left 0.4 mm. The 0.9 mm bottom is deliberate: ragg and cairo-png set text slightly lower than cairo PDF, and with only 0.4 mm the last pixel row of a 600 dpi PNG clips the descenders of the x-axis title (g, y, brackets). `tests/test_theme_house.R` checks that the last pixel row is white. If you set your own plot.margin, keep the bottom at 0.9 mm or more.
+- Text does not shrink with the panel; the plotting area is at least 60% of the panel.
+
+Default cells (use these when unsure; if a figure is crowded or empty, move one size up or down within the grid and give the reason in meta.yaml):
+
+| Chart | Default cells |
+|---|---|
+| Scatter | 1×1 |
+| Histogram / density | 1×1 |
+| Box / violin / raincloud | 1×1; 2×1 with many groups |
+| Bar | 1×1; 2×1 with many categories |
+| Line / time series | 2×1 |
+| Stacked composition | 2×1 |
+| Forest | 1×2; 2×2 with many rows |
+| Heatmap | 2×2 |
+| Small multiples | 1×1 per small plot |
+| Genome track / Manhattan | 4×1 |
+
+Actual cells of the nine examples:
+
+| Example | Default | Actual | Canvas (mm) | +2 pt | Note |
+|---|---|---|---|---|---|
+| house-scatter | 1×1 | 2×2 | 89 × 89 | yes | One size up: six direct labels plus three lines of *R*² / *P*; at 43 mm “Wild” sat on the points and the “Cabernet Sauvignon” leader crossed the point cloud |
+| house-density | 1×1 | 1×1 | 43 × 43 | no | x-axis title shortened to “Flowering to véraison (d)” |
+| house-raincloud | 1×1 | 1×1 | 43 × 43 | no | n labels centred under each group |
+| house-bar | 1×1 | 1×1 | 43 × 43 | no | Four groups is not many, so no step up |
+| house-line | 2×1 | 2×1 | 89 × 43 | no | — |
+| house-donut | 2×1 (as stacked composition) | 2×1 | 89 × 43 | no | At 1×1 the ring is about 18 mm across and the labels do not fit |
+| house-forest | 1×2; 2×2 with many rows | 2×2 | 89 × 89 | yes | 16 rows count as many; at 1×2 the 2024 / 2025 legend overlapped and values were clipped |
+| house-heatmap | 2×2 | 2×2 | 89 × 89 | yes | — |
+| house-small-multiples | 1×1 per small plot | 4×2 | 183 × 89 (content 181 × 89) | no | Eight regions in 4 × 2, 3 mm between panels |
+
+The mosaic example `house-grid-mosaic` puts seven chart types on one 4×3 page (183 × 135 mm). Figures at 7/8 pt use no plotmath superscripts, which are set at 0.7× and would fall under 6 pt: *P* < 0.001 via the default `pv_fmt_p()`, *R*² with the Unicode character ², and units as mg/g.
 
 ### 字号（印刷最终尺寸）
 
@@ -57,9 +173,9 @@ pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板�
 | 面板字母 | 10 pt | 粗体小写 a b c（patchwork `tag_levels = "a"`） |
 | 任何文字最小值 | 6 pt | — |
 
-- **单栏 89 mm 只放 1 个面板时，全部字号 +2 pt**（刻度 9、轴标题 10）。`pv_save_house()` / `save_house()` 在宽 ≤89 mm 且只有一个面板（非 patchwork、无分面 / 只有一个数据轴）时自动加；按当前刻度字号算差值，已经用 `theme_house(base_size = 9)` 的图不会再加一次；`bump = 0` 可关掉。
+- **只有单个面板存成 2×2（89 × 89 mm）时，全部字号 +2 pt**（刻度 9、轴标题 10）。`pv_save_house()` / `save_house()` 在 cells 为 2×2 且只有一个面板（非 patchwork、非拼页、无分面 / 只有一个数据轴）时自动加；按当前刻度字号算差值，已经用 `theme_house(base_size = 9)` 的图不会再加一次；`bump = 0` 可关掉。
 - `geom_text()` / `annotate()` 的 size 用 `pv_pt2size(pt)`（7 pt = 2.46，8 pt = 2.81，6 pt = 2.11）。
-- source `theme_house.R` 后 `geom_text` / `geom_label` / ggrepel 的默认字号是 **7 pt**（与刻度同号）；不写 `size` 的文字层在单栏单面板导出时同样自动 +2 pt。
+- source `theme_house.R` 后 `geom_text` / `geom_label` / ggrepel 的默认字号是 **7 pt**（与刻度同号）；不写 `size` 的文字层在 2×2 单面板导出时同样自动 +2 pt。
 - **patchwork 组合图不加 +2 pt，即使里面只有一个子图**（`wrap_plots(p)` 也算组合）；单面板请直接把 ggplot 对象交给 `pv_save_house()`，或手动 `theme_house(base_size = 9)`。分面（facet）图同样不加。
 - 示例：`figures/*/house-*/` 下 9 个文件夹（散点、折线、柱、雨云、森林图、热图、密度、环图、小多图）是本风格的参考实现。
 
@@ -107,8 +223,8 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 
 ### 导出
 
-- `pv_save_house(plot, "figure", width = "single" | "double" | mm, height_mm = ...)`：cairo PDF（字体嵌入，文字保留为文本，不转曲）+ 600 dpi PNG + 1200 px 宽 `preview.png`。
-- Python `house.save_house(fig, "figure")`：PDF（TrueType，`pdf.fonttype = 42`）+ 600 dpi PNG + `preview.png`；不裁边（不用 `bbox_inches="tight"`），保证 89 / 183 mm 精确。
+- `pv_save_house(plot, "figure", cells = c(w, h))`：画布按上面的网格算；cairo PDF（字体嵌入，文字保留为文本，不转曲）+ 600 dpi PNG + 1200 px 宽 `preview.png`。
+- Python `house.save_house(fig, "figure")`：PDF（TrueType，`pdf.fonttype = 42`）+ 600 dpi PNG + `preview.png`；不裁边（不用 `bbox_inches="tight"`），保证网格尺寸（43 / 89 / 135 / 183 mm）精确。
 - 测试：`python3 -m unittest discover tests`（含 `tests/test_house_theme.py`，会调 `Rscript tests/test_theme_house.R`）。
 
 ## 旧版 theme_viz 规范（已有图保持，不重渲染）

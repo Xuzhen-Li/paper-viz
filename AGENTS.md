@@ -41,7 +41,7 @@ A main figure with `variants` has near-duplicate folders. Copy the slug you will
 
 ## Style
 
-**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure()`, `save_house()`). The style page has the nine examples and the schematics: [house style](https://xuzhen-li.github.io/paper-viz/house-style/).
+**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure(cells = "2x1")`, `save_house()`). The style page has the nine examples and the schematics: [house style](https://xuzhen-li.github.io/paper-viz/house-style/).
 
 ```r
 # figures/<category>/<slug>/plot.R
@@ -54,20 +54,24 @@ p <- ggplot(df, aes(x, y, colour = group)) +
   geom_line(linewidth = pv_house_lw("main")) +
   scale_colour_manual(values = unname(pv_palette("house", 3))) +
   theme_house()                               # 7/8 pt; theme_house(legend = "inside") if a legend is unavoidable
-pv_save_house(p, "figure", width = "single", height_mm = 76)  # one panel on 89 mm: +2 pt; overwrites preview.png in this folder
+pv_save_house(p, "figure", cells = "2x1")   # 89 x 43 mm; overwrites preview.png in this folder
 ```
 
 ```r
 theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3),
             base_family = house_family(), legend = c("none", "inside"))
-pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL,
-              bump = NULL, dpi = 600, preview = TRUE)   # width may also be a number in mm
+pv_save_house(plot, file, width = NULL, height_mm = NULL, cells = NULL,
+              bump = NULL, dpi = 600, preview = TRUE)   # give cells = c(w, h) or "WxH"
+pv_house_mosaic(tiles, cells)   # tiles = list(list(plot = , at = c(col, row), cells = c(w, h)), ...)
+pv_fmt_p(p, digits = 1, exact = FALSE)
 ```
 
-中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house()`。默认 7/8 pt，单栏单面板自动 +2 pt，`bump = 0` 关掉。非用图例不可时用 `legend = "inside"`，放框内右上。
+中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house(p, "figure", cells = "2x1")`。尺寸用 43 mm 网格的格数 `cells = c(w, h)`，每边 1–4 格，分别为 43 / 89 / 135 / 181 mm，占满 4 格的边两侧各加 1 mm 成 183 mm；不在网格上的尺寸报错，旧写法 `width = "single", height_mm = 76` 现在会报错。默认 7/8 pt；只有单个面板存成 2×2 时自动 +2 pt，`bump = 0` 关掉。多图拼一页用 `pv_house_mosaic()`。非用图例不可时用 `legend = "inside"`，放框内右上。
 
-- Canvas: 89 mm single column (`width = "single"`) or 183 mm double column (`width = "double"`).
-- Text: 7 pt ticks, 8 pt plain (not bold) axis titles, 10 pt bold lowercase panel tags (`patchwork::plot_annotation(tag_levels = "a")`), nothing under 6 pt. A single-column single panel gets +2 pt (9/10 pt); `pv_save_house()` adds it automatically.
+- Canvas: a 43 mm grid with 3 mm gaps. Give `cells = c(w, h)` (or `"WxH"`), 1–4 cells per side: 43 / 89 / 135 / 181 mm; a side spanning all 4 cells gets 1 mm on each end and exports at 183 mm. A double column is 4 cells per row (1+1+1+1, 1+1+2, 2+2, 1+3, 4), a single column 2. Off-grid sizes are errors, so the old `width = "single", height_mm = 76` now fails.
+- Default cells: scatter, histogram / density, box / violin / raincloud, bar 1×1 (2×1 with many groups or categories); line / time series and stacked composition 2×1; forest 1×2 (2×2 with many rows); heatmap 2×2; small multiples 1×1 per small plot; genome track / Manhattan 4×1. Move one size up or down within the grid if crowded or empty. Full table and the nine examples' cells: `styles/style-contract.md`.
+- Several plots on one page: `pv_house_mosaic(list(list(plot = pa, at = c(1, 1), cells = c(1, 1)), list(plot = pb, at = c(2, 1), cells = c(3, 1))), cells = c(4, 1))`, then `pv_save_house(page, "figure", cells = c(4, 1))` with the same cells.
+- Text: 7 pt ticks, 8 pt plain (not bold) axis titles, 10 pt bold lowercase panel tags (`patchwork::plot_annotation(tag_levels = "a")`), nothing under 6 pt. Only a single panel saved at 2×2 (89 × 89 mm) gets +2 pt (9/10 pt); `pv_save_house()` adds it automatically. *P* labels: `pv_fmt_p(p)` with `parse = TRUE`; `exact = TRUE` gives m × 10^−k, whose superscript is 0.7×, so use it only for text of 8.6 pt or more.
 - Four-sided 0.5 pt frame, ticks outward 1 mm, no grid. Main lines 1.5 pt (`pv_house_lw("main")`), points `shape = 21, stroke = 0.3`.
 - Label series directly in the panel in the series colour; no legend by default (`theme_house(legend = "inside")` when one is unavoidable).
 - Category colours: `pv_palette("house")`, in order, at most 6 coloured series:
