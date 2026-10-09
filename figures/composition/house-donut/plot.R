@@ -5,6 +5,11 @@ library(ggplot2)
 
 inner_r <- 0.56
 min_share <- 0.03
+label_r <- 1.05     # radius of the outer names (ring outer radius = 1)
+# visible window in ring units, fitted so the outer names sit ~1 mm from the canvas edge at
+# 89 x 64.56 mm (183 pt); widen it if longer names or other shares push labels off the canvas
+view_x <- c(-1.513, 1.435)
+view_y <- c(-1.031, 1.078)
 centre_title <- "Catchment"
 unit_label <- "km\u00b2"
 
@@ -26,26 +31,39 @@ cols <- stats::setNames(c(unname(pv_palette("house", n_col)), pv_palette("house_
 light <- c("#E6C32A", "#62B4E7", "#BFBFBF")
 df$txt <- ifelse(cols[df$cover] %in% light, "black", "white")
 name_col <- ifelse(df$cover == "Other", pv_palette("house_grey")[["mid"]], cols[df$cover])
-ang <- 2 * pi * df$mid
-df$hj <- ifelse(abs(sin(ang)) < 0.15, 0.5, ifelse(sin(ang) > 0, 0, 1))
+# Ring drawn as polygons in Cartesian space (coord_polar always pads the radius to 80% of the
+# panel, which leaves the white bands this layout avoids). Angles run clockwise from 12 o'clock.
+to_xy <- function(frac, r) data.frame(x = r * sin(2 * pi * frac), y = r * cos(2 * pi * frac))
+ring <- do.call(rbind, lapply(seq_len(nrow(df)), function(i) {
+  f <- seq(df$start[i], df$end[i], length.out = max(2, ceiling(df$share[i] * 360)))
+  cbind(rbind(to_xy(f, 1), to_xy(rev(f), inner_r)), cover = df$cover[i])
+}))
+pct <- cbind(df, to_xy(df$mid, (inner_r + 1) / 2))
+nm <- cbind(df, to_xy(df$mid, label_r))
+s_mid <- sin(2 * pi * df$mid)
+nm$hj <- ifelse(abs(s_mid) < 0.15, 0.5, ifelse(s_mid > 0, 0, 1))
+nm$vj <- ifelse(abs(s_mid) < 0.15, ifelse(cos(2 * pi * df$mid) > 0, 0, 1), 0.5)
+nm$col <- name_col
 
-p <- ggplot(df) +
-  geom_rect(aes(xmin = inner_r, xmax = 1, ymin = start, ymax = end, fill = cover), colour = "white",
-            linewidth = pv_house_lw(0.5)) +
-  geom_text(aes(x = (inner_r + 1) / 2, y = mid, label = sprintf("%.0f%%", 100 * share), colour = txt),
+p <- ggplot() +
+  geom_polygon(data = ring, aes(x, y, group = cover, fill = cover), colour = "white",
+               linewidth = pv_house_lw(0.5)) +
+  geom_text(data = pct, aes(x, y, label = sprintf("%.0f%%", 100 * share), colour = txt),
             size = pv_pt2size(7)) +
-  geom_text(aes(x = 1.1, y = mid, label = cover, hjust = hj), colour = name_col, size = pv_pt2size(7),
-            fontface = "bold") +
+  geom_text(data = nm, aes(x, y, label = cover, hjust = hj, vjust = vj, colour = col),
+            size = pv_pt2size(7)) +
   annotate("text", x = 0, y = 0, label = sprintf("%s\n%s %s", centre_title,
            format(round(sum(df$area_km2)), big.mark = ","), unit_label), size = pv_pt2size(8), lineheight = 0.95) +
   scale_fill_manual(values = cols) +
   scale_colour_identity() +
-  scale_x_continuous(limits = c(0, 1.12)) +
-  coord_polar(theta = "y", clip = "off") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  coord_fixed(xlim = view_x, ylim = view_y, clip = "off") +
   theme_house() +
-  theme(panel.border = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(),
-        axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(),
-        plot.margin = margin(1, 12, 1, 12, "mm"))
+  theme(panel.border = element_blank(), axis.line = element_blank(), axis.text.x = element_blank(),
+        axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(),
+        axis.title.y = element_blank(), legend.position = "none",
+        plot.margin = margin(1, 1, 1, 0.8, "mm"))
 
-pv_save_house(p, "figure", width = "single", height_mm = 70)
+pv_save_house(p, "figure", width = "single", height_mm = 64.56)
 message("wrote preview.png")

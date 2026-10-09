@@ -1,7 +1,7 @@
 # Simulated annual temperature anomalies (°C) for eight regions, 1985–2024. Run from this directory.
 set.seed(20261016)
 regions <- c("Arctic", "Boreal", "Temperate", "Mediterranean", "Arid", "Monsoon", "Tropical", "Southern Ocean")
-trend <- c(0.62, 0.41, 0.29, 0.34, 0.22, 0.12, 0.18, -0.04)   # °C per decade
+trend <- c(0.62, 0.41, 0.29, 0.34, 0.22, 0.02, 0.18, -0.12)  # °C per decade; Monsoon flat, Southern Ocean cools
 noise <- c(0.45, 0.32, 0.22, 0.24, 0.20, 0.18, 0.14, 0.12)
 years <- 1985:2024
 d <- do.call(rbind, lapply(seq_along(regions), function(i) {

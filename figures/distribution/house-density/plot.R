@@ -28,7 +28,7 @@ y_top <- ceiling((max(mu$ly) + 0.032) * 100) / 100
 p <- ggplot(df, aes(days)) +
   geom_density(aes(colour = group, fill = group), linewidth = pv_house_lw(1.4), adjust = bw_adjust,
                alpha = 0.25) +
-  geom_rug(aes(colour = group), length = unit(1.2, "mm"), linewidth = pv_house_lw(0.3), alpha = 0.6) +
+  geom_rug(aes(colour = group), length = unit(1.2, "mm"), linewidth = pv_house_lw(0.3), alpha = 0.3) +
   geom_segment(data = mu, aes(x = m, xend = m, y = 0, yend = ly - 0.002, colour = group), linetype = "22",
                linewidth = pv_house_lw(0.7)) +
   geom_text(data = mu, aes(x = m, y = ly, label = sprintf("%s\n%.0f d", group, m), colour = group,

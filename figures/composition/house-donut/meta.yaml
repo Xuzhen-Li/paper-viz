@@ -14,16 +14,15 @@ data_columns:
   cover: 类别名（字符串）
   area_km2: 类别量（正数，图中换算成占比）
 when_to_use: 一个整体分成 ≤6 份时用；百分比写在环上，类别名用扇区同色写在环外，中心写总量；<3% 的类别合并为 Other。
-customize: plot.R 顶部 inner_r 为内径比例（0.5–0.6）；min_share 为并入 Other 的阈值；centre_title / unit_label 为中心文字。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 inner_r 为内径比例（0.5–0.6）；min_share 为并入 Other 的阈值；label_r 为外圈名称半径；view_x / view_y 为可见窗口（换数据后名称出界就放宽）；centre_title / unit_label 为中心文字。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
 lang: R
 style: house
 references:
-  - id: F11
-    url: https://openbiox.github.io/Bizard/zh/Composition/PartPieChart.html
+  - url: https://openbiox.github.io/Bizard/zh/Composition/PartPieChart.html
     figure: gallery page
-  - id: F12
-    url: https://doi.org/10.1016/j.oneear.2025.101467
+    note: Bizard open-source R gallery page, not a journal figure
+  - url: https://doi.org/10.1016/j.oneear.2025.101467
     figure: Fig. 2
-  - id: F25
-    url: https://openbiox.github.io/Bizard/zh/Composition/Donut.html
+  - url: https://openbiox.github.io/Bizard/zh/Composition/Donut.html
     figure: gallery page
+    note: Bizard open-source R gallery page, not a journal figure

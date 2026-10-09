@@ -21,30 +21,21 @@ customize: plot.R 顶部 phase_start / phase_end / phase_label 设阶段底色�
 lang: R
 style: house
 references:
-  - id: F5
-    url: https://doi.org/10.1016/j.joule.2025.101962
+  - url: https://doi.org/10.1016/j.joule.2025.101962
     figure: Fig. 6
-  - id: F6
-    url: https://doi.org/10.1073/pnas.2534717123
+  - url: https://doi.org/10.1073/pnas.2534717123
     figure: Fig. 2
-  - id: F7
-    url: https://doi.org/10.1038/s41558-024-02033-y
+  - url: https://doi.org/10.1038/s41558-024-02033-y
     figure: Fig. 3
-  - id: F8
-    url: https://doi.org/10.1126/sciadv.adv6867
+  - url: https://doi.org/10.1126/sciadv.adv6867
     figure: Fig. 3
-  - id: F16
-    url: https://www.nature.com/articles/s41467-025-57292-w
+  - url: https://www.nature.com/articles/s41467-025-57292-w
     figure: Fig. 5
-  - id: F22
-    url: https://www.nature.com/articles/s41467-024-48966-y
+  - url: https://www.nature.com/articles/s41467-024-48966-y
     figure: Fig. 1a
-  - id: F23
-    url: https://www.nature.com/articles/s41467-025-67428-7
+  - url: https://www.nature.com/articles/s41467-025-67428-7
     figure: Fig. 1a
-  - id: F26
-    url: https://doi.org/10.1016/j.oneear.2023.10.012
+  - url: https://doi.org/10.1016/j.oneear.2023.10.012
     figure: Fig. 1B
-  - id: F27
-    url: https://doi.org/10.1038/s41467-024-50279-z
+  - url: https://doi.org/10.1038/s41467-024-50279-z
     figure: Fig. 4c

@@ -18,8 +18,10 @@ tr <- do.call(rbind, lapply(regions, function(r) {
   b <- stats::coef(s)[2, ]
   data.frame(region = factor(r, levels = regions), slope = b[[1]], se = b[[2]], p = b[[4]])
 }))
-tr$col <- ifelse(tr$p >= alpha_sig, grey[["dark"]], ifelse(tr$slope > 0, pal[["red"]], pal[["blue"]]))
-tr$lab <- sprintf("%s%.2f \u00b1 %.2f \u00b0C per decade%s", ifelse(tr$slope >= 0, "+", "\u2212"), abs(tr$slope),
+tr$col <- ifelse(tr$p >= alpha_sig, grey[["mid"]], ifelse(tr$slope > 0, pal[["red"]], pal[["blue"]]))
+# sign of the slope as printed (2 decimals): no sign when it rounds to zero
+sign_of <- function(x) ifelse(round(x, 2) > 0, "+", ifelse(round(x, 2) < 0, "\u2212", ""))
+tr$lab <- sprintf("%s%.2f \u00b1 %.2f \u00b0C per decade%s", sign_of(tr$slope), abs(tr$slope),
                   tr$se, vapply(tr$p, stars, character(1)))
 df$col <- tr$col[match(df$region, tr$region)]
 y_lim <- c(floor(min(df$anomaly_c) * 2) / 2, ceiling(max(df$anomaly_c) * 2) / 2 + 0.9)
@@ -42,7 +44,9 @@ p <- ggplot(df, aes(year, anomaly_c)) +
                      labels = function(x) gsub("-", "\u2212", format(x))) +
   labs(x = "Year", y = "Temperature anomaly (\u00b0C)") +
   theme_house() +
-  theme(strip.text = element_blank(), panel.spacing.x = unit(1.5, "mm"), panel.spacing.y = unit(1.5, "mm"))
+  # same 0.5 pt black frame as the single-panel examples (stated here so a facet theme cannot drift)
+  theme(panel.border = element_rect(fill = NA, colour = "black", linewidth = pv_house_lw("frame")),
+        strip.text = element_blank(), panel.spacing.x = unit(1.5, "mm"), panel.spacing.y = unit(1.5, "mm"))
 
 pv_save_house(p, "figure", width = "double", height_mm = 84)
 message("wrote preview.png")

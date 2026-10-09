@@ -6,7 +6,6 @@ library(ggrepel)
 
 label_names <- c("Cabernet Sauvignon", "Pinot Noir", "Saperavi", "Gamay", "Kyoho", "VS133")
 group_order <- c("Wild", "Wine", "Table")
-point_size <- 2.6
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 pal <- pv_palette("house")
@@ -22,19 +21,21 @@ stats_df <- data.frame(group = factor(group_order, levels = group_order), x = 13
 glab <- data.frame(group = factor(group_order, levels = group_order),
                    x = c(0.335, 3.5, 7.2), y = c(9.3, 7.4, 4.9), hj = c(0, 0.5, 0.5))
 df$lab <- ifelse(df$name %in% label_names, df$name, "")
-nx <- c(Wild = -0.10, Wine = -0.22, Table = 0.05)[as.character(df$group)]
-ny <- c(Wild = -1.6, Wine = -1.4, Table = 1.2)[as.character(df$group)]
+# nudge only labelled points; unlabelled rows stay put (they still repel labels)
+labelled <- df$lab != ""
+nx <- ifelse(labelled, c(Wild = -0.10, Wine = -0.22, Table = 0.05)[as.character(df$group)], 0)
+ny <- ifelse(labelled, c(Wild = -1.6, Wine = -1.4, Table = 1.2)[as.character(df$group)], 0)
 
 p <- ggplot(df, aes(berry_weight_g, anthocyanin_mg_g)) +
   geom_smooth(aes(group = group), method = "lm", formula = y ~ x, colour = NA,
               fill = pv_palette("house_grey")[["ci"]], alpha = 0.5) +
   geom_smooth(aes(colour = group), method = "lm", formula = y ~ x, se = FALSE,
               linewidth = pv_house_lw("emph")) +
-  geom_point(aes(fill = group), shape = 21, size = point_size, stroke = HOUSE_POINT$stroke,
+  geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,
              colour = "black") +
   geom_text_repel(aes(label = lab, colour = group), nudge_x = nx, nudge_y = ny,
                   size = pv_pt2size(6), box.padding = 0.4, point.padding = 0.1, max.time = 2,
-                  max.iter = 20000, point.size = 2.9, force = 4, force_pull = 0.5,
+                  max.iter = 20000, point.size = HOUSE_POINT$size + 0.3, force = 4, force_pull = 0.5,
                   min.segment.length = 0.15, segment.size = pv_house_lw(0.4), max.overlaps = Inf,
                   seed = 3, ylim = c(1.2, 13)) +
   geom_text(data = glab, aes(x, y, label = group, colour = group, hjust = hj), size = pv_pt2size(8),

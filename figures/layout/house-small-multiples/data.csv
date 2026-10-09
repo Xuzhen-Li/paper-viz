@@ -199,46 +199,46 @@
 "Arid",2022,0.508
 "Arid",2023,0.746
 "Arid",2024,0.291
-"Monsoon",1985,-0.487
-"Monsoon",1986,-0.47
-"Monsoon",1987,-0.028
-"Monsoon",1988,-0.361
-"Monsoon",1989,-0.052
-"Monsoon",1990,0.159
-"Monsoon",1991,0.129
-"Monsoon",1992,0.153
-"Monsoon",1993,0.098
-"Monsoon",1994,0.241
-"Monsoon",1995,-0.091
-"Monsoon",1996,0.03
-"Monsoon",1997,-0.237
-"Monsoon",1998,-0.157
-"Monsoon",1999,-0.089
-"Monsoon",2000,-0.253
-"Monsoon",2001,-0.144
-"Monsoon",2002,-0.016
-"Monsoon",2003,-0.08
-"Monsoon",2004,0.012
+"Monsoon",1985,-0.287
+"Monsoon",1986,-0.28
+"Monsoon",1987,0.152
+"Monsoon",1988,-0.191
+"Monsoon",1989,0.108
+"Monsoon",1990,0.309
+"Monsoon",1991,0.269
+"Monsoon",1992,0.283
+"Monsoon",1993,0.218
+"Monsoon",1994,0.351
+"Monsoon",1995,0.009
+"Monsoon",1996,0.12
+"Monsoon",1997,-0.157
+"Monsoon",1998,-0.087
+"Monsoon",1999,-0.029
+"Monsoon",2000,-0.203
+"Monsoon",2001,-0.104
+"Monsoon",2002,0.014
+"Monsoon",2003,-0.06
+"Monsoon",2004,0.022
 "Monsoon",2005,0.198
-"Monsoon",2006,0.057
-"Monsoon",2007,0.314
-"Monsoon",2008,-0.018
-"Monsoon",2009,-0.044
-"Monsoon",2010,-0.079
-"Monsoon",2011,0.142
-"Monsoon",2012,0.112
-"Monsoon",2013,0.01
-"Monsoon",2014,0.045
-"Monsoon",2015,0.251
-"Monsoon",2016,0.164
-"Monsoon",2017,0.44
-"Monsoon",2018,0.168
-"Monsoon",2019,0.089
-"Monsoon",2020,0.328
-"Monsoon",2021,0.342
-"Monsoon",2022,0.251
-"Monsoon",2023,-0.042
-"Monsoon",2024,0.181
+"Monsoon",2006,0.047
+"Monsoon",2007,0.294
+"Monsoon",2008,-0.048
+"Monsoon",2009,-0.084
+"Monsoon",2010,-0.129
+"Monsoon",2011,0.082
+"Monsoon",2012,0.042
+"Monsoon",2013,-0.07
+"Monsoon",2014,-0.045
+"Monsoon",2015,0.151
+"Monsoon",2016,0.054
+"Monsoon",2017,0.32
+"Monsoon",2018,0.038
+"Monsoon",2019,-0.051
+"Monsoon",2020,0.178
+"Monsoon",2021,0.182
+"Monsoon",2022,0.081
+"Monsoon",2023,-0.222
+"Monsoon",2024,-0.009
 "Tropical",1985,-0.157
 "Tropical",1986,-0.13
 "Tropical",1987,-0.292
@@ -279,43 +279,43 @@
 "Tropical",2022,0.472
 "Tropical",2023,0.291
 "Tropical",2024,0.184
-"Southern Ocean",1985,0.166
-"Southern Ocean",1986,-0.152
-"Southern Ocean",1987,0.111
-"Southern Ocean",1988,0.164
-"Southern Ocean",1989,0.207
-"Southern Ocean",1990,0.135
-"Southern Ocean",1991,0.151
-"Southern Ocean",1992,0.154
-"Southern Ocean",1993,-0.025
-"Southern Ocean",1994,-0.077
-"Southern Ocean",1995,-0.206
-"Southern Ocean",1996,0.047
-"Southern Ocean",1997,-0.154
-"Southern Ocean",1998,-0.21
-"Southern Ocean",1999,-0.048
-"Southern Ocean",2000,-0.118
-"Southern Ocean",2001,-0.056
-"Southern Ocean",2002,-0.037
-"Southern Ocean",2003,0.047
-"Southern Ocean",2004,0.054
+"Southern Ocean",1985,0.326
+"Southern Ocean",1986,0
+"Southern Ocean",1987,0.255
+"Southern Ocean",1988,0.3
+"Southern Ocean",1989,0.335
+"Southern Ocean",1990,0.255
+"Southern Ocean",1991,0.263
+"Southern Ocean",1992,0.258
+"Southern Ocean",1993,0.071
+"Southern Ocean",1994,0.011
+"Southern Ocean",1995,-0.126
+"Southern Ocean",1996,0.119
+"Southern Ocean",1997,-0.09
+"Southern Ocean",1998,-0.154
+"Southern Ocean",1999,0
+"Southern Ocean",2000,-0.078
+"Southern Ocean",2001,-0.024
+"Southern Ocean",2002,-0.013
+"Southern Ocean",2003,0.063
+"Southern Ocean",2004,0.062
 "Southern Ocean",2005,0.152
-"Southern Ocean",2006,-0.058
-"Southern Ocean",2007,0.09
-"Southern Ocean",2008,-0.036
-"Southern Ocean",2009,-0.087
-"Southern Ocean",2010,0.032
-"Southern Ocean",2011,0.082
-"Southern Ocean",2012,0.14
-"Southern Ocean",2013,-0.134
-"Southern Ocean",2014,-0.017
-"Southern Ocean",2015,0.11
-"Southern Ocean",2016,0.137
-"Southern Ocean",2017,0.15
-"Southern Ocean",2018,-0.182
-"Southern Ocean",2019,0.014
-"Southern Ocean",2020,0.085
-"Southern Ocean",2021,-0.065
-"Southern Ocean",2022,-0.216
-"Southern Ocean",2023,0.126
-"Southern Ocean",2024,-0.004
+"Southern Ocean",2006,-0.066
+"Southern Ocean",2007,0.074
+"Southern Ocean",2008,-0.06
+"Southern Ocean",2009,-0.119
+"Southern Ocean",2010,-0.008
+"Southern Ocean",2011,0.034
+"Southern Ocean",2012,0.084
+"Southern Ocean",2013,-0.198
+"Southern Ocean",2014,-0.089
+"Southern Ocean",2015,0.03
+"Southern Ocean",2016,0.049
+"Southern Ocean",2017,0.054
+"Southern Ocean",2018,-0.286
+"Southern Ocean",2019,-0.098
+"Southern Ocean",2020,-0.035
+"Southern Ocean",2021,-0.193
+"Southern Ocean",2022,-0.352
+"Southern Ocean",2023,-0.018
+"Southern Ocean",2024,-0.156

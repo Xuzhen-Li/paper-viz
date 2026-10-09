@@ -19,4 +19,4 @@ when_to_use: 少量行 × 少量列、正负都有的数值矩阵时用；蓝–
 customize: plot.R 顶部 limit 为色标对称上限；cluster_rows 开关行聚类；dark_cut 为格内改用白字的阈值；colourbar_mm 为色条长度（≤ 面板高 60%）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
 lang: R
 style: house
-references_note: STYLE §12 has no reference pick for heatmaps; rules derived from the overall house style.
+references_note: No published reference figure; layout follows the house rules in styles/style-contract.md.
