@@ -10,7 +10,7 @@
 
 [画廊 / Gallery](https://xuzhen-li.github.io/paper-viz/) · [快速开始 / Quick start](#快速开始--quick-start) · [House style 规范 / House style](https://xuzhen-li.github.io/paper-viz/house-style/) · [给 agent 用 / For agents](AGENTS.md)
 
-R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、模拟数据 `data.csv` 和 `meta.yaml`。
+R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、`data.csv`（模拟数据或公开数据）和 `meta.yaml`。
 
 1. 在画廊找到图；
 2. 复制文件夹，按列名换上自己的数据；
@@ -18,7 +18,7 @@ R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、
 
 agent 也能检索调用。新图默认 house style；上图九张示例都由本仓库代码用模拟数据画成。
 
-An R-first library of paper-figure templates. Each figure is one folder with `plot.R`, synthetic `data.csv` and `meta.yaml`.
+An R-first library of paper-figure templates. Each figure is one folder with `plot.R`, `data.csv` (synthetic or open data) and `meta.yaml`.
 
 1. Find a figure in the gallery.
 2. Copy the folder and swap in your own data, keeping the column names.
@@ -206,7 +206,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocMana
 BiocManager::install(c("ComplexHeatmap", "ggplotify", "ggtree"))
 ```
 
-两张 Python 图另需 `matplotlib` 与 `numpy`。不要把本机绝对路径写进仓库。
+图库里的图都用 R 出图。可选的 Python 部分需要 `matplotlib`：Python 镜像主题 `styles/python/house.py`，以及 `line-basic`、`volcano` 两个文件夹里附带的 `plot.py` 变体（变体脚本另需 `numpy`）。不要把本机绝对路径写进仓库。
 
 ## House style
 
