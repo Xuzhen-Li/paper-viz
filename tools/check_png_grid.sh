@@ -9,7 +9,8 @@
 # round(mm / 25.4 * dpi), +-1 px. The pHYs chunk must agree with that dpi to +-1 dpi: grDevices
 # png() (no ragg) stores an integer dpi, so pHYs alone is too coarse for a +-1 px check, but it
 # still catches a preview drawn on the wrong physical canvas. No pHYs -> error.
-# Figures without `cells` only need each side >= PV_MIN_PNG_PX (default 300) px.
+# house-* figures (dir or slug) must declare cells. Other figures without `cells` only need
+# each side >= PV_MIN_PNG_PX (default 300) px.
 # POSIX sh + od + awk only.
 
 PREVIEW_WIDTH_PX=${PV_PREVIEW_WIDTH_PX:-1200}
@@ -130,11 +131,25 @@ check_png_grid() {
     }'
 }
 
+# is_house_figure <meta.yaml>: true if the figure dir (figures/<cat>/house-*) or its slug is house-*.
+is_house_figure() {
+  [ -n "$1" ] || return 1
+  fig_dir=$(CDPATH='' cd -- "$(dirname "$1")" 2>/dev/null && pwd) || return 1
+  case "$(basename "$fig_dir")" in
+    house-*) return 0 ;;
+  esac
+  [ -f "$1" ] && grep -Eq "^slug:[[:space:]]*[\"']?house-" "$1"
+}
+
 # check_preview_size <png> <meta.yaml>: grid check when meta has cells, else the px floor.
+# house-* figures must declare cells (no px-floor fallback).
 check_preview_size() {
   cells=$(meta_cells "$2")
   if [ -n "$cells" ]; then
     check_png_grid "$1" "$cells"
+  elif is_house_figure "$2"; then
+    echo "$(png_label "$1"): house-* figures must declare cells in meta.yaml (e.g. cells: 2x1)" >&2
+    return 1
   else
     check_png_size "$1"
   fi
