@@ -17,9 +17,10 @@ data_columns:
   days_after_flowering: 开花后天数（数值，x 轴）
   brix: 可溶性固形物（°Brix）
 when_to_use: 少数几组随时间（或剂量）变化、每个时间点有重复时用；画均值线 + 95% 置信带，线尾直标组名，组间差和 P 写在图内。
-customize: plot.R 顶部 phase_start / phase_end / phase_label 设阶段底色；compare 选要比较的两组（取最后一个时间点）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 phase_start / phase_end / phase_label 设阶段底色；compare 选要比较的两组（取最后一个时间点）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），本图 2×1 格（89 × 43 mm），字号保持 7/8 pt（只有单个 2×2 面板才由 pv_save_house() 自动 +2 pt）。
 lang: R
 style: house
+cells: 2x1
 references:
   - url: https://doi.org/10.1016/j.joule.2025.101962
     figure: Fig. 6

@@ -52,5 +52,5 @@ p <- ggplot(df, aes(estimate, y, colour = season)) +
   theme(axis.text.y = element_text(face = "italic"),
         plot.margin = margin(1.6, 2.6, 0.9, 0.4, "mm"))
 
-pv_save_house(p, "figure", width = "single", height_mm = 82)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

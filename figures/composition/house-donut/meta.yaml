@@ -14,9 +14,10 @@ data_columns:
   cover: 类别名（字符串）
   area_km2: 类别量（正数，图中换算成占比）
 when_to_use: 一个整体分成 ≤6 份时用；百分比写在环上，类别名用扇区同色写在环外，中心写总量；<3% 的类别合并为 Other。
-customize: plot.R 顶部 inner_r 为内径比例（0.5–0.6）；min_share 为并入 Other 的阈值；label_r 为外圈名称半径；view_x / view_y 为可见窗口（换数据后名称出界就放宽）；centre_title / unit_label 为中心文字。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 inner_r 为内径比例（0.5–0.6）；min_share 为并入 Other 的阈值；label_r 为外圈名称半径；cells 为网格尺寸；view_y 为上下可见范围（换数据后名称出界就放宽），view_x 按面板宽高比自动算出、左右居中；centre_title / unit_label 为中心文字。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），本图 2×1 格（89 × 43 mm），字号保持 7/8 pt（只有单个 2×2 面板才由 pv_save_house() 自动 +2 pt）。
 lang: R
 style: house
+cells: 2x1
 references:
   - url: https://openbiox.github.io/Bizard/zh/Composition/PartPieChart.html
     figure: gallery page

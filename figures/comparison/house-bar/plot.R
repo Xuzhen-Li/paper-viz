@@ -62,5 +62,5 @@ p <- ggplot(sm, aes(x, m)) +
   theme_house() +
   theme(axis.text.x = element_text(lineheight = 0.85))
 
-pv_save_house(p, "figure", width = "single", height_mm = 72)
+pv_save_house(p, "figure", cells = "1x1")
 message("wrote preview.png")

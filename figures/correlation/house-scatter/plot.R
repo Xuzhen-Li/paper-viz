@@ -14,7 +14,7 @@ df$group <- factor(df$group, levels = group_order)
 
 stat_lab <- vapply(group_order, function(g) {
   s <- summary(stats::lm(anthocyanin_mg_g ~ log10(berry_weight_g), data = df[df$group == g, ]))
-  sprintf("italic(R)^2*' = %.2f, '*%s", s$r.squared, pv_fmt_p(stats::coef(s)[2, 4]))
+  sprintf("italic(R)*'\u00b2 = %.2f, '*%s", s$r.squared, pv_fmt_p(stats::coef(s)[2, 4]))
 }, character(1))
 stats_df <- data.frame(group = factor(group_order, levels = group_order), x = 13.5,
                        y = c(13.6, 12.5, 11.4), lab = stat_lab)
@@ -47,8 +47,8 @@ p <- ggplot(df, aes(berry_weight_g, anthocyanin_mg_g)) +
   scale_x_log10(limits = c(0.3, 14), breaks = c(0.5, 1, 2, 5, 10),
                 labels = c("0.5", "1", "2", "5", "10"), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0, 14), breaks = seq(0, 14, 2), expand = c(0, 0)) +
-  labs(x = "Berry weight (g, log scale)", y = expression("Anthocyanin (mg g"^"\u22121"*" FW)")) +
+  labs(x = "Berry weight (g, log scale)", y = "Anthocyanin (mg/g FW)") +
   theme_house()
 
-pv_save_house(p, "figure", width = "single", height_mm = 76)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

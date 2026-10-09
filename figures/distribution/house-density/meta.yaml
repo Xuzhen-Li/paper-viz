@@ -14,9 +14,10 @@ data_columns:
   group: 分组（字符串，≤4 组）
   days: 数值（此例为开花到转色天数）
 when_to_use: 2–4 组连续数值比较分布形状时用；半透明填充 + 同色轮廓，均值用同色虚线并在线顶写组名和数值，Kruskal–Wallis P 写在角落。
-customize: plot.R 顶部 group_order 定组序与配色；bw_adjust 调平滑度；x_limits 调 x 范围。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 group_order 定组序与配色；bw_adjust 调平滑度；x_limits 调 x 范围。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），本图 1×1 格（43 × 43 mm），字号保持 7/8 pt（只有单个 2×2 面板才由 pv_save_house() 自动 +2 pt）。
 lang: R
 style: house
+cells: 1x1
 references:
   - url: https://doi.org/10.1073/pnas.2404155121
     figure: Fig. 3

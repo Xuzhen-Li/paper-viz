@@ -51,5 +51,5 @@ p <- ggplot(sm, aes(daf, m)) +
   labs(x = "Days after flowering", y = "Soluble solids (\u00b0Brix)") +
   theme_house()
 
-pv_save_house(p, "figure", width = "single", height_mm = 72)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")

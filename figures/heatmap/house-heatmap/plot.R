@@ -43,5 +43,5 @@ p <- ggplot(df, aes(col, row)) +
         legend.margin = margin(0, 0, 0, 1, "mm"), legend.box.spacing = unit(1, "mm"),
         plot.margin = margin(4.2, 0.8, 0.9, 0.4, "mm"))
 
-pv_save_house(p, "figure", width = "single", height_mm = 80)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

@@ -16,9 +16,10 @@ data_columns:
   replicate: 重复编号（整数）
   expression: 相对表达量（数值）
 when_to_use: 几个处理与对照比较均值时用；柱为均值、误差棒为 s.d.，叠加原始点，柱内写均值，括号线标出与对照的 t 检验 P。
-customize: plot.R 顶部 control 指定对照组；gene_label 为左上角标题；y_max 为 y 轴上限（括号放不下时自动加高）；wrap_width 控制类别名换行；point_size 为原始点径（1.6）。柱不描边。颜色：对照组取 pv_palette("house_grey")[["ci"]]，处理组依次取 pv_palette("house_warm")[2:4]，柱内数字按底色深浅自动用黑或白；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 control 指定对照组；gene_label 为左上角标题；y_max 为 y 轴上限（括号放不下时自动加高）；wrap_width 控制类别名换行；point_size 为原始点径（1.6）。柱不描边。颜色：对照组取 pv_palette("house_grey")[["ci"]]，处理组依次取 pv_palette("house_warm")[2:4]，柱内数字按底色深浅自动用黑或白；文字字号写成印刷 pt（pv_pt2size），本图 1×1 格（43 × 43 mm），字号保持 7/8 pt（只有单个 2×2 面板才由 pv_save_house() 自动 +2 pt）。
 lang: R
 style: house
+cells: 1x1
 references:
   - url: https://doi.org/10.1016/j.oneear.2025.101467
     figure: Fig. 2

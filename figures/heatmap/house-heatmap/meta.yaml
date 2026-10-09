@@ -16,7 +16,8 @@ data_columns:
   day: 列内时间点（数值）
   log2fc: 格内数值（log2 倍数变化，以 0 为中心）
 when_to_use: 少量行 × 少量列、正负都有的数值矩阵时用；蓝–红发散色以 0 为中心，每格写数值（深底白字），行按聚类排序。
-customize: plot.R 顶部 limit 为色标对称上限；cluster_rows 开关行聚类；dark_cut 为格内改用白字的阈值；colourbar_mm 为色条长度（≤ 面板高 60%）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 limit 为色标对称上限；cluster_rows 开关行聚类；dark_cut 为格内改用白字的阈值；colourbar_mm 为色条长度（≤ 面板高 60%）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），本图 2×2 格（89 × 89 mm）单面板，由 pv_save_house() 自动 +2 pt（刻度 9 / 轴标题 10 pt）。
 lang: R
 style: house
+cells: 2x2
 references_note: No published reference figure; layout follows the house rules in styles/style-contract.md.

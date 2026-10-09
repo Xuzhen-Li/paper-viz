@@ -40,8 +40,8 @@ p <- ggplot(df, aes(days)) +
   scale_fill_manual(values = cols) +
   scale_x_continuous(limits = x_limits, breaks = seq(40, 75, 10), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0, y_top), breaks = seq(0, y_top, 0.05), expand = c(0, 0)) +
-  labs(x = "Days from flowering to v\u00e9raison", y = "Density") +
+  labs(x = "Flowering to v\u00e9raison (d)", y = "Density") +
   theme_house()
 
-pv_save_house(p, "figure", width = "single", height_mm = 70)
+pv_save_house(p, "figure", cells = "1x1")
 message("wrote preview.png")
