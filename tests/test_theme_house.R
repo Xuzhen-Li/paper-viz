@@ -111,5 +111,33 @@ check(abs(p$layers[[3]]$aes_params$size - pv_pt2size(7)) < 1e-9, "bump leaves th
 check(pv_save_house(p + facet_wrap(~g), file.path(out, "facet"), "single", 60, preview = FALSE)$bump == 0,
       "faceted plot at 89 mm is not bumped")
 
+# in-plot text uses the theme font (no device-default NimbusSans etc.) ----------------
+if (has_poppler) {
+  fonts_of <- function(f) {
+    out <- system2("pdffonts", shQuote(f), stdout = TRUE)[-(1:2)]
+    sub("^[A-Z]{6}\\+", "", vapply(strsplit(trimws(out), " +"), `[`, "", 1))
+  }
+  pt <- ggplot(d, aes(x, y)) + geom_point() + geom_text(aes(label = g)) +
+    geom_label(data = d[1:2, ], aes(label = g)) +
+    annotate("text", x = 0, y = 0, label = "note") + theme_house()
+  # also prove the save-time patch works without the geom defaults set at source time
+  old <- list(text = GeomText$default_aes$family, label = GeomLabel$default_aes$family)
+  update_geom_defaults("text", list(family = "")); update_geom_defaults("label", list(family = ""))
+  res <- pv_save_house(pt, file.path(out, "fonts"), "double", 60, preview = FALSE)
+  pw <- if (requireNamespace("patchwork", quietly = TRUE)) patchwork::wrap_plots(pt, pt) else pt
+  res2 <- pv_save_house(pw, file.path(out, "fonts_pw"), "double", 60, preview = FALSE)
+  pv_house_geom_defaults()
+  for (f in c(res$pdf, res2$pdf)) {
+    fs <- fonts_of(f)
+    check(length(fs) > 0 && !any(grepl("Nimbus", fs)) && length(unique(substr(gsub("[^A-Za-z]", "", fs), 1, 5))) == 1,
+          sprintf("%s: one font family in PDF (%s)", basename(f), paste(unique(fs), collapse = ", ")))
+  }
+} else cat("skip font-family check (no pdffonts)\n")
+
+# point size: demo A values, physical size shared with Python house.POINT -------------
+pd <- pv_point_dims()
+check(abs(pd[["outer_mm"]] - 2.04) < 0.02 && abs(pd[["outline_pt"]] - 0.425) < 0.005,
+      sprintf("HOUSE_POINT: outer %.2f mm, outline %.3f pt", pd[["outer_mm"]], pd[["outline_pt"]]))
+
 if (fail) { cat(fail, "check(s) failed\n"); quit(status = 1) }
 cat("all R house-theme checks passed\n")

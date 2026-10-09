@@ -36,8 +36,21 @@ pv_house_lw <- function(what = "main") {
   what <- match.arg(what, names(HOUSE_LW_PT))
   pv_pt2lw(HOUSE_LW_PT[[what]])
 }
-# Point outline: shape = 21, stroke = 0.3, size 2.2–2.6 (STYLE §5, demo A).
+# Points (STYLE §5): shape 21, size 2.3, stroke 0.3 — the ggplot values of the locked demo A.
+# Physical size: fill diameter about 1.89 mm, outline about 0.43 pt, outer diameter about 2.04 mm.
+# STYLE §5 also quotes 1.2–1.4 mm; that does not match its own ggplot values (size 2.2–2.6).
+# The ggplot values / demo A win. Python house.POINT / house.SCATTER give the same physical size.
 HOUSE_POINT <- list(shape = 21, size = 2.3, stroke = 0.3, colour = "#000000")
+# Physical size of a ggplot point (shape 21): grid draws the circle with radius 0.375 * fontsize,
+# where fontsize = size * .pt + stroke * .stroke / 2 (pt); the outline is stroke * .stroke / 2 lwd.
+pv_point_dims <- function(size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke) {
+  stroke_lwd <- stroke * ggplot2::.stroke / 2
+  fontsize <- size * ggplot2::.pt + stroke_lwd
+  path_pt <- 0.75 * fontsize                # circle path diameter
+  outline_pt <- stroke_lwd * 72 / 96        # lwd is 1/96 in
+  c(path_mm = path_pt / 72 * 25.4, outline_pt = outline_pt,
+    outer_mm = (path_pt + outline_pt) / 72 * 25.4)
+}
 
 HOUSE_PRESETS_MM <- c(single = 89, double = 183)
 
@@ -117,7 +130,9 @@ pv_fmt_p <- function(p, digits = 1) {
     out <- tryCatch(S7::prop(x, name), error = function(e) NULL)
     if (!is.null(out)) return(out)
   }
-  tryCatch(x[[name]], error = function(e) NULL)
+  out <- tryCatch(x[[name]], error = function(e) NULL)    # plain lists / ggplot2 < 4
+  if (is.null(out)) out <- tryCatch(do.call(`$`, list(x, name)), error = function(e) NULL)
+  out
 }
 
 .pv_tick_size <- function(plot) {
@@ -145,7 +160,7 @@ pv_bump_text <- function(plot, pt = 2) {
     }
   }
   if (length(add)) plot <- plot + do.call(ggplot2::theme, add)
-  text_geoms <- c("GeomText", "GeomLabel", "GeomTextRepel", "GeomLabelRepel")
+  text_geoms <- .pv_text_geoms
   layers <- .pv_get(plot, "layers")
   for (i in seq_along(layers)) {
     l <- layers[[i]]
@@ -158,6 +173,53 @@ pv_bump_text <- function(plot, pt = 2) {
     layers[[i]] <- nl
   }
   if (inherits(plot, "S7_object")) S7::prop(plot, "layers") <- layers else plot$layers <- layers
+  plot
+}
+
+# In-plot text (geom_text / annotate / geom_label / ggrepel) uses the theme font, not the
+# device default (otherwise cairo PDFs mix in e.g. NimbusSans). Two layers of defence:
+# 1. sourcing this file sets the text/label geom defaults (new-figure scripts only; theme_viz.R
+#    alone does not touch them, so legacy figures are unchanged);
+# 2. pv_save_house() sets `family` on every text layer that has none, including patchwork panels.
+pv_house_geom_defaults <- function(family = house_family()) {
+  for (g in c("text", "label")) ggplot2::update_geom_defaults(g, list(family = family))
+  if (requireNamespace("ggrepel", quietly = TRUE)) {
+    for (g in c(ggrepel::GeomTextRepel, ggrepel::GeomLabelRepel)) {
+      try(ggplot2::update_geom_defaults(g, list(family = family)), silent = TRUE)
+    }
+  }
+  invisible(family)
+}
+pv_house_geom_defaults()
+
+.pv_text_geoms <- c("GeomText", "GeomLabel", "GeomTextRepel", "GeomLabelRepel")
+
+.pv_set_text_family <- function(plot, family = house_family()) {
+  if (inherits(plot, "patchwork")) {
+    patches <- plot$patches
+    if (!is.null(patches$plots)) {
+      patches$plots <- lapply(patches$plots, .pv_set_text_family, family = family)
+      plot$patches <- patches
+    }
+  }
+  if (!inherits(plot, c("ggplot", "ggplot2::ggplot"))) return(plot)
+  layers <- .pv_get(plot, "layers")
+  changed <- FALSE
+  for (i in seq_along(layers)) {
+    l <- layers[[i]]
+    if (!inherits(l$geom, .pv_text_geoms)) next
+    fam <- l$aes_params$family
+    if (!is.null(fam) && nzchar(fam)) next
+    if ("family" %in% names(l$mapping)) next
+    nl <- rlang::env_clone(l)
+    class(nl) <- class(l)
+    assign("aes_params", utils::modifyList(as.list(l$aes_params), list(family = family)), envir = nl)
+    layers[[i]] <- nl
+    changed <- TRUE
+  }
+  if (changed) {
+    if (inherits(plot, "S7_object")) S7::prop(plot, "layers") <- layers else plot$layers <- layers
+  }
   plot
 }
 
@@ -187,6 +249,7 @@ pv_save_house <- function(plot, file, width = c("double", "single"), height_mm =
     bump <- if (width_mm <= 89 + 1e-6 && .pv_is_single_panel(plot)) max(0, 9 - .pv_tick_size(plot)) else 0
   }
   plot <- pv_bump_text(plot, bump)
+  plot <- .pv_set_text_family(plot)
 
   w_in <- width_mm / 25.4
   h_in <- height_mm / 25.4
