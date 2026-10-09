@@ -142,7 +142,7 @@ def house_cmap(name: str = "house_div"):
 
 
 def house_rc(base_size: float = 7, title_size: float | None = None) -> dict:
-    """rcParams for the house style. ``base_size`` = tick labels (7; 9 for a single-column single panel)."""
+    """rcParams for the house style. ``base_size`` = tick labels (7; 9 only for a single 2x2 panel)."""
     title_size = base_size + 1 if title_size is None else title_size
     tick_len = 1.0 * PT_PER_MM
     return {
@@ -215,7 +215,7 @@ def house_rc(base_size: float = 7, title_size: float | None = None) -> dict:
 
 
 def apply_house_style(base_size: float = 7, *, single_panel: bool = False) -> None:
-    """Load the house rcParams. ``single_panel=True`` = single-column single panel (+2 pt)."""
+    """Load the house rcParams. ``single_panel=True`` = a figure holding a single 2x2 panel (+2 pt)."""
     plt.rcParams.update(house_rc(base_size + (2 if single_panel else 0)))
 
 

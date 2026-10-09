@@ -3,7 +3,10 @@
 #
 #   source("../../../styles/r/theme_house.R")   # also loads theme_viz.R (pv_palette, pv_save, theme_viz)
 #   p <- ggplot(...) + theme_house()             # 7 pt ticks, 8 pt axis titles, 10 pt bold tags
-#   pv_save_house(p, "figure", width = "single", height_mm = 76)   # 89 mm, one panel -> +2 pt
+#   pv_save_house(p, "figure", cells = "2x2")   # 89x89 mm, single 2x2 panel -> +2 pt
+#   pv_save_house(p, "figure", cells = "2x1")   # 89x43 mm, stays 7/8 pt
+# Sizes snap to the 43 mm grid (cells = c(w, h) or "WxH", 1-4 each). Only a figure holding a
+# single 2x2 panel gets +2 pt; every other size and every multi-panel figure stays 7/8 pt.
 #
 # Old interfaces stay as they were: theme_viz(), pv_save(), pv_palette("categorical") (chip eight).
 
@@ -64,7 +67,7 @@ house_family <- function() {
 }
 
 # --- theme ------------------------------------------------------------------
-# base_size: tick labels (7 double-column; 9 for a single-column single panel).
+# base_size: tick labels (7 by default; 9 only for a figure holding a single 2x2 panel).
 # Axis titles base_size + 1, plain (not bold). Panel tags bold, 10 pt at base 7.
 # Lowercase tags come from patchwork::plot_annotation(tag_levels = "a").
 # legend = "none" (direct labels, default) or "inside" (top-right, inside the frame, no box).
@@ -128,7 +131,7 @@ pv_fmt_p <- function(p, digits = 1, exact = FALSE) {
   sprintf("italic(P)*' = %s \u00d7 10'^'\u2212%d'", formatC(m, format = "f", digits = digits), -e)
 }
 
-# --- +2 pt for a single-column single panel ---------------------------------
+# --- +2 pt for a single 2x2 panel -------------------------------------------
 .pv_get <- function(x, name) {
   if (inherits(x, "S7_object")) {
     out <- tryCatch(S7::prop(x, name), error = function(e) NULL)
@@ -186,7 +189,7 @@ pv_bump_text <- function(plot, pt = 2) {
 # 1. sourcing this file sets the text/label geom defaults (new-figure scripts only; theme_viz.R
 #    alone does not touch them, so legacy figures are unchanged);
 # 2. pv_save_house() sets `family` on every text layer that has none, including patchwork panels.
-# Default in-plot text size is 7 pt (tick size); single-column single panels get +2 pt via
+# Default in-plot text size is 7 pt (tick size); only a single 2x2 panel gets +2 pt via
 # pv_save_house(), which also bumps layers that rely on this default.
 HOUSE_TEXT_PT <- 7
 pv_house_geom_defaults <- function(family = house_family(), size_pt = HOUSE_TEXT_PT) {
