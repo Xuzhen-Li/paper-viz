@@ -104,7 +104,9 @@ theme_house <- function(base_size = 7, title_size = base_size + 1,
       panel.grid = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
       plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-      plot.margin = ggplot2::margin(1.6, 0.8, 0.4, 0.4, "mm")
+      # bottom 0.9 mm: PNG devices (ragg, cairo-png) set text a little lower than cairo PDF;
+      # with 0.4 mm the x-title descenders touched the last pixel row of the 600 dpi PNG
+      plot.margin = ggplot2::margin(1.6, 0.8, 0.9, 0.4, "mm")
     ))
   if (legend == "inside") {
     th <- th + ggplot2::theme(

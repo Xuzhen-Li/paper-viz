@@ -15,6 +15,7 @@
 
 - 宽度预设：单栏 **89 mm**（`width = "single"`），双栏 **183 mm**（`width = "double"`）。高度按内容定，常见单行 55–65 mm；单栏单面板默认 76 mm，双栏默认 118 mm。
 - 双栏每行 3 个面板（约 58 mm），单栏每行 2 个；面板间距水平约 3 mm、垂直约 2.5 mm；外边距 ≤1 mm；绘图区 ≥60% 面板面积。
+- `theme_house()` 的 plot.margin 为上 1.6 / 右 0.8 / 下 0.9 / 左 0.4 mm。底边 0.9 mm 是专门留的：ragg 和 cairo-png 排出的文字比 cairo PDF 略低，底边只留 0.4 mm 时，600 dpi PNG 的最后一行像素会切到 x 轴标题的下伸部分（g、y、括号）。`tests/test_theme_house.R` 检查最后一行像素全白。自定义 plot.margin 时，底边不要小于 0.9 mm。
 - 字号不随面板缩小。
 
 ### 字号（印刷最终尺寸）
@@ -52,9 +53,9 @@ Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取�
 | 误差棒 | 0.7 | `pv_house_lw("errorbar")` |
 
 - 点：shape 21（实心圆加描边），描边 `#000000`；≤200 个点不透明。**以定稿 demo A 的 ggplot 值为准**：`HOUSE_POINT`（`size = 2.3, stroke = 0.3`），实际填充直径约 1.9 mm、描边约 0.43 pt、外径约 2.0 mm（`pv_point_dims()` 可算）。STYLE §5 里“1.2–1.4 mm”与它自己给的 ggplot `size = 2.2–2.6` 对不上，这里按 Jason 确认的 demo A 观感取 ggplot 值。Python `house.POINT` / `house.SCATTER` 由同一公式换算，物理尺寸与 R 相同（测试里两边各画一个点比对外径）。
-- **点规格统一**：普通数据点（散点、折线上的点）一律 `shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke`（21 / 2.3 / 0.3），不在图里另写数字。只有下面两种例外，都写在 plot.R 顶部的 `point_size` 参数里：
-  - **点估计**（森林图、dot plot）：`size = 3–3.5`（STYLE §5，直径约 1.8–2.2 mm），示例 `house-forest` 用 3.2。空心点（CI 跨 0）靠描边显示，描边用 0.5，比普通点粗。
-  - **叠在柱或箱体上的原始点**：比普通点小，`shape 21`、`stroke = 0.3`。柱图 `size = 1.6, alpha = 0.8`；雨云/箱线的抖动点 `size = 1.2–1.6, alpha = 0.7`（STYLE §12）。
+- **点规格统一**：普通数据点（散点、折线上的点）一律 `shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke`（21 / 2.3 / 0.3），不在图里另写数字。只有下面两种例外改 size，shape 和 stroke 仍取常量，写法是在 plot.R 顶部 `utils::modifyList(HOUSE_POINT, list(size = …))`：
+  - **点估计**（森林图、dot plot）：`size = 3–3.5`（STYLE §5，直径约 1.8–2.2 mm），示例 `house-forest` 用 `est_point`（3.2）。
+  - **叠在柱或箱体上的原始点**：比普通点小，`shape 21`、`stroke = 0.3`。柱图 `size = 1.6, alpha = 0.8`；雨云/箱线的抖动点 `size = 1.2–1.6, alpha = 0.7`（STYLE §12），示例 `house-raincloud` 用 `raw_point`（1.6）。
 - 小多图的面板框与单面板相同，都是 0.5 pt 黑框。183 mm 的图缩到 1200 px 宽的 preview 时，这条线不到 1.2 px，看起来发灰，但 PDF 里是纯黑。
 - 置信带同色 alpha 0.2；回归 CI 用灰 `#BFBFBF`。
 

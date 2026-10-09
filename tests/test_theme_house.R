@@ -170,5 +170,32 @@ px <- png_px(res3$png); pv <- png_px(file.path(td3, "preview.png"))
 check(abs(px[1] - round(89 / 25.4 * 300)) <= 1 && abs(px[2] - round(60 / 25.4 * 300)) <= 1 && pv[1] == 1200,
       sprintf("no-ragg PNG fallback: figure %dx%d px, preview %d px wide", px[1], px[2], pv[1]))
 
+# Bottom edge: x-axis title descenders (g, y, parentheses) must not touch the last pixel row ---
+# ragg / cairo-png lay text out with slightly different metrics than cairo PDF, so the PNG needs
+# real bottom headroom (theme_house plot.margin bottom). Checked on the ragg and fallback paths.
+if (requireNamespace("png", quietly = TRUE)) {
+  desc_plot <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) + ggplot2::geom_point() +
+    ggplot2::labs(x = "Berry weight (g, log scale)", y = "Yield (kg)") + theme_house()
+  last_row_white <- function(f) {
+    a <- png::readPNG(f)
+    last <- a[dim(a)[1], , 1:3, drop = FALSE]
+    all(last > 0.98)
+  }
+  paths <- list(ragg = requireNamespace("ragg", quietly = TRUE), fallback = TRUE)
+  for (path in names(paths)) {
+    if (!paths[[path]]) { cat("skip bottom-edge check on", path, "(ragg not installed)\n"); next }
+    if (path == "fallback")
+      requireNamespace <- function(package, ...) if (identical(package, "ragg")) FALSE else
+        base::requireNamespace(package, ...)
+    tdb <- tempfile(paste0("bottom-", path)); dir.create(tdb)
+    for (h in c(50, 60, 72)) {
+      rb <- pv_save_house(desc_plot, file.path(tdb, paste0("figure", h)), width = "single",
+                          height_mm = h, preview = FALSE)
+      check(last_row_white(rb$png), sprintf("%s PNG %d mm high: last pixel row is white", path, h))
+    }
+    if (exists("requireNamespace", envir = globalenv(), inherits = FALSE)) rm(requireNamespace)
+  }
+} else cat("skip bottom-edge check (png package not installed)\n")
+
 if (fail) { cat(fail, "check(s) failed\n"); quit(status = 1) }
 cat("all R house-theme checks passed\n")
