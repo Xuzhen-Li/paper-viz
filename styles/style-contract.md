@@ -30,6 +30,9 @@
 
 - **单栏 89 mm 只放 1 个面板时，全部字号 +2 pt**（刻度 9、轴标题 10）。`pv_save_house()` / `save_house()` 在宽 ≤89 mm 且只有一个面板（非 patchwork、无分面 / 只有一个数据轴）时自动加；按当前刻度字号算差值，已经用 `theme_house(base_size = 9)` 的图不会再加一次；`bump = 0` 可关掉。
 - `geom_text()` / `annotate()` 的 size 用 `pv_pt2size(pt)`（7 pt = 2.46，8 pt = 2.81，6 pt = 2.11）。
+- source `theme_house.R` 后 `geom_text` / `geom_label` / ggrepel 的默认字号是 **7 pt**（与刻度同号）；不写 `size` 的文字层在单栏单面板导出时同样自动 +2 pt。
+- **patchwork 组合图不加 +2 pt，即使里面只有一个子图**（`wrap_plots(p)` 也算组合）；单面板请直接把 ggplot 对象交给 `pv_save_house()`，或手动 `theme_house(base_size = 9)`。分面（facet）图同样不加。
+- 示例：`figures/*/house-*/` 下 9 个文件夹（散点、折线、柱、雨云、森林图、热图、密度、环图、小多图）是本风格的参考实现。
 
 ### 字体
 

@@ -1,0 +1,29 @@
+# Simulated data. References are links only (URL + figure number); no text or images copied.
+title: Forest plot of effects (house style)
+title_zh: 效应量森林图（house 风格）
+slug: house-forest
+category: comparison
+tags:
+  - forest
+  - dot-plot
+  - effect-size
+  - confidence-interval
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  season: 分组（此例为年份）
+  locus: 条目名（字符串，y 轴）
+  estimate: 效应估计值
+  se: 标准误
+when_to_use: 多个条目的效应量（± 95% CI）在两个批次或条件下对照时用；CI 跨 0 的点画成空心，数值写在 CI 右侧，N 写在角落。
+customize: plot.R 顶部 ci_mult 调置信区间倍数；n_label 写样本量；dodge 调两组上下错开距离；x_limits 调 x 范围。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+lang: R
+style: house
+references:
+  - id: F14
+    url: https://www.nature.com/articles/s41467-023-41458-5
+    figure: Fig. 2
+  - id: F19
+    url: https://www.nature.com/articles/s41467-026-76799-4
+    figure: Fig. 5

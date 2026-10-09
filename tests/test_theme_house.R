@@ -111,6 +111,20 @@ check(abs(p$layers[[3]]$aes_params$size - pv_pt2size(7)) < 1e-9, "bump leaves th
 check(pv_save_house(p + facet_wrap(~g), file.path(out, "facet"), "single", 60, preview = FALSE)$bump == 0,
       "faceted plot at 89 mm is not bumped")
 
+# default in-plot text size: 7 pt, +2 pt for a single-column single panel ----------------
+check(abs(GeomText$default_aes$size - 7 / .pt) < 1e-9 && abs(GeomLabel$default_aes$size - 7 / .pt) < 1e-9,
+      "geom_text / geom_label default size 7 pt after sourcing theme_house.R")
+pdft <- ggplot(d, aes(x, y)) + geom_text(aes(label = g)) + annotate("text", x = 0, y = 0, label = "n") + theme_house()
+bd <- pv_bump_text(pdft, 2)
+check(all(vapply(bd$layers, function(l) abs(l$aes_params$size - 9 / .pt) < 1e-9, logical(1))),
+      "bump: default-size text layers 7 -> 9 pt")
+check(all(vapply(pdft$layers, function(l) is.null(l$aes_params$size) || abs(l$aes_params$size - 7 / .pt) < 1e-9, logical(1))),
+      "bump leaves default-size layers of the input plot unchanged")
+if (requireNamespace("patchwork", quietly = TRUE)) {
+  check(pv_save_house(patchwork::wrap_plots(pdft), file.path(out, "pw1"), "single", 60, preview = FALSE)$bump == 0,
+        "patchwork with a single subplot is not bumped")
+}
+
 # in-plot text uses the theme font (no device-default NimbusSans etc.) ----------------
 if (has_poppler) {
   fonts_of <- function(f) {
@@ -138,6 +152,23 @@ if (has_poppler) {
 pd <- pv_point_dims()
 check(abs(pd[["outer_mm"]] - 2.04) < 0.02 && abs(pd[["outline_pt"]] - 0.425) < 0.005,
       sprintf("HOUSE_POINT: outer %.2f mm, outline %.3f pt", pd[["outer_mm"]], pd[["outline_pt"]]))
+
+# PNG fallback without ragg (CI has no ragg): pixel size must follow mm and dpi -------
+png_px <- function(f) {
+  con <- file(f, "rb"); on.exit(close(con))
+  h <- readBin(con, "raw", 24)
+  c(sum(as.integer(h[17:20]) * 256^(3:0)), sum(as.integer(h[21:24]) * 256^(3:0)))
+}
+requireNamespace <- function(package, ...) if (identical(package, "ragg")) FALSE else
+  base::requireNamespace(package, ...)
+td3 <- tempfile("noragg"); dir.create(td3)
+res3 <- pv_save_house(ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) + ggplot2::geom_point() +
+                        ggplot2::annotate("text", 3, 30, label = "x") + theme_house(),
+                      file.path(td3, "figure"), width = "single", height_mm = 60, dpi = 300)
+rm(requireNamespace)
+px <- png_px(res3$png); pv <- png_px(file.path(td3, "preview.png"))
+check(abs(px[1] - round(89 / 25.4 * 300)) <= 1 && abs(px[2] - round(60 / 25.4 * 300)) <= 1 && pv[1] == 1200,
+      sprintf("no-ragg PNG fallback: figure %dx%d px, preview %d px wide", px[1], px[2], pv[1]))
 
 if (fail) { cat(fail, "check(s) failed\n"); quit(status = 1) }
 cat("all R house-theme checks passed\n")

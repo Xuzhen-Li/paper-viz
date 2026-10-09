@@ -1,0 +1,28 @@
+# Simulated data. References are links only (URL + figure number); no text or images copied.
+title: Small multiples with in-panel trends (house style)
+title_zh: 小多图与面板内趋势（house 风格）
+slug: house-small-multiples
+category: layout
+tags:
+  - small-multiples
+  - facet
+  - trend
+  - time-series
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  region: 面板分组（字符串）
+  year: 年份（x 轴）
+  anomaly_c: 数值（此例为温度距平 °C）
+when_to_use: 同一指标在多个地区或类别上并排比较时用；共享坐标轴、只在外侧写刻度，每个面板左上写名称和线性趋势 ± s.e.（含显著性星号），显著上升红色、下降蓝色、不显著灰色。
+customize: plot.R 顶部 n_cols 为每行面板数；alpha_sig 为着色的显著性阈值。双栏 183 mm，字号不加 2 pt。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+lang: R
+style: house
+references:
+  - id: F13
+    url: https://doi.org/10.1038/s41560-026-02109-3
+    figure: Fig. 3
+  - id: F28
+    url: https://doi.org/10.1016/j.oneear.2023.09.004
+    figure: Fig. 1

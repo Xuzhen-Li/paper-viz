@@ -13,10 +13,13 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Bump chart](https://xuzhen-li.github.io/paper-viz/#bump-chart): 比较多个对象在若干时间点的名次升降时用。
 - [Cleveland dot plot](https://xuzhen-li.github.io/paper-viz/#cleveland-dot): 多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。
 - [Diverging bar chart](https://xuzhen-li.github.io/paper-viz/#diverging-bar): 一批指标有正有负、需要以 0 为中心比较方向和幅度时用。
+- [Bar chart with points and P values (house style)](https://xuzhen-li.github.io/paper-viz/#house-bar): 几个处理与对照比较均值时用；柱为均值、误差棒为 s.d.，叠加原始点，柱内写均值，括号线标出与对照的 t 检验 P。
+- [Forest plot of effects (house style)](https://xuzhen-li.github.io/paper-viz/#house-forest): 多个条目的效应量（± 95% CI）在两个批次或条件下对照时用；CI 跨 0 的点画成空心，数值写在 CI 右侧，N 写在角落。
 - [Lollipop chart](https://xuzhen-li.github.io/paper-viz/#lollipop): 特征较多、要按大小排序并标出需要强调的条目时用。
 - [Slope chart](https://xuzhen-li.github.io/paper-viz/#slope-chart): 一批指标只有前后两个时间点、要看谁升谁降时用。
 - [Waterfall chart](https://xuzhen-li.github.io/paper-viz/#waterfall): 要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。
 - [Alluvial and Sankey](https://xuzhen-li.github.io/paper-viz/#alluvial): 同一批样本在两三个分类之间怎么分流时用。
+- [Donut chart with direct labels (house style)](https://xuzhen-li.github.io/paper-viz/#house-donut): 一个整体分成 ≤6 份时用；百分比写在环上，类别名用扇区同色写在环外，中心写总量；<3% 的类别合并为 Other。
 - [Mosaic plot](https://xuzhen-li.github.io/paper-viz/#mosaic): 两个分类变量的联合计数要同时看边际和条件比例时用。
 - [Pie and donut](https://xuzhen-li.github.io/paper-viz/#pie): 一个整体拆成少数几份、要强调份额时用。
 - [Stacked area](https://xuzhen-li.github.io/paper-viz/#stacked-area): 若干组分随时间同时变化、要看总量和份额时用。
@@ -31,6 +34,8 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Bubble chart](https://xuzhen-li.github.io/paper-viz/#bubble): 两个连续坐标之外还要用点的面积表示第三个数时用。
 - [Correlation matrix](https://xuzhen-li.github.io/paper-viz/#correlation-matrix): 十几个连续指标要一眼看出谁和谁同向或反向时用。
 - [Hexbin density](https://xuzhen-li.github.io/paper-viz/#hexbin): 散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。
+- [Line chart with CI ribbons (house style)](https://xuzhen-li.github.io/paper-viz/#house-line): 少数几组随时间（或剂量）变化、每个时间点有重复时用；画均值线 + 95% 置信带，线尾直标组名，组间差和 P 写在图内。
+- [Scatter with group fits (house style)](https://xuzhen-li.github.io/paper-viz/#house-scatter): 两个连续变量、分几组看关系时用；每组一条拟合线，R² 与 P 写在图内，组名和重点样品直接标在点旁，不用图例。
 - [Line chart](https://xuzhen-li.github.io/paper-viz/#line-basic): 自变量有顺序、要比较几条带噪声的轨迹时用。
 - [Parallel coordinates](https://xuzhen-li.github.io/paper-viz/#parallel-coordinates): 多个量纲不同的指标要放在一起比较各组轮廓时用。
 - [Scatter with regression](https://xuzhen-li.github.io/paper-viz/#scatter): 两个连续变量要看趋势，并按组别比较斜率时用。
@@ -45,6 +50,8 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Density plot](https://xuzhen-li.github.io/paper-viz/#density): 要在同一坐标上比较几组平滑分布，并标出主峰位置时用。
 - [Empirical CDF](https://xuzhen-li.github.io/paper-viz/#ecdf): 要在同一坐标上比较多组累积分布、看整体偏移或尾部差异时用。
 - [Histogram](https://xuzhen-li.github.io/paper-viz/#histogram): 要看一两个组的取值频数，并对照分布形状时用。
+- [Density curves with group means (house style)](https://xuzhen-li.github.io/paper-viz/#house-density): 2–4 组连续数值比较分布形状时用；半透明填充 + 同色轮廓，均值用同色虚线并在线顶写组名和数值，Kruskal–Wallis P 写在角落。
+- [Raincloud plot (house style)](https://xuzhen-li.github.io/paper-viz/#house-raincloud): 几组连续数值比较分布时用；半小提琴 + 窄箱 + 抖动点，相邻两组的 Wilcoxon P 用括号线写在上方，每组 n 写在底部。
 - [Normal QQ plot](https://xuzhen-li.github.io/paper-viz/#qq-plot): 检查单变量是否近似正态、或看尾部偏离时用。
 - [Raincloud plot](https://xuzhen-li.github.io/paper-viz/#raincloud): 要在同一张图里看原始点、箱线摘要和分布形状时用。
 - [Ridgeline plot](https://xuzhen-li.github.io/paper-viz/#ridgeline): 组数较多、要比较多条分布的位置和重叠时用。
@@ -72,7 +79,9 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [TE composition](https://xuzhen-li.github.io/paper-viz/#te-composition): 比较植物基因组的 TE 类别占比，并看 Gypsy/Copia 等的分歧度（年龄）景观时用。
 - [Dot heatmap](https://xuzhen-li.github.io/paper-viz/#dot-heatmap): 格子要同时编码强度和比例，又不想用色块铺满时用。
 - [Clustered heatmap](https://xuzhen-li.github.io/paper-viz/#heatmap): 基因对样本的矩阵要同时看模块和组别时用。
+- [Annotated diverging heatmap (house style)](https://xuzhen-li.github.io/paper-viz/#house-heatmap): 少量行 × 少量列、正负都有的数值矩阵时用；蓝–红发散色以 0 为中心，每格写数值（深底白字），行按聚类排序。
 - [Composite figure](https://xuzhen-li.github.io/paper-viz/#composite-figure): 一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。Use when a double-column figure should assemble those four panels in one font, palette, and legend.
+- [Small multiples with in-panel trends (house style)](https://xuzhen-li.github.io/paper-viz/#house-small-multiples): 同一指标在多个地区或类别上并排比较时用；共享坐标轴、只在外侧写刻度，每个面板左上写名称和线性趋势 ± s.e.（含显著性星号），显著上升红色、下降蓝色、不显著灰色。
 - [Mantel test plot](https://xuzhen-li.github.io/paper-viz/#mantel-plot): 同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。
 - [Rarefaction curve](https://xuzhen-li.github.io/paper-viz/#rarefaction): 比较各组物种丰富度是否随测序深度趋于饱和时用。
 - [RDA biplot](https://xuzhen-li.github.io/paper-viz/#rda-biplot): 样方群落要同时看生境分组和几个环境因子的方向时用。Use when sites should be ordinated with environmental arrows on the same RDA axes.

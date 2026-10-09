@@ -1,0 +1,31 @@
+# Simulated data. References are links only (URL + figure number); no text or images copied.
+title: Bar chart with points and P values (house style)
+title_zh: 带原始点与 P 值的柱图（house 风格）
+slug: house-bar
+category: comparison
+tags:
+  - bar
+  - mean-sd
+  - t-test
+  - raw-points
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  treatment: 处理（字符串，第一组为对照）
+  replicate: 重复编号（整数）
+  expression: 相对表达量（数值）
+when_to_use: 几个处理与对照比较均值时用；柱为均值、误差棒为 s.d.，叠加原始点，柱内写均值，括号线标出与对照的 t 检验 P。
+customize: plot.R 顶部 control 指定对照组；gene_label 为左上角标题；y_max 为 y 轴上限（括号放不下时自动加高）；wrap_width 控制类别名换行。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+lang: R
+style: house
+references:
+  - id: F12
+    url: https://doi.org/10.1016/j.oneear.2025.101467
+    figure: Fig. 2
+  - id: F9
+    url: https://doi.org/10.1038/s41893-025-01591-z
+    figure: Fig. 3
+  - id: F22
+    url: https://www.nature.com/articles/s41467-024-48966-y
+    figure: Fig. 1a

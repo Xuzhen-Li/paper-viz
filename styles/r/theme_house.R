@@ -166,6 +166,7 @@ pv_bump_text <- function(plot, pt = 2) {
     l <- layers[[i]]
     if (!inherits(l$geom, text_geoms)) next
     s <- l$aes_params$size
+    if (is.null(s) && !("size" %in% names(l$mapping))) s <- HOUSE_TEXT_PT / ggplot2::.pt  # house default
     if (!is.numeric(s)) next
     nl <- rlang::env_clone(l)                # shallow copy, so the input plot is not modified
     class(nl) <- class(l)
@@ -181,11 +182,15 @@ pv_bump_text <- function(plot, pt = 2) {
 # 1. sourcing this file sets the text/label geom defaults (new-figure scripts only; theme_viz.R
 #    alone does not touch them, so legacy figures are unchanged);
 # 2. pv_save_house() sets `family` on every text layer that has none, including patchwork panels.
-pv_house_geom_defaults <- function(family = house_family()) {
-  for (g in c("text", "label")) ggplot2::update_geom_defaults(g, list(family = family))
+# Default in-plot text size is 7 pt (tick size); single-column single panels get +2 pt via
+# pv_save_house(), which also bumps layers that rely on this default.
+HOUSE_TEXT_PT <- 7
+pv_house_geom_defaults <- function(family = house_family(), size_pt = HOUSE_TEXT_PT) {
+  new <- list(family = family, size = size_pt / ggplot2::.pt)
+  for (g in c("text", "label")) ggplot2::update_geom_defaults(g, new)
   if (requireNamespace("ggrepel", quietly = TRUE)) {
     for (g in c(ggrepel::GeomTextRepel, ggrepel::GeomLabelRepel)) {
-      try(ggplot2::update_geom_defaults(g, list(family = family)), silent = TRUE)
+      try(ggplot2::update_geom_defaults(g, new), silent = TRUE)
     }
   }
   invisible(family)
@@ -260,7 +265,11 @@ pv_save_house <- function(plot, file, width = c("double", "single"), height_mm =
   pdf_dev <- if (isTRUE(capabilities("cairo"))) grDevices::cairo_pdf else
     function(filename, ...) grDevices::pdf(filename, ..., useDingbats = FALSE)
   png_dev <- if (requireNamespace("ragg", quietly = TRUE)) ragg::agg_png else
-    function(filename, ...) grDevices::png(filename, ..., type = "cairo")
+    # ggsave only passes units / res to devices that declare them; without them png()
+    # reads width/height as pixels and draws a few-pixel canvas.
+    function(filename, width, height, units = "in", res = 300, ...)
+      grDevices::png(filename, width = width, height = height, units = units, res = res,
+                     type = "cairo", ...)
 
   ggplot2::ggsave(paste0(base, ".pdf"), plot, width = w_in, height = h_in, units = "in",
                   device = pdf_dev, bg = "white")

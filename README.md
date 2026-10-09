@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
-[![Figures](https://img.shields.io/badge/figures-102-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
+[![Figures](https://img.shields.io/badge/figures-111-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
 ![paper-viz banner](docs/banner.png)
 
@@ -22,15 +22,15 @@ One gallery card is one main figure. Near-duplicates set `variant_of` in `meta.y
 
 <!-- CATALOG:START -->
 
-共 102 张。
+共 111 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
-| `distribution` | 分布 | 9 |
-| `comparison` | 比较 | 11 |
-| `correlation` | 相关 | 8 |
-| `composition` | 组成 | 12 |
-| `heatmap` | 热图 | 3 |
+| `distribution` | 分布 | 11 |
+| `comparison` | 比较 | 13 |
+| `correlation` | 相关 | 10 |
+| `composition` | 组成 | 13 |
+| `heatmap` | 热图 | 4 |
 | `dimension-reduction` | 降维 | 6 |
 | `differential-expression` | 差异表达 | 3 |
 | `enrichment` | 富集 | 3 |
@@ -40,41 +40,42 @@ One gallery card is one main figure. Near-duplicates set `variant_of` in `meta.y
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
-| `layout` | 拼图 | 1 |
+| `layout` | 拼图 | 2 |
 
-### 分布 `distribution`（9）
+### 分布 `distribution`（11）
 
 <img src="figures/distribution/beeswarm/preview.png" width="200" alt="蜂群图">
 <img src="figures/distribution/density/preview.png" width="200" alt="密度图">
 <img src="figures/distribution/ecdf/preview.png" width="200" alt="经验累积分布">
 <img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
 
-### 比较 `comparison`（11）
+### 比较 `comparison`（13）
 
 <img src="figures/comparison/bar-grouped/preview.png" width="200" alt="分组柱状图">
 <img src="figures/comparison/bump-chart/preview.png" width="200" alt="凹凸图">
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
 <img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
-### 相关 `correlation`（8）
+### 相关 `correlation`（10）
 
 <img src="figures/correlation/bland-altman/preview.png" width="200" alt="Bland–Altman 图">
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
 
-### 组成 `composition`（12）
+### 组成 `composition`（13）
 
 <img src="figures/composition/alluvial/preview.png" width="200" alt="桑基 / 冲积图">
 <img src="figures/composition/donut/preview.png" width="200" alt="环形图">
+<img src="figures/composition/house-donut/preview.png" width="200" alt="直标环图（house 风格）">
 <img src="figures/composition/mosaic/preview.png" width="200" alt="马赛克图">
-<img src="figures/composition/pie/preview.png" width="200" alt="饼图与环形图">
 
-### 热图 `heatmap`（3）
+### 热图 `heatmap`（4）
 
 <img src="figures/heatmap/circular-heatmap/preview.png" width="200" alt="环状热图">
 <img src="figures/heatmap/dot-heatmap/preview.png" width="200" alt="点状热图">
 <img src="figures/heatmap/heatmap/preview.png" width="200" alt="聚类热图">
+<img src="figures/heatmap/house-heatmap/preview.png" width="200" alt="带数值的发散色热图（house 风格）">
 
 ### 降维 `dimension-reduction`（6）
 
@@ -132,9 +133,10 @@ One gallery card is one main figure. Near-duplicates set `variant_of` in `meta.y
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 <img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 
-### 拼图 `layout`（1）
+### 拼图 `layout`（2）
 
 <img src="figures/layout/composite-figure/preview.png" width="200" alt="四面板拼图">
+<img src="figures/layout/house-small-multiples/preview.png" width="200" alt="小多图与面板内趋势（house 风格）">
 <!-- CATALOG:END -->
 
 ## 快速开始 / Quick start

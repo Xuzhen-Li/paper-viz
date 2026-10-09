@@ -146,7 +146,9 @@ ASSIGN_RE = re.compile(
 DATA_LOAD_RE = re.compile(
     r"(^|[^\w.])((utils|data\.table|readr)::)?(read\.csv|read\.csv2|read\.table|read\.delim|read_csv|fread)\s*\("
 )
-SAVE_FNS = {"pv_save", "save_base"}
+SAVE_FNS = {"pv_save", "save_base", "pv_save_house"}
+# pv_save_house(width = "single" | "double" | mm) presets (styles/r/theme_house.R).
+HOUSE_WIDTH_MM = {"single": "89", "double": "183"}
 # Assignments to these names are the script body, not knobs at the top.
 STOP_LHS = {"df", "d", "dat", "data", "p", "p_plot", "wide", "long", "mat"}
 
@@ -479,11 +481,16 @@ def _numeric_mm(value: str | None) -> bool:
 
 
 def parse_canvas(code: str) -> dict | None:
-    """Last pv_save or save_base call that sets width_mm / height_mm."""
+    """Last pv_save / save_base / pv_save_house call that sets width_mm (or width) / height_mm."""
     calls = _find_calls(code, SAVE_FNS)
     width = height = None
     for args in calls:
         got_w = _named_arg(args, "width_mm")
+        if got_w is None:
+            house_w = _named_arg(args, "width")
+            if house_w is not None:
+                house_w = _unquote(house_w)
+                got_w = HOUSE_WIDTH_MM.get(house_w, house_w)
         got_h = _named_arg(args, "height_mm")
         if got_w is None and got_h is None:
             continue
@@ -735,6 +742,9 @@ pv_save(p, "figure", width_mm = 183, height_mm = 150)
 """
     if [item["name"] for item in parse_parameters(sample_if)] != ["view", "show_annotation"]:
         raise SystemExit("if-block fixture")
+    house = parse_canvas('pv_save_house(p, "figure", width = "single", height_mm = 76)\n')
+    if not house or house["label"] != "89 × 76 mm":
+        raise SystemExit(f"house canvas fixture {house}")
     canvas = parse_canvas(sample_if)
     if not canvas or canvas["label"] != "183 × 150 mm":
         raise SystemExit(f"canvas fixture {canvas}")
