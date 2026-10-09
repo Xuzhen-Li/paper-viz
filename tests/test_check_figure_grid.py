@@ -3,8 +3,9 @@
 Run: python3 -m unittest discover tests
 
 House-grid figures (meta.yaml `cells: WxH`): each side of 1 / 2 / 3 / 4 cells must be
-43 / 89 / 135 / 183 mm; expected px = round(mm / 25.4 * dpi), +-1 px, dpi from the PNG pHYs
-chunk. Figures without `cells` keep the fixed >= 300 px floor.
+43 / 89 / 135 / 183 mm. preview.png is 1200 px wide, so dpi = 1200 / width in; expected
+px = round(mm / 25.4 * dpi), +-1 px. The PNG pHYs dpi must agree to +-1 dpi (grDevices png()
+without ragg stores an integer dpi). Figures without `cells` keep the fixed >= 300 px floor.
 """
 from __future__ import annotations
 
@@ -30,13 +31,17 @@ def _chunk(kind: bytes, data: bytes) -> bytes:
     return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data) & 0xFFFFFFFF)
 
 
-def write_png(path: Path, w: int, h: int, dpi: float | None = None, text_before: bool = False) -> None:
-    """Grey PNG; pHYs (pixels per metre) when dpi is given, like ggsave / savefig write it."""
+def write_png(path: Path, w: int, h: int, dpi: float | None = None, text_before: bool = False,
+              int_dpi: bool = False) -> None:
+    """Grey PNG; pHYs (pixels per metre) when dpi is given, like ggsave / savefig write it.
+
+    int_dpi mimics grDevices png() (cairo, no ragg): dpi rounded to an integer, ppm floored.
+    """
     chunks = [_chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 0, 0, 0, 0))]
     if text_before:
         chunks.append(_chunk(b"tEXt", b"Software\x00" + b"x" * 300))
     if dpi is not None:
-        ppm = round(dpi / 0.0254)
+        ppm = int(round(dpi) / 0.0254) if int_dpi else round(dpi / 0.0254)
         chunks.append(_chunk(b"pHYs", struct.pack(">IIB", ppm, ppm, 1)))
     raw = b"".join(b"\x00" + b"\xff" * w for _ in range(h))
     chunks.append(_chunk(b"IDAT", zlib.compress(raw, 1)))
@@ -136,10 +141,19 @@ class GridCheck(unittest.TestCase):
     def test_phys_after_other_chunks(self) -> None:
         self.assertPass(**self.grid(2, 1, text_before=True))
 
-    def test_600_dpi_figure_size(self) -> None:
-        # same rule at the export dpi: 89 x 43 mm at 600 dpi = 2102 x 1016 px
-        self.assertPass(w=2102, h=1016, cells="2x1", dpi=600)
-        self.assertFail(w=2102, h=1018, cells="2x1", dpi=600, msg="2102 x 1016 px")
+    def test_integer_dpi_from_png_device_passes(self) -> None:
+        # CI renders without ragg: pHYs holds 342 (not 342.47) dpi, pixels are still exact
+        for cw, ch in ((1, 1), (2, 1), (2, 2), (4, 3), (4, 2), (4, 1)):
+            self.assertPass(**self.grid(cw, ch, int_dpi=True))
+
+    def test_width_off_by_two_fails(self) -> None:
+        self.assertFail(**self.grid(2, 1, 2, 0), msg="1200 x 580 px")
+
+    def test_wrong_physical_canvas_fails(self) -> None:
+        # 1200 x 580 px but drawn on an 85 mm canvas: pHYs dpi gives it away
+        g = self.grid(2, 1)
+        g["dpi"] = 1200 / (85 / 25.4)
+        self.assertFail(**g, msg="not 89 x 43 mm")
 
     # --- figures without cells ------------------------------------------------------
     def test_no_cells_tiny_fails(self) -> None:

@@ -3,13 +3,16 @@
 #
 #   sh tools/check_png_grid.sh <preview.png> [meta.yaml]
 #
-# Figures whose meta.yaml has `cells: WxH` (house grid) must match the grid canvas exactly:
-# a side of 1 / 2 / 3 / 4 cells is 43 / 89 / 135 / 183 mm. Expected px = round(mm / 25.4 * dpi)
-# per side, +-1 px. dpi comes from the PNG pHYs chunk (pv_save_house / save_house write the
-# preview at dpi = 1200 px / width in, and record it there); no pHYs -> error.
+# Figures whose meta.yaml has `cells: WxH` (house grid) must match the grid canvas:
+# a side of 1 / 2 / 3 / 4 cells is 43 / 89 / 135 / 183 mm. pv_save_house() / save_house() write
+# preview.png 1200 px wide, i.e. at dpi = 1200 / (width mm / 25.4). Expected px per side =
+# round(mm / 25.4 * dpi), +-1 px. The pHYs chunk must agree with that dpi to +-1 dpi: grDevices
+# png() (no ragg) stores an integer dpi, so pHYs alone is too coarse for a +-1 px check, but it
+# still catches a preview drawn on the wrong physical canvas. No pHYs -> error.
 # Figures without `cells` only need each side >= PV_MIN_PNG_PX (default 300) px.
 # POSIX sh + od + awk only.
 
+PREVIEW_WIDTH_PX=${PV_PREVIEW_WIDTH_PX:-1200}
 MIN_PNG_PX=${PV_MIN_PNG_PX:-300}
 
 # png_label <png>: name used in messages ($REL is set by check_figure.sh).
@@ -37,7 +40,7 @@ png_ihdr() {
 
 # png_dpi <png>: print dpi from the pHYs chunk (unit = metre, x = y), or "none".
 png_dpi() {
-  od -An -tu1 -v "$1" | awk '
+  od -An -tu1 -v "$1" 2>/dev/null | awk '
     BEGIN { n = 0; p = 8; done = 0 }
     {
       for (i = 1; i <= NF; i++) b[n++] = $i + 0
@@ -108,17 +111,20 @@ check_png_grid() {
     echo "$label: cannot read dpi (no usable pHYs chunk); cells figures must be saved with pv_save_house() / save_house()" >&2
     return 1
   fi
-  echo "$cw $ch $dims $dpi" | awk -v label="$label" '
+  echo "$cw $ch $dims $dpi $PREVIEW_WIDTH_PX" | awk -v label="$label" '
     function side(n) { return n == 1 ? 43 : n == 2 ? 89 : n == 3 ? 135 : 183 }
     {
-      cw = $1; ch = $2; w = $3; h = $4; dpi = $5
+      cw = $1; ch = $2; w = $3; h = $4; phys = $5; pw = $6
+      dpi = pw / (side(cw) / 25.4)
       ew = int(side(cw) / 25.4 * dpi + 0.5); eh = int(side(ch) / 25.4 * dpi + 0.5)
-      bad = 0
-      if (w - ew > 1 || ew - w > 1) bad = 1
-      if (h - eh > 1 || eh - h > 1) bad = 1
-      if (bad) {
-        printf "%s: cells %dx%d needs %d x %d mm = %d x %d px at %.2f dpi (+-1 px); got %d x %d px = %.1f x %.1f mm\n",
-          label, cw, ch, side(cw), side(ch), ew, eh, dpi, w, h, w / dpi * 25.4, h / dpi * 25.4 > "/dev/stderr"
+      if (w - ew > 1 || ew - w > 1 || h - eh > 1 || eh - h > 1) {
+        printf "%s: cells %dx%d needs %d x %d mm = %d x %d px (preview %d px wide, %.2f dpi; +-1 px); got %d x %d px = %.1f x %.1f mm\n",
+          label, cw, ch, side(cw), side(ch), ew, eh, pw, dpi, w, h, w / dpi * 25.4, h / dpi * 25.4 > "/dev/stderr"
+        exit 1
+      }
+      if (phys - dpi > 1.05 || dpi - phys > 1.05) {
+        printf "%s: cells %dx%d: PNG pHYs says %.2f dpi, so the %d px canvas is %.1f x %.1f mm, not %d x %d mm (want %.2f dpi +-1)\n",
+          label, cw, ch, phys, w, w / phys * 25.4, h / phys * 25.4, side(cw), side(ch), dpi > "/dev/stderr"
         exit 1
       }
     }'
