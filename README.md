@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
-[![Figures](https://img.shields.io/badge/figures-111-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
+[![Figures](https://img.shields.io/badge/figures-112-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
 [![九张 house style 示例：分组散点与回归、带置信带的折线图、带原始点与 P 值的柱图、雨云图、分组密度曲线与均值、效应量森林图、带数值的发散色热图、直标环图、小多图与面板内趋势。Nine house-style examples: scatter, line, bar, raincloud, density, forest, heatmap, donut, small multiples](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
 
@@ -49,7 +49,7 @@ Agents can search and reuse the templates too. New figures default to the house 
 
 <!-- CATALOG:START -->
 
-共 111 张。
+共 112 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
@@ -67,7 +67,7 @@ Agents can search and reuse the templates too. New figures default to the house 
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
-| `layout` | 拼图 | 2 |
+| `layout` | 拼图 | 3 |
 
 ### 分布 `distribution`（11）
 
@@ -160,9 +160,10 @@ Agents can search and reuse the templates too. New figures default to the house 
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 <img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 
-### 拼图 `layout`（2）
+### 拼图 `layout`（3）
 
 <img src="figures/layout/composite-figure/preview.png" width="200" alt="四面板拼图">
+<img src="figures/layout/house-grid-mosaic/preview.png" width="200" alt="网格拼版：多种图型拼成一张双栏图（house 风格）">
 <img src="figures/layout/house-small-multiples/preview.png" width="200" alt="小多图与面板内趋势（house 风格）">
 <!-- CATALOG:END -->
 
