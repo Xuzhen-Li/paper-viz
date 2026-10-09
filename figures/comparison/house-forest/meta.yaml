@@ -4,13 +4,13 @@ title_zh: 效应量森林图（house 风格）
 slug: house-forest
 category: comparison
 tags:
-- forest
-- dot-plot
-- effect-size
-- confidence-interval
-- house-style
+  - forest
+  - dot-plot
+  - effect-size
+  - confidence-interval
+  - house-style
 packages:
-- ggplot2
+  - ggplot2
 data_columns:
   season: 分组（此例为年份）
   locus: 条目名（字符串，y 轴）
@@ -21,9 +21,9 @@ customize: plot.R 顶部 ci_mult 调置信区间倍数；n_label 写样本量；
 lang: R
 style: house
 references:
-- id: F14
-  url: https://www.nature.com/articles/s41467-023-41458-5
-  figure: Fig. 2
-- id: F19
-  url: https://www.nature.com/articles/s41467-026-76799-4
-  figure: Fig. 5
+  - id: F14
+    url: https://www.nature.com/articles/s41467-023-41458-5
+    figure: Fig. 2
+  - id: F19
+    url: https://www.nature.com/articles/s41467-026-76799-4
+    figure: Fig. 5

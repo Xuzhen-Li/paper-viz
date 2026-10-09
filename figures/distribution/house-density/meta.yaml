@@ -4,12 +4,12 @@ title_zh: 分组密度曲线与均值（house 风格）
 slug: house-density
 category: distribution
 tags:
-- density
-- distribution
-- kruskal-wallis
-- house-style
+  - density
+  - distribution
+  - kruskal-wallis
+  - house-style
 packages:
-- ggplot2
+  - ggplot2
 data_columns:
   group: 分组（字符串，≤4 组）
   days: 数值（此例为开花到转色天数）
@@ -18,9 +18,9 @@ customize: plot.R 顶部 group_order 定组序与配色；bw_adjust 调平滑度
 lang: R
 style: house
 references:
-- id: F10
-  url: https://doi.org/10.1073/pnas.2404155121
-  figure: Fig. 3
-- id: F13
-  url: https://doi.org/10.1038/s41560-026-02109-3
-  figure: Fig. 3
+  - id: F10
+    url: https://doi.org/10.1073/pnas.2404155121
+    figure: Fig. 3
+  - id: F13
+    url: https://doi.org/10.1038/s41560-026-02109-3
+    figure: Fig. 3

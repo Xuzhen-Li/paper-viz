@@ -4,13 +4,13 @@ title_zh: 分组散点与回归（house 风格）
 slug: house-scatter
 category: correlation
 tags:
-- scatter
-- regression
-- direct-labels
-- house-style
+  - scatter
+  - regression
+  - direct-labels
+  - house-style
 packages:
-- ggplot2
-- ggrepel
+  - ggplot2
+  - ggrepel
 data_columns:
   group: 分组（字符串，3 组）
   name: 样品名（字符串，用于点标签）
@@ -21,27 +21,27 @@ customize: plot.R 顶部 label_names 选要标名的点（≤30 个）；group_o
 lang: R
 style: house
 references:
-- id: F1
-  url: https://doi.org/10.1016/j.oneear.2024.01.008
-  figure: Fig. 1
-- id: F2
-  url: https://doi.org/10.1126/sciadv.abn0250
-  figure: Fig. 3
-- id: F3
-  url: https://doi.org/10.1038/s41560-024-01652-1
-  figure: Fig. 1
-- id: F4
-  url: https://doi.org/10.1016/j.joule.2023.12.015
-  figure: Fig. 3
-- id: F15
-  url: https://www.nature.com/articles/s41467-024-47383-5
-  figure: Fig. 1
-- id: F18
-  url: https://www.nature.com/articles/s41467-026-75879-9
-  figure: Fig. 5
-- id: F20
-  url: https://r-graph-gallery.com/scatterplot.html
-  figure: gallery page
-- id: F21
-  url: https://www.nature.com/articles/s41467-024-45286-z
-  figure: Fig. 5c
+  - id: F1
+    url: https://doi.org/10.1016/j.oneear.2024.01.008
+    figure: Fig. 1
+  - id: F2
+    url: https://doi.org/10.1126/sciadv.abn0250
+    figure: Fig. 3
+  - id: F3
+    url: https://doi.org/10.1038/s41560-024-01652-1
+    figure: Fig. 1
+  - id: F4
+    url: https://doi.org/10.1016/j.joule.2023.12.015
+    figure: Fig. 3
+  - id: F15
+    url: https://www.nature.com/articles/s41467-024-47383-5
+    figure: Fig. 1
+  - id: F18
+    url: https://www.nature.com/articles/s41467-026-75879-9
+    figure: Fig. 5
+  - id: F20
+    url: https://r-graph-gallery.com/scatterplot.html
+    figure: gallery page
+  - id: F21
+    url: https://www.nature.com/articles/s41467-024-45286-z
+    figure: Fig. 5c

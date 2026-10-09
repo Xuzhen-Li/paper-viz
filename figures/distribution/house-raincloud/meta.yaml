@@ -4,13 +4,13 @@ title_zh: 雨云图（house 风格）
 slug: house-raincloud
 category: distribution
 tags:
-- raincloud
-- violin
-- boxplot
-- wilcoxon
-- house-style
+  - raincloud
+  - violin
+  - boxplot
+  - wilcoxon
+  - house-style
 packages:
-- ggplot2
+  - ggplot2
 data_columns:
   group: 分组（字符串）
   heterozygosity_pct: 每个样品的数值（此例为杂合度 %）
@@ -19,12 +19,12 @@ customize: plot.R 顶部 group_order 定组序与配色；violin_width 调半小
 lang: R
 style: house
 references:
-- id: F9
-  url: https://doi.org/10.1038/s41893-025-01591-z
-  figure: Fig. 3
-- id: F17
-  url: https://www.nature.com/articles/s41467-026-73872-w
-  figure: Fig. 6
-- id: F24
-  url: https://www.nature.com/articles/s41467-025-67428-7
-  figure: Fig. 5a
+  - id: F9
+    url: https://doi.org/10.1038/s41893-025-01591-z
+    figure: Fig. 3
+  - id: F17
+    url: https://www.nature.com/articles/s41467-026-73872-w
+    figure: Fig. 6
+  - id: F24
+    url: https://www.nature.com/articles/s41467-025-67428-7
+    figure: Fig. 5a

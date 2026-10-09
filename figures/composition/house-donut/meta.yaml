@@ -4,12 +4,12 @@ title_zh: 直标环图（house 风格）
 slug: house-donut
 category: composition
 tags:
-- donut
-- proportion
-- composition
-- house-style
+  - donut
+  - proportion
+  - composition
+  - house-style
 packages:
-- ggplot2
+  - ggplot2
 data_columns:
   cover: 类别名（字符串）
   area_km2: 类别量（正数，图中换算成占比）
@@ -18,12 +18,12 @@ customize: plot.R 顶部 inner_r 为内径比例（0.5–0.6）；min_share 为�
 lang: R
 style: house
 references:
-- id: F11
-  url: https://openbiox.github.io/Bizard/zh/Composition/PartPieChart.html
-  figure: gallery page
-- id: F12
-  url: https://doi.org/10.1016/j.oneear.2025.101467
-  figure: Fig. 2
-- id: F25
-  url: https://openbiox.github.io/Bizard/zh/Composition/Donut.html
-  figure: gallery page
+  - id: F11
+    url: https://openbiox.github.io/Bizard/zh/Composition/PartPieChart.html
+    figure: gallery page
+  - id: F12
+    url: https://doi.org/10.1016/j.oneear.2025.101467
+    figure: Fig. 2
+  - id: F25
+    url: https://openbiox.github.io/Bizard/zh/Composition/Donut.html
+    figure: gallery page

@@ -4,13 +4,13 @@ title_zh: 带原始点与 P 值的柱图（house 风格）
 slug: house-bar
 category: comparison
 tags:
-- bar
-- mean-sd
-- t-test
-- raw-points
-- house-style
+  - bar
+  - mean-sd
+  - t-test
+  - raw-points
+  - house-style
 packages:
-- ggplot2
+  - ggplot2
 data_columns:
   treatment: 处理（字符串，第一组为对照）
   replicate: 重复编号（整数）
@@ -20,12 +20,12 @@ customize: plot.R 顶部 control 指定对照组；gene_label 为左上角标题
 lang: R
 style: house
 references:
-- id: F12
-  url: https://doi.org/10.1016/j.oneear.2025.101467
-  figure: Fig. 2
-- id: F9
-  url: https://doi.org/10.1038/s41893-025-01591-z
-  figure: Fig. 3
-- id: F22
-  url: https://www.nature.com/articles/s41467-024-48966-y
-  figure: Fig. 1a
+  - id: F12
+    url: https://doi.org/10.1016/j.oneear.2025.101467
+    figure: Fig. 2
+  - id: F9
+    url: https://doi.org/10.1038/s41893-025-01591-z
+    figure: Fig. 3
+  - id: F22
+    url: https://www.nature.com/articles/s41467-024-48966-y
+    figure: Fig. 1a

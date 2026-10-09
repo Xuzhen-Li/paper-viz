@@ -4,13 +4,13 @@ title_zh: 小多图与面板内趋势（house 风格）
 slug: house-small-multiples
 category: layout
 tags:
-- small-multiples
-- facet
-- trend
-- time-series
-- house-style
+  - small-multiples
+  - facet
+  - trend
+  - time-series
+  - house-style
 packages:
-- ggplot2
+  - ggplot2
 data_columns:
   region: 面板分组（字符串）
   year: 年份（x 轴）
@@ -20,9 +20,9 @@ customize: plot.R 顶部 n_cols 为每行面板数；alpha_sig 为着色的显�
 lang: R
 style: house
 references:
-- id: F13
-  url: https://doi.org/10.1038/s41560-026-02109-3
-  figure: Fig. 3
-- id: F28
-  url: https://doi.org/10.1016/j.oneear.2023.09.004
-  figure: Fig. 1
+  - id: F13
+    url: https://doi.org/10.1038/s41560-026-02109-3
+    figure: Fig. 3
+  - id: F28
+    url: https://doi.org/10.1016/j.oneear.2023.09.004
+    figure: Fig. 1
