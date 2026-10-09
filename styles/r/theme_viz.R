@@ -56,24 +56,56 @@ save_pub <- function(plot, filename, width_mm = 183, height_mm = 120, dpi = 600)
   ggplot2::ggsave(paste0(filename, ".png"), plot, width = w, height = h, dpi = dpi)
 }
 
-# Palettes. name: categorical | sequential | diverging.
+# Palettes. name: categorical | sequential | diverging (legacy, unchanged)
+#                | house | house_div | ssp | house_warm | house_grey (house style, styles/r/theme_house.R).
 # categorical = chip-paper fixed order; sequential = single-hue blue; diverging = blue–orange.
 # Control / background point clouds (not a data category): #E0E0E0.
+# house = 9 categorical colours from FINAL STYLE.md §4 (use <= 6 coloured series per figure);
+# house_div = blue–red diverging (centre #F7F7F7); ssp = named scenario colours;
+# house_warm = warm sequential; house_grey = neutral greys (text, reference lines, CI bands).
 pv_palette <- function(name = "categorical", n = NULL) {
-  name <- match.arg(name, c("categorical", "sequential", "diverging"))
+  name <- match.arg(name, c(
+    "categorical", "sequential", "diverging",
+    "house", "house_div", "ssp", "house_warm", "house_grey"
+  ))
   stops <- switch(name,
     categorical = c(
       "#134aa3", "#f6a3b1", "#0b5475", "#dc1f26",
       "#835ca6", "#f7922c", "#fbee61", "#981b1e"
     ),
     sequential = c("#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B"),
-    diverging = c("#2166AC", "#67A9CF", "#D1E5F0", "#F7F7F7", "#FEE0B6", "#FDB863", "#E08214")
+    diverging = c("#2166AC", "#67A9CF", "#D1E5F0", "#F7F7F7", "#FEE0B6", "#FDB863", "#E08214"),
+    house = c(
+      blue = "#1F72AE", orange = "#F77E12", green = "#119B76", red = "#CC312C",
+      purple = "#595594", sky = "#62B4E7", gold = "#E6C32A", magenta = "#A8127F",
+      brown = "#8A4C38"
+    ),
+    house_div = c(
+      "#1D7CBB", "#4A82B0", "#8EBDDA", "#DEE4F0", "#F7F7F7",
+      "#F6DEDE", "#E19193", "#C4454B", "#CB2223"
+    ),
+    ssp = c(
+      "Historical" = "#000000", "SSP1-2.6" = "#3A9CFE", "SSP2-4.5" = "#F79423",
+      "SSP3-7.0" = "#FD3B3B", "SSP5-8.5" = "#9C2125"
+    ),
+    house_warm = c("#FBD6A0", "#F5BA7A", "#F38F64", "#CC635F", "#965459"),
+    house_grey = c(
+      text = "#000000", dark = "#333333", mid = "#6B6B6B", ref = "#757575",
+      ci = "#BFBFBF", light = "#E0E0E0", bg = "#F0F0F0"
+    )
   )
   if (is.null(n)) return(stops)
   n <- as.integer(n)
   if (n < 1) stop("n must be >= 1")
   if (name == "categorical" && n <= length(stops)) return(stops[seq_len(n)])
-  grDevices::colorRampPalette(stops)(n)
+  if (name %in% c("house", "ssp", "house_grey")) {
+    if (n > length(stops)) {
+      stop(sprintf("pv_palette(\"%s\") has %d colours; n = %d is too many (grey out the rest)",
+                   name, length(stops), n))
+    }
+    return(stops[seq_len(n)])
+  }
+  grDevices::colorRampPalette(unname(stops))(n)
 }
 
 # Write <file>.pdf and 600 dpi <file>.png, plus preview.png (1200 px wide)
