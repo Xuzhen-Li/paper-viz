@@ -161,6 +161,23 @@ class PythonHouseTheme(unittest.TestCase):
         fig.add_subplot().plot([0, 1])
         self.assertEqual(h.save_house(fig, self.tmp / "ongrid" / "figure", preview=False)["cells"], (2, 1))
 
+    def test_non_finite_raises_value_error(self):
+        # R stop() -> ValueError; never OverflowError / a raw float() message
+        h = self.house
+        nan, inf = float("nan"), float("inf")
+        for bad in ((nan, 1), (inf, 1), (1, -inf), (None, 1), ("a", 1)):
+            with self.assertRaisesRegex(ValueError, "off the house grid", msg=repr(bad)):
+                h.house_cells(bad)
+        for kw in ({"width": nan}, {"width": inf}, {"width": "single", "height_mm": nan},
+                   {"width": "single", "height_mm": -inf}):
+            with self.assertRaisesRegex(ValueError, "not a finite size in mm", msg=repr(kw)):
+                h.house_figure(**kw)
+        import matplotlib.pyplot as plt
+
+        fig = plt.figure()
+        with self.assertRaises(ValueError):
+            h.save_house(fig, self.tmp / "nf" / "figure", cells=(inf, 1), preview=False)
+
     def test_single_column_single_panel(self):
         fig, (ax,) = self._plot((2, 2))
         res = self.house.save_house(fig, self.tmp / "single" / "figure")

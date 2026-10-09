@@ -106,6 +106,15 @@ errs <- function(expr) inherits(try(expr, silent = TRUE), "try-error")
 check(errs(pv_house_cells(c(5, 1))) && errs(pv_house_cells(c(0, 1))) && errs(pv_house_cells(c(1.5, 1))) &&
         errs(pv_house_cells("2x")) && errs(pv_house_cells(c(1, 2, 3))) && errs(pv_house_cells("5x1")),
       "off-grid cells error (5, 0, 1.5, \"2x\", length 3, \"5x1\")")
+err_msg <- function(expr) tryCatch({ expr; "" }, error = function(e) conditionMessage(e))
+check(all(vapply(list(c(NaN, 1), c(Inf, 1), c(1, -Inf), c(NA, 1)), function(v)
+        grepl("off the house grid", err_msg(pv_house_cells(v))), logical(1))),
+      "non-finite cells (NaN, Inf, -Inf, NA) error with the grid message")
+check(all(vapply(list(NaN, Inf, -Inf, NA_real_), function(v)
+        grepl("not a finite size in mm", err_msg(.pv_mm_to_cells(v, "width"))), logical(1))) &&
+        grepl("not a finite size", err_msg(pv_save_house(p, file.path(out, "bad"), "single", NaN, preview = FALSE))) &&
+        grepl("not a finite size", err_msg(pv_save_house(p, file.path(out, "bad"), Inf, 43, preview = FALSE))),
+      "non-finite width / height_mm error: not a finite size (no 'nearest grid size')")
 check(errs(pv_save_house(p, file.path(out, "bad"), "single", 76, preview = FALSE)) &&
         errs(pv_save_house(p, file.path(out, "bad"), 120, 43, preview = FALSE)) &&
         errs(pv_save_house(p, file.path(out, "bad"), width = 181, height_mm = 43, preview = FALSE)) &&

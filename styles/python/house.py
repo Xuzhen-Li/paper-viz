@@ -22,6 +22,7 @@ Old interfaces (``style.apply_style``, ``style.PALETTES["categorical"]`` chip ei
 
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 
@@ -237,15 +238,29 @@ def house_cells(cells) -> tuple[int, int]:
         cells = (int(m.group(1)), int(m.group(2)))
     try:
         vals = [float(c) for c in cells]
-    except TypeError:
+    except (TypeError, ValueError):  # not numbers -> same grid error as R's stop()
         vals = []
-    if len(vals) != 2 or any(v != int(v) or not 1 <= v <= MAX_CELLS for v in vals):
+    # isfinite first: int(nan) / int(inf) would raise ValueError / OverflowError with a raw message
+    if (
+        len(vals) != 2
+        or not all(math.isfinite(v) for v in vals)
+        or any(v != int(v) or not 1 <= v <= MAX_CELLS for v in vals)
+    ):
         raise ValueError(f"cells = {cells!r} is off the house grid: width and height must each be 1-{MAX_CELLS} whole cells")
     return int(vals[0]), int(vals[1])
 
 
 def _mm_to_cells(mm: float, what: str) -> int:
     allowed = [grid_canvas(n) for n in range(1, MAX_CELLS + 1)]
+    try:
+        mm = float(mm)
+    except (TypeError, ValueError):
+        mm = math.nan
+    if not math.isfinite(mm):
+        raise ValueError(
+            f"{what} = {mm!r} is not a finite size in mm (allowed canvas: {', '.join(f'{a:g}' for a in allowed)} mm). "
+            "Use cells=(w, h)."
+        )
     for n, a in enumerate(allowed, start=1):
         if abs(a - mm) < 1e-6:
             return n

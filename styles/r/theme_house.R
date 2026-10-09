@@ -286,6 +286,10 @@ pv_house_cells <- function(cells) {
 # mm of one canvas side -> cells; errors unless it is a grid canvas (43, 89, 135, 183).
 .pv_mm_to_cells <- function(mm, what) {
   ok <- pv_grid_canvas(seq_len(HOUSE_MAX_CELLS))
+  if (length(mm) != 1 || !is.finite(mm)) {   # NA / NaN / Inf / non-numeric: say so, no "nearest" size
+    stop(sprintf("%s = %s is not a finite size in mm (allowed canvas: %s mm). Use cells = c(w, h).",
+                 what, paste(deparse(mm), collapse = ""), paste(ok, collapse = ", ")), call. = FALSE)
+  }
   hit <- which(abs(ok - mm) < 1e-6)
   if (!length(hit)) {
     near <- ok[which.min(abs(ok - mm))]
