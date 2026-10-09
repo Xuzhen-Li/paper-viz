@@ -14,7 +14,7 @@ df$group <- factor(df$group, levels = group_order)
 
 stat_lab <- vapply(group_order, function(g) {
   s <- summary(stats::lm(anthocyanin_mg_g ~ log10(berry_weight_g), data = df[df$group == g, ]))
-  sprintf("italic(R)*'\u00b2 = %.2f, '*%s", s$r.squared, pv_fmt_p(stats::coef(s)[2, 4]))
+  sprintf("italic(R)*'\u00b2 = %.2f, '*%s", s$r.squared, pv_fmt_p(stats::coef(s)[2, 4], exact = TRUE))  # 2x2 bumped: exponent 0.7 x 9 pt = 6.3 pt
 }, character(1))
 stats_df <- data.frame(group = factor(group_order, levels = group_order), x = 13.5,
                        y = c(13.6, 12.5, 11.4), lab = stat_lab)
