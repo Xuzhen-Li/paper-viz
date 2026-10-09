@@ -35,6 +35,8 @@
 
 Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取第一个）；中文用思源黑体 / Noto Sans CJK SC。全图一种字体，数学符号用同字体斜体（Python 的 mathtext 也设为同一无衬线字体）。
 
+- R 图内文字（`geom_text` / `annotate` / `geom_label` / ggrepel）也用主题字体：source `theme_house.R` 时设好这些 geom 的默认 `family`，`pv_save_house()` 导出前再给没写 `family` 的文字图层（含 patchwork 子图）补上，PDF 里不会混入 NimbusSans 等设备默认字体。只 source `theme_viz.R` 的旧图不受影响。
+
 ### 线与点
 
 | 元素 | pt | R |
@@ -46,7 +48,7 @@ Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取�
 | 参考线（虚线） | 0.5 | `pv_house_lw("ref")` |
 | 误差棒 | 0.7 | `pv_house_lw("errorbar")` |
 
-- 点：shape 21（实心圆加描边），`size = 2.2–2.6, stroke = 0.3`，描边 `#000000`；≤200 个点不透明。Python 用 `house.SCATTER` / `house.POINT`。
+- 点：shape 21（实心圆加描边），描边 `#000000`；≤200 个点不透明。**以定稿 demo A 的 ggplot 值为准**：`HOUSE_POINT`（`size = 2.3, stroke = 0.3`），实际填充直径约 1.9 mm、描边约 0.43 pt、外径约 2.0 mm（`pv_point_dims()` 可算）。STYLE §5 里“1.2–1.4 mm”与它自己给的 ggplot `size = 2.2–2.6` 对不上，这里按 Jason 确认的 demo A 观感取 ggplot 值。Python `house.POINT` / `house.SCATTER` 由同一公式换算，物理尺寸与 R 相同（测试里两边各画一个点比对外径）。
 - 置信带同色 alpha 0.2；回归 CI 用灰 `#BFBFBF`。
 
 ### 坐标轴与图例

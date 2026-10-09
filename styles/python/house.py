@@ -45,9 +45,23 @@ LW_PT = {
     "ref": 0.5,
     "errorbar": 0.7,
 }
-# Points: filled circle with a thin dark outline; ~1.3 mm diameter (STYLE §5).
-POINT = {"marker": "o", "markersize": 1.3 * PT_PER_MM, "markeredgewidth": 0.3, "markeredgecolor": "#000000"}
-SCATTER = {"s": (1.3 * PT_PER_MM) ** 2, "linewidths": 0.3, "edgecolors": "#000000"}
+# Points (STYLE §5): same physical size as R HOUSE_POINT (ggplot shape 21, size 2.3, stroke 0.3,
+# the locked demo A). ggplot draws the circle path with diameter 0.75 * (size * .pt + stroke * .stroke / 2)
+# pt and an outline of stroke * .stroke / 2 lwd (1 lwd = 0.75 pt). That gives a 1.88 mm path,
+# a 0.43 pt outline and a 2.04 mm outer diameter; matplotlib markersize is the path diameter in pt.
+_GG_PT = 72.27 / 25.4
+_GG_STROKE = 96 / 25.4
+
+
+def ggplot_point_pt(size: float = 2.3, stroke: float = 0.3) -> tuple[float, float]:
+    """(path diameter, outline width) in pt of a ggplot2 shape-21 point."""
+    stroke_lwd = stroke * _GG_STROKE / 2
+    return 0.75 * (size * _GG_PT + stroke_lwd), stroke_lwd * 0.75
+
+
+_POINT_D_PT, _POINT_EDGE_PT = ggplot_point_pt(2.3, 0.3)
+POINT = {"marker": "o", "markersize": _POINT_D_PT, "markeredgewidth": _POINT_EDGE_PT, "markeredgecolor": "#000000"}
+SCATTER = {"s": _POINT_D_PT**2, "linewidths": _POINT_EDGE_PT, "edgecolors": "#000000"}
 
 HOUSE_PALETTES: dict[str, list[str] | dict[str, str]] = {
     "house": ["#1F72AE", "#F77E12", "#119B76", "#CC312C", "#595594", "#62B4E7", "#E6C32A", "#A8127F", "#8A4C38"],
@@ -294,6 +308,7 @@ __all__ = [
     "house_cmap",
     "house_figure",
     "house_rc",
+    "ggplot_point_pt",
     "pv_palette",
     "save_house",
 ]

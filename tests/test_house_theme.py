@@ -133,6 +133,44 @@ class PythonHouseTheme(unittest.TestCase):
         self.assertEqual(axes[0].xaxis.label.get_fontsize(), 8)
         self._check_export(res, 183, 60)
 
+    def test_point_size_matches_r(self):
+        h = self.house
+        d_pt, edge_pt = h.ggplot_point_pt(2.3, 0.3)
+        self.assertAlmostEqual(h.POINT["markersize"], d_pt)
+        self.assertAlmostEqual(h.SCATTER["s"], d_pt**2)
+        self.assertAlmostEqual((d_pt + edge_pt) / 72 * 25.4, 2.04, delta=0.02)
+        if not shutil.which("Rscript"):
+            self.skipTest("Rscript not installed")
+        # Render one point in each language at 2540 dpi (100 px/mm) and compare outer diameters.
+        import matplotlib.pyplot as plt
+        import numpy as np
+        from PIL import Image
+
+        r_png = self.tmp / "point_r.png"
+        code = (
+            "suppressMessages(source('styles/r/theme_house.R')); library(ggplot2);"
+            "p <- ggplot(data.frame(x = 0, y = 0), aes(x, y)) +"
+            " geom_point(shape = 21, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke, fill = 'red') + theme_void();"
+            f"ggsave('{r_png}', p, width = 20, height = 20, units = 'mm', dpi = 2540, bg = 'white')"
+        )
+        out = subprocess.run(["Rscript", "-e", code], cwd=ROOT, capture_output=True, text=True)
+        if out.returncode != 0:
+            self.skipTest("R point render failed: " + out.stderr[-300:])
+        py_png = self.tmp / "point_py.png"
+        fig = plt.figure(figsize=(20 / 25.4, 20 / 25.4))
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.axis("off")
+        ax.scatter([0], [0], c="red", **h.SCATTER)
+        fig.savefig(py_png, dpi=2540, facecolor="white", bbox_inches=None)
+        plt.close(fig)
+
+        def width_mm(path):
+            a = np.asarray(Image.open(path).convert("L")) < 250
+            xs = np.where(a.any(axis=0))[0]
+            return (xs.max() - xs.min() + 1) / 100
+
+        self.assertAlmostEqual(width_mm(r_png), width_mm(py_png), delta=0.05)
+
     def test_single_column_two_panels_not_bumped(self):
         fig, _ = self._plot("single", 50, ncols=2)
         self.assertEqual(self.house.save_house(fig, self.tmp / "two" / "figure", preview=False)["bump"], 0)
