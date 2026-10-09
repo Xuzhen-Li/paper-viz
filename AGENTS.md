@@ -28,10 +28,10 @@ You can also filter `catalog.json` → `figures`. Fields that matter: `slug`, `t
 
 1. Copy the whole folder `figures/<category>/<slug>/`.
 2. Replace `data.csv`. Keep the column names in `data_columns`. Replace rows only.
-3. Edit the assignments at the top of `plot.R` (cuts, labels, switches). Keep `theme_viz()`, `pv_palette()`, and `pv_save()`.
+3. Edit the assignments at the top of `plot.R` (cuts, labels, switches). Keep the folder's theme, palette, and save calls (`theme_house()` / `pv_save_house()` in house-style folders, `theme_viz()` / `pv_save()` in older ones).
 4. In that directory, run `Rscript plot.R`.
 
-`pv_save` writes a PDF, a 600 dpi PNG, and `preview.png`. The script sources `../../../styles/r/theme_viz.R`. If you move the folder, copy `styles/r/theme_viz.R` with it and fix `source()`.
+`pv_save` and `pv_save_house` write a PDF, a 600 dpi PNG, and `preview.png`. The script sources `../../../styles/r/theme_viz.R` or `../../../styles/r/theme_house.R`. If you move the folder, copy `styles/r/` with it (`theme_house.R` needs `theme_viz.R` next to it) and fix `source()`.
 
 `lang: Python` uses `python3 plot.py` and the same columns.
 
@@ -41,23 +41,33 @@ A main figure with `variants` has near-duplicate folders. Copy the slug you will
 
 ## Style
 
-Use `theme_viz` and `pv_save` from `styles/r/theme_viz.R`. Category colours are `pv_palette("categorical")`, in order:
+**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure()`, `save_house()`).
 
-`#134aa3` `#f6a3b1` `#0b5475` `#dc1f26` `#835ca6` `#f7922c` `#fbee61` `#981b1e`
+- Canvas: 89 mm single column (`width = "single"`) or 183 mm double column (`width = "double"`).
+- Text: 7 pt ticks, 8 pt plain (not bold) axis titles, 10 pt bold lowercase panel tags (`patchwork::plot_annotation(tag_levels = "a")`), nothing under 6 pt. A single-column single panel gets +2 pt (9/10 pt); `pv_save_house()` adds it automatically.
+- Four-sided 0.5 pt frame, ticks outward 1 mm, no grid. Main lines 1.5 pt (`pv_house_lw("main")`), points `shape = 21, stroke = 0.3`.
+- Label series directly in the panel in the series colour; no legend by default (`theme_house(legend = "inside")` when one is unavoidable).
+- Category colours: `pv_palette("house")`, in order, at most 6 coloured series:
 
-Control or background points use `#E0E0E0`. The legend stays inside the panel, without a box. A normal single panel is 85×60 mm with `theme_viz(base_size = 7)`. A square single panel (QQ, ROC, hexbin) is 85×85 mm with the same `base_size`. Leave circular plots, heatmaps, Manhattan plots, circos, and multi-panel figures at their existing size. Details: `styles/style-contract.md`.
+`#1F72AE` `#F77E12` `#119B76` `#CC312C` `#595594` `#62B4E7` `#E6C32A` `#A8127F` `#8A4C38`
+
+  Diverging `pv_palette("house_div")`, scenarios `pv_palette("ssp")`, warm sequential `pv_palette("house_warm")`, greys `pv_palette("house_grey")`.
+- Export with `pv_save_house()`: cairo PDF (text stays text) + 600 dpi PNG + `preview.png`.
+
+Existing figures keep the legacy style and are not re-rendered: `theme_viz()`, `pv_save()`, and `pv_palette("categorical")` (chip order `#134aa3` `#f6a3b1` `#0b5475` `#dc1f26` `#835ca6` `#f7922c` `#fbee61` `#981b1e`, control points `#E0E0E0`, 85×60 mm single panels with `theme_viz(base_size = 7)`). When you copy an existing folder, keep its interface. Details for both: `styles/style-contract.md`.
 
 ## What not to do
 
 - Do not add real, patient, or third-party data. Shipped `data.csv` files are synthetic.
-- Do not use category colours outside that palette. Sequential and diverging fills stay on `pv_palette("sequential")` and `pv_palette("diverging")`.
+- Do not use category colours outside the folder's palette (`house` for new figures, `categorical` for legacy ones). Do not mix the two in one figure. Legacy sequential and diverging fills stay on `pv_palette("sequential")` and `pv_palette("diverging")`; house figures use `house_div` / `house_warm`.
 - Do not move the legend outside the frame.
+- Do not re-render existing figures into the house style unless a task asks for it.
 - Do not write a machine-absolute path into a file in this repository.
 
 ## Add a figure
 
 1. Create `figures/<category>/<slug>/`.
-2. R folder: `make_data.R` (fixed random seed; `data.csv` under 200KB), `data.csv`, `plot.R`, `preview.png`, `meta.yaml`. `plot.R` only reads the CSV, sources `../../../styles/r/theme_viz.R`, and calls `theme_viz()`, `pv_palette()`, and `pv_save()`. The `layout` category uses this same folder; multi-panel arrangement stays in `plot.R`.
+2. R folder: `make_data.R` (fixed random seed; `data.csv` under 200KB), `data.csv`, `plot.R`, `preview.png`, `meta.yaml`. `plot.R` only reads the CSV, sources `../../../styles/r/theme_house.R`, and calls `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. The `layout` category uses this same folder; multi-panel arrangement stays in `plot.R`.
 3. Required `meta.yaml` keys: `title`, `title_zh`, `slug`, `category`, `tags` (English), `packages`, `data_columns` (name → description), `when_to_use`, `customize`, `lang` (`R` or `Python`). `title_zh`, `when_to_use`, and `customize` must be non-empty. `slug` equals the directory name. A gallery toggle also needs `variant_of` and `variant_label`.
 4. `category` is one of: `distribution`, `comparison`, `correlation`, `composition`, `heatmap`, `dimension-reduction`, `differential-expression`, `enrichment`, `population-genetics`, `genome`, `phylogeny`, `network`, `microbiome-ecology`, `clinical`, `layout`.
 5. Run `python3 tools/build_catalog.py`. That refreshes `catalog.json`, `docs/catalog.json`, `docs/llms.txt`, the README catalog block, and the figures badge.
