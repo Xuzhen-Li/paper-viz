@@ -10,6 +10,34 @@
 
 - R：`source("../../../styles/r/theme_house.R")`（会顺带加载同目录的 `theme_viz.R`），然后 `theme_house()`、`pv_palette("house")`、`pv_save_house()`。
 - Python：`import house`（`styles/python/house.py`），然后 `house.apply_house_style()`、`house.house_figure()`、`house.save_house()`。
+- 规范页（九张示例与三张示意图）：<https://xuzhen-li.github.io/paper-viz/house-style/>
+
+### 用法 / Usage
+
+中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house()`。默认 7/8 pt，单栏单面板自动 +2 pt，`bump = 0` 关掉。非用图例不可时用 `legend = "inside"`，放框内右上。
+
+English: source `theme_house.R`, then use `theme_house()` for the theme, `pv_palette("house")` for colours and `pv_save_house()` to export. Defaults are 7 pt ticks and 8 pt plain axis titles; with bump = NULL a single panel at ≤89 mm gets +2 pt; bump = 0 switches this off. When a legend is unavoidable, use `legend = "inside"` (top-right inside the frame, no box). Use pv_house_lw() for line widths, HOUSE_POINT for points, pv_pt2size(pt) for in-panel text size and pv_fmt_p(p) for *P* labels (with parse = TRUE). `pv_save_house()` overwrites any `preview.png` in the output folder.
+
+```r
+theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3),
+            base_family = house_family(), legend = c("none", "inside"))
+pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL,
+              bump = NULL, dpi = 600, preview = TRUE)   # width 也可写毫米数 / or a width in mm
+```
+
+```r
+# figures/<category>/<slug>/plot.R
+source("../../../styles/r/theme_house.R")   # 会顺带加载 theme_viz.R
+library(ggplot2)
+df <- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # 真实数据用 utils::read.csv("data.csv")
+p <- ggplot(df, aes(x, y, colour = group)) +
+  geom_line(linewidth = pv_house_lw("main")) +
+  scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()                               # 7/8 pt；非用图例不可时 theme_house(legend = "inside")
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板自动 +2 pt；会覆盖同目录的 preview.png
+```
 
 ### 画布
 

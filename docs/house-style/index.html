@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>House style · paper-viz</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f3f4f6;
+    color: #1a1a1a;
+  }
+  header {
+    background: #fff;
+    border-top: 3px solid #134aa3;
+    border-bottom: 1px solid #e6e8eb;
+  }
+  .header-inner, main { max-width: 1200px; margin: 0 auto; padding: 14px 16px 12px; }
+  main { padding-top: 16px; }
+  h1 { font-size: 1.4rem; font-weight: 650; margin: 0; letter-spacing: -0.02em; }
+  .lede { margin: 2px 0 0; color: #3d4a5c; font-size: 0.95rem; }
+  nav { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  nav a {
+    padding: 4px 10px; border: 1px solid #d5d8de; border-radius: 999px;
+    background: #fff; color: #1a1a1a; text-decoration: none; font-size: 0.9rem;
+  }
+  nav a:hover { border-color: #134aa3; color: #134aa3; }
+  a { color: #134aa3; }
+  section {
+    background: #fff; border: 1px solid #e6e8eb; border-radius: 12px;
+    padding: 14px 16px; margin: 0 0 14px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  }
+  h2 { font-size: 1.15rem; margin: 0 0 8px; }
+  h3 { font-size: 1rem; margin: 14px 0 6px; }
+  p { margin: 6px 0; }
+  ul { margin: 6px 0; padding-left: 1.3em; }
+  li { margin: 2px 0; }
+  code { font: 0.9em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #f3f4f6; padding: 0 3px; border-radius: 4px; }
+  pre { margin: 6px 0; padding: 10px 12px; overflow-x: auto; background: #f6f7f9; border: 1px solid #e6e8eb; border-radius: 8px; font-size: 0.88rem; line-height: 1.45; }
+  pre code { background: none; padding: 0; overflow-wrap: normal; }
+  p code, li code, td code, th code { overflow-wrap: anywhere; }
+  .tablewrap { overflow-x: auto; max-width: 100%; }
+  .hero img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid #e6e8eb; background: #fff; }
+  .hero p { color: #3d4a5c; font-size: 0.9rem; margin-top: 8px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 521px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 820px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .card {
+    border: 1px solid #e6e8eb; border-radius: 12px; background: #fff; padding: 8px 8px 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08); }
+  a.hit { display: block; color: inherit; text-decoration: none; }
+  .thumb { display: flex; align-items: center; justify-content: center; aspect-ratio: 4 / 3; background: #f6f7f9; border-radius: 8px; padding: 6px; }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 4px; }
+  .card strong { display: block; margin-top: 8px; font-size: 1rem; font-weight: 650; }
+  .card .en { display: block; color: #6b7280; font-size: 0.88rem; }
+  .card .path { display: block; margin-top: 4px; font: 0.78rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #6b7280; overflow-wrap: anywhere; }
+  .card .path a { color: #6b7280; }
+  ol.steps { margin: 6px 0 8px; padding-left: 1.4em; }
+  table.refs td { padding: 3px 8px; }
+  details summary { cursor: pointer; color: #134aa3; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+  th, td { text-align: left; vertical-align: top; padding: 5px 8px; border-top: 1px solid #e6e8eb; }
+  thead th { border-top: 0; color: #6b7280; font-weight: 600; }
+  tbody th { font-weight: 600; width: 34%; }
+  .sw { display: inline-flex; align-items: center; gap: 4px; margin: 0 10px 4px 0; font: 0.82rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+  .sw i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0, 0, 0, 0.15); }
+  .schem figure { margin: 0 0 14px; }
+  .schem img { display: block; width: 100%; height: auto; border: 1px solid #e6e8eb; border-radius: 8px; background: #fff; }
+  .schem figcaption { font-size: 0.9rem; color: #3d4a5c; margin-top: 4px; }
+  table.refs { width: auto; min-width: 50%; font-size: 0.92rem; }
+  #palette tbody th { width: auto; }
+  #palette td:nth-child(2), #palette td:nth-child(3) { width: 20%; }
+  .note { color: #6b7280; font-size: 0.88rem; }
+  @media (max-width: 520px) {
+    .header-inner { padding: 10px 12px 8px; }
+    main { padding: 12px; }
+    section { padding: 12px; }
+    tbody th { width: auto; }
+    #palette thead { display: none; }
+    #palette tr, #palette th, #palette td { display: block; width: auto !important; border-top: 0; padding: 2px 0; }
+    #palette tr { border-top: 1px solid #e6e8eb; padding: 6px 0; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+  <h1>paper-viz · House style</h1>
+  <p class="lede" lang="zh-CN">新图默认风格：紧凑、字多、留白少。</p>
+  <p class="lede" lang="en">New figures default to the house style: compact, text-dense, little white space.</p>
+  <nav aria-label="页面导航">
+    <a href="../">← 画廊 Gallery</a>
+    <a href="#examples">示例 Examples</a>
+    <a href="#usage">用法与规范 Usage &amp; style</a>
+    <a href="#references">参考 References</a>
+  </nav>
+  </div>
+</header>
+<main>
+
+<section class="hero" aria-label="hero">
+  <img src="hero.png" width="2400" height="1848" alt="九张 house 风格示例拼图：散点、折线、柱、雨云、密度、森林图、热图、环图、分面小图">
+  <p lang="zh-CN">由九张示例图拼成，都用模拟数据在本仓库重画。</p>
+  <p lang="en">Made from the nine examples, all redrawn in this repository from simulated data.</p>
+</section>
+
+<section id="examples">
+  <h2>示例 / Examples</h2>
+  <p lang="zh-CN">点卡片打开画廊大图（含代码与数据）；卡片下方的 GitHub 链接打开该图的文件夹。</p>
+  <p lang="en">Click a card to open it in the gallery; the GitHub link below it opens the figure folder.</p>
+  <div class="grid">
+    <div class="card">
+      <a class="hit" href="../#house-scatter"><span class="thumb"><img src="../previews/house-scatter.png" alt="分组散点与回归（house 风格）" loading="lazy"></span>
+      <strong>分组散点与回归（house 风格）</strong><span class="en">Scatter with group fits (house style)</span></a>
+      <span class="path">correlation/house-scatter · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-scatter">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-line"><span class="thumb"><img src="../previews/house-line.png" alt="带置信带的折线图（house 风格）" loading="lazy"></span>
+      <strong>带置信带的折线图（house 风格）</strong><span class="en">Line chart with CI ribbons (house style)</span></a>
+      <span class="path">correlation/house-line · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-line">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-bar"><span class="thumb"><img src="../previews/house-bar.png" alt="带原始点与 P 值的柱图（house 风格）" loading="lazy"></span>
+      <strong>带原始点与 P 值的柱图（house 风格）</strong><span class="en">Bar chart with points and P values (house style)</span></a>
+      <span class="path">comparison/house-bar · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/house-bar">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-raincloud"><span class="thumb"><img src="../previews/house-raincloud.png" alt="雨云图（house 风格）" loading="lazy"></span>
+      <strong>雨云图（house 风格）</strong><span class="en">Raincloud plot (house style)</span></a>
+      <span class="path">distribution/house-raincloud · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/distribution/house-raincloud">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-density"><span class="thumb"><img src="../previews/house-density.png" alt="分组密度曲线与均值（house 风格）" loading="lazy"></span>
+      <strong>分组密度曲线与均值（house 风格）</strong><span class="en">Density curves with group means (house style)</span></a>
+      <span class="path">distribution/house-density · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/distribution/house-density">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-forest"><span class="thumb"><img src="../previews/house-forest.png" alt="效应量森林图（house 风格）" loading="lazy"></span>
+      <strong>效应量森林图（house 风格）</strong><span class="en">Forest plot of effects (house style)</span></a>
+      <span class="path">comparison/house-forest · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/house-forest">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-heatmap"><span class="thumb"><img src="../previews/house-heatmap.png" alt="带数值的发散色热图（house 风格）" loading="lazy"></span>
+      <strong>带数值的发散色热图（house 风格）</strong><span class="en">Annotated diverging heatmap (house style)</span></a>
+      <span class="path">heatmap/house-heatmap · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/heatmap/house-heatmap">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-donut"><span class="thumb"><img src="../previews/house-donut.png" alt="直标环图（house 风格）" loading="lazy"></span>
+      <strong>直标环图（house 风格）</strong><span class="en">Donut chart with direct labels (house style)</span></a>
+      <span class="path">composition/house-donut · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/composition/house-donut">GitHub</a></span>
+    </div>
+    <div class="card">
+      <a class="hit" href="../#house-small-multiples"><span class="thumb"><img src="../previews/house-small-multiples.png" alt="小多图与面板内趋势（house 风格）" loading="lazy"></span>
+      <strong>小多图与面板内趋势（house 风格）</strong><span class="en">Small multiples with in-panel trends (house style)</span></a>
+      <span class="path">layout/house-small-multiples · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/layout/house-small-multiples">GitHub</a></span>
+    </div>
+  </div>
+</section>
+
+<section id="usage">
+  <h2>用法 / Usage</h2>
+  <ol class="steps">
+    <li><code>source("../../../styles/r/theme_house.R")</code></li>
+    <li><code>theme_house()</code> + <code>pv_palette("house")</code></li>
+    <li><code>pv_save_house(p, "figure", width = "single" | "double")</code></li>
+  </ol>
+<p lang="zh-CN">中文：<code>theme_house.R</code> 会顺带加载 <code>theme_viz.R</code>。<code>theme_house()</code> 默认 7/8 pt；非用图例不可时用 <code>theme_house(legend = "inside")</code>，放框内右上。<code>pv_save_house()</code> 对单栏单面板自动 +2 pt（9/10 pt），<code>bump = 0</code> 关掉。<code>pv_save_house()</code> 会在输出目录写 <code>&lt;file&gt;.pdf</code>、<code>&lt;file&gt;.png</code> 和 <code>preview.png</code>，覆盖同目录里同名的 <code>preview.png</code>；试跑请在临时目录里进行。</p>
+  <p lang="en">English: <code>theme_house.R</code> also loads <code>theme_viz.R</code>. <code>theme_house()</code> defaults to 7/8 pt; when a legend is unavoidable, use <code>theme_house(legend = "inside")</code> to place it top-right inside the frame. <code>pv_save_house()</code> adds +2 pt (9/10 pt) to a single panel on 89 mm; <code>bump = 0</code> switches this off. <code>pv_save_house()</code> writes <code>&lt;file&gt;.pdf</code>, <code>&lt;file&gt;.png</code> and <code>preview.png</code> to the output folder and overwrites any <code>preview.png</code> already there, so try it in a scratch folder.</p>
+<pre><code># R: figures/&lt;category&gt;/&lt;slug&gt;/plot.R
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+df &lt;- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # or utils::read.csv("data.csv")
+p &lt;- ggplot(df, aes(x, y, colour = group)) +
+  geom_line(linewidth = pv_house_lw("main")) +
+  scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()
+pv_save_house(p, "figure", width = "single", height_mm = 76)
+
+# Python
+import sys
+from pathlib import Path
+import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "styles" / "python"))
+import house
+house.apply_house_style()
+x = np.arange(1, 11)
+fig, ax = house.house_figure("single", height_mm=76)
+ax.plot(x, 0.8 * x + 1, color=house.pv_palette("house")[0])
+house.save_house(fig, "figure")</code></pre>
+  <figure class="schem">
+    <img src="schematics/schematic_pipeline.svg" width="4323" height="792" alt="出图流程：data → theme_house() → pv_save_house() → PDF / PNG" loading="lazy">
+    <figcaption>出图流程 / Pipeline · <a href="schematics/schematic_pipeline.svg">SVG</a> · <a href="schematics/schematic_pipeline.png">PNG</a> · <a href="schematics/schematic_pipeline.drawio">.drawio</a></figcaption>
+  </figure>
+</section>
+
+<section id="typescale" class="schem">
+  <h2>字号层级 / Type scale</h2>
+  <figure>
+    <img src="schematics/schematic_typescale.svg" width="4323" height="1669" alt="字号层级：面板字母 10 pt、轴标题 8 pt、刻度 7 pt、最小 6 pt；单栏单面板 +2 pt" loading="lazy">
+    <figcaption>字号层级 / Type scale · <a href="schematics/schematic_typescale.svg">SVG</a> · <a href="schematics/schematic_typescale.png">PNG</a> · <a href="schematics/schematic_typescale.drawio">.drawio</a></figcaption>
+  </figure>
+</section>
+
+<section id="style" lang="zh-CN">
+  <h2>规范摘要（中文）</h2>
+  <p>新加的图一律用 house style；已有的图不重渲染，继续用旧版 <code>theme_viz()</code>。完整规则以 <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a> 为准。</p>
+  <table>
+    <tbody>
+      <tr><th>字号（印刷尺寸）</th><td>双栏 / 多面板：刻度 <b>7 pt</b>、轴标题 <b>8 pt</b>（7/8 pt）；面板字母 10 pt 粗体小写 a b c；任何文字 ≥6 pt。<br>单栏只放 1 个面板：全部 +2 pt，刻度 <b>9 pt</b>、轴标题 <b>10 pt</b>（9/10 pt），<code>pv_save_house()</code> 自动加。字号不随面板缩小。</td></tr>
+      <tr><th>画布</th><td>单栏 <b>89 mm</b>（<code>width = "single"</code>），双栏 <b>183 mm</b>（<code>width = "double"</code>）。双栏每行 3 个面板（约 58 mm），单栏每行 2 个，面板间距水平约 3 mm、垂直约 2.5 mm，外边距 ≤1 mm。</td></tr>
+      <tr><th>轴标题</th><td>常规字重，<b>不加粗</b>；写变量名和单位，单位用括号，如「温度 (°C)」。</td></tr>
+      <tr><th>边框与刻度</th><td>四边 <b>0.5 pt</b> 黑框，刻度 0.5 pt、长 1 mm、向外；无网格，无次刻度（对数轴除外）。</td></tr>
+      <tr><th>线、点与置信带</th><td>主数据线 1.5 pt，强调 / 拟合线 2.0 pt，次要系列 0.8 pt，参考虚线 0.5 pt，误差棒 0.7 pt。点 shape 21 加黑描边（<code>size = 2.3, stroke = 0.3</code>）。置信带与线同色，透明度 0.2。</td></tr>
+      <tr><th>图例与统计量</th><td>默认不画图例，系列名直接写在图里，文字颜色 = 数据颜色；非用图例不可时放框内右上、无边框。统计量（<i>R</i>²、<i>P</i>、<i>N</i>）写在图内，与组同色。</td></tr>
+      <tr><th>字体</th><td>Arial → Helvetica → Liberation Sans → DejaVu Sans；中文思源黑体 / Noto Sans CJK SC。全图一种字体。</td></tr>
+      <tr><th>导出</th><td>Cairo PDF（文字保留为文本）+ 600 dpi PNG + 1200 px 宽 <code>preview.png</code>。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="style-en" lang="en">
+  <h2>Style summary (English)</h2>
+  <p>New figures use the house style. Existing figures are not re-rendered and keep the legacy <code>theme_viz()</code>. The full rules are in <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a>.</p>
+  <table>
+    <tbody>
+      <tr><th>Text (print size)</th><td>Double column / multi-panel: <b>7 pt</b> ticks, <b>8 pt</b> axis titles (7/8 pt); 10 pt bold lowercase panel letters; nothing under 6 pt.<br>One panel on 89 mm: everything +2 pt, <b>9 pt</b> ticks and <b>10 pt</b> axis titles (9/10 pt); <code>pv_save_house()</code> adds it. Text does not shrink with the panel.</td></tr>
+      <tr><th>Canvas</th><td><b>89 mm</b> single column (<code>width = "single"</code>), <b>183 mm</b> double column (<code>width = "double"</code>). Three panels per row on 183 mm (about 58 mm each), two on 89 mm; gaps about 3 mm across and 2.5 mm down; outer margin ≤1 mm.</td></tr>
+      <tr><th>Axis titles</th><td>Plain weight, <b>not bold</b>; variable name, then the unit in parentheses, e.g. Temperature (°C).</td></tr>
+      <tr><th>Frame and ticks</th><td>Four-sided <b>0.5 pt</b> black frame; ticks 0.5 pt, 1 mm, outward; no grid, no minor ticks (except log axes).</td></tr>
+      <tr><th>Lines, points, CI ribbons</th><td>Main lines 1.5 pt, emphasis / fit 2.0 pt, minor series 0.8 pt, dashed reference 0.5 pt, error bars 0.7 pt. Points: shape 21 with a black outline (<code>size = 2.3, stroke = 0.3</code>). CI ribbons in the line colour, alpha 0.2.</td></tr>
+      <tr><th>Legends and statistics</th><td>No legend by default: label series in the panel in the series colour. When one is unavoidable, place it top-right inside the frame, with no box. Statistics (<i>R</i>², <i>P</i>, <i>N</i>) go inside the panel in the group colour.</td></tr>
+      <tr><th>Font</th><td>Arial → Helvetica → Liberation Sans → DejaVu Sans; Chinese: Source Han Sans / Noto Sans CJK SC. One font per figure.</td></tr>
+      <tr><th>Export</th><td>Cairo PDF (text stays text) + 600 dpi PNG + 1200 px wide <code>preview.png</code>.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="layout" class="schem">
+  <h2>版面与间距 / Layout</h2>
+  <figure>
+    <img src="schematics/schematic_layout.svg" width="4607" height="4536" alt="版面：183 mm 双栏每行 3 个面板，89 mm 单栏 2 个或 1 个面板" loading="lazy">
+    <figcaption>版面与间距 / Layout · <a href="schematics/schematic_layout.svg">SVG</a> · <a href="schematics/schematic_layout.png">PNG</a> · <a href="schematics/schematic_layout.drawio">.drawio</a></figcaption>
+  </figure>
+</section>
+
+<section id="palette">
+  <h2>色板 / Palettes</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>名字 / Name</th><th>中文用途</th><th>Use</th><th>色值 / Colours</th></tr></thead>
+    <tbody>
+      <tr><th><code>house</code></th><td>分类，按序取，≤6 个彩色系列，其余用灰</td><td>Categories, in order, ≤6 coloured series, the rest grey</td><td><span class="sw"><i style="background:#1F72AE"></i>#1F72AE</span><span class="sw"><i style="background:#F77E12"></i>#F77E12</span><span class="sw"><i style="background:#119B76"></i>#119B76</span><span class="sw"><i style="background:#CC312C"></i>#CC312C</span><span class="sw"><i style="background:#595594"></i>#595594</span><span class="sw"><i style="background:#62B4E7"></i>#62B4E7</span><span class="sw"><i style="background:#E6C32A"></i>#E6C32A</span><span class="sw"><i style="background:#A8127F"></i>#A8127F</span><span class="sw"><i style="background:#8A4C38"></i>#8A4C38</span></td></tr>
+      <tr><th><code>house_div</code></th><td>蓝–红发散，0 居中</td><td>Blue–red diverging, centred on 0</td><td><span class="sw"><i style="background:#1D7CBB"></i>#1D7CBB</span><span class="sw"><i style="background:#4A82B0"></i>#4A82B0</span><span class="sw"><i style="background:#8EBDDA"></i>#8EBDDA</span><span class="sw"><i style="background:#DEE4F0"></i>#DEE4F0</span><span class="sw"><i style="background:#F7F7F7"></i>#F7F7F7</span><span class="sw"><i style="background:#F6DEDE"></i>#F6DEDE</span><span class="sw"><i style="background:#E19193"></i>#E19193</span><span class="sw"><i style="background:#C4454B"></i>#C4454B</span><span class="sw"><i style="background:#CB2223"></i>#CB2223</span></td></tr>
+      <tr><th><code>ssp</code></th><td>情景</td><td>Scenarios</td><td><span class="sw"><i style="background:#000000"></i>Historical #000000</span><span class="sw"><i style="background:#3A9CFE"></i>SSP1-2.6 #3A9CFE</span><span class="sw"><i style="background:#F79423"></i>SSP2-4.5 #F79423</span><span class="sw"><i style="background:#FD3B3B"></i>SSP3-7.0 #FD3B3B</span><span class="sw"><i style="background:#9C2125"></i>SSP5-8.5 #9C2125</span></td></tr>
+      <tr><th><code>house_warm</code></th><td>暖色顺序</td><td>Warm sequential</td><td><span class="sw"><i style="background:#FBD6A0"></i>#FBD6A0</span><span class="sw"><i style="background:#F5BA7A"></i>#F5BA7A</span><span class="sw"><i style="background:#F38F64"></i>#F38F64</span><span class="sw"><i style="background:#CC635F"></i>#CC635F</span><span class="sw"><i style="background:#965459"></i>#965459</span></td></tr>
+      <tr><th><code>house_grey</code></th><td>文字、参考线、置信带</td><td>Text, reference lines, CI ribbons</td><td><span class="sw"><i style="background:#000000"></i>#000000</span><span class="sw"><i style="background:#333333"></i>#333333</span><span class="sw"><i style="background:#6B6B6B"></i>#6B6B6B</span><span class="sw"><i style="background:#757575"></i>#757575</span><span class="sw"><i style="background:#BFBFBF"></i>#BFBFBF</span><span class="sw"><i style="background:#E0E0E0"></i>#E0E0E0</span><span class="sw"><i style="background:#F0F0F0"></i>#F0F0F0</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="references">
+  <h2>参考 / References</h2>
+  <p class="note" lang="zh-CN">只列链接与图号；参考图不进仓库。</p>
+  <p class="note" lang="en">Links and figure numbers only; no reference images are stored here.</p>
+  <details>
+    <summary>26 条参考 / 26 references</summary>
+    <table class="refs">
+      <thead><tr><th>来源 / Source</th><th>图号 / Figure</th></tr></thead>
+      <tbody>
+      <tr><td><a href="https://doi.org/10.1016/j.oneear.2024.01.008">One Earth 2024</a></td><td>Fig. 1</td></tr>
+      <tr><td><a href="https://doi.org/10.1126/sciadv.abn0250">Sci. Adv. 2023</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://doi.org/10.1038/s41560-024-01652-1">Nat. Energy 2024</a></td><td>Fig. 1</td></tr>
+      <tr><td><a href="https://doi.org/10.1016/j.joule.2023.12.015">Joule 2024</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://doi.org/10.1016/j.joule.2025.101962">Joule 2025</a></td><td>Fig. 6</td></tr>
+      <tr><td><a href="https://doi.org/10.1073/pnas.2534717123">PNAS 2026</a></td><td>Fig. 2</td></tr>
+      <tr><td><a href="https://doi.org/10.1038/s41558-024-02033-y">Nat. Clim. Change 2024</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://doi.org/10.1126/sciadv.adv6867">Sci. Adv. 2025</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://doi.org/10.1038/s41893-025-01591-z">Nat. Sustain. 2025</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://doi.org/10.1073/pnas.2404155121">PNAS 2024</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://doi.org/10.1016/j.oneear.2025.101467">One Earth 2025</a></td><td>Fig. 2</td></tr>
+      <tr><td><a href="https://doi.org/10.1038/s41560-026-02109-3">Nat. Energy 2026</a></td><td>Fig. 3</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-023-41458-5">Nat. Commun. 2023</a></td><td>Fig. 2</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-025-57292-w">Nat. Commun. 2025</a></td><td>Fig. 5</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-026-73872-w">Nat. Commun. 2026</a></td><td>Fig. 6</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-026-75879-9">Nat. Commun. 2026</a></td><td>Fig. 5</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-026-76799-4">Nat. Commun. 2026</a></td><td>Fig. 5</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-024-45286-z">Nat. Commun. 2024</a></td><td>Fig. 5c</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-024-48966-y">Nat. Commun. 2024</a></td><td>Fig. 1a</td></tr>
+      <tr><td><a href="https://www.nature.com/articles/s41467-025-67428-7">Nat. Commun. 2025</a></td><td>Fig. 1a, Fig. 5a</td></tr>
+      <tr><td><a href="https://doi.org/10.1016/j.oneear.2023.10.012">One Earth 2023</a></td><td>Fig. 1B</td></tr>
+      <tr><td><a href="https://doi.org/10.1038/s41467-024-50279-z">Nat. Commun. 2024</a></td><td>Fig. 4c</td></tr>
+      <tr><td><a href="https://doi.org/10.1016/j.oneear.2023.09.004">One Earth 2023</a></td><td>Fig. 1</td></tr>
+      <tr><td><a href="https://openbiox.github.io/Bizard/zh/Composition/PartPieChart.html">Bizard</a></td><td>gallery page</td></tr>
+      <tr><td><a href="https://openbiox.github.io/Bizard/zh/Composition/Donut.html">Bizard</a></td><td>gallery page</td></tr>
+      <tr><td><a href="https://r-graph-gallery.com/scatterplot.html">R Graph Gallery</a></td><td>gallery page</td></tr>
+      </tbody>
+    </table>
+  </details>
+</section>
+
+</main>
+</body>
+</html>

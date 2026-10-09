@@ -41,7 +41,30 @@ A main figure with `variants` has near-duplicate folders. Copy the slug you will
 
 ## Style
 
-**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure()`, `save_house()`).
+**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure()`, `save_house()`). The style page has the nine examples and the schematics: [house style](https://xuzhen-li.github.io/paper-viz/house-style/).
+
+```r
+# figures/<category>/<slug>/plot.R
+source("../../../styles/r/theme_house.R")   # also loads theme_viz.R
+library(ggplot2)
+df <- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # real data: utils::read.csv("data.csv")
+p <- ggplot(df, aes(x, y, colour = group)) +
+  geom_line(linewidth = pv_house_lw("main")) +
+  scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()                               # 7/8 pt; theme_house(legend = "inside") if a legend is unavoidable
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # one panel on 89 mm: +2 pt; overwrites preview.png in this folder
+```
+
+```r
+theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3),
+            base_family = house_family(), legend = c("none", "inside"))
+pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL,
+              bump = NULL, dpi = 600, preview = TRUE)   # width may also be a number in mm
+```
+
+中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house()`。默认 7/8 pt，单栏单面板自动 +2 pt，`bump = 0` 关掉。非用图例不可时用 `legend = "inside"`，放框内右上。
 
 - Canvas: 89 mm single column (`width = "single"`) or 183 mm double column (`width = "double"`).
 - Text: 7 pt ticks, 8 pt plain (not bold) axis titles, 10 pt bold lowercase panel tags (`patchwork::plot_annotation(tag_levels = "a")`), nothing under 6 pt. A single-column single panel gets +2 pt (9/10 pt); `pv_save_house()` adds it automatically.

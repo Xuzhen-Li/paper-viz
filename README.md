@@ -8,9 +8,9 @@
 
 ![paper-viz figure contact sheet](docs/hero.png)
 
-R 优先的科研绘图库：复制一张图的文件夹，按列接口换掉 `data.csv`，就能用统一期刊风格出图；也方便 agent 检索调用。
+R 优先的科研绘图库：复制一张图的文件夹，按列接口换掉 `data.csv`，就能用统一期刊风格出图；也方便 agent 检索调用。新图默认 [house style](https://xuzhen-li.github.io/paper-viz/house-style/)。
 
-R-first paper-figure library: copy a figure folder, swap `data.csv` to the declared columns, and export in one journal style—also easy for agents to find and reuse.
+R-first paper-figure library: copy a figure folder, swap `data.csv` to the declared columns, and export in one journal style—also easy for agents to find and reuse. New figures default to the [house style](https://xuzhen-li.github.io/paper-viz/house-style/).
 
 在线画廊 / Gallery: <https://xuzhen-li.github.io/paper-viz/>
 
@@ -152,7 +152,7 @@ cd volcano
 Rscript plot.R
 ```
 
-R 图用 `styles/r/theme_viz.R` 的 `pv_save`，同时写出 PDF、600 dpi PNG 和 1200 px 宽的 `preview.png`。`layout` 拼图同样是 R 图：一份 `plot.R` 读 `data.csv`，用 `patchwork` 等拼成多面板。
+新图用 house style（`theme_house()` / `pv_save_house()`，见 [House style](#house-style)），旧图保留 `theme_viz()` / `pv_save()`；两者都写出 PDF、600 dpi PNG 和 1200 px 宽的 `preview.png`。`layout` 拼图同样是 R 图：一份 `plot.R` 读 `data.csv`，用 `patchwork` 等拼成多面板。
 
 CRAN：
 
@@ -172,6 +172,26 @@ BiocManager::install(c("ComplexHeatmap", "ggplotify", "ggtree"))
 ```
 
 两张 Python 图另需 `matplotlib` 与 `numpy`。不要把本机绝对路径写进仓库。
+
+## House style
+
+新图默认用 house style（紧凑、字多、留白少）：新图用 `theme_house()` / `pv_save_house()`，旧图保留 `theme_viz()`；规范页见 <https://xuzhen-li.github.io/paper-viz/house-style/>，完整规则以 [styles/style-contract.md](styles/style-contract.md) 为准，九张参考图在 `figures/*/house-*/`。
+
+New figures default to the house style (compact, text-dense, little white space): use `theme_house()` / `pv_save_house()` for new figures, while existing figures keep `theme_viz()`. The style page is <https://xuzhen-li.github.io/paper-viz/house-style/>; the full rules are in [styles/style-contract.md](styles/style-contract.md). The nine reference figures live in `figures/*/house-*/`.
+
+```r
+# figures/<category>/<slug>/plot.R
+source("../../../styles/r/theme_house.R")   # 会顺带加载 theme_viz.R
+library(ggplot2)
+df <- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # 真实数据用 utils::read.csv("data.csv")
+p <- ggplot(df, aes(x, y, colour = group)) +
+  geom_line(linewidth = pv_house_lw("main")) +
+  scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()                               # 7/8 pt；非用图例不可时 theme_house(legend = "inside")
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板自动 +2 pt；会覆盖同目录的 preview.png
+```
 
 ## 给 agent 用 / For agents
 
@@ -204,7 +224,7 @@ python3 tools/find_figure.py --slug volcano --json
 ## 贡献 / Contributing
 
 1. 新建 `figures/<category>/<slug>/`。`category` 只能是：`distribution`、`comparison`、`correlation`、`composition`、`heatmap`、`dimension-reduction`、`differential-expression`、`enrichment`、`population-genetics`、`genome`、`phylogeny`、`network`、`microbiome-ecology`、`clinical`、`layout`。
-2. `make_data.R` 固定随机种子，写出小于 200KB 的 `data.csv`。`plot.R` 只读数据，`source("../../../styles/r/theme_viz.R")`，用 `theme_viz()`、`pv_palette()` 和 `pv_save()`。`layout` 也走这一套，多面板写在同一份 `plot.R` 里。
+2. `make_data.R` 固定随机种子，写出小于 200KB 的 `data.csv`。`plot.R` 只读数据；新图用 house style（`theme_house()` / `pv_save_house()`，见 [House style](#house-style)），旧图保留 `theme_viz()` / `pv_save()`。`layout` 也走这一套，多面板写在同一份 `plot.R` 里。
 3. `meta.yaml` 必填：`title`、`title_zh`、`slug`、`category`、`tags`（英文）、`packages`、`data_columns`、`when_to_use`、`customize`、`lang`（`R` 或 `Python`）。`title_zh`、`when_to_use`、`customize` 不能为空。
 4. 质量门：`bash tools/check_figure.sh figures/<category>/<slug>` 必须通过，然后 `python3 tools/build_catalog.py`。
 
