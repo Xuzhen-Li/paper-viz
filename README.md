@@ -247,7 +247,7 @@ python3 tools/find_figure.py --slug volcano --json
 | 路径 | 内容 |
 |------|------|
 | `figures/<category>/<slug>/` | `make_data.R`、`data.csv`、`plot.R`、`preview.png`、`meta.yaml` |
-| `styles/` | 期刊风格，见 [styles/style-contract.md](styles/style-contract.md) |
+| `styles/` | 主题与导出：新图用 house style（`theme_house()`），旧图保留 `theme_viz()`，见 [styles/style-contract.md](styles/style-contract.md) |
 | `catalog.json` | 全库索引 |
 | `AGENTS.md` | AI agent 怎么检索、换数据、出图 |
 | `docs/llms.txt` | 给大模型的一行一条主图索引 |
