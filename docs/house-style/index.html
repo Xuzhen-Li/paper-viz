@@ -72,6 +72,8 @@
   .schem img { display: block; width: 100%; height: auto; border: 1px solid #e6e8eb; border-radius: 8px; background: #fff; }
   .schem figcaption { font-size: 0.9rem; color: #3d4a5c; margin-top: 4px; }
   table.refs { width: auto; min-width: 50%; font-size: 0.92rem; }
+  #palette tbody th { width: auto; white-space: nowrap; }
+  #palette td:nth-child(2), #palette td:nth-child(3) { width: 20%; }
   .note { color: #6b7280; font-size: 0.88rem; }
   @media (max-width: 520px) {
     .header-inner { padding: 10px 12px 8px; }
@@ -85,7 +87,8 @@
 <header>
   <div class="header-inner">
   <h1>paper-viz · House style</h1>
-  <p class="lede">新图默认风格：紧凑、字多、留白少。New figures default to the house style: compact, text-dense, little white space.</p>
+  <p class="lede" lang="zh-CN">新图默认风格：紧凑、字多、留白少。</p>
+  <p class="lede" lang="en">New figures default to the house style: compact, text-dense, little white space.</p>
   <nav aria-label="页面导航">
     <a href="../">← 画廊 Gallery</a>
     <a href="#examples">示例 Examples</a>
@@ -98,12 +101,14 @@
 
 <section class="hero" aria-label="hero">
   <img src="hero.png" width="2400" height="1848" alt="九张 house 风格示例拼图：散点、折线、柱、雨云、密度、森林图、热图、环图、分面小图">
-  <p>由九张示例图拼成，都用模拟数据在本仓库重画。Nine examples from this repository, all redrawn from simulated data.</p>
+  <p lang="zh-CN">由九张示例图拼成，都用模拟数据在本仓库重画。</p>
+  <p lang="en">Made from the nine examples, all redrawn in this repository from simulated data.</p>
 </section>
 
 <section id="examples">
   <h2>示例 / Examples</h2>
-  <p>点卡片打开画廊大图（含代码与数据）；卡片下方的 GitHub 链接打开该图的文件夹。Click a card to open it in the gallery; the GitHub link below opens its folder.</p>
+  <p lang="zh-CN">点卡片打开画廊大图（含代码与数据）；卡片下方的 GitHub 链接打开该图的文件夹。</p>
+  <p lang="en">Click a card to open it in the gallery; the GitHub link below it opens the figure folder.</p>
   <div class="grid">
     <div class="card">
       <a class="hit" href="../#house-scatter"><span class="thumb"><img src="../previews/house-scatter.png" alt="分组散点与回归线" loading="lazy"></span>
@@ -160,23 +165,31 @@
     <li><code>theme_house()</code> + <code>pv_palette("house")</code></li>
     <li><code>pv_save_house(p, "figure", width = "single" | "double")</code></li>
   </ol>
-<pre><code># R：figures/&lt;category&gt;/&lt;slug&gt;/plot.R
-source("../../../styles/r/theme_house.R")   # 1. 会顺带加载 theme_viz.R / also loads theme_viz.R
+<p lang="zh-CN">中文：<code>theme_house.R</code> 会顺带加载 <code>theme_viz.R</code>。<code>theme_house()</code> 默认 7/8 pt；非用图例不可时用 <code>theme_house(legend = "inside")</code>，放框内右上。<code>pv_save_house()</code> 对单栏单面板自动 +2 pt（9/10 pt），<code>bump = 0</code> 关掉。<code>pv_save_house()</code> 会在输出目录写 <code>&lt;file&gt;.pdf</code>、<code>&lt;file&gt;.png</code> 和 <code>preview.png</code>，覆盖同目录里同名的 <code>preview.png</code>；试跑请在临时目录里进行。</p>
+  <p lang="en">English: <code>theme_house.R</code> also loads <code>theme_viz.R</code>. <code>theme_house()</code> defaults to 7/8 pt; when a legend is unavoidable, use <code>theme_house(legend = "inside")</code> to place it top-right inside the frame. <code>pv_save_house()</code> adds +2 pt (9/10 pt) to a single panel on 89 mm; <code>bump = 0</code> switches this off. <code>pv_save_house()</code> writes <code>&lt;file&gt;.pdf</code>, <code>&lt;file&gt;.png</code> and <code>preview.png</code> to the output folder and overwrites any <code>preview.png</code> already there, so try it in a scratch folder.</p>
+<pre><code># R: figures/&lt;category&gt;/&lt;slug&gt;/plot.R
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+df &lt;- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # or utils::read.csv("data.csv")
 p &lt;- ggplot(df, aes(x, y, colour = group)) +
   geom_line(linewidth = pv_house_lw("main")) +
   scale_colour_manual(values = unname(pv_palette("house", 3))) +
-  theme_house()                               # 2. 7/8 pt；非用图例不可时 theme_house(legend = "inside")
-pv_save_house(p, "figure", width = "single", height_mm = 76)   # 3. 单栏单面板自动 +2 pt → 9/10 pt；bump = 0 关掉
+  theme_house()
+pv_save_house(p, "figure", width = "single", height_mm = 76)
 
 # Python
 import sys
 from pathlib import Path
+import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "styles" / "python"))
-import house                                  # styles/python/house.py
+import house
 house.apply_house_style()
+x = np.arange(1, 11)
 fig, ax = house.house_figure("single", height_mm=76)
-ax.plot(x, y, color=house.pv_palette("house")[0])
-house.save_house(fig, "figure")               # PDF + 600 dpi PNG + preview.png</code></pre>
+ax.plot(x, 0.8 * x + 1, color=house.pv_palette("house")[0])
+house.save_house(fig, "figure")</code></pre>
   <figure class="schem">
     <img src="schematics/schematic_pipeline.svg" alt="出图流程：data → theme_house() → pv_save_house() → PDF / PNG" loading="lazy">
     <figcaption>出图流程 / Pipeline · <a href="schematics/schematic_pipeline.svg">SVG</a> · <a href="schematics/schematic_pipeline.png">PNG</a> · <a href="schematics/schematic_pipeline.drawio">.drawio</a></figcaption>
@@ -235,18 +248,22 @@ house.save_house(fig, "figure")               # PDF + 600 dpi PNG + preview.png<
 
 <section id="palette">
   <h2>色板 / Palettes</h2>
-  <table><tbody>
-      <tr><th><code>house</code> 分类 / categorical<br><span class="note">按序取，≤6 个彩色系列 · in order, ≤6 coloured series</span></th><td><span class="sw"><i style="background:#1F72AE"></i>#1F72AE</span><span class="sw"><i style="background:#F77E12"></i>#F77E12</span><span class="sw"><i style="background:#119B76"></i>#119B76</span><span class="sw"><i style="background:#CC312C"></i>#CC312C</span><span class="sw"><i style="background:#595594"></i>#595594</span><span class="sw"><i style="background:#62B4E7"></i>#62B4E7</span><span class="sw"><i style="background:#E6C32A"></i>#E6C32A</span><span class="sw"><i style="background:#A8127F"></i>#A8127F</span><span class="sw"><i style="background:#8A4C38"></i>#8A4C38</span></td></tr>
-      <tr><th><code>house_div</code> 蓝–红发散 / blue–red diverging<br><span class="note">0 居中 · centred on 0</span></th><td><span class="sw"><i style="background:#1D7CBB"></i>#1D7CBB</span><span class="sw"><i style="background:#4A82B0"></i>#4A82B0</span><span class="sw"><i style="background:#8EBDDA"></i>#8EBDDA</span><span class="sw"><i style="background:#DEE4F0"></i>#DEE4F0</span><span class="sw"><i style="background:#F7F7F7"></i>#F7F7F7</span><span class="sw"><i style="background:#F6DEDE"></i>#F6DEDE</span><span class="sw"><i style="background:#E19193"></i>#E19193</span><span class="sw"><i style="background:#C4454B"></i>#C4454B</span><span class="sw"><i style="background:#CB2223"></i>#CB2223</span></td></tr>
-      <tr><th><code>ssp</code> 情景 / scenarios</th><td><span class="sw"><i style="background:#000000"></i>Historical #000000</span><span class="sw"><i style="background:#3A9CFE"></i>SSP1-2.6 #3A9CFE</span><span class="sw"><i style="background:#F79423"></i>SSP2-4.5 #F79423</span><span class="sw"><i style="background:#FD3B3B"></i>SSP3-7.0 #FD3B3B</span><span class="sw"><i style="background:#9C2125"></i>SSP5-8.5 #9C2125</span></td></tr>
-      <tr><th><code>house_warm</code> 暖色顺序 / warm sequential</th><td><span class="sw"><i style="background:#FBD6A0"></i>#FBD6A0</span><span class="sw"><i style="background:#F5BA7A"></i>#F5BA7A</span><span class="sw"><i style="background:#F38F64"></i>#F38F64</span><span class="sw"><i style="background:#CC635F"></i>#CC635F</span><span class="sw"><i style="background:#965459"></i>#965459</span></td></tr>
-      <tr><th><code>house_grey</code> 文字、参考线、置信带 / text, reference lines, CI ribbons</th><td><span class="sw"><i style="background:#000000"></i>#000000</span><span class="sw"><i style="background:#333333"></i>#333333</span><span class="sw"><i style="background:#6B6B6B"></i>#6B6B6B</span><span class="sw"><i style="background:#757575"></i>#757575</span><span class="sw"><i style="background:#BFBFBF"></i>#BFBFBF</span><span class="sw"><i style="background:#E0E0E0"></i>#E0E0E0</span><span class="sw"><i style="background:#F0F0F0"></i>#F0F0F0</span></td></tr>
-  </tbody></table>
+  <table>
+    <thead><tr><th>名字 / Name</th><th>中文用途</th><th>Use</th><th>色值 / Colours</th></tr></thead>
+    <tbody>
+      <tr><th><code>house</code></th><td>分类，按序取，≤6 个彩色系列，其余用灰</td><td>Categories, in order, ≤6 coloured series, the rest grey</td><td><span class="sw"><i style="background:#1F72AE"></i>#1F72AE</span><span class="sw"><i style="background:#F77E12"></i>#F77E12</span><span class="sw"><i style="background:#119B76"></i>#119B76</span><span class="sw"><i style="background:#CC312C"></i>#CC312C</span><span class="sw"><i style="background:#595594"></i>#595594</span><span class="sw"><i style="background:#62B4E7"></i>#62B4E7</span><span class="sw"><i style="background:#E6C32A"></i>#E6C32A</span><span class="sw"><i style="background:#A8127F"></i>#A8127F</span><span class="sw"><i style="background:#8A4C38"></i>#8A4C38</span></td></tr>
+      <tr><th><code>house_div</code></th><td>蓝–红发散，0 居中</td><td>Blue–red diverging, centred on 0</td><td><span class="sw"><i style="background:#1D7CBB"></i>#1D7CBB</span><span class="sw"><i style="background:#4A82B0"></i>#4A82B0</span><span class="sw"><i style="background:#8EBDDA"></i>#8EBDDA</span><span class="sw"><i style="background:#DEE4F0"></i>#DEE4F0</span><span class="sw"><i style="background:#F7F7F7"></i>#F7F7F7</span><span class="sw"><i style="background:#F6DEDE"></i>#F6DEDE</span><span class="sw"><i style="background:#E19193"></i>#E19193</span><span class="sw"><i style="background:#C4454B"></i>#C4454B</span><span class="sw"><i style="background:#CB2223"></i>#CB2223</span></td></tr>
+      <tr><th><code>ssp</code></th><td>情景</td><td>Scenarios</td><td><span class="sw"><i style="background:#000000"></i>Historical #000000</span><span class="sw"><i style="background:#3A9CFE"></i>SSP1-2.6 #3A9CFE</span><span class="sw"><i style="background:#F79423"></i>SSP2-4.5 #F79423</span><span class="sw"><i style="background:#FD3B3B"></i>SSP3-7.0 #FD3B3B</span><span class="sw"><i style="background:#9C2125"></i>SSP5-8.5 #9C2125</span></td></tr>
+      <tr><th><code>house_warm</code></th><td>暖色顺序</td><td>Warm sequential</td><td><span class="sw"><i style="background:#FBD6A0"></i>#FBD6A0</span><span class="sw"><i style="background:#F5BA7A"></i>#F5BA7A</span><span class="sw"><i style="background:#F38F64"></i>#F38F64</span><span class="sw"><i style="background:#CC635F"></i>#CC635F</span><span class="sw"><i style="background:#965459"></i>#965459</span></td></tr>
+      <tr><th><code>house_grey</code></th><td>文字、参考线、置信带</td><td>Text, reference lines, CI ribbons</td><td><span class="sw"><i style="background:#000000"></i>#000000</span><span class="sw"><i style="background:#333333"></i>#333333</span><span class="sw"><i style="background:#6B6B6B"></i>#6B6B6B</span><span class="sw"><i style="background:#757575"></i>#757575</span><span class="sw"><i style="background:#BFBFBF"></i>#BFBFBF</span><span class="sw"><i style="background:#E0E0E0"></i>#E0E0E0</span><span class="sw"><i style="background:#F0F0F0"></i>#F0F0F0</span></td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section id="references">
   <h2>参考 / References</h2>
-  <p class="note">只列链接与图号；参考图不进仓库。Links and figure numbers only; no reference images are stored here.</p>
+  <p class="note" lang="zh-CN">只列链接与图号；参考图不进仓库。</p>
+  <p class="note" lang="en">Links and figure numbers only; no reference images are stored here.</p>
   <details>
     <summary>26 条参考 / 26 references</summary>
     <table class="refs">

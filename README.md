@@ -182,12 +182,15 @@ New figures default to the house style (compact, text-dense, little white space)
 ```r
 # figures/<category>/<slug>/plot.R
 source("../../../styles/r/theme_house.R")   # 会顺带加载 theme_viz.R
-df <- utils::read.csv("data.csv")
-p <- ggplot2::ggplot(df, ggplot2::aes(x, y, colour = group)) +
-  ggplot2::geom_line(linewidth = pv_house_lw("main")) +
-  ggplot2::scale_colour_manual(values = unname(pv_palette("house", 3))) +
-  theme_house()                              # 7/8 pt；非用图例不可时 theme_house(legend = "inside")
-pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板自动 +2 pt → 9/10 pt
+library(ggplot2)
+df <- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # 真实数据用 utils::read.csv("data.csv")
+p <- ggplot(df, aes(x, y, colour = group)) +
+  geom_line(linewidth = pv_house_lw("main")) +
+  scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()                               # 7/8 pt；非用图例不可时 theme_house(legend = "inside")
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板自动 +2 pt；会覆盖同目录的 preview.png
 ```
 
 ## 给 agent 用 / For agents

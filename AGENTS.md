@@ -46,12 +46,15 @@ A main figure with `variants` has near-duplicate folders. Copy the slug you will
 ```r
 # figures/<category>/<slug>/plot.R
 source("../../../styles/r/theme_house.R")   # also loads theme_viz.R
-df <- utils::read.csv("data.csv")
-p <- ggplot2::ggplot(df, ggplot2::aes(x, y, colour = group)) +
-  ggplot2::geom_line(linewidth = pv_house_lw("main")) +
-  ggplot2::scale_colour_manual(values = unname(pv_palette("house", 3))) +
-  theme_house()                              # 7/8 pt; theme_house(legend = "inside") if a legend is unavoidable
-pv_save_house(p, "figure", width = "single", height_mm = 76)  # one panel on 89 mm: +2 pt -> 9/10 pt
+library(ggplot2)
+df <- data.frame(x = rep(1:10, 3),
+                 y = c(1:10, 0.8 * (1:10) + 1, 0.5 * (1:10) + 2),
+                 group = rep(c("a", "b", "c"), each = 10))   # real data: utils::read.csv("data.csv")
+p <- ggplot(df, aes(x, y, colour = group)) +
+  geom_line(linewidth = pv_house_lw("main")) +
+  scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()                               # 7/8 pt; theme_house(legend = "inside") if a legend is unavoidable
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # one panel on 89 mm: +2 pt; overwrites preview.png in this folder
 ```
 
 ```r
