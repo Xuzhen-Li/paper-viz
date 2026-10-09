@@ -17,33 +17,8 @@ case "$FIG" in
 esac
 REL=${FIG#"$ROOT"/}
 
-# Minimum preview size in pixels (each side). Catches degenerate renders such
-# as a 3x2 px PNG. Override with PV_MIN_PNG_PX if a figure truly needs less.
-MIN_PNG_PX=${PV_MIN_PNG_PX:-300}
-
-# Read width/height from the PNG IHDR header (bytes 16..23, big-endian).
-# POSIX sh + od only; no extra dependencies.
-check_png_size() {
-  png=$1
-  sig=$(od -An -tx1 -N8 "$png" | tr -d ' \n')
-  ihdr=$(od -An -c -j12 -N4 "$png" | tr -d ' \n')
-  if [ "$sig" != "89504e470d0a1a0a" ] || [ "$ihdr" != "IHDR" ]; then
-    echo "$REL/$(basename "$png") is not a valid PNG" >&2
-    return 1
-  fi
-  set -- $(od -An -tu1 -j16 -N8 "$png")
-  if [ "$#" -ne 8 ]; then
-    echo "$REL/$(basename "$png") has a truncated PNG header" >&2
-    return 1
-  fi
-  w=$(( ($1 << 24) + ($2 << 16) + ($3 << 8) + $4 ))
-  h=$(( ($5 << 24) + ($6 << 16) + ($7 << 8) + $8 ))
-  if [ "$w" -lt "$MIN_PNG_PX" ] || [ "$h" -lt "$MIN_PNG_PX" ]; then
-    echo "$REL/$(basename "$png") is ${w}x${h} px; each side must be at least ${MIN_PNG_PX} px (degenerate render?)" >&2
-    return 1
-  fi
-  return 0
-}
+# Preview size: house-grid canvas for figures with `cells:` in meta.yaml, else a px floor.
+PV_PNG_LIB_ONLY=1 . "$ROOT/tools/check_png_grid.sh"
 WORK=$(mktemp -d)
 trap 'rm -rf "$WORK"' EXIT
 mkdir -p "$WORK/$(dirname "$REL")"
@@ -64,7 +39,7 @@ if [ -f meta.yaml ] && grep -Eq '^lang:[[:space:]]*drawio[[:space:]]*$' meta.yam
     echo "preview.png missing in $REL" >&2
     exit 1
   fi
-  check_png_size preview.png || exit 1
+  check_preview_size preview.png meta.yaml || exit 1
   if grep -RInE --exclude='*.png' --exclude='*.pdf' '(/Users/|/home/|[A-Za-z]:\\)' .; then
     echo "absolute path in $REL" >&2
     exit 1
@@ -102,7 +77,7 @@ if [ ! -f preview.png ]; then
   echo "preview.png was not written" >&2
   exit 1
 fi
-check_png_size preview.png || exit 1
+check_preview_size preview.png meta.yaml || exit 1
 
 if grep -RInE --exclude='*.png' --exclude='*.pdf' '(/Users/|/home/|[A-Za-z]:\\)' .; then
   echo "absolute path in $REL" >&2
