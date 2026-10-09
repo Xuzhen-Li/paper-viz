@@ -18,7 +18,7 @@
     top: 0;
     z-index: 4;
     background: #fff;
-    border-top: 3px solid #134aa3;
+    border-top: 1px solid #e6e8eb;
     border-bottom: 1px solid #e6e8eb;
   }
   .header-inner, main { max-width: 1400px; margin: 0 auto; padding: 14px 16px 12px; }
@@ -183,8 +183,36 @@
   .code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 16px; }
   .code-head h3 { margin: 0; }
   a { color: #134aa3; }
-  a.house-link { display: inline-block; margin-top: 4px; padding: 2px 10px; border: 1px solid #134aa3; border-radius: 999px; font-weight: 650; text-decoration: none; }
-  a.house-link:hover { background: #134aa3; color: #fff; }
+  .intro { background: #fff; border-top: 3px solid #134aa3; }
+  .intro-inner { max-width: 1400px; margin: 0 auto; padding: 14px 16px 10px; }
+  .intro-top { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 720px) { .intro-top { grid-template-columns: minmax(0, 1fr) 340px; } }
+  @media (min-width: 1100px) { .intro-top { grid-template-columns: minmax(0, 1fr) 400px; } }
+  .intro h1 { font-size: 1.6rem; }
+  .intro .lede { font-size: 1rem; color: #1a1a1a; margin-top: 4px; }
+  .intro .lede-en { font-size: 0.95rem; color: #3d4a5c; margin: 2px 0 0; }
+  .cta { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  .cta a { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 650; text-decoration: none; border: 1px solid #134aa3; color: #134aa3; background: #fff; }
+  .cta a.primary { background: #134aa3; color: #fff; }
+  .cta a:hover { box-shadow: 0 2px 8px rgba(16, 24, 40, 0.15); }
+  .intro-hero { display: block; }
+  .intro-hero img { display: block; width: 100%; height: auto; border: 1px solid #e6e8eb; border-radius: 8px; background: #fff; }
+  .entries { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); margin-top: 12px; }
+  @media (min-width: 720px) { .entries { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .entry { border: 1px solid #e6e8eb; border-radius: 12px; background: #f9fafb; padding: 10px 14px; }
+  .entry h2 { font-size: 1.05rem; margin: 0 0 4px; }
+  .entry p { margin: 4px 0; font-size: 0.95rem; }
+  .entry p[lang="en"] { color: #3d4a5c; }
+  .entry .go { font-weight: 650; }
+  .entry ol { margin: 4px 0; padding-left: 1.4em; font-size: 0.95rem; }
+  .entry ol[lang="en"] { color: #3d4a5c; }
+  .cta a.text-link { border: 0; padding: 6px 4px; font-weight: 400; text-decoration: underline; }
+  .cta a.text-link:hover { box-shadow: none; }
+  .swatches { display: flex; gap: 4px; margin: 6px 0 2px; }
+  .swatches i { display: block; width: 18px; height: 18px; border-radius: 3px; }
+  footer { border-top: 1px solid #e6e8eb; background: #fff; color: #4b5563; font-size: 0.85rem; }
+  footer .inner { max-width: 1400px; margin: 0 auto; padding: 12px 16px 16px; }
+  footer p { margin: 2px 0; }
   #dlg-files { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
   .hint, #dlg-status { color: #3d4a5c; font-size: 0.85rem; }
   #dlg-variants { margin: 0 0 4px; }
@@ -192,16 +220,55 @@
     .header-inner { padding: 10px 12px 8px; }
     main { padding: 12px; }
     h1 { font-size: 1.2rem; }
+    .intro h1 { font-size: 1.35rem; }
+    .intro-inner { padding: 10px 12px 8px; }
+    .intro-hero { display: none; }
+    footer .inner { padding: 10px 12px 14px; }
   }
 </style>
 </head>
 <body>
-<header>
+<section class="intro">
+  <div class="intro-inner">
+  <div class="intro-top">
+    <div>
+      <h1>paper-viz</h1>
+      <p class="lede" lang="zh-CN">R 科研绘图模板库：按任务找图，复制代码，换上自己的 data.csv。</p>
+      <p class="lede-en" lang="en">R figure templates for papers: find a chart, copy the code, swap in your own data.csv.</p>
+      <p id="stats">加载中…</p>
+      <div class="cta">
+        <a class="primary" href="#gallery">浏览全部图 ↓</a>
+        <a class="text-link" href="https://github.com/Xuzhen-Li/paper-viz#快速开始--quick-start">快速开始（GitHub）</a>
+      </div>
+    </div>
+    <a class="intro-hero" href="house-style/" aria-label="House style"><img src="house-style/hero.png" width="2400" height="1848" alt="九张 house style 示例：分组散点与回归、带置信带的折线图、带原始点与 P 值的柱图、雨云图、分组密度曲线与均值、效应量森林图、带数值的发散色热图、直标环图、小多图与面板内趋势"></a>
+  </div>
+  <div class="entries">
+    <div class="entry">
+      <h2>三步用一张图 / Use a chart in 3 steps</h2>
+      <ol lang="zh-CN">
+        <li>在画廊找到图；</li>
+        <li>复制文件夹，按列名换上自己的数据；</li>
+        <li>运行 <code>Rscript plot.R</code>，得到矢量 PDF 和 600 dpi PNG。</li>
+      </ol>
+      <ol lang="en">
+        <li>Find a chart below.</li>
+        <li>Open its card and copy <code>plot.R</code> (or download <code>plot.R</code> and <code>data.csv</code>).</li>
+        <li>Replace <code>data.csv</code> with your own data, keeping the columns listed on the card, and run <code>Rscript plot.R</code> to get a vector PDF and a 600 dpi PNG.</li>
+      </ol>
+    </div>
+    <div class="entry">
+      <h2>House style · 新图默认风格</h2>
+      <div class="swatches" aria-hidden="true"><i style="background:#1F72AE"></i><i style="background:#F77E12"></i><i style="background:#119B76"></i><i style="background:#CC312C"></i><i style="background:#595594"></i></div>
+      <p lang="zh-CN">紧凑、字多、留白少。规范页里有规范摘要、九张示例和示意图。</p>
+      <p lang="en">Compact, text-dense, little white space. The style page has the summary, the nine examples and the schematics.</p>
+      <p><a class="go" href="house-style/">打开规范页 / Open the style page →</a> · <a class="go" href="house-style/#usage">R 用法 / Usage →</a></p>
+    </div>
+  </div>
+  </div>
+</section>
+<header id="gallery">
   <div class="header-inner">
-  <h1>paper-viz</h1>
-  <p class="lede">按任务找图，复制代码，换上自己的 data.csv。</p>
-  <p class="lede"><a class="house-link" href="house-style/">新图默认风格 House style：规范、示例与示意图 →</a></p>
-  <p id="stats">加载中…</p>
   <div class="tools">
     <input id="q" type="search" placeholder="搜索标题、用途或列名" aria-label="搜索">
     <select id="tag" aria-label="标签"><option value="">全部标签</option></select>
@@ -216,6 +283,13 @@
   <div id="grid" class="grid"></div>
   <p id="empty" class="empty" hidden>没有匹配的图。</p>
 </main>
+<footer>
+  <div class="inner">
+    <p>MIT © 2026 Xuzhen Li · <a href="https://github.com/Xuzhen-Li/paper-viz">GitHub</a> · <a href="catalog.json">catalog.json</a> · <a href="llms.txt">llms.txt</a></p>
+    <p lang="zh-CN">所有图都由本仓库代码画成，都是原创，用的是模拟数据或公开数据。参考文献只给链接和图号，不存期刊图片。</p>
+    <p lang="en">Every chart is original, drawn by code in this repository from synthetic or open data. Published figures are cited only by link and figure number; no journal images are stored here.</p>
+  </div>
+</footer>
 <dialog id="dlg">
   <div class="dlg-head">
     <div>
