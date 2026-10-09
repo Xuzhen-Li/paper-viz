@@ -83,6 +83,9 @@ p <- ggplot(d, aes(x, y, fill = g)) +
 
 out <- file.path(tempdir(), "house-test")
 dir.create(out, showWarnings = FALSE)
+check(pv_fmt_p(0.0123) == "italic(P)*' = 0.012'" && pv_fmt_p(2e-5) == "italic(P)*' < 0.001'" &&
+        grepl("10'^'\u22125'", pv_fmt_p(2e-5, exact = TRUE), fixed = TRUE), "pv_fmt_p: P < 0.001 by default, exponent only if exact")
+
 # grid conversion -------------------------------------------------------------------
 check(identical(pv_grid_span(1:4), c(43, 89, 135, 181)), "span: 43 / 89 / 135 / 181 mm")
 check(identical(pv_grid_canvas(1:4), c(43, 89, 135, 183)), "canvas: 43 / 89 / 135 / 183 mm (4 cells + 1 mm margins)")

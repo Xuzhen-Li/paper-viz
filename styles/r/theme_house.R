@@ -116,9 +116,13 @@ theme_house <- function(base_size = 7, title_size = base_size + 1,
   th
 }
 
-# Plotmath string for P (italic P, "×10^−k"), e.g. annotate("text", label = pv_fmt_p(p), parse = TRUE).
-pv_fmt_p <- function(p, digits = 1) {
+# Plotmath string for P, e.g. annotate("text", label = pv_fmt_p(p), parse = TRUE).
+# p < 0.001 gives "P < 0.001" by default. exact = TRUE gives "P = m × 10^−k", but plotmath draws
+# superscripts at 0.7 x, so the exponent stays >= 6 pt only for text >= 8.6 pt: use exact = TRUE
+# only in a bumped (9/10 pt, single 2x2 panel) figure, never in 7/8 pt figures.
+pv_fmt_p <- function(p, digits = 1, exact = FALSE) {
   if (p >= 0.001) return(sprintf("italic(P)*' = %s'", formatC(signif(p, 2), format = "fg")))
+  if (!isTRUE(exact)) return("italic(P)*' < 0.001'")
   e <- floor(log10(p)); m <- round(p / 10^e, digits)
   if (m >= 10) { m <- 1; e <- e + 1 }
   sprintf("italic(P)*' = %s \u00d7 10'^'\u2212%d'", formatC(m, format = "f", digits = digits), -e)
