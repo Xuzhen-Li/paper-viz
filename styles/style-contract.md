@@ -52,6 +52,10 @@ Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取�
 | 误差棒 | 0.7 | `pv_house_lw("errorbar")` |
 
 - 点：shape 21（实心圆加描边），描边 `#000000`；≤200 个点不透明。**以定稿 demo A 的 ggplot 值为准**：`HOUSE_POINT`（`size = 2.3, stroke = 0.3`），实际填充直径约 1.9 mm、描边约 0.43 pt、外径约 2.0 mm（`pv_point_dims()` 可算）。STYLE §5 里“1.2–1.4 mm”与它自己给的 ggplot `size = 2.2–2.6` 对不上，这里按 Jason 确认的 demo A 观感取 ggplot 值。Python `house.POINT` / `house.SCATTER` 由同一公式换算，物理尺寸与 R 相同（测试里两边各画一个点比对外径）。
+- **点规格统一**：普通数据点（散点、折线上的点）一律 `shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke`（21 / 2.3 / 0.3），不在图里另写数字。只有下面两种例外，都写在 plot.R 顶部的 `point_size` 参数里：
+  - **点估计**（森林图、dot plot）：`size = 3–3.5`（STYLE §5，直径约 1.8–2.2 mm），示例 `house-forest` 用 3.2。空心点（CI 跨 0）靠描边显示，描边用 0.5，比普通点粗。
+  - **叠在柱或箱体上的原始点**：比普通点小，`shape 21`、`stroke = 0.3`。柱图 `size = 1.6, alpha = 0.8`；雨云/箱线的抖动点 `size = 1.2–1.6, alpha = 0.7`（STYLE §12）。
+- 小多图的面板框与单面板相同，都是 0.5 pt 黑框。183 mm 的图缩到 1200 px 宽的 preview 时，这条线不到 1.2 px，看起来发灰，但 PDF 里是纯黑。
 - 置信带同色 alpha 0.2；回归 CI 用灰 `#BFBFBF`。
 
 ### 坐标轴与图例
