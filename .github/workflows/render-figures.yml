@@ -5,6 +5,7 @@ on:
     paths:
       - "figures/**"
       - "styles/**"
+      - "tests/**"
       - "tools/**"
   workflow_dispatch:
     inputs:
@@ -89,6 +90,7 @@ jobs:
             CHECK_ALL=false
             NEED_R=false
             NEED_PY=false
+            COMMIT=false
             FIGURES=""
 
             case "${RENDER_ALL:-}" in
@@ -116,7 +118,7 @@ jobs:
               printf '%s\n' "$CHANGED"
 
               FORCE_ALL=false
-              if printf '%s\n' "$CHANGED" | grep -Eq '^styles/'; then
+              if printf '%s\n' "$CHANGED" | grep -Eq '^(styles|tests)/'; then
                 FORCE_ALL=true
               fi
               if printf '%s\n' "$CHANGED" | grep -Eq '^tools/(check_figure\.sh|check_all\.sh|build_catalog\.py|r-packages\.txt)$'; then
@@ -126,10 +128,16 @@ jobs:
               FIG_DIRS="$(printf '%s\n' "$CHANGED" | grep -E '^figures/[^/]+/[^/]+/' | sed -E 's|^(figures/[^/]+/[^/]+)/.*|\1|' | sort -u || true)"
 
               if [ "$FORCE_ALL" = true ]; then
+                # Full render is check-only: never commit previews/docs/catalog.
                 MODE=all
                 FIGURES="$(list_all_figures)"
+                echo "::notice::styles/, tests/ or check tooling changed: rendering all figures as a check only; nothing will be committed."
+                if [ -n "$FIG_DIRS" ]; then
+                  echo "::notice::Figure directories also changed in this pull request. Their previews are NOT auto-committed in a check-only run; commit them by hand or via a later figure-only push."
+                fi
               elif [ -n "$FIG_DIRS" ]; then
                 MODE=selected
+                COMMIT=true
                 FIGURES="$FIG_DIRS"
               else
                 MODE=catalog_only
@@ -164,8 +172,9 @@ jobs:
             echo "need_r=$NEED_R" >> "${GITHUB_OUTPUT:-/dev/null}"
             echo "need_py=$NEED_PY" >> "${GITHUB_OUTPUT:-/dev/null}"
             echo "check_all=$CHECK_ALL" >> "${GITHUB_OUTPUT:-/dev/null}"
+            echo "commit=$COMMIT" >> "${GITHUB_OUTPUT:-/dev/null}"
             echo "figure_count=$(grep -c . "$FIGFILE" || true)" >> "${GITHUB_OUTPUT:-/dev/null}"
-            echo "Selection mode=$MODE need_r=$NEED_R need_py=$NEED_PY check_all=$CHECK_ALL"
+            echo "Selection mode=$MODE need_r=$NEED_R need_py=$NEED_PY check_all=$CHECK_ALL commit=$COMMIT"
             cat "$FIGFILE" || true
           }
 
@@ -209,6 +218,19 @@ jobs:
             libglpk-dev libgmp-dev \
             libblas-dev liblapack-dev \
             fonts-dejavu-core
+
+      - name: Install Arial-compatible fonts
+        if: steps.select.outputs.need_r == 'true' || steps.select.outputs.need_py == 'true'
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends fontconfig fonts-liberation
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ttf-mscorefonts-installer \
+            || echo "::warning::ttf-mscorefonts-installer failed; falling back to Liberation Sans"
+          sudo fc-cache -f
+          echo "fc-match Arial: $(fc-match Arial)"
+          echo "fc-match Helvetica: $(fc-match Helvetica)"
 
       - name: Install R packages from tools/r-packages.txt
         if: steps.select.outputs.need_r == 'true'
@@ -382,6 +404,7 @@ jobs:
           python3 tools/build_catalog.py
 
       - name: Commit previews and catalog
+        if: steps.select.outputs.commit == 'true'
         env:
           EVENT_NAME: ${{ github.event_name }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
@@ -423,12 +446,25 @@ jobs:
           }
 
           stage_outputs() {
+            # Only the figures selected for this run (their own dirs changed).
+            FIGFILE="${RUNNER_TEMP:-/tmp}/render-figure-dirs.txt"
             git add -- README.md catalog.json docs/catalog.json
-            if [ -d docs/previews ]; then
-              git add -- docs/previews
-            fi
-            find figures -mindepth 3 -maxdepth 3 -type f \( -name preview.png -o -name 'data*.csv' \) -print0 |
-              xargs -0 -r git add --
+            [ -f "$FIGFILE" ] || return 0
+            while IFS= read -r dir; do
+              [ -n "$dir" ] || continue
+              case "$dir" in
+                figures/*/*) ;;
+                *) continue ;;
+              esac
+              [ -d "$dir" ] || continue
+              find "$dir" -mindepth 1 -maxdepth 1 -type f \( -name preview.png -o -name 'data*.csv' \) -print0 |
+                xargs -0 -r git add --
+              slug="$(sed -nE 's/^slug:[[:space:]]*["'"'"']?([^"'"'"'[:space:]]+)["'"'"']?[[:space:]]*$/\1/p' "$dir/meta.yaml" 2>/dev/null | head -n 1)"
+              [ -n "$slug" ] || slug="$(basename "$dir")"
+              if [ -f "docs/previews/${slug}.png" ]; then
+                git add -- "docs/previews/${slug}.png"
+              fi
+            done < "$FIGFILE"
           }
 
           refuse_fork() {
@@ -453,7 +489,7 @@ jobs:
               return 0
             fi
             git config user.name "Xuzhen Li"
-            git config user.email "jasonlixuzhen@gmail.com"
+            git config user.email "193294039+Xuzhen-Li@users.noreply.github.com"
             git commit -m "ci: render changed figure previews"
             git push origin "HEAD:refs/heads/${TARGET_REF}"
           }
