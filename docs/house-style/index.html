@@ -41,7 +41,9 @@
   li { margin: 2px 0; }
   code { font: 0.9em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #f3f4f6; padding: 0 3px; border-radius: 4px; }
   pre { margin: 6px 0; padding: 10px 12px; overflow-x: auto; background: #f6f7f9; border: 1px solid #e6e8eb; border-radius: 8px; font-size: 0.88rem; line-height: 1.45; }
-  pre code { background: none; padding: 0; }
+  pre code { background: none; padding: 0; overflow-wrap: normal; }
+  p code, li code, td code, th code { overflow-wrap: anywhere; }
+  .tablewrap { overflow-x: auto; max-width: 100%; }
   .hero img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid #e6e8eb; background: #fff; }
   .hero p { color: #3d4a5c; font-size: 0.9rem; margin-top: 8px; }
   .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
@@ -66,13 +68,13 @@
   th, td { text-align: left; vertical-align: top; padding: 5px 8px; border-top: 1px solid #e6e8eb; }
   thead th { border-top: 0; color: #6b7280; font-weight: 600; }
   tbody th { font-weight: 600; width: 34%; }
-  .sw { display: inline-flex; align-items: center; gap: 4px; margin: 0 10px 4px 0; font: 0.82rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: nowrap; }
+  .sw { display: inline-flex; align-items: center; gap: 4px; margin: 0 10px 4px 0; font: 0.82rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
   .sw i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0, 0, 0, 0.15); }
   .schem figure { margin: 0 0 14px; }
   .schem img { display: block; width: 100%; height: auto; border: 1px solid #e6e8eb; border-radius: 8px; background: #fff; }
   .schem figcaption { font-size: 0.9rem; color: #3d4a5c; margin-top: 4px; }
   table.refs { width: auto; min-width: 50%; font-size: 0.92rem; }
-  #palette tbody th { width: auto; white-space: nowrap; }
+  #palette tbody th { width: auto; }
   #palette td:nth-child(2), #palette td:nth-child(3) { width: 20%; }
   .note { color: #6b7280; font-size: 0.88rem; }
   @media (max-width: 520px) {
@@ -80,6 +82,9 @@
     main { padding: 12px; }
     section { padding: 12px; }
     tbody th { width: auto; }
+    #palette thead { display: none; }
+    #palette tr, #palette th, #palette td { display: block; width: auto !important; border-top: 0; padding: 2px 0; }
+    #palette tr { border-top: 1px solid #e6e8eb; padding: 6px 0; }
   }
 </style>
 </head>
@@ -111,48 +116,48 @@
   <p lang="en">Click a card to open it in the gallery; the GitHub link below it opens the figure folder.</p>
   <div class="grid">
     <div class="card">
-      <a class="hit" href="../#house-scatter"><span class="thumb"><img src="../previews/house-scatter.png" alt="分组散点与回归线" loading="lazy"></span>
-      <strong>分组散点与回归线</strong><span class="en">Scatter with group fits</span></a>
+      <a class="hit" href="../#house-scatter"><span class="thumb"><img src="../previews/house-scatter.png" alt="分组散点与回归（house 风格）" loading="lazy"></span>
+      <strong>分组散点与回归（house 风格）</strong><span class="en">Scatter with group fits (house style)</span></a>
       <span class="path">correlation/house-scatter · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-scatter">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-line"><span class="thumb"><img src="../previews/house-line.png" alt="带置信带的折线图" loading="lazy"></span>
-      <strong>带置信带的折线图</strong><span class="en">Line chart with CI ribbons</span></a>
+      <a class="hit" href="../#house-line"><span class="thumb"><img src="../previews/house-line.png" alt="带置信带的折线图（house 风格）" loading="lazy"></span>
+      <strong>带置信带的折线图（house 风格）</strong><span class="en">Line chart with CI ribbons (house style)</span></a>
       <span class="path">correlation/house-line · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-line">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-bar"><span class="thumb"><img src="../previews/house-bar.png" alt="带原始点与 P 值的柱图" loading="lazy"></span>
-      <strong>带原始点与 P 值的柱图</strong><span class="en">Bar chart with points and P values</span></a>
+      <a class="hit" href="../#house-bar"><span class="thumb"><img src="../previews/house-bar.png" alt="带原始点与 P 值的柱图（house 风格）" loading="lazy"></span>
+      <strong>带原始点与 P 值的柱图（house 风格）</strong><span class="en">Bar chart with points and P values (house style)</span></a>
       <span class="path">comparison/house-bar · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/house-bar">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-raincloud"><span class="thumb"><img src="../previews/house-raincloud.png" alt="雨云图" loading="lazy"></span>
-      <strong>雨云图</strong><span class="en">Raincloud plot</span></a>
+      <a class="hit" href="../#house-raincloud"><span class="thumb"><img src="../previews/house-raincloud.png" alt="雨云图（house 风格）" loading="lazy"></span>
+      <strong>雨云图（house 风格）</strong><span class="en">Raincloud plot (house style)</span></a>
       <span class="path">distribution/house-raincloud · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/distribution/house-raincloud">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-density"><span class="thumb"><img src="../previews/house-density.png" alt="分组密度曲线与均值" loading="lazy"></span>
-      <strong>分组密度曲线与均值</strong><span class="en">Density curves with group means</span></a>
+      <a class="hit" href="../#house-density"><span class="thumb"><img src="../previews/house-density.png" alt="分组密度曲线与均值（house 风格）" loading="lazy"></span>
+      <strong>分组密度曲线与均值（house 风格）</strong><span class="en">Density curves with group means (house style)</span></a>
       <span class="path">distribution/house-density · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/distribution/house-density">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-forest"><span class="thumb"><img src="../previews/house-forest.png" alt="效应量森林图" loading="lazy"></span>
-      <strong>效应量森林图</strong><span class="en">Forest plot of effect sizes</span></a>
+      <a class="hit" href="../#house-forest"><span class="thumb"><img src="../previews/house-forest.png" alt="效应量森林图（house 风格）" loading="lazy"></span>
+      <strong>效应量森林图（house 风格）</strong><span class="en">Forest plot of effects (house style)</span></a>
       <span class="path">comparison/house-forest · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/house-forest">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-heatmap"><span class="thumb"><img src="../previews/house-heatmap.png" alt="带数值的发散色热图" loading="lazy"></span>
-      <strong>带数值的发散色热图</strong><span class="en">Annotated diverging heatmap</span></a>
+      <a class="hit" href="../#house-heatmap"><span class="thumb"><img src="../previews/house-heatmap.png" alt="带数值的发散色热图（house 风格）" loading="lazy"></span>
+      <strong>带数值的发散色热图（house 风格）</strong><span class="en">Annotated diverging heatmap (house style)</span></a>
       <span class="path">heatmap/house-heatmap · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/heatmap/house-heatmap">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-donut"><span class="thumb"><img src="../previews/house-donut.png" alt="直接标注的环图" loading="lazy"></span>
-      <strong>直接标注的环图</strong><span class="en">Donut chart with direct labels</span></a>
+      <a class="hit" href="../#house-donut"><span class="thumb"><img src="../previews/house-donut.png" alt="直标环图（house 风格）" loading="lazy"></span>
+      <strong>直标环图（house 风格）</strong><span class="en">Donut chart with direct labels (house style)</span></a>
       <span class="path">composition/house-donut · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/composition/house-donut">GitHub</a></span>
     </div>
     <div class="card">
-      <a class="hit" href="../#house-small-multiples"><span class="thumb"><img src="../previews/house-small-multiples.png" alt="分面小图（每格带趋势线）" loading="lazy"></span>
-      <strong>分面小图（每格带趋势线）</strong><span class="en">Small multiples with in-panel trends</span></a>
+      <a class="hit" href="../#house-small-multiples"><span class="thumb"><img src="../previews/house-small-multiples.png" alt="小多图与面板内趋势（house 风格）" loading="lazy"></span>
+      <strong>小多图与面板内趋势（house 风格）</strong><span class="en">Small multiples with in-panel trends (house style)</span></a>
       <span class="path">layout/house-small-multiples · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/layout/house-small-multiples">GitHub</a></span>
     </div>
   </div>
@@ -191,7 +196,7 @@ fig, ax = house.house_figure("single", height_mm=76)
 ax.plot(x, 0.8 * x + 1, color=house.pv_palette("house")[0])
 house.save_house(fig, "figure")</code></pre>
   <figure class="schem">
-    <img src="schematics/schematic_pipeline.svg" alt="出图流程：data → theme_house() → pv_save_house() → PDF / PNG" loading="lazy">
+    <img src="schematics/schematic_pipeline.svg" width="4323" height="792" alt="出图流程：data → theme_house() → pv_save_house() → PDF / PNG" loading="lazy">
     <figcaption>出图流程 / Pipeline · <a href="schematics/schematic_pipeline.svg">SVG</a> · <a href="schematics/schematic_pipeline.png">PNG</a> · <a href="schematics/schematic_pipeline.drawio">.drawio</a></figcaption>
   </figure>
 </section>
@@ -199,7 +204,7 @@ house.save_house(fig, "figure")</code></pre>
 <section id="typescale" class="schem">
   <h2>字号层级 / Type scale</h2>
   <figure>
-    <img src="schematics/schematic_typescale.svg" alt="字号层级：面板字母 10 pt、轴标题 8 pt、刻度 7 pt、最小 6 pt；单栏单面板 +2 pt" loading="lazy">
+    <img src="schematics/schematic_typescale.svg" width="4323" height="1669" alt="字号层级：面板字母 10 pt、轴标题 8 pt、刻度 7 pt、最小 6 pt；单栏单面板 +2 pt" loading="lazy">
     <figcaption>字号层级 / Type scale · <a href="schematics/schematic_typescale.svg">SVG</a> · <a href="schematics/schematic_typescale.png">PNG</a> · <a href="schematics/schematic_typescale.drawio">.drawio</a></figcaption>
   </figure>
 </section>
@@ -241,13 +246,14 @@ house.save_house(fig, "figure")</code></pre>
 <section id="layout" class="schem">
   <h2>版面与间距 / Layout</h2>
   <figure>
-    <img src="schematics/schematic_layout.svg" alt="版面：183 mm 双栏每行 3 个面板，89 mm 单栏 2 个或 1 个面板" loading="lazy">
+    <img src="schematics/schematic_layout.svg" width="4607" height="4536" alt="版面：183 mm 双栏每行 3 个面板，89 mm 单栏 2 个或 1 个面板" loading="lazy">
     <figcaption>版面与间距 / Layout · <a href="schematics/schematic_layout.svg">SVG</a> · <a href="schematics/schematic_layout.png">PNG</a> · <a href="schematics/schematic_layout.drawio">.drawio</a></figcaption>
   </figure>
 </section>
 
 <section id="palette">
   <h2>色板 / Palettes</h2>
+  <div class="tablewrap">
   <table>
     <thead><tr><th>名字 / Name</th><th>中文用途</th><th>Use</th><th>色值 / Colours</th></tr></thead>
     <tbody>
@@ -258,6 +264,7 @@ house.save_house(fig, "figure")</code></pre>
       <tr><th><code>house_grey</code></th><td>文字、参考线、置信带</td><td>Text, reference lines, CI ribbons</td><td><span class="sw"><i style="background:#000000"></i>#000000</span><span class="sw"><i style="background:#333333"></i>#333333</span><span class="sw"><i style="background:#6B6B6B"></i>#6B6B6B</span><span class="sw"><i style="background:#757575"></i>#757575</span><span class="sw"><i style="background:#BFBFBF"></i>#BFBFBF</span><span class="sw"><i style="background:#E0E0E0"></i>#E0E0E0</span><span class="sw"><i style="background:#F0F0F0"></i>#F0F0F0</span></td></tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <section id="references">
