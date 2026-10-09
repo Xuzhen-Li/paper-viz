@@ -7,7 +7,8 @@ ci_mult <- 1.96
 n_accessions <- 278
 dodge <- 0.17
 x_limits <- c(-0.65, 1.1)
-point_size <- 3.2   # point estimate (style-contract.md, points): size 3–3.5, larger than HOUSE_POINT
+# point estimate (style-contract.md, points): HOUSE_POINT with size 3.2 (STYLE size 3–3.5)
+est_point <- utils::modifyList(HOUSE_POINT, list(size = 3.2))
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 pal <- pv_palette("house")
@@ -27,7 +28,8 @@ p <- ggplot(df, aes(estimate, y, colour = season)) +
   geom_vline(xintercept = 0, linetype = "22", linewidth = pv_house_lw("ref"),
              colour = pv_palette("house_grey")[["mid"]]) +
   geom_linerange(aes(xmin = lo, xmax = hi), linewidth = pv_house_lw(0.9)) +
-  geom_point(aes(fill = fillc), shape = 21, size = point_size, stroke = 0.5) +
+  geom_point(aes(fill = fillc), shape = est_point$shape, size = est_point$size,
+             stroke = est_point$stroke) +
   geom_text(aes(x = hi + 0.03, label = minus(sprintf("%+.2f", estimate))), hjust = 0,
             size = pv_pt2size(6)) +
   annotate("text", x = x_limits[1] + 0.03, y = top + 0.05, label = seasons[1], colour = scol[[1]],
@@ -48,7 +50,7 @@ p <- ggplot(df, aes(estimate, y, colour = season)) +
   labs(x = "Effect on berry weight (g)", y = NULL) +
   theme_house() +
   theme(axis.text.y = element_text(face = "italic"),
-        plot.margin = margin(1.6, 2.6, 0.4, 0.4, "mm"))
+        plot.margin = margin(1.6, 2.6, 0.9, 0.4, "mm"))
 
 pv_save_house(p, "figure", width = "single", height_mm = 82)
 message("wrote preview.png")

@@ -17,7 +17,7 @@ data_columns:
   estimate: 效应估计值
   se: 标准误
 when_to_use: 多个条目的效应量（± 95% CI）在两个批次或条件下对照时用；CI 跨 0 的点画成空心，数值写在 CI 右侧，N 写在角落。
-customize: plot.R 顶部 ci_mult 调置信区间倍数；n_accessions 写样本量（右上角 N 为斜体）；point_size 为点估计点径（3–3.5，比普通点大）；dodge 调两组上下错开距离；x_limits 调 x 范围。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 ci_mult 调置信区间倍数；n_accessions 写样本量（右上角 N 为斜体）；est_point 为点估计的点规格（HOUSE_POINT 改 size 为 3.2，范围 3–3.5）；dodge 调两组上下错开距离；x_limits 调 x 范围。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
 lang: R
 style: house
 references:

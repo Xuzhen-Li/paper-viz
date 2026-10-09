@@ -8,7 +8,8 @@ violin_width <- 0.42
 box_half_width <- 0.055
 box_alpha <- 0.6     # box fill alpha 0.5–0.7
 tail_cut <- 1.5      # density tails run tail_cut bandwidths past the data (tapered, not trimmed flat)
-point_size <- 1.6    # jitter overlay (style-contract.md, points): size 1.2–1.6, alpha 0.7
+# jitter overlay (style-contract.md, points): HOUSE_POINT with size 1.6 (1.2–1.6), alpha 0.7
+raw_point <- utils::modifyList(HOUSE_POINT, list(size = 1.6))
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 pal <- pv_palette("house")
@@ -42,8 +43,8 @@ br <- data.frame(x0 = c(1, 2), x1 = c(2, 3), y = c(br_y1, br_y2),
 
 p <- ggplot() +
   geom_polygon(data = hv, aes(x, y, group = group, fill = group), alpha = 0.6, colour = NA) +
-  geom_point(data = df, aes(xj, heterozygosity_pct, fill = group), shape = 21, size = point_size,
-             stroke = HOUSE_POINT$stroke, colour = "black", alpha = 0.7) +
+  geom_point(data = df, aes(xj, heterozygosity_pct, fill = group), shape = raw_point$shape,
+             size = raw_point$size, stroke = raw_point$stroke, colour = "black", alpha = 0.7) +
   geom_segment(data = st, aes(x = x, xend = x, y = lo, yend = hi), linewidth = pv_house_lw("ref")) +
   geom_rect(data = st, aes(xmin = x - box_half_width, xmax = x + box_half_width, ymin = q1, ymax = q3,
                            fill = group), alpha = box_alpha, colour = "black",

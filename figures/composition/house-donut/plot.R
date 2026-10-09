@@ -7,7 +7,7 @@ inner_r <- 0.56
 min_share <- 0.03
 label_r <- 1.05     # radius of the outer names (ring outer radius = 1)
 # visible window in ring units, fitted so the outer names sit ~1 mm from the canvas edge at
-# 89 x 64.5 mm; widen it if longer names or other shares push labels off the canvas
+# 89 x 64.56 mm (183 pt); widen it if longer names or other shares push labels off the canvas
 view_x <- c(-1.513, 1.435)
 view_y <- c(-1.031, 1.078)
 centre_title <- "Catchment"
@@ -63,7 +63,7 @@ p <- ggplot() +
   theme(panel.border = element_blank(), axis.line = element_blank(), axis.text.x = element_blank(),
         axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(),
         axis.title.y = element_blank(), legend.position = "none",
-        plot.margin = margin(1, 1, 1, 1, "mm"))
+        plot.margin = margin(1, 1, 1, 0.8, "mm"))
 
-pv_save_house(p, "figure", width = "single", height_mm = 64.5)
+pv_save_house(p, "figure", width = "single", height_mm = 64.56)
 message("wrote preview.png")

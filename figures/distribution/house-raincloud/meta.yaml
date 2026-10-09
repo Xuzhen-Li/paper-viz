@@ -15,7 +15,7 @@ data_columns:
   group: 分组（字符串）
   heterozygosity_pct: 每个样品的数值（此例为杂合度 %）
 when_to_use: 几组连续数值比较分布时用；半小提琴 + 窄箱 + 抖动点，相邻两组的 Wilcoxon P 用括号线写在上方，每组 n 写在底部。
-customize: plot.R 顶部 group_order 定组序与配色；violin_width 调半小提琴宽；box_half_width 调箱宽；box_alpha 为箱体透明度（0.5–0.7）；tail_cut 为半小提琴尾部延伸的带宽倍数；point_size 为抖动点径（1.2–1.6）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 group_order 定组序与配色；violin_width 调半小提琴宽；box_half_width 调箱宽；box_alpha 为箱体透明度（0.5–0.7）；tail_cut 为半小提琴尾部延伸的带宽倍数；raw_point 为抖动点规格（HOUSE_POINT 改 size 为 1.6，范围 1.2–1.6）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
 lang: R
 style: house
 references:

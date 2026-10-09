@@ -28,7 +28,7 @@ p <- ggplot(df, aes(col, row)) +
   scale_colour_identity() +
   scale_fill_gradientn(colours = pv_palette("house_div"), limits = c(-limit, limit),
                        breaks = seq(-limit, limit, 1.5),
-                       labels = function(x) gsub("-", "\u2212", format(x)), name = expression(log[2] ~ FC)) +
+                       labels = function(x) gsub("-", "\u2212", format(x)), name = expression(log[2]*" FC")) +
   scale_x_continuous(breaks = seq_len(ncol_), labels = rep(paste(days, "d"), length(stress)),
                      expand = c(0, 0)) +
   scale_y_continuous(breaks = seq_along(genes), labels = rev(genes), expand = c(0, 0)) +
@@ -41,7 +41,7 @@ p <- ggplot(df, aes(col, row)) +
         axis.text.y = element_text(face = "italic"),
         legend.position = "right", legend.title = element_text(size = 7, margin = margin(b = 2, unit = "mm")),
         legend.margin = margin(0, 0, 0, 1, "mm"), legend.box.spacing = unit(1, "mm"),
-        plot.margin = margin(4.2, 0.8, 0.4, 0.4, "mm"))
+        plot.margin = margin(4.2, 0.8, 0.9, 0.4, "mm"))
 
 pv_save_house(p, "figure", width = "single", height_mm = 80)
 message("wrote preview.png")
