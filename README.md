@@ -4,17 +4,43 @@
 [![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
 [![Figures](https://img.shields.io/badge/figures-111-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
-[![九张 house style 示例：散点、折线、柱、雨云、密度、森林图、热图、环图、分面小图。Nine house-style examples: scatter, line, bar, raincloud, density, forest, heatmap, donut, small multiples](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
+[![九张 house style 示例：分组散点与回归、带置信带的折线图、带原始点与 P 值的柱图、雨云图、分组密度曲线与均值、效应量森林图、带数值的发散色热图、直标环图、小多图与面板内趋势。Nine house-style examples: scatter, line, bar, raincloud, density, forest, heatmap, donut, small multiples](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
 
-R 优先的科研绘图模板库。每种图是一个文件夹（`plot.R`、模拟数据 `data.csv`、`meta.yaml`）：在画廊里找到图，复制文件夹，按列名换上自己的数据，运行 `Rscript plot.R`，得到矢量 PDF 和 600 dpi PNG；也方便 agent 检索调用。新图默认 house style，上图九张示例都由本仓库代码用模拟数据画成。入口：[在线画廊](https://xuzhen-li.github.io/paper-viz/) · [快速开始](#快速开始--quick-start) · [House style 规范](https://xuzhen-li.github.io/paper-viz/house-style/) · [给 agent 用](AGENTS.md)。
+<sub>新图风格示例，全库见画廊 / House-style examples for new figures; see the gallery for all figures</sub>
 
-An R-first library of paper-figure templates. Each figure is one folder (`plot.R`, synthetic `data.csv`, `meta.yaml`): find it in the gallery, copy the folder, swap in your own data with the same columns, and run `Rscript plot.R` to get a vector PDF and a 600 dpi PNG. Agents can search and reuse the templates too. New figures default to the house style; the nine examples above were drawn from synthetic data by code in this repository. Start here: [Gallery](https://xuzhen-li.github.io/paper-viz/) · [Quick start](#快速开始--quick-start) · [House style](https://xuzhen-li.github.io/paper-viz/house-style/) · [For agents](AGENTS.md).
+[画廊 / Gallery](https://xuzhen-li.github.io/paper-viz/) · [快速开始 / Quick start](#快速开始--quick-start) · [House style 规范 / House style](https://xuzhen-li.github.io/paper-viz/house-style/) · [给 agent 用 / For agents](AGENTS.md)
+
+R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、模拟数据 `data.csv` 和 `meta.yaml`。
+
+1. 在画廊找到图；
+2. 复制文件夹，按列名换上自己的数据；
+3. 运行 `Rscript plot.R`，得到矢量 PDF 和 600 dpi PNG。
+
+agent 也能检索调用。新图默认 house style；上图九张示例都由本仓库代码用模拟数据画成。
+
+An R-first library of paper-figure templates. Each figure is one folder with `plot.R`, synthetic `data.csv` and `meta.yaml`.
+
+1. Find a figure in the gallery.
+2. Copy the folder and swap in your own data, keeping the column names.
+3. Run `Rscript plot.R` to get a vector PDF and a 600 dpi PNG.
+
+Agents can search and reuse the templates too. New figures default to the house style; the nine examples above were drawn from synthetic data by code in this repository.
 
 ## 画廊 / Gallery
 
-画廊一张卡片是一个主图。近重复图写在 `meta.yaml` 的 `variant_of` 上，变成这张卡片里的切换，不再各占一格。顶栏按任务筛选。搜索匹配中英文标题、标签、`when_to_use`、`customize` 和列名（例如「差异基因」会找到火山图和 MA 图）。打开卡片可以看大图、用途、列说明、CSV 表头和前 5 行、脚本顶部赋值参数和画布毫米；可以复制 `plot.R`，并下载原始的 `plot.R`、`data.csv`、`make_data.R`。地址栏 `#slug` 直接打开该图，例如 <https://xuzhen-li.github.io/paper-viz/#volcano> 。
+- 筛选：顶栏按任务筛选；一张卡片是一个主图，近重复图（`meta.yaml` 的 `variant_of`）是卡片里的切换。
+- 搜索：匹配中英文标题、标签、`when_to_use`、`customize` 和列名，例如「差异基因」会找到火山图和 MA 图。
+- 弹窗：打开卡片看大图、用途、列说明、CSV 表头和前 5 行、脚本顶部参数和画布毫米。
+- 下载：可复制 `plot.R`，或下载原始的 `plot.R`、`data.csv`、`make_data.R`。
+- 深链：地址栏 `#slug` 直接打开该图，例如 <https://xuzhen-li.github.io/paper-viz/#volcano>。
 
-One gallery card is one main figure. Near-duplicates set `variant_of` in `meta.yaml` and show up as toggles on that card. Filter by task. Search matches titles, tags, when-to-use text, customize notes, and column names. Open a card for the large preview, column descriptions, a CSV sample, top-of-file parameters, and canvas size; copy `plot.R` or download the raw files. `#slug` opens that figure, for example <https://xuzhen-li.github.io/paper-viz/#volcano>.
+<!-- English -->
+
+- Filter: filter by task in the top bar. One card is one main figure; near-duplicates (`variant_of` in `meta.yaml`) are toggles on that card.
+- Search: matches titles in both languages, tags, `when_to_use`, `customize` and column names.
+- Dialog: open a card for the large preview, use, column descriptions, CSV header and first 5 rows, top-of-script parameters and canvas size in mm.
+- Download: copy `plot.R`, or download the raw `plot.R`, `data.csv` and `make_data.R`.
+- Deep link: `#slug` opens that figure directly, for example <https://xuzhen-li.github.io/paper-viz/#volcano>.
 
 ## 分类 / Categories
 
@@ -143,6 +169,10 @@ One gallery card is one main figure. Near-duplicates set `variant_of` in `meta.y
 </details>
 
 ## 快速开始 / Quick start
+
+只要一张图：在画廊卡片里下载 `plot.R` 和 `data.csv`（另需 `styles/r/` 里的主题文件，并改 `plot.R` 顶部的 `source()` 路径）。
+
+Need just one figure? Download `plot.R` and `data.csv` from its gallery card (you also need the theme files in `styles/r/`; fix the `source()` path at the top of `plot.R`).
 
 复制一个图文件夹，按该目录 `meta.yaml` 的 `data_columns` 替换 `data.csv`，再出图。
 

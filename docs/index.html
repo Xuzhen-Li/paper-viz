@@ -204,6 +204,10 @@
   .entry p { margin: 4px 0; font-size: 0.95rem; }
   .entry p[lang="en"] { color: #3d4a5c; }
   .entry .go { font-weight: 650; }
+  .entry ol { margin: 4px 0; padding-left: 1.4em; font-size: 0.95rem; }
+  .entry ol[lang="en"] { color: #3d4a5c; }
+  .cta a.text-link { border: 0; padding: 6px 4px; font-weight: 400; text-decoration: underline; }
+  .cta a.text-link:hover { box-shadow: none; }
   .swatches { display: flex; gap: 4px; margin: 6px 0 2px; }
   .swatches i { display: block; width: 18px; height: 18px; border-radius: 3px; }
   footer { border-top: 1px solid #e6e8eb; background: #fff; color: #4b5563; font-size: 0.85rem; }
@@ -234,25 +238,31 @@
       <p id="stats">加载中…</p>
       <div class="cta">
         <a class="primary" href="#gallery">浏览全部图 ↓</a>
-        <a href="house-style/">House style 规范 →</a>
-        <a href="https://github.com/Xuzhen-Li/paper-viz#快速开始--quick-start">快速开始（GitHub）</a>
+        <a class="text-link" href="https://github.com/Xuzhen-Li/paper-viz#快速开始--quick-start">快速开始（GitHub）</a>
       </div>
     </div>
-    <a class="intro-hero" href="house-style/" aria-label="House style"><img src="house-style/hero.png" width="2400" height="1848" alt="九张 house style 示例：散点、折线、柱、雨云、密度、森林图、热图、环图、分面小图"></a>
+    <a class="intro-hero" href="house-style/" aria-label="House style"><img src="house-style/hero.png" width="2400" height="1848" alt="九张 house style 示例：分组散点与回归、带置信带的折线图、带原始点与 P 值的柱图、雨云图、分组密度曲线与均值、效应量森林图、带数值的发散色热图、直标环图、小多图与面板内趋势"></a>
   </div>
   <div class="entries">
     <div class="entry">
       <h2>三步用一张图 / Use a chart in 3 steps</h2>
-      <p lang="zh-CN">在下面找到图；打开卡片，复制 <code>plot.R</code> 或下载 <code>plot.R</code> 和 <code>data.csv</code>；按卡片里的列名换上自己的数据，运行 <code>Rscript plot.R</code>，得到 PDF 和 600 dpi PNG。</p>
-      <p lang="en">Find a chart below; open its card and copy <code>plot.R</code> (or download <code>plot.R</code> and <code>data.csv</code>); replace <code>data.csv</code> with your own data, keeping the columns listed on the card, and run <code>Rscript plot.R</code> to get a PDF and a 600 dpi PNG.</p>
-      <p><a class="go" href="house-style/#usage">R 用法 / Usage →</a></p>
+      <ol lang="zh-CN">
+        <li>在画廊找到图；</li>
+        <li>复制文件夹，按列名换上自己的数据；</li>
+        <li>运行 <code>Rscript plot.R</code>，得到矢量 PDF 和 600 dpi PNG。</li>
+      </ol>
+      <ol lang="en">
+        <li>Find a chart below.</li>
+        <li>Open its card and copy <code>plot.R</code> (or download <code>plot.R</code> and <code>data.csv</code>).</li>
+        <li>Replace <code>data.csv</code> with your own data, keeping the columns listed on the card, and run <code>Rscript plot.R</code> to get a vector PDF and a 600 dpi PNG.</li>
+      </ol>
     </div>
     <div class="entry">
       <h2>House style · 新图默认风格</h2>
       <div class="swatches" aria-hidden="true"><i style="background:#1F72AE"></i><i style="background:#F77E12"></i><i style="background:#119B76"></i><i style="background:#CC312C"></i><i style="background:#595594"></i></div>
-      <p lang="zh-CN">紧凑、字多、留白少。规范摘要、九张示例和示意图都在规范页。</p>
+      <p lang="zh-CN">紧凑、字多、留白少。规范页里有规范摘要、九张示例和示意图。</p>
       <p lang="en">Compact, text-dense, little white space. The style page has the summary, the nine examples and the schematics.</p>
-      <p><a class="go" href="house-style/">打开规范页 / Open the style page →</a></p>
+      <p><a class="go" href="house-style/">打开规范页 / Open the style page →</a> · <a class="go" href="house-style/#usage">R 用法 / Usage →</a></p>
     </div>
   </div>
   </div>
@@ -276,7 +286,7 @@
 <footer>
   <div class="inner">
     <p>MIT © 2026 Xuzhen Li · <a href="https://github.com/Xuzhen-Li/paper-viz">GitHub</a> · <a href="catalog.json">catalog.json</a> · <a href="llms.txt">llms.txt</a></p>
-    <p lang="zh-CN">所有图都是本仓库代码用模拟数据画的原创图；参考文献只给链接与图号，不存期刊图片。</p>
+    <p lang="zh-CN">所有图都由本仓库代码用模拟数据画成，都是原创。参考文献只给链接和图号，不存期刊图片。</p>
     <p lang="en">Every chart is original, drawn from synthetic data by code in this repository. Published figures are cited only by link and figure number; no journal images are stored here.</p>
   </div>
 </footer>
