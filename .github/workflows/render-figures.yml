@@ -15,7 +15,7 @@ on:
         default: false
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: render-figures-${{ github.event.pull_request.head.ref || github.ref }}
@@ -24,6 +24,9 @@ concurrency:
 jobs:
   render:
     runs-on: ubuntu-latest
+    # Only this job pushes (figure-only runs commit their own previews).
+    permissions:
+      contents: write
     steps:
       - name: Refuse fork pull requests
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
@@ -402,6 +405,41 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/build_catalog.py
+
+      - name: Report drift after full check
+        if: ${{ !cancelled() && steps.select.outputs.mode == 'all' && steps.select.outputs.commit != 'true' }}
+        run: |
+          # step:drift
+          # Report only, never commit. A full render is a check; runner fonts and
+          # library versions can differ from the committed previews, so drift is a
+          # warning plus a job summary, not a failure.
+          set -euo pipefail
+          paths=(figures docs catalog.json README.md)
+          if git diff --quiet --exit-code -- "${paths[@]}"; then
+            echo "No drift: rendered outputs match the committed files."
+            echo "### Render drift: none" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          changed="$(git diff --name-only -- "${paths[@]}")"
+          count="$(printf '%s\n' "$changed" | grep -c . || true)"
+          echo "::warning::Full check: ${count} tracked file(s) differ from the commit. Report only; nothing is committed."
+          printf '%s\n' "$changed" | head -n 9 | while IFS= read -r f; do
+            echo "::warning file=${f}::drift after full render: ${f}"
+          done
+          printf '%s\n' "$changed"
+          {
+            echo "### Render drift: ${count} file(s)"
+            echo ""
+            echo "Full render is check-only; these files were NOT committed."
+            echo ""
+            echo '```'
+            printf '%s\n' "$changed"
+            echo '```'
+            echo ""
+            echo '```'
+            git diff --stat -- "${paths[@]}" | tail -n 1
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit previews and catalog
         if: steps.select.outputs.commit == 'true'
