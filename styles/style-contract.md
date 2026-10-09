@@ -10,6 +10,24 @@
 
 - R：`source("../../../styles/r/theme_house.R")`（会顺带加载同目录的 `theme_viz.R`），然后 `theme_house()`、`pv_palette("house")`、`pv_save_house()`。
 - Python：`import house`（`styles/python/house.py`），然后 `house.apply_house_style()`、`house.house_figure()`、`house.save_house()`。
+- 规范页（九张示例与三张示意图）：<https://xuzhen-li.github.io/paper-viz/house-style/>
+
+### 用法 / Usage
+
+中文：在 `figures/<category>/<slug>/plot.R` 里 source `theme_house.R`，主题用 `theme_house()`，颜色用 `pv_palette("house")`，导出用 `pv_save_house()`。`theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3), base_family = house_family(), legend = c("none", "inside"))`：刻度 7 pt、轴标题 8 pt 不加粗、面板字母 10 pt 粗体；`legend = "inside"` 时图例放框内右上。`pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL, bump = NULL, dpi = 600, preview = TRUE)`：`width` 也可写毫米数；不给 `height_mm` 时单栏 76 mm、双栏 118 mm；`bump = NULL` 时宽 ≤89 mm 的单面板自动 +2 pt，`bump = 0` 关掉。线宽 `pv_house_lw()`，点 `HOUSE_POINT`，图内文字字号 `pv_pt2size(pt)`，*P* 值文本 `pv_fmt_p(p)`（配 `parse = TRUE`）。
+
+English: in `figures/<category>/<slug>/plot.R`, source `theme_house.R`, then use `theme_house()` for the theme, `pv_palette("house")` for colours and `pv_save_house()` to export. `theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3), base_family = house_family(), legend = c("none", "inside"))` gives 7 pt ticks, 8 pt plain axis titles and 10 pt bold panel tags; `legend = "inside"` puts a legend top-right inside the frame. `pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL, bump = NULL, dpi = 600, preview = TRUE)` also takes a width in mm; without `height_mm` it uses 76 mm (single) or 118 mm (double); with `bump = NULL` a single panel at ≤89 mm gets +2 pt, `bump = 0` switches that off. Line widths `pv_house_lw()`, points `HOUSE_POINT`, in-panel text size `pv_pt2size(pt)`, *P* labels `pv_fmt_p(p)` (with `parse = TRUE`).
+
+```r
+# figures/<category>/<slug>/plot.R
+source("../../../styles/r/theme_house.R")   # also loads theme_viz.R
+df <- utils::read.csv("data.csv")
+p <- ggplot2::ggplot(df, ggplot2::aes(x, y, colour = group)) +
+  ggplot2::geom_line(linewidth = pv_house_lw("main")) +
+  ggplot2::scale_colour_manual(values = unname(pv_palette("house", 3))) +
+  theme_house()                              # 7/8 pt; theme_house(legend = "inside") if a legend is unavoidable
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # 89 mm single panel -> +2 pt (9/10 pt)
+```
 
 ### 画布
 
