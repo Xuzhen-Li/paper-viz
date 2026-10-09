@@ -41,7 +41,7 @@ A main figure with `variants` has near-duplicate folders. Copy the slug you will
 
 ## Style
 
-**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure()`, `save_house()`). Style page with the nine examples and schematics: https://xuzhen-li.github.io/paper-viz/house-style/ .
+**New figures use the house style.** Source `styles/r/theme_house.R` (it also loads `theme_viz.R`) and use `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. Python: `styles/python/house.py` (`apply_house_style()`, `house_figure()`, `save_house()`). The style page has the nine examples and the schematics: [house style](https://xuzhen-li.github.io/paper-viz/house-style/).
 
 ```r
 # figures/<category>/<slug>/plot.R
@@ -51,12 +51,17 @@ p <- ggplot2::ggplot(df, ggplot2::aes(x, y, colour = group)) +
   ggplot2::geom_line(linewidth = pv_house_lw("main")) +
   ggplot2::scale_colour_manual(values = unname(pv_palette("house", 3))) +
   theme_house()                              # 7/8 pt; theme_house(legend = "inside") if a legend is unavoidable
-pv_save_house(p, "figure", width = "single", height_mm = 76)  # 89 mm single panel -> +2 pt (9/10 pt)
+pv_save_house(p, "figure", width = "single", height_mm = 76)  # one panel on 89 mm: +2 pt -> 9/10 pt
 ```
 
-`theme_house(base_size = 7, legend = c("none", "inside"))`: ticks `base_size`, axis titles `base_size + 1` (plain), panel tags 10 pt bold. `pv_save_house(plot, file, width = "double" | "single" | <mm>, height_mm = NULL, bump = NULL, dpi = 600, preview = TRUE)`: 89 mm / 183 mm presets; a single panel at ≤89 mm gets +2 pt automatically (`bump = 0` turns it off). Line widths: `pv_house_lw("main" | "emph" | "minor" | "ref" | "errorbar")`. Points: `HOUSE_POINT` (shape 21, size 2.3, stroke 0.3).
+```r
+theme_house(base_size = 7, title_size = base_size + 1, tag_size = max(10, base_size + 3),
+            base_family = house_family(), legend = c("none", "inside"))
+pv_save_house(plot, file, width = c("double", "single"), height_mm = NULL,
+              bump = NULL, dpi = 600, preview = TRUE)   # width may also be a number in mm
+```
 
-中文：新图 `source("../../../styles/r/theme_house.R")`（会顺带加载 `theme_viz.R`），用 `theme_house()`、`pv_palette("house")`、`pv_save_house()`。`theme_house(base_size = 7, legend = c("none", "inside"))`：刻度 `base_size`，轴标题 `base_size + 1` 且不加粗，面板字母 10 pt 粗体；默认不画图例，必须用时 `legend = "inside"`。`pv_save_house(plot, file, width = "double" | "single" | 毫米数, height_mm = NULL, bump = NULL, dpi = 600, preview = TRUE)`：单栏 89 mm、双栏 183 mm；宽 ≤89 mm 且只有一个面板时自动 +2 pt（9/10 pt），`bump = 0` 可关。线宽用 `pv_house_lw("main" | "emph" | "minor" | "ref" | "errorbar")`，点用 `HOUSE_POINT`（shape 21 / size 2.3 / stroke 0.3）。Python 用 `styles/python/house.py`。已有的图继续用 `theme_viz()` / `pv_save()`。
+中文：source `theme_house.R`；主题 `theme_house()`、颜色 `pv_palette("house")`、导出 `pv_save_house()`。默认 7/8 pt，单栏单面板自动 +2 pt，`bump = 0` 关掉。非用图例不可时用 `legend = "inside"`，放框内右上。
 
 - Canvas: 89 mm single column (`width = "single"`) or 183 mm double column (`width = "double"`).
 - Text: 7 pt ticks, 8 pt plain (not bold) axis titles, 10 pt bold lowercase panel tags (`patchwork::plot_annotation(tag_levels = "a")`), nothing under 6 pt. A single-column single panel gets +2 pt (9/10 pt); `pv_save_house()` adds it automatically.

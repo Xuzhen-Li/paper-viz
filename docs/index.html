@@ -183,6 +183,8 @@
   .code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 16px; }
   .code-head h3 { margin: 0; }
   a { color: #134aa3; }
+  a.house-link { display: inline-block; margin-top: 4px; padding: 2px 10px; border: 1px solid #134aa3; border-radius: 999px; font-weight: 650; text-decoration: none; }
+  a.house-link:hover { background: #134aa3; color: #fff; }
   #dlg-files { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
   .hint, #dlg-status { color: #3d4a5c; font-size: 0.85rem; }
   #dlg-variants { margin: 0 0 4px; }
@@ -198,7 +200,7 @@
   <div class="header-inner">
   <h1>paper-viz</h1>
   <p class="lede">按任务找图，复制代码，换上自己的 data.csv。</p>
-  <p class="lede"><a href="house-style/#style">新图默认风格 House style：规范摘要、九张示例与示意图 →</a></p>
+  <p class="lede"><a class="house-link" href="house-style/">新图默认风格 House style：规范、示例与示意图 →</a></p>
   <p id="stats">加载中…</p>
   <div class="tools">
     <input id="q" type="search" placeholder="搜索标题、用途或列名" aria-label="搜索">
