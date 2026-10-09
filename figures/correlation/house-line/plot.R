@@ -32,7 +32,8 @@ p <- ggplot(sm, aes(daf, m)) +
            size = pv_pt2size(6), colour = grey[["mid"]]) +
   geom_ribbon(aes(ymin = lo, ymax = hi, fill = group), alpha = 0.2) +
   geom_line(aes(colour = group), linewidth = pv_house_lw("main")) +
-  geom_point(aes(fill = group), shape = 21, size = 1.9, stroke = HOUSE_POINT$stroke, colour = "black") +
+  geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
+             stroke = HOUSE_POINT$stroke, colour = "black") +
   geom_text(data = ends, aes(x = daf + 2.5, y = y, label = group, colour = group), hjust = 0,
             size = pv_pt2size(7), fontface = "bold") +
   annotate("text", x = 20, y = 26.9, hjust = 0, vjust = 1, size = pv_pt2size(7),

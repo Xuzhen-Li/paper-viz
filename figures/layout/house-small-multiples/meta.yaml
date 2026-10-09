@@ -20,9 +20,7 @@ customize: plot.R 顶部 n_cols 为每行面板数；alpha_sig 为着色的显�
 lang: R
 style: house
 references:
-  - id: F13
-    url: https://doi.org/10.1038/s41560-026-02109-3
+  - url: https://doi.org/10.1038/s41560-026-02109-3
     figure: Fig. 3
-  - id: F28
-    url: https://doi.org/10.1016/j.oneear.2023.09.004
+  - url: https://doi.org/10.1016/j.oneear.2023.09.004
     figure: Fig. 1

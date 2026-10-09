@@ -6,7 +6,7 @@ library(ggplot2)
 limit <- 3
 cluster_rows <- TRUE
 dark_cut <- 1.6
-colourbar_mm <- 30
+colourbar_mm <- 27
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 stress <- unique(df$stress)
@@ -28,7 +28,7 @@ p <- ggplot(df, aes(col, row)) +
   scale_colour_identity() +
   scale_fill_gradientn(colours = pv_palette("house_div"), limits = c(-limit, limit),
                        breaks = seq(-limit, limit, 1.5),
-                       labels = function(x) gsub("-", "\u2212", format(x)), name = "log2 FC") +
+                       labels = function(x) gsub("-", "\u2212", format(x)), name = expression(log[2] ~ FC)) +
   scale_x_continuous(breaks = seq_len(ncol_), labels = rep(paste(days, "d"), length(stress)),
                      expand = c(0, 0)) +
   scale_y_continuous(breaks = seq_along(genes), labels = rev(genes), expand = c(0, 0)) +

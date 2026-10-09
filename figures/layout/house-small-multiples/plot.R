@@ -42,7 +42,9 @@ p <- ggplot(df, aes(year, anomaly_c)) +
                      labels = function(x) gsub("-", "\u2212", format(x))) +
   labs(x = "Year", y = "Temperature anomaly (\u00b0C)") +
   theme_house() +
-  theme(strip.text = element_blank(), panel.spacing.x = unit(1.5, "mm"), panel.spacing.y = unit(1.5, "mm"))
+  # same 0.5 pt black frame as the single-panel examples (stated here so a facet theme cannot drift)
+  theme(panel.border = element_rect(fill = NA, colour = "black", linewidth = pv_house_lw("frame")),
+        strip.text = element_blank(), panel.spacing.x = unit(1.5, "mm"), panel.spacing.y = unit(1.5, "mm"))
 
 pv_save_house(p, "figure", width = "double", height_mm = 84)
 message("wrote preview.png")

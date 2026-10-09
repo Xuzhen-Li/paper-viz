@@ -7,6 +7,7 @@ control <- "Control"
 gene_label <- "VvSWEET10"
 y_max <- 6
 wrap_width <- 9
+point_size <- 1.6   # raw-data overlay on bars (style-contract.md, points): size 1.6, alpha 0.8
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 lv <- unique(df$treatment)
@@ -17,6 +18,9 @@ sm <- do.call(rbind, lapply(lv, function(t) {
   y <- df$expression[df$treatment == t]
   data.frame(treatment = t, x = match(t, lv), m = mean(y), sd = stats::sd(y), n = length(y))
 }))
+# value labels: white on dark fills, black on light fills
+lum <- colSums(grDevices::col2rgb(cols[sm$treatment]) * c(0.299, 0.587, 0.114)) / 255
+sm$txt <- ifelse(lum < 0.6, "white", "black")
 others <- setdiff(lv, control)
 pv <- vapply(others, function(t) stats::t.test(df$expression[df$treatment == t],
                                                df$expression[df$treatment == control])$p.value, numeric(1))
@@ -33,11 +37,13 @@ set.seed(11)
 df$xj <- df$x + stats::runif(nrow(df), -0.14, 0.14)
 
 p <- ggplot(sm, aes(x, m)) +
-  geom_col(aes(fill = treatment), width = 0.66, colour = "black", linewidth = pv_house_lw(0.4)) +
+  geom_col(aes(fill = treatment), width = 0.66, colour = NA) +
   geom_errorbar(aes(ymin = m - sd, ymax = m + sd), width = 0.22, linewidth = pv_house_lw("errorbar")) +
-  geom_point(data = df, aes(xj, expression), shape = 21, fill = "white", colour = "black",
-             size = 1.7, stroke = 0.35, alpha = 0.9) +
-  geom_text(aes(y = 0.16, label = sprintf("%.2f", m)), vjust = 0, size = pv_pt2size(7), fontface = "bold") +
+  geom_point(data = df, aes(xj, expression), shape = HOUSE_POINT$shape, fill = "white", colour = "black",
+             size = point_size, stroke = HOUSE_POINT$stroke, alpha = 0.8) +
+  geom_text(aes(y = 0.16, label = sprintf("%.2f", m), colour = txt), vjust = 0, size = pv_pt2size(7),
+            fontface = "bold") +
+  scale_colour_identity() +
   geom_segment(data = br, aes(x = 1, xend = x1, y = y, yend = y), linewidth = pv_house_lw("ref")) +
   geom_segment(data = br, aes(x = 1, xend = 1, y = y, yend = y - 0.12), linewidth = pv_house_lw("ref")) +
   geom_segment(data = br, aes(x = x1, xend = x1, y = y, yend = y - 0.12), linewidth = pv_house_lw("ref")) +
