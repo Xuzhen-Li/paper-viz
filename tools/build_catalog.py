@@ -147,8 +147,38 @@ DATA_LOAD_RE = re.compile(
     r"(^|[^\w.])((utils|data\.table|readr)::)?(read\.csv|read\.csv2|read\.table|read\.delim|read_csv|fread)\s*\("
 )
 SAVE_FNS = {"pv_save", "save_base", "pv_save_house"}
-# pv_save_house(width = "single" | "double" | mm) presets (styles/r/theme_house.R).
+# pv_save_house(cells = c(w, h) | "WxH"): house grid, same rule as styles/r/theme_house.R —
+# 43 mm cell, 3 mm gap, 1-4 cells per side. Canvas per side: 1 / 2 / 3 cells = 43 / 89 / 135 mm
+# (span 43 n + 3 (n - 1), no outer margin); 4 cells = 1 + 181 + 1 = 183 mm (double column).
+# Old interface, still read: width = "single" (2 cells, 89 mm) | "double" (4 cells, 183 mm);
+# pv_save_house() now requires height_mm to be a grid canvas (43, 89, 135 or 183 mm).
 HOUSE_WIDTH_MM = {"single": "89", "double": "183"}
+HOUSE_CELL_MM, HOUSE_GAP_MM, HOUSE_PAGE_MARGIN_MM, HOUSE_MAX_CELLS = 43, 3, 1, 4
+
+
+def house_cells_canvas_mm(n: int) -> int:
+    return n * HOUSE_CELL_MM + (n - 1) * HOUSE_GAP_MM + (2 * HOUSE_PAGE_MARGIN_MM if n == HOUSE_MAX_CELLS else 0)
+
+
+def _parse_cells(value: str | None, code: str) -> tuple[int, int] | None:
+    """cells literal ("2x1", c(2, 1)) or a top-level `name <- <literal>` it points to."""
+    if not value:
+        return None
+    value = value.strip()
+    if re.fullmatch(r"[A-Za-z_.][A-Za-z0-9_.]*", value):
+        m = re.search(rf"^{re.escape(value)}\s*(?:<-|=)\s*(.+?)\s*(?:#.*)?$", code, re.M)
+        if not m:
+            return None
+        value = m.group(1)
+    m = re.fullmatch(r"[\"']\s*(\d+)\s*[xX\u00d7]\s*(\d+)\s*[\"']", value) or re.fullmatch(
+        r"c\(\s*(\d+)L?\s*,\s*(\d+)L?\s*\)", value
+    )
+    if not m:
+        return None
+    w, h = int(m.group(1)), int(m.group(2))
+    if not (1 <= w <= HOUSE_MAX_CELLS and 1 <= h <= HOUSE_MAX_CELLS):
+        return None
+    return w, h
 # Assignments to these names are the script body, not knobs at the top.
 STOP_LHS = {"df", "d", "dat", "data", "p", "p_plot", "wide", "long", "mat"}
 
@@ -484,7 +514,13 @@ def parse_canvas(code: str) -> dict | None:
     """Last pv_save / save_base / pv_save_house call that sets width_mm (or width) / height_mm."""
     calls = _find_calls(code, SAVE_FNS)
     width = height = None
+    cells = None
     for args in calls:
+        got_cells = _parse_cells(_named_arg(args, "cells"), code)
+        if got_cells:
+            cells = got_cells
+            width, height = (str(house_cells_canvas_mm(n)) for n in got_cells)
+            continue
         got_w = _named_arg(args, "width_mm")
         if got_w is None:
             house_w = _named_arg(args, "width")
@@ -495,12 +531,16 @@ def parse_canvas(code: str) -> dict | None:
         if got_w is None and got_h is None:
             continue
         width, height = got_w, got_h
+        cells = None
     if width is None and height is None:
         return None
     if _numeric_mm(width) and _numeric_mm(height):
         label = f"{width} × {height} mm"
     else:
         label = f"{width or '?'} × {height or '?'} mm"
+    if cells:
+        label += f" ({cells[0]}×{cells[1]} cells)"
+        return {"width_mm": width, "height_mm": height, "label": label, "cells": f"{cells[0]}x{cells[1]}"}
     return {"width_mm": width, "height_mm": height, "label": label}
 
 
@@ -742,8 +782,19 @@ pv_save(p, "figure", width_mm = 183, height_mm = 150)
 """
     if [item["name"] for item in parse_parameters(sample_if)] != ["view", "show_annotation"]:
         raise SystemExit("if-block fixture")
-    house = parse_canvas('pv_save_house(p, "figure", width = "single", height_mm = 76)\n')
-    if not house or house["label"] != "89 × 76 mm":
+    for code, want in (
+        ('pv_save_house(p, "figure", cells = "1x1")\n', ("43", "43", "1x1")),
+        ('pv_save_house(p, "figure", cells = "2x1")\n', ("89", "43", "2x1")),
+        ('pv_save_house(p, "figure", cells = "3x1")\n', ("135", "43", "3x1")),
+        ('pv_save_house(p, "figure", cells = "4x2")\n', ("183", "89", "4x2")),
+        ('pv_save_house(p, "figure", cells = c(4, 3))\n', ("183", "135", "4x3")),
+        ('cells <- c(1, 2)    # grid\npv_save_house(p, "figure", cells = cells)\n', ("43", "89", "1x2")),
+    ):
+        got = parse_canvas(code)
+        if not got or (got["width_mm"], got["height_mm"], got.get("cells")) != want:
+            raise SystemExit(f"house cells canvas fixture {code!r}: {got}")
+    house = parse_canvas('pv_save_house(p, "figure", cells = "2x2")\n')
+    if not house or house["label"] != "89 × 89 mm (2×2 cells)" or house.get("cells") != "2x2":
         raise SystemExit(f"house canvas fixture {house}")
     canvas = parse_canvas(sample_if)
     if not canvas or canvas["label"] != "183 × 150 mm":

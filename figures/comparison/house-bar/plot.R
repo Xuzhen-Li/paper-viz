@@ -7,6 +7,8 @@ control <- "Control"
 gene_label <- "VvSWEET10"
 y_max <- 6
 wrap_width <- 9
+# display-only short names: at 1x1 (~8.6 mm per category) "Control" touches "Drought"
+short_labels <- c(Control = "Ctrl")
 point_size <- 1.6   # raw-data overlay on bars (style-contract.md, points): size 1.6, alpha 0.8
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
@@ -55,12 +57,13 @@ p <- ggplot(sm, aes(x, m)) +
            hjust = 0, vjust = 1, size = pv_pt2size(6), colour = pv_palette("house_grey")[["mid"]]) +
   scale_fill_manual(values = cols) +
   scale_x_continuous(breaks = seq_along(lv), labels = function(b) vapply(lv[b], function(s)
-    paste(strwrap(s, wrap_width), collapse = "\n"), character(1)), limits = c(0.5, length(lv) + 0.5),
+    paste(strwrap(if (s %in% names(short_labels)) short_labels[[s]] else s, wrap_width), collapse = "\n"),
+    character(1)), limits = c(0.5, length(lv) + 0.5),
     expand = c(0, 0)) +
   scale_y_continuous(limits = c(0, y_max), breaks = 0:y_max, expand = c(0, 0)) +
   labs(x = NULL, y = "Relative expression") +
   theme_house() +
   theme(axis.text.x = element_text(lineheight = 0.85))
 
-pv_save_house(p, "figure", width = "single", height_mm = 72)
+pv_save_house(p, "figure", cells = "1x1")
 message("wrote preview.png")

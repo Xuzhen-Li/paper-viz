@@ -6,10 +6,14 @@ library(ggplot2)
 inner_r <- 0.56
 min_share <- 0.03
 label_r <- 1.05     # radius of the outer names (ring outer radius = 1)
-# visible window in ring units, fitted so the outer names sit ~1 mm from the canvas edge at
-# 89 x 64.56 mm (183 pt); widen it if longer names or other shares push labels off the canvas
-view_x <- c(-1.513, 1.435)
-view_y <- c(-1.031, 1.078)
+cells <- c(2, 1)    # composition figure: 2 x 1 grid cells (89 x 43 mm)
+plot_margin_mm <- c(1, 1, 1, 0.8)   # t, r, b, l
+# visible window in ring units: view_y leaves room for the names above and below the ring;
+# view_x is centred and follows the panel aspect (coord_fixed), so the ring fills the height
+view_y <- c(-1.13, 1.2)
+panel_mm <- c(pv_grid_span(cells[1]) - sum(plot_margin_mm[c(2, 4)]),
+              pv_grid_span(cells[2]) - sum(plot_margin_mm[c(1, 3)]))
+view_x <- c(-1, 1) * diff(view_y) * panel_mm[1] / panel_mm[2] / 2
 centre_title <- "Catchment"
 unit_label <- "km\u00b2"
 
@@ -63,7 +67,7 @@ p <- ggplot() +
   theme(panel.border = element_blank(), axis.line = element_blank(), axis.text.x = element_blank(),
         axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(),
         axis.title.y = element_blank(), legend.position = "none",
-        plot.margin = margin(1, 1, 1, 0.8, "mm"))
+        plot.margin = margin(plot_margin_mm[1], plot_margin_mm[2], plot_margin_mm[3], plot_margin_mm[4], "mm"))
 
-pv_save_house(p, "figure", width = "single", height_mm = 64.56)
+pv_save_house(p, "figure", cells = cells)
 message("wrote preview.png")

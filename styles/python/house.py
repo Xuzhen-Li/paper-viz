@@ -2,8 +2,9 @@
 
 Same numbers as ``styles/r/theme_house.R``: 7 pt ticks, 8 pt axis titles, 10 pt bold
 lowercase panel tags, four-sided 0.5 pt frame, ticks outward 1 mm, no grid; main data
-lines 1.5 pt, point outline 0.3 pt. 89 mm (single) / 183 mm (double) presets. A
-single-column single panel gets +2 pt on all text (ticks 9, axis titles 10).
+lines 1.5 pt, point outline 0.3 pt. Figure sizes snap to the house grid (``cells``; 43 mm
+cell, 3 mm gap, 1-4 cells per side; see ``house_canvas``). Only a single-column figure holding
+exactly one 2x2 (89 x 89 mm) panel gets +2 pt on all text (ticks 9, axis titles 10).
 
 Usage, from a figure folder (same import pattern as ``style.py``)::
 
@@ -12,7 +13,7 @@ Usage, from a figure folder (same import pattern as ``style.py``)::
     import house
 
     house.apply_house_style()
-    fig, ax = house.house_figure("single", height_mm=76)
+    fig, ax = house.house_figure(cells="2x1")    # 89 x 43 mm
     ax.plot(x, y, color=house.pv_palette("house")[0])
     house.save_house(fig, "figure")       # figure.pdf + figure.png (600 dpi) + preview.png
 
@@ -21,17 +22,32 @@ Old interfaces (``style.apply_style``, ``style.PALETTES["categorical"]`` chip ei
 
 from __future__ import annotations
 
+import math
+import re
 from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.layout_engine import ConstrainedLayoutEngine
 from matplotlib.text import Text
 
 MM = 1 / 25.4  # inches per mm
 PT_PER_MM = 72 / 25.4
 
-PRESETS_MM = {"single": 89.0, "double": 183.0}
-DEFAULT_HEIGHT_MM = {"single": 76.0, "double": 118.0}
+# --- grid (same rule as styles/r/theme_house.R) ---------------------------------------
+# 43 mm cell, 3 mm gap (horizontal and vertical), 1-4 cells per side.
+#   span(n) = 43 n + 3 (n - 1)  ->  43 / 89 / 135 / 181 mm
+# Canvas (= the exported page) is the span on a side of 1-3 cells, with NO outer margin: a
+# figure is a tile. The 1 mm outer margin belongs to the page and is added only on a side that
+# spans all 4 cells: 1 + 181 + 1 = 183 mm (double column); content goes in the centred 181 mm
+# box. Tiles of column c then start at 1 + 46 (c - 1) mm of a 183 mm page, so 1+1+1+1, 1+1+2,
+# 2+2, 1+3 and 4 with 3 mm gaps rebuild 183 mm exactly and line up with a 4-cell figure.
+CELL_MM = 43.0
+GAP_MM = 3.0
+PAGE_MARGIN_MM = 1.0
+MAX_CELLS = 4
+PRESETS_MM = {"single": 89.0, "double": 183.0}  # canvas mm, kept for old calls
+PRESETS_CELLS = {"single": 2, "double": 4}
 
 FONT_FAMILY = ["Arial", "Helvetica", "Liberation Sans", "DejaVu Sans"]
 
@@ -126,7 +142,7 @@ def house_cmap(name: str = "house_div"):
 
 
 def house_rc(base_size: float = 7, title_size: float | None = None) -> dict:
-    """rcParams for the house style. ``base_size`` = tick labels (7; 9 for a single-column single panel)."""
+    """rcParams for the house style. ``base_size`` = tick labels (7; 9 only for a single 2x2 panel)."""
     title_size = base_size + 1 if title_size is None else title_size
     tick_len = 1.0 * PT_PER_MM
     return {
@@ -199,16 +215,123 @@ def house_rc(base_size: float = 7, title_size: float | None = None) -> dict:
 
 
 def apply_house_style(base_size: float = 7, *, single_panel: bool = False) -> None:
-    """Load the house rcParams. ``single_panel=True`` = single-column single panel (+2 pt)."""
+    """Load the house rcParams. ``single_panel=True`` = a figure holding a single 2x2 panel (+2 pt)."""
     plt.rcParams.update(house_rc(base_size + (2 if single_panel else 0)))
 
 
-def house_figure(width="double", height_mm: float | None = None, nrows: int = 1, ncols: int = 1, **kw):
-    """``plt.subplots`` at a preset width ("single" 89 mm, "double" 183 mm) or a width in mm."""
-    width_mm = PRESETS_MM[width] if isinstance(width, str) else float(width)
-    if height_mm is None:
-        height_mm = DEFAULT_HEIGHT_MM["single" if width_mm <= 89 else "double"]
-    return plt.subplots(nrows, ncols, figsize=(width_mm * MM, height_mm * MM), **kw)
+def grid_span(n: int) -> float:
+    """Span of ``n`` cells in mm (no margin): 43 / 89 / 135 / 181."""
+    return n * CELL_MM + (n - 1) * GAP_MM
+
+
+def grid_canvas(n: int) -> float:
+    """Canvas mm of an ``n``-cell side: the span, plus 1 mm each end when ``n`` = 4 (183)."""
+    return grid_span(n) + (2 * PAGE_MARGIN_MM if n == MAX_CELLS else 0.0)
+
+
+def house_cells(cells) -> tuple[int, int]:
+    """``(w, h)`` or ``"WxH"`` (also ``X`` / ``×``) -> ``(w, h)`` ints; ValueError off the grid."""
+    if isinstance(cells, str):
+        m = re.fullmatch(r"\s*([0-9]+)\s*[xX\u00d7]\s*([0-9]+)\s*", cells)
+        if not m:
+            raise ValueError(f'cells = {cells!r}: use (w, h) or "WxH", e.g. "2x1"')
+        cells = (int(m.group(1)), int(m.group(2)))
+    try:
+        vals = [float(c) for c in cells]
+    except (TypeError, ValueError):  # not numbers -> same grid error as R's stop()
+        vals = []
+    # isfinite first: int(nan) / int(inf) would raise ValueError / OverflowError with a raw message
+    if (
+        len(vals) != 2
+        or not all(math.isfinite(v) for v in vals)
+        or any(v != int(v) or not 1 <= v <= MAX_CELLS for v in vals)
+    ):
+        raise ValueError(f"cells = {cells!r} is off the house grid: width and height must each be 1-{MAX_CELLS} whole cells")
+    return int(vals[0]), int(vals[1])
+
+
+def _mm_to_cells(mm: float, what: str) -> int:
+    allowed = [grid_canvas(n) for n in range(1, MAX_CELLS + 1)]
+    try:
+        mm = float(mm)
+    except (TypeError, ValueError):
+        mm = math.nan
+    if not math.isfinite(mm):
+        raise ValueError(
+            f"{what} = {mm!r} is not a finite size in mm (allowed canvas: {', '.join(f'{a:g}' for a in allowed)} mm). "
+            "Use cells=(w, h)."
+        )
+    for n, a in enumerate(allowed, start=1):
+        if abs(a - mm) < 1e-6:
+            return n
+    near = min(allowed, key=lambda a: abs(a - mm))
+    raise ValueError(
+        f"{what} = {mm:g} mm is off the house grid (allowed canvas: {', '.join(f'{a:g}' for a in allowed)} mm). "
+        f"Use cells=(w, h); nearest grid size: {near:g} mm."
+    )
+
+
+def house_canvas(cells) -> dict:
+    """Canvas / content geometry in mm for a cells spec (see the grid rule above)."""
+    w, h = house_cells(cells)
+    mx = PAGE_MARGIN_MM if w == MAX_CELLS else 0.0
+    my = PAGE_MARGIN_MM if h == MAX_CELLS else 0.0
+    return {
+        "cells": (w, h),
+        "width_mm": grid_canvas(w),
+        "height_mm": grid_canvas(h),
+        "content_width_mm": grid_span(w),
+        "content_height_mm": grid_span(h),
+        "margin_x_mm": mx,
+        "margin_y_mm": my,
+    }
+
+
+def _resolve_cells(cells=None, width=None, height_mm=None) -> tuple[int, int]:
+    """cells, or the old width ("single" / "double" / grid mm) + height_mm (grid mm). Off grid -> error.
+
+    Off-grid mm is an error, not a warning: every house caller is on the grid, and a warning
+    would let an off-grid figure pass CI. height_mm defaults to 1 cell.
+    """
+    if cells is not None:
+        if width is not None or height_mm is not None:
+            raise ValueError("give either cells or width/height_mm, not both")
+        return house_cells(cells)
+    if width is None:
+        raise ValueError('give cells=(w, h), e.g. cells="2x1"')
+    if isinstance(width, str):
+        if width not in PRESETS_CELLS:
+            raise ValueError(f'width = {width!r}: use "single", "double" or cells=(w, h)')
+        w = PRESETS_CELLS[width]
+    else:
+        w = _mm_to_cells(float(width), "width")
+    h = 1 if height_mm is None else _mm_to_cells(float(height_mm), "height_mm")
+    return w, h
+
+
+def _apply_canvas(fig, cells) -> dict:
+    geo = house_canvas(cells)
+    fig.set_size_inches(geo["width_mm"] * MM, geo["height_mm"] * MM)
+    W, H = geo["width_mm"], geo["height_mm"]
+    rect = (geo["margin_x_mm"] / W, geo["margin_y_mm"] / H, geo["content_width_mm"] / W, geo["content_height_mm"] / H)
+    engine = fig.get_layout_engine()
+    if isinstance(engine, ConstrainedLayoutEngine):
+        engine.set(rect=rect)  # house default: content drawn in the inner (margin-free) box
+    fig._pv_cells = geo["cells"]
+    return geo
+
+
+def house_figure(width=None, height_mm: float | None = None, nrows: int = 1, ncols: int = 1, *, cells=None, **kw):
+    """``plt.subplots`` on the house grid: ``cells=(w, h)`` or ``"WxH"``.
+
+    Old calls ``house_figure("single" | "double" | mm, height_mm=mm)`` still work when the sizes
+    are on the grid ("single" = 2 cells, "double" = 4 cells); anything else raises ValueError.
+    """
+    c = _resolve_cells(cells, width, height_mm)
+    geo = house_canvas(c)
+    fig, axes = plt.subplots(nrows, ncols, figsize=(geo["width_mm"] * MM, geo["height_mm"] * MM), **kw)
+    _apply_canvas(fig, c)
+    return fig, axes
 
 
 def add_house_tag(ax, letter: str, *, size: float = 10, x: float = 0.0, y: float = 1.0) -> Text:
@@ -262,21 +385,28 @@ def save_house(
     fig,
     path,
     *,
+    cells=None,
     bump: float | None = None,
     dpi: int = 600,
     preview: bool = True,
 ) -> dict:
     """Write ``<path>.pdf`` (TrueType text) and ``<path>.png`` at ``dpi``; optionally ``preview.png`` (1200 px).
 
-    The canvas is saved as-is (no tight bbox) so 89 / 183 mm stay exact. When the figure is at most
-    89 mm wide and has a single data axes, text is raised to 9 pt ticks / 10 pt axis titles
-    (+2 pt over the 7 pt default; computed from the current tick size, so never applied twice).
+    ``cells``: grid size; defaults to the one given to ``house_figure``, else it is read from the
+    figure size, which must then be a grid canvas (ValueError otherwise). The canvas is saved
+    as-is (no tight bbox) so grid sizes stay exact. Only a 2x2 (89 x 89 mm) figure with a single
+    data axes gets 9 pt ticks / 10 pt axis titles (+2 pt over the 7 pt default; computed from the
+    current tick size, so never applied twice).
     """
-    width_in, height_in = fig.get_size_inches()
-    width_in, height_in = float(width_in), float(height_in)
-    width_mm = width_in / MM
+    if cells is None:
+        cells = getattr(fig, "_pv_cells", None)
+    if cells is None:
+        w_in, h_in = fig.get_size_inches()
+        cells = (_mm_to_cells(float(w_in) / MM, "figure width"), _mm_to_cells(float(h_in) / MM, "figure height"))
+    geo = _apply_canvas(fig, cells)
+    width_in = geo["width_mm"] * MM
     if bump is None:
-        bump = max(0.0, 9 - _tick_size(fig)) if width_mm <= 89 + 1e-6 and len(_data_axes(fig)) == 1 else 0.0
+        bump = max(0.0, 9 - _tick_size(fig)) if geo["cells"] == (2, 2) and len(_data_axes(fig)) == 1 else 0.0
     bump_text(fig, bump)
     base = Path(path)
     if base.suffix.lower() in {".pdf", ".png", ".svg", ".tif", ".tiff"}:
@@ -290,14 +420,22 @@ def save_house(
     return {
         "pdf": base.with_suffix(".pdf"),
         "png": base.with_suffix(".png"),
-        "width_mm": width_mm,
-        "height_mm": height_in / MM,
+        "cells": geo["cells"],
+        "width_mm": geo["width_mm"],
+        "height_mm": geo["height_mm"],
+        "content_width_mm": geo["content_width_mm"],
+        "content_height_mm": geo["content_height_mm"],
         "bump": bump,
     }
 
 
 __all__ = [
+    "CELL_MM",
+    "GAP_MM",
     "HOUSE_PALETTES",
+    "MAX_CELLS",
+    "PAGE_MARGIN_MM",
+    "PRESETS_CELLS",
     "LW_PT",
     "POINT",
     "PRESETS_MM",
@@ -305,6 +443,10 @@ __all__ = [
     "add_house_tag",
     "apply_house_style",
     "bump_text",
+    "grid_canvas",
+    "grid_span",
+    "house_canvas",
+    "house_cells",
     "house_cmap",
     "house_figure",
     "house_rc",

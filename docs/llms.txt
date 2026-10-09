@@ -81,6 +81,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Clustered heatmap](https://xuzhen-li.github.io/paper-viz/#heatmap): 基因对样本的矩阵要同时看模块和组别时用。
 - [Annotated diverging heatmap (house style)](https://xuzhen-li.github.io/paper-viz/#house-heatmap): 少量行 × 少量列、正负都有的数值矩阵时用；蓝–红发散色以 0 为中心，每格写数值（深底白字），行按聚类排序。
 - [Composite figure](https://xuzhen-li.github.io/paper-viz/#composite-figure): 一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。Use when a double-column figure should assemble those four panels in one font, palette, and legend.
+- [Grid mosaic of mixed chart types (house style)](https://xuzhen-li.github.io/paper-viz/#house-grid-mosaic): 一张双栏图里要放几种不同图型时用；每个子图是独立的 ggplot，按 43 mm 网格整格摆放（1+1+2、4 等），格间 3 mm、左右各 1 mm 页边，子图边缘对齐到 1 + 46k mm，单格图与通栏图上下对齐。
 - [Small multiples with in-panel trends (house style)](https://xuzhen-li.github.io/paper-viz/#house-small-multiples): 同一指标在多个地区或类别上并排比较时用；共享坐标轴、只在外侧写刻度，每个面板左上写名称和线性趋势 ± s.e.（含显著性星号），显著上升红色、下降蓝色、不显著灰色。
 - [Mantel test plot](https://xuzhen-li.github.io/paper-viz/#mantel-plot): 同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。
 - [Rarefaction curve](https://xuzhen-li.github.io/paper-viz/#rarefaction): 比较各组物种丰富度是否随测序深度趋于饱和时用。

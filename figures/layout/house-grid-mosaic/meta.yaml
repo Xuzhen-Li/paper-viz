@@ -1,0 +1,24 @@
+# Simulated data. No published reference figure; layout follows the house grid in styles/r/theme_house.R.
+title: Grid mosaic of mixed chart types (house style)
+title_zh: 网格拼版：多种图型拼成一张双栏图（house 风格）
+slug: house-grid-mosaic
+category: layout
+tags:
+  - multi-panel
+  - grid
+  - mosaic
+  - composite
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  panel: 所属面板（scatter / hist / line / bar / box / comp / track）
+  group: 组别（处理、地点、覆盖类型或染色体；scatter 与 hist 为空）
+  x: x 值（数值；comp 为地点名）
+  y: y 值（数值）
+when_to_use: 一张双栏图里要放几种不同图型时用；每个子图是独立的 ggplot，按 43 mm 网格整格摆放（1+1+2、4 等），格间 3 mm、左右各 1 mm 页边，子图边缘对齐到 1 + 46k mm，单格图与通栏图上下对齐。
+customize: plot.R 底部 pv_house_mosaic() 的 tiles 列表决定每个子图的位置 at = c(列, 行) 与大小 cells = c(宽, 高)（整格，不能重叠、不能出界）；page_cells 为整页格数（4×3 = 183 × 135 mm），须与 pv_save_house(cells = ...) 一致；tag_room_mm 为每格顶部给面板字母留的空间；sig_line 为 g 的阈值线。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），多面板字号保持 7/8 pt。
+lang: R
+style: house
+cells: 4x3
+references_note: No published reference figure; layout follows the house grid rules in styles/r/theme_house.R.

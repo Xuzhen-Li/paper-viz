@@ -31,8 +31,9 @@ st <- do.call(rbind, lapply(group_order, function(g) {
              lo = max(min(y), q[1] - 1.5 * iqr), hi = min(max(y), q[3] + 1.5 * iqr), n = length(y))
 }))
 # y range follows the full density tails, so no half violin is cut flat by the limits
-y_lo <- floor(min(hv$y)) - 2.5
-n_y <- y_lo + 1.3
+# n labels get their own band under the lowest tail, centred on the group ticks
+y_lo <- floor(min(hv$y)) - 3.5
+n_y <- y_lo + 1.4
 pw <- function(a, b) stats::wilcox.test(df$heterozygosity_pct[df$group == a],
                                         df$heterozygosity_pct[df$group == b])$p.value
 top_of <- function(g) max(hv$y[hv$group %in% g], df$heterozygosity_pct[df$group %in% g])
@@ -56,7 +57,7 @@ p <- ggplot() +
   geom_segment(data = br, aes(x = x1, xend = x1, y = y, yend = y - 0.8), linewidth = pv_house_lw("ref")) +
   geom_text(data = br, aes(x = (x0 + x1) / 2, y = y + 0.5, label = lab), parse = TRUE, vjust = 0,
             size = pv_pt2size(7)) +
-  geom_text(data = st, aes(x = x - 0.2, y = n_y, label = paste0("n = ", n), colour = group),
+  geom_text(data = st, aes(x = x, y = n_y, label = paste0("n = ", n), colour = group),
             size = pv_pt2size(6)) +
   scale_colour_manual(values = cols) +
   scale_fill_manual(values = cols) +
@@ -66,5 +67,5 @@ p <- ggplot() +
   labs(x = NULL, y = "Heterozygosity (%)") +
   theme_house()
 
-pv_save_house(p, "figure", width = "single", height_mm = 74)
+pv_save_house(p, "figure", cells = "1x1")
 message("wrote preview.png")

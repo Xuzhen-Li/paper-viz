@@ -17,9 +17,10 @@ data_columns:
   berry_weight_g: 浆果重（g，正数，x 轴取对数）
   anthocyanin_mg_g: 花青素含量（mg/g FW）
 when_to_use: 两个连续变量、分几组看关系时用；每组一条拟合线，R² 与 P 写在图内，组名和重点样品直接标在点旁，不用图例。
-customize: plot.R 顶部 label_names 选要标名的点（≤30 个）；group_order 定组序与配色；点用 HOUSE_POINT（shape 21 / size 2.3 / stroke 0.3）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+customize: plot.R 顶部 label_names 选要标名的点（≤30 个）；group_order 定组序与配色；点用 HOUSE_POINT（shape 21 / size 2.3 / stroke 0.3）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），本图 2×2 格（89 × 89 mm）单面板，由 pv_save_house() 自动 +2 pt（刻度 9 / 轴标题 10 pt）。
 lang: R
 style: house
+cells: 2x2
 references:
   - url: https://doi.org/10.1016/j.oneear.2024.01.008
     figure: Fig. 1

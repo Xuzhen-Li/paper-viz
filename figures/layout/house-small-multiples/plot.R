@@ -46,7 +46,7 @@ p <- ggplot(df, aes(year, anomaly_c)) +
   theme_house() +
   # same 0.5 pt black frame as the single-panel examples (stated here so a facet theme cannot drift)
   theme(panel.border = element_rect(fill = NA, colour = "black", linewidth = pv_house_lw("frame")),
-        strip.text = element_blank(), panel.spacing.x = unit(1.5, "mm"), panel.spacing.y = unit(1.5, "mm"))
+        strip.text = element_blank(), panel.spacing.x = unit(HOUSE_GAP_MM, "mm"), panel.spacing.y = unit(HOUSE_GAP_MM, "mm"))
 
-pv_save_house(p, "figure", width = "double", height_mm = 84)
+pv_save_house(p, "figure", cells = "4x2")
 message("wrote preview.png")
