@@ -111,6 +111,20 @@ check(abs(p$layers[[3]]$aes_params$size - pv_pt2size(7)) < 1e-9, "bump leaves th
 check(pv_save_house(p + facet_wrap(~g), file.path(out, "facet"), "single", 60, preview = FALSE)$bump == 0,
       "faceted plot at 89 mm is not bumped")
 
+# default in-plot text size: 7 pt, +2 pt for a single-column single panel ----------------
+check(abs(GeomText$default_aes$size - 7 / .pt) < 1e-9 && abs(GeomLabel$default_aes$size - 7 / .pt) < 1e-9,
+      "geom_text / geom_label default size 7 pt after sourcing theme_house.R")
+pdft <- ggplot(d, aes(x, y)) + geom_text(aes(label = g)) + annotate("text", x = 0, y = 0, label = "n") + theme_house()
+bd <- pv_bump_text(pdft, 2)
+check(all(vapply(bd$layers, function(l) abs(l$aes_params$size - 9 / .pt) < 1e-9, logical(1))),
+      "bump: default-size text layers 7 -> 9 pt")
+check(all(vapply(pdft$layers, function(l) is.null(l$aes_params$size) || abs(l$aes_params$size - 7 / .pt) < 1e-9, logical(1))),
+      "bump leaves default-size layers of the input plot unchanged")
+if (requireNamespace("patchwork", quietly = TRUE)) {
+  check(pv_save_house(patchwork::wrap_plots(pdft), file.path(out, "pw1"), "single", 60, preview = FALSE)$bump == 0,
+        "patchwork with a single subplot is not bumped")
+}
+
 # in-plot text uses the theme font (no device-default NimbusSans etc.) ----------------
 if (has_poppler) {
   fonts_of <- function(f) {
