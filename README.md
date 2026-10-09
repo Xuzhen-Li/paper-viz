@@ -226,7 +226,7 @@ p <- ggplot(df, aes(x, y, colour = group)) +
   geom_line(linewidth = pv_house_lw("main")) +
   scale_colour_manual(values = unname(pv_palette("house", 3))) +
   theme_house()                               # 7/8 pt；非用图例不可时 theme_house(legend = "inside")
-pv_save_house(p, "figure", width = "single", height_mm = 76)  # 单栏单面板自动 +2 pt；会覆盖同目录的 preview.png
+pv_save_house(p, "figure", cells = "2x1")    # 89 × 43 mm；只有单个 2×2 面板自动 +2 pt；会覆盖同目录的 preview.png
 ```
 
 ## 给 agent 用 / For agents
