@@ -1,8 +1,9 @@
 """House style smoke tests (R + Python). Run: python3 -m unittest discover tests
 
 Python: theme loads, exported PNG is mm / 25.4 * 600 px, PDF page is mm / 25.4 * 72 pt,
-PDF text is TrueType (not outlined), single-column single panel gets +2 pt once, legacy
-style.PALETTES is unchanged. R: runs tests/test_theme_house.R when Rscript + ggplot2 exist.
+PDF text is TrueType (not outlined), grid cells -> mm (43 mm cell, 3 mm gap, 1 mm page margin
+only on 4-cell sides) and off-grid sizes raise, only a single 2x2 panel gets +2 pt once, last
+PNG row is white, legacy style.PALETTES is unchanged. R: runs tests/test_theme_house.R when Rscript + ggplot2 exist.
 """
 from __future__ import annotations
 
@@ -66,9 +67,9 @@ class PythonHouseTheme(unittest.TestCase):
         plt.close("all")
         self.house.apply_house_style()
 
-    def _plot(self, width, height_mm, ncols=1):
+    def _plot(self, cells, ncols=1):
         h = self.house
-        fig, axes = h.house_figure(width, height_mm=height_mm, ncols=ncols)
+        fig, axes = h.house_figure(cells=cells, ncols=ncols)
         axes = axes if ncols > 1 else [axes]
         for i, ax in enumerate(axes):
             ax.plot([0, 1, 2], [0, 1, 4], color=h.pv_palette("house")[i])
@@ -116,22 +117,91 @@ class PythonHouseTheme(unittest.TestCase):
         self.assertIn(b"/FontFile2", raw)  # embedded TrueType => text kept as text
         self.assertEqual(png_size(res["pdf"].parent / "preview.png")[0], 1200)
 
+    def test_grid_conversion(self):
+        h = self.house
+        self.assertEqual([h.grid_span(n) for n in range(1, 5)], [43, 89, 135, 181])
+        self.assertEqual([h.grid_canvas(n) for n in range(1, 5)], [43, 89, 135, 183])
+        self.assertEqual(h.house_cells("2x1"), (2, 1))
+        self.assertEqual(h.house_cells((3, 4)), (3, 4))
+        self.assertEqual(h.house_cells(" 4 X 2 "), (4, 2))
+        self.assertEqual(h.house_cells("1\u00d71"), (1, 1))
+        g = h.house_canvas("4x1")
+        self.assertEqual((g["width_mm"], g["height_mm"], g["content_width_mm"]), (183, 43, 181))
+        self.assertEqual((g["margin_x_mm"], g["margin_y_mm"]), (1, 0))
+        g = h.house_canvas((4, 4))
+        self.assertEqual((g["width_mm"], g["height_mm"], g["margin_y_mm"]), (183, 183, 1))
+        self.assertEqual(h.house_canvas((2, 2))["margin_x_mm"], 0)
+        for row in ([1, 1, 1, 1], [1, 1, 2], [2, 2], [1, 3], [4]):
+            total = 2 * h.PAGE_MARGIN_MM + sum(h.grid_span(n) for n in row) + h.GAP_MM * (len(row) - 1)
+            self.assertAlmostEqual(total, 183, msg=f"row {row}")
+        # old presets / grid mm convert
+        fig, _ = h.house_figure("double")
+        self.assertEqual(fig._pv_cells, (4, 1))
+        fig, _ = h.house_figure(135, height_mm=89)
+        self.assertEqual(fig._pv_cells, (3, 2))
+
+    def test_off_grid_raises(self):
+        h = self.house
+        for bad in ((5, 1), (0, 1), (1.5, 1), "2x", (1, 2, 3), "5x1", 3):
+            with self.assertRaises(ValueError, msg=repr(bad)):
+                h.house_cells(bad)
+        with self.assertRaises(ValueError):
+            h.house_figure("single", height_mm=76)
+        with self.assertRaises(ValueError):
+            h.house_figure(181, height_mm=43)
+        with self.assertRaises(ValueError):
+            h.house_figure("single", cells="2x1")
+        import matplotlib.pyplot as plt
+
+        fig = plt.figure(figsize=(100 * self.house.MM, 43 * self.house.MM))
+        with self.assertRaises(ValueError):
+            h.save_house(fig, self.tmp / "offgrid" / "figure", preview=False)
+        # a bare figure already on the grid is accepted
+        fig = plt.figure(figsize=(89 * self.house.MM, 43 * self.house.MM))
+        fig.add_subplot().plot([0, 1])
+        self.assertEqual(h.save_house(fig, self.tmp / "ongrid" / "figure", preview=False)["cells"], (2, 1))
+
     def test_single_column_single_panel(self):
-        fig, (ax,) = self._plot("single", 76)
+        fig, (ax,) = self._plot((2, 2))
         res = self.house.save_house(fig, self.tmp / "single" / "figure")
         self.assertEqual(res["bump"], 2)
         self.assertEqual(ax.xaxis.get_ticklabels()[0].get_fontsize(), 9)
         self.assertEqual(ax.xaxis.label.get_fontsize(), 10)
-        self._check_export(res, 89, 76)
+        self._check_export(res, 89, 89)
         # saving again must not bump twice
         self.assertEqual(self.house.save_house(fig, self.tmp / "single" / "again", preview=False)["bump"], 0)
 
+    def test_only_2x2_is_bumped(self):
+        for cells in ("2x1", "1x1", "1x2", "3x3"):
+            fig, _ = self._plot(cells)
+            res = self.house.save_house(fig, self.tmp / f"nb{cells}" / "figure", preview=False)
+            self.assertEqual(res["bump"], 0, cells)
+
     def test_double_column(self):
-        fig, axes = self._plot("double", 60, ncols=3)
+        fig, axes = self._plot("4x1", ncols=3)
         res = self.house.save_house(fig, self.tmp / "double" / "figure")
         self.assertEqual(res["bump"], 0)
         self.assertEqual(axes[0].xaxis.label.get_fontsize(), 8)
-        self._check_export(res, 183, 60)
+        self._check_export(res, 183, 43)
+        # 1 mm page margin left and right: nothing drawn there
+        import numpy as np
+        from PIL import Image
+
+        a = np.asarray(Image.open(res["png"]).convert("L"))
+        px_mm = 600 / 25.4
+        edge = int(px_mm)  # first / last 1 mm
+        self.assertTrue((a[:, :edge] > 250).all() and (a[:, -edge:] > 250).all())
+
+    def test_last_png_row_white(self):
+        import numpy as np
+        from PIL import Image
+
+        for cells in ("1x1", "2x1", "2x2", "4x1"):
+            fig, (ax,) = self._plot(cells)
+            ax.set_xlabel("Berry weight (g, log scale)")
+            res = self.house.save_house(fig, self.tmp / f"bottom{cells}" / "figure", preview=False)
+            a = np.asarray(Image.open(res["png"]).convert("RGB"))
+            self.assertTrue((a[-1] > 250).all(), f"{cells}: last pixel row not white")
 
     def test_point_size_matches_r(self):
         h = self.house
@@ -172,7 +242,7 @@ class PythonHouseTheme(unittest.TestCase):
         self.assertAlmostEqual(width_mm(r_png), width_mm(py_png), delta=0.05)
 
     def test_single_column_two_panels_not_bumped(self):
-        fig, _ = self._plot("single", 50, ncols=2)
+        fig, _ = self._plot("2x2", ncols=2)
         self.assertEqual(self.house.save_house(fig, self.tmp / "two" / "figure", preview=False)["bump"], 0)
 
 

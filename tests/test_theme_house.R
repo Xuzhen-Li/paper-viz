@@ -1,8 +1,9 @@
 # Smoke test for styles/r/theme_house.R. Run from the repo root:
 #   Rscript tests/test_theme_house.R
 # Checks: theme renders; PNG pixel size = mm / 25.4 * 600; PDF page size = mm / 25.4 * 72;
-# PDF text is real text (fonts embedded); single-column single panel gets +2 pt once;
-# legacy theme_viz() / pv_palette("categorical") are unchanged.
+# PDF text is real text (fonts embedded); grid cells -> mm (43 mm cell, 3 mm gap, 1 mm page
+# margin only on 4-cell sides) and off-grid sizes error; only a single 2x2 panel gets +2 pt once;
+# mosaic tiles land on the grid; last PNG row is white (ragg and fallback); legacy theme_viz() / pv_palette("categorical") are unchanged.
 root <- normalizePath(".")
 if (!file.exists(file.path(root, "styles/r/theme_house.R"))) stop("run from the repo root")
 source(file.path(root, "styles/r/theme_house.R"))
@@ -82,9 +83,38 @@ p <- ggplot(d, aes(x, y, fill = g)) +
 
 out <- file.path(tempdir(), "house-test")
 dir.create(out, showWarnings = FALSE)
-for (case in list(list("single", 89, 76, 2), list("double", 183, 60, 0))) {
-  w <- case[[1]]; mm_w <- case[[2]]; mm_h <- case[[3]]; want_bump <- case[[4]]
-  res <- pv_save_house(p, file.path(out, w), width = w, height_mm = mm_h, preview = TRUE)
+# grid conversion -------------------------------------------------------------------
+check(identical(pv_grid_span(1:4), c(43, 89, 135, 181)), "span: 43 / 89 / 135 / 181 mm")
+check(identical(pv_grid_canvas(1:4), c(43, 89, 135, 183)), "canvas: 43 / 89 / 135 / 183 mm (4 cells + 1 mm margins)")
+check(identical(pv_house_cells("2x1"), c(2L, 1L)) && identical(pv_house_cells(c(3, 4)), c(3L, 4L)) &&
+        identical(pv_house_cells(" 4 X 2 "), c(4L, 2L)) && identical(pv_house_cells("1\u00d71"), c(1L, 1L)),
+      "cells parse: \"2x1\", c(3, 4), \" 4 X 2 \", \"1\u00d71\"")
+g41 <- pv_house_canvas("4x1"); g22 <- pv_house_canvas(c(2, 2)); g44 <- pv_house_canvas(c(4, 4))
+check(g41$width_mm == 183 && g41$height_mm == 43 && g41$content_width_mm == 181 && g41$margin_x_mm == 1 &&
+        g41$margin_y_mm == 0, "4x1: canvas 183 x 43, content 181 wide, 1 mm side margins only")
+check(g22$width_mm == 89 && g22$height_mm == 89 && g22$margin_x_mm == 0, "2x2: 89 x 89, no margin")
+check(g44$width_mm == 183 && g44$height_mm == 183 && g44$margin_y_mm == 1, "4x4: 183 x 183, margins on both axes")
+# tiles of a 4-cell row with 3 mm gaps rebuild the 183 mm page exactly
+for (row in list(c(1, 1, 1, 1), c(1, 1, 2), c(2, 2), c(1, 3), 4)) {
+  check(abs(2 * HOUSE_PAGE_MARGIN_MM + sum(pv_grid_span(row)) + HOUSE_GAP_MM * (length(row) - 1) - 183) < 1e-9,
+        sprintf("row %s + gaps + margins = 183 mm", paste(row, collapse = "+")))
+}
+errs <- function(expr) inherits(try(expr, silent = TRUE), "try-error")
+check(errs(pv_house_cells(c(5, 1))) && errs(pv_house_cells(c(0, 1))) && errs(pv_house_cells(c(1.5, 1))) &&
+        errs(pv_house_cells("2x")) && errs(pv_house_cells(c(1, 2, 3))) && errs(pv_house_cells("5x1")),
+      "off-grid cells error (5, 0, 1.5, \"2x\", length 3, \"5x1\")")
+check(errs(pv_save_house(p, file.path(out, "bad"), "single", 76, preview = FALSE)) &&
+        errs(pv_save_house(p, file.path(out, "bad"), 120, 43, preview = FALSE)) &&
+        errs(pv_save_house(p, file.path(out, "bad"), width = 181, height_mm = 43, preview = FALSE)) &&
+        errs(pv_save_house(p, file.path(out, "bad"), cells = "2x1", width = "single", preview = FALSE)),
+      "off-grid explicit mm (89 x 76, 120 mm, 181 mm) and cells + width together error")
+check(identical(pv_save_house(p, file.path(out, "mm"), 135, 89, preview = FALSE)$cells, c(3L, 2L)) &&
+        identical(pv_save_house(p, file.path(out, "mm"), "double", preview = FALSE)$cells, c(4L, 1L)),
+      "grid mm and presets convert: 135 x 89 -> 3x2, \"double\" -> 4x1")
+
+for (case in list(list("2x2", 89, 89, 2), list(c(4, 1), 183, 43, 0), list("1x1", 43, 43, 0), list("2x1", 89, 43, 0))) {
+  w <- paste(pv_house_cells(case[[1]]), collapse = "x"); mm_w <- case[[2]]; mm_h <- case[[3]]; want_bump <- case[[4]]
+  res <- pv_save_house(p, file.path(out, w), cells = case[[1]], preview = TRUE)
   check(res$bump == want_bump, sprintf("%s: bump = %s pt", w, want_bump))
   dims <- png_dims(res$png)
   want <- round(c(mm_w, mm_h) / 25.4 * 600)
@@ -103,15 +133,21 @@ for (case in list(list("single", 89, 76, 2), list("double", 183, 60, 0))) {
 }
 # no double bump; input plot untouched
 p9 <- p + theme_house(base_size = 9)
-check(pv_save_house(p9, file.path(out, "s9"), "single", 76, preview = FALSE)$bump == 0, "base_size 9 not bumped again")
+check(pv_save_house(p9, file.path(out, "s9"), cells = c(2, 2), preview = FALSE)$bump == 0, "base_size 9 not bumped again")
 bp <- pv_bump_text(p, 2)
 check(bp$theme$axis.text$size == 9 && bp$theme$axis.title$size == 10, "bump: ticks 9, axis titles 10")
 check(abs(bp$layers[[3]]$aes_params$size - pv_pt2size(9)) < 1e-9, "bump: annotate text 7 -> 9 pt")
 check(abs(p$layers[[3]]$aes_params$size - pv_pt2size(7)) < 1e-9, "bump leaves the input plot unchanged")
-check(pv_save_house(p + facet_wrap(~g), file.path(out, "facet"), "single", 60, preview = FALSE)$bump == 0,
-      "faceted plot at 89 mm is not bumped")
+check(pv_save_house(p + facet_wrap(~g), file.path(out, "facet"), cells = c(2, 2), preview = FALSE)$bump == 0,
+      "faceted plot at 2x2 is not bumped")
+check(pv_save_house(p, file.path(out, "s89"), "single", 89, preview = FALSE)$bump == 2,
+      "old call width = \"single\", height_mm = 89 is 2x2 and bumped")
+check(pv_save_house(p, file.path(out, "s21"), "single", 43, preview = FALSE)$bump == 0 &&
+        pv_save_house(p, file.path(out, "s12"), cells = c(1, 2), preview = FALSE)$bump == 0 &&
+        pv_save_house(p, file.path(out, "s33"), cells = c(3, 3), preview = FALSE)$bump == 0,
+      "single panel at 2x1, 1x2, 3x3 is not bumped (only 2x2 is)")
 
-# default in-plot text size: 7 pt, +2 pt for a single-column single panel ----------------
+# default in-plot text size: 7 pt, +2 pt for a single 2x2 panel ---------------------------
 check(abs(GeomText$default_aes$size - 7 / .pt) < 1e-9 && abs(GeomLabel$default_aes$size - 7 / .pt) < 1e-9,
       "geom_text / geom_label default size 7 pt after sourcing theme_house.R")
 pdft <- ggplot(d, aes(x, y)) + geom_text(aes(label = g)) + annotate("text", x = 0, y = 0, label = "n") + theme_house()
@@ -121,7 +157,7 @@ check(all(vapply(bd$layers, function(l) abs(l$aes_params$size - 9 / .pt) < 1e-9,
 check(all(vapply(pdft$layers, function(l) is.null(l$aes_params$size) || abs(l$aes_params$size - 7 / .pt) < 1e-9, logical(1))),
       "bump leaves default-size layers of the input plot unchanged")
 if (requireNamespace("patchwork", quietly = TRUE)) {
-  check(pv_save_house(patchwork::wrap_plots(pdft), file.path(out, "pw1"), "single", 60, preview = FALSE)$bump == 0,
+  check(pv_save_house(patchwork::wrap_plots(pdft), file.path(out, "pw1"), cells = c(2, 2), preview = FALSE)$bump == 0,
         "patchwork with a single subplot is not bumped")
 }
 
@@ -137,11 +173,14 @@ if (has_poppler) {
   # also prove the save-time patch works without the geom defaults set at source time
   old <- list(text = GeomText$default_aes$family, label = GeomLabel$default_aes$family)
   update_geom_defaults("text", list(family = "")); update_geom_defaults("label", list(family = ""))
-  res <- pv_save_house(pt, file.path(out, "fonts"), "double", 60, preview = FALSE)
+  res <- pv_save_house(pt, file.path(out, "fonts"), cells = c(4, 1), preview = FALSE)
   pw <- if (requireNamespace("patchwork", quietly = TRUE)) patchwork::wrap_plots(pt, pt) else pt
-  res2 <- pv_save_house(pw, file.path(out, "fonts_pw"), "double", 60, preview = FALSE)
+  res2 <- pv_save_house(pw, file.path(out, "fonts_pw"), cells = c(4, 1), preview = FALSE)
+  res_m <- pv_save_house(pv_house_mosaic(list(list(plot = pt, at = c(1, 1), cells = c(1, 1)),
+                                              list(plot = pw, at = c(2, 1), cells = c(3, 1))), c(4, 1)),
+                         file.path(out, "fonts_mosaic"), cells = c(4, 1), preview = FALSE)
   pv_house_geom_defaults()
-  for (f in c(res$pdf, res2$pdf)) {
+  for (f in c(res$pdf, res2$pdf, res_m$pdf)) {
     fs <- fonts_of(f)
     check(length(fs) > 0 && !any(grepl("Nimbus", fs)) && length(unique(substr(gsub("[^A-Za-z]", "", fs), 1, 5))) == 1,
           sprintf("%s: one font family in PDF (%s)", basename(f), paste(unique(fs), collapse = ", ")))
@@ -164,10 +203,10 @@ requireNamespace <- function(package, ...) if (identical(package, "ragg")) FALSE
 td3 <- tempfile("noragg"); dir.create(td3)
 res3 <- pv_save_house(ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) + ggplot2::geom_point() +
                         ggplot2::annotate("text", 3, 30, label = "x") + theme_house(),
-                      file.path(td3, "figure"), width = "single", height_mm = 60, dpi = 300)
+                      file.path(td3, "figure"), cells = "2x1", dpi = 300)
 rm(requireNamespace)
 px <- png_px(res3$png); pv <- png_px(file.path(td3, "preview.png"))
-check(abs(px[1] - round(89 / 25.4 * 300)) <= 1 && abs(px[2] - round(60 / 25.4 * 300)) <= 1 && pv[1] == 1200,
+check(abs(px[1] - round(89 / 25.4 * 300)) <= 1 && abs(px[2] - round(43 / 25.4 * 300)) <= 1 && pv[1] == 1200,
       sprintf("no-ragg PNG fallback: figure %dx%d px, preview %d px wide", px[1], px[2], pv[1]))
 
 # Bottom edge: x-axis title descenders (g, y, parentheses) must not touch the last pixel row ---
@@ -188,14 +227,50 @@ if (requireNamespace("png", quietly = TRUE)) {
       requireNamespace <- function(package, ...) if (identical(package, "ragg")) FALSE else
         base::requireNamespace(package, ...)
     tdb <- tempfile(paste0("bottom-", path)); dir.create(tdb)
-    for (h in c(50, 60, 72)) {
-      rb <- pv_save_house(desc_plot, file.path(tdb, paste0("figure", h)), width = "single",
-                          height_mm = h, preview = FALSE)
-      check(last_row_white(rb$png), sprintf("%s PNG %d mm high: last pixel row is white", path, h))
+    for (cl in c("1x1", "2x1", "2x2", "4x1")) {
+      rb <- pv_save_house(desc_plot, file.path(tdb, paste0("figure", cl)), cells = cl, preview = FALSE)
+      check(last_row_white(rb$png), sprintf("%s PNG %s cells (%g x %g mm): last pixel row is white",
+                                            path, cl, rb$width_mm, rb$height_mm))
     }
     if (exists("requireNamespace", envir = globalenv(), inherits = FALSE)) rm(requireNamespace)
   }
 } else cat("skip bottom-edge check (png package not installed)\n")
+
+# mosaic: tiles sit at 1 + 46 * (k - 1) mm on the 183 mm canvas ---------------------------
+if (requireNamespace("png", quietly = TRUE)) {
+  # solid-filled tiles, no theme margins, so the ink box of each tile = its grid box
+  solid <- function(col) ggplot2::ggplot() + ggplot2::theme_void() +
+    ggplot2::theme(plot.background = ggplot2::element_rect(fill = col, colour = NA),
+                   plot.margin = ggplot2::margin(0, 0, 0, 0))
+  mo <- pv_house_mosaic(list(list(plot = solid("#FF0000"), at = c(1, 1), cells = c(1, 1)),
+                             list(plot = solid("#00FF00"), at = c(2, 1), cells = c(2, 1)),
+                             list(plot = solid("#0000FF"), at = c(4, 1), cells = c(1, 2)),
+                             list(plot = solid("#000000"), at = c(1, 2), cells = c(3, 1))), c(4, 2))
+  tdm <- tempfile("mosaic"); dir.create(tdm)
+  rm_ <- pv_save_house(mo, file.path(tdm, "figure"), cells = c(4, 2), dpi = 254, preview = FALSE)  # 10 px/mm
+  a <- png::readPNG(rm_$png)
+  ink_x <- function(rgb, row_mm) {
+    r <- a[round(row_mm * 10), , 1:3]
+    hit <- which(abs(r[, 1] - rgb[1]) < 0.05 & abs(r[, 2] - rgb[2]) < 0.05 & abs(r[, 3] - rgb[3]) < 0.05)
+    c(min(hit) - 1, max(hit)) / 10
+  }
+  near <- function(got, want) all(abs(got - want) <= 0.15)
+  check(rm_$width_mm == 183 && rm_$height_mm == 89, "mosaic 4x2 canvas 183 x 89 mm")
+  check(near(ink_x(c(1, 0, 0), 20), c(1, 44)) && near(ink_x(c(0, 1, 0), 20), c(47, 136)) &&
+          near(ink_x(c(0, 0, 1), 20), c(139, 182)) && near(ink_x(c(0, 0, 0), 70), c(1, 136)) &&
+          near(ink_x(c(0, 0, 1), 70), c(139, 182)),
+        "mosaic tiles at x = 1, 47, 139 mm; 3 mm gaps; right edge 182 mm (= 183 - 1)")
+  col_red <- which(abs(a[, 200, 1] - 1) < 0.05 & a[, 200, 2] < 0.05)
+  col_blk <- which(rowSums(a[, 200, 1:3]) < 0.15)
+  check(near(c(min(col_red) - 1, max(col_red)) / 10, c(0, 43)) &&
+          near(c(min(col_blk) - 1, max(col_blk)) / 10, c(46, 89)),
+        "mosaic rows: y = 0-43 and 46-89 mm (no vertical margin at 2 cells high)")
+  check(errs(pv_house_mosaic(list(list(plot = solid("red"), at = c(4, 1), cells = c(2, 1))), c(4, 1))) &&
+          errs(pv_house_mosaic(list(list(plot = solid("red"), at = c(1, 1), cells = c(2, 1)),
+                                    list(plot = solid("red"), at = c(2, 1), cells = c(1, 1))), c(4, 1))) &&
+          errs(pv_save_house(mo, file.path(tdm, "x"), cells = c(4, 1), preview = FALSE)),
+        "mosaic: out-of-page tile, overlapping tiles, and wrong save size error")
+} else cat("skip mosaic pixel check (png package not installed)\n")
 
 if (fail) { cat(fail, "check(s) failed\n"); quit(status = 1) }
 cat("all R house-theme checks passed\n")

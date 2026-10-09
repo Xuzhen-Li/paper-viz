@@ -52,8 +52,6 @@ pv_point_dims <- function(size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke) 
     outer_mm = (path_pt + outline_pt) / 72 * 25.4)
 }
 
-HOUSE_PRESETS_MM <- c(single = 89, double = 183)
-
 # --- font -------------------------------------------------------------------
 house_family <- function() {
   candidates <- c("Arial", "Helvetica", "Liberation Sans", "DejaVu Sans")
@@ -236,30 +234,176 @@ pv_house_geom_defaults()
   is.null(fac) || inherits(fac, c("FacetNull"))
 }
 
+# --- grid -------------------------------------------------------------------
+# Every house figure is snapped to one grid: a 43 mm square cell, 3 mm gap between cells
+# (horizontal and vertical), at most 4 cells per side.
+#   span(n) = n * 43 + (n - 1) * 3  ->  1: 43, 2: 89, 3: 135, 4: 181 mm
+# Canvas rule (canvas = the exported PDF/PNG page, i.e. what pv_save_house writes):
+#   * A figure is a tile. On an axis spanning 1-3 cells the canvas is exactly the span
+#     (43 / 89 / 135 mm) and carries NO outer margin.
+#   * The 1 mm outer margin belongs to the page. It is added only on an axis that spans all
+#     4 cells: canvas = 1 + 181 + 1 = 183 mm (the double column), and the plot is drawn into
+#     the centred 181 mm content box. Width and height follow the same rule.
+#   * So inside a 183 mm page, a tile of column c (1-based) starts at x = 1 + 46 * (c - 1) mm;
+#     tiles of 1+1+1+1, 1+1+2, 2+2, 1+3 or 4 cells with 3 mm gaps fill 1..182 mm and
+#     reproduce the 183 mm composite exactly; a 4-cell figure's content box covers the same
+#     1..182 mm, so edges line up when 1-cell and 4-cell figures are stacked.
+#   * Single column = 2 cells = 89 mm canvas (no margin: a single column is a tile).
+# Old presets: "single" = 2 cells (89 mm), "double" = 4 cells (183 mm canvas incl. margins).
+HOUSE_CELL_MM <- 43
+HOUSE_GAP_MM <- 3
+HOUSE_PAGE_MARGIN_MM <- 1
+HOUSE_MAX_CELLS <- 4L
+HOUSE_PRESETS_MM <- c(single = 89, double = 183)      # canvas mm, kept for old calls
+HOUSE_PRESETS_CELLS <- c(single = 2L, double = 4L)
+
+# span of n cells in mm (content, no margin)
+pv_grid_span <- function(n) n * HOUSE_CELL_MM + (n - 1) * HOUSE_GAP_MM
+
+# canvas mm of an n-cell side: the span, plus 1 mm on each end when n = 4
+pv_grid_canvas <- function(n) pv_grid_span(n) + ifelse(n == HOUSE_MAX_CELLS, 2 * HOUSE_PAGE_MARGIN_MM, 0)
+
+# Parse cells: c(w, h), "2x1" (also "2X1", "2×1") -> integer c(w, h); errors off the grid.
+pv_house_cells <- function(cells) {
+  if (is.character(cells)) {
+    if (length(cells) != 1 || !grepl("^\\s*[0-9]+\\s*[xX\u00d7]\\s*[0-9]+\\s*$", cells)) {
+      stop(sprintf("cells = %s: use c(w, h) or \"WxH\", e.g. \"2x1\"", deparse(cells)), call. = FALSE)
+    }
+    cells <- as.numeric(strsplit(gsub("\\s", "", cells), "[xX\u00d7]")[[1]])
+  }
+  if (!is.numeric(cells) || length(cells) != 2 || anyNA(cells) || any(cells != round(cells)) ||
+      any(cells < 1) || any(cells > HOUSE_MAX_CELLS)) {
+    stop(sprintf("cells = %s is off the house grid: width and height must each be 1-%d whole cells",
+                 paste(deparse(cells), collapse = ""), HOUSE_MAX_CELLS), call. = FALSE)
+  }
+  as.integer(cells)
+}
+
+# mm of one canvas side -> cells; errors unless it is a grid canvas (43, 89, 135, 183).
+.pv_mm_to_cells <- function(mm, what) {
+  ok <- pv_grid_canvas(seq_len(HOUSE_MAX_CELLS))
+  hit <- which(abs(ok - mm) < 1e-6)
+  if (!length(hit)) {
+    near <- ok[which.min(abs(ok - mm))]
+    stop(sprintf(paste0("%s = %s mm is off the house grid (allowed canvas: %s mm). ",
+                        "Use cells = c(w, h); nearest grid size: %s mm."),
+                 what, format(mm), paste(ok, collapse = ", "), near), call. = FALSE)
+  }
+  hit
+}
+
+# Canvas / content geometry for a cells spec. Returns mm.
+pv_house_canvas <- function(cells) {
+  cells <- pv_house_cells(cells)
+  m <- ifelse(cells == HOUSE_MAX_CELLS, HOUSE_PAGE_MARGIN_MM, 0)
+  list(cells = cells,
+       width_mm = pv_grid_canvas(cells[1]), height_mm = pv_grid_canvas(cells[2]),
+       content_width_mm = pv_grid_span(cells[1]), content_height_mm = pv_grid_span(cells[2]),
+       margin_x_mm = m[1], margin_y_mm = m[2])
+}
+
+# Draw-time grob: builds the ggplot/patchwork grob only when drawn (inside the output device,
+# so no stray Rplots.pdf) and places it in a viewport. Used for the 4-cell page margin and for
+# mosaic tiles.
+.pv_placed <- function(plot, x_mm, y_mm, w_mm, h_mm) {
+  grid::gTree(plot = plot, cl = "pv_placed",
+              vp = grid::viewport(x = grid::unit(x_mm, "mm"), y = grid::unit(y_mm, "mm"),
+                                  width = grid::unit(w_mm, "mm"), height = grid::unit(h_mm, "mm"),
+                                  just = c("left", "bottom")))
+}
+makeContent.pv_placed <- function(x) {
+  p <- x$plot
+  g <- if (inherits(p, "grob")) p else if (inherits(p, "patchwork")) patchwork::patchworkGrob(p) else
+    ggplot2::ggplotGrob(p)
+  grid::setChildren(x, grid::gList(g))
+}
+registerS3method("makeContent", "pv_placed", makeContent.pv_placed, envir = asNamespace("grid"))
+
+# Mosaic: several standalone plots on one grid page (draw-time grob, pass it to pv_save_house
+# with the same cells). tiles: list of list(plot = <ggplot/patchwork/grob>, at = c(col, row),
+# cells = c(w, h)); col/row are 1-based from the top-left cell. Tiles must stay inside the page
+# and must not overlap. Each tile occupies exactly its span; the page margin (4-cell sides) is
+# added by pv_save_house, so tile edges land on 1 + 46 * (k - 1) mm of the exported canvas.
+pv_house_mosaic <- function(tiles, cells) {
+  page <- pv_house_cells(cells)
+  occ <- matrix(FALSE, page[2], page[1])
+  kids <- vector("list", length(tiles))
+  h_page <- pv_grid_span(page[2])
+  for (i in seq_along(tiles)) {
+    t <- tiles[[i]]
+    tc <- pv_house_cells(t$cells)
+    at <- as.integer(t$at)
+    cols <- at[1] + seq_len(tc[1]) - 1L
+    rows <- at[2] + seq_len(tc[2]) - 1L
+    if (length(at) != 2 || min(at) < 1 || max(cols) > page[1] || max(rows) > page[2]) {
+      stop(sprintf("mosaic tile %d (at %s, cells %s) does not fit a %dx%d page", i,
+                   paste(at, collapse = ","), paste(tc, collapse = "x"), page[1], page[2]), call. = FALSE)
+    }
+    if (any(occ[rows, cols])) stop(sprintf("mosaic tile %d overlaps another tile", i), call. = FALSE)
+    occ[rows, cols] <- TRUE
+    x0 <- (at[1] - 1) * (HOUSE_CELL_MM + HOUSE_GAP_MM)
+    top <- (at[2] - 1) * (HOUSE_CELL_MM + HOUSE_GAP_MM)
+    hh <- pv_grid_span(tc[2])
+    p <- t$plot
+    if (!inherits(p, "grob")) p <- .pv_set_text_family(p)
+    kids[[i]] <- .pv_placed(p, x0, h_page - top - hh, pv_grid_span(tc[1]), hh)
+  }
+  structure(grid::gTree(children = do.call(grid::gList, kids), cl = "pv_mosaic"),
+            pv_cells = page)
+}
+
 # --- export -----------------------------------------------------------------
-# width: "single" (89 mm), "double" (183 mm) or a number in mm.
-# A single-column (<= 89 mm) single panel gets +2 pt on all text so ticks reach 9 pt and axis
-# titles 10 pt (STYLE §2). The bump is computed from the current tick size, so a plot already
-# built with theme_house(base_size = 9) is not bumped twice. Set bump = 0 to switch it off.
+# cells: c(w, h) or "WxH" in grid cells (1-4 each); see the grid rule above. Preferred.
+# width / height_mm: old interface. width "single" = 2 cells, "double" = 4 cells; numbers and
+#   height_mm must be a grid canvas (43, 89, 135 or 183 mm) and are converted to cells.
+#   Anything else is an ERROR, not a warning: the only callers are the house examples (all on
+#   the grid), and a warning would let an off-grid figure pass CI and ship.
+#   height_mm defaults to 1 cell when only width is given.
+# plot: ggplot, patchwork, or a grob (e.g. pv_house_mosaic()).
+# Text bump: ONLY a single-column figure holding exactly one 2 x 2 (89 x 89 mm) panel gets
+#   +2 pt (ticks 9 pt, axis titles 10 pt; STYLE §2). Everything else stays 7/8 pt. Computed from
+#   the current tick size, so base_size = 9 plots are not bumped twice; bump = 0 switches it off.
 # Writes <file>.pdf (cairo PDF: text stays text, fonts embedded, nothing outlined),
 # <file>.png at `dpi` (600) and, if preview = TRUE, preview.png (1200 px wide) next to it.
-pv_save_house <- function(plot, file, width = c("double", "single"), height_mm = NULL,
+pv_save_house <- function(plot, file, width = NULL, height_mm = NULL, cells = NULL,
                           bump = NULL, dpi = 600, preview = TRUE) {
-  if (is.character(width)) {
-    width <- match.arg(width)
-    width_mm <- HOUSE_PRESETS_MM[[width]]
-  } else {
-    width_mm <- as.numeric(width)
+  if (is.null(cells)) {
+    if (is.null(width)) stop("pv_save_house(): give cells = c(w, h), e.g. cells = \"2x1\"", call. = FALSE)
+    if (is.character(width)) {
+      if (length(width) != 1 || !width %in% names(HOUSE_PRESETS_CELLS)) {
+        stop(sprintf("width = %s: use \"single\", \"double\" or cells = c(w, h)", deparse(width)), call. = FALSE)
+      }
+      w_cells <- HOUSE_PRESETS_CELLS[[width]]
+    } else {
+      w_cells <- .pv_mm_to_cells(as.numeric(width), "width")
+    }
+    h_cells <- if (is.null(height_mm)) 1L else .pv_mm_to_cells(as.numeric(height_mm), "height_mm")
+    cells <- c(w_cells, h_cells)
+  } else if (!is.null(width) || !is.null(height_mm)) {
+    stop("pv_save_house(): give either cells or width/height_mm, not both", call. = FALSE)
   }
-  if (is.null(height_mm)) height_mm <- if (width_mm <= 89) 76 else 118
-  if (is.null(bump)) {
-    bump <- if (width_mm <= 89 + 1e-6 && .pv_is_single_panel(plot)) max(0, 9 - .pv_tick_size(plot)) else 0
+  geo <- pv_house_canvas(cells)
+  cells <- geo$cells
+  if (inherits(plot, "pv_mosaic") && !identical(attr(plot, "pv_cells"), cells)) {
+    stop("pv_save_house(): mosaic was built for a different cells size", call. = FALSE)
   }
-  plot <- pv_bump_text(plot, bump)
-  plot <- .pv_set_text_family(plot)
 
-  w_in <- width_mm / 25.4
-  h_in <- height_mm / 25.4
+  is_grob <- inherits(plot, "grob")
+  if (is.null(bump)) {
+    bump <- if (identical(cells, c(2L, 2L)) && !is_grob && .pv_is_single_panel(plot))
+      max(0, 9 - .pv_tick_size(plot)) else 0
+  }
+  if (!is_grob) {
+    plot <- pv_bump_text(plot, bump)
+    plot <- .pv_set_text_family(plot)
+  }
+  if (is_grob || geo$margin_x_mm > 0 || geo$margin_y_mm > 0) {
+    plot <- .pv_placed(plot, geo$margin_x_mm, geo$margin_y_mm,
+                       geo$content_width_mm, geo$content_height_mm)
+  }
+
+  w_in <- geo$width_mm / 25.4
+  h_in <- geo$height_mm / 25.4
   base <- sub("\\.(png|pdf|tiff|tif)$", "", file, ignore.case = TRUE)
   out_dir <- dirname(base)
   if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
@@ -281,6 +425,8 @@ pv_save_house <- function(plot, file, width = c("double", "single"), height_mm =
     ggplot2::ggsave(file.path(out_dir, "preview.png"), plot, width = w_in, height = h_in,
                     units = "in", dpi = 1200 / w_in, device = png_dev, bg = "white")
   }
-  invisible(list(pdf = paste0(base, ".pdf"), png = paste0(base, ".png"),
-                 width_mm = width_mm, height_mm = height_mm, bump = bump))
+  invisible(list(pdf = paste0(base, ".pdf"), png = paste0(base, ".png"), cells = cells,
+                 width_mm = geo$width_mm, height_mm = geo$height_mm,
+                 content_width_mm = geo$content_width_mm, content_height_mm = geo$content_height_mm,
+                 bump = bump))
 }
