@@ -4,11 +4,11 @@
 [![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
 [![Figures](https://img.shields.io/badge/figures-111-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
-[![九张 house style 示例：散点、折线、柱、雨云、密度、森林图、热图、环图、分面小图](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
+[![九张 house style 示例：散点、折线、柱、雨云、密度、森林图、热图、环图、分面小图。Nine house-style examples: scatter, line, bar, raincloud, density, forest, heatmap, donut, small multiples](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
 
 R 优先的科研绘图模板库。每种图是一个文件夹（`plot.R`、模拟数据 `data.csv`、`meta.yaml`）：在画廊里找到图，复制文件夹，按列名换上自己的数据，运行 `Rscript plot.R`，得到矢量 PDF 和 600 dpi PNG；也方便 agent 检索调用。新图默认 house style，上图九张示例都由本仓库代码用模拟数据画成。入口：[在线画廊](https://xuzhen-li.github.io/paper-viz/) · [快速开始](#快速开始--quick-start) · [House style 规范](https://xuzhen-li.github.io/paper-viz/house-style/) · [给 agent 用](AGENTS.md)。
 
-An R-first library of paper-figure templates. Each chart is one folder (`plot.R`, synthetic `data.csv`, `meta.yaml`): find it in the gallery, copy the folder, swap in your own data with the same columns, and run `Rscript plot.R` to get a vector PDF and a 600 dpi PNG; agents can search and reuse it too. New figures default to the house style; the nine examples above are drawn by the code in this repository from synthetic data. Start here: [Gallery](https://xuzhen-li.github.io/paper-viz/) · [Quick start](#快速开始--quick-start) · [House style](https://xuzhen-li.github.io/paper-viz/house-style/) · [For agents](AGENTS.md).
+An R-first library of paper-figure templates. Each figure is one folder (`plot.R`, synthetic `data.csv`, `meta.yaml`): find it in the gallery, copy the folder, swap in your own data with the same columns, and run `Rscript plot.R` to get a vector PDF and a 600 dpi PNG. Agents can search and reuse the templates too. New figures default to the house style; the nine examples above were drawn from synthetic data by code in this repository. Start here: [Gallery](https://xuzhen-li.github.io/paper-viz/) · [Quick start](#快速开始--quick-start) · [House style](https://xuzhen-li.github.io/paper-viz/house-style/) · [For agents](AGENTS.md).
 
 ## 画廊 / Gallery
 
