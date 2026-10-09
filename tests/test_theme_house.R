@@ -153,5 +153,22 @@ pd <- pv_point_dims()
 check(abs(pd[["outer_mm"]] - 2.04) < 0.02 && abs(pd[["outline_pt"]] - 0.425) < 0.005,
       sprintf("HOUSE_POINT: outer %.2f mm, outline %.3f pt", pd[["outer_mm"]], pd[["outline_pt"]]))
 
+# PNG fallback without ragg (CI has no ragg): pixel size must follow mm and dpi -------
+png_px <- function(f) {
+  con <- file(f, "rb"); on.exit(close(con))
+  h <- readBin(con, "raw", 24)
+  c(sum(as.integer(h[17:20]) * 256^(3:0)), sum(as.integer(h[21:24]) * 256^(3:0)))
+}
+requireNamespace <- function(package, ...) if (identical(package, "ragg")) FALSE else
+  base::requireNamespace(package, ...)
+td3 <- tempfile("noragg"); dir.create(td3)
+res3 <- pv_save_house(ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) + ggplot2::geom_point() +
+                        ggplot2::annotate("text", 3, 30, label = "x") + theme_house(),
+                      file.path(td3, "figure"), width = "single", height_mm = 60, dpi = 300)
+rm(requireNamespace)
+px <- png_px(res3$png); pv <- png_px(file.path(td3, "preview.png"))
+check(abs(px[1] - round(89 / 25.4 * 300)) <= 1 && abs(px[2] - round(60 / 25.4 * 300)) <= 1 && pv[1] == 1200,
+      sprintf("no-ragg PNG fallback: figure %dx%d px, preview %d px wide", px[1], px[2], pv[1]))
+
 if (fail) { cat(fail, "check(s) failed\n"); quit(status = 1) }
 cat("all R house-theme checks passed\n")

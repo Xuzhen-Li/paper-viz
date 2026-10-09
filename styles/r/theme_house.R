@@ -265,7 +265,11 @@ pv_save_house <- function(plot, file, width = c("double", "single"), height_mm =
   pdf_dev <- if (isTRUE(capabilities("cairo"))) grDevices::cairo_pdf else
     function(filename, ...) grDevices::pdf(filename, ..., useDingbats = FALSE)
   png_dev <- if (requireNamespace("ragg", quietly = TRUE)) ragg::agg_png else
-    function(filename, ...) grDevices::png(filename, ..., type = "cairo")
+    # ggsave only passes units / res to devices that declare them; without them png()
+    # reads width/height as pixels and draws a few-pixel canvas.
+    function(filename, width, height, units = "in", res = 300, ...)
+      grDevices::png(filename, width = width, height = height, units = units, res = res,
+                     type = "cairo", ...)
 
   ggplot2::ggsave(paste0(base, ".pdf"), plot, width = w_in, height = h_in, units = "in",
                   device = pdf_dev, bg = "white")
