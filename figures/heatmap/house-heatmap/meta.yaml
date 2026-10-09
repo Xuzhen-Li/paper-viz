@@ -1,0 +1,22 @@
+# Simulated data. References are links only (URL + figure number); no text or images copied.
+title: Annotated diverging heatmap (house style)
+title_zh: 带数值的发散色热图（house 风格）
+slug: house-heatmap
+category: heatmap
+tags:
+- heatmap
+- log2-fold-change
+- diverging
+- house-style
+packages:
+- ggplot2
+data_columns:
+  gene: 行名（字符串）
+  stress: 列分组（字符串）
+  day: 列内时间点（数值）
+  log2fc: 格内数值（log2 倍数变化，以 0 为中心）
+when_to_use: 少量行 × 少量列、正负都有的数值矩阵时用；蓝–红发散色以 0 为中心，每格写数值（深底白字），行按聚类排序。
+customize: plot.R 顶部 limit 为色标对称上限；cluster_rows 开关行聚类；dark_cut 为格内改用白字的阈值；colourbar_mm 为色条长度（≤ 面板高 60%）。颜色取 pv_palette("house")；文字字号写成印刷 pt（pv_pt2size），单栏单面板由 pv_save_house() 自动 +2 pt。
+lang: R
+style: house
+references_note: STYLE §12 has no reference pick for heatmaps; rules derived from the overall house style.
