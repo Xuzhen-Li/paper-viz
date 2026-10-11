@@ -22,7 +22,10 @@ grey <- pv_palette("house_grey")
 
 # exclusive intersections: each gene counted once, in its exact combination
 key <- apply(df[, sets] == 1, 1, function(r) paste(sets[r], collapse = "&"))
-tab <- sort(table(key), decreasing = TRUE)[seq_len(n_show)]
+tab_all <- sort(table(key), decreasing = TRUE)
+n_inter <- length(tab_all)                         # non-empty intersections in the data
+tab <- tab_all[seq_len(min(n_show, n_inter))]
+n_in_shown <- sum(tab)                            # genes covered by the columns shown
 inter <- data.frame(key = names(tab), n = as.integer(tab), stringsAsFactors = FALSE)
 inter$col_i <- seq_len(nrow(inter))
 inter$members <- strsplit(inter$key, "&", fixed = TRUE)
@@ -98,16 +101,20 @@ p_set <- ggplot(set_n, aes(n, row, fill = set)) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank())
 
 # note, bottom-anchored in the top-left cell so it sits just above the set-size bars ---------
-note <- data.frame(y = c(3.2, 2.2, 1.2, 0.2), face = c("bold", "plain", "plain", "plain"),
-                   col = c("#000000", grey[["mid"]], grey[["mid"]], "#000000"),
+fmt_n <- function(x) format(x, big.mark = ",")
+note <- data.frame(y = 5.2 - (0:5), face = c("bold", rep("plain", 5)),
+                   col = c("#000000", rep(grey[["mid"]], 4), "#000000"),
                    lab = c("Drought-responsive genes",
-                           sprintf("n = %s genes, %d tissues", format(nrow(df), big.mark = ","), k),
-                           "Colour: one tissue only", "Black: shared by \u2265 2 tissues"))
+                           sprintf("n = %s genes in %d tissues", fmt_n(nrow(df)), k),
+                           sprintf("Top %d of %d intersections shown", nrow(inter), n_inter),
+                           sprintf("(%s genes); set bars count all", fmt_n(n_in_shown)),
+                           "Colour: one tissue only", "Black: shared by 2+ tissues"))
 p_note <- ggplot(note, aes(0, y, label = lab)) +
   geom_text(aes(fontface = face, colour = col), hjust = 0, vjust = 0, size = pv_pt2size(7)) +
   scale_colour_identity() +
   scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0, 16), expand = c(0, 0)) +
+  coord_cartesian(clip = "off") +
   theme_void()
 
 p <- p_bar + p_mat + p_lab + p_set + p_note +
