@@ -85,7 +85,7 @@ b2b <- ggplot(sm, aes(psi, expression)) +
   scale_x_continuous(limits = c(-1.8, -0.2), breaks = c(-1.5, -1, -0.5), labels = minus, expand = c(0, 0)) +
   scale_y_continuous(limits = c(1, 11), breaks = c(3, 6, 9), expand = c(0, 0)) +
   labs(x = "\u03a8stem (MPa)", y = "Expression (log2 CPM)",
-       title = sprintf("Tightest link to \u03a8stem (red, r = %s) is also the top GWAS hit (Fig. 3a)",
+       title = sprintf("Strongest \u03a8stem correlation (red, r = %s) is the top GWAS hit (Fig. 3a)",
                        minus(sprintf("%.2f", rlab$r[rlab$gene == r_top])))) + th +
   theme(panel.spacing = unit(2.5, "mm"), strip.text = element_text(face = "italic"),
         plot.title = element_text(size = 7, colour = pal[["red"]], hjust = 1, margin = margin(b = 1.2, unit = "mm")))
@@ -124,11 +124,15 @@ b2d <- ggplot(dl, aes(x, y, colour = tissue)) + geom_vline(xintercept = 0, linet
   scale_y_continuous(limits = c(0, 0.35), breaks = c(0, 0.1, 0.2, 0.3), expand = c(0, 0)) +
   labs(x = "log2 FC of DEGs", y = "Density") + th
 
+# rows 2-4 (2x3 cells, 89 x 135 mm) as one tile: b 81 mm, c/d 51 mm (about 19% taller than one 43 mm cell)
+H_B <- 81; H_CD <- 135 - 3 - H_B
+lower <- gtable::gtable(widths = grid::unit(c(43, 3, 43), "mm"), heights = grid::unit(c(H_B, 3, H_CD), "mm"))
+lower <- gtable::gtable_add_grob(lower, tile(b2b, "b", t = 7.6), t = 1, l = 1, r = 3)
+lower <- gtable::gtable_add_grob(lower, tile(b2c, "c"), t = 3, l = 1)
+lower <- gtable::gtable_add_grob(lower, tile(b2d, "d"), t = 3, l = 3)
 mosaic <- pv_house_mosaic(list(
   list(plot = tile(b2a, "a"), at = c(1, 1), cells = c(2, 1)),
-  list(plot = tile(b2b, "b", t = 7.6), at = c(1, 2), cells = c(2, 2)),
-  list(plot = tile(b2c, "c"), at = c(1, 4), cells = c(1, 1)),
-  list(plot = tile(b2d, "d"), at = c(2, 4), cells = c(1, 1))
+  list(plot = lower, at = c(1, 2), cells = c(2, 3))
 ), cells = page_cells)
 pv_save_house(mosaic, "figure", cells = page_cells)
 

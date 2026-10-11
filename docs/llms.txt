@@ -82,9 +82,9 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Clustered heatmap](https://xuzhen-li.github.io/paper-viz/#heatmap): 基因对样本的矩阵要同时看模块和组别时用。
 - [Annotated diverging heatmap (house style)](https://xuzhen-li.github.io/paper-viz/#house-heatmap): 少量行 × 少量列、正负都有的数值矩阵时用；蓝–红发散色以 0 为中心，每格写数值（深底白字），行按聚类排序。
 - [Composite figure](https://xuzhen-li.github.io/paper-viz/#composite-figure): 一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。Use when a double-column figure should assemble those four panels in one font, palette, and legend.
-- [ABA kinetics page, single column (house mosaic, 2x4)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-aba-kinetics): 单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（各 1×1）。b 的标题是一句与图同色的结论。
+- [ABA kinetics page, single column (house mosaic, 2x4)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-aba-kinetics): 单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（并排，比 1 格高约 19%）。b 的标题是一句与图同色的结论。
 - [GWAS page with a 4x1 Manhattan (house mosaic, 4x2)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-gwas): 双栏半页讲一个 GWAS：a 是通栏 4×1 曼哈顿图，b 为头号位点区域图（2×1，按 r² 着色并画基因模型），c 头号 SNP 的基因型效应（箱线 + 原始点），d 各群体等位基因频率（堆叠条）。
-- [Transcriptome overview page (house mosaic, 4x3)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-transcriptome): 双栏一整页讲一个转录组结果：左上 PCA 与 DEG 计数是数据总览，中间热图是主结果，右侧 GO 森林图与环图是统计，底部 3×1 UpSet 看上调 DEG 在组织间的共享。七种图型在一页上，面板框上下、左右对齐。
+- [Transcriptome overview page (house mosaic, 4x3)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-transcriptome): 双栏一整页讲一个转录组结果：左上 PCA 与 DEG 计数是数据总览，中间热图是主结果，右侧 GO 森林图（10 个 GO 正式名称）是统计，底部 3×1 UpSet 看上调 DEG 在组织间的共享，旁边 1×1 环图把去重后的上调 DEG 按共享组织数（1 / 2 / 3+）分成 3 段。七种图型在一页上，面板框上下、左右对齐。
 - [Small multiples with in-panel trends (house style)](https://xuzhen-li.github.io/paper-viz/#house-small-multiples): 同一指标在多个地区或类别上并排比较时用；共享坐标轴、只在外侧写刻度，每个面板左上写名称和线性趋势 ± s.e.（含显著性星号），显著上升红色、下降蓝色、不显著灰色。
 - [Mantel test plot](https://xuzhen-li.github.io/paper-viz/#mantel-plot): 同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。
 - [Rarefaction curve](https://xuzhen-li.github.io/paper-viz/#rarefaction): 比较各组物种丰富度是否随测序深度趋于饱和时用。

@@ -24,8 +24,8 @@ data_columns:
   treatment: WW / SD（data_raincloud.csv）
   tissue: Leaf / Root（data_raincloud.csv、data_fc.csv）
   jitter: 原始点在云下的纵向位置 0–1（data_raincloud.csv）
-when_to_use: 单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（各 1×1）。b 的标题是一句与图同色的结论。
-customize: page_cells = 2×4；各面板的 at / cells 在 pv_house_mosaic() 里改。b 的标题自动取 |r| 最大的基因，并检查它等于 gwas_top（拼版 house-mosaic-gwas 的头号位点）且在两位小数上领先第二名；a 与 b 的方向（干旱上调 ↔ r 为负）也由 stopifnot() 检查。data_fc.csv 的叶、根 DEG 数与 house-mosaic-transcriptome 的 data_deg.csv 一致。
+when_to_use: 单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（并排，比 1 格高约 19%）。b 的标题是一句与图同色的结论。
+customize: page_cells = 2×4；a 占 2×1，b/c/d 合成一个 2×3 的 tile（gtable），H_B = 81 mm、H_CD = 51 mm 决定 b 与 c/d 的高度，三者相加须为 135 mm。b 的标题自动取 |r| 最大的基因，并检查它等于 gwas_top（拼版 house-mosaic-gwas 的头号位点）且在两位小数上领先第二名；a 与 b 的方向（干旱上调 ↔ r 为负）也由 stopifnot() 检查。data_fc.csv 的叶、根 DEG 数与 house-mosaic-transcriptome 的 data_deg.csv 一致。
 lang: R
 style: house
 cells: 2x4

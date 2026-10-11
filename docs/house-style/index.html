@@ -319,27 +319,37 @@ pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
 
 <section id="sizes">
   <h2>默认尺寸与升档阈值 / Default sizes and when to go up</h2>
-  <p lang="zh-CN">阈值按 7 pt Arial 实测：字宽按 1.30 mm/字符，逐行标签 ≥ 3.5 mm/行，面板内宽 = 格跨度 − 12.7 mm；超过当前尺寸的容量就升一档，先加宽、行多再加高。先缩写、换行、横置，再升档。</p>
-  <p lang="en">Thresholds come from measuring 7 pt Arial: 1.30 mm per character, ≥ 3.5 mm per labelled row, inner panel width = cell span − 12.7 mm. Go one size up when the current size's capacity is exceeded, widening first and adding height for rows. Abbreviate, wrap or turn horizontal before sizing up.</p>
+  <!-- placeholder: Gemini prose -->
+  <ul class="placeholder">
+    <li>[占位 / placeholder] 阈值怎么来的 / where the thresholds come from</li>
+    <li>[占位 / placeholder] 怎么读这张表 / how to read the table</li>
+    <li>[占位 / placeholder] 升档前先缩写、换行、横置 / abbreviate, wrap or turn before sizing up</li>
+  </ul>
+  <!-- /placeholder -->
   <div class="tablewrap"><table>
-    <thead><tr><th>图型 / Chart</th><th>默认 / Default</th><th>升档条件（任一）/ Go up when (any)</th><th>升到 / Up to</th></tr></thead>
+    <thead><tr><th>图型<br>Chart</th><th>默认<br>Default</th><th>组 / 类别 / 集合 &gt;<br>Groups / categories / sets &gt;</th><th>标签字符 &gt;<br>Label chars &gt;</th><th>行 &gt;<br>Rows &gt;</th><th>列 / 交集 &gt;<br>Columns / intersections &gt;</th><th>点 / bins / 面板 &gt;<br>Points / bins / panels &gt;</th><th>升到<br>Up to</th></tr></thead>
     <tbody>
-      <tr><td>Scatter 散点</td><td>1×1</td><td>直标组 &gt; 3，或点 &gt; 2000 要看密度 / &gt; 3 labelled groups, or &gt; 2000 points</td><td>2×2</td></tr>
-      <tr><td>Line 折线</td><td>2×1</td><td>末端标签 &gt; 4，或刻度标签 &gt; 6 / &gt; 4 end labels or &gt; 6 time ticks</td><td>4×1 / 2×2</td></tr>
-      <tr><td>Bar 柱图</td><td>1×1</td><td>类别 &gt; 4（标签 ≤ 4 字符）或 &gt; 2（5–8 字符） / &gt; 4 categories (≤ 4 chars) or &gt; 2 (5–8 chars)</td><td>2×1；长名 2×2 横向 / horizontal</td></tr>
-      <tr><td>Box / violin</td><td>1×1</td><td>组 &gt; 4 / &gt; 4 groups</td><td>2×1</td></tr>
-      <tr><td>Raincloud（横向 / horizontal）</td><td>1×1（≤ 4 朵云 / clouds）</td><td>云 &gt; 4（每朵 ≥ 7 mm） / &gt; 4 clouds (≥ 7 mm each)</td><td>2×2（≤ 10）</td></tr>
-      <tr><td>Forest 森林图</td><td>1×2（≤ 21 行，行名 ≤ 17 字符）</td><td>行 &gt; 21 或行名 &gt; 17 字符 / &gt; 21 rows or names &gt; 17 chars</td><td>2×2；2×3（≤ 34 行）</td></tr>
-      <tr><td>Heatmap 热图</td><td>2×2</td><td>印数值：列 &gt; 17 或行 &gt; 21 / with values: &gt; 17 columns or &gt; 21 rows</td><td>2×3 / 2×4</td></tr>
-      <tr><td>Histogram / density</td><td>1×1</td><td>叠加组 &gt; 3 或 bins &gt; 37 / &gt; 3 groups or &gt; 37 bins</td><td>2×1</td></tr>
-      <tr><td>Donut 环图</td><td>1×1</td><td>扇区 &gt; 4 或标签一行 &gt; 5 字符 / &gt; 4 sectors or label lines &gt; 5 chars</td><td>2×1</td></tr>
-      <tr><td>Stacked bar 堆叠条</td><td>1×1</td><td>堆叠柱 &gt; 4 / &gt; 4 bars</td><td>1×2 / 2×1</td></tr>
-      <tr><td>Small multiples 小多图</td><td>2×2（2 × 2 面板）</td><td>面板 &gt; 4 或面板内宽 &lt; 25 mm / &gt; 4 panels or &lt; 25 mm wide</td><td>4×2 / 4×3</td></tr>
-      <tr><td>UpSet</td><td>拼图中 3×1；单独 4×2 / 3×1 in a mosaic, 4×2 alone</td><td>交集 &gt; 12 或集合 &gt; 5 / &gt; 12 intersections or &gt; 5 sets</td><td>4×1（≤ 18）/ 3×2</td></tr>
-      <tr><td>Manhattan / genome track</td><td>4×1</td><td>要放基因模型 / gene models needed</td><td>+ 2×1 locus zoom 放下方 / below</td></tr>
+      <tr><td>Scatter 散点</td><td>1×1</td><td>3</td><td>—</td><td>—</td><td>—</td><td>2,000</td><td>2×2</td></tr>
+      <tr><td>Line 折线</td><td>2×1</td><td>4</td><td>—</td><td>—</td><td>—</td><td>12</td><td>4×1 / 2×2</td></tr>
+      <tr><td>Bar 柱图</td><td>1×1</td><td>4</td><td>4</td><td>—</td><td>—</td><td>—</td><td>2×1</td></tr>
+      <tr><td>Box / violin</td><td>1×1</td><td>4</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2×1</td></tr>
+      <tr><td>Raincloud（横向 / horizontal）</td><td>1×1</td><td>4</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2×2</td></tr>
+      <tr><td>Forest 森林图</td><td>1×2</td><td>—</td><td>17</td><td>21</td><td>—</td><td>—</td><td>2×2</td></tr>
+      <tr><td>Heatmap 热图（印数值 / values）</td><td>2×2</td><td>—</td><td>10</td><td>21</td><td>17</td><td>—</td><td>2×3 / 2×4</td></tr>
+      <tr><td>Histogram / density</td><td>1×1</td><td>3</td><td>—</td><td>—</td><td>—</td><td>37</td><td>2×1</td></tr>
+      <tr><td>Donut 环图</td><td>1×1</td><td>4</td><td>5</td><td>—</td><td>—</td><td>—</td><td>2×1</td></tr>
+      <tr><td>Stacked bar 堆叠条</td><td>1×1</td><td>4</td><td>—</td><td>—</td><td>—</td><td>—</td><td>1×2 / 2×1</td></tr>
+      <tr><td>Small multiples 小多图</td><td>2×2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>4</td><td>4×2 / 4×3</td></tr>
+      <tr><td>UpSet（拼图 / mosaic）</td><td>3×1</td><td>5</td><td>10</td><td>—</td><td>18</td><td>—</td><td>4×1 / 3×2</td></tr>
+      <tr><td>Manhattan / genome track</td><td>4×1</td><td>19</td><td>—</td><td>—</td><td>—</td><td>—</td><td>4×1 + 2×1</td></tr>
+    </tbody>
+    <tbody>
+      <tr><th colspan="8">示例 / Examples</th></tr>
+      <tr><td><a href="../#house-mosaic-transcriptome"><code>house-mosaic-transcriptome</code></a></td><td>4×3</td><td colspan="6"><a href="../previews/house-mosaic-transcriptome.png"><img src="../previews/house-mosaic-transcriptome.png" alt="house-mosaic-transcriptome preview" height="72" loading="lazy"></a></td></tr>
+      <tr><td><a href="../#house-mosaic-aba-kinetics"><code>house-mosaic-aba-kinetics</code></a></td><td>2×4</td><td colspan="6"><a href="../previews/house-mosaic-aba-kinetics.png"><img src="../previews/house-mosaic-aba-kinetics.png" alt="house-mosaic-aba-kinetics preview" height="72" loading="lazy"></a></td></tr>
+      <tr><td><a href="../#house-mosaic-gwas"><code>house-mosaic-gwas</code></a></td><td>4×2</td><td colspan="6"><a href="../previews/house-mosaic-gwas.png"><img src="../previews/house-mosaic-gwas.png" alt="house-mosaic-gwas preview" height="72" loading="lazy"></a></td></tr>
     </tbody>
   </table></div>
-  <p>示例 / Examples: <code>house-mosaic-transcriptome</code> (4×3) · <code>house-mosaic-aba-kinetics</code> (2×4) · <code>house-mosaic-gwas</code> (4×2). 测量方法与每档容量 / Method and capacity per size: <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a>.</p>
 </section>
 
 <section id="schematics" class="schem">

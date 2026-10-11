@@ -30,12 +30,13 @@ utils::write.csv(data.frame(gene = rep(seq_along(cl), nrow(smp)), cluster = rep(
                             sample = rep(smp$sample, each = length(cl)), z = round(pmax(-2, pmin(2, as.vector(z))), 3)),
                  "data_heatmap.csv", row.names = FALSE)
 
-# GO enrichment of DEGs: odds ratio with 95% CI
-go <- data.frame(term = c("ABA response", "Water deficit", "Raffinose synth.", "LEA proteins",
-                          "Proline synth.", "Photosynthesis", "Cell wall", "Aquaporins"),
-                 or = c(4.8, 4.1, 3.6, 3.2, 2.7, 0.32, 0.45, 0.55))
-go$lo <- round(go$or / exp(stats::runif(8, 0.25, 0.45)), 3); go$hi <- round(go$or * exp(stats::runif(8, 0.25, 0.45)), 3)
-utils::write.csv(go, "data_go.csv", row.names = FALSE)
+# GO enrichment of DEGs (formal GO biological-process names): odds ratio with 95% CI.
+# The first 8 CI draws keep their place in the random stream; the last 2 terms draw after the UpSet.
+go <- data.frame(term = c("response to abscisic acid", "response to water deprivation", "raffinose biosynthetic process",
+                          "response to desiccation", "proline biosynthetic process", "trehalose biosynthetic process",
+                          "photosynthesis", "plant-type cell wall organization", "water transport", "photosynthesis, light harvesting"),
+                 or = c(4.8, 4.1, 3.6, 3.2, 2.7, 2.3, 0.32, 0.45, 0.55, 0.38))
+ci_lo <- stats::runif(8, 0.25, 0.45); ci_hi <- stats::runif(8, 0.25, 0.45)
 
 # UpSet: up-regulated DEGs only. One membership matrix over a gene pool; each tissue's members
 # are drawn without replacement with exactly the Up count above (shared latent programmes make
@@ -47,4 +48,7 @@ w <- cbind(stats::plogis(-0.2 + 1.6 * lat[, 1]), stats::plogis(0.2 + 1.5 * lat[,
 mm <- sapply(seq_along(tis), function(k) { v <- integer(pool); v[sample.int(pool, up_n[k], prob = w[, k])] <- 1L; v })
 colnames(mm) <- tis
 mm <- mm[rowSums(mm) > 0, ]
+ci_lo <- c(ci_lo, stats::runif(2, 0.25, 0.45)); ci_hi <- c(ci_hi, stats::runif(2, 0.25, 0.45))
+go$lo <- round(go$or / exp(ci_lo), 3); go$hi <- round(go$or * exp(ci_hi), 3)
+utils::write.csv(go, "data_go.csv", row.names = FALSE)
 utils::write.csv(data.frame(gene = sprintf("g%04d", seq_len(nrow(mm))), mm, check.names = FALSE), "data_upset.csv", row.names = FALSE)

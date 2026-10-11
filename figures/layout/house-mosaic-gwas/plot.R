@@ -78,7 +78,7 @@ lead <- leads[leads$chr == 4, ]
 # consistency: the genome-wide top hit is VvNCED3 on chr 4 (house-mosaic-aba-kinetics b claims it)
 # and it is the lead SNP of the zoomed window
 stopifnot(leads$lab[which.max(leads$lp)] == "VvNCED3", lead$chr == 4, lead$lp == max(loc$lp), !anyNA(loc$r2))
-r2_cols <- c(pal[["blue"]], pal[["sky"]], pal[["green"]], pal[["orange"]], pal[["red"]])
+r2_cols <- c(pal[["blue"]], pal[["sky"]], pal[["green"]], pal[["orange"]], pal[["red"]])   # r2 bins low -> high; labels use the same vector
 loc$bin <- cut(loc$r2, c(-0.01, 0.2, 0.4, 0.6, 0.8, 1.01), labels = FALSE)
 gm <- data.frame(s = c(11.1, 11.75, 12.15, 12.55, 13.05), e = c(11.5, 12.0, 12.45, 12.85, 13.5),
                  g = c("VvPP2C", "", "VvNCED3", "", "VvHAI1"))
@@ -88,11 +88,11 @@ b3b <- ggplot(loc, aes(pos, lp)) +
   geom_text(data = gm[gm$g != "", ], aes(x = (s + e) / 2, y = -2.3, label = g), vjust = 1, size = T7, fontface = "italic", inherit.aes = FALSE) +
   geom_hline(yintercept = thr, linetype = "22", linewidth = pv_house_lw("ref"), colour = pal[["red"]]) +
   geom_point(aes(fill = I(r2_cols[bin])), shape = 21, size = 1.3, stroke = 0.2, colour = "black") +
-  geom_point(data = lead, shape = 23, size = 2.2, stroke = 0.3, fill = "#7B1FA2", colour = "black") +
-  annotate("text", x = zoom[2] - 0.05, y = c(12.2, 10.9, 9.6, 8.3, 7.0), label = c("r\u00b2 > 0.8", "0.6\u20130.8", "0.4\u20130.6", "0.2\u20130.4", "< 0.2"),
-           colour = c(rev(r2_cols)[1:4], "#164E7A"), hjust = 1, size = T7) +
+  geom_point(data = lead, shape = 23, size = 2.2, stroke = 0.3, fill = pal[["magenta"]], colour = "black") +
+  annotate("text", x = zoom[2] - 0.05, y = c(13.4, 12.2, 11.0, 9.8, 8.6), label = c("r\u00b2 > 0.8", "0.6\u20130.8", "0.4\u20130.6", "0.2\u20130.4", "< 0.2"),
+           colour = rev(r2_cols), hjust = 1, size = T7) +
   scale_x_continuous(limits = zoom, breaks = c(11, 12, 13), expand = c(0, 0)) +
-  scale_y_continuous(limits = c(-4.2, 13), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(-4.2, 14), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +
   labs(x = "Chr 4 position (Mb)", y = "\u2212log10 P") + th
 
 # c lead-SNP genotype effect --------------------------------------------------------------------

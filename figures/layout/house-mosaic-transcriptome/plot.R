@@ -104,20 +104,15 @@ upset_tile <- function(m, cols, n_show, tag, set_w = c(22, 16), bar_frac = 0.5,
     geom_text(aes(x = lab_x, label = format(n, big.mark = ","), hjust = lab_h, colour = I(lab_col)), size = T7) +
     scale_x_reverse(limits = c(x_set, 0), breaks = c(x_set, 0), labels = function(v) format(v, big.mark = ","), expand = c(0, 0)) + ys +
     labs(x = "Set size") + th + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank(),
-                                      plot.margin = margin(0.8, 0, 0, 0.4, "mm"))
+                                      plot.margin = margin(0.8, 1.5, 0, 0.4, "mm"))   # 1.5 mm gap to the set names
   pl <- ggplot(set_n, aes(1.95, row, label = set, colour = I(fill))) + geom_text(size = T7, hjust = 1) + ys +
     scale_x_continuous(limits = c(0, 2), expand = c(0, 0)) + theme_void() + theme(plot.margin = margin(0.8, 0, 0, 0, "mm"))
-  # note + key block: fills the corner above the set-size bars
-  nl <- data.frame(y = c(5.1, 4.05, 3.0, 1.9, 0.9), x = c(0, 0, 0, 0.09, 0.09),
-                   lab = c(if (is.null(head)) "" else head,
-                           sprintf("Top %d of %d intersections", nrow(inter), n_inter),
-                           sprintf("(%s of %s %s)", format(sum(tab), big.mark = ","), format(sum(tab_all), big.mark = ","), unit),
-                           "One tissue only", "Shared by 2+"),
-                   face = c("bold", "plain", "plain", "plain", "plain"),
-                   col = c("#000000", "#000000", grey[["mid"]], grey[["mid"]], grey[["mid"]]))
-  kd <- data.frame(x = 0.035, y = c(1.9, 0.9), f = c(cols[1], "#000000"))
-  pn <- ggplot() + geom_text(data = nl, aes(x, y, label = lab, colour = I(col), fontface = face), hjust = 0, size = T7) +
-    geom_point(data = kd, aes(x, y, fill = I(f)), shape = 21, size = dot, stroke = HOUSE_POINT$stroke) +
+  # two-line note at the top-left: what is shown out of what (tissue colour = one tissue, black = shared)
+  nl <- data.frame(y = c(5.1, 4.05), x = 0,
+                   lab = c(sprintf("Top %d of %d intersections", nrow(inter), n_inter),
+                           sprintf("%s of %s %s", format(sum(tab), big.mark = ","), format(sum(tab_all), big.mark = ","), unit)),
+                   col = c("#000000", grey[["mid"]]))
+  pn <- ggplot() + geom_text(data = nl, aes(x, y, label = lab, colour = I(col)), hjust = 0, size = T7) +
     scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + scale_y_continuous(limits = c(0.3, 5.6), expand = c(0, 0)) +
     coord_cartesian(clip = "off") + theme_void() + theme(plot.margin = margin(4.2, 0, 0.5, 0.6, "mm"))
   p <- pn + pb + ps + pl + pm + plot_layout(design = "AAB\nCDE", widths = unit(c(set_w, 1), c("mm", "mm", "null")),
@@ -153,8 +148,8 @@ b1b <- ggplot(deg, aes(n, yi, fill = direction)) + geom_col(width = 0.68, orient
   scale_colour_manual(values = c(Up = pal[["red"]], Down = pal[["blue"]]), guide = "none") +
   annotate("text", x = c(2150, -2150), y = 5.62, label = c("Up", "Down"), hjust = c(1, 0), colour = c(pal[["red"]], pal[["blue"]]), fontface = "bold", size = T7) +
   scale_y_continuous(breaks = 5:1, labels = tis, limits = c(0.45, 6.0), expand = c(0, 0)) +
-  scale_x_continuous(limits = c(-2200, 2200), breaks = c(-1000, 0, 1000), labels = c("1,000", "0", "1,000"), expand = c(0, 0)) +
-  labs(x = "DEGs (SD vs WW)", y = NULL) + th
+  scale_x_continuous(limits = c(-2200, 2200), breaks = c(-1000, 0, 1000), labels = c("1k", "0", "1k"), expand = c(0, 0)) +
+  labs(x = "DEGs (SD vs WW, k)", y = NULL) + th
 
 # c heatmap with a thin group strip ---------------------------------------------------------
 ng <- max(hm$gene); ns <- max(hm$sample)
@@ -181,13 +176,14 @@ b1c <- ggplot(hm, aes(sample, ng + 1 - gene, fill = z)) + geom_raster() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank())
 
 # d GO forest -----------------------------------------------------------------------------------
+go$lab <- vapply(go$term, function(t) paste(strwrap(sub("biosynthetic", "biosynth.", t), 19), collapse = "\n"), "")
 go$y <- rev(seq_len(nrow(go))); go$col <- ifelse(go$or > 1, pal[["red"]], pal[["blue"]])
 b1d <- ggplot(go, aes(or, y)) + geom_vline(xintercept = 1, linetype = "22", linewidth = pv_house_lw("ref"), colour = grey[["ref"]]) +
   geom_errorbar(aes(xmin = lo, xmax = hi, colour = I(col)), width = 0, orientation = "y", linewidth = pv_house_lw("errorbar")) +
   geom_point(aes(fill = I(col)), shape = 22, size = 2.1, stroke = 0.3) +
   annotate("text", x = c(0.75, 1.35), y = nrow(go) + 0.85, label = c("Down", "Up"), hjust = c(1, 0), vjust = 0, colour = c(pal[["blue"]], pal[["red"]]), fontface = "bold", size = T7) +
   scale_x_log10(limits = c(0.18, 8), oob = scales::oob_keep, breaks = c(0.25, 1, 4), labels = c("0.25", "1", "4"), expand = c(0, 0)) +
-  scale_y_continuous(breaks = go$y, labels = go$term, expand = c(0, 0)) +
+  scale_y_continuous(breaks = go$y, labels = go$lab, expand = c(0, 0)) +
   coord_cartesian(ylim = c(0.4, nrow(go) + 0.6), clip = "off") +
   labs(x = "Odds ratio (GO)", y = NULL) + th
 
@@ -196,25 +192,46 @@ mm <- as.matrix(up[, tis]) == 1
 up_n <- stats::setNames(deg$n[deg$direction == "Up"], deg$tissue[deg$direction == "Up"])[tis]
 stopifnot(identical(as.numeric(colSums(mm)), as.numeric(up_n)))
 b1e <- upset_tile(mm, unname(tis_c), n_show = n_show, tag = "e", set_w = c(26, 15), bar_frac = 0.44,
-                  ylab = "Up DEGs", unit = "genes", dot = 1.5, head = "Up-regulated DEGs")
+                  ylab = "Up DEGs", unit = "up DEGs", dot = 1.5)
 
-# f donut: up vs down share of all DEGs -----------------------------------------------------
-ud <- data.frame(dir = c("Up", "Down"), n = c(sum(deg$n[deg$n > 0]), -sum(deg$n[deg$n < 0])))
+# f donut: the same unique up-regulated DEGs as e, split by how many tissues share each gene.
+# Sectors do not overlap (each gene counted once) and sum to e's unique total.
+k_tis <- rowSums(mm)
+ud <- data.frame(lab = c("3+ tissues", "2 tissues", "1 tissue"),          # small sectors on the right half
+                 n = c(sum(k_tis >= 3), sum(k_tis == 2), sum(k_tis == 1)))
 ud$f <- ud$n / sum(ud$n); ud$e <- cumsum(ud$f); ud$s <- ud$e - ud$f; ud$mid <- (ud$s + ud$e) / 2
-ud$col <- c(pal[["red"]], pal[["blue"]])
-stopifnot(sum(ud$n) == sum(abs(deg$n)), ud$n[1] == sum(up_n), go$or[go$term == "Aquaporins"] < 1, go$or[go$term == "LEA proteins"] > 1)
-b1f <- ggplot(ud) + geom_rect(aes(xmin = 2.2, xmax = 3.4, ymin = s, ymax = e, fill = I(col)), colour = "white", linewidth = pv_house_lw(0.6)) +
-  geom_text(aes(x = 4.3, y = mid, label = sprintf("%s\n%.0f%%", dir, 100 * f), colour = I(col)), size = T7, lineheight = 0.9) +
-  annotate("text", x = 0, y = 0, label = sprintf("%s\nDEGs", format(sum(ud$n), big.mark = ",")), size = T7, fontface = "bold", lineheight = 0.9) +
-  coord_polar(theta = "y", clip = "off") + xlim(0, 5.2) + theme_void()
+ud$col <- warm[5:3]                                              # house_warm: up-regulated family
+stopifnot(sum(ud$n) == nrow(mm),                                  # sectors == unique up-DEG total
+          sum(ud$n) == sum(table(apply(mm, 1, paste, collapse = ""))),   # == e's "of N" (all intersections)
+          sum(up_n) == sum(deg$n[deg$n > 0]),                       # e set sizes == b Up column (total)
+          go$or[go$term == "water transport"] < 1, go$or[go$term == "response to desiccation"] > 1)
+# drawn in mm (1 unit = 1 mm): panel spans e's data block (top of the bars to the bottom of the matrix)
+F_T <- 6.23; F_B <- 10.26; f_h <- 43 - F_T - F_B
+cx <- 13.4; cy <- f_h / 2; R1 <- f_h / 2 - 0.3; R0 <- R1 * 0.6
+arc <- function(s, e, r) { a <- pi / 2 - 2 * pi * seq(s, e, length.out = max(3, ceiling(abs(e - s) * 120))); cbind(cx + r * cos(a), cy + r * sin(a)) }
+ring <- do.call(rbind, lapply(seq_len(nrow(ud)), function(i) {
+  p <- rbind(arc(ud$s[i], ud$e[i], R1), arc(ud$e[i], ud$s[i], R0)); data.frame(x = p[, 1], y = p[, 2], id = i, col = ud$col[i]) }))
+# leader anchor: the point of each sector nearest 3 o'clock (the label column), so no leader crosses the ring
+ud$anc <- pmin(pmax(0.25, ud$s + 0.02), ud$e - 0.02)
+ang <- pi / 2 - 2 * pi * ud$anc
+ud$ex <- cx + R1 * cos(ang); ud$ey <- cy + R1 * sin(ang)
+ud$ly <- seq(f_h - 4, 4, length.out = nrow(ud))[rank(-ud$ey)]   # label column, same vertical order as the sectors
+ud$lx <- 2 * cx + 1.2
+b1f <- ggplot() + geom_polygon(data = ring, aes(x, y, group = id, fill = I(col)), colour = "white", linewidth = pv_house_lw(0.6)) +
+  geom_segment(data = ud, aes(x = ex, y = ey, xend = lx - 0.6, yend = ly, colour = I(col)), linewidth = pv_house_lw("ref")) +
+  geom_text(data = ud, aes(x = lx, y = ly, label = sprintf("%s\n%s", lab, format(n, big.mark = ",")), colour = I(col)),
+            hjust = 0, size = T7, lineheight = 0.9) +
+  annotate("text", x = cx, y = cy, label = sprintf("%s\nunique\nDEGs", format(sum(ud$n), big.mark = ",")), size = T7, fontface = "bold", lineheight = 0.85) +
+  scale_x_continuous(limits = c(0, 43), expand = c(0, 0)) + scale_y_continuous(limits = c(0, f_h), expand = c(0, 0)) +
+  coord_cartesian(clip = "off") + theme_void()
 
 mosaic <- pv_house_mosaic(list(
   list(plot = tile(b1a, "a", l = LB, t = BT, b = BB), at = c(1, 1), cells = c(1, 1)),
   list(plot = tile(b1b, "b", l = LB, t = BT, b = BB), at = c(1, 2), cells = c(1, 1)),
   list(plot = tile(b1c, "c", l = 6, r = 14, t = BT, b = BB), at = c(2, 1), cells = c(2, 2)),
-  list(plot = tile(b1d, "d", l = 20.8, t = BT, b = BB), at = c(4, 1), cells = c(1, 2)),
+  list(plot = tile(b1d, "d", l = 24, t = BT, b = BB), at = c(4, 1), cells = c(1, 2)),
   list(plot = b1e, at = c(1, 3), cells = c(3, 1)),
-  list(plot = tile(b1f, "f", l = 0, b = 0, t = 0, r = 0), at = c(4, 3), cells = c(1, 1))
+  list(plot = tile(b1f, "f", l = 0, b = F_B, t = F_T, r = 0), at = c(4, 3), cells = c(1, 1))
 ), cells = page_cells)
 pv_save_house(mosaic, "figure", cells = page_cells)
 
