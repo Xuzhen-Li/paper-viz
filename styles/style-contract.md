@@ -227,6 +227,28 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 - Python `house.save_house(fig, "figure")`：PDF（TrueType，`pdf.fonttype = 42`）+ 600 dpi PNG + `preview.png`；不裁边（不用 `bbox_inches="tight"`），保证网格尺寸（43 / 89 / 135 / 183 mm）精确。
 - 测试：`python3 -m unittest discover tests`（含 `tests/test_house_theme.py`，会调 `Rscript tests/test_theme_house.R`）。
 
+### 示意图与架构图 / Schematics and architecture diagrams
+
+中文：新的示意图（模型架构、流程、方法框图）默认用下面的做法，取代以前的 draw.io 和纯脚本细线画法；已有的 draw.io 图保留不动，不重画。示例在 `docs/house-style/arch/`（脚本、图标和依赖说明都在里面）。
+
+1. **用 Python 脚本生成可编辑的 SVG**：一个生成脚本，版面坐标写在代码里。分区用圆角浅色底，模块框用轻微的竖向渐变和柔和阴影，箭头用粗线和实心箭头。普通文字一律保留为 `<text>`，全图用一种窄体无衬线字体。小插图（曲线、波形、带误差带的散点、仪表）在 Python 里算好，写成 SVG 路径。
+2. **线宽和字号按参考图实测**：先在参考图或草图上量分区边框、模块边框、箭头、插图线条的线宽，以及各级文字相对画布的字号，再照着设。初稿通常偏细、偏小 2–3 倍。框要随文字变大，不要把字挤进固定尺寸的框里。
+3. **公式转成矢量路径**：用 matplotlib mathtext（STIX 字体）把公式转成路径，描边略加粗，和正文的字重匹配；同时在隐藏图层里留一份纯文字版本，便于检索和改字。
+4. **图标用 AI 生成后嵌入，同时保留隐藏的矢量备份图层**：每个图标单独生成，白底或透明底，不带文字；裁掉边缘杂色，缩到约 256 px，以 base64 嵌入 SVG。同一位置的矢量版本放进一个默认隐藏的图层，放大超过约 2 倍、位图发虚时可以换用。浅色线条图标放在中间色调的框上容易看不清，要检查对比度。
+5. **对照参考图至少迭代 3 轮**：每轮导出约 2000 px 宽的 PNG，和参考图并排对照，修线宽、间距、裁切和连线走向，并逐条核对文字和公式。
+
+交付物：可编辑的 `.svg`、`.png`、生成脚本和图标文件；对照图只用于自查，含参考原图的文件不入库。图下注明 “AI-assisted icons”。
+
+English: New schematics (model architectures, workflows, method diagrams) use the method below by default. It replaces the earlier draw.io and plain thin-line script approaches; existing draw.io figures stay as they are and are not redrawn. The worked example is in `docs/house-style/arch/`, with the script, the icons and the requirements.
+
+1. **Generate an editable SVG with a Python script**: one generator script, with the layout coordinates in code. Zones are rounded, lightly tinted areas; module boxes get a subtle vertical gradient and a soft shadow; arrows use heavy strokes with solid heads. All plain text stays as live `<text>` in one condensed sans-serif font. Small insets (curves, waves, scatter with an error band, gauges) are computed in Python and written as SVG paths.
+2. **Measure stroke widths and font sizes on the reference**: on the reference or sketch, measure the zone borders, box borders, arrows and inset lines, and the size of each text level relative to the canvas, then match them. First drafts usually come out two to three times too thin and too small. Let boxes grow with their text instead of cramming labels into fixed boxes.
+3. **Convert formulas to vector paths**: render formulas as paths with matplotlib mathtext (STIX), with a slightly thickened stroke so they match the weight of the text, and keep a plain-text copy in a hidden layer for search and editing.
+4. **Embed AI-generated icons and keep a hidden vector backup layer**: generate each icon separately on a white or transparent background with no text, trim the edges, scale to about 256 px and embed it in the SVG as base64. Put a vector version of each icon in a layer that is hidden by default, for use when the bitmap blurs beyond about 2× zoom. Light outline icons can vanish on mid-tone boxes, so check the contrast.
+5. **Iterate against the reference at least three times**: each round, export a PNG about 2000 px wide, place it beside the reference, fix weights, spacing, clipping and connector routes, and check every label and formula.
+
+Deliverables: the editable `.svg`, the `.png`, the generator script and the icon files. Comparison images are for self-review only; files that contain the reference figure never go into the repository. Label the figure "AI-assisted icons".
+
 ## 旧版 theme_viz 规范（已有图保持，不重渲染）
 
 以下是 house style 之前的约定。已有的图继续按它；`theme_viz()`、`pv_save()`、`pv_palette("categorical")`（chip 八色）等旧接口保留可用。

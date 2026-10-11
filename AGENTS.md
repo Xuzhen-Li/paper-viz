@@ -83,6 +83,20 @@ pv_fmt_p(p, digits = 1, exact = FALSE)
 
 Existing figures keep the legacy style and are not re-rendered: `theme_viz()`, `pv_save()`, and `pv_palette("categorical")` (chip order `#134aa3` `#f6a3b1` `#0b5475` `#dc1f26` `#835ca6` `#f7922c` `#fbee61` `#981b1e`, control points `#E0E0E0`, 85×60 mm single panels with `theme_viz(base_size = 7)`). When you copy an existing folder, keep its interface. Details for both: `styles/style-contract.md`.
 
+### Schematics
+
+New schematics (architectures, workflows, method diagrams) are built as editable SVG by a Python script. This replaces draw.io and plain thin-line scripts as the default; existing draw.io figures stay as they are. The five steps:
+
+1. Generate the SVG with a Python script: text stays live `<text>`, insets are SVG paths.
+2. Measure stroke widths and font sizes on the reference (first drafts are usually 2–3× too thin and small).
+3. Convert formulas to vector paths (matplotlib mathtext, STIX), with a hidden plain-text layer.
+4. Embed AI-generated icons (one per icon, no text, about 256 px, base64) and keep a hidden vector backup layer.
+5. Iterate against the reference at least three times on a 2000 px PNG.
+
+Label the figure "AI-assisted icons", never commit images that contain the reference figure, and see `docs/house-style/arch/` for the example and `styles/style-contract.md` for details.
+
+中文：新示意图用 Python 脚本生成可编辑 SVG，取代 draw.io 和纯脚本细线画法；旧 draw.io 图不动。五步：脚本出 SVG；线宽字号按参考图实测；公式转矢量路径；嵌入 AI 生成图标并保留隐藏的矢量备份图层；对照参考图至少迭代 3 轮。图下注明 “AI-assisted icons”，含参考原图的文件不入库。示例见 `docs/house-style/arch/`。
+
 ## What not to do
 
 - Do not add real, patient, or third-party data. Shipped `data.csv` files are synthetic.
