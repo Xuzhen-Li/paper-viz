@@ -129,7 +129,7 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 
 面板可用空间与 `house-mosaic-*` 拼版中的 `tile()` 固定边带保持一致。左侧 11.5 mm 用于 y 刻度与标题，下侧 8.6 mm 用于 x 刻度与标题，上侧 4.2 mm 用于面板字母，右侧留空 1.2 mm。面板内宽等于 n 格跨度减去 12.7 mm，面板内高等于 n 格跨度减去 12.8 mm。文字尺寸不随面板缩小；绘图区面积占面板比例需大于等于 60%。
 
-单位空间占用标准如下。横排类别标签的每类槽宽为 max(K × 1.30 + 1.0, 3.0) mm，包含 1 mm 字间隙，柱宽约为槽宽的 0.66 倍且不小于 2 mm。纵向逐行标签，如 forest、热图行及 raincloud 组，行距需大于等于 3.5 mm，包含 2.96 mm 行高与 0.5 mm 间隙。热图格内印数值时，例如 −.5 宽 3.53 mm，格宽需大于等于 4.3 mm。UpSet 图列区可用宽度等于图宽减去左侧集合条 26 mm 加组织名 15 mm（共 41 mm）及轴带 10 mm；其余宽度每列 ≥ 4.8 mm（计算基于三位数标签 4.23 mm 加上 0.6 mm 间隙），所以 3×1 尺寸放 18 列、4×1 尺寸放 28 列。
+单位空间占用标准如下。横排类别标签的每类槽宽为 max(K × 1.30 + 1.0, 3.0) mm，包含 1 mm 字间隙，柱宽约为槽宽的 0.66 倍且不小于 2 mm。纵向逐行标签，如 forest、热图行及 raincloud 组，行距需大于等于 3.5 mm，包含 2.96 mm 行高与 0.5 mm 间隙。热图格内印数值时，例如 −.5 宽 3.53 mm，格宽需大于等于 4.3 mm。UpSet 图左侧集合条、组织名和坐标轴实测共占约 59 mm；其余宽度每列 ≥ 4.8 mm（三位数标签 4.23 mm 加 0.6 mm 间隙），所以 2×1 放 6 列、3×1 放 15 列、4×1 放 25 列。
 
 容量计算公式为 floor(可用 mm ÷ 单位占用)。下表中的升档阈值即对应此容量。当内容超过当前尺寸容量时即需升档。调整方向优先在 x 方向加宽以容纳类别或列，行数超出时再考虑加高。
 
@@ -179,7 +179,7 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 **附加排版注释：**
 * donut 按基因出现在 1、2、3+ 个组织分块，中心写去重后的上调基因数。
 * GO 森林图的行名用正式 GO 词条。
-* UpSet 每列宽 ≥ 4.8 mm，3×1 最多 18 列、4×1 最多 28 列。
+* UpSet 每列宽 ≥ 4.8 mm，2×1 最多 6 列、3×1 最多 15 列、4×1 最多 25 列。
 
 English:
 
@@ -238,7 +238,7 @@ Character width values derive from evaluating `grid::stringWidth` utilizing Aria
 
 Panel internal space calculations follow the fixed marginal bands defined by the `tile()` function in the `house-mosaic-*` layouts. Margins consume 11.5 mm on the left for y ticks and title, 8.6 mm on the bottom for x ticks and title, 4.2 mm on the top for the panel letter, and 1.2 mm on the right. Panel internal width equals the n-cell span minus 12.7 mm, while internal height equals the n-cell span minus 12.8 mm.
 
-Spatial unit parameters are standardized across layout elements. Horizontal category labels demand a base slot dimension calculated as max(K × 1.30 + 1.0, 3.0) mm, incorporating a 1 mm gap. Associated bar components occupy approximately 0.66 of this slot and must remain equal to or greater than 2 mm. Row labels for forest diagrams, heatmap rows, and raincloud groups mandate a spacing of at least 3.5 mm per row, comprising a 2.96 mm baseline with a 0.5 mm gap. Numerical overlays printed directly inside heatmap structures, such as −.5 measuring 3.53 mm, require host cells to span at least 4.3 mm in width. The viable column array space for UpSet diagrams equals the total width reduced by a 26 mm left set bar block and a 15 mm tissue name column (totaling 41 mm), along with a 10 mm axis allowance. The remaining width provides ≥ 4.8 mm per column (composed of a three-digit 4.23 mm string plus 0.6 mm padding), so a 3×1 layout holds 18 columns and a 4×1 layout holds 28 columns.
+Spatial unit parameters are standardized across layout elements. Horizontal category labels demand a base slot dimension calculated as max(K × 1.30 + 1.0, 3.0) mm, incorporating a 1 mm gap. Associated bar components occupy approximately 0.66 of this slot and must remain equal to or greater than 2 mm. Row labels for forest diagrams, heatmap rows, and raincloud groups mandate a spacing of at least 3.5 mm per row, comprising a 2.96 mm baseline with a 0.5 mm gap. Numerical overlays printed directly inside heatmap structures, such as −.5 measuring 3.53 mm, require host cells to span at least 4.3 mm in width. For UpSet diagrams, the left set bars, tissue names, and axes take up about 59 mm in total. The remaining width requires ≥ 4.8 mm per column (a 4.23 mm three-digit label plus 0.6 mm padding), so a 2×1 layout holds 6 columns, a 3×1 layout holds 15 columns, and a 4×1 layout holds 25 columns.
 
 Element capacity is derived using the floor of the available dimension divided by the space required per unit. The tabulated capacity thresholds dictate structural scaling. A panel must undergo size expansion upon surpassing its prescribed limit. Expansions should initially widen the horizontal plane to resolve category or column overflow, before introducing vertical extensions for row overflow.
 
@@ -288,7 +288,7 @@ To resolve layout restrictions, string components must be abbreviated, wrapped, 
 **Additional Formatting Notes:**
 * Donut sectors are divided by genes appearing in 1, 2, or 3+ tissues, with the unique upregulated genes in the center.
 * GO forest row names use formal GO terms.
-* UpSet requires ≥ 4.8 mm per column; a 3×1 layout holds up to 18 columns, and a 4×1 layout holds up to 28 columns.
+* UpSet requires ≥ 4.8 mm per column; a 2×1 layout holds up to 6 columns, a 3×1 layout holds up to 15 columns, and a 4×1 layout holds up to 25 columns.
 
 ### 字号（印刷最终尺寸）
 
