@@ -51,23 +51,14 @@ def T(x,y,t,s=11,w='normal',anchor='middle',fam=SANS,style='normal',fill='#1c243
     s=s*FS*(1.0 if s>=13 else 1)*(0.92 if s<10 else 1); w='bold' if w=='bold' else '500'
     a(f'<text x="{x}" y="{y}" font-family="{fam}" font-size="{s:.1f}" font-weight="{w}" font-style="{style}" text-anchor="{anchor}" fill="{fill}">{rich(t,s)}</text>')
 # ---- math via mathtext -> paths
-WORDS=['final','base','low','high','enc','Frozen','MHA']
-UNI={'∈':r'\in ','ℝ':r'\mathbb{R}','×':r'\times ','Δ':r'\Delta ','φ':r'\phi ','→':r'\rightarrow ','β':r'\beta ','γ':r'\gamma ','≤':r'\leq ','·':r'\cdot ','…':r'\ldots ','−':'-'}
-def tomath(t):
-    t=t.replace('ŷ',r'\hat{y}').replace('ê',r'\hat{e}').replace('...',r'\ldots ')
-    for k,v in UNI.items(): t=t.replace(k,v)
-    for wd in WORDS: t=re.sub(r'(?<![A-Za-z\\])'+wd+r'(?![A-Za-z])',r'\\mathrm{'+wd+'}',t)
-    t=t.replace('{(',r'\{(').replace(')}^',r')\}^')
-    t=t.replace('Target horizon',r'\ \mathrm{Target\ horizon}').replace(' (\\mathrm{Frozen})',r'\ (\mathrm{Frozen})')
-    t=re.sub(r'^\{y',r'\\{y',t).replace('} \\in',r'\} \in',1) if t.startswith('{y') else t
-    return '$'+t+'$'
 MP=FontProperties(family='STIXGeneral')
-def M(x,y,t,s=11,anchor='middle',w='normal'):
+def M(x,y,t,s=11,anchor='middle',w='normal',tex=None):
+    """Math as vector paths. t: plain text (title + hidden fallback); tex: mathtext source (defaults to t)."""
     s=s*FS*1.15
     try:
-        tp=TextPath((0,0),tomath(t),size=s,prop=MP)
+        tp=TextPath((0,0),'$'+(tex or t)+'$',size=s,prop=MP)
     except Exception as e:
-        print('mathfail',t,e); T(x,y,t,s/FS/1.12,fam=SERIF,style='italic',anchor=anchor); return
+        raise SystemExit(f'math failed: {t}: {e}')
     ex=tp.get_extents(); wdt=ex.x1  # advance approx
     ox={'middle':-wdt/2,'start':0,'end':-wdt}[anchor]
     d=[]
@@ -98,12 +89,19 @@ def R(x,y,w,h,fill='#fff',stroke='#555',rx=6,sw=1.2,dash=None,op=1,zone=False):
 def L(pts,c='#444',sw=1.6,arrow=True,dash=None):
     if c=='#444': c='#334155'
     p=' '.join(f'{x},{y}' for x,y in pts); d=f' stroke-dasharray="{dash}"' if dash else ''
-    if arrow and c not in _M: _M[c]=f'ar{len(_M)+1}'
-    mk=f' marker-end="url(#{_M[c]})"' if arrow else ''
-    if arrow and _M[c] not in _MD:
-        _MD.add(_M[c]); defs.append(f'<marker id="{_M[c]}" viewBox="0 0 12 10" refX="10" refY="5" markerWidth="3.8" markerHeight="3.8" orient="auto-start-reverse"><path d="M0,0 L12,5 L0,10 L2.5,5z" fill="{c}"/></marker>')
+    mk=f' marker-end="url(#{marker(c)})"' if arrow else ''
     a(f'<polyline points="{p}" fill="none" stroke="{c}" stroke-width="{sw*1.9:.2f}" stroke-linejoin="round" stroke-linecap="round"{d}{mk}/>')
-_M={}; _MD=set()
+_M={}
+def marker(c):
+    """Id of the arrowhead marker for colour c (defined once, numbered in order of first use)."""
+    if c=='#444': c='#334155'
+    if c not in _M:
+        _M[c]=f'ar{len(_M)+1}'
+        defs.append(f'<marker id="{_M[c]}" viewBox="0 0 12 10" refX="10" refY="5" markerWidth="3.8" markerHeight="3.8" orient="auto-start-reverse"><path d="M0,0 L12,5 L0,10 L2.5,5z" fill="{c}"/></marker>')
+    return _M[c]
+def bend(d,c,sw=1.6):
+    """Curved connector (SVG path d) with the same stroke and arrowhead as L()."""
+    a(f'<path d="{d}" fill="none" stroke="{c}" stroke-width="{sw*1.9:.2f}" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#{marker(c)})"/>')
 def curve(xs,ys,c,sw=1.4):
     a('<polyline fill="none" stroke="%s" stroke-width="%.2f" stroke-linejoin="round" stroke-linecap="round" points="%s"/>'%(c,sw*1.75,' '.join(f'{x:.1f},{y:.1f}' for x,y in zip(xs,ys))))
 def axes(x,y,w,h,lx=None,ly=None):
