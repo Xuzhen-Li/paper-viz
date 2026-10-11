@@ -1716,6 +1716,106 @@
       "search_text": "donut chart with direct labels (house style)\n直标环图（house 风格）\nhouse-donut\n\ncomposition\n组成\ncomposition\n组成\ncomposition\n一个整体分成 ≤6 份时用；百分比写在环上，类别名用扇区同色写在环外，中心写总量；<3% 的类别合并为 other。\nplot.r 顶部 inner_r 为内径比例（0.5–0.6）；min_share 为并入 other 的阈值；label_r 为外圈名称半径；cells 为网格尺寸；view_y 为上下可见范围（换数据后名称出界就放宽），view_x 按面板宽高比自动算出、左右居中；centre_title / unit_label 为中心文字。颜色取 pv_palette(\"house\")；文字字号写成印刷 pt（pv_pt2size），本图 2×1 格（89 × 43 mm），字号保持 7/8 pt（只有单个 2×2 面板才由 pv_save_house() 自动 +2 pt）。\ndonut proportion composition house-style\ncover 类别名（字符串） area_km2 类别量（正数，图中换算成占比）"
     },
     {
+      "title": "UpSet plot of set intersections (house style)",
+      "title_zh": "UpSet 交集图（house 风格）",
+      "slug": "house-upset",
+      "category": "composition",
+      "tags": [
+        "upset",
+        "intersection",
+        "venn-alternative",
+        "sets",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2",
+        "patchwork"
+      ],
+      "data_columns": {
+        "gene": "基因 ID（每行一个元素）",
+        "leaf": "是否属于该集合（0/1，此例为叶片响应）",
+        "root": "是否属于该集合（0/1，根）",
+        "berry_skin": "是否属于该集合（0/1，果皮）",
+        "berry_flesh": "是否属于该集合（0/1，果肉）",
+        "seed": "是否属于该集合（0/1，种子）"
+      },
+      "when_to_use": "4 个以上集合比较重叠时用（集合多时比韦恩图清楚）；上方柱为互斥交集大小，下方点阵标出交集由哪些集合组成，左侧横柱为各集合大小。只属于一个集合的柱与点用该集合的颜色，多个集合的交集用黑色；数值直接写在柱上，点阵列交替浅灰底，集合名用同色写在点阵旁。",
+      "customize": "plot.R 顶部 set_cols 把 0/1 列映射为显示名（顺序即行序与配色顺序）；n_show 为显示的交集个数（按大小排序）；band_fill 为交替列底色；dot_size 为点阵点径；widths_mm 为左侧集合柱与集合名的宽度；matrix_share 为点阵与交集柱的高度比。颜色依次取 pv_palette(\"house\")；文字字号写成印刷 pt（pv_pt2size）。本图 4×2 格（183 × 89 mm），多面板（patchwork）字号保持 7/8 pt，不自动 +2 pt。",
+      "lang": "R",
+      "task": "composition",
+      "task_zh": "组成",
+      "task_en": "Composition",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [
+        {
+          "name": "set_cols",
+          "value": "c(leaf = \"Leaf\", root = \"Root\", berry_skin = \"Berry skin\", berry_flesh = \"Berry flesh\", seed = \"Seed\")"
+        },
+        {
+          "name": "n_show",
+          "value": "15"
+        },
+        {
+          "name": "band_fill",
+          "value": "pv_palette(\"house_grey\")[[\"bg\"]]"
+        },
+        {
+          "name": "dot_size",
+          "value": "2.3"
+        },
+        {
+          "name": "widths_mm",
+          "value": "c(28, 17)"
+        },
+        {
+          "name": "matrix_share",
+          "value": "0.42"
+        }
+      ],
+      "canvas": {
+        "width_mm": "183",
+        "height_mm": "89",
+        "label": "183 × 89 mm (4×2 cells)",
+        "cells": "4x2"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/composition/house-upset/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/composition/house-upset/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/house-upset/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/composition/house-upset/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/composition/house-upset/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/house-upset/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/composition/house-upset/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/composition/house-upset/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/house-upset/make_data.R"
+        }
+      ],
+      "dir": "figures/composition/house-upset",
+      "preview": "figures/composition/house-upset/preview.png",
+      "docs_preview": "previews/house-upset.png",
+      "code": "figures/composition/house-upset/plot.R",
+      "data": "figures/composition/house-upset/data.csv",
+      "data_files": [
+        "figures/composition/house-upset/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/house-upset/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/house-upset/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/composition/house-upset",
+      "code_text": "# House-style UpSet: intersection bars + dot matrix + set-size bars, drawn with ggplot2 + patchwork.\n# Single-set columns, dots and set bars in the set colour; multi-set intersections in black.\n# Counts are written on the bars; matrix columns alternate a light grey band.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nlibrary(patchwork)\n\nset_cols <- c(leaf = \"Leaf\", root = \"Root\", berry_skin = \"Berry skin\", berry_flesh = \"Berry flesh\", seed = \"Seed\")\nn_show <- 15               # largest intersections shown (exclusive counts)\nband_fill <- pv_palette(\"house_grey\")[[\"bg\"]]\ndot_size <- 2.3            # matrix dots (HOUSE_POINT size)\nwidths_mm <- c(28, 17)     # set-size bars, set labels (the matrix takes the rest)\nmatrix_share <- 0.42       # matrix height / intersection-bar height\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsets <- names(set_cols)\nk <- length(sets)\npal <- pv_palette(\"house\")\ncols <- stats::setNames(unname(pal[seq_len(k)]), sets)\ngrey <- pv_palette(\"house_grey\")\n\n# exclusive intersections: each gene counted once, in its exact combination\nkey <- apply(df[, sets] == 1, 1, function(r) paste(sets[r], collapse = \"&\"))\ntab <- sort(table(key), decreasing = TRUE)[seq_len(n_show)]\ninter <- data.frame(key = names(tab), n = as.integer(tab), stringsAsFactors = FALSE)\ninter$col_i <- seq_len(nrow(inter))\ninter$members <- strsplit(inter$key, \"&\", fixed = TRUE)\ninter$degree <- lengths(inter$members)\ninter$fill <- ifelse(inter$degree == 1, cols[vapply(inter$members, `[`, \"\", 1)], \"#000000\")\nset_n <- data.frame(set = sets, row = rev(seq_len(k)), n = colSums(df[, sets]))\n\ndots <- do.call(rbind, lapply(seq_len(nrow(inter)), function(i) {\n  on <- sets %in% inter$members[[i]]\n  data.frame(col_i = i, row = set_n$row, on = on,\n             fill = ifelse(on, inter$fill[i], grey[[\"light\"]]))\n}))\nlinks <- do.call(rbind, lapply(which(inter$degree > 1), function(i) {\n  r <- set_n$row[sets %in% inter$members[[i]]]\n  data.frame(col_i = i, lo = min(r), hi = max(r))\n}))\nbands <- data.frame(col_i = seq(2, nrow(inter), 2))\nx_sc <- scale_x_continuous(limits = c(0.5, nrow(inter) + 0.5), expand = c(0, 0))\ny_rows <- scale_y_continuous(limits = c(0.5, k + 0.5), expand = c(0, 0))\ny_top <- ceiling(max(inter$n) * 1.12 / 100) * 100\nno_x <- theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())\n\n# intersection bars ------------------------------------------------------------------------\np_bar <- ggplot(inter, aes(col_i, n)) +\n  geom_rect(data = bands, aes(xmin = col_i - 0.5, xmax = col_i + 0.5, ymin = 0, ymax = Inf),\n            inherit.aes = FALSE, fill = band_fill) +\n  geom_col(aes(fill = fill), width = 0.62) +\n  geom_text(aes(label = n, colour = fill), vjust = -0.35, size = pv_pt2size(7)) +\n  scale_fill_identity() + scale_colour_identity() + x_sc +\n  scale_y_continuous(limits = c(0, y_top), breaks = seq(0, y_top, 100), expand = c(0, 0)) +\n  labs(y = \"Intersection size (genes)\") +\n  theme_house() + no_x\n\n# dot matrix -------------------------------------------------------------------------------\np_mat <- ggplot() +\n  geom_rect(data = bands, aes(xmin = col_i - 0.5, xmax = col_i + 0.5, ymin = -Inf, ymax = Inf),\n            fill = band_fill) +\n  # inactive dots, then the connector, then the member dots on top (the line stays solid)\n  geom_point(data = dots[!dots$on, ], aes(col_i, row), shape = 16, size = dot_size, colour = grey[[\"light\"]]) +\n  geom_segment(data = links, aes(x = col_i, xend = col_i, y = lo, yend = hi),\n               linewidth = pv_house_lw(\"main\"), colour = \"#000000\") +\n  geom_point(data = dots[dots$on, ], aes(col_i, row, fill = fill), shape = HOUSE_POINT$shape, size = dot_size,\n             stroke = HOUSE_POINT$stroke, colour = \"#000000\") +\n  scale_fill_identity() + x_sc + y_rows +\n  theme_house() + no_x +\n  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank())\n\n# set labels in the set colour -------------------------------------------------------------\np_lab <- ggplot(set_n, aes(1, row, label = set_cols[set], colour = set)) +\n  geom_text(hjust = 0.5, size = pv_pt2size(8)) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(limits = c(0, 2), expand = c(0, 0)) + y_rows +\n  theme_void()\n\n# set sizes (bars run leftwards, counts on the bars) ---------------------------------------\nx_set <- ceiling(max(set_n$n) * 1.35 / 250) * 250\np_set <- ggplot(set_n, aes(n, row, fill = set)) +\n  geom_col(width = 0.62, orientation = \"y\") +\n  geom_text(aes(label = n, colour = set), hjust = 1.15, size = pv_pt2size(7)) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_reverse(limits = c(x_set, 0), breaks = seq(0, x_set, 500), expand = c(0, 0)) + y_rows +\n  labs(x = \"Set size (genes)\") +\n  theme_house() +\n  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank())\n\n# note in the empty top-left corner: what is counted and the colour key ---------------------\nnote <- data.frame(y = 4 - 0.5 * (0:3), face = c(\"bold\", \"plain\", \"plain\", \"plain\"),\n                   col = c(\"#000000\", grey[[\"mid\"]], grey[[\"mid\"]], \"#000000\"),\n                   lab = c(\"Drought-responsive genes\",\n                           sprintf(\"n = %s genes, %d tissues\", format(nrow(df), big.mark = \",\"), k),\n                           \"Colour: one tissue only\", \"Black: shared by \\u2265 2 tissues\"))\np_note <- ggplot(note, aes(0, y, label = lab)) +\n  geom_text(aes(fontface = face, colour = col), hjust = 0, vjust = 1, size = pv_pt2size(7)) +\n  scale_colour_identity() +\n  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(-4, 4.2), expand = c(0, 0)) +\n  theme_void()\n\np <- p_bar + p_mat + p_lab + p_set + p_note +\n  plot_layout(design = \"EEA\\nDCB\", widths = unit(c(widths_mm, 1), c(\"mm\", \"mm\", \"null\")),\n              heights = c(1, matrix_share))\npv_save_house(p, \"figure\", cells = \"4x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "upset plot of set intersections (house style)\nupset 交集图（house 风格）\nhouse-upset\n\ncomposition\n组成\ncomposition\n组成\ncomposition\n4 个以上集合比较重叠时用（集合多时比韦恩图清楚）；上方柱为互斥交集大小，下方点阵标出交集由哪些集合组成，左侧横柱为各集合大小。只属于一个集合的柱与点用该集合的颜色，多个集合的交集用黑色；数值直接写在柱上，点阵列交替浅灰底，集合名用同色写在点阵旁。\nplot.r 顶部 set_cols 把 0/1 列映射为显示名（顺序即行序与配色顺序）；n_show 为显示的交集个数（按大小排序）；band_fill 为交替列底色；dot_size 为点阵点径；widths_mm 为左侧集合柱与集合名的宽度；matrix_share 为点阵与交集柱的高度比。颜色依次取 pv_palette(\"house\")；文字字号写成印刷 pt（pv_pt2size）。本图 4×2 格（183 × 89 mm），多面板（patchwork）字号保持 7/8 pt，不自动 +2 pt。\nupset intersection venn-alternative sets house-style\ngene 基因 id（每行一个元素） leaf 是否属于该集合（0/1，此例为叶片响应） root 是否属于该集合（0/1，根） berry_skin 是否属于该集合（0/1，果皮） berry_flesh 是否属于该集合（0/1，果肉） seed 是否属于该集合（0/1，种子）"
+    },
+    {
       "title": "Mosaic plot",
       "title_zh": "马赛克图",
       "slug": "mosaic",
