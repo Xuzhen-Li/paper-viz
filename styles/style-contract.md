@@ -227,6 +227,102 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 - Python `house.save_house(fig, "figure")`：PDF（TrueType，`pdf.fonttype = 42`）+ 600 dpi PNG + `preview.png`；不裁边（不用 `bbox_inches="tight"`），保证网格尺寸（43 / 89 / 135 / 183 mm）精确。
 - 测试：`python3 -m unittest discover tests`（含 `tests/test_house_theme.py`，会调 `Rscript tests/test_theme_house.R`）。
 
+### 示意图与架构图 / Schematics and architecture diagrams
+
+中文：新的示意图（模型架构、流程、方法框图）默认用下面的做法，取代以前的 draw.io 和纯脚本细线画法；已有的 draw.io 图保留不动，不重画。示例在 `docs/house-style/arch/`，脚本、图标、依赖和检查都在里面。
+
+**五步流程**
+
+1. **用 Python 脚本生成可编辑的 SVG**：一个生成脚本，版面坐标写在代码里。SVG 按分区和模块分组，并加 `id`。普通文字一律保留为 `<text>`。小插图（曲线、波形、散点、仪表）在 Python 里算好，写成 SVG 路径。
+2. **线宽和字号按参考图实测**：在参考图或草图上量像素，再按印刷宽度换算（见下方“实测与换算”）。初稿通常偏细、偏小 2–3 倍。框要随文字变大，不要把字挤进固定尺寸的框里。
+3. **公式转成矢量路径**：用 matplotlib mathtext（STIX）把公式转成路径，在 `data-tex` 里保留 LaTeX 源码；另在隐藏图层里留一份纯文字版本。
+4. **图标用 AI 生成后嵌入，同时保留隐藏的矢量备用图标**：每个图标单独生成，白底或透明底，不带文字；裁掉边缘杂色，缩到约 256 px，以 base64 嵌入。每个图标都要在默认隐藏的图层（`vector-icon-fallback`）里画一个简化的矢量备用图标，按位图不透明区域对齐；构建时自动比较两者中心，偏差超过 2 px 报错。浅色线条图标放在中间色调的框上容易看不清，要检查对比度。SVG 的 `<desc>` 和图注写 “AI-assisted icons”，并注明图标位置。标签：“AI-assisted icons”（图标位图为 AI 生成；版式、文字和公式由脚本绘制）。
+5. **对照参考图至少迭代 3 轮**：每轮导出约 2000 px 宽的 PNG，按下方清单逐项看图并修改。
+
+**字体**：Arial，回退为 Liberation Sans（两者字宽一致，脚本量字宽时用系统里找到的那一个）。文字放不下时，架构图可以例外改用 Arial Narrow（回退 Arial），并在图的说明里写明；能放下就全部用 Arial。公式用 STIX。
+
+**实测与换算**：
+
+- 画布对应双栏出版宽度 183 mm。设画布宽 W px，则 1 px = 183 / W mm，1 pt = 25.4 / 72 mm，所以 1 px = 183 / W × 72 / 25.4 pt。示例中 W = 1300，1 px ≈ 0.399 pt。
+- 实测方法：在参考图上量像素（例如线宽、大写字母高度或行高），先除以参考图的像素宽度、乘以它的印刷宽度（mm），再换算成 pt。字号可以用大写高度 ÷ 0.716 估算（Arial）。
+
+**验收标准**（按 183 mm 印出）：
+
+- 所有文字 ≥ 6 pt，公式的上下标也算在内；mathtext 的上下标是 0.7 倍，所以公式基准字号要 ≥ 8.6 pt。
+- 分区标题约 7.5 pt，模块标题约 6.5 pt，正文 ≥ 6 pt。
+- 线宽 0.5–1.6 pt：分区外框 0.5、模块卡片 0.8、分支外框和主连线 1.2、插图曲线 1.0、坐标轴和次要连线 0.8，网络连线和散点描边不细于 0.5。
+- 没有文字出框，也没有文字互相重叠。
+
+示例的 `build_v3.py` 每次重建都会打印最小、最大字号和线宽（pt），不达标时以非零状态退出。
+
+**每轮核对清单**：
+
+- 文字：逐条和设计稿或参考图对照，不能有错字、漏字或多余的括号。
+- 公式：符号、上下标、括号都要对，`data-tex` 与显示一致。
+- 裁切：文字和图形不出框，不压边。
+- 连线：起点和终点接在对的模块上，箭头可见，不压分区标题和文字。
+- 字号：脚本报告的最小值 ≥ 6 pt。
+- 对齐：同列模块左右对齐，间距一致。
+
+**配色和线宽：架构图例外**
+
+- 架构图不受数据图色板的“一图 ≤6 个彩色系列”限制，但要用一个命名的小色板：每个分区一个主色，加上它的浅色底和中间色，重复或接近的色号要合并。允许由 PAL 派生的明暗色（`shade()`），此外不写死色号。
+- 示例色板（`helpers.PAL`）：输入数据用 house 蓝 `#1F72AE`（中间色 `#8EBDDA`、浅色 `#DEE4F0`），高温用 house 红 `#CC312C`；基因型分支用青 `#2aa198`、环境分支用紫 `#9a5bd1`、交互模块用橙 `#e08a3a`、评估用绿 `#2e7d32`，四者各带一个浅色底；文字和连线用 `#1c2430`，次要元素用 `#5b6878`。蓝、红取自 house 色板，其余四个主色沿用示例当前的观感。
+- 线宽同样写成命名常量（`helpers.LW`），取值见上方验收标准。
+- 渐变与阴影：只允许很浅的竖向渐变底（上浅下深，明度差约 30%），不用阴影。
+
+**交付物**：可编辑的 `.svg`、`.png`、生成脚本、图标文件和依赖说明。对照图只用于自查；含参考原图的文件不入库。部分期刊（如 Nature Portfolio）不接受 AI 生成的图像；投稿时切换到矢量备用图标，并去掉该标签。
+
+English: New schematics (model architectures, workflows, method diagrams) use the method below by default. It replaces the earlier draw.io and plain thin-line script approaches; existing draw.io figures stay as they are and are not redrawn. The worked example, with its script, icons, requirements and check, is in `docs/house-style/arch/`.
+
+**The five steps**
+
+1. **Generate an editable SVG with a Python script**: one generator script, with the layout coordinates in code. Group the SVG by zone and module and give the groups an `id`. All plain text stays as live `<text>`. Small insets (curves, waves, scatter, gauges) are computed in Python and written as SVG paths.
+2. **Measure stroke widths and font sizes on the reference**: measure pixels on the reference or sketch and convert them at the print width (see "Measuring and conversion" below). First drafts usually come out two to three times too thin and too small. Let boxes grow with their text instead of cramming labels into fixed boxes.
+3. **Convert formulas to vector paths**: render formulas as paths with matplotlib mathtext (STIX), keep the LaTeX source in `data-tex`, and keep a plain-text copy in a hidden layer.
+4. **Embed AI-generated icons and keep hidden vector fallback icons**: generate each icon separately on a white or transparent background with no text, trim the edges, scale to about 256 px and embed it as base64. Every icon needs a simplified vector fallback in a layer that is hidden by default (`vector-icon-fallback`), fitted to the bitmap's visible (opaque) area; the build compares their centres and fails if they are more than 2 px apart. Light outline icons can vanish on mid-tone boxes, so check the contrast. Put "AI-assisted icons" in the SVG `<desc>` and the caption, saying where the icons are. Label: "AI-assisted icons" (the icon bitmaps are AI-generated; layout, text and formulas are script-drawn).
+5. **Iterate against the reference at least three times**: each round, export a PNG about 2000 px wide and go through the checklist below.
+
+**Font**: Arial, falling back to Liberation Sans (the two have the same widths; the script measures text with whichever is installed). If text does not fit, an architecture diagram may use Arial Narrow (falling back to Arial) as an exception, stated in the figure notes; use Arial throughout whenever it fits. Formulas use STIX.
+
+**Measuring and conversion**:
+
+- The canvas corresponds to the 183 mm double-column print width. For a canvas W px wide, 1 px = 183 / W mm and 1 pt = 25.4 / 72 mm, so 1 px = 183 / W × 72 / 25.4 pt. In the example W = 1300, so 1 px ≈ 0.399 pt.
+- How to measure: measure pixels on the reference (stroke width, cap height or line pitch), divide by the reference's pixel width, multiply by its print width in mm, then convert to pt. Font size is roughly cap height ÷ 0.716 for Arial.
+
+**Acceptance criteria** (printed at 183 mm):
+
+- All text is at least 6 pt, including formula sub- and superscripts. Mathtext sets scripts at 0.7×, so the formula base size must be at least 8.6 pt.
+- Zone titles are about 7.5 pt, module titles about 6.5 pt, and body text at least 6 pt.
+- Line widths are 0.5–1.6 pt: zone outlines 0.5, module cards 0.8, branch frames and main connectors 1.2, inset curves 1.0, axes and minor connectors 0.8. Network edges and point outlines are no thinner than 0.5.
+- No text leaves its box or overlaps other text.
+
+The example's `build_v3.py` prints the smallest and largest font size and line width (pt) on every rebuild and exits non-zero if a criterion fails.
+
+**Checklist for each round**:
+
+- Text: compare every label with the design or reference; no typos, missing words or stray brackets.
+- Formulas: symbols, sub- and superscripts and brackets are right, and `data-tex` matches what is shown.
+- Clipping: no text or graphic leaves its box or sits on an edge.
+- Connectors: each one starts and ends at the right module, the arrowhead shows, and it does not cross zone titles or text.
+- Font size: the smallest size in the script report is at least 6 pt.
+- Alignment: modules in a column line up and the gaps are even.
+
+**Colour and line width: the architecture-diagram exception**
+
+- Architecture diagrams are not bound by the data-figure rule of at most six coloured series, but they use a small named palette: one main colour per zone plus its light fill and mid tone, with duplicate or near-duplicate colours merged. Lighter and darker variants derived from PAL with `shade()` are allowed; no other colour values are hard-coded.
+- Example palette (`helpers.PAL`):
+  - input data: house blue `#1F72AE`, with mid `#8EBDDA` and light `#DEE4F0`;
+  - heat: house red `#CC312C`;
+  - genotype branch: teal `#2aa198`; environment branch: purple `#9a5bd1`; interaction modules: orange `#e08a3a`; evaluation: green `#2e7d32`; each of these four has a light fill;
+  - text and connectors: `#1c2430`; secondary elements: `#5b6878`.
+
+  The blue and red come from the house palette; the other four main colours keep the example's current look.
+- Line widths are named constants too (`helpers.LW`), with the values listed under the acceptance criteria.
+- Gradients and shadows: only a very light vertical gradient fill (lighter at the top, about 30% difference in lightness); no shadows.
+
+**Deliverables**: the editable `.svg`, the `.png`, the generator script, the icon files and the list of requirements. Comparison images are for self-review only; files that contain the reference figure never go into the repository. Some journals (e.g. Nature Portfolio) do not accept AI-generated images; for submission, switch to the vector icons and drop the label.
+
 ## 旧版 theme_viz 规范（已有图保持，不重渲染）
 
 以下是 house style 之前的约定。已有的图继续按它；`theme_viz()`、`pv_save()`、`pv_palette("categorical")`（chip 八色）等旧接口保留可用。

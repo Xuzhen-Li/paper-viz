@@ -83,6 +83,12 @@ pv_fmt_p(p, digits = 1, exact = FALSE)
 
 Existing figures keep the legacy style and are not re-rendered: `theme_viz()`, `pv_save()`, and `pv_palette("categorical")` (chip order `#134aa3` `#f6a3b1` `#0b5475` `#dc1f26` `#835ca6` `#f7922c` `#fbee61` `#981b1e`, control points `#E0E0E0`, 85×60 mm single panels with `theme_viz(base_size = 7)`). When you copy an existing folder, keep its interface. Details for both: `styles/style-contract.md`.
 
+### Schematics
+
+New schematics are editable SVG built by a Python script; the method, numbers and checks are in `styles/style-contract.md` (schematics section), and the worked example is `docs/house-style/arch/`. Existing draw.io figures stay as they are.
+
+中文：新示意图用 Python 脚本生成可编辑 SVG；做法、数值和检查以 `styles/style-contract.md` 的示意图一节为准，示例见 `docs/house-style/arch/`。旧 draw.io 图不动。
+
 ## What not to do
 
 - Do not add real, patient, or third-party data. Shipped `data.csv` files are synthetic.
