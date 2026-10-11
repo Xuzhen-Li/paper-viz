@@ -6,7 +6,7 @@ source("../../../styles/r/theme_house.R")
 grDevices::cairo_pdf(tempfile(fileext = ".pdf"))   # Arial metrics while tiles are measured; closed at the end
 pal <- pv_palette("house"); grey <- pv_palette("house_grey"); warm <- pv_palette("house_warm")
 TAG_PT <- 10; T7 <- pv_pt2size(7)
-minus <- function(x) gsub("-", "\u2212", format(x, trim = TRUE))
+minus <- function(x) gsub("-", "\u2212", if (is.character(x)) x else format(x, trim = TRUE))   # no padding of strings
 pt_layer <- function(...) geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
                                      stroke = HOUSE_POINT$stroke, colour = "black", ...)
 th <- theme_house()
@@ -46,6 +46,12 @@ add_tag <- function(g, tag) {
   grid::grobTree(g, grid::textGrob(tag, x = grid::unit(0.3, "mm"), y = grid::unit(1, "npc") - grid::unit(0.2, "mm"),
     hjust = 0, vjust = 1, gp = grid::gpar(fontfamily = house_family(), fontface = "bold", fontsize = TAG_PT)))
 }
+# footnote(): small grey 7 pt note inside a tile's band (simulated data disclaimer)
+SIM_NOTE <- "Simulated data for illustration; not biological results"
+footnote <- function(g, label = SIM_NOTE, x = 1, y = 1, hjust = 1, vjust = 1, dx = -1.2, dy = -0.6) {
+  grid::grobTree(g, grid::textGrob(label, x = grid::unit(x, "npc") + grid::unit(dx, "mm"), y = grid::unit(y, "npc") + grid::unit(dy, "mm"),
+    hjust = hjust, vjust = vjust, gp = grid::gpar(fontfamily = house_family(), fontsize = 7, col = grey[["mid"]], lineheight = 0.95)))
+}
 # patchwork / composite tiles: tag only (they control their own inner layout)
 tile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)
 
@@ -53,9 +59,10 @@ tile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)
 page_cells <- c(4, 2)
 lead_genes <- data.frame(chr = c(4, 11, 17), lab = c("VvNCED3", "VvPIP2;1", "VvLEA4"))   # candidate gene per peak
 zoom <- c(10.8, 13.8)    # b: chr 4 window (Mb)
-thr <- -log10(5e-8)      # genome-wide threshold
+alpha <- 0.05            # Bonferroni: alpha / number of SNPs tested (rows of data.csv)
 
-snp <- rd("data.csv"); chrs <- rd("data_chr.csv"); gt <- rd("data_genotype.csv"); af <- rd("data_allele.csv")
+snp <- rd("data.csv"); n_snp <- nrow(snp); thr <- -log10(alpha / n_snp)
+ chrs <- rd("data_chr.csv"); gt <- rd("data_genotype.csv"); af <- rd("data_allele.csv")
 
 # a Manhattan -----------------------------------------------------------------------------------
 off <- c(0, cumsum(chrs$length_mb + 1.2))[seq_len(nrow(chrs))]
@@ -63,11 +70,15 @@ snp$x <- snp$pos + off[snp$chr]; snp$lp <- -log10(snp$p)
 mid <- off + chrs$length_mb / 2
 leads <- do.call(rbind, lapply(lead_genes$chr, function(c) { s <- snp[snp$chr == c, ]; s[which.max(s$lp), ] }))
 leads$lab <- lead_genes$lab
-b3a <- ggplot(snp, aes(x, lp)) + geom_point(aes(colour = I(ifelse(chr %% 2 == 1, pal[["blue"]], pal[["sky"]]))), size = 0.35, shape = 16) +
+# peak labels name the SNP, not a gene: "chrN lead SNP (near Gene)", gene in italics (plotmath)
+leads$txt <- sprintf('"chr%d lead SNP (near "*italic("%s")*")"', leads$chr, leads$lab)
+leads$side <- ifelse(leads$x > 0.5 * max(snp$x), -1, 1)                 # right-hand peaks: label on the left
+snp$col <- ifelse(snp$lp > thr, pal[["red"]], ifelse(snp$chr %% 2 == 1, pal[["blue"]], pal[["sky"]]))   # significant = red
+b3a <- ggplot(snp, aes(x, lp)) + geom_point(aes(colour = I(col)), size = 0.35, shape = 16) +
   geom_hline(yintercept = thr, linetype = "22", linewidth = pv_house_lw("ref"), colour = pal[["red"]]) +
   geom_point(data = leads, shape = 23, size = 1.9, stroke = 0.3, fill = pal[["red"]], colour = "black") +
-  geom_text(data = leads, aes(label = lab), nudge_x = 6, hjust = 0, size = T7, fontface = "italic") +
-  annotate("text", x = 2, y = thr + 0.35, label = "Genome-wide threshold", hjust = 0, vjust = 0, size = T7, colour = pal[["red"]]) +
+  geom_text(data = leads, aes(x = x + 6 * side, label = txt, hjust = ifelse(side > 0, 0, 1)), size = T7, parse = TRUE) +
+  annotate("text", x = 2, y = thr + 0.35, label = sprintf("Bonferroni (0.05/%s), \u2212log10 P = %.1f", format(n_snp, big.mark = ","), thr), hjust = 0, vjust = 0, size = T7, colour = pal[["red"]]) +
   scale_x_continuous(breaks = mid, labels = chrs$chr, limits = c(-1, max(snp$x) + 1), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0, 13), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +
   labs(x = "Chromosome", y = "\u2212log10 P") + th
@@ -77,11 +88,11 @@ loc <- snp[snp$chr == 4 & snp$pos > zoom[1] & snp$pos < zoom[2], ]
 lead <- leads[leads$chr == 4, ]
 # consistency: the genome-wide top hit is VvNCED3 on chr 4 (house-mosaic-aba-kinetics b claims it)
 # and it is the lead SNP of the zoomed window
-stopifnot(leads$lab[which.max(leads$lp)] == "VvNCED3", lead$chr == 4, lead$lp == max(loc$lp), !anyNA(loc$r2))
+stopifnot(leads$lab[which.max(leads$lp)] == "VvNCED3", all(leads$lp > thr), all(leads$lab != c("VvABF2", "VvHAI1")[1]), lead$chr == 4, lead$lp == max(loc$lp), !anyNA(loc$r2))
 r2_cols <- c(pal[["blue"]], pal[["sky"]], pal[["green"]], pal[["orange"]], pal[["red"]])   # r2 bins low -> high; labels use the same vector
 loc$bin <- cut(loc$r2, c(-0.01, 0.2, 0.4, 0.6, 0.8, 1.01), labels = FALSE)
 gm <- data.frame(s = c(11.1, 11.75, 12.15, 12.55, 13.05), e = c(11.5, 12.0, 12.45, 12.85, 13.5),
-                 g = c("VvPP2C", "", "VvNCED3", "", "VvHAI1"))
+                 g = c("VvABF2", "", "VvNCED3", "", "VvHAI1"))
 b3b <- ggplot(loc, aes(pos, lp)) +
   geom_rect(data = gm, aes(xmin = s, xmax = e, ymin = -2.0, ymax = -1.0), fill = grey[["dark"]], inherit.aes = FALSE) +
   annotate("segment", x = zoom[1], xend = zoom[2], y = -1.5, yend = -1.5, linewidth = pv_house_lw("frame")) +
@@ -89,7 +100,9 @@ b3b <- ggplot(loc, aes(pos, lp)) +
   geom_hline(yintercept = thr, linetype = "22", linewidth = pv_house_lw("ref"), colour = pal[["red"]]) +
   geom_point(aes(fill = I(r2_cols[bin])), shape = 21, size = 1.3, stroke = 0.2, colour = "black") +
   geom_point(data = lead, shape = 23, size = 2.2, stroke = 0.3, fill = pal[["magenta"]], colour = "black") +
-  annotate("text", x = zoom[2] - 0.05, y = c(13.4, 12.2, 11.0, 9.8, 8.6), label = c("r\u00b2 > 0.8", "0.6\u20130.8", "0.4\u20130.6", "0.2\u20130.4", "< 0.2"),
+  annotate("text", x = zoom[1] + 0.05, y = c(12.4, 11.2), label = c("Lead SNP (magenta);", "causal gene not resolved"),
+           hjust = 0, size = T7, colour = c(pal[["magenta"]], grey[["mid"]])) +
+  annotate("text", x = zoom[2] - 0.05, y = c(12.4, 11.2, 10.0, 8.8, 7.6), label = c("r\u00b2 > 0.8", "0.6\u20130.8", "0.4\u20130.6", "0.2\u20130.4", "< 0.2"),
            colour = rev(r2_cols), hjust = 1, size = T7) +
   scale_x_continuous(limits = zoom, breaks = c(11, 12, 13), expand = c(0, 0)) +
   scale_y_continuous(limits = c(-4.2, 14), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +
@@ -114,13 +127,13 @@ af$yi <- length(pops) + 1 - as.integer(af$pop)
 b3d <- ggplot(af, aes(f, yi, fill = al)) + geom_col(width = 0.68, orientation = "y", colour = "white", linewidth = pv_house_lw(0.3)) +
   geom_text(data = af[af$al == "G", ], aes(x = f / 2, label = f), colour = "white", size = T7) +
   scale_fill_manual(values = c(A = grey[["light"]], G = pal[["red"]]), guide = "none") +
-  annotate("text", x = 100, y = length(pops) + 0.62, label = "G (tolerant) allele, %", hjust = 1, vjust = 0, colour = pal[["red"]], size = T7) +
+  annotate("text", x = 100, y = length(pops) + 0.62, label = "DTI-increasing allele (G), %", hjust = 1, vjust = 0, colour = pal[["red"]], size = T7) +
   scale_y_continuous(breaks = rev(seq_along(pops)), labels = pops, limits = c(0.5, length(pops) + 1), expand = c(0, 0)) +
   scale_x_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0, 0)) +
   labs(x = "Allele frequency (%)", y = NULL) + th
 
 mosaic <- pv_house_mosaic(list(
-  list(plot = tile(b3a, "a"), at = c(1, 1), cells = c(4, 1)),
+  list(plot = footnote(tile(b3a, "a")), at = c(1, 1), cells = c(4, 1)),
   list(plot = tile(b3b, "b"), at = c(1, 2), cells = c(2, 1)),
   list(plot = tile(b3c, "c"), at = c(3, 2), cells = c(1, 1)),
   list(plot = tile(b3d, "d"), at = c(4, 2), cells = c(1, 1))

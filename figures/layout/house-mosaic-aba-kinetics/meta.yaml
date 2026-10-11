@@ -14,9 +14,9 @@ packages:
   - ggplot2
   - patchwork
 data_columns:
-  hours: 停水后小时数（data.csv）
+  hours: 停止浇水后的小时数（data.csv；x 轴 “Hours after withholding water”）
   gene: 基因名（data.csv、data_psi.csv）
-  log2fc: data.csv 为叶片 log2 FC 均值；data_fc.csv 为每个 DEG 的 log2 FC
+  log2fc: data.csv 为叶片 log2 FC（SD/WW）均值；data_fc.csv 为每个 DEG 的 log2 FC
   se: log2 FC 的标准误（data.csv）
   vine: 植株编号（data_psi.csv）
   psi: 茎水势 Ψstem（MPa，data_psi.csv）
@@ -24,7 +24,7 @@ data_columns:
   treatment: WW / SD（data_raincloud.csv）
   tissue: Leaf / Root（data_raincloud.csv、data_fc.csv）
   jitter: 原始点在云下的纵向位置 0–1（data_raincloud.csv）
-when_to_use: 单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（并排，比 1 格高约 19%）。b 的标题是一句与图同色的结论。
+when_to_use: 模拟数据，仅作示意，不是生物学结果（Simulated data for illustration; not biological results）。单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（并排，比 1 格高约 19%）。b 的标题写相关最强的基因及 Pearson r（由数据计算），并说明它所在位点也有最强的 GWAS 信号（Fig. 3a），不作因果推断；每个小图标 Pearson r 与 n。
 customize: page_cells = 2×4；a 占 2×1，b/c/d 合成一个 2×3 的 tile（gtable），H_B = 81 mm、H_CD = 51 mm 决定 b 与 c/d 的高度，三者相加须为 135 mm。b 的标题自动取 |r| 最大的基因，并检查它等于 gwas_top（拼版 house-mosaic-gwas 的头号位点）且在两位小数上领先第二名；a 与 b 的方向（干旱上调 ↔ r 为负）也由 stopifnot() 检查。data_fc.csv 的叶、根 DEG 数与 house-mosaic-transcriptome 的 data_deg.csv 一致。
 lang: R
 style: house

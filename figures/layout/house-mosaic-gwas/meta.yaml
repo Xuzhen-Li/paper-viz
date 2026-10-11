@@ -19,12 +19,12 @@ data_columns:
   r2: 与 chr 4 头号 SNP 的 r²，只在放大窗口内有值（data.csv）
   length_mb: 染色体长度（Mb，data_chr.csv）
   genotype: 头号 SNP 基因型 AA / AG / GG（data_genotype.csv）
-  dti: 耐旱指数（data_genotype.csv）
+  dti: 耐旱指数 DTI（drought tolerance index，data_genotype.csv）
   jitter: 原始点横向抖动 −1–1（data_genotype.csv）
   population: 群体（data_allele.csv）
-  g_percent: 耐旱等位基因 G 的频率 %（data_allele.csv）
-when_to_use: 双栏半页讲一个 GWAS：a 是通栏 4×1 曼哈顿图，b 为头号位点区域图（2×1，按 r² 着色并画基因模型），c 头号 SNP 的基因型效应（箱线 + 原始点），d 各群体等位基因频率（堆叠条）。
-customize: page_cells = 4×2；lead_genes 给每个峰标候选基因，zoom 为 b 的窗口（Mb），thr 为全基因组阈值。stopifnot() 检查头号位点是 chr 4 的 VvNCED3、且就是 b 窗口里的最高点（与 house-mosaic-aba-kinetics 的 b 标题一致）。
+  g_percent: 使 DTI 升高的等位基因 G 的频率 %（data_allele.csv）
+when_to_use: 模拟数据，仅作示意，不是生物学结果（Simulated data for illustration; not biological results）。DTI = drought tolerance index（耐旱指数）。双栏半页讲一个 GWAS：a 是通栏 4×1 曼哈顿图，b 为头号位点区域图（2×1，按 r² 着色并画基因模型），c 头号 SNP 的基因型效应（箱线 + 原始点），d 各群体等位基因频率（堆叠条）。
+customize: page_cells = 4×2；lead_genes 给每个峰标候选基因，zoom 为 b 的窗口（Mb），阈值为 Bonferroni 0.05 / SNP 数（data.csv 行数），超过阈值的点标红；峰的标签写 “chrN lead SNP (near 基因)”，不把基因当作已确定的致病基因。stopifnot() 检查最强信号是 chr 4 上靠近 VvNCED3 的 lead SNP、且就是 b 窗口里的最高点（与 house-mosaic-aba-kinetics 的 b 标题一致）；b 注明致病基因未定。
 lang: R
 style: house
 cells: 4x2

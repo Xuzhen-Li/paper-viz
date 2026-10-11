@@ -6,7 +6,7 @@ source("../../../styles/r/theme_house.R")
 grDevices::cairo_pdf(tempfile(fileext = ".pdf"))   # Arial metrics while tiles are measured; closed at the end
 pal <- pv_palette("house"); grey <- pv_palette("house_grey"); warm <- pv_palette("house_warm")
 TAG_PT <- 10; T7 <- pv_pt2size(7)
-minus <- function(x) gsub("-", "\u2212", format(x, trim = TRUE))
+minus <- function(x) gsub("-", "\u2212", if (is.character(x)) x else format(x, trim = TRUE))   # no padding of strings
 pt_layer <- function(...) geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
                                      stroke = HOUSE_POINT$stroke, colour = "black", ...)
 th <- theme_house()
@@ -45,6 +45,12 @@ tile <- function(p, tag = NULL, l = BAND$l, b = BAND$b, t = BAND$t, r = BAND$r) 
 add_tag <- function(g, tag) {
   grid::grobTree(g, grid::textGrob(tag, x = grid::unit(0.3, "mm"), y = grid::unit(1, "npc") - grid::unit(0.2, "mm"),
     hjust = 0, vjust = 1, gp = grid::gpar(fontfamily = house_family(), fontface = "bold", fontsize = TAG_PT)))
+}
+# footnote(): small grey 7 pt note inside a tile's band (simulated data disclaimer)
+SIM_NOTE <- "Simulated data for illustration; not biological results"
+footnote <- function(g, label = SIM_NOTE, x = 1, y = 1, hjust = 1, vjust = 1, dx = -1.2, dy = -0.6) {
+  grid::grobTree(g, grid::textGrob(label, x = grid::unit(x, "npc") + grid::unit(dx, "mm"), y = grid::unit(y, "npc") + grid::unit(dy, "mm"),
+    hjust = hjust, vjust = vjust, gp = grid::gpar(fontfamily = house_family(), fontsize = 7, col = grey[["mid"]], lineheight = 0.95)))
 }
 # patchwork / composite tiles: tag only (they control their own inner layout)
 tile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)
@@ -121,6 +127,7 @@ upset_tile <- function(m, cols, n_show, tag, set_w = c(22, 16), bar_frac = 0.5,
 }
 # --- parameters ---------------------------------------------------------------------------
 page_cells <- c(4, 3)
+DEG_DEF <- "DEG: padj < 0.05, SD vs WW"   # one sampling time; no fold-change cutoff in the simulation
 n_show <- 12          # UpSet: intersections shown
 BT <- 7; BB <- 8.6    # shared top / bottom band of a, b, c, d so their frames line up
 LB <- 14.5            # left band of a, b: room for "Berry skin" / "Shoot tip"
@@ -149,7 +156,7 @@ b1b <- ggplot(deg, aes(n, yi, fill = direction)) + geom_col(width = 0.68, orient
   annotate("text", x = c(2150, -2150), y = 5.62, label = c("Up", "Down"), hjust = c(1, 0), colour = c(pal[["red"]], pal[["blue"]]), fontface = "bold", size = T7) +
   scale_y_continuous(breaks = 5:1, labels = tis, limits = c(0.45, 6.0), expand = c(0, 0)) +
   scale_x_continuous(limits = c(-2200, 2200), breaks = c(-1000, 0, 1000), labels = c("1k", "0", "1k"), expand = c(0, 0)) +
-  labs(x = "DEGs (SD vs WW, k)", y = NULL) + th
+  labs(x = "DEGs (SD vs WW)", y = NULL) + th
 
 # c heatmap with a thin group strip ---------------------------------------------------------
 ng <- max(hm$gene); ns <- max(hm$sample)
@@ -231,7 +238,8 @@ mosaic <- pv_house_mosaic(list(
   list(plot = tile(b1c, "c", l = 6, r = 14, t = BT, b = BB), at = c(2, 1), cells = c(2, 2)),
   list(plot = tile(b1d, "d", l = 24, t = BT, b = BB), at = c(4, 1), cells = c(1, 2)),
   list(plot = b1e, at = c(1, 3), cells = c(3, 1)),
-  list(plot = tile(b1f, "f", l = 0, b = F_B, t = F_T, r = 0), at = c(4, 3), cells = c(1, 1))
+  list(plot = footnote(tile(b1f, "f", l = 0, b = F_B, t = F_T, r = 0), paste(DEG_DEF, "Simulated data for illustration;", "not biological results", sep = "\n"),
+                     x = 0, y = 0, hjust = 0, vjust = 0, dx = 0.6, dy = 0.4), at = c(4, 3), cells = c(1, 1))
 ), cells = page_cells)
 pv_save_house(mosaic, "figure", cells = page_cells)
 

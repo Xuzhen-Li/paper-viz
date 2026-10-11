@@ -6,7 +6,7 @@ source("../../../styles/r/theme_house.R")
 grDevices::cairo_pdf(tempfile(fileext = ".pdf"))   # Arial metrics while tiles are measured; closed at the end
 pal <- pv_palette("house"); grey <- pv_palette("house_grey"); warm <- pv_palette("house_warm")
 TAG_PT <- 10; T7 <- pv_pt2size(7)
-minus <- function(x) gsub("-", "\u2212", format(x, trim = TRUE))
+minus <- function(x) gsub("-", "\u2212", if (is.character(x)) x else format(x, trim = TRUE))   # no padding of strings
 pt_layer <- function(...) geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
                                      stroke = HOUSE_POINT$stroke, colour = "black", ...)
 th <- theme_house()
@@ -46,6 +46,12 @@ add_tag <- function(g, tag) {
   grid::grobTree(g, grid::textGrob(tag, x = grid::unit(0.3, "mm"), y = grid::unit(1, "npc") - grid::unit(0.2, "mm"),
     hjust = 0, vjust = 1, gp = grid::gpar(fontfamily = house_family(), fontface = "bold", fontsize = TAG_PT)))
 }
+# footnote(): small grey 7 pt note inside a tile's band (simulated data disclaimer)
+SIM_NOTE <- "Simulated data for illustration; not biological results"
+footnote <- function(g, label = SIM_NOTE, x = 1, y = 1, hjust = 1, vjust = 1, dx = -1.2, dy = -0.6) {
+  grid::grobTree(g, grid::textGrob(label, x = grid::unit(x, "npc") + grid::unit(dx, "mm"), y = grid::unit(y, "npc") + grid::unit(dy, "mm"),
+    hjust = hjust, vjust = vjust, gp = grid::gpar(fontfamily = house_family(), fontsize = 7, col = grey[["mid"]], lineheight = 0.95)))
+}
 # patchwork / composite tiles: tag only (they control their own inner layout)
 tile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)
 
@@ -64,17 +70,18 @@ b2a <- ggplot(kin, aes(hours, log2fc, colour = gene, fill = gene)) +
   scale_colour_manual(values = genes, guide = "none") + scale_fill_manual(values = genes, guide = "none") +
   scale_x_continuous(limits = c(-5, 214), breaks = c(0, 48, 96, 144), expand = c(0, 0)) +
   scale_y_continuous(limits = c(-3, 6), breaks = c(-2, 0, 2, 4), labels = minus, expand = c(0, 0)) +
-  labs(x = "Hours after irrigation cut", y = "log2 FC (leaf)") + th
+  labs(x = "Hours after withholding water", y = "log2 FC (SD/WW, leaf)") + th
 
 # b small multiples: expression vs stem water potential -----------------------------------------
 sm$gene <- factor(sm$gene, levels = c("VvNCED3", "VvRD29B", "VvPIP2;1", "VvLEA4"))
 rlab <- do.call(rbind, lapply(split(sm, sm$gene), function(s) data.frame(gene = s$gene[1], r = stats::cor(s$psi, s$expression))))
-rlab$lab <- sprintf("italic(r)*' = %s'", minus(sprintf("%.2f", rlab$r)))
+n_vine <- as.integer(table(sm$gene)[as.character(rlab$gene)])
+rlab$lab <- sprintf("'Pearson '*italic(r)*' = %s, '*italic(n)*' = %d'", minus(sprintf("%.2f", rlab$r)), n_vine)
 r_top <- as.character(rlab$gene[which.max(abs(rlab$r))])        # gene with the tightest link
 rlab$col <- ifelse(rlab$gene == r_top, pal[["red"]], "#000000")
 sm$hl <- ifelse(sm$gene == r_top, pal[["red"]], pal[["sky"]])
 # consistency: b's claim, and the sign of r vs the direction in a (up in drought <-> negative r)
-stopifnot(r_top == gwas_top,
+stopifnot(r_top == gwas_top, length(unique(n_vine)) == 1,
           diff(sort(round(abs(rlab$r), 2), decreasing = TRUE)[1:2]) <= -0.02,   # "tightest" is visible at the printed 2 dp
           sign(rlab$r[rlab$gene == "VvNCED3"]) == -sign(kin$log2fc[kin$gene == "VvNCED3" & kin$hours == 48]),
           sign(rlab$r[rlab$gene == "VvPIP2;1"]) == -sign(kin$log2fc[kin$gene == "VvPIP2;1" & kin$hours == 48]))
@@ -85,10 +92,11 @@ b2b <- ggplot(sm, aes(psi, expression)) +
   scale_x_continuous(limits = c(-1.8, -0.2), breaks = c(-1.5, -1, -0.5), labels = minus, expand = c(0, 0)) +
   scale_y_continuous(limits = c(1, 11), breaks = c(3, 6, 9), expand = c(0, 0)) +
   labs(x = "\u03a8stem (MPa)", y = "Expression (log2 CPM)",
-       title = sprintf("Strongest \u03a8stem correlation (red, r = %s) is the top GWAS hit (Fig. 3a)",
-                       minus(sprintf("%.2f", rlab$r[rlab$gene == r_top])))) + th +
+       title = bquote("Strongest correlation with \u03a8stem: "*italic(.(r_top))*" ("*italic(r)*" = "*.(minus(sprintf("%.2f", rlab$r[rlab$gene == r_top])))*");"),
+       subtitle = "its locus also carries the top GWAS signal (Fig. 3a)") + th +
   theme(panel.spacing = unit(2.5, "mm"), strip.text = element_text(face = "italic"),
-        plot.title = element_text(size = 7, colour = pal[["red"]], hjust = 1, margin = margin(b = 1.2, unit = "mm")))
+        plot.title = element_text(size = 7, colour = pal[["red"]], hjust = 0, margin = margin(b = 0.4, unit = "mm")),
+        plot.subtitle = element_text(size = 7, colour = pal[["red"]], hjust = 0, margin = margin(b = 1.2, unit = "mm")))
 
 # c horizontal raincloud: VvNCED3 by tissue x treatment ---------------------------------------
 vi$y0 <- ifelse(vi$tissue == "Leaf", 3.15, 1.05) + ifelse(vi$treatment == "WW", 0.45, -0.45)
@@ -127,11 +135,11 @@ b2d <- ggplot(dl, aes(x, y, colour = tissue)) + geom_vline(xintercept = 0, linet
 # rows 2-4 (2x3 cells, 89 x 135 mm) as one tile: b 81 mm, c/d 51 mm (about 19% taller than one 43 mm cell)
 H_B <- 81; H_CD <- 135 - 3 - H_B
 lower <- gtable::gtable(widths = grid::unit(c(43, 3, 43), "mm"), heights = grid::unit(c(H_B, 3, H_CD), "mm"))
-lower <- gtable::gtable_add_grob(lower, tile(b2b, "b", t = 7.6), t = 1, l = 1, r = 3)
+lower <- gtable::gtable_add_grob(lower, tile(b2b, "b", t = 11.4), t = 1, l = 1, r = 3)
 lower <- gtable::gtable_add_grob(lower, tile(b2c, "c"), t = 3, l = 1)
 lower <- gtable::gtable_add_grob(lower, tile(b2d, "d"), t = 3, l = 3)
 mosaic <- pv_house_mosaic(list(
-  list(plot = tile(b2a, "a"), at = c(1, 1), cells = c(2, 1)),
+  list(plot = footnote(tile(b2a, "a")), at = c(1, 1), cells = c(2, 1)),
   list(plot = lower, at = c(1, 2), cells = c(2, 3))
 ), cells = page_cells)
 pv_save_house(mosaic, "figure", cells = page_cells)
