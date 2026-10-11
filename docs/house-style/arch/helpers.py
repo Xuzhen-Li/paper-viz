@@ -92,15 +92,19 @@ def text_width(t, px, bold=False):
     return _F[k].getlength(t) / 10
 
 
-def T(x, y, t, size='body', bold=None, anchor='middle', style='normal', fill=None):
+def T(x, y, t, size='body', bold=None, anchor='middle', style='normal', fill=None, italic_head=None):
+    """italic_head: a leading symbol set in italic (e.g. a variable), the rest upright."""
     px = FS[size] if isinstance(size, str) else float(size)
     bold = (size in ('zone', 'title')) if bold is None else bold
     fill = fill or PAL['ink']
     wdt = text_width(t, px, bold)
     x0 = {'middle': x - wdt / 2, 'start': x, 'end': x - wdt}[anchor]
     TEXTS.append((x0, y - 0.72 * px, x0 + wdt, y + 0.21 * px, t))
+    body = esc(t)
+    if italic_head and t.startswith(italic_head):
+        body = f'<tspan font-style="italic">{esc(italic_head)}</tspan>{esc(t[len(italic_head):])}'
     a(f'<text x="{x}" y="{y}" font-family="{SANS}" font-size="{px:.1f}" font-weight="{"bold" if bold else "normal"}"'
-      f' font-style="{style}" text-anchor="{anchor}" fill="{fill}">{esc(t)}</text>')
+      f' font-style="{style}" text-anchor="{anchor}" fill="{fill}">{body}</text>')
 
 
 MP = FontProperties(family='STIXGeneral')
@@ -181,8 +185,8 @@ def axes(x, y, w, h):
     L([(x, y + h), (x + w + 4, y + h)], PAL['ink'], 'arrow_minor')
 
 
-# ---- icons: AI-generated bitmap in the figure, simplified vector twin in a hidden layer.
-# Each vector twin is fitted to the bitmap's visible (opaque) box, not to the <image> box,
+# ---- icons: AI-generated bitmap in the figure, simplified vector fallback in a hidden layer.
+# Each vector fallback icon is fitted to the bitmap's visible (opaque) box, not to the <image> box,
 # so the two overlap even where the bitmap has transparent margins.
 # Icon colours are PAL colours or light/dark variants of them made with shade().
 ICONS = []          # (name, image box, opaque box) for the overlap check in build_v3.py
@@ -299,11 +303,11 @@ def check_layout():
 
 
 def finish(path, vector_icons=False):
-    """Write the SVG. vector_icons=True writes a check copy with the vector icon layer shown instead of the bitmaps."""
+    """Write the SVG. vector_icons=True writes a check copy with the vector fallback icons shown instead of the bitmaps."""
     style = '<style>.icon-bitmap{display:none}</style>' if vector_icons else ''
     vis = 'visible' if vector_icons else 'hidden'
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
-         '<desc>AI-assisted icons</desc>', style, '<defs>', static_defs(), *defs, '</defs>',
+         '<desc>AI-assisted icons: database (genotype data), flame and snowflake (environment data), gauge (accuracy).</desc>', style, '<defs>', static_defs(), *defs, '</defs>',
          f'<rect width="{W}" height="{H}" fill="{PAL["card"]}"/>', '<g id="figure">', *out, '</g>',
          f'<g id="vector-icon-fallback" visibility="{vis}">', *iconfb, '</g>',
          '<g id="math-text-fallback" visibility="hidden">', *mathfb, '</g>', '</svg>']

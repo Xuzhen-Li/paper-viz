@@ -85,17 +85,9 @@ Existing figures keep the legacy style and are not re-rendered: `theme_viz()`, `
 
 ### Schematics
 
-New schematics (architectures, workflows, method diagrams) are built as editable SVG by a Python script. This replaces draw.io and plain thin-line scripts as the default; existing draw.io figures stay as they are. The five steps:
+New schematics are editable SVG built by a Python script; the method, numbers and checks are in `styles/style-contract.md` (schematics section), and the worked example is `docs/house-style/arch/`. Existing draw.io figures stay as they are.
 
-1. Generate the SVG with a Python script: text stays live `<text>`, insets are paths, and groups have ids.
-2. Measure stroke widths and font sizes on the reference and convert at the 183 mm print width (1 px = 183 / W × 72 / 25.4 pt).
-3. Convert formulas to vector paths (matplotlib mathtext, STIX), with `data-tex` and a hidden plain-text layer.
-4. Embed AI-generated icons and give each one a vector twin in a hidden layer at the same position.
-5. Iterate against the reference at least three times, using the checklist in `styles/style-contract.md`.
-
-Font: Arial, falling back to Liberation Sans. At 183 mm all text is at least 6 pt, including formula scripts, so the formula base size is at least 8.6 pt. Lines are 0.5–1.6 pt. Use a small named palette (one main colour per zone plus tints) and light gradients only, with no shadows. Label the figure "AI-assisted icons", and never commit images that contain the reference figure. Example: `docs/house-style/arch/`.
-
-中文：新示意图用 Python 脚本生成可编辑 SVG，取代 draw.io 和纯脚本细线画法；旧 draw.io 图不动。五步：脚本出 SVG；线宽和字号按参考图实测，并按 183 mm 换算；公式转矢量路径；嵌入 AI 生成图标，并为每个图标保留隐藏的矢量备份；对照参考图至少迭代 3 轮。字体 Arial → Liberation Sans；按 183 mm 印出，所有字 ≥ 6 pt；线宽 0.5–1.6 pt；命名小色板，只用浅渐变，不用阴影。图下注明 “AI-assisted icons”，含参考原图的文件不入库。示例见 `docs/house-style/arch/`。
+中文：新示意图用 Python 脚本生成可编辑 SVG；做法、数值和检查以 `styles/style-contract.md` 的示意图一节为准，示例见 `docs/house-style/arch/`。旧 draw.io 图不动。
 
 ## What not to do
 

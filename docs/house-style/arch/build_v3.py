@@ -29,11 +29,11 @@ def report(svg_text):
     return small
 
 
-ICON_TOL = 2.0   # px: max distance between vector twin and bitmap visible centre
+ICON_TOL = 2.0   # px: max distance between a vector fallback icon and its bitmap's visible centre
 
 
 def icon_overlap(svg_text, icons, scale=2):
-    """Render only the vector icon layer and compare each twin with its bitmap's opaque box."""
+    """Render only the vector fallback layer and compare each vector fallback icon with its bitmap's opaque box."""
     vec = svg_text.split('<g id="vector-icon-fallback"')[1].split('<g id="math-text-fallback"')[0]
     doc = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{helpers.W}" height="{helpers.H}" viewBox="0 0 {helpers.W} {helpers.H}">'
            f'<g>{vec.split(">", 1)[1]}</svg>')
@@ -52,7 +52,7 @@ def icon_overlap(svg_text, icons, scale=2):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--vector-icons', metavar='SVG', help='also write a copy with the vector icon layer shown')
+    ap.add_argument('--vector-icons', metavar='SVG', help='also write a copy with the vector fallback icons shown')
     args = ap.parse_args()
     body.draw(np.random.default_rng(3))
     problems = helpers.check_layout()
@@ -67,7 +67,7 @@ def main():
         print('text under 6 pt:', small)
     bad_icons = []
     if shutil.which('rsvg-convert'):
-        print('vector icon twin vs bitmap visible area (centre offset px, size ratio w, h):')
+        print('vector fallback icon vs bitmap visible area (centre offset px, size ratio w, h):')
         for name, dx, dy, rw, rh in icon_overlap(svg.read_text(), helpers.ICONS):
             flag = '' if max(abs(dx), abs(dy)) <= ICON_TOL else '  <- off by more than %.0f px' % ICON_TOL
             print(f'  {name:10s} dx {dx:+5.1f}  dy {dy:+5.1f}  w {rw:4.2f}  h {rh:4.2f}{flag}')

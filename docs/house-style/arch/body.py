@@ -58,7 +58,7 @@ def draw(rng):
         R(280, 56, 272, 160, P['card'], P['grey'])
         T(416, 82, 'Quality control', 'title')
         T(416, 110, 'allele frequency ≥ 0.05'); T(416, 134, 'call rate ≥ 0.9'); T(416, 158, 'missing calls imputed')
-        T(416, 190, 'p markers kept', style='italic')
+        T(416, 190, 'p markers kept', italic_head='p')
         L([(244, 136), (278, 136)])
     with group('genotype-branch'):
         R(280, 232, 272, 266, P['geno_light'], P['geno'], 'frame')
@@ -116,7 +116,7 @@ def draw(rng):
         L([(600, 700), (644, 700)], P['grey'], 'arrow_minor', dash='6,4'); T(656, 705, 'labels to the loss', anchor='start')
         a(f'<rect x="600" y="726" width="44" height="22" rx="5" fill="{P["card"]}" stroke="{P["grey"]}" stroke-width="2" stroke-dasharray="5,4"/>')
         T(656, 742, 'derived output', anchor='start')
-        T(600, 780, 'card colour = branch or stage', anchor='start', fill=P['grey'])
+        T(600, 780, 'card colour: branch or stage', anchor='start', fill=P['grey'])
 
     # ---- prediction
     with group('prediction-interval'):
@@ -146,7 +146,7 @@ def draw(rng):
         L([(1007, 556), (1007, 598)])
         R(926, 600, 162, 204, P['card'], P['grey'])
         T(1007, 626, 'Training loss', 'title')
-        M(1007, 666, 'L = mse(y, ŷ)', r'\mathcal{L} = \mathrm{mse}(y,\hat{y})')
+        M(1007, 666, 'L = MSE(y, ŷ)', r'\mathcal{L} = \mathrm{MSE}(y,\hat{y})')
         M(1007, 712, '+ λ‖θ‖²₂', r'+\ \lambda \Vert\theta\Vert_{2}^{2}')
         T(1007, 752, 'mean squared error'); T(1007, 780, '+ weight decay')
         L([(133, 804), (133, 836), (1050, 836), (1050, 806)], P['grey'], 'arrow_minor', dash='6,4')

@@ -312,38 +312,38 @@ pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
   <h2>网格版面 / Grid layout</h2>
   <figure class="tall">
     <img src="schematics/schematic_layout.svg" width="4512" height="10937" alt="网格版面：43 mm 方格、间距 3 mm；双栏每行 4 格，排法 1+1+1+1、1+1+2、2+2、1+3、4，两侧各 1 mm 边距共 183 mm；单栏 2 格共 89 mm；只有单个 2×2（89 × 89 mm）面板字号 +2 pt。Grid layout: 43 mm square cells with 3 mm gaps; a double column holds 4 cells per row as 1+1+1+1, 1+1+2, 2+2, 1+3 or 4, with 1 mm on each side for 183 mm; a single column is 2 cells, 89 mm; only a single 2×2 (89 × 89 mm) panel gets +2 pt." loading="lazy">
-    <figcaption>网格版面 / Grid layout · <a href="schematics/schematic_layout.svg">SVG</a> · <a href="schematics/schematic_layout.png">PNG</a> · <a href="schematics/schematic_layout.drawio">.drawio</a></figcaption>
+    <figcaption>网格版面 / Grid layout · <a href="schematics/schematic_layout.svg">SVG</a> · <a href="schematics/schematic_layout.png">PNG</a> · <a href="schematics/schematic_layout.drawio">.drawio（旧做法存档 / legacy method, archived）</a></figcaption>
   </figure>
 </section>
 
 <section id="schematics" class="schem">
   <h2>示意图与架构图 / Schematics</h2>
-  <div lang="zh-CN">
-  <p>中文：新的示意图（模型架构、流程、方法框图）默认用下面五步，取代以前的 draw.io 和纯脚本细线画法；已有的 draw.io 图保留不动。</p>
-  <ol class="steps">
-    <li>用 Python 脚本生成可编辑的 SVG：文字保留为 <code>&lt;text&gt;</code>，小插图写成路径。</li>
-    <li>线宽和字号按参考图实测，并按 183 mm 出版宽度换算成 pt（1 px = 183 / W × 72 / 25.4 pt）；框随文字变大。</li>
-    <li>公式用 matplotlib mathtext（STIX）转成矢量路径，<code>data-tex</code> 存 LaTeX 源码，隐藏图层留纯文字版本。</li>
-    <li>图标用 AI 生成后嵌入（每个单独生成、无文字、约 256 px）；每个图标在隐藏图层里有位置重合的矢量版。</li>
-    <li>导出约 2000 px 的 PNG，对照参考图至少迭代 3 轮；每轮查文字、公式、裁切、连线、字号和对齐。</li>
-  </ol>
-  <p>字体 Arial（回退 Liberation Sans）。按 183 mm 印出：所有字 ≥ 6 pt（含公式上下标，故公式基准 ≥ 8.6 pt），线宽 0.5–1.6 pt；命名小色板（每区一个主色加浅色），只用浅渐变，不用阴影。含参考原图的对照图只用于自查，不入库。示例的脚本、图标和依赖说明在 <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch">docs/house-style/arch/</a>；该示例不进图库目录，不计入图数。页面显示 PNG：SVG 依赖本机字体，没有 Arial 或 Liberation Sans 的设备（如部分手机）会换字体导致出框；SVG 供下载编辑。</p>
-  </div>
-  <div lang="en">
-  <p>English: New schematics (model architectures, workflows, method diagrams) follow the five steps below by default. They replace the earlier draw.io and plain thin-line script approaches; existing draw.io figures stay as they are.</p>
-  <ol class="steps">
-    <li>Generate an editable SVG with a Python script: text stays live <code>&lt;text&gt;</code> and insets are paths.</li>
-    <li>Measure stroke widths and font sizes on the reference and convert them to pt at the 183 mm print width (1 px = 183 / W × 72 / 25.4 pt); boxes grow with their text.</li>
-    <li>Convert formulas to vector paths with matplotlib mathtext (STIX), keeping the LaTeX source in <code>data-tex</code> and a plain-text copy in a hidden layer.</li>
-    <li>Embed AI-generated icons (one at a time, no text, about 256 px); each icon has a vector twin at the same position in a hidden layer.</li>
-    <li>Export a PNG about 2000 px wide and iterate against the reference at least three times, checking text, formulas, clipping, connectors, font size and alignment each round.</li>
-  </ol>
-  <p>Font: Arial, falling back to Liberation Sans. Printed at 183 mm, all text is at least 6 pt (formula scripts included, so the formula base size is at least 8.6 pt) and lines are 0.5–1.6 pt. Use a small named palette (one main colour per zone plus tints) and light gradients only, with no shadows. Comparison images that contain the reference are for self-review and are never committed. The example's script, icons and requirements are in <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch">docs/house-style/arch/</a>; it is not in the catalog and does not count towards the figure total. The page shows the PNG: the SVG depends on installed fonts, and devices without Arial or Liberation Sans (some phones) would substitute a font and overflow boxes; the SVG is there to download and edit.</p>
-  </div>
   <figure>
     <img src="arch/arch_v3.png" width="2000" height="1324" alt="示意图示例（自拟通用流程）：表型、基因型和环境数据经质控、基因型与环境两条编码分支、交叉注意力融合与基因型×环境交互、预测头，再用观测–预测散点、精度和逐地点交叉验证评估；文字和公式为矢量，图标为 AI 生成。Example schematic of a made-up generic pipeline: phenotype, genotype and environment data go through quality control, genotype and environment encoder branches, cross-attention fusion with a genotype × environment term, and a prediction head, then evaluation by observed-versus-predicted scatter, accuracy and leave-one-site-out cross-validation; text and formulas are vector, icons are AI-generated." loading="lazy">
-    <figcaption>示意图示例（自拟通用流程）/ Schematic example (generic pipeline) · AI-assisted icons · <a href="arch/arch_v3.svg">SVG</a> · <a href="arch/arch_v3.png">PNG</a> · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch">script</a></figcaption>
+    <figcaption>示意图示例（自拟通用流程）/ Schematic example (generic pipeline) · AI-assisted icons：数据库（基因型数据）、火焰和雪花（环境数据）、仪表（精度）/ database (genotype data), flame and snowflake (environment data), gauge (accuracy) · <a href="arch/arch_v3.svg">SVG</a> · <a href="arch/arch_v3.png">PNG</a> · <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch">script</a></figcaption>
   </figure>
+  <div lang="zh-CN">
+  <p>中文：新示意图（模型架构、流程、方法框图）用 Python 脚本生成可编辑 SVG，取代 draw.io；旧 draw.io 图保留不动。</p>
+  <ol class="steps">
+    <li>Python 脚本生成可编辑 SVG</li>
+    <li>线宽和字号按参考图实测</li>
+    <li>公式转成矢量路径</li>
+    <li>嵌入 AI 生成图标，保留矢量备用图标</li>
+    <li>对照参考图至少迭代 3 轮</li>
+  </ol>
+  <p>数值、检查和交付要求以 <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md#示意图与架构图--schematics-and-architecture-diagrams">styles/style-contract.md</a> 为准；示例脚本见 <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch">docs/house-style/arch/</a>。</p>
+  </div>
+  <div lang="en">
+  <p>English: New schematics (model architectures, workflows, method diagrams) are editable SVG generated by a Python script, replacing draw.io; existing draw.io figures stay as they are.</p>
+  <ol class="steps">
+    <li>Generate an editable SVG with a Python script</li>
+    <li>Measure stroke widths and font sizes on the reference</li>
+    <li>Convert formulas to vector paths</li>
+    <li>Embed AI-generated icons and keep vector fallback icons</li>
+    <li>Iterate against the reference at least three times</li>
+  </ol>
+  <p>Numbers, checks and deliverables are defined in <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md#示意图与架构图--schematics-and-architecture-diagrams">styles/style-contract.md</a>; the example script is in <a href="https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch">docs/house-style/arch/</a>.</p>
+  </div>
 </section>
 
 <section id="palette">
