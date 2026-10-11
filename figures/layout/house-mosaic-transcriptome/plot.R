@@ -138,7 +138,11 @@ upset_tile <- function(m, cols, n_show, tag, set_w = c(22, 16), bar_frac = 0.5,
 }
 # --- parameters ---------------------------------------------------------------------------
 page_cells <- c(4, 3)
-DEG_DEF <- "DEG: |log2FC| >= 1, padj < 0.05,\nSD vs WW"   # ASCII ">=" keeps the PDF to Arial subsets only
+# One SD-vs-WW contrast per tissue at a single sampling time (make_data.R simulates no time course, so no union).
+# ASCII ">=" keeps the PDF to Arial subsets only.
+DEG_DEF <- "DEG: |log2FC| >= 1, padj < 0.05, SD vs WW, one time point; e, f: up-regulated only."
+FOOT <- paste(DEG_DEF, "Simulated data for illustration; not biological results.")
+FOOT_X <- 1.0   # right inset (mm): ends on the block edge at 182 mm, clear of e's "Set size" title
 n_show <- 12          # UpSet: intersections shown
 BT <- 7; BB <- 8.6    # shared top / bottom band of a, b, c, d so their frames line up
 LB <- 14.5            # left band of a, b: room for "Berry skin" / "Shoot tip"
@@ -219,13 +223,15 @@ ud <- data.frame(lab = c("3+ tissues", "2 tissues", "1 tissue"),          # smal
                  n = c(sum(k_tis >= 3), sum(k_tis == 2), sum(k_tis == 1)))
 ud$f <- ud$n / sum(ud$n); ud$e <- cumsum(ud$f); ud$s <- ud$e - ud$f; ud$mid <- (ud$s + ud$e) / 2
 ud$col <- warm[5:3]                                              # house_warm: up-regulated family
-stopifnot(sum(ud$n) == nrow(mm),                                  # sectors == unique up-DEG total
+n_unique <- sum(ud$n)
+stopifnot(sum(ud$n) == nrow(mm), n_unique == nrow(mm),                                  # sectors == unique up-DEG total
           sum(ud$n) == sum(table(apply(mm, 1, paste, collapse = ""))),   # == e's "of N" (all intersections)
           sum(up_n) == sum(deg$n[deg$n > 0]),                       # e set sizes == b Up column (total)
           go$or[go$term == "water transport"] < 1, go$or[go$term == "response to desiccation"] > 1)
+R0_FRAC <- 0.66   # inner radius sized so the 3-line 7 pt centre label clears the ring
 # drawn in mm (1 unit = 1 mm): panel spans e's data block (top of the bars to the bottom of the matrix)
-F_T <- 6.23; F_B <- 10.26; f_h <- 43 - F_T - F_B
-cx <- 13.4; cy <- f_h / 2; R1 <- f_h / 2 - 0.3; R0 <- R1 * 0.6
+F_T <- 6.13; F_B <- 10.43; f_h <- 43 - F_T - F_B   # e bar area: top of the tallest bar to the bottom of the set-size bars (measured)
+cx <- 13.4; cy <- f_h / 2; R1 <- f_h / 2; R0 <- R1 * R0_FRAC
 arc <- function(s, e, r) { a <- pi / 2 - 2 * pi * seq(s, e, length.out = max(3, ceiling(abs(e - s) * 120))); cbind(cx + r * cos(a), cy + r * sin(a)) }
 ring <- do.call(rbind, lapply(seq_len(nrow(ud)), function(i) {
   p <- rbind(arc(ud$s[i], ud$e[i], R1), arc(ud$e[i], ud$s[i], R0)); data.frame(x = p[, 1], y = p[, 2], id = i, col = ud$col[i]) }))
@@ -235,12 +241,13 @@ ang <- pi / 2 - 2 * pi * ud$anc
 ud$ex <- cx + R1 * cos(ang); ud$ey <- cy + R1 * sin(ang)
 ud$ly <- seq(f_h - 4, 4, length.out = nrow(ud))[rank(-ud$ey)]   # label column, same vertical order as the sectors
 ud$lx <- 2 * cx + 1.2
+lo <- which.min(ud$ey); ud$ly[lo] <- min(ud$ly[lo], ud$ey[lo] - 0.5)   # lowest leader slopes down off the ring bottom, never across a sector
 b1f <- ggplot() + geom_polygon(data = ring, aes(x, y, group = id, fill = I(col)), colour = "white", linewidth = pv_house_lw(0.6)) +
   geom_segment(data = ud, aes(x = ex, y = ey, xend = lx - 0.6, yend = ly, colour = I(col)), linewidth = pv_house_lw("ref")) +
   geom_text(data = ud, aes(x = lx, y = ly, label = sprintf("%s\n%s", lab, format(n, big.mark = ",")), colour = I(col)),
             hjust = 0, size = T7, lineheight = 0.9) +
-  annotate("text", x = cx, y = cy, label = sprintf("%s\nunique\nDEGs", format(sum(ud$n), big.mark = ",")), size = T7, fontface = "bold", lineheight = 0.85) +
-  scale_x_continuous(limits = c(0, 43), expand = c(0, 0)) + scale_y_continuous(limits = c(0, f_h), expand = c(0, 0)) +
+  annotate("text", x = cx, y = cy, label = sprintf("%s\nunique\nup-DEGs", format(n_unique, big.mark = ",")), size = T7, fontface = "bold", lineheight = 0.85) +
+  scale_x_continuous(limits = c(0, 43), expand = c(0, 0)) + scale_y_continuous(limits = c(0, f_h), oob = scales::oob_keep, expand = c(0, 0)) +
   coord_cartesian(clip = "off") + theme_void()
 
 mosaic <- pv_house_mosaic(list(
@@ -249,9 +256,12 @@ mosaic <- pv_house_mosaic(list(
   list(plot = tile(b1c, "c", l = 6, r = 14, t = BT, b = BB), at = c(2, 1), cells = c(2, 2)),
   list(plot = tile(b1d, "d", l = 24, t = BT, b = BB), at = c(4, 1), cells = c(1, 2)),
   list(plot = b1e, at = c(1, 3), cells = c(3, 1)),
-  list(plot = footnote(tile(b1f, "f", l = 0, b = F_B, t = F_T, r = 0), paste(DEG_DEF, "Simulated data for illustration;", "not biological results", sep = "\n"),
-                     x = 0, y = 0, hjust = 0, vjust = 0, dx = 0.6, dy = 1.0), at = c(4, 3), cells = c(1, 1))
+  list(plot = tile(b1f, "f", l = 0, b = F_B, t = F_T, r = 0), at = c(4, 3), cells = c(1, 1))
 ), cells = page_cells)
+# page footnote: one 7 pt grey line on the bottom edge, right of e's set-size axis title
+mosaic <- structure(grid::gTree(children = grid::gList(mosaic, grid::textGrob(FOOT, x = grid::unit(1, "npc") - grid::unit(FOOT_X, "mm"),
+  y = grid::unit(0.9, "mm"), hjust = 1, vjust = 0, gp = grid::gpar(fontfamily = house_family(), fontsize = 7, col = grey[["mid"]]))),
+  cl = class(mosaic)), pv_cells = attr(mosaic, "pv_cells"))
 mosaic <- top_anchor(mosaic, pv_grid_span(page_cells[2]) + if (page_cells[2] == 4) 2 else 0)
 pv_save_house(mosaic, "figure", cells = page_cells)
 

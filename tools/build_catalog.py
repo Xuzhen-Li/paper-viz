@@ -864,12 +864,14 @@ BADGE_RE = re.compile(r"(https://img\.shields\.io/badge/figures-)\d+")
 GALLERY_PAGE = "https://xuzhen-li.github.io/paper-viz"
 
 
-def rewrite_badge(figure_count: int) -> None:
-    text = README.read_text(encoding="utf-8")
+def rewrite_badge(figure_count: int, readme: Path = README) -> bool:
+    """Update the shields.io figures badge in the README; return False (no write) when there is none."""
+    text = readme.read_text(encoding="utf-8")
     new, n = BADGE_RE.subn(rf"\g<1>{figure_count}", text, count=1)
     if n != 1:
-        return  # the README no longer carries a figures badge (removed on main in 4113ff4)
-    README.write_text(new, encoding="utf-8")
+        return False  # the README no longer carries a figures badge (removed on main in 4113ff4)
+    readme.write_text(new, encoding="utf-8")
+    return True
 
 
 def render_llms(figures: list[dict]) -> str:
@@ -925,11 +927,12 @@ def main() -> None:
     DOCS.mkdir(parents=True, exist_ok=True)
     (DOCS / "catalog.json").write_text(raw, encoding="utf-8")
     rewrite_readme(render_readme(figures))
-    rewrite_badge(len(figures))
+    badge = rewrite_badge(len(figures))
     write_llms(figures)
     cards = sum(1 for row in figures if not row["variant_of"])
     print(f"catalog {len(figures)} figures, {cards} cards")
-    print(f"badge figures-{len(figures)}")
+    if badge:
+        print(f"badge figures-{len(figures)}")
     print("wrote docs/llms.txt")
 
 
