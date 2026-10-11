@@ -138,7 +138,7 @@ upset_tile <- function(m, cols, n_show, tag, set_w = c(22, 16), bar_frac = 0.5,
 }
 # --- parameters ---------------------------------------------------------------------------
 page_cells <- c(4, 3)
-DEG_DEF <- "DEG: padj < 0.05, SD vs WW"   # one sampling time; no fold-change cutoff in the simulation
+DEG_DEF <- "DEG: |log2FC| >= 1, padj < 0.05,\nSD vs WW"   # ASCII ">=" keeps the PDF to Arial subsets only
 n_show <- 12          # UpSet: intersections shown
 BT <- 7; BB <- 8.6    # shared top / bottom band of a, b, c, d so their frames line up
 LB <- 14.5            # left band of a, b: room for "Berry skin" / "Shoot tip"

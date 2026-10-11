@@ -111,9 +111,9 @@ b3b <- ggplot(loc, aes(pos, lp)) +
   geom_hline(yintercept = thr, linetype = "22", linewidth = pv_house_lw("ref"), colour = pal[["red"]]) +
   geom_point(aes(fill = I(r2_cols[bin])), shape = 21, size = 1.3, stroke = 0.2, colour = "black") +
   geom_point(data = lead, shape = 23, size = 2.2, stroke = 0.3, fill = pal[["magenta"]], colour = "black") +
-  annotate("text", x = zoom[1] + 0.05, y = c(12.4, 11.2), label = c("Lead SNP (magenta);", "causal gene not resolved"),
+  annotate("text", x = zoom[1] + 0.05, y = c(12.9, 11.3), label = c("Lead SNP (magenta);", "causal gene not resolved"),
            hjust = 0, size = T7, colour = c(pal[["magenta"]], grey[["mid"]])) +
-  annotate("text", x = zoom[2] - 0.05, y = c(12.4, 11.2, 10.0, 8.8, 7.6), label = c("r\u00b2 > 0.8", "0.6\u20130.8", "0.4\u20130.6", "0.2\u20130.4", "< 0.2"),
+  annotate("text", x = zoom[2] - 0.05, y = c(12.9, 11.3, 9.7, 8.1, 6.5), label = c("r\u00b2 > 0.8", "0.6\u20130.8", "0.4\u20130.6", "0.2\u20130.4", "< 0.2"),
            colour = rev(r2_cols), hjust = 1, size = T7) +
   scale_x_continuous(limits = zoom, breaks = c(11, 12, 13), expand = c(0, 0)) +
   scale_y_continuous(limits = c(-4.2, 14), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +
@@ -138,8 +138,8 @@ af$yi <- length(pops) + 1 - as.integer(af$pop)
 b3d <- ggplot(af, aes(f, yi, fill = al)) + geom_col(width = 0.68, orientation = "y", colour = "white", linewidth = pv_house_lw(0.3)) +
   geom_text(data = af[af$al == "G", ], aes(x = f / 2, label = f), colour = "white", size = T7) +
   scale_fill_manual(values = c(A = grey[["light"]], G = pal[["red"]]), guide = "none") +
-  annotate("text", x = 100, y = length(pops) + 0.62, label = "DTI-increasing allele (G), %", hjust = 1, vjust = 0, colour = pal[["red"]], size = T7) +
-  scale_y_continuous(breaks = rev(seq_along(pops)), labels = pops, limits = c(0.5, length(pops) + 1), expand = c(0, 0)) +
+  annotate("text", x = 1.5, y = length(pops) + 0.45, label = "DTI-increasing\nallele (G), %", hjust = 0, vjust = 0, lineheight = 0.9, colour = pal[["red"]], size = T7) +
+  scale_y_continuous(breaks = rev(seq_along(pops)), labels = pops, limits = c(0.5, length(pops) + 1.55), expand = c(0, 0)) +
   scale_x_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0, 0)) +
   labs(x = "Allele frequency (%)", y = NULL) + th
 
