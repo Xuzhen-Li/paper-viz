@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Scan figures/**/meta.yaml and write catalog.json, docs/catalog.json, README block.
 
-Also rewrites the README figures badge and docs/llms.txt.
+Also rewrites the README figures badge (if present) and docs/llms.txt.
 
 Gallery extras (still keeps the required meta keys):
 - variant_of / variant_label on each figure, and variants on each main entry
@@ -868,7 +868,7 @@ def rewrite_badge(figure_count: int) -> None:
     text = README.read_text(encoding="utf-8")
     new, n = BADGE_RE.subn(rf"\g<1>{figure_count}", text, count=1)
     if n != 1:
-        raise SystemExit("README missing figures badge")
+        return  # the README no longer carries a figures badge (removed on main in 4113ff4)
     README.write_text(new, encoding="utf-8")
 
 
