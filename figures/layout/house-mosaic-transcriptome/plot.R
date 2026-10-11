@@ -140,9 +140,9 @@ upset_tile <- function(m, cols, n_show, tag, set_w = c(22, 16), bar_frac = 0.5,
 page_cells <- c(4, 3)
 # One SD-vs-WW contrast per tissue at a single sampling time (make_data.R simulates no time course, so no union).
 # ASCII ">=" keeps the PDF to Arial subsets only.
-DEG_DEF <- "DEG: |log2FC| >= 1, padj < 0.05, SD vs WW, one time point; e, f: up-regulated only."
-FOOT <- paste(DEG_DEF, "Simulated data for illustration; not biological results.")
-FOOT_X <- 1.0   # right inset (mm): ends on the block edge at 182 mm, clear of e's "Set size" title
+DEG_DEF <- "DEG: |log2FC| >= 1, padj < 0.05, SD vs WW, 1 time point; e, f: upregulated genes only."
+FOOT <- paste(DEG_DEF, "Simulated data for illustration; not biological results")
+FOOT_X <- 0.0   # right inset (mm): ends on the block edge at 182 mm, clear of e's "Set size" title
 n_show <- 12          # UpSet: intersections shown
 BT <- 7; BB <- 8.6    # shared top / bottom band of a, b, c, d so their frames line up
 LB <- 14.5            # left band of a, b: room for "Berry skin" / "Shoot tip"
@@ -228,7 +228,7 @@ stopifnot(sum(ud$n) == nrow(mm), n_unique == nrow(mm),                          
           sum(ud$n) == sum(table(apply(mm, 1, paste, collapse = ""))),   # == e's "of N" (all intersections)
           sum(up_n) == sum(deg$n[deg$n > 0]),                       # e set sizes == b Up column (total)
           go$or[go$term == "water transport"] < 1, go$or[go$term == "response to desiccation"] > 1)
-R0_FRAC <- 0.66   # inner radius sized so the 3-line 7 pt centre label clears the ring
+R0_FRAC <- 0.87   # inner radius sized so the widest centre line ("upregulated genes", 21.5 mm at 7 pt bold) clears the ring
 # drawn in mm (1 unit = 1 mm): panel spans e's data block (top of the bars to the bottom of the matrix)
 F_T <- 6.13; F_B <- 10.43; f_h <- 43 - F_T - F_B   # e bar area: top of the tallest bar to the bottom of the set-size bars (measured)
 cx <- 13.4; cy <- f_h / 2; R1 <- f_h / 2; R0 <- R1 * R0_FRAC
@@ -246,7 +246,9 @@ b1f <- ggplot() + geom_polygon(data = ring, aes(x, y, group = id, fill = I(col))
   geom_segment(data = ud, aes(x = ex, y = ey, xend = lx - 0.6, yend = ly, colour = I(col)), linewidth = pv_house_lw("ref")) +
   geom_text(data = ud, aes(x = lx, y = ly, label = sprintf("%s\n%s", lab, format(n, big.mark = ",")), colour = I(col)),
             hjust = 0, size = T7, lineheight = 0.9) +
-  annotate("text", x = cx, y = cy, label = sprintf("%s\nunique\nup-DEGs", format(n_unique, big.mark = ",")), size = T7, fontface = "bold", lineheight = 0.85) +
+  # widest line sits on the ring centre; the two short lines stack above it
+  annotate("text", x = cx, y = cy + c(5.6, 2.8, 0), label = c(format(n_unique, big.mark = ","), "unique", "upregulated genes"),
+           size = T7, fontface = "bold") +
   scale_x_continuous(limits = c(0, 43), expand = c(0, 0)) + scale_y_continuous(limits = c(0, f_h), oob = scales::oob_keep, expand = c(0, 0)) +
   coord_cartesian(clip = "off") + theme_void()
 
