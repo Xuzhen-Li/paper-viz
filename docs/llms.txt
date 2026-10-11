@@ -20,6 +20,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Waterfall chart](https://xuzhen-li.github.io/paper-viz/#waterfall): 要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。
 - [Alluvial and Sankey](https://xuzhen-li.github.io/paper-viz/#alluvial): 同一批样本在两三个分类之间怎么分流时用。
 - [Donut chart with direct labels (house style)](https://xuzhen-li.github.io/paper-viz/#house-donut): 一个整体分成 ≤6 份时用；百分比写在环上，类别名用扇区同色写在环外，中心写总量；<3% 的类别合并为 Other。
+- [UpSet plot of set intersections (house style)](https://xuzhen-li.github.io/paper-viz/#house-upset): 4 个以上集合比较重叠时用（集合多时比韦恩图清楚）；上方柱为互斥交集大小，下方点阵标出交集由哪些集合组成，左侧横柱为各集合大小。只属于一个集合的柱与点用该集合的颜色，多个集合的交集用黑色；数值直接写在柱上，点阵列交替浅灰底，集合名用同色写在点阵旁。
 - [Mosaic plot](https://xuzhen-li.github.io/paper-viz/#mosaic): 两个分类变量的联合计数要同时看边际和条件比例时用。
 - [Pie and donut](https://xuzhen-li.github.io/paper-viz/#pie): 一个整体拆成少数几份、要强调份额时用。
 - [Stacked area](https://xuzhen-li.github.io/paper-viz/#stacked-area): 若干组分随时间同时变化、要看总量和份额时用。

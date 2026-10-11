@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
-[![Figures](https://img.shields.io/badge/figures-112-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
+[![Figures](https://img.shields.io/badge/figures-113-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
 [![九张 house style 示例：分组散点与回归、带置信带的折线图、带原始点与 P 值的柱图、雨云图、分组密度曲线与均值、效应量森林图、带数值的发散色热图、直标环图、小多图与面板内趋势。Nine house-style examples: scatter, line, bar, raincloud, density, forest, heatmap, donut, small multiples](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
 
@@ -49,14 +49,14 @@ Agents can search and reuse the templates too. New figures default to the house 
 
 <!-- CATALOG:START -->
 
-共 112 张。
+共 113 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 11 |
 | `comparison` | 比较 | 13 |
 | `correlation` | 相关 | 10 |
-| `composition` | 组成 | 13 |
+| `composition` | 组成 | 14 |
 | `heatmap` | 热图 | 4 |
 | `dimension-reduction` | 降维 | 6 |
 | `differential-expression` | 差异表达 | 3 |
@@ -90,12 +90,12 @@ Agents can search and reuse the templates too. New figures default to the house 
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
 
-### 组成 `composition`（13）
+### 组成 `composition`（14）
 
 <img src="figures/composition/alluvial/preview.png" width="200" alt="桑基 / 冲积图">
 <img src="figures/composition/donut/preview.png" width="200" alt="环形图">
 <img src="figures/composition/house-donut/preview.png" width="200" alt="直标环图（house 风格）">
-<img src="figures/composition/mosaic/preview.png" width="200" alt="马赛克图">
+<img src="figures/composition/house-upset/preview.png" width="200" alt="UpSet 交集图（house 风格）">
 
 ### 热图 `heatmap`（4）
 
