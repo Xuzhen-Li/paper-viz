@@ -319,13 +319,8 @@ pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
 
 <section id="sizes">
   <h2>默认尺寸与升档阈值 / Default sizes and when to go up</h2>
-  <!-- placeholder: Gemini prose -->
-  <ul class="placeholder">
-    <li>[占位 / placeholder] 阈值怎么来的 / where the thresholds come from</li>
-    <li>[占位 / placeholder] 怎么读这张表 / how to read the table</li>
-    <li>[占位 / placeholder] 升档前先缩写、换行、横置 / abbreviate, wrap or turn before sizing up</li>
-  </ul>
-  <!-- /placeholder -->
+  <p lang="zh-CN">本阈值标准基于 7 pt Arial 字体进行实测。计算基础为字宽 1.30 mm/字符，逐行标签占用不小于 3.5 mm/行，面板内宽等于格跨度减去 12.7 mm。当内容容量超过当前尺寸限制时需执行升档处理。调整原则为优先增加宽度，行数超出时再增加高度。在升档前，应优先尝试缩写、换行排版或横置排版。</p>
+  <p lang="en">These thresholds are derived from physical measurements of 7 pt Arial rendering. The calculations apply 1.30 mm per character, a minimum of 3.5 mm per labelled row, and define inner panel width as the cell span minus 12.7 mm. A size increase is required once the capacity of the current configuration is exceeded. Layout expansion prioritizes horizontal widening, followed by vertical extension for row limits. Elements must be abbreviated, wrapped, or converted to horizontal structures before applying a size increase.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>图型<br>Chart</th><th>默认<br>Default</th><th>组 / 类别 / 集合 &gt;<br>Groups / categories / sets &gt;</th><th>标签字符 &gt;<br>Label chars &gt;</th><th>行 &gt;<br>Rows &gt;</th><th>列 / 交集 &gt;<br>Columns / intersections &gt;</th><th>点 / bins / 面板 &gt;<br>Points / bins / panels &gt;</th><th>升到<br>Up to</th></tr></thead>
     <tbody>
@@ -350,6 +345,7 @@ pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
       <tr><td><a href="../#house-mosaic-gwas"><code>house-mosaic-gwas</code></a></td><td>4×2</td><td colspan="6"><a href="../previews/house-mosaic-gwas.png"><img src="../previews/house-mosaic-gwas.png" alt="house-mosaic-gwas preview" height="72" loading="lazy"></a></td></tr>
     </tbody>
   </table></div>
+  <p>示例 / Examples: <code>house-mosaic-transcriptome</code> (4×3) · <code>house-mosaic-aba-kinetics</code> (2×4) · <code>house-mosaic-gwas</code> (4×2). 测量方法与每档容量 / Method and capacity per size: <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a>.</p>
 </section>
 
 <section id="schematics" class="schem">
