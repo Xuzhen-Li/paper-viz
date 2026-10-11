@@ -10,7 +10,7 @@ set_cols <- c(leaf = "Leaf", root = "Root", berry_skin = "Berry skin", berry_fle
 n_show <- 15               # largest intersections shown (exclusive counts)
 band_fill <- pv_palette("house_grey")[["bg"]]
 dot_size <- 2.3            # matrix dots (HOUSE_POINT size)
-widths_mm <- c(28, 17)     # set-size bars, set labels (the matrix takes the rest)
+widths_mm <- c(22, 16)     # set-size bars, set labels: kept tight so the bars and matrix get the width
 matrix_share <- 0.42       # matrix height / intersection-bar height
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
@@ -40,9 +40,13 @@ links <- do.call(rbind, lapply(which(inter$degree > 1), function(i) {
   data.frame(col_i = i, lo = min(r), hi = max(r))
 }))
 bands <- data.frame(col_i = seq(2, nrow(inter), 2))
+# one-sentence conclusion from the data: the largest intersection of two or more sets
+top_shared <- inter[inter$degree > 1, ][1, ]
+conclusion <- sprintf("Largest shared set: %s (%d genes)",
+                      paste(set_cols[top_shared$members[[1]]], collapse = " + "), top_shared$n)
 x_sc <- scale_x_continuous(limits = c(0.5, nrow(inter) + 0.5), expand = c(0, 0))
 y_rows <- scale_y_continuous(limits = c(0.5, k + 0.5), expand = c(0, 0))
-y_top <- ceiling(max(inter$n) * 1.12 / 100) * 100
+y_top <- ceiling(max(inter$n) * 1.08 / 25) * 25   # max x 1.08, rounded up to 25 (375 -> 425)
 no_x <- theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())
 
 # intersection bars ------------------------------------------------------------------------
@@ -50,9 +54,11 @@ p_bar <- ggplot(inter, aes(col_i, n)) +
   geom_rect(data = bands, aes(xmin = col_i - 0.5, xmax = col_i + 0.5, ymin = 0, ymax = Inf),
             inherit.aes = FALSE, fill = band_fill) +
   geom_col(aes(fill = fill), width = 0.62) +
-  geom_text(aes(label = n, colour = fill), vjust = -0.35, size = pv_pt2size(7)) +
+  geom_text(aes(label = n, colour = fill), vjust = -0.35, size = pv_pt2size(8)) +
+  annotate("text", x = nrow(inter) + 0.35, y = y_top * 0.97, hjust = 1, vjust = 1, size = pv_pt2size(8),
+           label = conclusion) +
   scale_fill_identity() + scale_colour_identity() + x_sc +
-  scale_y_continuous(limits = c(0, y_top), breaks = seq(0, y_top, 100), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, y_top), breaks = seq(0, floor(y_top / 100) * 100, 100), expand = c(0, 0)) +
   labs(y = "Intersection size (genes)") +
   theme_house() + no_x
 
@@ -61,7 +67,9 @@ p_mat <- ggplot() +
   geom_rect(data = bands, aes(xmin = col_i - 0.5, xmax = col_i + 0.5, ymin = -Inf, ymax = Inf),
             fill = band_fill) +
   # inactive dots, then the connector, then the member dots on top (the line stays solid)
-  geom_point(data = dots[!dots$on, ], aes(col_i, row), shape = 16, size = dot_size, colour = grey[["light"]]) +
+  # every dot is HOUSE_POINT shape 21 / size / stroke; only fill (and outline for inactive) differs
+  geom_point(data = dots[!dots$on, ], aes(col_i, row), shape = HOUSE_POINT$shape, size = dot_size,
+             stroke = HOUSE_POINT$stroke, fill = grey[["light"]], colour = grey[["light"]]) +
   geom_segment(data = links, aes(x = col_i, xend = col_i, y = lo, yend = hi),
                linewidth = pv_house_lw("main"), colour = "#000000") +
   geom_point(data = dots[dots$on, ], aes(col_i, row, fill = fill), shape = HOUSE_POINT$shape, size = dot_size,
@@ -78,10 +86,10 @@ p_lab <- ggplot(set_n, aes(1, row, label = set_cols[set], colour = set)) +
   theme_void()
 
 # set sizes (bars run leftwards, counts on the bars) ---------------------------------------
-x_set <- ceiling(max(set_n$n) * 1.35 / 250) * 250
+x_set <- ceiling(max(set_n$n) * 1.45 / 250) * 250
 p_set <- ggplot(set_n, aes(n, row, fill = set)) +
   geom_col(width = 0.62, orientation = "y") +
-  geom_text(aes(label = n, colour = set), hjust = 1.15, size = pv_pt2size(7)) +
+  geom_text(aes(label = n, colour = set), hjust = 1.15, size = pv_pt2size(8)) +
   scale_fill_manual(values = cols, guide = "none") +
   scale_colour_manual(values = cols, guide = "none") +
   scale_x_reverse(limits = c(x_set, 0), breaks = seq(0, x_set, 500), expand = c(0, 0)) + y_rows +
@@ -89,17 +97,17 @@ p_set <- ggplot(set_n, aes(n, row, fill = set)) +
   theme_house() +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank())
 
-# note in the empty top-left corner: what is counted and the colour key ---------------------
-note <- data.frame(y = 4 - 0.5 * (0:3), face = c("bold", "plain", "plain", "plain"),
+# note, bottom-anchored in the top-left cell so it sits just above the set-size bars ---------
+note <- data.frame(y = c(3.2, 2.2, 1.2, 0.2), face = c("bold", "plain", "plain", "plain"),
                    col = c("#000000", grey[["mid"]], grey[["mid"]], "#000000"),
                    lab = c("Drought-responsive genes",
                            sprintf("n = %s genes, %d tissues", format(nrow(df), big.mark = ","), k),
                            "Colour: one tissue only", "Black: shared by \u2265 2 tissues"))
 p_note <- ggplot(note, aes(0, y, label = lab)) +
-  geom_text(aes(fontface = face, colour = col), hjust = 0, vjust = 1, size = pv_pt2size(7)) +
+  geom_text(aes(fontface = face, colour = col), hjust = 0, vjust = 0, size = pv_pt2size(7)) +
   scale_colour_identity() +
   scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
-  scale_y_continuous(limits = c(-4, 4.2), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 16), expand = c(0, 0)) +
   theme_void()
 
 p <- p_bar + p_mat + p_lab + p_set + p_note +
