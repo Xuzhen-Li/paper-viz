@@ -19,13 +19,13 @@ R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、
 
 agent 可以通过 catalog.json 和 llms.txt 查找模板。新图默认 house style；上图九张示例都由本仓库代码用模拟数据画成。
 
-An R-first library of paper-figure templates. Each figure is one folder with `plot.R`, `data.csv` (synthetic or open data) and `meta.yaml`.
+An R-first library of paper-figure templates. Each figure is one folder with `plot.R`, `data.csv` (simulated or open data) and `meta.yaml`.
 
 1. Find a figure in the gallery.
 2. Copy the folder and swap in your own data, keeping the column names.
 3. Run `Rscript plot.R` to get a vector PDF and a 600 dpi PNG.
 
-Agents can look up templates through catalog.json and llms.txt. New figures default to the house style; the nine examples above were drawn from synthetic data by code in this repository.
+Agents can look up templates through catalog.json and llms.txt. New figures default to the house style; the nine examples above were drawn from simulated data by code in this repository.
 
 ## 画廊 / Gallery
 
