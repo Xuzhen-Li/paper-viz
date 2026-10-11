@@ -90,12 +90,43 @@ p_lab <- ggplot(set_n, aes(1, row, label = set_cols[set], colour = set)) +
 
 # set sizes (bars run leftwards, counts on the bars) ---------------------------------------
 x_set <- ceiling(max(set_n$n) * 1.08 / 250) * 250   # same rule as the top axis; 891 -> 1000
+# Text colour for a label drawn on a filled bar (WCAG 2.x contrast).
+# Relative luminance L = 0.2126 R + 0.7152 G + 0.0722 B on linearised sRGB;
+# contrast = (L_light + 0.05) / (L_dark + 0.05). White is used when it reaches
+# 4.5:1 (normal-size text), otherwise near-black #1A1A1A.
+wcag_lum <- function(hex) {
+  c <- grDevices::col2rgb(hex)[, 1] / 255
+  c <- ifelse(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055)^2.4)
+  sum(c(0.2126, 0.7152, 0.0722) * c)
+}
+wcag_contrast <- function(a, b) {
+  l <- sort(c(wcag_lum(a), wcag_lum(b)), decreasing = TRUE)
+  (l[1] + 0.05) / (l[2] + 0.05)
+}
+on_fill_text <- function(fill, min_ratio = 4.5) {
+  vapply(fill, function(f) {
+    if (wcag_contrast("#FFFFFF", f) >= min_ratio) "#FFFFFF" else "#1A1A1A"
+  }, character(1), USE.NAMES = FALSE)
+}
+
+# Set-size labels go inside the bar end when they fit with >= 1 mm either
+# side; otherwise just outside it in the set colour (axis stays at x_set).
+lab_pt  <- 8
+pad_mm  <- 1
+digit_mm <- 0.556 * lab_pt * 25.4 / 72           # Arial digit advance
+set_n$bar_mm  <- set_n$n / x_set * widths_mm[1]
+set_n$text_mm <- nchar(format(set_n$n)) * digit_mm
+set_n$inside  <- set_n$bar_mm >= set_n$text_mm + 2 * pad_mm
+set_n$fill_hex <- unname(cols[as.character(set_n$set)])
+set_n$lab_col <- ifelse(set_n$inside, on_fill_text(set_n$fill_hex), set_n$fill_hex)
+set_n$lab_x   <- set_n$n + ifelse(set_n$inside, -1, 1.2) * pad_mm / widths_mm[1] * x_set  # 1.2: digit side bearing
+set_n$lab_h   <- ifelse(set_n$inside, 0, 1)      # reversed axis: 0 = text runs toward 0
+
 p_set <- ggplot(set_n, aes(n, row, fill = set)) +
-  geom_col(width = 0.62, orientation = "y") +
-  # inside the bar end: with the limit at max x 1.08 an outside label would be clipped
-  geom_text(aes(label = n), hjust = -0.15, colour = "white", size = pv_pt2size(8)) +
+  geom_col(width = 0.76, orientation = "y") +     # 3.2 mm bars: >= 0.3 mm above 8 pt digits
+  geom_text(aes(x = lab_x, label = n, hjust = lab_h), colour = set_n$lab_col,
+            size = pv_pt2size(lab_pt)) +
   scale_fill_manual(values = cols, guide = "none") +
-  scale_colour_manual(values = cols, guide = "none") +
   scale_x_reverse(limits = c(x_set, 0), breaks = seq(0, x_set, 500), expand = c(0, 0)) + y_rows +
   labs(x = "Set size (genes)") +
   theme_house() +
