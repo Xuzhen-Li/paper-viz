@@ -25,6 +25,11 @@ key <- apply(df[, sets] == 1, 1, function(r) paste(sets[r], collapse = "&"))
 tab_all <- sort(table(key), decreasing = TRUE)
 n_inter <- length(tab_all)                         # non-empty intersections in the data
 tab <- tab_all[seq_len(min(n_show, n_inter))]
+# UpSet column capacity (measured on house-mosaic-transcriptome e, 3x1 = 135 mm): everything outside the
+# intersection columns (set bars, set names, gaps, y-axis band, right margin) takes 59 mm; each column needs
+# >= 4.8 mm (three-digit label 4.23 mm + 0.6 mm). Limit = floor((width_mm - 59) / 4.8): 2x1 6, 3x1 15, 4x1 25.
+UPSET_OVERHEAD_MM <- 59; UPSET_COL_MM <- 4.8
+stopifnot(floor((pv_grid_span(4) - UPSET_OVERHEAD_MM) / UPSET_COL_MM) >= nrow(tab))   # 4 cells wide (content 181 mm)
 n_in_shown <- sum(tab)                            # genes covered by the columns shown
 inter <- data.frame(key = names(tab), n = as.integer(tab), stringsAsFactors = FALSE)
 inter$col_i <- seq_len(nrow(inter))

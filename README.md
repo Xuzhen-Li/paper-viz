@@ -50,7 +50,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 113 张。
+共 115 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
@@ -68,7 +68,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
-| `layout` | 拼图 | 3 |
+| `layout` | 拼图 | 5 |
 
 ### 分布 `distribution`（11）
 
@@ -161,11 +161,12 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 <img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 
-### 拼图 `layout`（3）
+### 拼图 `layout`（5）
 
 <img src="figures/layout/composite-figure/preview.png" width="200" alt="四面板拼图">
-<img src="figures/layout/house-grid-mosaic/preview.png" width="200" alt="网格拼版：多种图型拼成一张双栏图（house 风格）">
-<img src="figures/layout/house-small-multiples/preview.png" width="200" alt="小多图与面板内趋势（house 风格）">
+<img src="figures/layout/house-mosaic-aba-kinetics/preview.png" width="200" alt="ABA 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）">
+<img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
+<img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
 <!-- CATALOG:END -->
 
 </details>
