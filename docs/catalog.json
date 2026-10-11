@@ -7588,28 +7588,36 @@
       "search_text": "composite figure\n四面板拼图\ncomposite-figure\n\nlayout\n拼图\nlayout\n拼图\nlayout\n一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。use when a double-column figure should assemble those four panels in one font, palette, and legend.\nplot.r 顶部 show_fit 开关 a 的回归线和置信带；base_size 是四块共用的字号；group_levels 决定处理组顺序，颜色按这个顺序取 pv_palette(\"categorical\")。热图用 pv_palette(\"diverging\")。patchwork 把图例收到整图下方，面板字母 a–d 在每块左上角。\ncomposite patchwork multipanel\npanel 面板标记，a 散点、b 分组柱、c 时间曲线、d 热图（字符串） group 处理组 control、low、high；d 里是该样本所属处理（字符串） x 连续横坐标。a 是标志物 a，c 是天数；b 和 d 为空（数值） y 连续数值。a 是标志物 b，b 是响应，c 是信号，d 是标准化得分（数值） class 分类名。b 是组织，d 是基因；a 和 c 为空（字符串） item d 的样本编号；其他面板为空（字符串）"
     },
     {
-      "title": "Grid mosaic of mixed chart types (house style)",
-      "title_zh": "网格拼版：多种图型拼成一张双栏图（house 风格）",
-      "slug": "house-grid-mosaic",
+      "title": "ABA kinetics page, single column (house mosaic, 2x4)",
+      "title_zh": "ABA 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）",
+      "slug": "house-mosaic-aba-kinetics",
       "category": "layout",
       "tags": [
         "multi-panel",
-        "grid",
         "mosaic",
-        "composite",
-        "house-style"
+        "house-style",
+        "single-column",
+        "raincloud",
+        "small-multiples"
       ],
       "packages": [
-        "ggplot2"
+        "ggplot2",
+        "patchwork"
       ],
       "data_columns": {
-        "panel": "所属面板（scatter / hist / line / bar / box / comp / track）",
-        "group": "组别（处理、地点、覆盖类型或染色体；scatter 与 hist 为空）",
-        "x": "x 值（数值；comp 为地点名）",
-        "y": "y 值（数值）"
+        "hours": "停水后小时数（data.csv）",
+        "gene": "基因名（data.csv、data_psi.csv）",
+        "log2fc": "data.csv 为叶片 log2 FC 均值；data_fc.csv 为每个 DEG 的 log2 FC",
+        "se": "log2 FC 的标准误（data.csv）",
+        "vine": "植株编号（data_psi.csv）",
+        "psi": "茎水势 Ψstem（MPa，data_psi.csv）",
+        "expression": "表达量 log2 CPM（data_psi.csv、data_raincloud.csv）",
+        "treatment": "WW / SD（data_raincloud.csv）",
+        "tissue": "Leaf / Root（data_raincloud.csv、data_fc.csv）",
+        "jitter": "原始点在云下的纵向位置 0–1（data_raincloud.csv）"
       },
-      "when_to_use": "一张双栏图里要放几种不同图型时用；每个子图是独立的 ggplot，按 43 mm 网格整格摆放（1+1+2、4 等），格间 3 mm、左右各 1 mm 页边，子图边缘对齐到 1 + 46k mm，单格图与通栏图上下对齐。",
-      "customize": "plot.R 底部 pv_house_mosaic() 的 tiles 列表决定每个子图的位置 at = c(列, 行) 与大小 cells = c(宽, 高)（整格，不能重叠、不能出界）；page_cells 为整页格数（4×3 = 183 × 135 mm），须与 pv_save_house(cells = ...) 一致；tag_room_mm 为每格顶部给面板字母留的空间；sig_line 为 g 的阈值线。颜色取 pv_palette(\"house\")；文字字号写成印刷 pt（pv_pt2size），多面板字号保持 7/8 pt。",
+      "when_to_use": "单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（各 1×1）。b 的标题是一句与图同色的结论。",
+      "customize": "page_cells = 2×4；各面板的 at / cells 在 pv_house_mosaic() 里改。b 的标题自动取 |r| 最大的基因，并检查它等于 gwas_top（拼版 house-mosaic-gwas 的头号位点）且在两位小数上领先第二名；a 与 b 的方向（干旱上调 ↔ r 为负）也由 stopifnot() 检查。data_fc.csv 的叶、根 DEG 数与 house-mosaic-transcriptome 的 data_deg.csv 一致。",
       "lang": "R",
       "task": "layout",
       "task_zh": "拼图",
@@ -7617,20 +7625,211 @@
       "variant_of": null,
       "variant_label": null,
       "variants": [],
-      "parameters": [
+      "parameters": [],
+      "canvas": {
+        "width_mm": "89",
+        "height_mm": "183",
+        "label": "89 × 183 mm (2×4 cells)",
+        "cells": "2x4"
+      },
+      "downloads": [
         {
-          "name": "page_cells",
-          "value": "c(4, 3)"
+          "name": "plot.R",
+          "path": "figures/layout/house-mosaic-aba-kinetics/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-aba-kinetics/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/plot.R"
         },
         {
-          "name": "tag_room_mm",
-          "value": "3.8"
+          "name": "data.csv",
+          "path": "figures/layout/house-mosaic-aba-kinetics/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-aba-kinetics/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/data.csv"
         },
         {
-          "name": "sig_line",
-          "value": "-log10(5e-8)"
+          "name": "make_data.R",
+          "path": "figures/layout/house-mosaic-aba-kinetics/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-aba-kinetics/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/make_data.R"
+        },
+        {
+          "name": "data_fc.csv",
+          "path": "figures/layout/house-mosaic-aba-kinetics/data_fc.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-aba-kinetics/data_fc.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/data_fc.csv"
+        },
+        {
+          "name": "data_psi.csv",
+          "path": "figures/layout/house-mosaic-aba-kinetics/data_psi.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-aba-kinetics/data_psi.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/data_psi.csv"
+        },
+        {
+          "name": "data_raincloud.csv",
+          "path": "figures/layout/house-mosaic-aba-kinetics/data_raincloud.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-aba-kinetics/data_raincloud.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/data_raincloud.csv"
         }
       ],
+      "dir": "figures/layout/house-mosaic-aba-kinetics",
+      "preview": "figures/layout/house-mosaic-aba-kinetics/preview.png",
+      "docs_preview": "previews/house-mosaic-aba-kinetics.png",
+      "code": "figures/layout/house-mosaic-aba-kinetics/plot.R",
+      "data": "figures/layout/house-mosaic-aba-kinetics/data.csv",
+      "data_files": [
+        "figures/layout/house-mosaic-aba-kinetics/data.csv",
+        "figures/layout/house-mosaic-aba-kinetics/data_fc.csv",
+        "figures/layout/house-mosaic-aba-kinetics/data_psi.csv",
+        "figures/layout/house-mosaic-aba-kinetics/data_raincloud.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-aba-kinetics",
+      "code_text": "# House mosaic, ABA kinetics: single-column 2x4 page (89 x 183 mm) of a simulated grapevine drought\n# trial: time course (line), expression vs stem water potential (small multiples), VvNCED3 by\n# tissue (raincloud) and log2 FC of DEGs (density). Reads data*.csv only. Run from this directory.\nsuppressPackageStartupMessages({ library(ggplot2); library(patchwork) })\nsource(\"../../../styles/r/theme_house.R\")\ngrDevices::cairo_pdf(tempfile(fileext = \".pdf\"))   # Arial metrics while tiles are measured; closed at the end\npal <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\"); warm <- pv_palette(\"house_warm\")\nTAG_PT <- 10; T7 <- pv_pt2size(7)\nminus <- function(x) gsub(\"-\", \"\\u2212\", format(x, trim = TRUE))\npt_layer <- function(...) geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n                                     stroke = HOUSE_POINT$stroke, colour = \"black\", ...)\nth <- theme_house()\ntc <- c(WW = grey[[\"mid\"]], SD = pal[[\"red\"]])                         # treatment colours (whole series)\ntis <- c(\"Leaf\", \"Root\", \"Shoot tip\", \"Berry skin\", \"Seed\")\ntis_c <- stats::setNames(unname(pal[c(\"green\", \"brown\", \"gold\", \"purple\", \"sky\")]), tis)   # one colour per tissue\nrd <- function(f) utils::read.csv(f, stringsAsFactors = FALSE, check.names = FALSE)\n\n# --- tile helpers: every panel is a standalone ggplot placed on whole grid cells by\n# pv_house_mosaic(). tile() pins the outer bands so panel frames line up across tiles.\n# Fixed outer bands (mm) so panel frames line up across tiles in the same column/row:\n# left = y ticks + title, bottom = x ticks + title, top = room for the tag.\nBAND <- list(l = 11.5, b = 8.6, t = 4.2, r = 1.2)\n.mm <- function(u) as.numeric(grid::convertUnit(u, \"mm\", valueOnly = TRUE))\n.width_mm  <- function(g, idx) if (length(idx)) sum(vapply(idx, function(i) .mm(grid::convertWidth(g$widths[i], \"mm\")), 0)) else 0\n.height_mm <- function(g, idx) if (length(idx)) sum(vapply(idx, function(i) .mm(grid::convertHeight(g$heights[i], \"mm\")), 0)) else 0\n\n# tile(): ggplot -> grob with fixed bands and a bold tag at the tile's top-left corner.\ntile <- function(p, tag = NULL, l = BAND$l, b = BAND$b, t = BAND$t, r = BAND$r) {\n  p <- .pv_set_text_family(p + theme(plot.margin = margin(0, 0, 0, 0)))\n  g <- ggplotGrob(p)\n  pan <- g$layout[grepl(\"^panel\", g$layout$name), ]\n  pl <- min(pan$l); pr <- max(pan$r); pt <- min(pan$t); pb <- max(pan$b)\n  nc <- length(g$widths); nr <- length(g$heights)\n  fit <- function(have, want, side) {\n    if (have > want + 0.01) stop(sprintf(\"tile %s: %s band needs %.2f mm > %.2f\", tag, side, have, want))\n    grid::unit(want - have, \"mm\")\n  }\n  g$widths[1]   <- g$widths[1]  + fit(.width_mm(g, seq_len(pl - 1)), l, \"left\")\n  g$widths[nc]  <- g$widths[nc] + fit(.width_mm(g, if (pr < nc) (pr + 1):nc else integer()), r, \"right\")\n  g$heights[1]  <- g$heights[1] + fit(.height_mm(g, seq_len(pt - 1)), t, \"top\")\n  g$heights[nr] <- g$heights[nr] + fit(.height_mm(g, if (pb < nr) (pb + 1):nr else integer()), b, \"bottom\")\n  if (!is.null(tag)) g <- add_tag(g, tag)\n  g\n}\nadd_tag <- function(g, tag) {\n  grid::grobTree(g, grid::textGrob(tag, x = grid::unit(0.3, \"mm\"), y = grid::unit(1, \"npc\") - grid::unit(0.2, \"mm\"),\n    hjust = 0, vjust = 1, gp = grid::gpar(fontfamily = house_family(), fontface = \"bold\", fontsize = TAG_PT)))\n}\n# patchwork / composite tiles: tag only (they control their own inner layout)\ntile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)\n\n# --- parameters ---------------------------------------------------------------------------\npage_cells <- c(2, 4)\ngwas_top <- \"VvNCED3\"   # top hit of the companion GWAS figure (house-mosaic-gwas); the b title claims it\n\nkin <- rd(\"data.csv\"); sm <- rd(\"data_psi.csv\"); vi <- rd(\"data_raincloud.csv\"); fc <- rd(\"data_fc.csv\")\n\n# a time course ---------------------------------------------------------------------------------\ngenes <- c(VvNCED3 = pal[[\"red\"]], VvRD29B = pal[[\"orange\"]], \"VvPIP2;1\" = pal[[\"blue\"]])\nb2a <- ggplot(kin, aes(hours, log2fc, colour = gene, fill = gene)) +\n  geom_hline(yintercept = 0, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_ribbon(aes(ymin = log2fc - se, ymax = log2fc + se), colour = NA, alpha = 0.22) + geom_line(linewidth = pv_house_lw(\"main\")) + pt_layer() +\n  geom_text(data = kin[kin$hours == max(kin$hours), ], aes(x = max(kin$hours) + 7, label = gene), hjust = 0, size = T7, fontface = \"bold.italic\") +\n  scale_colour_manual(values = genes, guide = \"none\") + scale_fill_manual(values = genes, guide = \"none\") +\n  scale_x_continuous(limits = c(-5, 214), breaks = c(0, 48, 96, 144), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(-3, 6), breaks = c(-2, 0, 2, 4), labels = minus, expand = c(0, 0)) +\n  labs(x = \"Hours after irrigation cut\", y = \"log2 FC (leaf)\") + th\n\n# b small multiples: expression vs stem water potential -----------------------------------------\nsm$gene <- factor(sm$gene, levels = c(\"VvNCED3\", \"VvRD29B\", \"VvPIP2;1\", \"VvLEA4\"))\nrlab <- do.call(rbind, lapply(split(sm, sm$gene), function(s) data.frame(gene = s$gene[1], r = stats::cor(s$psi, s$expression))))\nrlab$lab <- sprintf(\"italic(r)*' = %s'\", minus(sprintf(\"%.2f\", rlab$r)))\nr_top <- as.character(rlab$gene[which.max(abs(rlab$r))])        # gene with the tightest link\nrlab$col <- ifelse(rlab$gene == r_top, pal[[\"red\"]], \"#000000\")\nsm$hl <- ifelse(sm$gene == r_top, pal[[\"red\"]], pal[[\"sky\"]])\n# consistency: b's claim, and the sign of r vs the direction in a (up in drought <-> negative r)\nstopifnot(r_top == gwas_top,\n          diff(sort(round(abs(rlab$r), 2), decreasing = TRUE)[1:2]) <= -0.02,   # \"tightest\" is visible at the printed 2 dp\n          sign(rlab$r[rlab$gene == \"VvNCED3\"]) == -sign(kin$log2fc[kin$gene == \"VvNCED3\" & kin$hours == 48]),\n          sign(rlab$r[rlab$gene == \"VvPIP2;1\"]) == -sign(kin$log2fc[kin$gene == \"VvPIP2;1\" & kin$hours == 48]))\nb2b <- ggplot(sm, aes(psi, expression)) +\n  geom_smooth(aes(colour = I(ifelse(gene == r_top, pal[[\"red\"]], \"black\"))), method = \"lm\", formula = y ~ x, fill = grey[[\"ci\"]], linewidth = pv_house_lw(\"main\")) +\n  geom_point(aes(fill = I(hl)), shape = 21, size = 1.5, stroke = HOUSE_POINT$stroke, colour = \"black\") + facet_wrap(~gene, nrow = 2) +\n  geom_text(data = rlab, aes(x = -0.35, y = 10.6, label = lab, colour = I(col)), hjust = 1, vjust = 1, size = T7, parse = TRUE) +\n  scale_x_continuous(limits = c(-1.8, -0.2), breaks = c(-1.5, -1, -0.5), labels = minus, expand = c(0, 0)) +\n  scale_y_continuous(limits = c(1, 11), breaks = c(3, 6, 9), expand = c(0, 0)) +\n  labs(x = \"\\u03a8stem (MPa)\", y = \"Expression (log2 CPM)\",\n       title = sprintf(\"Tightest link to \\u03a8stem (red, r = %s) is also the top GWAS hit (Fig. 3a)\",\n                       minus(sprintf(\"%.2f\", rlab$r[rlab$gene == r_top])))) + th +\n  theme(panel.spacing = unit(2.5, \"mm\"), strip.text = element_text(face = \"italic\"),\n        plot.title = element_text(size = 7, colour = pal[[\"red\"]], hjust = 1, margin = margin(b = 1.2, unit = \"mm\")))\n\n# c horizontal raincloud: VvNCED3 by tissue x treatment ---------------------------------------\nvi$y0 <- ifelse(vi$tissue == \"Leaf\", 3.15, 1.05) + ifelse(vi$treatment == \"WW\", 0.45, -0.45)\ndens <- do.call(rbind, lapply(split(vi, list(vi$tissue, vi$treatment)), function(s) {\n  d <- stats::density(s$expression, adjust = 1.1, n = 128)\n  data.frame(x = d$x, h = d$y / max(d$y) * 0.55, y0 = s$y0[1], treatment = s$treatment[1]) }))\ndens <- dens[dens$x >= 2 & dens$x <= 10, ]\nqs <- do.call(rbind, lapply(split(vi, list(vi$tissue, vi$treatment)), function(s) data.frame(y0 = s$y0[1],\n  q1 = stats::quantile(s$expression, .25), md = stats::median(s$expression), q3 = stats::quantile(s$expression, .75))))\nvi$yj <- vi$y0 - 0.08 - vi$jitter * 0.18\nb2c <- ggplot() +\n  geom_ribbon(data = dens, aes(x, ymin = y0, ymax = y0 + h, fill = treatment, group = interaction(y0, treatment)), alpha = 0.7, colour = NA) +\n  geom_segment(data = qs, aes(x = q1, xend = q3, y = y0, yend = y0), linewidth = pv_house_lw(\"emph\")) +\n  geom_point(data = qs, aes(md, y0), shape = 21, size = 1.4, stroke = 0.3, fill = \"white\") +\n  geom_point(data = vi, aes(expression, yj, fill = treatment), shape = 21, size = 0.8, stroke = 0.15, colour = \"black\") +\n  scale_fill_manual(values = tc, guide = \"none\") +\n  annotate(\"text\", x = c(5.75, 8.55), y = c(3.75, 2.85), label = c(\"WW\", \"SD\"), colour = tc[c(\"WW\", \"SD\")], fontface = \"bold\", hjust = 0, size = T7) +\n  annotate(\"text\", x = 9.85, y = 4.45, label = \"VvNCED3\", fontface = \"italic\", hjust = 1, vjust = 1, size = T7) +\n  scale_y_continuous(breaks = c(3.15, 1.05), labels = c(\"Leaf\", \"Root\"), limits = c(0.2, 4.55), expand = c(0, 0)) +\n  scale_x_continuous(limits = c(2, 10), breaks = c(3, 6, 9), expand = c(0, 0)) +\n  labs(x = \"Expression (log2 CPM)\", y = NULL) + th +\n  theme(axis.text.y = element_text(colour = \"black\"))\n\n# d density of DEG log2 FC ----------------------------------------------------------------------\ndl <- do.call(rbind, lapply(c(\"Leaf\", \"Root\"), function(t) {\n  d <- stats::density(fc$log2fc[fc$tissue == t], from = -5, to = 5, n = 256, adjust = 0.9); data.frame(tissue = t, x = d$x, y = d$y) }))\ntcol <- tis_c[c(\"Leaf\", \"Root\")]\nb2d <- ggplot(dl, aes(x, y, colour = tissue)) + geom_vline(xintercept = 0, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_line(linewidth = pv_house_lw(\"main\")) +\n  annotate(\"text\", x = c(-0.5, 2.9), y = c(0.3, 0.275), label = c(\"Leaf\", \"Root\"), colour = tcol, hjust = c(1, 0), fontface = \"bold\", size = T7) +\n  scale_colour_manual(values = tcol, guide = \"none\") +\n  scale_x_continuous(limits = c(-5, 5), breaks = c(-4, 0, 4), labels = minus, expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, 0.35), breaks = c(0, 0.1, 0.2, 0.3), expand = c(0, 0)) +\n  labs(x = \"log2 FC of DEGs\", y = \"Density\") + th\n\nmosaic <- pv_house_mosaic(list(\n  list(plot = tile(b2a, \"a\"), at = c(1, 1), cells = c(2, 1)),\n  list(plot = tile(b2b, \"b\", t = 7.6), at = c(1, 2), cells = c(2, 2)),\n  list(plot = tile(b2c, \"c\"), at = c(1, 4), cells = c(1, 1)),\n  list(plot = tile(b2d, \"d\"), at = c(2, 4), cells = c(1, 1))\n), cells = page_cells)\npv_save_house(mosaic, \"figure\", cells = page_cells)\n\ngrDevices::dev.off()\nmessage(\"wrote preview.png\")\n",
+      "search_text": "aba kinetics page, single column (house mosaic, 2x4)\naba 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）\nhouse-mosaic-aba-kinetics\n\nlayout\n拼图\nlayout\n拼图\nlayout\n单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（各 1×1）。b 的标题是一句与图同色的结论。\npage_cells = 2×4；各面板的 at / cells 在 pv_house_mosaic() 里改。b 的标题自动取 |r| 最大的基因，并检查它等于 gwas_top（拼版 house-mosaic-gwas 的头号位点）且在两位小数上领先第二名；a 与 b 的方向（干旱上调 ↔ r 为负）也由 stopifnot() 检查。data_fc.csv 的叶、根 deg 数与 house-mosaic-transcriptome 的 data_deg.csv 一致。\nmulti-panel mosaic house-style single-column raincloud small-multiples\nhours 停水后小时数（data.csv） gene 基因名（data.csv、data_psi.csv） log2fc data.csv 为叶片 log2 fc 均值；data_fc.csv 为每个 deg 的 log2 fc se log2 fc 的标准误（data.csv） vine 植株编号（data_psi.csv） psi 茎水势 ψstem（mpa，data_psi.csv） expression 表达量 log2 cpm（data_psi.csv、data_raincloud.csv） treatment ww / sd（data_raincloud.csv） tissue leaf / root（data_raincloud.csv、data_fc.csv） jitter 原始点在云下的纵向位置 0–1（data_raincloud.csv）"
+    },
+    {
+      "title": "GWAS page with a 4x1 Manhattan (house mosaic, 4x2)",
+      "title_zh": "GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）",
+      "slug": "house-mosaic-gwas",
+      "category": "layout",
+      "tags": [
+        "multi-panel",
+        "mosaic",
+        "house-style",
+        "gwas",
+        "manhattan"
+      ],
+      "packages": [
+        "ggplot2",
+        "patchwork"
+      ],
+      "data_columns": {
+        "chr": "染色体编号 1–19（data.csv、data_chr.csv）",
+        "pos": "位置（Mb，data.csv）",
+        "p": "关联 P 值（data.csv）",
+        "r2": "与 chr 4 头号 SNP 的 r²，只在放大窗口内有值（data.csv）",
+        "length_mb": "染色体长度（Mb，data_chr.csv）",
+        "genotype": "头号 SNP 基因型 AA / AG / GG（data_genotype.csv）",
+        "dti": "耐旱指数（data_genotype.csv）",
+        "jitter": "原始点横向抖动 −1–1（data_genotype.csv）",
+        "population": "群体（data_allele.csv）",
+        "g_percent": "耐旱等位基因 G 的频率 %（data_allele.csv）"
+      },
+      "when_to_use": "双栏半页讲一个 GWAS：a 是通栏 4×1 曼哈顿图，b 为头号位点区域图（2×1，按 r² 着色并画基因模型），c 头号 SNP 的基因型效应（箱线 + 原始点），d 各群体等位基因频率（堆叠条）。",
+      "customize": "page_cells = 4×2；lead_genes 给每个峰标候选基因，zoom 为 b 的窗口（Mb），thr 为全基因组阈值。stopifnot() 检查头号位点是 chr 4 的 VvNCED3、且就是 b 窗口里的最高点（与 house-mosaic-aba-kinetics 的 b 标题一致）。",
+      "lang": "R",
+      "task": "layout",
+      "task_zh": "拼图",
+      "task_en": "Layout",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": {
+        "width_mm": "183",
+        "height_mm": "89",
+        "label": "183 × 89 mm (4×2 cells)",
+        "cells": "4x2"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/layout/house-mosaic-gwas/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-gwas/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/layout/house-mosaic-gwas/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-gwas/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/layout/house-mosaic-gwas/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-gwas/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/make_data.R"
+        },
+        {
+          "name": "data_allele.csv",
+          "path": "figures/layout/house-mosaic-gwas/data_allele.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-gwas/data_allele.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/data_allele.csv"
+        },
+        {
+          "name": "data_chr.csv",
+          "path": "figures/layout/house-mosaic-gwas/data_chr.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-gwas/data_chr.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/data_chr.csv"
+        },
+        {
+          "name": "data_genotype.csv",
+          "path": "figures/layout/house-mosaic-gwas/data_genotype.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-gwas/data_genotype.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/data_genotype.csv"
+        }
+      ],
+      "dir": "figures/layout/house-mosaic-gwas",
+      "preview": "figures/layout/house-mosaic-gwas/preview.png",
+      "docs_preview": "previews/house-mosaic-gwas.png",
+      "code": "figures/layout/house-mosaic-gwas/plot.R",
+      "data": "figures/layout/house-mosaic-gwas/data.csv",
+      "data_files": [
+        "figures/layout/house-mosaic-gwas/data.csv",
+        "figures/layout/house-mosaic-gwas/data_allele.csv",
+        "figures/layout/house-mosaic-gwas/data_chr.csv",
+        "figures/layout/house-mosaic-gwas/data_genotype.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-gwas",
+      "code_text": "# House mosaic, GWAS: double-column 4x2 page (183 x 89 mm) of a simulated drought tolerance GWAS in\n# grapevine: genome-wide Manhattan (4x1 long panel), regional plot of the top locus, effect of the\n# lead SNP (box + raw points) and allele frequency by population (stacked bars). Reads data*.csv only.\nsuppressPackageStartupMessages({ library(ggplot2); library(patchwork) })\nsource(\"../../../styles/r/theme_house.R\")\ngrDevices::cairo_pdf(tempfile(fileext = \".pdf\"))   # Arial metrics while tiles are measured; closed at the end\npal <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\"); warm <- pv_palette(\"house_warm\")\nTAG_PT <- 10; T7 <- pv_pt2size(7)\nminus <- function(x) gsub(\"-\", \"\\u2212\", format(x, trim = TRUE))\npt_layer <- function(...) geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n                                     stroke = HOUSE_POINT$stroke, colour = \"black\", ...)\nth <- theme_house()\ntc <- c(WW = grey[[\"mid\"]], SD = pal[[\"red\"]])                         # treatment colours (whole series)\ntis <- c(\"Leaf\", \"Root\", \"Shoot tip\", \"Berry skin\", \"Seed\")\ntis_c <- stats::setNames(unname(pal[c(\"green\", \"brown\", \"gold\", \"purple\", \"sky\")]), tis)   # one colour per tissue\nrd <- function(f) utils::read.csv(f, stringsAsFactors = FALSE, check.names = FALSE)\n\n# --- tile helpers: every panel is a standalone ggplot placed on whole grid cells by\n# pv_house_mosaic(). tile() pins the outer bands so panel frames line up across tiles.\n# Fixed outer bands (mm) so panel frames line up across tiles in the same column/row:\n# left = y ticks + title, bottom = x ticks + title, top = room for the tag.\nBAND <- list(l = 11.5, b = 8.6, t = 4.2, r = 1.2)\n.mm <- function(u) as.numeric(grid::convertUnit(u, \"mm\", valueOnly = TRUE))\n.width_mm  <- function(g, idx) if (length(idx)) sum(vapply(idx, function(i) .mm(grid::convertWidth(g$widths[i], \"mm\")), 0)) else 0\n.height_mm <- function(g, idx) if (length(idx)) sum(vapply(idx, function(i) .mm(grid::convertHeight(g$heights[i], \"mm\")), 0)) else 0\n\n# tile(): ggplot -> grob with fixed bands and a bold tag at the tile's top-left corner.\ntile <- function(p, tag = NULL, l = BAND$l, b = BAND$b, t = BAND$t, r = BAND$r) {\n  p <- .pv_set_text_family(p + theme(plot.margin = margin(0, 0, 0, 0)))\n  g <- ggplotGrob(p)\n  pan <- g$layout[grepl(\"^panel\", g$layout$name), ]\n  pl <- min(pan$l); pr <- max(pan$r); pt <- min(pan$t); pb <- max(pan$b)\n  nc <- length(g$widths); nr <- length(g$heights)\n  fit <- function(have, want, side) {\n    if (have > want + 0.01) stop(sprintf(\"tile %s: %s band needs %.2f mm > %.2f\", tag, side, have, want))\n    grid::unit(want - have, \"mm\")\n  }\n  g$widths[1]   <- g$widths[1]  + fit(.width_mm(g, seq_len(pl - 1)), l, \"left\")\n  g$widths[nc]  <- g$widths[nc] + fit(.width_mm(g, if (pr < nc) (pr + 1):nc else integer()), r, \"right\")\n  g$heights[1]  <- g$heights[1] + fit(.height_mm(g, seq_len(pt - 1)), t, \"top\")\n  g$heights[nr] <- g$heights[nr] + fit(.height_mm(g, if (pb < nr) (pb + 1):nr else integer()), b, \"bottom\")\n  if (!is.null(tag)) g <- add_tag(g, tag)\n  g\n}\nadd_tag <- function(g, tag) {\n  grid::grobTree(g, grid::textGrob(tag, x = grid::unit(0.3, \"mm\"), y = grid::unit(1, \"npc\") - grid::unit(0.2, \"mm\"),\n    hjust = 0, vjust = 1, gp = grid::gpar(fontfamily = house_family(), fontface = \"bold\", fontsize = TAG_PT)))\n}\n# patchwork / composite tiles: tag only (they control their own inner layout)\ntile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)\n\n# --- parameters ---------------------------------------------------------------------------\npage_cells <- c(4, 2)\nlead_genes <- data.frame(chr = c(4, 11, 17), lab = c(\"VvNCED3\", \"VvPIP2;1\", \"VvLEA4\"))   # candidate gene per peak\nzoom <- c(10.8, 13.8)    # b: chr 4 window (Mb)\nthr <- -log10(5e-8)      # genome-wide threshold\n\nsnp <- rd(\"data.csv\"); chrs <- rd(\"data_chr.csv\"); gt <- rd(\"data_genotype.csv\"); af <- rd(\"data_allele.csv\")\n\n# a Manhattan -----------------------------------------------------------------------------------\noff <- c(0, cumsum(chrs$length_mb + 1.2))[seq_len(nrow(chrs))]\nsnp$x <- snp$pos + off[snp$chr]; snp$lp <- -log10(snp$p)\nmid <- off + chrs$length_mb / 2\nleads <- do.call(rbind, lapply(lead_genes$chr, function(c) { s <- snp[snp$chr == c, ]; s[which.max(s$lp), ] }))\nleads$lab <- lead_genes$lab\nb3a <- ggplot(snp, aes(x, lp)) + geom_point(aes(colour = I(ifelse(chr %% 2 == 1, pal[[\"blue\"]], pal[[\"sky\"]]))), size = 0.35, shape = 16) +\n  geom_hline(yintercept = thr, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = pal[[\"red\"]]) +\n  geom_point(data = leads, shape = 23, size = 1.9, stroke = 0.3, fill = pal[[\"red\"]], colour = \"black\") +\n  geom_text(data = leads, aes(label = lab), nudge_x = 6, hjust = 0, size = T7, fontface = \"italic\") +\n  annotate(\"text\", x = 2, y = thr + 0.35, label = \"Genome-wide threshold\", hjust = 0, vjust = 0, size = T7, colour = pal[[\"red\"]]) +\n  scale_x_continuous(breaks = mid, labels = chrs$chr, limits = c(-1, max(snp$x) + 1), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, 13), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +\n  labs(x = \"Chromosome\", y = \"\\u2212log10 P\") + th\n\n# b regional plot of the top locus, points coloured by r2 to the lead SNP ----------------------\nloc <- snp[snp$chr == 4 & snp$pos > zoom[1] & snp$pos < zoom[2], ]\nlead <- leads[leads$chr == 4, ]\n# consistency: the genome-wide top hit is VvNCED3 on chr 4 (house-mosaic-aba-kinetics b claims it)\n# and it is the lead SNP of the zoomed window\nstopifnot(leads$lab[which.max(leads$lp)] == \"VvNCED3\", lead$chr == 4, lead$lp == max(loc$lp), !anyNA(loc$r2))\nr2_cols <- c(pal[[\"blue\"]], pal[[\"sky\"]], pal[[\"green\"]], pal[[\"orange\"]], pal[[\"red\"]])\nloc$bin <- cut(loc$r2, c(-0.01, 0.2, 0.4, 0.6, 0.8, 1.01), labels = FALSE)\ngm <- data.frame(s = c(11.1, 11.75, 12.15, 12.55, 13.05), e = c(11.5, 12.0, 12.45, 12.85, 13.5),\n                 g = c(\"VvPP2C\", \"\", \"VvNCED3\", \"\", \"VvHAI1\"))\nb3b <- ggplot(loc, aes(pos, lp)) +\n  geom_rect(data = gm, aes(xmin = s, xmax = e, ymin = -2.0, ymax = -1.0), fill = grey[[\"dark\"]], inherit.aes = FALSE) +\n  annotate(\"segment\", x = zoom[1], xend = zoom[2], y = -1.5, yend = -1.5, linewidth = pv_house_lw(\"frame\")) +\n  geom_text(data = gm[gm$g != \"\", ], aes(x = (s + e) / 2, y = -2.3, label = g), vjust = 1, size = T7, fontface = \"italic\", inherit.aes = FALSE) +\n  geom_hline(yintercept = thr, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = pal[[\"red\"]]) +\n  geom_point(aes(fill = I(r2_cols[bin])), shape = 21, size = 1.3, stroke = 0.2, colour = \"black\") +\n  geom_point(data = lead, shape = 23, size = 2.2, stroke = 0.3, fill = \"#7B1FA2\", colour = \"black\") +\n  annotate(\"text\", x = zoom[2] - 0.05, y = c(12.2, 10.9, 9.6, 8.3, 7.0), label = c(\"r\\u00b2 > 0.8\", \"0.6\\u20130.8\", \"0.4\\u20130.6\", \"0.2\\u20130.4\", \"< 0.2\"),\n           colour = c(rev(r2_cols)[1:4], \"#164E7A\"), hjust = 1, size = T7) +\n  scale_x_continuous(limits = zoom, breaks = c(11, 12, 13), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(-4.2, 13), breaks = c(0, 4, 8, 12), expand = c(0, 0)) +\n  labs(x = \"Chr 4 position (Mb)\", y = \"\\u2212log10 P\") + th\n\n# c lead-SNP genotype effect --------------------------------------------------------------------\ngt$x <- match(gt$genotype, c(\"AA\", \"AG\", \"GG\"))\ngcol <- c(AA = grey[[\"mid\"]], AG = warm[3], GG = pal[[\"red\"]])\nb3c <- ggplot(gt, aes(x, dti, group = genotype)) +\n  geom_point(aes(x = x + 0.16 * jitter, fill = genotype), shape = 21, size = 0.9, stroke = 0.15, alpha = 0.8) +\n  geom_boxplot(fill = NA, width = 0.5, outlier.shape = NA, linewidth = pv_house_lw(0.6)) +\n  scale_fill_manual(values = gcol, guide = \"none\") +\n  scale_x_continuous(breaks = 1:3, labels = c(\"AA\", \"AG\", \"GG\"), limits = c(0.4, 3.6), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0.15, 0.95), breaks = c(0.2, 0.5, 0.8), expand = c(0, 0)) +\n  labs(x = \"Lead SNP genotype\", y = \"Drought tolerance index\") + th\n\n# d allele frequency per population (stacked to 100%) -----------------------------------------\npops <- af$population\naf <- rbind(data.frame(pop = pops, al = \"G\", f = af$g_percent), data.frame(pop = pops, al = \"A\", f = 100 - af$g_percent))\naf$pop <- factor(af$pop, levels = pops); af$al <- factor(af$al, levels = c(\"A\", \"G\"))\naf$yi <- length(pops) + 1 - as.integer(af$pop)\nb3d <- ggplot(af, aes(f, yi, fill = al)) + geom_col(width = 0.68, orientation = \"y\", colour = \"white\", linewidth = pv_house_lw(0.3)) +\n  geom_text(data = af[af$al == \"G\", ], aes(x = f / 2, label = f), colour = \"white\", size = T7) +\n  scale_fill_manual(values = c(A = grey[[\"light\"]], G = pal[[\"red\"]]), guide = \"none\") +\n  annotate(\"text\", x = 100, y = length(pops) + 0.62, label = \"G (tolerant) allele, %\", hjust = 1, vjust = 0, colour = pal[[\"red\"]], size = T7) +\n  scale_y_continuous(breaks = rev(seq_along(pops)), labels = pops, limits = c(0.5, length(pops) + 1), expand = c(0, 0)) +\n  scale_x_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0, 0)) +\n  labs(x = \"Allele frequency (%)\", y = NULL) + th\n\nmosaic <- pv_house_mosaic(list(\n  list(plot = tile(b3a, \"a\"), at = c(1, 1), cells = c(4, 1)),\n  list(plot = tile(b3b, \"b\"), at = c(1, 2), cells = c(2, 1)),\n  list(plot = tile(b3c, \"c\"), at = c(3, 2), cells = c(1, 1)),\n  list(plot = tile(b3d, \"d\"), at = c(4, 2), cells = c(1, 1))\n), cells = page_cells)\npv_save_house(mosaic, \"figure\", cells = page_cells)\n\ngrDevices::dev.off()\nmessage(\"wrote preview.png\")\n",
+      "search_text": "gwas page with a 4x1 manhattan (house mosaic, 4x2)\ngwas 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）\nhouse-mosaic-gwas\n\nlayout\n拼图\nlayout\n拼图\nlayout\n双栏半页讲一个 gwas：a 是通栏 4×1 曼哈顿图，b 为头号位点区域图（2×1，按 r² 着色并画基因模型），c 头号 snp 的基因型效应（箱线 + 原始点），d 各群体等位基因频率（堆叠条）。\npage_cells = 4×2；lead_genes 给每个峰标候选基因，zoom 为 b 的窗口（mb），thr 为全基因组阈值。stopifnot() 检查头号位点是 chr 4 的 vvnced3、且就是 b 窗口里的最高点（与 house-mosaic-aba-kinetics 的 b 标题一致）。\nmulti-panel mosaic house-style gwas manhattan\nchr 染色体编号 1–19（data.csv、data_chr.csv） pos 位置（mb，data.csv） p 关联 p 值（data.csv） r2 与 chr 4 头号 snp 的 r²，只在放大窗口内有值（data.csv） length_mb 染色体长度（mb，data_chr.csv） genotype 头号 snp 基因型 aa / ag / gg（data_genotype.csv） dti 耐旱指数（data_genotype.csv） jitter 原始点横向抖动 −1–1（data_genotype.csv） population 群体（data_allele.csv） g_percent 耐旱等位基因 g 的频率 %（data_allele.csv）"
+    },
+    {
+      "title": "Transcriptome overview page (house mosaic, 4x3)",
+      "title_zh": "转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）",
+      "slug": "house-mosaic-transcriptome",
+      "category": "layout",
+      "tags": [
+        "multi-panel",
+        "mosaic",
+        "house-style",
+        "rna-seq",
+        "upset",
+        "heatmap"
+      ],
+      "packages": [
+        "ggplot2",
+        "patchwork"
+      ],
+      "data_columns": {
+        "sample": "文库编号 1–16（data.csv；data_heatmap.csv 的 sample 列与之对应）",
+        "tissue": "组织（data.csv 为 Leaf / Root；data_deg.csv 为 5 种组织）",
+        "treatment": "处理 WW（充分灌溉）/ SD（重度干旱）",
+        "pc1": "PC1 得分（data.csv）",
+        "pc2": "PC2 得分（data.csv）",
+        "direction": "Up / Down（data_deg.csv）",
+        "n": "该组织该方向的 DEG 数（正整数，data_deg.csv）",
+        "gene": "基因编号（data_heatmap.csv 为 1–40 的行号；data_upset.csv 为基因 ID）",
+        "cluster": "热图基因所属簇（data_heatmap.csv）",
+        "z": "表达 z-score，截到 ±2（data_heatmap.csv）",
+        "term": "GO 条目短名（data_go.csv）",
+        "or": "富集比值比（data_go.csv，lo / hi 为 95% CI）",
+        "Leaf / Root / Shoot tip / Berry skin / Seed": "0/1，该上调 DEG 是否属于该组织（data_upset.csv）"
+      },
+      "when_to_use": "双栏一整页讲一个转录组结果：左上 PCA 与 DEG 计数是数据总览，中间热图是主结果，右侧 GO 森林图与环图是统计，底部 3×1 UpSet 看上调 DEG 在组织间的共享。七种图型在一页上，面板框上下、左右对齐。",
+      "customize": "每个面板是独立的 ggplot，pv_house_mosaic() 的 at / cells 决定位置与格数（整格，page_cells = 4×3 = 183 × 135 mm）；tile() 的 l/t/b 固定外边带，使同一行或列的面板框对齐（BT、BB、LB）；n_show 为 UpSet 显示的交集数。UpSet 只画上调 DEG，集合大小必须等于 data_deg.csv 的 Up 列，环图总数等于 Up + Down 之和，plot.R 里的 stopifnot() 会检查。换数据时保持 data*.csv 的列名；组织颜色在 tis_c，处理颜色在 tc。",
+      "lang": "R",
+      "task": "layout",
+      "task_zh": "拼图",
+      "task_en": "Layout",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
       "canvas": {
         "width_mm": "183",
         "height_mm": "135",
@@ -7640,37 +7839,65 @@
       "downloads": [
         {
           "name": "plot.R",
-          "path": "figures/layout/house-grid-mosaic/plot.R",
-          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-grid-mosaic/plot.R",
-          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-grid-mosaic/plot.R"
+          "path": "figures/layout/house-mosaic-transcriptome/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/plot.R"
         },
         {
           "name": "data.csv",
-          "path": "figures/layout/house-grid-mosaic/data.csv",
-          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-grid-mosaic/data.csv",
-          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-grid-mosaic/data.csv"
+          "path": "figures/layout/house-mosaic-transcriptome/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/data.csv"
         },
         {
           "name": "make_data.R",
-          "path": "figures/layout/house-grid-mosaic/make_data.R",
-          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-grid-mosaic/make_data.R",
-          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-grid-mosaic/make_data.R"
+          "path": "figures/layout/house-mosaic-transcriptome/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/make_data.R"
+        },
+        {
+          "name": "data_deg.csv",
+          "path": "figures/layout/house-mosaic-transcriptome/data_deg.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/data_deg.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/data_deg.csv"
+        },
+        {
+          "name": "data_go.csv",
+          "path": "figures/layout/house-mosaic-transcriptome/data_go.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/data_go.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/data_go.csv"
+        },
+        {
+          "name": "data_heatmap.csv",
+          "path": "figures/layout/house-mosaic-transcriptome/data_heatmap.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/data_heatmap.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/data_heatmap.csv"
+        },
+        {
+          "name": "data_upset.csv",
+          "path": "figures/layout/house-mosaic-transcriptome/data_upset.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-mosaic-transcriptome/data_upset.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/data_upset.csv"
         }
       ],
-      "dir": "figures/layout/house-grid-mosaic",
-      "preview": "figures/layout/house-grid-mosaic/preview.png",
-      "docs_preview": "previews/house-grid-mosaic.png",
-      "code": "figures/layout/house-grid-mosaic/plot.R",
-      "data": "figures/layout/house-grid-mosaic/data.csv",
+      "dir": "figures/layout/house-mosaic-transcriptome",
+      "preview": "figures/layout/house-mosaic-transcriptome/preview.png",
+      "docs_preview": "previews/house-mosaic-transcriptome.png",
+      "code": "figures/layout/house-mosaic-transcriptome/plot.R",
+      "data": "figures/layout/house-mosaic-transcriptome/data.csv",
       "data_files": [
-        "figures/layout/house-grid-mosaic/data.csv"
+        "figures/layout/house-mosaic-transcriptome/data.csv",
+        "figures/layout/house-mosaic-transcriptome/data_deg.csv",
+        "figures/layout/house-mosaic-transcriptome/data_go.csv",
+        "figures/layout/house-mosaic-transcriptome/data_heatmap.csv",
+        "figures/layout/house-mosaic-transcriptome/data_upset.csv"
       ],
       "code_python": null,
-      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-grid-mosaic/plot.R",
-      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-grid-mosaic/data.csv",
-      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-grid-mosaic",
-      "code_text": "# House grid mosaic: seven chart types tiled on the 43 mm grid inside one 183 mm double-column page.\n# Each panel is a standalone ggplot placed on whole grid cells by pv_house_mosaic(); tiles sit\n# 3 mm apart and the 4-cell-wide page gets the 1 mm side margins, so every tile edge lands on\n# 1 + 46 k mm and the full-width track (g) lines up with the 1+1+2 rows above it.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\npage_cells <- c(4, 3)      # 183 x 135 mm\ntag_room_mm <- 3.8         # top margin of every tile, so the bold tag clears the panel\nsig_line <- -log10(5e-8)   # genome-wide threshold in panel g\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nblk <- function(id) df[df$panel == id, ]\npal <- pv_palette(\"house\")\ngrey <- pv_palette(\"house_grey\")\ntile_theme <- theme_house() + theme(plot.margin = margin(tag_room_mm, 0.8, 0.9, 0.4, \"mm\"))\nminus <- function(x) gsub(\"-\", \"\\u2212\", format(x, trim = TRUE))\n\n# a scatter + fit ------------------------------------------------------------------------\nsc <- blk(\"scatter\"); sc$x <- as.numeric(sc$x)\nr2 <- summary(stats::lm(y ~ x, data = sc))$r.squared\npa <- ggplot(sc, aes(x, y)) +\n  geom_smooth(method = \"lm\", formula = y ~ x, colour = pal[[\"blue\"]], fill = grey[[\"ci\"]],\n              linewidth = pv_house_lw(\"emph\"), alpha = 0.5) +\n  geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,\n             fill = pal[[\"blue\"]], colour = \"black\") +\n  annotate(\"text\", x = 1.25, y = 27, hjust = 0, vjust = 1, size = pv_pt2size(7),\n           label = sprintf(\"italic(R)*'\\u00b2 = %.2f'\", r2), parse = TRUE) +\n  scale_x_continuous(limits = c(1.1, 3.7), breaks = 1:3, expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, 28), breaks = seq(0, 25, 10), expand = c(0, 0)) +\n  labs(x = \"Leaf N (%)\", y = \"A (\\u00b5mol/m\\u00b2/s)\", tag = \"a\") + tile_theme\n\n# b histogram ----------------------------------------------------------------------------\nhs <- blk(\"hist\")\nhist_lim <- c(floor(min(hs$y)) - 1, ceiling(max(hs$y)) + 1)\npb <- ggplot(hs, aes(y)) +\n  geom_histogram(binwidth = 0.5, boundary = 0, fill = pal[[\"sky\"]], colour = \"white\",\n                 linewidth = pv_house_lw(0.3)) +\n  geom_vline(xintercept = mean(hs$y), linetype = \"22\", linewidth = pv_house_lw(\"ref\")) +\n  scale_x_continuous(limits = hist_lim, breaks = seq(10, 20, 5), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, 70), breaks = seq(0, 60, 20), expand = c(0, 0)) +\n  labs(x = \"Berry diameter (mm)\", y = \"Count\", tag = \"b\") + tile_theme\n\n# c line: mean +/- s.e. ------------------------------------------------------------------\nln <- blk(\"line\"); ln$x <- as.numeric(ln$x)\nlm_ <- do.call(rbind, lapply(split(ln, list(ln$group, ln$x)), function(s)\n  data.frame(group = s$group[1], x = s$x[1], m = mean(s$y), se = stats::sd(s$y) / sqrt(nrow(s)))))\nline_cols <- c(Control = grey[[\"dark\"]], Warmed = pal[[\"red\"]])\nends <- lm_[lm_$x == max(lm_$x), ]\npc <- ggplot(lm_, aes(x, m, colour = group, fill = group)) +\n  geom_ribbon(aes(ymin = m - se, ymax = m + se), colour = NA, alpha = 0.25) +\n  geom_line(linewidth = pv_house_lw(\"main\")) +\n  geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke, colour = \"black\") +\n  geom_text(data = ends, aes(x = x + 1.8, label = group), hjust = 0, size = pv_pt2size(7), fontface = \"bold\") +\n  annotate(\"text\", x = 1, y = 128, hjust = 0, vjust = 1, size = pv_pt2size(6), colour = grey[[\"mid\"]],\n           label = \"Mean \\u00b1 s.e., n = 6\") +\n  scale_colour_manual(values = line_cols) + scale_fill_manual(values = line_cols) +\n  scale_x_continuous(limits = c(-1.5, 52), breaks = seq(0, 42, 7), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 120, 40), expand = c(0, 0)) +\n  labs(x = \"Days after budburst\", y = \"Shoot length (mm)\", tag = \"c\") + tile_theme +\n  theme(legend.position = \"none\")\n\n# d bar: mean +/- s.d. + raw points --------------------------------------------------------\nbr <- blk(\"bar\"); lv <- unique(br$group); br$xi <- match(br$group, lv)\nbm <- do.call(rbind, lapply(lv, function(g) data.frame(group = g, xi = match(g, lv),\n                                                       m = mean(br$y[br$group == g]), s = stats::sd(br$y[br$group == g]))))\nset.seed(3); br$xj <- br$xi + stats::runif(nrow(br), -0.14, 0.14)\nbar_top <- ceiling(max(br$y, bm$m + bm$s) * 2 + 0.5) / 2   # every raw point and error bar fits\nbar_cols <- stats::setNames(c(grey[[\"ci\"]], pv_palette(\"house_warm\")[2:4]), lv)\npd <- ggplot(bm, aes(xi, m)) +\n  geom_col(aes(fill = group), width = 0.66) +\n  geom_errorbar(aes(ymin = m - s, ymax = m + s), width = 0.22, linewidth = pv_house_lw(\"errorbar\")) +\n  geom_point(data = br, aes(xj, y), shape = 21, fill = \"white\", colour = \"black\", size = 1.6,\n             stroke = HOUSE_POINT$stroke, alpha = 0.8) +\n  scale_fill_manual(values = bar_cols, guide = \"none\") +\n  scale_x_continuous(breaks = seq_along(lv), labels = lv, limits = c(0.5, length(lv) + 0.5), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, bar_top), breaks = 0:floor(bar_top), expand = c(0, 0)) +\n  labs(x = NULL, y = \"Relative expression\", tag = \"d\") + tile_theme\n\n# e box + jitter --------------------------------------------------------------------------\nbx <- blk(\"box\"); bx$group <- factor(bx$group, levels = unique(bx$group))\nbox_cols <- stats::setNames(unname(pal[c(\"green\", \"orange\", \"purple\")]), levels(bx$group))\nset.seed(5)\npe <- ggplot(bx, aes(group, y)) +\n  geom_boxplot(aes(fill = group), width = 0.5, alpha = 0.6, outlier.shape = NA, linewidth = pv_house_lw(\"ref\")) +\n  geom_jitter(aes(fill = group), width = 0.12, height = 0, shape = 21, size = 1.2,\n              stroke = HOUSE_POINT$stroke, colour = \"black\", alpha = 0.7) +\n  scale_fill_manual(values = box_cols, guide = \"none\") +\n  scale_y_continuous(limits = c(4.6, 7.8), breaks = 5:7, expand = c(0, 0)) +\n  labs(x = NULL, y = \"Soil pH\", tag = \"e\") + tile_theme\n\n# f stacked composition -----------------------------------------------------------------\ncp <- blk(\"comp\"); cover <- c(\"Crop\", \"Forest\", \"Grass\", \"Other\")\ncp$group <- factor(cp$group, levels = rev(cover))\ncomp_cols <- c(Crop = pal[[\"gold\"]], Forest = pal[[\"green\"]], Grass = pal[[\"sky\"]], Other = grey[[\"ci\"]])\npf <- ggplot(cp, aes(x, y, fill = group)) +\n  geom_col(width = 0.7, colour = \"white\", linewidth = pv_house_lw(0.3)) +\n  scale_fill_manual(values = comp_cols, breaks = cover, name = NULL) +\n  # shares are rounded, so a stack can top 100 by 0.01: zoom (coord) instead of dropping bars (limits)\n  scale_y_continuous(breaks = seq(0, 100, 25), expand = c(0, 0)) +\n  scale_x_discrete(expand = c(0, 0.5)) +\n  coord_cartesian(ylim = c(0, 100)) +\n  labs(x = \"Site\", y = \"Land cover (%)\", tag = \"f\") + tile_theme +\n  theme(legend.position = \"right\", legend.key.size = unit(2.6, \"mm\"), legend.box.spacing = unit(1, \"mm\"))\n\n# g genome-wide track (4 x 1) --------------------------------------------------------------\ntk <- blk(\"track\"); tk$x <- as.numeric(tk$x)\nchr <- unique(tk$group)\nlen <- vapply(chr, function(k) max(tk$x[tk$group == k]), numeric(1))\noffset <- c(0, cumsum(len + 2)[-length(len)]); names(offset) <- chr\ntk$pos <- tk$x + offset[tk$group]\ntk$col <- ifelse(tk$y >= sig_line, pal[[\"red\"]], ifelse(match(tk$group, chr) %% 2 == 1, grey[[\"dark\"]], grey[[\"ci\"]]))\npg <- ggplot(tk, aes(pos, y)) +\n  geom_hline(yintercept = sig_line, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = pal[[\"red\"]]) +\n  geom_point(aes(colour = col), size = 0.6, stroke = 0) +\n  scale_colour_identity() +\n  scale_x_continuous(breaks = offset + len / 2, labels = seq_along(chr),\n                     limits = c(-2, max(tk$pos) + 2), expand = c(0, 0)) +\n  scale_y_continuous(limits = c(0, 12), breaks = seq(0, 12, 4), expand = c(0, 0)) +\n  labs(x = \"Chromosome\", y = \"\\u2212log10 P\", tag = \"g\") + tile_theme\n\nmosaic <- pv_house_mosaic(list(\n  list(plot = pa, at = c(1, 1), cells = c(1, 1)),\n  list(plot = pb, at = c(2, 1), cells = c(1, 1)),\n  list(plot = pc, at = c(3, 1), cells = c(2, 1)),\n  list(plot = pd, at = c(1, 2), cells = c(1, 1)),\n  list(plot = pe, at = c(2, 2), cells = c(1, 1)),\n  list(plot = pf, at = c(3, 2), cells = c(2, 1)),\n  list(plot = pg, at = c(1, 3), cells = c(4, 1))\n), cells = page_cells)\npv_save_house(mosaic, \"figure\", cells = c(4, 3))\nmessage(\"wrote preview.png\")\n",
-      "search_text": "grid mosaic of mixed chart types (house style)\n网格拼版：多种图型拼成一张双栏图（house 风格）\nhouse-grid-mosaic\n\nlayout\n拼图\nlayout\n拼图\nlayout\n一张双栏图里要放几种不同图型时用；每个子图是独立的 ggplot，按 43 mm 网格整格摆放（1+1+2、4 等），格间 3 mm、左右各 1 mm 页边，子图边缘对齐到 1 + 46k mm，单格图与通栏图上下对齐。\nplot.r 底部 pv_house_mosaic() 的 tiles 列表决定每个子图的位置 at = c(列, 行) 与大小 cells = c(宽, 高)（整格，不能重叠、不能出界）；page_cells 为整页格数（4×3 = 183 × 135 mm），须与 pv_save_house(cells = ...) 一致；tag_room_mm 为每格顶部给面板字母留的空间；sig_line 为 g 的阈值线。颜色取 pv_palette(\"house\")；文字字号写成印刷 pt（pv_pt2size），多面板字号保持 7/8 pt。\nmulti-panel grid mosaic composite house-style\npanel 所属面板（scatter / hist / line / bar / box / comp / track） group 组别（处理、地点、覆盖类型或染色体；scatter 与 hist 为空） x x 值（数值；comp 为地点名） y y 值（数值）"
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-mosaic-transcriptome",
+      "code_text": "# House mosaic, transcriptome: overview (PCA, DEG counts), main result (heatmap, UpSet of up-regulated\n# DEGs) and statistics (GO forest, up/down share) of a simulated grapevine drought trial on a 4x3 page\n# (183 x 135 mm). Reads data*.csv only. Run from this directory.\nsuppressPackageStartupMessages({ library(ggplot2); library(patchwork) })\nsource(\"../../../styles/r/theme_house.R\")\ngrDevices::cairo_pdf(tempfile(fileext = \".pdf\"))   # Arial metrics while tiles are measured; closed at the end\npal <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\"); warm <- pv_palette(\"house_warm\")\nTAG_PT <- 10; T7 <- pv_pt2size(7)\nminus <- function(x) gsub(\"-\", \"\\u2212\", format(x, trim = TRUE))\npt_layer <- function(...) geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n                                     stroke = HOUSE_POINT$stroke, colour = \"black\", ...)\nth <- theme_house()\ntc <- c(WW = grey[[\"mid\"]], SD = pal[[\"red\"]])                         # treatment colours (whole series)\ntis <- c(\"Leaf\", \"Root\", \"Shoot tip\", \"Berry skin\", \"Seed\")\ntis_c <- stats::setNames(unname(pal[c(\"green\", \"brown\", \"gold\", \"purple\", \"sky\")]), tis)   # one colour per tissue\nrd <- function(f) utils::read.csv(f, stringsAsFactors = FALSE, check.names = FALSE)\n\n# --- tile helpers: every panel is a standalone ggplot placed on whole grid cells by\n# pv_house_mosaic(). tile() pins the outer bands so panel frames line up across tiles.\n# Fixed outer bands (mm) so panel frames line up across tiles in the same column/row:\n# left = y ticks + title, bottom = x ticks + title, top = room for the tag.\nBAND <- list(l = 11.5, b = 8.6, t = 4.2, r = 1.2)\n.mm <- function(u) as.numeric(grid::convertUnit(u, \"mm\", valueOnly = TRUE))\n.width_mm  <- function(g, idx) if (length(idx)) sum(vapply(idx, function(i) .mm(grid::convertWidth(g$widths[i], \"mm\")), 0)) else 0\n.height_mm <- function(g, idx) if (length(idx)) sum(vapply(idx, function(i) .mm(grid::convertHeight(g$heights[i], \"mm\")), 0)) else 0\n\n# tile(): ggplot -> grob with fixed bands and a bold tag at the tile's top-left corner.\ntile <- function(p, tag = NULL, l = BAND$l, b = BAND$b, t = BAND$t, r = BAND$r) {\n  p <- .pv_set_text_family(p + theme(plot.margin = margin(0, 0, 0, 0)))\n  g <- ggplotGrob(p)\n  pan <- g$layout[grepl(\"^panel\", g$layout$name), ]\n  pl <- min(pan$l); pr <- max(pan$r); pt <- min(pan$t); pb <- max(pan$b)\n  nc <- length(g$widths); nr <- length(g$heights)\n  fit <- function(have, want, side) {\n    if (have > want + 0.01) stop(sprintf(\"tile %s: %s band needs %.2f mm > %.2f\", tag, side, have, want))\n    grid::unit(want - have, \"mm\")\n  }\n  g$widths[1]   <- g$widths[1]  + fit(.width_mm(g, seq_len(pl - 1)), l, \"left\")\n  g$widths[nc]  <- g$widths[nc] + fit(.width_mm(g, if (pr < nc) (pr + 1):nc else integer()), r, \"right\")\n  g$heights[1]  <- g$heights[1] + fit(.height_mm(g, seq_len(pt - 1)), t, \"top\")\n  g$heights[nr] <- g$heights[nr] + fit(.height_mm(g, if (pb < nr) (pb + 1):nr else integer()), b, \"bottom\")\n  if (!is.null(tag)) g <- add_tag(g, tag)\n  g\n}\nadd_tag <- function(g, tag) {\n  grid::grobTree(g, grid::textGrob(tag, x = grid::unit(0.3, \"mm\"), y = grid::unit(1, \"npc\") - grid::unit(0.2, \"mm\"),\n    hjust = 0, vjust = 1, gp = grid::gpar(fontfamily = house_family(), fontface = \"bold\", fontsize = TAG_PT)))\n}\n# patchwork / composite tiles: tag only (they control their own inner layout)\ntile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)\n\n# Text colour on a filled shape (WCAG 2.x, as in house-upset #32): white if its contrast\n# reaches 4.5:1, otherwise near-black #1A1A1A.\nwcag_lum <- function(hex) { c <- grDevices::col2rgb(hex)[, 1] / 255\n  c <- ifelse(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055)^2.4); sum(c(0.2126, 0.7152, 0.0722) * c) }\nwcag_contrast <- function(a, b) { l <- sort(c(wcag_lum(a), wcag_lum(b)), decreasing = TRUE); (l[1] + 0.05) / (l[2] + 0.05) }\non_fill_text <- function(fill) vapply(fill, function(f) if (wcag_contrast(\"#FFFFFF\", f) >= 4.5) \"#FFFFFF\" else \"#1A1A1A\", \"\", USE.NAMES = FALSE)\n\n# UpSet as one tile. m: logical matrix items x sets (colnames = set labels).\n# Layout: [note + key | intersection bars] over [set-size bars | set names | matrix]; the note\n# block fills the corner above the set bars. Set-size values: inside the bar end when they fit\n# with 1 mm either side (colour by on_fill_text), else just outside in the set colour.\nupset_tile <- function(m, cols, n_show, tag, set_w = c(22, 16), bar_frac = 0.5,\n                       ylab = \"Shared genes\", unit = \"genes\", dot = 1.8, head = NULL) {\n  sets <- colnames(m); k <- length(sets)\n  key <- apply(m, 1, function(r) paste(as.integer(r), collapse = \"\"))\n  key <- key[grepl(\"1\", key)]\n  tab_all <- sort(table(key), decreasing = TRUE); n_inter <- length(tab_all)\n  tab <- tab_all[seq_len(min(n_show, n_inter))]\n  bits <- do.call(rbind, lapply(strsplit(names(tab), \"\"), as.integer))\n  inter <- data.frame(x = seq_along(tab), n = as.integer(tab), deg = rowSums(bits))\n  inter$fill <- ifelse(inter$deg == 1, cols[apply(bits, 1, which.max)], \"#000000\")\n  set_n <- data.frame(set = factor(sets, levels = sets), row = k:1, n = colSums(m), fill = cols)\n  y_top <- ceiling(max(inter$n) * 1.3 / 50) * 50\n  shade <- data.frame(x = seq(2, nrow(inter), 2))\n  xs <- scale_x_continuous(limits = c(0.5, nrow(inter) + 0.5), expand = c(0, 0))\n  ys <- scale_y_continuous(limits = c(0.5, k + 0.5), expand = c(0, 0))\n  noax <- theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())\n  blank_xy <- theme(axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),\n                    axis.title.x = element_blank(), axis.title.y = element_blank())\n  pb <- ggplot(inter) +\n    geom_rect(data = shade, aes(xmin = x - 0.5, xmax = x + 0.5, ymin = -Inf, ymax = Inf), fill = grey[[\"bg\"]], inherit.aes = FALSE) +\n    geom_col(aes(x, n, fill = I(fill)), width = 0.66) +\n    geom_text(aes(x, n, label = n, colour = I(fill)), vjust = -0.35, size = T7) +\n    xs + scale_y_continuous(limits = c(0, y_top), breaks = c(0, floor(y_top * 0.8 / 100) * 100), expand = c(0, 0)) +\n    labs(y = ylab) + th + noax + theme(plot.margin = margin(4.2, 1.2, 0, 0, \"mm\"))\n  dots <- do.call(rbind, lapply(seq_len(nrow(bits)), function(i)\n    data.frame(x = i, row = k:1, on = bits[i, ] == 1, fill = ifelse(inter$deg[i] == 1, inter$fill[i], \"#000000\"))))\n  segs <- do.call(rbind, lapply(seq_len(nrow(bits)), function(i) { r <- (k:1)[bits[i, ] == 1]\n    data.frame(x = i, y0 = min(r), y1 = max(r)) }))\n  pm <- ggplot() +\n    geom_rect(data = shade, aes(xmin = x - 0.5, xmax = x + 0.5, ymin = -Inf, ymax = Inf), fill = grey[[\"bg\"]]) +\n    geom_point(data = dots[!dots$on, ], aes(x, row), shape = 21, size = dot, stroke = HOUSE_POINT$stroke, fill = grey[[\"light\"]], colour = grey[[\"light\"]]) +\n    geom_segment(data = segs, aes(x, y0, xend = x, yend = y1), linewidth = pv_house_lw(\"main\")) +\n    geom_point(data = dots[dots$on, ], aes(x, row, fill = I(fill)), shape = 21, size = dot, stroke = HOUSE_POINT$stroke, colour = \"black\") +\n    xs + ys + th + blank_xy + theme(plot.margin = margin(0.8, 1.2, 0, 0, \"mm\"))\n  x_set <- ceiling(max(set_n$n) * 1.08 / 250) * 250\n  dig <- 0.556 * 7 * 25.4 / 72; pad <- 1\n  set_n$inside <- set_n$n / x_set * set_w[1] >= nchar(set_n$n) * dig + 2 * pad\n  set_n$lab_col <- ifelse(set_n$inside, on_fill_text(set_n$fill), set_n$fill)\n  set_n$lab_x <- set_n$n + ifelse(set_n$inside, -1, 1.2) * pad / set_w[1] * x_set\n  set_n$lab_h <- ifelse(set_n$inside, 0, 1)\n  ps <- ggplot(set_n, aes(n, row)) + geom_col(aes(fill = I(fill)), width = 0.74, orientation = \"y\") +\n    geom_text(aes(x = lab_x, label = format(n, big.mark = \",\"), hjust = lab_h, colour = I(lab_col)), size = T7) +\n    scale_x_reverse(limits = c(x_set, 0), breaks = c(x_set, 0), labels = function(v) format(v, big.mark = \",\"), expand = c(0, 0)) + ys +\n    labs(x = \"Set size\") + th + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank(),\n                                      plot.margin = margin(0.8, 0, 0, 0.4, \"mm\"))\n  pl <- ggplot(set_n, aes(1.95, row, label = set, colour = I(fill))) + geom_text(size = T7, hjust = 1) + ys +\n    scale_x_continuous(limits = c(0, 2), expand = c(0, 0)) + theme_void() + theme(plot.margin = margin(0.8, 0, 0, 0, \"mm\"))\n  # note + key block: fills the corner above the set-size bars\n  nl <- data.frame(y = c(5.1, 4.05, 3.0, 1.9, 0.9), x = c(0, 0, 0, 0.09, 0.09),\n                   lab = c(if (is.null(head)) \"\" else head,\n                           sprintf(\"Top %d of %d intersections\", nrow(inter), n_inter),\n                           sprintf(\"(%s of %s %s)\", format(sum(tab), big.mark = \",\"), format(sum(tab_all), big.mark = \",\"), unit),\n                           \"One tissue only\", \"Shared by 2+\"),\n                   face = c(\"bold\", \"plain\", \"plain\", \"plain\", \"plain\"),\n                   col = c(\"#000000\", \"#000000\", grey[[\"mid\"]], grey[[\"mid\"]], grey[[\"mid\"]]))\n  kd <- data.frame(x = 0.035, y = c(1.9, 0.9), f = c(cols[1], \"#000000\"))\n  pn <- ggplot() + geom_text(data = nl, aes(x, y, label = lab, colour = I(col), fontface = face), hjust = 0, size = T7) +\n    geom_point(data = kd, aes(x, y, fill = I(f)), shape = 21, size = dot, stroke = HOUSE_POINT$stroke) +\n    scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + scale_y_continuous(limits = c(0.3, 5.6), expand = c(0, 0)) +\n    coord_cartesian(clip = \"off\") + theme_void() + theme(plot.margin = margin(4.2, 0, 0.5, 0.6, \"mm\"))\n  p <- pn + pb + ps + pl + pm + plot_layout(design = \"AAB\\nCDE\", widths = unit(c(set_w, 1), c(\"mm\", \"mm\", \"null\")),\n                                             heights = c(bar_frac, 1 - bar_frac))\n  tile_pw(p, tag)\n}\n# --- parameters ---------------------------------------------------------------------------\npage_cells <- c(4, 3)\nn_show <- 12          # UpSet: intersections shown\nBT <- 7; BB <- 8.6    # shared top / bottom band of a, b, c, d so their frames line up\nLB <- 14.5            # left band of a, b: room for \"Berry skin\" / \"Shoot tip\"\n\nsmp <- rd(\"data.csv\"); deg <- rd(\"data_deg.csv\"); hm <- rd(\"data_heatmap.csv\"); go <- rd(\"data_go.csv\")\nup <- rd(\"data_upset.csv\")\ndeg$n <- ifelse(deg$direction == \"Down\", -deg$n, deg$n)\n\n# a PCA ---------------------------------------------------------------------------------------\nb1a <- ggplot(smp, aes(pc1, pc2)) +\n  geom_point(aes(fill = treatment, shape = tissue), size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke, colour = \"black\") +\n  scale_shape_manual(values = c(Leaf = 21, Root = 24), guide = \"none\") + scale_fill_manual(values = tc, guide = \"none\") +\n  annotate(\"text\", x = c(-18, 20), y = -21, label = c(\"Leaf\", \"Root\"), size = T7, colour = tis_c[c(\"Leaf\", \"Root\")], fontface = \"bold\") +\n  annotate(\"text\", x = 30, y = c(20.5, 15.5), label = c(\"SD\", \"WW\"), colour = tc[c(\"SD\", \"WW\")], fontface = \"bold\", size = T7, hjust = 1) +\n  scale_x_continuous(limits = c(-32, 32), breaks = c(-20, 0, 20), labels = minus, expand = c(0, 0)) +\n  scale_y_continuous(limits = c(-25, 24), breaks = c(-20, 0, 20), labels = minus, expand = c(0, 0)) +\n  labs(x = \"PC1 (48%)\", y = \"PC2 (21%)\") + th\n\n# b DEG counts, diverging horizontal bars ----------------------------------------------------\ndeg$yi <- 6 - match(deg$tissue, tis)\nb1b <- ggplot(deg, aes(n, yi, fill = direction)) + geom_col(width = 0.68, orientation = \"y\") +\n  geom_vline(xintercept = 0, linewidth = pv_house_lw(\"frame\")) +\n  geom_text(aes(label = format(abs(n), big.mark = \",\"), hjust = ifelse(n > 0, -0.12, 1.12), colour = direction), size = T7) +\n  scale_fill_manual(values = c(Up = pal[[\"red\"]], Down = pal[[\"blue\"]]), guide = \"none\") +\n  scale_colour_manual(values = c(Up = pal[[\"red\"]], Down = pal[[\"blue\"]]), guide = \"none\") +\n  annotate(\"text\", x = c(2150, -2150), y = 5.62, label = c(\"Up\", \"Down\"), hjust = c(1, 0), colour = c(pal[[\"red\"]], pal[[\"blue\"]]), fontface = \"bold\", size = T7) +\n  scale_y_continuous(breaks = 5:1, labels = tis, limits = c(0.45, 6.0), expand = c(0, 0)) +\n  scale_x_continuous(limits = c(-2200, 2200), breaks = c(-1000, 0, 1000), labels = c(\"1,000\", \"0\", \"1,000\"), expand = c(0, 0)) +\n  labs(x = \"DEGs (SD vs WW)\", y = NULL) + th\n\n# c heatmap with a thin group strip ---------------------------------------------------------\nng <- max(hm$gene); ns <- max(hm$sample)\ncl <- unique(hm[order(hm$gene), c(\"gene\", \"cluster\")])$cluster\ncut_y <- ng + 1 - (cumsum(rle(cl)$lengths)[-length(rle(cl)$lengths)] + 0.5)\ncl_y <- data.frame(lab = rle(cl)$values, y = ng + 1 - c(8.5, 22.5, 31))\nstrip <- data.frame(x0 = c(0.5, 4.5, 8.5, 12.5), lab = c(\"WW\", \"SD\", \"WW\", \"SD\"), tis = c(\"Leaf\", \"Leaf\", \"Root\", \"Root\"))\nstrip$txt <- paste(strip$tis, strip$lab)\nb1c <- ggplot(hm, aes(sample, ng + 1 - gene, fill = z)) + geom_raster() +\n  geom_hline(yintercept = cut_y, colour = \"white\", linewidth = pv_house_lw(1)) +\n  geom_vline(xintercept = c(4.5, 8.5, 12.5), colour = \"white\", linewidth = pv_house_lw(c(0.6, 1.2, 0.6))) +\n  geom_text(data = cl_y, aes(x = 16.8, y = y, label = lab), hjust = 0, size = T7, inherit.aes = FALSE) +\n  geom_rect(data = strip, aes(xmin = x0 + 0.08, xmax = x0 + 3.92, ymin = ng + 0.75, ymax = ng + 1.45), fill = tc[strip$lab], inherit.aes = FALSE) +\n  geom_text(data = strip, aes(x = x0 + 2, y = ng + 1.75, label = txt, colour = I(tc[lab])), fontface = \"bold\", size = T7, vjust = 0, inherit.aes = FALSE) +\n  scale_fill_gradient2(low = pal[[\"blue\"]], mid = \"white\", high = pal[[\"red\"]], limits = c(-2, 2), guide = \"none\") +\n  annotate(\"rect\", xmin = 16.8 + (0:19) * 0.13, xmax = 16.8 + (1:20) * 0.13, ymin = 2.2, ymax = 3.4,\n           fill = scales::gradient_n_pal(c(pal[[\"blue\"]], \"white\", pal[[\"red\"]]))(seq(0, 1, length.out = 20))) +\n  annotate(\"text\", x = c(16.8, 19.4), y = 1.7, label = c(minus(-2), \"2\"), size = T7, vjust = 1, hjust = c(0, 1)) +\n  annotate(\"text\", x = 16.8, y = 3.9, label = \"z-score\", size = T7, vjust = 0, hjust = 0) +\n  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +\n  coord_cartesian(xlim = c(0.5, ns + 0.5), ylim = c(0.5, ng + 0.5), clip = \"off\") +\n  labs(x = sprintf(\"%d libraries (%d per group)\", nrow(smp), max(table(paste(smp$tissue, smp$treatment)))),\n       y = sprintf(\"%d top DEGs\", ng)) + th +\n  theme(axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank())\n\n# d GO forest -----------------------------------------------------------------------------------\ngo$y <- rev(seq_len(nrow(go))); go$col <- ifelse(go$or > 1, pal[[\"red\"]], pal[[\"blue\"]])\nb1d <- ggplot(go, aes(or, y)) + geom_vline(xintercept = 1, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_errorbar(aes(xmin = lo, xmax = hi, colour = I(col)), width = 0, orientation = \"y\", linewidth = pv_house_lw(\"errorbar\")) +\n  geom_point(aes(fill = I(col)), shape = 22, size = 2.1, stroke = 0.3) +\n  annotate(\"text\", x = c(0.75, 1.35), y = nrow(go) + 0.85, label = c(\"Down\", \"Up\"), hjust = c(1, 0), vjust = 0, colour = c(pal[[\"blue\"]], pal[[\"red\"]]), fontface = \"bold\", size = T7) +\n  scale_x_log10(limits = c(0.18, 8), oob = scales::oob_keep, breaks = c(0.25, 1, 4), labels = c(\"0.25\", \"1\", \"4\"), expand = c(0, 0)) +\n  scale_y_continuous(breaks = go$y, labels = go$term, expand = c(0, 0)) +\n  coord_cartesian(ylim = c(0.4, nrow(go) + 0.6), clip = \"off\") +\n  labs(x = \"Odds ratio (GO)\", y = NULL) + th\n\n# e UpSet of up-regulated DEGs (set sizes must equal b's Up column) ---------------------------\nmm <- as.matrix(up[, tis]) == 1\nup_n <- stats::setNames(deg$n[deg$direction == \"Up\"], deg$tissue[deg$direction == \"Up\"])[tis]\nstopifnot(identical(as.numeric(colSums(mm)), as.numeric(up_n)))\nb1e <- upset_tile(mm, unname(tis_c), n_show = n_show, tag = \"e\", set_w = c(26, 15), bar_frac = 0.44,\n                  ylab = \"Up DEGs\", unit = \"genes\", dot = 1.5, head = \"Up-regulated DEGs\")\n\n# f donut: up vs down share of all DEGs -----------------------------------------------------\nud <- data.frame(dir = c(\"Up\", \"Down\"), n = c(sum(deg$n[deg$n > 0]), -sum(deg$n[deg$n < 0])))\nud$f <- ud$n / sum(ud$n); ud$e <- cumsum(ud$f); ud$s <- ud$e - ud$f; ud$mid <- (ud$s + ud$e) / 2\nud$col <- c(pal[[\"red\"]], pal[[\"blue\"]])\nstopifnot(sum(ud$n) == sum(abs(deg$n)), ud$n[1] == sum(up_n), go$or[go$term == \"Aquaporins\"] < 1, go$or[go$term == \"LEA proteins\"] > 1)\nb1f <- ggplot(ud) + geom_rect(aes(xmin = 2.2, xmax = 3.4, ymin = s, ymax = e, fill = I(col)), colour = \"white\", linewidth = pv_house_lw(0.6)) +\n  geom_text(aes(x = 4.3, y = mid, label = sprintf(\"%s\\n%.0f%%\", dir, 100 * f), colour = I(col)), size = T7, lineheight = 0.9) +\n  annotate(\"text\", x = 0, y = 0, label = sprintf(\"%s\\nDEGs\", format(sum(ud$n), big.mark = \",\")), size = T7, fontface = \"bold\", lineheight = 0.9) +\n  coord_polar(theta = \"y\", clip = \"off\") + xlim(0, 5.2) + theme_void()\n\nmosaic <- pv_house_mosaic(list(\n  list(plot = tile(b1a, \"a\", l = LB, t = BT, b = BB), at = c(1, 1), cells = c(1, 1)),\n  list(plot = tile(b1b, \"b\", l = LB, t = BT, b = BB), at = c(1, 2), cells = c(1, 1)),\n  list(plot = tile(b1c, \"c\", l = 6, r = 14, t = BT, b = BB), at = c(2, 1), cells = c(2, 2)),\n  list(plot = tile(b1d, \"d\", l = 20.8, t = BT, b = BB), at = c(4, 1), cells = c(1, 2)),\n  list(plot = b1e, at = c(1, 3), cells = c(3, 1)),\n  list(plot = tile(b1f, \"f\", l = 0, b = 0, t = 0, r = 0), at = c(4, 3), cells = c(1, 1))\n), cells = page_cells)\npv_save_house(mosaic, \"figure\", cells = page_cells)\n\ngrDevices::dev.off()\nmessage(\"wrote preview.png\")\n",
+      "search_text": "transcriptome overview page (house mosaic, 4x3)\n转录组总览拼版：pca、deg 计数、热图、go 森林图、upset、环图（house 风格，4×3）\nhouse-mosaic-transcriptome\n\nlayout\n拼图\nlayout\n拼图\nlayout\n双栏一整页讲一个转录组结果：左上 pca 与 deg 计数是数据总览，中间热图是主结果，右侧 go 森林图与环图是统计，底部 3×1 upset 看上调 deg 在组织间的共享。七种图型在一页上，面板框上下、左右对齐。\n每个面板是独立的 ggplot，pv_house_mosaic() 的 at / cells 决定位置与格数（整格，page_cells = 4×3 = 183 × 135 mm）；tile() 的 l/t/b 固定外边带，使同一行或列的面板框对齐（bt、bb、lb）；n_show 为 upset 显示的交集数。upset 只画上调 deg，集合大小必须等于 data_deg.csv 的 up 列，环图总数等于 up + down 之和，plot.r 里的 stopifnot() 会检查。换数据时保持 data*.csv 的列名；组织颜色在 tis_c，处理颜色在 tc。\nmulti-panel mosaic house-style rna-seq upset heatmap\nsample 文库编号 1–16（data.csv；data_heatmap.csv 的 sample 列与之对应） tissue 组织（data.csv 为 leaf / root；data_deg.csv 为 5 种组织） treatment 处理 ww（充分灌溉）/ sd（重度干旱） pc1 pc1 得分（data.csv） pc2 pc2 得分（data.csv） direction up / down（data_deg.csv） n 该组织该方向的 deg 数（正整数，data_deg.csv） gene 基因编号（data_heatmap.csv 为 1–40 的行号；data_upset.csv 为基因 id） cluster 热图基因所属簇（data_heatmap.csv） z 表达 z-score，截到 ±2（data_heatmap.csv） term go 条目短名（data_go.csv） or 富集比值比（data_go.csv，lo / hi 为 95% ci） leaf / root / shoot tip / berry skin / seed 0/1，该上调 deg 是否属于该组织（data_upset.csv）"
     },
     {
       "title": "Small multiples with in-panel trends (house style)",

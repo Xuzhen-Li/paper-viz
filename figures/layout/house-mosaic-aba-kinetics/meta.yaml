@@ -1,0 +1,32 @@
+# Simulated data. No published reference figure; layout follows the house grid in styles/r/theme_house.R.
+title: ABA kinetics page, single column (house mosaic, 2x4)
+title_zh: ABA 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）
+slug: house-mosaic-aba-kinetics
+category: layout
+tags:
+  - multi-panel
+  - mosaic
+  - house-style
+  - single-column
+  - raincloud
+  - small-multiples
+packages:
+  - ggplot2
+  - patchwork
+data_columns:
+  hours: 停水后小时数（data.csv）
+  gene: 基因名（data.csv、data_psi.csv）
+  log2fc: data.csv 为叶片 log2 FC 均值；data_fc.csv 为每个 DEG 的 log2 FC
+  se: log2 FC 的标准误（data.csv）
+  vine: 植株编号（data_psi.csv）
+  psi: 茎水势 Ψstem（MPa，data_psi.csv）
+  expression: 表达量 log2 CPM（data_psi.csv、data_raincloud.csv）
+  treatment: WW / SD（data_raincloud.csv）
+  tissue: Leaf / Root（data_raincloud.csv、data_fc.csv）
+  jitter: 原始点在云下的纵向位置 0–1（data_raincloud.csv）
+when_to_use: 单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（各 1×1）。b 的标题是一句与图同色的结论。
+customize: page_cells = 2×4；各面板的 at / cells 在 pv_house_mosaic() 里改。b 的标题自动取 |r| 最大的基因，并检查它等于 gwas_top（拼版 house-mosaic-gwas 的头号位点）且在两位小数上领先第二名；a 与 b 的方向（干旱上调 ↔ r 为负）也由 stopifnot() 检查。data_fc.csv 的叶、根 DEG 数与 house-mosaic-transcriptome 的 data_deg.csv 一致。
+lang: R
+style: house
+cells: 2x4
+references_note: No published reference figure; layout follows the house grid rules in styles/r/theme_house.R.

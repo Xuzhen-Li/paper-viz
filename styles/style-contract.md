@@ -117,7 +117,69 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 | house-heatmap | 2×2 | 2×2 | 89 × 89 | 是 | — |
 | house-small-multiples | 每张小图 1×1 | 4×2 | 183 × 89（内容 181 × 89） | 否 | 8 个区域排 4 × 2，面板间距 3 mm |
 
-另有拼页示例 `house-grid-mosaic`：七种图排在一页 4×3（183 × 135 mm）上。7/8 pt 的图不用 plotmath 上标（上标按 0.7 倍排，会低于 6 pt）：*P* < 0.001 用 `pv_fmt_p()` 默认写法，*R*² 写 Unicode 字符 ²，单位写 mg/g。
+拼页示例有三张，都用 `pv_house_mosaic()` 按整格摆放、面板框上下左右对齐：`house-mosaic-transcriptome`（4×3，183 × 135 mm：PCA、DEG 计数、热图、GO 森林图、UpSet、环图）、`house-mosaic-aba-kinetics`（单栏 2×4，89 × 183 mm：时间曲线、小多图、横向雨云图、密度曲线）和 `house-mosaic-gwas`（4×2，183 × 89 mm：4×1 曼哈顿图、区域图、基因型效应、堆叠条）。三张合起来覆盖九种 house 图型和 UpSet。7/8 pt 的图不用 plotmath 上标（上标按 0.7 倍排，会低于 6 pt）：*P* < 0.001 用 `pv_fmt_p()` 默认写法，*R*² 写 Unicode 字符 ²，单位写 mg/g。
+
+### 默认尺寸与升档阈值
+
+适用于 43 mm 网格（n × 43 + (n − 1) × 3 mm；4 格边长 181 mm 内容 + 两侧各 1 mm 边距 = 183 mm），7/8 pt 字号（多面板图一律不加 +2 pt）。
+
+#### 测量方法
+
+1. **字宽**：在 cairo PDF 设备上用 Arial 7 pt 测 `grid::stringWidth`：
+   - 数字 1.41 mm/字符；
+   - 小写字母平均 1.29 mm/字符，常见混排标签约 1.16–1.30 mm/字符。阈值统一按 **1.30 mm/字符** 计算（偏保守）；
+   - 三位数 "100" 宽 4.23 mm；7 pt 行高（1.2 em）2.96 mm。
+2. **面板可用空间**：与 `house-mosaic-*` 拼版里 `tile()` 的固定边带一致：
+   - 左 11.5 mm（y 刻度 + 标题）、下 8.6 mm（x 刻度 + 标题）、上 4.2 mm（面板字母）、右 1.2 mm；
+   - 面板内宽 = n 格跨度 − 12.7 mm，面板内高 = n 格跨度 − 12.8 mm。
+3. **单位占用**：
+   - 横排类别标签：每类槽宽 = max(K × 1.30 + 1.0, 3.0) mm（1 mm 字间隙；柱宽约为槽宽的 0.66 倍，不小于 2 mm）；
+   - 纵向逐行标签（forest、热图行、raincloud 组）：行距 ≥ 3.5 mm（行高 2.96 + 0.5 间隙）；
+   - 热图格内印数值（如 "−.5"，宽 3.53 mm）：格宽 ≥ 4.3 mm；
+   - UpSet 每列 ≥ 4.8 mm（三位数标签 4.23 + 0.6）。列区 = 图宽 − 集合柱 15 mm − 集合名列（8 字符，11.9 mm）− 轴带 10 mm。
+4. **容量** = floor(可用 mm ÷ 单位占用)。下表“升档阈值”取对应容量。用法：超过当前尺寸的容量就升一档。优先加宽（类别、列在 x 方向），行数超出时加高。
+
+#### 每档容量（7 pt）
+
+| 宽度（格） | 跨度 mm | 面板内宽 mm | 横排类别数（标签 ≤4 / ≤8 / ≤12 字符） | 逐行标签行数 | forest 标签最长字符（占图宽 45%） | UpSet 交集列数 | 热图数值列数（行名 ≤10 字符） | 小多图每行面板数（面板 ≥25 mm） | 直方图最多 bins（≥0.8 mm） |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 43 | 30.3 | 4 / 2 / 1 | 8 | 13 | —（放不下） | 6 | 1 | 37 |
+| 2 | 89 | 76.3 | 12 / 6 / 4 | 21 | 29 | 10 | 17 | 2 | 95 |
+| 3 | 135 | 122.3 | 19 / 10 / 7 | 34 | 45 | 20 | 27 | 4 | 152 |
+| 4 | 181 | 168.3 | 27 / 14 / 10 | 48 | 61 | 30 | 38 | 6 | 210 |
+
+逐行标签行数按高度算，高度格数与宽度格数对应（例如 1×2 的高度容量是 21 行）。
+
+#### 图型默认尺寸与升档规则
+
+| Chart type | 默认尺寸 | 升档条件（满足任一即升） | 升到 |
+|---|---|---|---|
+| Scatter | 1×1 | 直接标注的组 > 3；或需要边际分布、回归带外的文字注释 > 2 行；或点数 > 2000 且需要看密度 | 2×2（或 2×1 加边际图） |
+| Line（time series） | 2×1 | 时间点 > 12 且需要逐点标注；或末端直接标签 > 4 条（每条占 3.5 mm 高，1 格高面板最多 8 条，实际 ≤ 4 才不挤）；或时间轴刻度标签 > 6 个 | 4×1 / 2×2 |
+| Line（短序列 ≤ 6 点） | 1×1 | 系列 > 3 | 2×1 |
+| Bar | 1×1 | 类别 > 4 且标签 ≤ 4 字符；或类别 > 2 且标签 5–8 字符；或标签 > 8 字符（先尝试缩写，见 house-bar 的 Ctrl） | 2×1（类别 ≤ 12 / 6 / 4） |
+| Bar（类别名很长） | 1×2，横向柱 | 类别名 > 12 字符，或类别 > 8 | 2×2 横向柱 |
+| Box / Violin | 1×1 | 组 > 4（≤4 字符标签）；或分组 × 处理 > 4 个箱 | 2×1 |
+| Raincloud（横向） | ≤ 4 朵云：1×1（house-mosaic-aba-kinetics c：Leaf/Root × WW/SD，每朵云约 6.5 mm 高）；> 4 朵云：2×2 | 每朵云至少 2 行（7 mm）：1×1 面板高 30 mm，最多 4 朵云；2×2 最多 10 朵云（双处理时 5 个类别） | 2×1（加宽，适合 x 轴很长时）/ 2×2 / 2×3 |
+| Forest | 2×2 | 行数（含分组标题行）> 21；或标签 > 29 字符 | 2×3（≤ 34 行）/ 2×4（≤ 48 行） |
+| Forest（短表） | 1×2 | 行数 ≤ 21，且 y 轴行名 ≤ 17 字符（house-mosaic-transcriptome d 实测：最长 "Raffinose synth."，左边带约 20.8 mm，面板约 21 mm 宽，log 轴 3 个刻度刚好放下）。行名再长就先缩写（synth.、Cell wall），仍放不下再升档 | 2×2 |
+| Heatmap（格内印数值） | 1×2 或 2×2 | 列 > 6（1 格宽）/ > 17（2 格宽）；行 > 21（2 格高） | 加宽或加高一档 |
+| Heatmap（不印数值、不标行名） | 2×2 | 行、列各 ≥ 0.5 mm 即可，基本不需要升档；需要标行名时行数按 3.5 mm/行算（2 格高 ≤ 21 行） | 2×3 / 2×4 |
+| Histogram / Density | 1×1 | 叠加组 > 3；或 bins > 37；或需要标注多条参考线 | 2×1 |
+| Composition（donut） | 1×1 | 扇区 > 4（外侧两行标签各占约 6 mm 高，1 格最多约 4 个不重叠）；或标签一行 > 5 字符。house-mosaic-transcriptome f 实测：外侧标签写成 "Down\n45%" 能放下，"2,421 (45%)" 会超出 1 格宽 | 2×1（donut + 标签列） |
+| Composition（stacked bar） | 1×1 | 堆叠柱 > 4；或右侧直接标签 > 4 层；或层 < 3.5 mm 高的段需要印数值 | 1×2 / 2×1 |
+| Small multiples | 2×2（2 × 2 面板） | 面板 > 4；每面板内宽 < 25 mm 时必须升档 | 4×2（2 × 4 或 6 面板）/ 4×3 |
+| UpSet | 拼图中：3×1（10–12 个交集、5 个集合）；单独成图：4×2 | 拼图中交集 > 12（3 格宽，扣掉左侧 41 mm 的集合柱和集合名列后，约 90 mm ÷ 12 ≈ 7.5 mm/列）；或集合 > 5（1 格高、矩阵占 56% 时每行约 3.8 mm，5 行已到上限）；或集合名 > 10 字符 | 交集 ≤ 18：4×1；集合 > 5：3×2 / 4×2 |
+| Manhattan / genome track | 4×1 | 染色体 > 19 且需要每条都标号（4 格宽每号约 8.8 mm）；或需要叠加基因模型 | 4×1 + 下方 2×1 locus zoom（不加高主图） |
+
+#### 说明
+
+- 单独发表的 2×2 单面板图仍按 +2 pt（9/10 pt）规则。此时字宽乘 9/7，上表容量要乘约 0.78。
+- 阈值来自 7 pt。数值标签用 8 pt 时（如 UpSet 柱顶），列宽要求乘 8/7：例如 4×2 单图 UpSet 每列需 ≥ 5.5 mm，按此约 26 列；实际用 15 列是为了留出注释和阴影列的空间。
+- 三张 `house-mosaic-*` 拼版实测：
+  - 拼图里多个面板上下要对齐时，共用上边带 7 mm、下边带 8.6 mm（house-mosaic-transcriptome 的 a/b/c/d），两个 1×1 叠放后的面板高度与旁边 2×2 的面板一致；
+  - 集合柱数值用 #32 的对比度规则，放不下（两侧各 1 mm）就写在柱外。
+- 先缩写、换行、横置，再考虑升档：例如 house-bar 把 Control 写成 Ctrl，house-mosaic-transcriptome b 的 DEG 计数改为横向柱，house-mosaic-gwas d 的人群名改为横向堆叠柱。
 
 English:
 
@@ -160,7 +222,62 @@ Actual cells of the nine examples:
 | house-heatmap | 2×2 | 2×2 | 89 × 89 | yes | — |
 | house-small-multiples | 1×1 per small plot | 4×2 | 183 × 89 (content 181 × 89) | no | Eight regions in 4 × 2, 3 mm between panels |
 
-The mosaic example `house-grid-mosaic` puts seven chart types on one 4×3 page (183 × 135 mm). Figures at 7/8 pt use no plotmath superscripts, which are set at 0.7× and would fall under 6 pt: *P* < 0.001 via the default `pv_fmt_p()`, *R*² with the Unicode character ², and units as mg/g.
+There are three mosaic examples, each placed on whole cells with `pv_house_mosaic()` and with panel frames lined up on all four edges: `house-mosaic-transcriptome` (4×3, 183 × 135 mm: PCA, DEG counts, heatmap, GO forest, UpSet, donut), `house-mosaic-aba-kinetics` (single column 2×4, 89 × 183 mm: time course, small multiples, horizontal raincloud, density) and `house-mosaic-gwas` (4×2, 183 × 89 mm: 4×1 Manhattan, regional plot, genotype effect, stacked bars). Together they cover the nine house chart types and UpSet. Figures at 7/8 pt use no plotmath superscripts, which are set at 0.7× and would fall under 6 pt: *P* < 0.001 via the default `pv_fmt_p()`, *R*² with the Unicode character ², and units as mg/g.
+
+### Default sizes and size-up thresholds
+
+#### Method
+
+1. **Character width**: `grid::stringWidth` for Arial 7 pt on the cairo PDF device: digits 1.41 mm per character; lower-case letters 1.29 mm on average and 1.16–1.30 mm for typical mixed labels. Thresholds use **1.30 mm per character** (conservative). "100" is 4.23 mm wide; a 7 pt line (1.2 em) is 2.96 mm high.
+2. **Room inside a panel**: the fixed bands that `tile()` uses in the `house-mosaic-*` pages: left 11.5 mm (y ticks + title), bottom 8.6 mm (x ticks + title), top 4.2 mm (panel letter), right 1.2 mm. Inner width = n-cell span − 12.7 mm; inner height = n-cell span − 12.8 mm.
+3. **Space per unit**:
+   - horizontal category labels: slot = max(K × 1.30 + 1.0, 3.0) mm (1 mm gap; bars about 0.66 of the slot, at least 2 mm);
+   - row labels (forest, heatmap rows, raincloud groups): ≥ 3.5 mm per row (2.96 mm line + 0.5 mm gap);
+   - values printed in heatmap cells (e.g. "−.5", 3.53 mm): cells ≥ 4.3 mm wide;
+   - UpSet: ≥ 4.8 mm per column (three-digit label 4.23 + 0.6). Column area = width − set bars 15 mm − set names (8 characters, 11.9 mm) − axis band 10 mm.
+4. **Capacity** = floor(available mm ÷ space per unit). The size-up thresholds below are these capacities: go one size up when you exceed the capacity of the current size. Widen first (categories and columns run along x); add height when rows overflow.
+
+#### Capacity per size (7 pt)
+
+| Width (cells) | Span mm | Inner width mm | Categories in a row (labels ≤ 4 / ≤ 8 / ≤ 12 characters) | Labelled rows | Longest forest label (45% of width), characters | UpSet columns | Heatmap columns with values (row names ≤ 10 characters) | Small multiples per row (panel ≥ 25 mm) | Max histogram bins (≥ 0.8 mm) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 43 | 30.3 | 4 / 2 / 1 | 8 | 13 | — (does not fit) | 6 | 1 | 37 |
+| 2 | 89 | 76.3 | 12 / 6 / 4 | 21 | 29 | 10 | 17 | 2 | 95 |
+| 3 | 135 | 122.3 | 19 / 10 / 7 | 34 | 45 | 20 | 27 | 4 | 152 |
+| 4 | 181 | 168.3 | 27 / 14 / 10 | 48 | 61 | 30 | 38 | 6 | 210 |
+
+Labelled rows are counted along the height, with the same cell counts (e.g. a 1×2 panel holds 21 rows).
+
+#### Default size and when to go up
+
+| Chart type | Default | Go up when (any one) | Go up to |
+|---|---|---|---|
+| Scatter | 1×1 | > 3 directly labelled groups; or marginal plots, or > 2 lines of notes beside the fit; or > 2000 points whose density matters | 2×2 (or 2×1 with marginals) |
+| Line (time series) | 2×1 | > 12 time points that each need a label; or > 4 end labels (3.5 mm each; a 1-cell panel holds 8, ≤ 4 stays uncrowded); or > 6 time tick labels | 4×1 / 2×2 |
+| Line (short, ≤ 6 points) | 1×1 | > 3 series | 2×1 |
+| Bar | 1×1 | > 4 categories with labels ≤ 4 characters; or > 2 with labels of 5–8; or labels > 8 (abbreviate first, as Ctrl in house-bar) | 2×1 (≤ 12 / 6 / 4 categories) |
+| Bar (long category names) | 1×2, horizontal | names > 12 characters, or > 8 categories | 2×2 horizontal |
+| Box / violin | 1×1 | > 4 groups (labels ≤ 4 characters); or > 4 boxes from group × treatment | 2×1 |
+| Raincloud (horizontal) | ≤ 4 clouds: 1×1 (house-mosaic-aba-kinetics c: Leaf/Root × WW/SD, about 6.5 mm per cloud); > 4 clouds: 2×2 | at least 2 rows (7 mm) per cloud: a 1×1 panel is 30 mm high, so 4 clouds; 2×2 holds 10 (5 categories with two treatments) | 2×1 (wider, for a long x axis) / 2×2 / 2×3 |
+| Forest | 2×2 | > 21 rows (group header rows included); or labels > 29 characters | 2×3 (≤ 34 rows) / 2×4 (≤ 48 rows) |
+| Forest (short) | 1×2 | ≤ 21 rows and y-axis row names ≤ 17 characters (measured in house-mosaic-transcriptome d: longest "Raffinose synth.", left band about 20.8 mm, panel about 21 mm wide, three log ticks just fit). Abbreviate longer names first (synth., Cell wall), then go up | 2×2 |
+| Heatmap (values in cells) | 1×2 or 2×2 | > 6 columns (1 cell wide) / > 17 (2 cells wide); > 21 rows (2 cells high) | one size wider or higher |
+| Heatmap (no values, no row names) | 2×2 | rows and columns only need ≥ 0.5 mm, so rarely; with row names count 3.5 mm per row (≤ 21 rows at 2 cells high) | 2×3 / 2×4 |
+| Histogram / density | 1×1 | > 3 overlaid groups; or > 37 bins; or several reference lines to label | 2×1 |
+| Composition (donut) | 1×1 | > 4 sectors (outside two-line labels take about 6 mm each; about 4 fit in one cell); or label lines > 5 characters. Measured in house-mosaic-transcriptome f: "Down\n45%" fits, "2,421 (45%)" runs past one cell | 2×1 (donut + label column) |
+| Composition (stacked bar) | 1×1 | > 4 stacked bars; or > 4 layers labelled on the right; or values in segments < 3.5 mm high | 1×2 / 2×1 |
+| Small multiples | 2×2 (2 × 2 panels) | > 4 panels; must go up when a panel is < 25 mm wide inside | 4×2 (2 × 4 or 6 panels) / 4×3 |
+| UpSet | in a mosaic: 3×1 (10–12 intersections, 5 sets); on its own: 4×2 | in a mosaic, > 12 intersections (3 cells wide less the 41 mm of set bars and names leaves about 90 mm ÷ 12 ≈ 7.5 mm per column); or > 5 sets (1 cell high with the matrix at 56% gives about 3.8 mm per row, 5 rows is the limit); or set names > 10 characters | ≤ 18 intersections: 4×1; > 5 sets: 3×2 / 4×2 |
+| Manhattan / genome track | 4×1 | > 19 chromosomes that each need a number (about 8.8 mm each at 4 cells); or gene models to overlay | 4×1 plus a 2×1 locus zoom below (do not make the main panel taller) |
+
+#### Notes
+
+- A single 2×2 panel published on its own still gets +2 pt (9/10 pt). Character widths then scale by 9/7, so multiply the capacities above by about 0.78.
+- Thresholds are for 7 pt. With 8 pt value labels (e.g. on top of UpSet bars), multiply column widths by 8/7: a standalone 4×2 UpSet needs ≥ 5.5 mm per column, about 26 columns; 15 are used to leave room for notes and shaded columns.
+- Measured in the three `house-mosaic-*` pages:
+  - when panels in a mosaic must line up, share a 7 mm top band and an 8.6 mm bottom band (a/b/c/d in house-mosaic-transcriptome); two stacked 1×1 panels then have the same panel height as the 2×2 beside them;
+  - set-size values follow the #32 contrast rule and go outside the bar when they do not fit with 1 mm on each side.
+- Abbreviate, wrap or turn horizontal before going up a size: house-bar writes Control as Ctrl, house-mosaic-transcriptome b uses horizontal bars for DEG counts, and house-mosaic-gwas d uses horizontal stacked bars for population names.
 
 ### 字号（印刷最终尺寸）
 

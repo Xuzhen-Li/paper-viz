@@ -1,0 +1,35 @@
+# Simulated data. No published reference figure; layout follows the house grid in styles/r/theme_house.R.
+title: Transcriptome overview page (house mosaic, 4x3)
+title_zh: 转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）
+slug: house-mosaic-transcriptome
+category: layout
+tags:
+  - multi-panel
+  - mosaic
+  - house-style
+  - rna-seq
+  - upset
+  - heatmap
+packages:
+  - ggplot2
+  - patchwork
+data_columns:
+  sample: 文库编号 1–16（data.csv；data_heatmap.csv 的 sample 列与之对应）
+  tissue: 组织（data.csv 为 Leaf / Root；data_deg.csv 为 5 种组织）
+  treatment: 处理 WW（充分灌溉）/ SD（重度干旱）
+  pc1: PC1 得分（data.csv）
+  pc2: PC2 得分（data.csv）
+  direction: Up / Down（data_deg.csv）
+  n: 该组织该方向的 DEG 数（正整数，data_deg.csv）
+  gene: 基因编号（data_heatmap.csv 为 1–40 的行号；data_upset.csv 为基因 ID）
+  cluster: 热图基因所属簇（data_heatmap.csv）
+  z: 表达 z-score，截到 ±2（data_heatmap.csv）
+  term: GO 条目短名（data_go.csv）
+  or: 富集比值比（data_go.csv，lo / hi 为 95% CI）
+  Leaf / Root / Shoot tip / Berry skin / Seed: 0/1，该上调 DEG 是否属于该组织（data_upset.csv）
+when_to_use: 双栏一整页讲一个转录组结果：左上 PCA 与 DEG 计数是数据总览，中间热图是主结果，右侧 GO 森林图与环图是统计，底部 3×1 UpSet 看上调 DEG 在组织间的共享。七种图型在一页上，面板框上下、左右对齐。
+customize: 每个面板是独立的 ggplot，pv_house_mosaic() 的 at / cells 决定位置与格数（整格，page_cells = 4×3 = 183 × 135 mm）；tile() 的 l/t/b 固定外边带，使同一行或列的面板框对齐（BT、BB、LB）；n_show 为 UpSet 显示的交集数。UpSet 只画上调 DEG，集合大小必须等于 data_deg.csv 的 Up 列，环图总数等于 Up + Down 之和，plot.R 里的 stopifnot() 会检查。换数据时保持 data*.csv 的列名；组织颜色在 tis_c，处理颜色在 tc。
+lang: R
+style: house
+cells: 4x3
+references_note: No published reference figure; layout follows the house grid rules in styles/r/theme_house.R.

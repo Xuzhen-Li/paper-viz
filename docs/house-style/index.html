@@ -100,6 +100,7 @@
     <a href="../">← 画廊 Gallery</a>
     <a href="#examples">示例 Examples</a>
     <a href="#usage">用法与规范 Usage &amp; style</a>
+    <a href="#sizes">尺寸阈值 Sizes</a>
     <a href="#schematics">示意图 Schematics</a>
     <a href="#references">参考 References</a>
   </nav>
@@ -314,6 +315,31 @@ pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
     <img src="schematics/schematic_layout.svg" width="4512" height="10937" alt="网格版面：43 mm 方格、间距 3 mm；双栏每行 4 格，排法 1+1+1+1、1+1+2、2+2、1+3、4，两侧各 1 mm 边距共 183 mm；单栏 2 格共 89 mm；只有单个 2×2（89 × 89 mm）面板字号 +2 pt。Grid layout: 43 mm square cells with 3 mm gaps; a double column holds 4 cells per row as 1+1+1+1, 1+1+2, 2+2, 1+3 or 4, with 1 mm on each side for 183 mm; a single column is 2 cells, 89 mm; only a single 2×2 (89 × 89 mm) panel gets +2 pt." loading="lazy">
     <figcaption>网格版面 / Grid layout · <a href="schematics/schematic_layout.svg">SVG</a> · <a href="schematics/schematic_layout.png">PNG</a> · <a href="schematics/schematic_layout.drawio">.drawio（旧做法存档 / legacy method, archived）</a></figcaption>
   </figure>
+</section>
+
+<section id="sizes">
+  <h2>默认尺寸与升档阈值 / Default sizes and when to go up</h2>
+  <p lang="zh-CN">阈值按 7 pt Arial 实测：字宽按 1.30 mm/字符，逐行标签 ≥ 3.5 mm/行，面板内宽 = 格跨度 − 12.7 mm；超过当前尺寸的容量就升一档，先加宽、行多再加高。先缩写、换行、横置，再升档。</p>
+  <p lang="en">Thresholds come from measuring 7 pt Arial: 1.30 mm per character, ≥ 3.5 mm per labelled row, inner panel width = cell span − 12.7 mm. Go one size up when the current size's capacity is exceeded, widening first and adding height for rows. Abbreviate, wrap or turn horizontal before sizing up.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>图型 / Chart</th><th>默认 / Default</th><th>升档条件（任一）/ Go up when (any)</th><th>升到 / Up to</th></tr></thead>
+    <tbody>
+      <tr><td>Scatter 散点</td><td>1×1</td><td>直标组 &gt; 3，或点 &gt; 2000 要看密度 / &gt; 3 labelled groups, or &gt; 2000 points</td><td>2×2</td></tr>
+      <tr><td>Line 折线</td><td>2×1</td><td>末端标签 &gt; 4，或刻度标签 &gt; 6 / &gt; 4 end labels or &gt; 6 time ticks</td><td>4×1 / 2×2</td></tr>
+      <tr><td>Bar 柱图</td><td>1×1</td><td>类别 &gt; 4（标签 ≤ 4 字符）或 &gt; 2（5–8 字符） / &gt; 4 categories (≤ 4 chars) or &gt; 2 (5–8 chars)</td><td>2×1；长名 2×2 横向 / horizontal</td></tr>
+      <tr><td>Box / violin</td><td>1×1</td><td>组 &gt; 4 / &gt; 4 groups</td><td>2×1</td></tr>
+      <tr><td>Raincloud（横向 / horizontal）</td><td>1×1（≤ 4 朵云 / clouds）</td><td>云 &gt; 4（每朵 ≥ 7 mm） / &gt; 4 clouds (≥ 7 mm each)</td><td>2×2（≤ 10）</td></tr>
+      <tr><td>Forest 森林图</td><td>1×2（≤ 21 行，行名 ≤ 17 字符）</td><td>行 &gt; 21 或行名 &gt; 17 字符 / &gt; 21 rows or names &gt; 17 chars</td><td>2×2；2×3（≤ 34 行）</td></tr>
+      <tr><td>Heatmap 热图</td><td>2×2</td><td>印数值：列 &gt; 17 或行 &gt; 21 / with values: &gt; 17 columns or &gt; 21 rows</td><td>2×3 / 2×4</td></tr>
+      <tr><td>Histogram / density</td><td>1×1</td><td>叠加组 &gt; 3 或 bins &gt; 37 / &gt; 3 groups or &gt; 37 bins</td><td>2×1</td></tr>
+      <tr><td>Donut 环图</td><td>1×1</td><td>扇区 &gt; 4 或标签一行 &gt; 5 字符 / &gt; 4 sectors or label lines &gt; 5 chars</td><td>2×1</td></tr>
+      <tr><td>Stacked bar 堆叠条</td><td>1×1</td><td>堆叠柱 &gt; 4 / &gt; 4 bars</td><td>1×2 / 2×1</td></tr>
+      <tr><td>Small multiples 小多图</td><td>2×2（2 × 2 面板）</td><td>面板 &gt; 4 或面板内宽 &lt; 25 mm / &gt; 4 panels or &lt; 25 mm wide</td><td>4×2 / 4×3</td></tr>
+      <tr><td>UpSet</td><td>拼图中 3×1；单独 4×2 / 3×1 in a mosaic, 4×2 alone</td><td>交集 &gt; 12 或集合 &gt; 5 / &gt; 12 intersections or &gt; 5 sets</td><td>4×1（≤ 18）/ 3×2</td></tr>
+      <tr><td>Manhattan / genome track</td><td>4×1</td><td>要放基因模型 / gene models needed</td><td>+ 2×1 locus zoom 放下方 / below</td></tr>
+    </tbody>
+  </table></div>
+  <p>示例 / Examples: <code>house-mosaic-transcriptome</code> (4×3) · <code>house-mosaic-aba-kinetics</code> (2×4) · <code>house-mosaic-gwas</code> (4×2). 测量方法与每档容量 / Method and capacity per size: <a href="https://github.com/Xuzhen-Li/paper-viz/blob/main/styles/style-contract.md">styles/style-contract.md</a>.</p>
 </section>
 
 <section id="schematics" class="schem">
