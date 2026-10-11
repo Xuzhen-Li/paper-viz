@@ -1,14 +1,15 @@
 # paper-viz
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Gallery](https://img.shields.io/badge/gallery-online-0E7C66)](https://xuzhen-li.github.io/paper-viz/)
-[![Figures](https://img.shields.io/badge/figures-113-4C78A8)](https://xuzhen-li.github.io/paper-viz/)
 
 [![九张 house style 示例：分组散点与回归、带置信带的折线图、带原始点与 P 值的柱图、雨云图、分组密度曲线与均值、效应量森林图、带数值的发散色热图、直标环图、小多图与面板内趋势。Nine house-style examples: scatter, line, bar, raincloud, density, forest, heatmap, donut, small multiples](docs/house-style/hero.png)](https://xuzhen-li.github.io/paper-viz/house-style/)
 
 <sub>新图风格示例，全库见画廊 / House-style examples for new figures; see the gallery for all figures</sub>
 
-[画廊 / Gallery](https://xuzhen-li.github.io/paper-viz/) · [快速开始 / Quick start](#快速开始--quick-start) · [House style 规范 / House style](https://xuzhen-li.github.io/paper-viz/house-style/) · [给 agent 用 / For agents](AGENTS.md)
+- [画廊 / Gallery](https://xuzhen-li.github.io/paper-viz/)
+- [快速开始 / Quick start](#快速开始--quick-start)
+- [House style 规范 / House style](https://xuzhen-li.github.io/paper-viz/house-style/)
+- [给 agent 用 / For agents](AGENTS.md)
 
 R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、`data.csv`（模拟数据或公开数据）和 `meta.yaml`。
 
@@ -16,7 +17,7 @@ R 优先的科研绘图模板库。每种图是一个文件夹，含 `plot.R`、
 2. 复制文件夹，按列名换上自己的数据；
 3. 运行 `Rscript plot.R`，得到矢量 PDF 和 600 dpi PNG。
 
-agent 也能检索调用。新图默认 house style；上图九张示例都由本仓库代码用模拟数据画成。
+agent 可以通过 catalog.json 和 llms.txt 查找模板。新图默认 house style；上图九张示例都由本仓库代码用模拟数据画成。
 
 An R-first library of paper-figure templates. Each figure is one folder with `plot.R`, `data.csv` (synthetic or open data) and `meta.yaml`.
 
@@ -24,7 +25,7 @@ An R-first library of paper-figure templates. Each figure is one folder with `pl
 2. Copy the folder and swap in your own data, keeping the column names.
 3. Run `Rscript plot.R` to get a vector PDF and a 600 dpi PNG.
 
-Agents can search and reuse the templates too. New figures default to the house style; the nine examples above were drawn from synthetic data by code in this repository.
+Agents can look up templates through catalog.json and llms.txt. New figures default to the house style; the nine examples above were drawn from synthetic data by code in this repository.
 
 ## 画廊 / Gallery
 
