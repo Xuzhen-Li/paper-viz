@@ -52,6 +52,17 @@ footnote <- function(g, label = SIM_NOTE, x = 1, y = 1, hjust = 1, vjust = 1, dx
   grid::grobTree(g, grid::textGrob(label, x = grid::unit(x, "npc") + grid::unit(dx, "mm"), y = grid::unit(y, "npc") + grid::unit(dy, "mm"),
     hjust = hjust, vjust = vjust, gp = grid::gpar(fontfamily = house_family(), fontsize = 7, col = grey[["mid"]], lineheight = 0.95)))
 }
+# top_anchor(): cairo_pdf truncates the page to whole points (e.g. 183 mm = 518.74 pt -> 518 pt) and the
+# mosaic is placed from the bottom, so the top lost up to 0.26 mm. On PDF devices, shift the page down by
+# that fraction so blocks are laid out from the top edge; PNG devices are exact and need no shift.
+top_anchor <- function(m, h_mm) structure(grid::gTree(children = grid::gList(m), h_mm = h_mm, cl = c("pv_top", class(m))),
+                                          pv_cells = attr(m, "pv_cells"))
+makeContext.pv_top <- function(x) {
+  h_pt <- x$h_mm / 25.4 * 72
+  dy <- if (grepl("pdf", names(grDevices::dev.cur()), ignore.case = TRUE)) h_pt - floor(h_pt) else 0
+  x$vp <- grid::viewport(y = grid::unit(1, "npc") - grid::unit(dy, "bigpts"), height = grid::unit(1, "npc"), just = "top")
+  x
+}
 # patchwork / composite tiles: tag only (they control their own inner layout)
 tile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)
 
@@ -162,13 +173,13 @@ b1b <- ggplot(deg, aes(n, yi, fill = direction)) + geom_col(width = 0.68, orient
 ng <- max(hm$gene); ns <- max(hm$sample)
 cl <- unique(hm[order(hm$gene), c("gene", "cluster")])$cluster
 cut_y <- ng + 1 - (cumsum(rle(cl)$lengths)[-length(rle(cl)$lengths)] + 0.5)
-cl_y <- data.frame(lab = rle(cl)$values, y = ng + 1 - c(8.5, 22.5, 31))
+cl_y <- data.frame(lab = sub(" in ", " in\n", rle(cl)$values), y = ng + 1 - c(8.5, 22.5, 31))   # 2 lines: stay inside the block
 strip <- data.frame(x0 = c(0.5, 4.5, 8.5, 12.5), lab = c("WW", "SD", "WW", "SD"), tis = c("Leaf", "Leaf", "Root", "Root"))
 strip$txt <- paste(strip$tis, strip$lab)
 b1c <- ggplot(hm, aes(sample, ng + 1 - gene, fill = z)) + geom_raster() +
   geom_hline(yintercept = cut_y, colour = "white", linewidth = pv_house_lw(1)) +
   geom_vline(xintercept = c(4.5, 8.5, 12.5), colour = "white", linewidth = pv_house_lw(c(0.6, 1.2, 0.6))) +
-  geom_text(data = cl_y, aes(x = 16.8, y = y, label = lab), hjust = 0, size = T7, inherit.aes = FALSE) +
+  geom_text(data = cl_y, aes(x = 16.8, y = y, label = lab), hjust = 0, size = T7, lineheight = 0.9, inherit.aes = FALSE) +
   geom_rect(data = strip, aes(xmin = x0 + 0.08, xmax = x0 + 3.92, ymin = ng + 0.75, ymax = ng + 1.45), fill = tc[strip$lab], inherit.aes = FALSE) +
   geom_text(data = strip, aes(x = x0 + 2, y = ng + 1.75, label = txt, colour = I(tc[lab])), fontface = "bold", size = T7, vjust = 0, inherit.aes = FALSE) +
   scale_fill_gradient2(low = pal[["blue"]], mid = "white", high = pal[["red"]], limits = c(-2, 2), guide = "none") +
@@ -239,8 +250,9 @@ mosaic <- pv_house_mosaic(list(
   list(plot = tile(b1d, "d", l = 24, t = BT, b = BB), at = c(4, 1), cells = c(1, 2)),
   list(plot = b1e, at = c(1, 3), cells = c(3, 1)),
   list(plot = footnote(tile(b1f, "f", l = 0, b = F_B, t = F_T, r = 0), paste(DEG_DEF, "Simulated data for illustration;", "not biological results", sep = "\n"),
-                     x = 0, y = 0, hjust = 0, vjust = 0, dx = 0.6, dy = 0.4), at = c(4, 3), cells = c(1, 1))
+                     x = 0, y = 0, hjust = 0, vjust = 0, dx = 0.6, dy = 1.0), at = c(4, 3), cells = c(1, 1))
 ), cells = page_cells)
+mosaic <- top_anchor(mosaic, pv_grid_span(page_cells[2]) + if (page_cells[2] == 4) 2 else 0)
 pv_save_house(mosaic, "figure", cells = page_cells)
 
 grDevices::dev.off()

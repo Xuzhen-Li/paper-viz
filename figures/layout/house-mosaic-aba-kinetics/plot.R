@@ -52,6 +52,17 @@ footnote <- function(g, label = SIM_NOTE, x = 1, y = 1, hjust = 1, vjust = 1, dx
   grid::grobTree(g, grid::textGrob(label, x = grid::unit(x, "npc") + grid::unit(dx, "mm"), y = grid::unit(y, "npc") + grid::unit(dy, "mm"),
     hjust = hjust, vjust = vjust, gp = grid::gpar(fontfamily = house_family(), fontsize = 7, col = grey[["mid"]], lineheight = 0.95)))
 }
+# top_anchor(): cairo_pdf truncates the page to whole points (e.g. 183 mm = 518.74 pt -> 518 pt) and the
+# mosaic is placed from the bottom, so the top lost up to 0.26 mm. On PDF devices, shift the page down by
+# that fraction so blocks are laid out from the top edge; PNG devices are exact and need no shift.
+top_anchor <- function(m, h_mm) structure(grid::gTree(children = grid::gList(m), h_mm = h_mm, cl = c("pv_top", class(m))),
+                                          pv_cells = attr(m, "pv_cells"))
+makeContext.pv_top <- function(x) {
+  h_pt <- x$h_mm / 25.4 * 72
+  dy <- if (grepl("pdf", names(grDevices::dev.cur()), ignore.case = TRUE)) h_pt - floor(h_pt) else 0
+  x$vp <- grid::viewport(y = grid::unit(1, "npc") - grid::unit(dy, "bigpts"), height = grid::unit(1, "npc"), just = "top")
+  x
+}
 # patchwork / composite tiles: tag only (they control their own inner layout)
 tile_pw <- function(p, tag) add_tag(patchwork::patchworkGrob(p), tag)
 
@@ -132,16 +143,13 @@ b2d <- ggplot(dl, aes(x, y, colour = tissue)) + geom_vline(xintercept = 0, linet
   scale_y_continuous(limits = c(0, 0.35), breaks = c(0, 0.1, 0.2, 0.3), expand = c(0, 0)) +
   labs(x = "log2 FC of DEGs", y = "Density") + th
 
-# rows 2-4 (2x3 cells, 89 x 135 mm) as one tile: b 81 mm, c/d 51 mm (about 19% taller than one 43 mm cell)
-H_B <- 81; H_CD <- 135 - 3 - H_B
-lower <- gtable::gtable(widths = grid::unit(c(43, 3, 43), "mm"), heights = grid::unit(c(H_B, 3, H_CD), "mm"))
-lower <- gtable::gtable_add_grob(lower, tile(b2b, "b", t = 11.4), t = 1, l = 1, r = 3)
-lower <- gtable::gtable_add_grob(lower, tile(b2c, "c"), t = 3, l = 1)
-lower <- gtable::gtable_add_grob(lower, tile(b2d, "d"), t = 3, l = 3)
 mosaic <- pv_house_mosaic(list(
   list(plot = footnote(tile(b2a, "a")), at = c(1, 1), cells = c(2, 1)),
-  list(plot = lower, at = c(1, 2), cells = c(2, 3))
+  list(plot = tile(b2b, "b", t = 11.4), at = c(1, 2), cells = c(2, 2)),
+  list(plot = tile(b2c, "c"), at = c(1, 4), cells = c(1, 1)),
+  list(plot = tile(b2d, "d"), at = c(2, 4), cells = c(1, 1))
 ), cells = page_cells)
+mosaic <- top_anchor(mosaic, pv_grid_span(page_cells[2]) + if (page_cells[2] == 4) 2 else 0)
 pv_save_house(mosaic, "figure", cells = page_cells)
 
 grDevices::dev.off()
