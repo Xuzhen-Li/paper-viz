@@ -127,7 +127,7 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 
 字宽基于 cairo PDF 设备使用 Arial 7 pt 配合 `grid::stringWidth` 测量。数字为 1.41 mm/字符，小写字母平均 1.29 mm/字符，常见混排标签在 1.16–1.30 mm/字符之间。为保持保守估计，阈值统一采用 1.30 mm/字符。三位数 100 的宽度为 4.23 mm，7 pt 行高（1.2 em）为 2.96 mm。
 
-面板可用空间与 `house-mosaic-*` 拼版中的 `tile()` 固定边带保持一致。左侧 11.5 mm 用于 y 刻度与标题，下侧 8.6 mm 用于 x 刻度与标题，上侧 4.2 mm 用于面板字母，右侧留空 1.2 mm。面板内宽等于 n 格跨度减去 12.7 mm，面板内高等于 n 格跨度减去 12.8 mm。
+面板可用空间与 `house-mosaic-*` 拼版中的 `tile()` 固定边带保持一致。左侧 11.5 mm 用于 y 刻度与标题，下侧 8.6 mm 用于 x 刻度与标题，上侧 4.2 mm 用于面板字母，右侧留空 1.2 mm。面板内宽等于 n 格跨度减去 12.7 mm，面板内高等于 n 格跨度减去 12.8 mm。文字尺寸不随面板缩小；绘图区面积占面板比例需大于等于 60%。
 
 单位空间占用标准如下。横排类别标签的每类槽宽为 max(K × 1.30 + 1.0, 3.0) mm，包含 1 mm 字间隙，柱宽约为槽宽的 0.66 倍且不小于 2 mm。纵向逐行标签，如 forest、热图行及 raincloud 组，行距需大于等于 3.5 mm，包含 2.96 mm 行高与 0.5 mm 间隙。热图格内印数值时，例如 −.5 宽 3.53 mm，格宽需大于等于 4.3 mm。UpSet 图每列需大于等于 4.8 mm，计算基于三位数标签 4.23 mm 加上 0.6 mm 间隙。列区可用宽度等于图宽减去集合柱 15 mm、集合名列 11.9 mm（8 字符）及轴带 10 mm。
 
@@ -166,24 +166,20 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 | UpSet (in a mosaic) | 3×1 | 5 | 10 | — | 18 | — | 4×1 (≤ 28) / 3×2 |
 | Manhattan / genome track | 4×1 | 19 | — | — | — | — | 4×1 + 2×1 |
 
-表格只写数字：超过该列的数（>）就升到最后一列的尺寸，满足任一列即升。各图型的补充：
-
-- Scatter：“点”列指点数多到要看密度时；需要边际分布时升到 2×1 加边际图。Line：组 = 末端直接标签条数，点 = 需要逐点标注的时间点。
-- Raincloud：每朵云至少 7 mm（2 行）；1×1 面板高 30 mm，最多 4 朵（house-mosaic-aba-kinetics c 为 Leaf/Root × WW/SD）；2×2 最多 10 朵。
-- Forest（短表）：行名 ≤ 17 字符时 1×2 放得下（house-mosaic-transcriptome d：GO 正式名称，“biosynthetic” 缩写为 “biosynth.”，每个名称折成 2 行，左边带 24 mm）。
-- Donut：扇区 ≤ 4，外侧直接标签，不用图例；标签一行 > 5 字符就换行。house-mosaic-transcriptome f 把去重后的上调 DEG 按共享组织数分 3 段（1 / 2 / 3+ 个组织）。
-- UpSet：列宽只有一个下限 **≥ 4.8 mm**（三位数标签 4.23 mm + 0.6 mm）。拼图中 3×1 扣掉集合柱和集合名（41 mm）和轴带后约 90 mm 给交集列，90 ÷ 4.8 = 18 列；4×1 约 136 mm，28 列。house-mosaic-transcriptome e 只画 12 列（每列约 7.5 mm），是为了留白，不是上限。集合 > 5 时 1 格高每行不足 3.8 mm，升到 3×2。
-- Manhattan：要叠加基因模型时，在下方加 2×1 locus zoom，不加高主图。
-
 #### 说明
 
 单独发表的 2×2 单面板图适用 +2 pt 即 9/10 pt 规则。此条件下字宽需乘以 9/7，因此上述表格中的容量应乘以 0.78 计算。
 
-阈值数据基于 7 pt 字体。如果数值标签使用 8 pt 字体，如 UpSet 图的柱顶标注，列宽需相应乘以 8/7。按照此比例，单独发表的 4×2 单图 UpSet 每列应大于等于 5.5 mm，理论容量约为 26 列。在实际应用中采用 15 列，保留的多余空间用于排布注释与阴影列。
+阈值数据基于 7 pt 字体。如果数值标签使用 8 pt 字体，如 UpSet 图的柱顶标注，列宽需相应乘以 8/7。
 
 根据 `house-mosaic-*` 拼版系列图的实测结果，在拼图中多个面板需要上下对齐时，例如 `house-mosaic-transcriptome` 中的 a、b、c、d 面板，会共用 7 mm 的上边带与 8.6 mm 的下边带，确保两个 1×1 叠放面板的总高度与相邻 2×2 面板对齐。集合柱数值依据 #32 的对比度规则处理，如果柱内空间不足以保留两侧各 1 mm 边距，则将数值移至柱外。
 
 遇到排版拥挤情况时，应优先采用缩写、换行或横置策略，穷尽后才考虑升档。例如 house-bar 将 Control 缩写为 Ctrl，`house-mosaic-transcriptome` b 的 DEG 计数使用横向柱，`house-mosaic-gwas` d 中的人群名应用了横向堆叠柱形式。
+
+**附加排版注释：**
+* donut 按基因出现在 1、2、3+ 个组织分块，中心写去重后的基因数。
+* GO 森林图的行名用正式 GO 词条。
+* UpSet 每列宽 ≥ 4.8 mm，3×1 最多 18 列、4×1 最多 28 列。
 
 English:
 
@@ -199,9 +195,9 @@ Error handling is strict regarding dimensions. Sizes deviating from the grid are
 
 The +2 pt typography rule only applies to a single panel saved at the 2×2 size of 89 × 89 mm, which applies 9 pt ticks and 10 pt axis titles. Other dimensions, patchwork compositions, faceted plots, and mosaics strictly exclude this adjustment.
 
-Mosaic assembly utilizes `pv_house_mosaic(tiles, cells)` to place multiple plots on a single grid page. Each tile requires an `at` parameter formatted as `at = c(col, row)` (starting from 1 where top-left is 1, 1), alongside the cells parameter formatted as `cells = c(w, h)`. On a 4-cell-wide layout, a tile in column c begins at 1 + 46 × (c − 1) mm. Configurations causing tiles to extend beyond the page or overlap generate errors. The resulting object must be passed to `pv_save_house()` using the same cells configuration.
+Mosaic assembly utilizes `pv_house_mosaic(tiles, cells)` to place multiple plots on a single grid page. Each tile requires an `at` parameter formatted as `at = c(col, row)` (starting from 1 where top-left is 1, 1), alongside the `cells` parameter formatted as `cells = c(w, h)`. On a 4-cell-wide layout, a tile in column c begins at 1 + 46 × (c − 1) mm. Configurations causing tiles to extend beyond the page or overlap generate errors. The resulting object must be passed to `pv_save_house()` using the same cells configuration.
 
-The `theme_house()` default plot margin is 1.6 mm top, 0.8 mm right, 0.9 mm bottom, and 0.4 mm left. The 0.9 mm bottom margin compensates for ragg and cairo-png rendering text marginally lower than cairo PDF. At a 0.4 mm setting, the lowest pixel row of a 600 dpi PNG would clip the descenders of x-axis title characters like g, y, and brackets. The `tests/test_theme_house.R` script asserts that the bottom pixel row remains white. Custom plot margins must maintain a bottom value of at least 0.9 mm. Text dimensions do not scale down with the panel, ensuring the plotting area occupies a minimum of 60% of the overall panel area.
+The `theme_house()` default plot margin is 1.6 mm top, 0.8 mm right, 0.9 mm bottom, and 0.4 mm left. The 0.9 mm bottom margin compensates for ragg and cairo-png rendering text marginally lower than cairo PDF. At a 0.4 mm setting, the lowest pixel row of a 600 dpi PNG would clip the descenders of x-axis title characters like g, y, and brackets. The `tests/test_theme_house.R` script asserts that the bottom pixel row remains white. Custom plot margins must maintain a bottom value of at least 0.9 mm. Text dimensions do not scale down with the panel. The plotting area occupies ≥ 60% of the overall panel area.
 
 Default cells should be utilized as standard starting points. If a figure is excessively crowded or disproportionately empty, the dimension should be modified within the grid system, accompanied by a documented reason in meta.yaml.
 
@@ -242,7 +238,7 @@ Character width values derive from evaluating `grid::stringWidth` utilizing Aria
 
 Panel internal space calculations follow the fixed marginal bands defined by the `tile()` function in the `house-mosaic-*` layouts. Margins consume 11.5 mm on the left for y ticks and title, 8.6 mm on the bottom for x ticks and title, 4.2 mm on the top for the panel letter, and 1.2 mm on the right. Panel internal width equals the n-cell span minus 12.7 mm, while internal height equals the n-cell span minus 12.8 mm.
 
-Spatial unit parameters are standardized across layout elements. Horizontal category labels demand a base slot dimension calculated as max(K × 1.30 + 1.0, 3.0) mm, incorporating a 1 mm gap. Associated bar components occupy approximately 0.66 of this slot and must remain equal to or greater than 2 mm. Row labels for forest diagrams, heatmap rows, and raincloud groups mandate a spacing of at least 3.5 mm per row, comprising a 2.96 mm baseline with a 0.5 mm gap. Numerical overlays printed directly inside heatmap structures, such as −.5 measuring 3.53 mm, require host cells to span at least 4.3 mm in width. UpSet diagram layouts require 4.8 mm per column, composed of a three-digit 4.23 mm string plus 0.6 mm padding. The viable column array space equals the total width reduced by a 15 mm set bar block, an 11.9 mm allocation for an 8-character set name column, and a 10 mm axis allowance.
+Spatial unit parameters are standardized across layout elements. Horizontal category labels demand a base slot dimension calculated as max(K × 1.30 + 1.0, 3.0) mm, incorporating a 1 mm gap. Associated bar components occupy approximately 0.66 of this slot and must remain equal to or greater than 2 mm. Row labels for forest diagrams, heatmap rows, and raincloud groups mandate a spacing of at least 3.5 mm per row, comprising a 2.96 mm baseline with a 0.5 mm gap. Numerical overlays printed directly inside heatmap structures, such as −.5 measuring 3.53 mm, require host cells to span at least 4.3 mm in width. UpSet diagram layouts require ≥ 4.8 mm per column, composed of a three-digit 4.23 mm string plus 0.6 mm padding. The viable column array space equals the total width reduced by a 15 mm set bar block, an 11.9 mm allocation for an 8-character set name column, and a 10 mm axis allowance.
 
 Element capacity is derived using the floor of the available dimension divided by the space required per unit. The tabulated capacity thresholds dictate structural scaling. A panel must undergo size expansion upon surpassing its prescribed limit. Expansions should initially widen the horizontal plane to resolve category or column overflow, before introducing vertical extensions for row overflow.
 
@@ -279,24 +275,20 @@ Labelled row parameters apply strictly along the vertical axis, utilizing an ide
 | UpSet (in a mosaic) | 3×1 | 5 | 10 | — | 18 | — | 4×1 (≤ 28) / 3×2 |
 | Manhattan / genome track | 4×1 | 19 | — | — | — | — | 4×1 + 2×1 |
 
-The table holds numbers only: exceed the number in any column (>) and go up to the size in the last column. Notes per chart:
-
-- Scatter: the points column applies when density matters; with marginal plots use 2×1. Line: groups = end labels, points = time points that each need a label.
-- Raincloud: at least 7 mm (2 rows) per cloud; a 1×1 panel is 30 mm high, so 4 clouds (house-mosaic-aba-kinetics c: Leaf/Root × WW/SD); 2×2 holds 10.
-- Forest (short): row names ≤ 17 characters fit at 1×2 (house-mosaic-transcriptome d: formal GO names, "biosynthetic" shortened to "biosynth.", each wrapped to 2 lines, 24 mm left band).
-- Donut: ≤ 4 sectors, labelled directly outside, no legend; wrap labels longer than 5 characters per line. house-mosaic-transcriptome f splits the deduplicated up-regulated DEGs into 3 sectors by the number of tissues sharing them (1 / 2 / 3+).
-- UpSet: one column-width floor, **≥ 4.8 mm** (three-digit label 4.23 mm + 0.6 mm). In a 3×1 mosaic tile, the set bars and names (41 mm) and the axis band leave about 90 mm for columns: 90 ÷ 4.8 = 18. At 4×1 about 136 mm, 28 columns. house-mosaic-transcriptome e shows 12 columns (about 7.5 mm each) for breathing room, not because of a limit. With > 5 sets a 1-cell-high matrix gives under 3.8 mm per row, so go to 3×2.
-- Manhattan: to overlay gene models add a 2×1 locus zoom below; do not make the main panel taller.
-
 #### Notes
 
 Standalone output of a 2×2 panel maintains the +2 pt rule enforcing 9/10 pt typography. Under this rule, component dimensions must scale by 9/7, adjusting the overall tabulated capacities by a factor of 0.78.
 
-Base thresholds apply to 7 pt rendering. Implementing 8 pt numeric labels, such as atop UpSet configurations, requires column dimensions to scale by 8/7. Under this calculation, a standalone 4×2 UpSet requires at least 5.5 mm per column, supporting a theoretical limit of 26 total columns. Operational best practice employs 15 columns, reserving remaining space for supplemental annotations and shaded layouts.
+Base thresholds apply to 7 pt rendering. Implementing 8 pt numeric labels, such as atop UpSet configurations, requires column dimensions to scale by 8/7.
 
 Measurements validated against the three `house-mosaic-*` implementations indicate that panels within a combined mosaic must align precisely. Alignments require a shared 7 mm upper margin block and an 8.6 mm lower margin block. As demonstrated in `house-mosaic-transcriptome` sections a, b, c, and d, vertically stacking two 1×1 panels equalizes their height with adjacent 2×2 panels. Set-size quantitative labels follow the #32 contrast directive; values lacking a minimum 1 mm clearance inside the bar must be repositioned to the exterior geometry.
 
 To resolve layout restrictions, string components must be abbreviated, wrapped, or shifted to a horizontal structure prior to initiating a panel size increase. This methodology is implemented in house-bar by reducing Control to Ctrl, in `house-mosaic-transcriptome` b by migrating DEG metrics to horizontal bars, and in `house-mosaic-gwas` d by utilizing a horizontally stacked composition for population strings.
+
+**Additional Formatting Notes:**
+* Donut sectors are divided by genes appearing in 1, 2, or 3+ tissues, with the deduplicated gene count in the center.
+* GO forest row names use formal GO terms.
+* UpSet requires ≥ 4.8 mm per column; a 3×1 layout holds up to 18 columns, and a 4×1 layout holds up to 28 columns.
 
 ### 字号（印刷最终尺寸）
 
