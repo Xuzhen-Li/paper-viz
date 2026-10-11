@@ -213,6 +213,11 @@ b1d <- ggplot(go, aes(or, y)) + geom_vline(xintercept = 1, linetype = "22", line
 mm <- as.matrix(up[, tis]) == 1
 up_n <- stats::setNames(deg$n[deg$direction == "Up"], deg$tissue[deg$direction == "Up"])[tis]
 stopifnot(identical(as.numeric(colSums(mm)), as.numeric(up_n)))
+# UpSet column capacity (measured on house-mosaic-transcriptome e, 3x1 = 135 mm): everything outside the
+# intersection columns (set bars, set names, gaps, y-axis band, right margin) takes 59 mm; each column needs
+# >= 4.8 mm (three-digit label 4.23 mm + 0.6 mm). Limit = floor((width_mm - 59) / 4.8): 2x1 6, 3x1 15, 4x1 25.
+UPSET_OVERHEAD_MM <- 59; UPSET_COL_MM <- 4.8
+stopifnot(floor((pv_grid_span(3) - UPSET_OVERHEAD_MM) / UPSET_COL_MM) >= n_show)   # e is 3 cells wide
 b1e <- upset_tile(mm, unname(tis_c), n_show = n_show, tag = "e", set_w = c(26, 15), bar_frac = 0.44,
                   ylab = "Up DEGs", unit = "up DEGs", dot = 1.5)
 

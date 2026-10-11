@@ -138,9 +138,9 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 | 宽度（格） | 跨度 mm | 面板内宽 mm | 横排类别数（标签 ≤4 / ≤8 / ≤12 字符） | 逐行标签行数 | forest 标签最长字符（占图宽 45%） | UpSet 交集列数 | 热图数值列数（行名 ≤10 字符） | 小多图每行面板数（面板 ≥25 mm） | 直方图最多 bins（≥0.8 mm） |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 43 | 30.3 | 4 / 2 / 1 | 8 | 13 | —（放不下） | 6 | 1 | 37 |
-| 2 | 89 | 76.3 | 12 / 6 / 4 | 21 | 29 | 10 | 17 | 2 | 95 |
-| 3 | 135 | 122.3 | 19 / 10 / 7 | 34 | 45 | 18 | 27 | 4 | 152 |
-| 4 | 181 | 168.3 | 27 / 14 / 10 | 48 | 61 | 28 | 38 | 6 | 210 |
+| 2 | 89 | 76.3 | 12 / 6 / 4 | 21 | 29 | 6 | 17 | 2 | 95 |
+| 3 | 135 | 122.3 | 19 / 10 / 7 | 34 | 45 | 15 | 27 | 4 | 152 |
+| 4 | 181 | 168.3 | 27 / 14 / 10 | 48 | 61 | 25 | 38 | 6 | 210 |
 
 逐行标签行数基于高度计算，高度格数与宽度格数的容量对应计算逻辑一致，例如 1×2 的高度容量为 21 行。
 
@@ -163,7 +163,7 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 | Composition (donut) | 1×1 | 4 | 5 | — | — | — | 2×1 |
 | Composition (stacked bar) | 1×1 | 4 | — | — | — | — | 1×2 / 2×1 |
 | Small multiples | 2×2 | — | — | — | — | 4 | 4×2 / 4×3 |
-| UpSet (in a mosaic) | 3×1 | 5 | 10 | — | 18 | — | 4×1 (≤ 28) / 3×2 |
+| UpSet (in a mosaic) | 3×1 | 5 | 10 | — | 15 | — | 4×1 (≤ 25) / 3×2 |
 | Manhattan / genome track | 4×1 | 19 | — | — | — | — | 4×1 + 2×1 |
 
 #### 说明
@@ -247,9 +247,9 @@ Element capacity is derived using the floor of the available dimension divided b
 | Width (cells) | Span mm | Inner width mm | Categories in a row (labels ≤ 4 / ≤ 8 / ≤ 12 characters) | Labelled rows | Longest forest label (45% of width), characters | UpSet columns | Heatmap columns with values (row names ≤ 10 characters) | Small multiples per row (panel ≥ 25 mm) | Max histogram bins (≥ 0.8 mm) |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 43 | 30.3 | 4 / 2 / 1 | 8 | 13 | — (does not fit) | 6 | 1 | 37 |
-| 2 | 89 | 76.3 | 12 / 6 / 4 | 21 | 29 | 10 | 17 | 2 | 95 |
-| 3 | 135 | 122.3 | 19 / 10 / 7 | 34 | 45 | 18 | 27 | 4 | 152 |
-| 4 | 181 | 168.3 | 27 / 14 / 10 | 48 | 61 | 28 | 38 | 6 | 210 |
+| 2 | 89 | 76.3 | 12 / 6 / 4 | 21 | 29 | 6 | 17 | 2 | 95 |
+| 3 | 135 | 122.3 | 19 / 10 / 7 | 34 | 45 | 15 | 27 | 4 | 152 |
+| 4 | 181 | 168.3 | 27 / 14 / 10 | 48 | 61 | 25 | 38 | 6 | 210 |
 
 Labelled row parameters apply strictly along the vertical axis, utilizing an identical cell scaling factor. Consequently, a layout set to 1×2 accommodates a vertical capacity of 21 rows.
 
@@ -272,7 +272,7 @@ Labelled row parameters apply strictly along the vertical axis, utilizing an ide
 | Composition (donut) | 1×1 | 4 | 5 | — | — | — | 2×1 |
 | Composition (stacked bar) | 1×1 | 4 | — | — | — | — | 1×2 / 2×1 |
 | Small multiples | 2×2 | — | — | — | — | 4 | 4×2 / 4×3 |
-| UpSet (in a mosaic) | 3×1 | 5 | 10 | — | 18 | — | 4×1 (≤ 28) / 3×2 |
+| UpSet (in a mosaic) | 3×1 | 5 | 10 | — | 15 | — | 4×1 (≤ 25) / 3×2 |
 | Manhattan / genome track | 4×1 | 19 | — | — | — | — | 4×1 + 2×1 |
 
 #### Notes
