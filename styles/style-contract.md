@@ -236,7 +236,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 1. **用 Python 脚本生成可编辑的 SVG**：一个生成脚本，版面坐标写在代码里。SVG 按分区和模块分组，并加 `id`。普通文字一律保留为 `<text>`。小插图（曲线、波形、散点、仪表）在 Python 里算好，写成 SVG 路径。
 2. **线宽和字号按参考图实测**：在参考图或草图上量像素，再按印刷宽度换算（见下方“实测与换算”）。初稿通常偏细、偏小 2–3 倍。框要随文字变大，不要把字挤进固定尺寸的框里。
 3. **公式转成矢量路径**：用 matplotlib mathtext（STIX）把公式转成路径，在 `data-tex` 里保留 LaTeX 源码；另在隐藏图层里留一份纯文字版本。
-4. **图标用 AI 生成后嵌入，同时保留隐藏的矢量备份图层**：每个图标单独生成，白底或透明底，不带文字；裁掉边缘杂色，缩到约 256 px，以 base64 嵌入。每个图标都要在默认隐藏的图层里画一个位置重合的简化矢量版，并实际切换显示检查一次。浅色线条图标放在中间色调的框上容易看不清，要检查对比度。SVG 的 `<desc>` 写 “AI-assisted icons”，图下也这样标注。
+4. **图标用 AI 生成后嵌入，同时保留隐藏的矢量备份图层**：每个图标单独生成，白底或透明底，不带文字；裁掉边缘杂色，缩到约 256 px，以 base64 嵌入。每个图标都要在默认隐藏的图层里画一个简化矢量版，按位图不透明区域对齐；构建时自动比较两者中心，偏差超过 2 px 报错。浅色线条图标放在中间色调的框上容易看不清，要检查对比度。SVG 的 `<desc>` 写 “AI-assisted icons”，图下也这样标注。
 5. **对照参考图至少迭代 3 轮**：每轮导出约 2000 px 宽的 PNG，按下方清单逐项看图并修改。
 
 **字体**：Arial，回退为 Liberation Sans（两者字宽一致，脚本量字宽时用系统里找到的那一个）。文字放不下时，架构图可以例外改用 Arial Narrow → Arial，并在图的说明里写明；能放下就全部用 Arial。公式用 STIX。
@@ -266,7 +266,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 
 **配色和线宽：架构图例外**
 
-- 架构图不受数据图色板的“一图 ≤6 个彩色系列”限制，但要用一个命名的小色板：每个分区一个主色，加上它的浅色底和中间色，重复或接近的色号要合并。
+- 架构图不受数据图色板的“一图 ≤6 个彩色系列”限制，但要用一个命名的小色板：每个分区一个主色，加上它的浅色底和中间色，重复或接近的色号要合并。允许由 PAL 派生的明暗色（`shade()`），此外不写死色号。
 - 示例色板（`helpers.PAL`）：输入数据用 house 蓝 `#1F72AE`（中间色 `#8EBDDA`、浅色 `#DEE4F0`），高温用 house 红 `#CC312C`；基因型分支用青 `#2aa198`、环境分支用紫 `#9a5bd1`、交互模块用橙 `#e08a3a`、评估用绿 `#2e7d32`，四者各带一个浅色底；文字和连线用 `#1c2430`，次要元素用 `#5b6878`。蓝、红取自 house 色板，其余四个主色沿用已获批的示例观感。
 - 线宽同样写成命名常量（`helpers.LW`），取值见上方验收标准。
 - 渐变与阴影：只允许很浅的竖向渐变底（上浅下深，明度差约 30%），不用阴影。
@@ -280,7 +280,7 @@ English: New schematics (model architectures, workflows, method diagrams) use th
 1. **Generate an editable SVG with a Python script**: one generator script, with the layout coordinates in code. Group the SVG by zone and module and give the groups an `id`. All plain text stays as live `<text>`. Small insets (curves, waves, scatter, gauges) are computed in Python and written as SVG paths.
 2. **Measure stroke widths and font sizes on the reference**: measure pixels on the reference or sketch and convert them at the print width (see "Measuring and conversion" below). First drafts usually come out two to three times too thin and too small. Let boxes grow with their text instead of cramming labels into fixed boxes.
 3. **Convert formulas to vector paths**: render formulas as paths with matplotlib mathtext (STIX), keep the LaTeX source in `data-tex`, and keep a plain-text copy in a hidden layer.
-4. **Embed AI-generated icons and keep a hidden vector backup layer**: generate each icon separately on a white or transparent background with no text, trim the edges, scale to about 256 px and embed it as base64. Every icon needs a simplified vector version in a layer that is hidden by default, placed exactly over the bitmap; switch it on once to check. Light outline icons can vanish on mid-tone boxes, so check the contrast. Put "AI-assisted icons" in the SVG `<desc>` and under the figure.
+4. **Embed AI-generated icons and keep a hidden vector backup layer**: generate each icon separately on a white or transparent background with no text, trim the edges, scale to about 256 px and embed it as base64. Every icon needs a simplified vector version in a layer that is hidden by default, fitted to the bitmap's visible (opaque) area; the build compares their centres and fails if they are more than 2 px apart. Light outline icons can vanish on mid-tone boxes, so check the contrast. Put "AI-assisted icons" in the SVG `<desc>` and under the figure.
 5. **Iterate against the reference at least three times**: each round, export a PNG about 2000 px wide and go through the checklist below.
 
 **Font**: Arial, falling back to Liberation Sans (the two have the same widths; the script measures text with whichever is installed). If text does not fit, an architecture diagram may use Arial Narrow → Arial as an exception, stated in the figure notes; use Arial throughout whenever it fits. Formulas use STIX.
@@ -310,7 +310,7 @@ The example's `build_v3.py` prints the smallest and largest font size and line w
 
 **Colour and line width: the architecture-diagram exception**
 
-- Architecture diagrams are not bound by the data-figure rule of at most six coloured series, but they use a small named palette: one main colour per zone plus its light fill and mid tone, with duplicate or near-duplicate colours merged.
+- Architecture diagrams are not bound by the data-figure rule of at most six coloured series, but they use a small named palette: one main colour per zone plus its light fill and mid tone, with duplicate or near-duplicate colours merged. Lighter and darker variants derived from PAL with `shade()` are allowed; no other colour values are hard-coded.
 - Example palette (`helpers.PAL`):
   - input data: house blue `#1F72AE`, with mid `#8EBDDA` and light `#DEE4F0`;
   - heat: house red `#CC312C`;

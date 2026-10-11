@@ -181,49 +181,83 @@ def axes(x, y, w, h):
     L([(x, y + h), (x + w + 4, y + h)], PAL['ink'], 'arrow_minor')
 
 
-# ---- icons: AI-generated bitmap in the figure, simplified vector twin in a hidden layer
-def _vec_snowflake(cx, cy, w, h):
-    r = min(w, h) * 0.46; g = ['<g class="vec-snowflake" stroke-linecap="round">']
-    for col, sw in (('#4f7fb3', r * 0.16), ('#dbe9f7', r * 0.06)):
-        for k in range(3):
-            an = k * math.pi / 3 + math.pi / 2; dx, dy = r * math.cos(an), r * math.sin(an)
-            g.append(f'<line x1="{cx - dx:.1f}" y1="{cy - dy:.1f}" x2="{cx + dx:.1f}" y2="{cy + dy:.1f}" stroke="{col}" stroke-width="{sw:.2f}"/>')
-            for sgn in (1, -1):
-                bx, by = cx + sgn * dx * 0.62, cy + sgn * dy * 0.62
-                for t in (0.7, -0.7):
-                    b2 = an + (0 if sgn > 0 else math.pi) + t
-                    g.append(f'<line x1="{bx:.1f}" y1="{by:.1f}" x2="{bx + r * 0.3 * math.cos(b2):.1f}" y2="{by + r * 0.3 * math.sin(b2):.1f}"'
-                             f' stroke="{col}" stroke-width="{sw:.2f}"/>')
+# ---- icons: AI-generated bitmap in the figure, simplified vector twin in a hidden layer.
+# Each vector twin is fitted to the bitmap's visible (opaque) box, not to the <image> box,
+# so the two overlap even where the bitmap has transparent margins.
+# Icon colours are PAL colours or light/dark variants of them made with shade().
+ICONS = []          # (name, image box, opaque box) for the overlap check in build_v3.py
+ALPHA_MIN = 40      # alpha above this counts as visible
+
+
+def _opaque_box(p, x, y, w, h):
+    with Image.open(p) as im:
+        al = im.convert('RGBA').getchannel('A').point(lambda v: 255 if v > ALPHA_MIN else 0)
+        bx = al.getbbox(); iw, ih = im.size
+    return (x + bx[0] * w / iw, y + bx[1] * h / ih, x + bx[2] * w / iw, y + bx[3] * h / ih)
+
+
+def _flake_lines():
+    """Unit snowflake (arm length 1) as line segments."""
+    segs = []
+    for k in range(3):
+        an = k * math.pi / 3 + math.pi / 2; dx, dy = math.cos(an), math.sin(an)
+        segs.append((-dx, -dy, dx, dy))
+        for sgn in (1, -1):
+            bx, by = sgn * dx * 0.62, sgn * dy * 0.62
+            for t in (0.7, -0.7):
+                b2 = an + (0 if sgn > 0 else math.pi) + t
+                segs.append((bx, by, bx + 0.3 * math.cos(b2), by + 0.3 * math.sin(b2)))
+    return segs
+
+
+def _vec_snowflake(x0, y0, x1, y1):
+    segs = _flake_lines(); sw = 0.3                 # outer stroke in unit coordinates
+    ex = max(max(abs(s[0]), abs(s[2])) for s in segs) + sw / 2
+    ey = max(max(abs(s[1]), abs(s[3])) for s in segs) + sw / 2
+    sx, sy = (x1 - x0) / 2 / ex, (y1 - y0) / 2 / ey
+    g = [f'<g class="vec-snowflake" stroke-linecap="round" transform="translate({(x0 + x1) / 2:.2f},{(y0 + y1) / 2:.2f}) scale({sx:.3f},{sy:.3f})">']
+    for col, wd in ((shade(PAL['input'], 1.25), sw), (shade(PAL['input'], 1.85), sw * 0.38)):
+        for s in segs:
+            g.append(f'<line x1="{s[0]:.3f}" y1="{s[1]:.3f}" x2="{s[2]:.3f}" y2="{s[3]:.3f}" stroke="{col}" stroke-width="{wd:.3f}"/>')
     g.append('</g>'); return ''.join(g)
 
 
-def _vec_flame(cx, cy, w, h):
-    s = h / 24
-    return (f'<g class="vec-flame" transform="translate({cx:.1f},{cy + h * 0.04:.1f}) scale({s:.3f})">'
-            '<path d="M0,-12 C7,-6 9,0 7,5 C5,10 -5,10 -7,5 C-9,0 -6,-4 -3,-7 C-2,-3 0,-2 1,-4 C2,-7 0,-10 0,-12Z" fill="#e8541f"/>'
-            '<path d="M0,-3 C3.5,0.5 3.5,5 0,7.5 C-3.5,5 -3.5,1.5 0,-3Z" fill="#f7a23a"/></g>')
+# flame outline in a local frame; its drawn extent is about x -7.8..7.8, y -12..8.8
+_FLAME = ('M0,-12 C7,-6 9,0 7,5 C5,10 -5,10 -7,5 C-9,0 -6,-4 -3,-7 C-2,-3 0,-2 1,-4 C2,-7 0,-10 0,-12Z',
+          'M0,-3 C3.5,0.5 3.5,5 0,7.5 C-3.5,5 -3.5,1.5 0,-3Z')
+def _vec_flame(x0, y0, x1, y1):
+    sx, sy = (x1 - x0) / 15.6, (y1 - y0) / 20.8
+    return (f'<g class="vec-flame" transform="translate({(x0 + x1) / 2:.2f},{y0 + 12 * sy:.2f}) scale({sx:.3f},{sy:.3f})">'
+            f'<path d="{_FLAME[0]}" fill="{PAL["heat"]}"/><path d="{_FLAME[1]}" fill="{shade(PAL["fuse"], 1.15)}"/></g>')
 
 
-def _vec_database(cx, cy, w, h):
-    rx, ry = w / 2 * 0.96, h * 0.12; top, bot = cy - h / 2 + ry, cy + h / 2 - ry
-    bands = ''.join(f'<path d="M{cx - rx:.1f},{top + (bot - top) * f:.1f} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0" fill="none" stroke="#5b6878" stroke-width="1.5"/>'
+def _vec_database(x0, y0, x1, y1):
+    sw = 1.5; line = PAL['grey']
+    rx = (x1 - x0) / 2 - sw / 2; ry = (y1 - y0) * 0.13; cx = (x0 + x1) / 2
+    top, bot = y0 + sw / 2 + ry, y1 - sw / 2 - ry
+    bands = ''.join(f'<path d="M{cx - rx:.1f},{top + (bot - top) * f:.1f} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0" fill="none" stroke="{line}" stroke-width="{sw}"/>'
                     for f in (1 / 3, 2 / 3))
     return (f'<g class="vec-database"><path d="M{cx - rx:.1f},{top:.1f} V{bot:.1f} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0 V{top:.1f}"'
-            f' fill="#cfd6df" stroke="#5b6878" stroke-width="1.5"/>{bands}'
-            f'<ellipse cx="{cx:.1f}" cy="{top:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="#e6eaf0" stroke="#5b6878" stroke-width="1.5"/></g>')
+            f' fill="{shade(line, 1.6)}" stroke="{line}" stroke-width="{sw}"/>{bands}'
+            f'<ellipse cx="{cx:.1f}" cy="{top:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="{shade(line, 1.8)}" stroke="{line}" stroke-width="{sw}"/></g>')
 
 
-def _vec_gauge(cx, cy, w, h):
-    r = w * 0.42; yc = cy + h * 0.22; sw = r * 0.3; segs = []
-    cols = ['#9ccc65', '#66bb6a', '#43a047', '#2e7d32', '#1b5e20']
-    for k, col in enumerate(cols):
+def _vec_gauge(x0, y0, x1, y1):
+    cx = (x0 + x1) / 2
+    r = (x1 - x0) / 2 / 1.15; sw = r * 0.3          # outer radius r + sw/2 = half the box width
+    hub = 4.0
+    yc = y1 - hub                                   # hub sits on the bottom of the box
+    segs = []
+    for k, f in enumerate((1.7, 1.4, 1.15, 1.0, 0.7)):
         a0, a1 = math.pi * (1 - k / 5), math.pi * (1 - (k + 1) / 5)
         segs.append(f'<path d="M{cx + r * math.cos(a0):.1f},{yc - r * math.sin(a0):.1f} A{r:.1f},{r:.1f} 0 0 1 {cx + r * math.cos(a1):.1f},{yc - r * math.sin(a1):.1f}"'
-                    f' fill="none" stroke="{col}" stroke-width="{sw:.1f}"/>')
+                    f' fill="none" stroke="{shade(PAL["eval"], f)}" stroke-width="{sw:.1f}"/>')
     an = math.radians(40)
     needle = (f'<path d="M{cx - 2.5 * math.sin(an):.1f},{yc - 2.5 * math.cos(an):.1f} L{cx + r * 0.95 * math.cos(an):.1f},{yc - r * 0.95 * math.sin(an):.1f}'
-              f' L{cx + 2.5 * math.sin(an):.1f},{yc + 2.5 * math.cos(an):.1f}Z" fill="#26323f"/><circle cx="{cx:.1f}" cy="{yc:.1f}" r="4" fill="#26323f"/>')
-    return f'<g class="vec-gauge">{"".join(segs)}{needle}</g>'
+              f' L{cx + 2.5 * math.sin(an):.1f},{yc + 2.5 * math.cos(an):.1f}Z" fill="{PAL["ink"]}"/><circle cx="{cx:.1f}" cy="{yc:.1f}" r="{hub}" fill="{PAL["ink"]}"/>')
+    # scale vertically so the arc top meets the box top
+    top = yc - r - sw / 2; s = (y1 - y0) / (y1 - top)
+    return f'<g class="vec-gauge" transform="translate(0,{y1:.2f}) scale(1,{s:.4f}) translate(0,{-y1:.2f})">{"".join(segs)}{needle}</g>'
 
 
 _VEC = {'snowflake': _vec_snowflake, 'flame': _vec_flame, 'database': _vec_database, 'gauge': _vec_gauge}
@@ -233,12 +267,17 @@ def ICON(n, cx, cy, w):
     p = ICON_DIR / f'{n}.png'
     with Image.open(p) as im:
         h = w * im.height / im.width
+    x, y = cx - w / 2, cy - h / 2
+    ob = _opaque_box(p, x, y, w, h)
+    ICONS.append((n, (x, y, x + w, y + h), ob))
     b64 = base64.b64encode(p.read_bytes()).decode()
-    a(f'<image class="icon-bitmap icon-{n}" x="{cx - w / 2:.1f}" y="{cy - h / 2:.1f}" width="{w}" height="{h:.1f}" href="data:image/png;base64,{b64}"/>')
-    iconfb.append(_VEC[n](cx, cy, w, h))
+    a(f'<image class="icon-bitmap icon-{n}" x="{x:.1f}" y="{y:.1f}" width="{w}" height="{h:.1f}" href="data:image/png;base64,{b64}"/>')
+    iconfb.append(_VEC[n](*ob))
 
 
-STATIC_DEFS = '''<radialGradient id="nodeg" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d7dee8"/></radialGradient>'''
+def static_defs():
+    return (f'<radialGradient id="nodeg" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="{PAL["card"]}"/>'
+            f'<stop offset="1" stop-color="{shade(PAL["grey"], 1.75)}"/></radialGradient>')
 
 
 def check_layout():
@@ -264,8 +303,8 @@ def finish(path, vector_icons=False):
     style = '<style>.icon-bitmap{display:none}</style>' if vector_icons else ''
     vis = 'visible' if vector_icons else 'hidden'
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
-         '<desc>AI-assisted icons</desc>', style, '<defs>', STATIC_DEFS, *defs, '</defs>',
-         f'<rect width="{W}" height="{H}" fill="#ffffff"/>', '<g id="figure">', *out, '</g>',
+         '<desc>AI-assisted icons</desc>', style, '<defs>', static_defs(), *defs, '</defs>',
+         f'<rect width="{W}" height="{H}" fill="{PAL["card"]}"/>', '<g id="figure">', *out, '</g>',
          f'<g id="vector-icon-fallback" visibility="{vis}">', *iconfb, '</g>',
          '<g id="math-text-fallback" visibility="hidden">', *mathfb, '</g>', '</svg>']
     Path(path).write_text('\n'.join(x for x in s if x) + '\n')
