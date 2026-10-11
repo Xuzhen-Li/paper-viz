@@ -89,10 +89,11 @@ p_lab <- ggplot(set_n, aes(1, row, label = set_cols[set], colour = set)) +
   theme_void()
 
 # set sizes (bars run leftwards, counts on the bars) ---------------------------------------
-x_set <- ceiling(max(set_n$n) * 1.45 / 250) * 250
+x_set <- ceiling(max(set_n$n) * 1.08 / 250) * 250   # same rule as the top axis; 891 -> 1000
 p_set <- ggplot(set_n, aes(n, row, fill = set)) +
   geom_col(width = 0.62, orientation = "y") +
-  geom_text(aes(label = n, colour = set), hjust = 1.15, size = pv_pt2size(8)) +
+  # inside the bar end: with the limit at max x 1.08 an outside label would be clipped
+  geom_text(aes(label = n), hjust = -0.15, colour = "white", size = pv_pt2size(8)) +
   scale_fill_manual(values = cols, guide = "none") +
   scale_colour_manual(values = cols, guide = "none") +
   scale_x_reverse(limits = c(x_set, 0), breaks = seq(0, x_set, 500), expand = c(0, 0)) + y_rows +
