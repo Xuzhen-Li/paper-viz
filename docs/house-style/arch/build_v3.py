@@ -30,6 +30,8 @@ def report(svg_text):
 
 
 ICON_TOL = 2.0   # px: max distance between a vector fallback icon and its bitmap's visible centre
+SIZE_TOL = 0.05  # fallback size rule: the vector icon's visible bbox width and height (alpha > ALPHA_MIN, rendered
+                 # alone) must each be within +-5 % of the bitmap's visible (opaque) bbox, i.e. |ratio - 1| <= 0.05
 
 
 def icon_overlap(svg_text, icons, scale=2):
@@ -70,6 +72,8 @@ def main():
         print('vector fallback icon vs bitmap visible area (centre offset px, size ratio w, h):')
         for name, dx, dy, rw, rh in icon_overlap(svg.read_text(), helpers.ICONS):
             flag = '' if max(abs(dx), abs(dy)) <= ICON_TOL else '  <- off by more than %.0f px' % ICON_TOL
+            if not flag and max(abs(rw - 1), abs(rh - 1)) > SIZE_TOL:
+                flag = '  <- size differs by more than %.0f %%' % (SIZE_TOL * 100)
             print(f'  {name:10s} dx {dx:+5.1f}  dy {dy:+5.1f}  w {rw:4.2f}  h {rh:4.2f}{flag}')
             if flag:
                 bad_icons.append(name)

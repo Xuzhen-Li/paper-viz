@@ -5,7 +5,7 @@
 - 改成自己的图：复制本目录，改 `body.py` 里的坐标和文字、`helpers.PAL`，再跑 `build_v3.py`。
 - 依赖：Python ≥ 3.10，`pip install -r requirements.txt`（numpy、matplotlib、Pillow）。另需字体 Arial 或 Liberation Sans（二者字宽一致；Linux 可装 `fonts-liberation`），以及导出 PNG 用的 `rsvg-convert`（Debian/Ubuntu 包名 `librsvg2-bin`）。公式用 matplotlib 自带的 STIX 字体。
 - 重建：`python3 docs/house-style/arch/build_v3.py`（任意目录下都可运行）。它会覆盖本目录的 `arch_v3.svg` 和 `arch_v3.png`（2000 px 宽），并打印 contract 里规定的字号、线宽和对齐检查；不达标时以非零状态退出。脚本不联网，图标只读 `icons/` 里已入库的文件。
-- 图标检查：重建时只渲染矢量备用图标，逐个和对应位图的不透明区域（alpha > 40）比较中心，并打印偏差和宽高比。
+- 图标检查：重建时只渲染矢量备用图标，逐个和对应位图的不透明区域（alpha > 40）比较中心和宽高：中心偏差 ≤ 2 px，宽、高之比各在 ±5% 以内，否则以非零状态退出。`clean_icons.py` 清除图标透明边距里孤立的近透明杂点（alpha ≤ 16 且 2 px 内没有可见像素），保留抗锯齿边缘；`--check` 只检查。
 - 字体与 PNG：入库的 PNG 用真 Arial 渲染。只装了 Liberation Sans 时，重建出的 SVG 和入库版逐字节一致；PNG 版面相同，但字节不同。
 - 为什么页面显示 PNG：SVG 的文字依赖本机字体，没有 Arial 或 Liberation Sans 的设备（如部分手机）会换字体，可能出框；SVG 供下载编辑。
 - 颜色：只使用命名色板 `PAL` 里的颜色，以及用 `shade()` 从 PAL 派生的明暗色；脚本里不写死其他色号。
@@ -19,7 +19,7 @@ English: This is the worked example of the house-style schematic method. Its con
 - To make your own: copy this folder, change the coordinates and labels in `body.py` and the colours in `helpers.PAL`, then run `build_v3.py`.
 - Requirements: Python 3.10 or later and `pip install -r requirements.txt` (numpy, matplotlib, Pillow). You also need the Arial or Liberation Sans font (the two have the same widths; on Linux, `fonts-liberation`), and `rsvg-convert` (Debian/Ubuntu package `librsvg2-bin`) for the PNG. Formulas use the STIX fonts bundled with matplotlib.
 - Rebuild: `python3 docs/house-style/arch/build_v3.py` (from any directory). It overwrites `arch_v3.svg` and `arch_v3.png` (2000 px wide) in this folder and prints the font-size, line-width and alignment checks defined in the contract; it exits non-zero if any fails. The script makes no network calls and reads icons only from the committed `icons/` folder.
-- Icon check: a rebuild renders only the vector fallback icons and compares each one's centre with the visible (alpha > 40) area of its bitmap, printing the offset and the width and height ratios.
+- Icon check: a rebuild renders only the vector fallback icons and compares each one with the visible (alpha > 40) area of its bitmap: the centre offset must be ≤ 2 px and the width and height ratios each within ±5 %, otherwise it exits non-zero. `clean_icons.py` removes isolated near-transparent specks from the icons' transparent margins (alpha ≤ 16 with no visible pixel within 2 px) and keeps anti-aliased edges; `--check` only reports.
 - Fonts and the PNG: the committed PNG was rendered with real Arial. With only Liberation Sans installed, a rebuild gives a byte-identical SVG and a PNG with the same layout but different bytes.
 - Why the page shows the PNG: the SVG text depends on installed fonts, and devices without Arial or Liberation Sans (some phones) would substitute a font that may overflow the boxes; the SVG is there to download and edit.
 - Colours: the scripts use only colours from the named palette `PAL` and lighter or darker variants derived from it with `shade()`; no other colour values are hard-coded.
