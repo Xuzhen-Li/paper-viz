@@ -27,8 +27,8 @@ lead$lab <- sprintf("chr%d lead SNP", lead$chr)
 stopifnot(nrow(lead) >= 1, all(lead$neg_log10_p > thr))
 
 minus <- function(x) gsub("-", "\u2212", x)
-ymax <- ceiling(max(d$neg_log10_p) + 1.5)
-thr_lab <- sprintf("Bonferroni (0.05/%s), %s = %.2f", format(n_snp, big.mark = ","), "\u2212log10 P", thr)
+ymax <- max(d$neg_log10_p) + 0.8                             # just above the highest peak
+thr_lab <- sprintf("Bonferroni (0.05/%s)\n%s = %.2f", format(n_snp, big.mark = ","), "\u2212log10 P", thr)
 xr <- range(d$x)
 
 p <- ggplot(d, aes(x, neg_log10_p)) +
@@ -36,22 +36,21 @@ p <- ggplot(d, aes(x, neg_log10_p)) +
   geom_point(data = d[d$sig, ], aes(colour = chr_f), size = 0.9, stroke = 0) +
   geom_hline(yintercept = thr, linetype = "22", linewidth = pv_house_lw(0.5),
              colour = pv_palette("house_grey")[["mid"]]) +
-  annotate("text", x = xr[2], y = thr + 0.25, label = thr_lab, hjust = 1, vjust = 0, size = pv_pt2size(7),
+  annotate("text", x = xr[1], y = thr + 0.25, label = thr_lab, hjust = 0, vjust = 0, lineheight = 0.95, size = pv_pt2size(7),
            colour = pv_palette("house_grey")[["dark"]]) +
   # lead SNPs: red diamond with black outline, about twice a normal point, so they stand out from the
   # red / brown-red chrom12 colours
   geom_point(data = lead, shape = 23, size = 1.9, stroke = 0.35, fill = pv_palette("house")[["red"]],
              colour = "black") +
-  # labels sit right of the diamond, except where that would run into the threshold label (then left)
-  geom_text(data = lead, aes(x = x + ifelse(x > 0.5 * xr[2], -11, 11), label = lab,
-                             hjust = ifelse(x > 0.5 * xr[2], 1, 0)), vjust = 0.5, size = pv_pt2size(7)) +
-  annotate("text", x = xr[2], y = ymax - 0.3, label = SIM_NOTE, hjust = 1, vjust = 1, size = pv_pt2size(7),
-           colour = pv_palette("house_grey")[["mid"]]) +
+  geom_text(data = lead, aes(label = lab), nudge_x = 11, hjust = 0, vjust = 0.5, size = pv_pt2size(7)) +
   scale_colour_manual(values = cols, guide = "none") +
   scale_x_continuous(breaks = mid, labels = chr_ids, expand = c(0.005, 0)) +
-  scale_y_continuous(limits = c(0, ymax), breaks = seq(0, ymax, 4), expand = c(0, 0)) +
-  labs(x = "Chromosome", y = "\u2212log10 P") +
-  theme_house()
+  scale_y_continuous(limits = c(0, ymax), breaks = seq(0, 12, 4), expand = c(0, 0)) +
+  labs(x = "Chromosome", y = "\u2212log10 P", caption = SIM_NOTE) +
+  theme_house() +
+  theme(plot.caption = element_text(size = 7, hjust = 1, colour = pv_palette("house_grey")[["mid"]],
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
 pv_save_house(p, "figure", cells = "4x1")
 message(sprintf("N SNPs = %d, threshold -log10 P = %.3f, significant = %d", n_snp, thr, sum(d$sig)))
