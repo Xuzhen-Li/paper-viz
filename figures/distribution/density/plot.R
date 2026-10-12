@@ -1,58 +1,53 @@
-# Grouped densities with optional mode labels. Reads data.csv only.
-source("../../../styles/r/theme_viz.R")
+# Grouped densities (house style): filled curves, group names at the peaks in the group colour,
+# Kruskal-Wallis P in the panel. Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数
 show_mode_labels <- TRUE
 group_levels <- c("Line A", "Line B", "Line C", "Line D")
-fill_alpha <- 0.22
+fill_alpha <- 0.25
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$group <- factor(df$group, levels = group_levels)
-cols <- setNames(pv_palette("categorical", nlevels(df$group)), group_levels)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# blue, red, green, purple: all >= 3:1 on white, so peak labels keep the group colour
+cols <- stats::setNames(c(hp[["blue"]], hp[["red"]], hp[["green"]], hp[["purple"]])[seq_along(group_levels)],
+                        group_levels)
+footnote <- "Simulated data for illustration; not biological results"
 
 modes <- do.call(rbind, lapply(group_levels, function(g) {
-  d <- stats::density(df$value[df$group == g], n = 256)
+  d <- stats::density(df$value[df$group == g], n = 512)
   i <- which.max(d$y)
-  data.frame(group = g, x = d$x[i], y = d$y[i], stringsAsFactors = FALSE)
+  data.frame(group = factor(g, levels = group_levels), x = d$x[i], y = d$y[i])
 }))
+kw <- stats::kruskal.test(value ~ group, data = df)$p.value
+y_top <- max(modes$y) * 1.22
 
-p <- ggplot2::ggplot(df, ggplot2::aes(value, colour = group, fill = group)) +
-  ggplot2::geom_density(alpha = fill_alpha, linewidth = 0.55) +
-  ggplot2::scale_colour_manual(values = cols, guide = "none") +
-  ggplot2::scale_fill_manual(values = cols, name = NULL) +
-  ggplot2::labs(x = "Measurement", y = "Density") +
-  theme_viz(base_size = 7) +
-  ggplot2::theme(
-    legend.position = if (isTRUE(show_mode_labels)) "none" else "inside"
-  )
+p <- ggplot(df, aes(value, colour = group, fill = group)) +
+  geom_density(alpha = fill_alpha, linewidth = pv_house_lw(1.4)) +
+  annotate("text", x = -Inf, y = Inf, hjust = -0.06, vjust = 1.4, parse = TRUE,
+           label = paste0("'Kruskal-Wallis '*", pv_fmt_p(kw))) +
+  scale_colour_manual(values = cols, guide = "none") +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, y_top), expand = c(0, 0)) +
+  labs(x = "Measurement", y = "Density", caption = footnote) +
+  theme_house() +
+  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
-if (show_mode_labels) {
-  line_b <- modes[modes$group == "Line B", , drop = FALSE]
-  others <- modes[modes$group != "Line B", , drop = FALSE]
-  # Line B's pink label was sitting on the pink fill. Lift it into the white gap.
-  line_b$y <- line_b$y + 0.22
-  p <- p +
-    ggrepel::geom_text_repel(
-      data = others,
-      ggplot2::aes(x, y, label = group, colour = group),
-      inherit.aes = FALSE,
-      size = 2.1,
-      direction = "y",
-      min.segment.length = 0.2,
-      segment.size = 0.2,
-      box.padding = 0.25,
-      show.legend = FALSE,
-      seed = 45
-    ) +
-    ggplot2::geom_text(
-      data = line_b,
-      ggplot2::aes(x, y, label = group, colour = group),
-      inherit.aes = FALSE,
-      size = 2.1,
-      vjust = 0,
-      show.legend = FALSE
-    )
+if (isTRUE(show_mode_labels)) {
+  p <- p + ggrepel::geom_text_repel(data = modes, aes(x, y, label = group, colour = group),
+                                    inherit.aes = FALSE, nudge_y = 0.04 * y_top, direction = "x",
+                                    min.segment.length = Inf, box.padding = 0.15, seed = 45,
+                                    ylim = c(NA, y_top * 0.9))
+} else {
+  key <- data.frame(group = factor(group_levels, levels = group_levels), i = seq_along(group_levels))
+  p <- p + geom_text(data = key, aes(x = Inf, y = Inf, label = group, colour = group), hjust = 1.08,
+                     vjust = 1.4 * key$i, inherit.aes = FALSE)
 }
 
-pv_save(p, "figure", width_mm = 85, height_mm = 60)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")

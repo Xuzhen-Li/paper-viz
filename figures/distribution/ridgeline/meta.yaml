@@ -13,5 +13,7 @@ data_columns:
   group: 队列或分组（字符串）
   value: 得分（数值）
 when_to_use: 组数较多、要比较多条分布的位置和重叠时用。
-customize: ridge_scale 控制重叠程度；show_quantile 与 quantiles 控制分位线；sort_by_median 按中位数从下到上排列。颜色由 pv_palette("categorical") 插值。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 1x2

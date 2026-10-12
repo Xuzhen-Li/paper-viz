@@ -14,5 +14,7 @@ data_columns:
   axis: 坐标轴名称（字符串）
   value: 该轴上的原始读数（数值）
 when_to_use: 多个量纲不同的指标要放在一起比较各组轮廓时用。
-customize: highlight_group 填一个组名则只突出该组，填 none 则所有组按 pv_palette("categorical") 上色。各轴在图内各自缩放到 0–1。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x1

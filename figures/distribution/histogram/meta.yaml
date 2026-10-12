@@ -12,5 +12,7 @@ data_columns:
   group: 组别（字符串）
   value: 测量值（数值）
 when_to_use: 要看一两个组的取值频数，并对照分布形状时用。
-customize: layout 取 mirrored（上下镜像）或 facet（分面）；show_density 开关密度曲线；n_bins 改箱数；group_levels 决定上下顺序与 pv_palette 颜色。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x1

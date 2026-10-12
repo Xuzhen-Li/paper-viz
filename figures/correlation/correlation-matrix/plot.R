@@ -1,6 +1,8 @@
-# Correlation matrix. Circle or square; optional stars; optional upper triangle.
+# Correlation matrix (house style): circle or square cells on the blue-red diverging scale,
+# stars for P < sig_cut, colour bar inside the empty lower triangle. Reads data.csv only.
 # Run from this directory.
-source("../../../styles/r/theme_viz.R")
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 cell_shape <- "circle"
 show_significance <- TRUE
@@ -18,32 +20,52 @@ df$var_a <- factor(df$var_a, levels = ord)
 df$var_b <- factor(df$var_b, levels = ord)
 ia <- as.integer(df$var_a)
 ib <- as.integer(df$var_b)
+# each pair is stored once; put it on the x < y side so the upper triangle is complete
+swap <- ia > ib
+df[swap, c("var_a", "var_b")] <- df[swap, c("var_b", "var_a")]
+ia <- as.integer(df$var_a)
+ib <- as.integer(df$var_b)
+if (!isTRUE(upper_only)) {
+  mirror <- df; mirror[, c("var_a", "var_b")] <- df[, c("var_b", "var_a")]
+  df <- rbind(df, mirror); ia <- as.integer(df$var_a); ib <- as.integer(df$var_b)
+}
 keep <- if (isTRUE(upper_only)) ia < ib else ia != ib
 plot_df <- df[keep, , drop = FALSE]
 plot_df$stars <- ifelse(plot_df$p < sig_cut, "*", "")
-fills <- pv_palette("diverging", 9)
+fills <- pv_palette("house_div")   # blue (negative) to red (positive), centred on 0
+grey <- pv_palette("house_grey")
+footnote <- "Simulated data for illustration; not biological results"
+n_sig <- sum(df$p[keep] < sig_cut & as.integer(df$var_a)[keep] < as.integer(df$var_b)[keep])
 
-p <- ggplot2::ggplot(plot_df, ggplot2::aes(var_a, var_b, fill = r))
+p <- ggplot(plot_df, aes(var_a, var_b, fill = r))
 if (cell_shape == "square") {
-  p <- p + ggplot2::geom_tile(colour = "white", linewidth = 0.2)
+  p <- p + geom_tile(colour = "white", linewidth = pv_house_lw(0.3))
 } else {
-  p <- p + ggplot2::geom_point(ggplot2::aes(size = abs(r)), shape = 21, stroke = 0.15)
-  p <- p + ggplot2::scale_size_area(max_size = 5.5, limits = c(0, 1), guide = "none")
+  p <- p + geom_point(aes(size = abs(r)), shape = 21, stroke = HOUSE_POINT$stroke, colour = grey[["dark"]])
+  p <- p + scale_size_area(max_size = 5.2, limits = c(0, 1), guide = "none")
 }
 if (isTRUE(show_significance)) {
-  p <- p + ggplot2::geom_text(ggplot2::aes(label = stars), size = 2.2, colour = "black")
+  p <- p + geom_text(aes(label = stars), vjust = 0.75, colour = "black")
+}
+k <- length(ord)
+if (isTRUE(upper_only)) {
+  p <- p + annotate("text", x = k, y = 4, hjust = 1, vjust = 0, lineheight = 0.95,
+                    label = sprintf("* P < %.2f\n%d of %d pairs", sig_cut, n_sig, nrow(plot_df)))
 }
 p <- p +
-  ggplot2::scale_fill_gradientn(colours = fills, limits = c(-1, 1), name = "r") +
-  ggplot2::scale_x_discrete(drop = FALSE) +
-  ggplot2::scale_y_discrete(drop = FALSE) +
-  ggplot2::labs(x = NULL, y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 5.5),
-    axis.text.y = ggplot2::element_text(size = 5.5),
-    legend.key.height = ggplot2::unit(8, "mm")
-  )
+  scale_fill_gradientn(colours = fills, limits = c(-1, 1), breaks = c(-1, 0, 1), name = "r",
+                       guide = guide_colourbar(direction = "horizontal", title.position = "top",
+                                               barwidth = unit(16, "mm"), barheight = unit(2, "mm"))) +
+  scale_x_discrete(drop = FALSE) +
+  scale_y_discrete(drop = FALSE) +
+  labs(x = NULL, y = NULL, caption = footnote) +
+  theme_house(legend = "inside") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        legend.position.inside = c(0.98, 0.02), legend.justification.inside = c(1, 0),
+        legend.title = element_text(face = "italic"),
+        plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
-pv_save(p, "figure", width_mm = 140, height_mm = 120)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")
