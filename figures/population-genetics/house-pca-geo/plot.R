@@ -21,28 +21,23 @@ stopifnot(all(n_per == n_per[[1]]), n_snp == 300)
 FOOT <- sprintf("n = %d per region; %d unlinked SNPs (equivalent to LD-pruned)\n%s", n_per[[1]], n_snp, SIM_NOTE)
 stopifnot(length(cols) == 6, nlevels(sc$region) == 6)
 
-# --- text colour: group colour, darkened when it is too pale on white ---------------------------------
-# WCAG 2 contrast ratio against white. Rule: keep the group colour if it reaches 3:1 on white; otherwise
-# mix it toward black in 2 % steps until it reaches 4.5:1 (the 7 pt body-text level).
+# --- text colour: never a new colour -----------------------------------------------------------------
+# Rule: a group keeps its own palette colour for its label if that colour reaches 3:1 contrast on white
+# (WCAG 2); otherwise the label uses the house near-black text colour #1A1A1A (the same constant the
+# house-upset and transcriptome-mosaic contrast rules use). Group identity then comes from the label
+# sitting right next to its cluster. No colour is mixed or generated.
+TEXT_DARK <- "#1A1A1A"
 rel_lum <- function(hex) {
   v <- grDevices::col2rgb(hex)[, 1] / 255
   v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
   sum(c(0.2126, 0.7152, 0.0722) * v)
 }
 contrast_white <- function(hex) 1.05 / (rel_lum(hex) + 0.05)
-text_col <- function(hex) {
-  if (contrast_white(hex) >= 3) return(hex)
-  for (k in seq(0.02, 1, by = 0.02)) {
-    m <- grDevices::col2rgb(hex)[, 1] * (1 - k)
-    h <- grDevices::rgb(m[1], m[2], m[3], maxColorValue = 255)
-    if (contrast_white(h) >= 4.5) return(h)
-  }
-  "#000000"
-}
+text_col <- function(hex) if (contrast_white(hex) >= 3) hex else TEXT_DARK
 tcols <- vapply(cols, text_col, "")
 contrast_tab <- data.frame(region = region_order, fill = unname(cols), ratio_fill = vapply(cols, contrast_white, 0),
                            text = unname(tcols), ratio_text = vapply(tcols, contrast_white, 0))
-stopifnot(all(contrast_tab$ratio_text >= 3))
+stopifnot(all(contrast_tab$ratio_text >= 3), all(tcols %in% c(cols, TEXT_DARK)))   # no new colours
 
 # --- direct labels next to each cluster -------------------------------------------------------------
 # Work in mm on the real panel: each label is moved out from its cluster centroid along one of 24
@@ -76,7 +71,7 @@ build <- function(xl, yl, lab = NULL) {
                                         vjust = 0.5, size = pv_pt2size(7))
   q
 }
-minus <- function(x) gsub("-", "\u2212", format(x, trim = TRUE))
+minus <- function(x) format(x, trim = TRUE)                  # ASCII "-" (matches the house axes; no extra font subset)
 panel_mm <- function(q) {                                     # panel size on the 89 x 89 mm canvas
   grDevices::cairo_pdf(tempfile(), width = 89 / 25.4, height = 89 / 25.4); on.exit(grDevices::dev.off())
   g <- ggplot2::ggplotGrob(pv_bump_text(q, 2))

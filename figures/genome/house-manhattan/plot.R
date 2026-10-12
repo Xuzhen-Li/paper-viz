@@ -26,9 +26,8 @@ lead <- do.call(rbind, lapply(split(d[d$sig, ], d$chr[d$sig]), function(s) s[whi
 lead$lab <- sprintf("chr%d lead SNP", lead$chr)
 stopifnot(nrow(lead) >= 1, all(lead$neg_log10_p > thr))
 
-minus <- function(x) gsub("-", "\u2212", x)
 ymax <- max(d$neg_log10_p) + 0.8                             # just above the highest peak
-thr_lab <- sprintf("Bonferroni (0.05/%s)\n%s = %.2f", format(n_snp, big.mark = ","), "\u2212log10 P", thr)
+thr_lab <- sprintf("Bonferroni (0.05/%s)\n%s = %.2f", format(n_snp, big.mark = ","), "-log10 P", thr)
 xr <- range(d$x)
 
 p <- ggplot(d, aes(x, neg_log10_p)) +
@@ -46,7 +45,7 @@ p <- ggplot(d, aes(x, neg_log10_p)) +
   scale_colour_manual(values = cols, guide = "none") +
   scale_x_continuous(breaks = mid, labels = chr_ids, expand = c(0.005, 0)) +
   scale_y_continuous(limits = c(0, ymax), breaks = seq(0, 12, 4), expand = c(0, 0)) +
-  labs(x = "Chromosome", y = "\u2212log10 P", caption = SIM_NOTE) +
+  labs(x = "Chromosome", y = "-log10 P", caption = SIM_NOTE) +
   theme_house() +
   theme(plot.caption = element_text(size = 7, hjust = 1, colour = pv_palette("house_grey")[["mid"]],
                                     margin = margin(t = 0.8, unit = "mm")),
