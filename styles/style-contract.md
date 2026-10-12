@@ -352,14 +352,37 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 <!-- palettes:geo-chrom12 -->
 #### `geo` 与 `chrom12` / `geo` and `chrom12`
 
-<!-- placeholder: external copy (prose for geo / chrom12, Chinese + English) -->
-- 占位 / Placeholder：`geo` 说明（待外部文案替换）
-- 占位 / Placeholder：`chrom12` 说明（待外部文案替换）
+##### 中文说明
+* geo 色板提供 6 种颜色，适用于地理或群体渐变着色。
+* PCA 着色需按照地理顺序（如西至东）使用 geo 色板。
+* 颜色包含：#c5c838, #eaa944, #e17d52, #b93234, #3e9349, #2c69a6。
+* 当需求颜色数量大于 6 时，使用 pv_palette("geo", n) 会自动进行色彩插值。
+* chrom12 色板提供 12 种交替色，适用于曼哈顿图或基因组轨道。
+* 方案采用相邻染色体一浅一深交错排列。如果超过 12 条染色体，程序将报错。
+* 浅色包含：#a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c。
+* 深色包含：#2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29。
+* 完整交错顺序为：#a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29。
+* 标签对比规则：组色对白底对比度 ≥ 3:1 时标签用组色，否则用 #1A1A1A。例如 Iberia, W Europe, Balkans 标签使用 #1A1A1A，Caucasus, Central Asia, East Asia 使用组色。负号统一 ASCII "-"。
+* 示例代码路径位于 styles/r/theme_viz.R 和 styles/python/house.py。
+
+##### English Description
+* The geo palette provides 6 colors for geographic or population gradients.
+* PCA coloring must follow geographic order, such as west to east.
+* Colors are: #c5c838, #eaa944, #e17d52, #b93234, #3e9349, #2c69a6.
+* Calling pv_palette("geo", n) interpolates colors when n > 6.
+* The chrom12 palette provides 12 colors for Manhattan plots and genome tracks.
+* Adjacent chromosomes alternate between light and dark colors. Requesting more than 12 colors throws an error.
+* Light colors are: #a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c.
+* Dark colors are: #2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29.
+* The complete alternating order is: #a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29.
+* Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A.
+* Unify negative signs to ASCII "-".
+* Code examples are located in styles/r/theme_viz.R and styles/python/house.py.
 
 | 名字 / Name | 顺序 / Order | 颜色 / Colours | 用途 / Use |
 |---|---|---|---|
-| `geo` | 1–6 | `#c5c838` `#eaa944` `#e17d52` `#b93234` `#3e9349` `#2c69a6` | <!-- placeholder: external copy --> 占位 / Placeholder |
-| `chrom12` | 1–12（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …） | `#a3c7da` `#2072aa` `#accc8a` `#339a39` `#e49698` `#d02623` `#ecba73` `#e17927` `#c4b1d1` `#623f88` `#efe89c` `#ab5a29` | <!-- placeholder: external copy --> 占位 / Placeholder |
+| `geo` | 1–6 | `#c5c838` `#eaa944` `#e17d52` `#b93234` `#3e9349` `#2c69a6` | 地理群体渐变（6色按西至东取） |
+| `chrom12` | 1–12（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …） | `#a3c7da` `#2072aa` `#accc8a` `#339a39` `#e49698` `#d02623` `#ecba73` `#e17927` `#c4b1d1` `#623f88` `#efe89c` `#ab5a29` | 染色体交替色（12色浅深交错） |
 
 | `chrom12` 对 / pair | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
