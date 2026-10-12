@@ -15,34 +15,8 @@ data_columns:
   sample: 个体编号（字符串）
   region: 地理区组（字符串，6 组，自西向东）
   snp001..snp300: 基因型（0/1/2，整数）
-when_to_use: |-
-  Use this layout for a 2x2 grid measuring 89 x 89 mm.
-  Base panel sizes increase by 2 pt, ticks use 9 pt, and axis titles use 10 pt.
-  The dataset contains 120 individuals across 6 regions with 20 individuals each.
-  The 6 regions are Iberia, W Europe, Balkans, Caucasus, Central Asia, and East Asia.
-  Order the regions from west to east using geo colors 1 through 6.
-  The data comprises 300 unlinked SNPs, which is equivalent to LD-pruned data.
-  The plot.R script calculates the PCA directly.
-  Variance explained is 16.42% for PC1 and 5.71% for PC2, written as 16.4% and 5.7% in the axis titles.
-  Use direct labeling with group color text and no color blocks.
-  Labels are placed within 2 mm of the nearest point without overlapping points.
-  Do not use a legend.
-  Axis limits equal the data range plus or minus 6%.
-  Each label must be closer to its own group centroid in mm than to any other group.
-  Place labels on the side facing away from the nearest other group.
-  Place the footnote outside the bottom box.
-  The in-plot footnote uses 7 pt text across two lines.
-  The footnote reads: "n = 20 per region; 300 unlinked SNPs (equivalent to LD-pruned)" and "Simulated data for illustration; not biological results".
-  Do not use coord_fixed because fixing the 3:1 variance ratio flattens the 2x2 canvas.
-customize: |-
-  Define region order and color in region_order at the top of plot.R.
-  Label positions are calculated automatically by the place() function.
-  Positions must be at least 0.5 mm from points and at most 2 mm from the own group.
-  This distance constraint is enforced by stopifnot assertions.
-  The text_col() function applies group color if the contrast ratio is ≥ 3:1.
-  If the contrast is lower, text_col() applies #1A1A1A.
-  Set colors using pv_palette("geo").
-  Draw data points using HOUSE_POINT.
+when_to_use: 'Use this layout for a 2x2 grid measuring 89 x 89 mm. Base panel sizes increase by 2 pt, ticks use 9 pt, and axis titles use 10 pt. The dataset contains 120 individuals across 6 regions with 20 individuals each. The 6 regions are Iberia, W Europe, Balkans, Caucasus, Central Asia, and East Asia. Order the regions from west to east using geo colors 1 through 6. The data comprises 300 unlinked SNPs, which is equivalent to LD-pruned data. The plot.R script calculates the PCA directly. Variance explained is 16.42% for PC1 and 5.71% for PC2, written as 16.4% and 5.7% in the axis titles. Use direct labeling with group color text and no color blocks. Labels are placed within 2 mm of the nearest point without overlapping points. Do not use a legend. Axis limits equal the data range plus or minus 6%. Each label must be closer to its own group centroid in mm than to any other group. Place labels on the side facing away from the nearest other group. Place the footnote outside the bottom box. The in-plot footnote uses 7 pt text across two lines. The footnote reads: "n = 20 per region; 300 unlinked SNPs (equivalent to LD-pruned)" and "Simulated data for illustration; not biological results". Do not use coord_fixed because fixing the 3:1 variance ratio flattens the 2x2 canvas.'
+customize: 'Define region order and color in region_order at the top of plot.R. Label positions are calculated automatically by the place() function. Positions must be at least 0.5 mm from points and at most 2 mm from the own group. This distance constraint is enforced by stopifnot assertions. The text_col() function applies group color if the contrast ratio is ≥ 3:1. If the contrast is lower, text_col() applies #1A1A1A. Set colors using pv_palette("geo"). Draw data points using HOUSE_POINT.'
 lang: R
 style: house
 cells: 2x2
