@@ -25,6 +25,7 @@ references:
   - url: https://doi.org/10.1038/s41467-024-50279-z
     figure: Fig. 4c
     kind: simulated-redraw
+    source_url: https://doi.org/10.1038/s41467-024-50279-z
     source_name: Nature Communications
     source_license: CC BY 4.0
     took: layout and chart form only; data simulated, no image reused

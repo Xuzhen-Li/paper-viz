@@ -26,6 +26,7 @@ references:
   - url: https://doi.org/10.1016/j.oneear.2023.09.004
     figure: Fig. 1
     kind: simulated-redraw
+    source_url: https://doi.org/10.1016/j.oneear.2023.09.004
     source_name: One Earth
     source_license: CC BY-NC 4.0
     took: layout and chart form only; data simulated, no image reused
