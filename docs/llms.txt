@@ -67,6 +67,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Gene structure](https://xuzhen-li.github.io/paper-viz/#gene-structure): 比较转录本外显子、UTR、结构域和点突变位置时用。
 - [GWAS Manhattan and QQ](https://xuzhen-li.github.io/paper-viz/#gwas-manhattan): 全基因组关联要同时看染色体峰和 p 值校准（QQ）时用。
 - [Hi-C contact map](https://xuzhen-li.github.io/paper-viz/#hic-contact): 查看染色体领地、距离衰减，以及植物中着丝粒之间的 Rabl 接触时用。
+- [Manhattan plot with chrom12 colours (house style)](https://xuzhen-li.github.io/paper-viz/#house-manhattan): PLACEHOLDER (external copy): when_to_use for house-manhattan
 - [k-mer spectrum](https://xuzhen-li.github.io/paper-viz/#kmer-spectrum): 从 k-mer 频谱看错误峰、杂合 1n 峰和纯合 2n 峰，判断植物基因组杂合度时用。
 - [Multiple sequence alignment](https://xuzhen-li.github.io/paper-viz/#msa): 短蛋白片段要同时看残基差异和逐位保守性时用。
 - [Mutation spectrum](https://xuzhen-li.github.io/paper-viz/#mutation-spectrum): 按 SBS96 展示 6 类替换乘 16 种三核苷酸上下文的突变计数或比例时用。
@@ -99,6 +100,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [ADMIXTURE CV error](https://xuzhen-li.github.io/paper-viz/#admixture-cv): 选 ADMIXTURE 的 K 时，看交叉验证误差在哪一档最低。
 - [Pairwise Fst heatmap](https://xuzhen-li.github.io/paper-viz/#fst-heatmap): 十二个群体的成对分化要按地理或驯化顺序排开、而不是按聚类字母序时用。
 - [f-statistic point range](https://xuzhen-li.github.io/paper-viz/#fstats-point): 一组 D 或 f4 检验要同时看估计、置信区间和是否跨过 0 时用。
+- [Geo-grouped PCA scatter (house style)](https://xuzhen-li.github.io/paper-viz/#house-pca-geo): PLACEHOLDER (external copy): when_to_use for house-pca-geo
 - [Isolation by distance](https://xuzhen-li.github.io/paper-viz/#isolation-by-distance): 检验分化是否随地理距离增加，并看不同区域斜率是否不一样。
 - [LD decay](https://xuzhen-li.github.io/paper-viz/#ld-decay): 比较野生、农家种和栽培种的连锁不平衡随物理距离衰减有多快。
 - [Population PCA](https://xuzhen-li.github.io/paper-viz/#pca-population): 用个体主成分看群体是否分开、栽培种是否比野生种更紧时用。

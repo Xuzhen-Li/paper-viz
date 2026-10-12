@@ -399,9 +399,24 @@ pv_save_house(page, "figure", cells = c(4, 1))</code></pre>
       <tr><th><code>ssp</code></th><td>情景</td><td>Scenarios</td><td><span class="sw"><i style="background:#000000"></i>Historical #000000</span><span class="sw"><i style="background:#3A9CFE"></i>SSP1-2.6 #3A9CFE</span><span class="sw"><i style="background:#F79423"></i>SSP2-4.5 #F79423</span><span class="sw"><i style="background:#FD3B3B"></i>SSP3-7.0 #FD3B3B</span><span class="sw"><i style="background:#9C2125"></i>SSP5-8.5 #9C2125</span></td></tr>
       <tr><th><code>house_warm</code></th><td>暖色顺序</td><td>Warm sequential</td><td><span class="sw"><i style="background:#FBD6A0"></i>#FBD6A0</span><span class="sw"><i style="background:#F5BA7A"></i>#F5BA7A</span><span class="sw"><i style="background:#F38F64"></i>#F38F64</span><span class="sw"><i style="background:#CC635F"></i>#CC635F</span><span class="sw"><i style="background:#965459"></i>#965459</span></td></tr>
       <tr><th><code>house_grey</code></th><td>文字、参考线、置信带</td><td>Text, reference lines, CI ribbons</td><td><span class="sw"><i style="background:#000000"></i>#000000</span><span class="sw"><i style="background:#333333"></i>#333333</span><span class="sw"><i style="background:#6B6B6B"></i>#6B6B6B</span><span class="sw"><i style="background:#757575"></i>#757575</span><span class="sw"><i style="background:#BFBFBF"></i>#BFBFBF</span><span class="sw"><i style="background:#E0E0E0"></i>#E0E0E0</span><span class="sw"><i style="background:#F0F0F0"></i>#F0F0F0</span></td></tr>
+      <tr><th><code>geo</code></th><td><!-- placeholder: external copy -->占位 / Placeholder</td><td><!-- placeholder: external copy -->占位 / Placeholder</td><td><span class="sw"><i style="background:#c5c838"></i>#c5c838</span><span class="sw"><i style="background:#eaa944"></i>#eaa944</span><span class="sw"><i style="background:#e17d52"></i>#e17d52</span><span class="sw"><i style="background:#b93234"></i>#b93234</span><span class="sw"><i style="background:#3e9349"></i>#3e9349</span><span class="sw"><i style="background:#2c69a6"></i>#2c69a6</span></td></tr>
+      <tr><th><code>chrom12</code></th><td><!-- placeholder: external copy -->占位 / Placeholder</td><td><!-- placeholder: external copy -->占位 / Placeholder</td><td><span class="sw"><i style="background:#a3c7da"></i>#a3c7da</span><span class="sw"><i style="background:#2072aa"></i>#2072aa</span><span class="sw"><i style="background:#accc8a"></i>#accc8a</span><span class="sw"><i style="background:#339a39"></i>#339a39</span><span class="sw"><i style="background:#e49698"></i>#e49698</span><span class="sw"><i style="background:#d02623"></i>#d02623</span><span class="sw"><i style="background:#ecba73"></i>#ecba73</span><span class="sw"><i style="background:#e17927"></i>#e17927</span><span class="sw"><i style="background:#88ad69"></i>#88ad69</span><span class="sw"><i style="background:#623f88"></i>#623f88</span><span class="sw"><i style="background:#efe89c"></i>#efe89c</span><span class="sw"><i style="background:#ab5a29"></i>#ab5a29</span></td></tr>
     </tbody>
   </table>
   </div>
+  <!-- palettes:geo-chrom12 -->
+  <!-- placeholder: external copy (prose for geo / chrom12, Chinese + English) -->
+  <ul>
+    <li>占位 / Placeholder：<code>geo</code></li>
+    <li>占位 / Placeholder：<code>chrom12</code>（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …）</li>
+  </ul>
+<pre><code># R
+cols &lt;- pv_palette("geo")              # 6 colours; pv_palette("geo", 9) ramps
+chr_cols &lt;- pv_palette("chrom12")      # 12 colours; n &gt; 12 is an error
+# Python
+cols = house.pv_palette("geo")
+chr_cols = house.pv_palette("chrom12")</code></pre>
+  <!-- /palettes:geo-chrom12 -->
 </section>
 
 <section id="references">

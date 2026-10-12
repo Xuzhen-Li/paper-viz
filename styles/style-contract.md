@@ -349,6 +349,37 @@ Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取�
 
 R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧名字照旧）、`house.pv_palette("house")`。`house` / `ssp` / `house_grey` 超过色数会报错，不会自动插值。
 
+<!-- palettes:geo-chrom12 -->
+#### `geo` 与 `chrom12` / `geo` and `chrom12`
+
+<!-- placeholder: external copy (prose for geo / chrom12, Chinese + English) -->
+- 占位 / Placeholder：`geo` 说明（待外部文案替换）
+- 占位 / Placeholder：`chrom12` 说明（待外部文案替换）
+
+| 名字 / Name | 顺序 / Order | 颜色 / Colours | 用途 / Use |
+|---|---|---|---|
+| `geo` | 1–6 | `#c5c838` `#eaa944` `#e17d52` `#b93234` `#3e9349` `#2c69a6` | <!-- placeholder: external copy --> 占位 / Placeholder |
+| `chrom12` | 1–12（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …） | `#a3c7da` `#2072aa` `#accc8a` `#339a39` `#e49698` `#d02623` `#ecba73` `#e17927` `#88ad69` `#623f88` `#efe89c` `#ab5a29` | <!-- placeholder: external copy --> 占位 / Placeholder |
+
+| `chrom12` 对 / pair | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| 浅 / light | `#a3c7da` | `#accc8a` | `#e49698` | `#ecba73` | `#88ad69` | `#efe89c` |
+| 深 / dark | `#2072aa` | `#339a39` | `#d02623` | `#e17927` | `#623f88` | `#ab5a29` |
+
+```r
+cols <- pv_palette("geo")                 # 6 colours; pv_palette("geo", 9) ramps
+chr_cols <- pv_palette("chrom12")         # 12 colours; n > 12 is an error
+scale_colour_manual(values = setNames(chr_cols, 1:12))
+```
+
+```python
+cols = house.pv_palette("geo")            # 6 colours; house.pv_palette("geo", 9) ramps
+chr_cols = house.pv_palette("chrom12")    # 12 colours; n > 12 raises ValueError
+```
+
+示例 / Examples: `figures/population-genetics/house-pca-geo` (2×2), `figures/genome/house-manhattan` (4×1).
+<!-- /palettes:geo-chrom12 -->
+
 ### 导出
 
 - `pv_save_house(plot, "figure", cells = c(w, h))`：画布按上面的网格算；cairo PDF（字体嵌入，文字保留为文本，不转曲）+ 600 dpi PNG + 1200 px 宽 `preview.png`。
