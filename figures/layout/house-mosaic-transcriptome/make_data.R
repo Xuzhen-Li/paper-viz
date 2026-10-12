@@ -1,7 +1,7 @@
 # Simulated RNA-seq summary of a grapevine drought trial (well-watered WW vs severe drought SD).
 # Writes data.csv (PCA scores of 16 libraries), data_deg.csv (DEG counts per tissue),
 # data_heatmap.csv (z-scores of 40 top DEGs), data_go.csv (GO enrichment) and
-# data_upset.csv (tissue membership of up-regulated DEGs). Run from this directory.
+# data_upset.csv (tissue membership of upregulated DEGs). Run from this directory.
 set.seed(23)
 tis <- c("Leaf", "Root", "Shoot tip", "Berry skin", "Seed")
 
@@ -38,7 +38,7 @@ go <- data.frame(term = c("response to abscisic acid", "response to water depriv
                  or = c(4.8, 4.1, 3.6, 3.2, 2.7, 2.3, 0.32, 0.45, 0.55, 0.38))
 ci_lo <- stats::runif(8, 0.25, 0.45); ci_hi <- stats::runif(8, 0.25, 0.45)
 
-# UpSet: up-regulated DEGs only. One membership matrix over a gene pool; each tissue's members
+# UpSet: upregulated DEGs only. One membership matrix over a gene pool; each tissue's members
 # are drawn without replacement with exactly the Up count above (shared latent programmes make
 # the tissues overlap), so set sizes equal data_deg.csv by construction.
 up_n <- deg$n[deg$direction == "Up"]

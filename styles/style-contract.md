@@ -174,6 +174,8 @@ Python：`fig, ax = house.house_figure(cells="2x1")`，画完 `house.save_house(
 
 根据 `house-mosaic-*` 拼版系列图的实测结果，在拼图中多个面板需要上下对齐时，例如 `house-mosaic-transcriptome` 中的 a、b、c、d 面板，会共用 7 mm 的上边带与 8.6 mm 的下边带，确保两个 1×1 叠放面板的总高度与相邻 2×2 面板对齐。集合柱数值依据 #32 的对比度规则处理，如果柱内空间不足以保留两侧各 1 mm 边距，则将数值移至柱外。
 
+整页脚注可以是横跨多个拼块的一行文字，置于整图底部且不属于任何拼块；拼块内的其他文字必须保留在各拼块内部。
+
 遇到排版拥挤情况时，应优先采用缩写、换行或横置策略，穷尽后才考虑升档。例如 house-bar 将 Control 缩写为 Ctrl，`house-mosaic-transcriptome` b 的 DEG 计数使用横向柱，`house-mosaic-gwas` d 中的人群名应用了横向堆叠柱形式。
 
 **附加排版注释：**
@@ -196,6 +198,8 @@ Error handling is strict regarding dimensions. Sizes deviating from the grid are
 The +2 pt typography rule only applies to a single panel saved at the 2×2 size of 89 × 89 mm, which applies 9 pt ticks and 10 pt axis titles. Other dimensions, patchwork compositions, faceted plots, and mosaics strictly exclude this adjustment.
 
 Mosaic assembly utilizes `pv_house_mosaic(tiles, cells)` to place multiple plots on a single grid page. Each tile requires an `at` parameter formatted as `at = c(col, row)` (starting from 1 where top-left is 1, 1), alongside the `cells` parameter formatted as `cells = c(w, h)`. On a 4-cell-wide layout, a tile in column c begins at 1 + 46 × (c − 1) mm. Configurations causing tiles to extend beyond the page or overlap generate errors. The resulting object must be passed to `pv_save_house()` using the same cells configuration.
+
+A page-level footnote may be one line spanning several panels at the bottom of the whole figure, belonging to no panel; all other text of a panel must stay inside that panel.
 
 The `theme_house()` default plot margin is 1.6 mm top, 0.8 mm right, 0.9 mm bottom, and 0.4 mm left. The 0.9 mm bottom margin compensates for ragg and cairo-png rendering text marginally lower than cairo PDF. At a 0.4 mm setting, the lowest pixel row of a 600 dpi PNG would clip the descenders of x-axis title characters like g, y, and brackets. The `tests/test_theme_house.R` script asserts that the bottom pixel row remains white. Custom plot margins must maintain a bottom value of at least 0.9 mm. Text dimensions do not scale down with the panel. The plotting area occupies ≥ 60% of the overall panel area.
 
@@ -375,7 +379,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 * Light colors are: #a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c.
 * Dark colors are: #2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29.
 * The complete alternating order is: #a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29.
-* Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A.
+* Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A. For example, labels for Iberia, W Europe, and Balkans use #1A1A1A, while Caucasus, Central Asia, and East Asia use group colors.
 * Unify negative signs to ASCII "-" for PCA-geo and Manhattan figures only; use U+2212 (−) for other house figures.
 * Example paths are figures/population-genetics/house-pca-geo/ and figures/genome/house-manhattan/; theme_viz.R and house.py are palette code only.
 

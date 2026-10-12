@@ -22,7 +22,8 @@ FIGURES = ROOT / "figures"
 README = ROOT / "README.md"
 DOCS = ROOT / "docs"
 PREVIEWS = DOCS / "previews"
-GITHUB = "https://github.com/Xuzhen-Li/paper-viz/blob/main"
+GITHUB = "https://github.com/Xuzhen-Li/paper-viz/blob/main"  # files
+GITHUB_TREE = "https://github.com/Xuzhen-Li/paper-viz/tree/main"  # directories
 RAW = "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main"
 REQUIRED = (
     "title",
@@ -680,7 +681,7 @@ def build() -> list[dict]:
                 ),
                 "github_code": f"{GITHUB}/{rel_code}",
                 "github_data": f"{GITHUB}/{rel_data}" if rel_data else None,
-                "github_dir": f"{GITHUB}/{rel_dir}",
+                "github_dir": f"{GITHUB_TREE}/{rel_dir}",
                 "code_text": code_text,
             }
         )

@@ -1,3 +1,11 @@
+# Version pins: "# pin: <package> <version>". Written as comments so older installers that
+# only read bare names still work; the CI install steps read them and install that exact
+# version (remotes::install_version) before the rest, and fail if another version ends up loaded.
+# ggplot2 4.0.3: current CRAN; ggtree (Bioc 3.23), patchwork 1.3.2, ggrepel 0.9.8 and
+# cowplot 1.2.0 need ggplot2 >= 3.5.2 / 4.0.0, so 3.5.x cannot be used. ragg 1.5.2: current CRAN.
+# pin: ggplot2 4.0.3
+# pin: ragg 1.5.2
+
 # CRAN
 ape
 circlize
@@ -17,6 +25,7 @@ maps
 MASS
 pROC
 patchwork
+ragg
 scales
 scatterpie
 survival

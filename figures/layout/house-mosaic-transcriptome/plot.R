@@ -1,4 +1,4 @@
-# House mosaic, transcriptome: overview (PCA, DEG counts), main result (heatmap, UpSet of up-regulated
+# House mosaic, transcriptome: overview (PCA, DEG counts), main result (heatmap, UpSet of upregulated
 # DEGs) and statistics (GO forest, up/down share) of a simulated grapevine drought trial on a 4x3 page
 # (183 x 135 mm). Reads data*.csv only. Run from this directory.
 suppressPackageStartupMessages({ library(ggplot2); library(patchwork) })
@@ -209,7 +209,7 @@ b1d <- ggplot(go, aes(or, y)) + geom_vline(xintercept = 1, linetype = "22", line
   coord_cartesian(ylim = c(0.4, nrow(go) + 0.6), clip = "off") +
   labs(x = "Odds ratio (GO)", y = NULL) + th
 
-# e UpSet of up-regulated DEGs (set sizes must equal b's Up column) ---------------------------
+# e UpSet of upregulated DEGs (set sizes must equal b's Up column) ---------------------------
 mm <- as.matrix(up[, tis]) == 1
 up_n <- stats::setNames(deg$n[deg$direction == "Up"], deg$tissue[deg$direction == "Up"])[tis]
 stopifnot(identical(as.numeric(colSums(mm)), as.numeric(up_n)))
@@ -219,21 +219,21 @@ stopifnot(identical(as.numeric(colSums(mm)), as.numeric(up_n)))
 UPSET_OVERHEAD_MM <- 59; UPSET_COL_MM <- 4.8
 stopifnot(floor((pv_grid_span(3) - UPSET_OVERHEAD_MM) / UPSET_COL_MM) >= n_show)   # e is 3 cells wide
 b1e <- upset_tile(mm, unname(tis_c), n_show = n_show, tag = "e", set_w = c(26, 15), bar_frac = 0.44,
-                  ylab = "Up DEGs", unit = "up DEGs", dot = 1.5)
+                  ylab = "Up DEGs", unit = "upregulated genes", dot = 1.5)
 
-# f donut: the same unique up-regulated DEGs as e, split by how many tissues share each gene.
+# f donut: the same unique upregulated DEGs as e, split by how many tissues share each gene.
 # Sectors do not overlap (each gene counted once) and sum to e's unique total.
 k_tis <- rowSums(mm)
 ud <- data.frame(lab = c("3+ tissues", "2 tissues", "1 tissue"),          # small sectors on the right half
                  n = c(sum(k_tis >= 3), sum(k_tis == 2), sum(k_tis == 1)))
 ud$f <- ud$n / sum(ud$n); ud$e <- cumsum(ud$f); ud$s <- ud$e - ud$f; ud$mid <- (ud$s + ud$e) / 2
-ud$col <- warm[5:3]                                              # house_warm: up-regulated family
+ud$col <- warm[5:3]                                              # house_warm: upregulated family
 n_unique <- sum(ud$n)
-stopifnot(sum(ud$n) == nrow(mm), n_unique == nrow(mm),                                  # sectors == unique up-DEG total
+stopifnot(sum(ud$n) == nrow(mm), n_unique == nrow(mm),                                  # sectors == unique upregulated-gene total
           sum(ud$n) == sum(table(apply(mm, 1, paste, collapse = ""))),   # == e's "of N" (all intersections)
           sum(up_n) == sum(deg$n[deg$n > 0]),                       # e set sizes == b Up column (total)
           go$or[go$term == "water transport"] < 1, go$or[go$term == "response to desiccation"] > 1)
-R0_FRAC <- 0.87   # inner radius sized so the widest centre line ("upregulated genes", 21.5 mm at 7 pt bold) clears the ring
+R0_FRAC <- 0.71   # inner radius: the centre text "1,846 unique / upregulated / genes" (7 pt bold, 2.5 mm line pitch) clears the ring by >= 1 mm
 # drawn in mm (1 unit = 1 mm): panel spans e's data block (top of the bars to the bottom of the matrix)
 F_T <- 6.13; F_B <- 10.43; f_h <- 43 - F_T - F_B   # e bar area: top of the tallest bar to the bottom of the set-size bars (measured)
 cx <- 13.4; cy <- f_h / 2; R1 <- f_h / 2; R0 <- R1 * R0_FRAC
@@ -251,8 +251,8 @@ b1f <- ggplot() + geom_polygon(data = ring, aes(x, y, group = id, fill = I(col))
   geom_segment(data = ud, aes(x = ex, y = ey, xend = lx - 0.6, yend = ly, colour = I(col)), linewidth = pv_house_lw("ref")) +
   geom_text(data = ud, aes(x = lx, y = ly, label = sprintf("%s\n%s", lab, format(n, big.mark = ",")), colour = I(col)),
             hjust = 0, size = T7, lineheight = 0.9) +
-  # widest line sits on the ring centre; the two short lines stack above it
-  annotate("text", x = cx, y = cy + c(5.6, 2.8, 0), label = c(format(n_unique, big.mark = ","), "unique", "upregulated genes"),
+  # three lines centred on the ring centre; the split keeps the widest line short so the ring can be thick
+  annotate("text", x = cx, y = cy + c(2.5, 0, -2.5), label = c(paste(format(n_unique, big.mark = ","), "unique"), "upregulated", "genes"),
            size = T7, fontface = "bold") +
   scale_x_continuous(limits = c(0, 43), expand = c(0, 0)) + scale_y_continuous(limits = c(0, f_h), oob = scales::oob_keep, expand = c(0, 0)) +
   coord_cartesian(clip = "off") + theme_void()
