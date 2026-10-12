@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   render:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Only this job pushes (figure-only runs commit their own previews).
     permissions:
       contents: write
@@ -36,7 +36,7 @@ jobs:
 
       - name: Checkout pull request head
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -45,7 +45,7 @@ jobs:
 
       - name: Checkout branch
         if: github.event_name != 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: true
@@ -124,7 +124,7 @@ jobs:
               if printf '%s\n' "$CHANGED" | grep -Eq '^(styles|tests)/'; then
                 FORCE_ALL=true
               fi
-              if printf '%s\n' "$CHANGED" | grep -Eq '^tools/(check_figure\.sh|check_all\.sh|build_catalog\.py|r-packages\.txt)$'; then
+              if printf '%s\n' "$CHANGED" | grep -Eq '^tools/(check_figure\.sh|check_png_grid\.sh|blocklist\.txt|check_all\.sh|build_catalog\.py|r-packages\.txt)$'; then
                 FORCE_ALL=true
               fi
 
@@ -200,7 +200,7 @@ jobs:
 
       - name: Cache R packages
         if: steps.select.outputs.need_r == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ github.workspace }}/.Rlib
           key: ${{ runner.os }}-r-${{ steps.setup-r.outputs.installed-r-version }}-${{ hashFiles('tools/r-packages.txt') }}
@@ -250,11 +250,18 @@ jobs:
           }
           cran <- character()
           bioc <- character()
+          pins <- list()
           section <- "CRAN"
           for (line in readLines(pkg_file, warn = FALSE)) {
             t <- trimws(line)
             if (!nzchar(t)) next
             if (startsWith(t, "#")) {
+              # "# pin: <package> <version>" (a comment, so older parsers skip it)
+              pin <- regmatches(t, regexec("^#\\s*pin:\\s*([A-Za-z][A-Za-z0-9.]*)\\s+([0-9][0-9.-]*)\\s*$", t))[[1]]
+              if (length(pin) == 3) {
+                pins[[pin[2]]] <- pin[3]
+                next
+              }
               if (grepl("Bioconductor", t, ignore.case = TRUE)) {
                 section <- "Bioc"
               } else if (grepl("^#\\s*CRAN\\b", t, ignore.case = TRUE)) {
@@ -273,6 +280,28 @@ jobs:
           .libPaths(c(lib, .libPaths()))
           message("CRAN packages: ", paste(cran, collapse = ", "))
           message("Bioconductor packages: ", paste(bioc, collapse = ", "))
+          message("Pinned: ", paste(names(pins), unlist(pins), sep = " ", collapse = ", "))
+          # Pinned packages first, at the exact version; the rest must not upgrade them.
+          if (length(pins)) {
+            if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", lib = lib)
+            for (p in names(pins)) {
+              have <- tryCatch(as.character(packageVersion(p, lib.loc = lib)), error = function(e) "")
+              if (!identical(have, pins[[p]])) {
+                message("installing ", p, " ", pins[[p]], " (have: ", if (nzchar(have)) have else "none", ")")
+                remotes::install_version(p, version = pins[[p]], upgrade = "never", lib = lib)
+              }
+            }
+          }
+          check_pins <- function() {
+            for (p in names(pins)) {
+              have <- tryCatch(as.character(packageVersion(p)), error = function(e) "none")
+              if (!identical(have, pins[[p]])) {
+                message("::error::", p, " is ", have, ", pinned to ", pins[[p]], " in tools/r-packages.txt")
+                quit(status = 1)
+              }
+            }
+          }
+          cran <- setdiff(cran, names(pins))
           report_missing <- function(pkgs) {
             missing <- pkgs[!vapply(pkgs, function(p) requireNamespace(p, quietly = TRUE), logical(1))]
             if (length(missing)) {
@@ -301,11 +330,12 @@ jobs:
             )
             report_missing(bioc)
           }
+          check_pins()
           RS
 
       - name: Setup Python
         if: steps.select.outputs.need_py == 'true'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
