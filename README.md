@@ -50,7 +50,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 115 张。
+共 117 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
@@ -62,8 +62,8 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `dimension-reduction` | 降维 | 6 |
 | `differential-expression` | 差异表达 | 3 |
 | `enrichment` | 富集 | 3 |
-| `population-genetics` | 群体遗传 | 14 |
-| `genome` | 基因组 | 20 |
+| `population-genetics` | 群体遗传 | 15 |
+| `genome` | 基因组 | 21 |
 | `phylogeny` | 系统发育 | 2 |
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
@@ -124,14 +124,14 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/enrichment/enrichment-dot/preview.png" width="200" alt="富集气泡图">
 <img src="figures/enrichment/gsea/preview.png" width="200" alt="GSEA 富集图">
 
-### 群体遗传 `population-genetics`（14）
+### 群体遗传 `population-genetics`（15）
 
 <img src="figures/population-genetics/admixture-bar/preview.png" width="200" alt="ADMIXTURE 堆积条">
 <img src="figures/population-genetics/admixture-cv/preview.png" width="200" alt="ADMIXTURE 交叉验证折线">
 <img src="figures/population-genetics/fst-heatmap/preview.png" width="200" alt="成对 Fst 热图">
 <img src="figures/population-genetics/fstats-point/preview.png" width="200" alt="f3 / f4 / D 点距图">
 
-### 基因组 `genome`（20）
+### 基因组 `genome`（21）
 
 <img src="figures/genome/busco-bar/preview.png" width="200" alt="BUSCO 堆积条形">
 <img src="figures/genome/chromosome-ideogram/preview.png" width="200" alt="染色体示意图与密度">

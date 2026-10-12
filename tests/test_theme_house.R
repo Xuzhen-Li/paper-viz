@@ -50,6 +50,15 @@ pdf_fonts_embedded <- function(f) {
 # legacy interfaces --------------------------------------------------------
 chip <- c("#134aa3", "#f6a3b1", "#0b5475", "#dc1f26", "#835ca6", "#f7922c", "#fbee61", "#981b1e")
 check(identical(pv_palette(), chip), "pv_palette() default is the chip eight")
+# geo / chrom12 (FINAL STYLE.md "附加配色"): exact values, lengths, chrom12 = light/dark pairs interleaved
+geo <- c("#c5c838", "#eaa944", "#e17d52", "#b93234", "#3e9349", "#2c69a6")
+chrom_light <- c("#a3c7da", "#accc8a", "#e49698", "#ecba73", "#c4b1d1", "#efe89c")
+chrom_dark <- c("#2072aa", "#339a39", "#d02623", "#e17927", "#623f88", "#ab5a29")
+check(identical(unname(pv_palette("geo")), geo), "pv_palette(\"geo\") matches STYLE.md")
+check(length(pv_palette("chrom12")) == 12, "pv_palette(\"chrom12\") has 12 colours")
+check(identical(unname(pv_palette("chrom12")), as.vector(rbind(chrom_light, chrom_dark))), "chrom12 = light/dark pairs interleaved")
+check(length(pv_palette("geo", 9)) == 9, "geo ramps when n > 6")
+check(inherits(try(pv_palette("chrom12", 13), silent = TRUE), "try-error"), "chrom12 refuses n > 12")
 check(identical(pv_palette("categorical", 3), chip[1:3]), "pv_palette('categorical', 3)")
 check(length(pv_palette("categorical", 10)) == 10, "pv_palette('categorical', 10) still ramps")
 check(identical(pv_palette("sequential"), c("#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B")),

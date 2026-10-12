@@ -99,8 +99,15 @@ HOUSE_PALETTES: dict[str, list[str] | dict[str, str]] = {
         "light": "#E0E0E0",
         "bg": "#F0F0F0",
     },
+    # geography / population gradient (FINAL STYLE.md "附加配色"); ramps when n > 6
+    "geo": ["#c5c838", "#eaa944", "#e17d52", "#b93234", "#3e9349", "#2c69a6"],
+    # 12 chromosome colours, light/dark pairs interleaved (light 1, dark 1, light 2, dark 2, ...)
+    "chrom12": [
+        "#a3c7da", "#2072aa", "#accc8a", "#339a39", "#e49698", "#d02623",
+        "#ecba73", "#e17927", "#c4b1d1", "#623f88", "#efe89c", "#ab5a29",
+    ],
 }
-_RAMPABLE = {"house_div", "house_warm"}
+_RAMPABLE = {"house_div", "house_warm", "geo"}
 
 
 def _legacy_palettes() -> dict:

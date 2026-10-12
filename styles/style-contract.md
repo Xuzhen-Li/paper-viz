@@ -349,6 +349,60 @@ Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取�
 
 R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧名字照旧）、`house.pv_palette("house")`。`house` / `ssp` / `house_grey` 超过色数会报错，不会自动插值。
 
+<!-- palettes:geo-chrom12 -->
+#### `geo` 与 `chrom12` / `geo` and `chrom12`
+
+##### 中文说明
+* geo 色板提供 6 种颜色，适用于地理或群体渐变着色。
+* PCA 着色需按照地理顺序（如西至东）使用 geo 色板。
+* 颜色包含：#c5c838, #eaa944, #e17d52, #b93234, #3e9349, #2c69a6。
+* 当需求颜色数量大于 6 时，使用 pv_palette("geo", n) 会自动进行色彩插值。
+* chrom12 色板提供 12 种交替色，适用于曼哈顿图或基因组轨道。
+* 方案采用相邻染色体一浅一深交错排列。如果超过 12 条染色体，程序将报错。
+* 浅色包含：#a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c。
+* 深色包含：#2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29。
+* 完整交错顺序为：#a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29。
+* 标签对比规则：组色对白底对比度 ≥ 3:1 时标签用组色，否则用 #1A1A1A。例如 Iberia, W Europe, Balkans 标签使用 #1A1A1A，Caucasus, Central Asia, East Asia 使用组色。PCA-geo 和 Manhattan 两张图负号统一 ASCII "-"，其他 house 图使用 U+2212（−）。
+* 示例路径写 figures/population-genetics/house-pca-geo/ 和 figures/genome/house-manhattan/；theme_viz.R 和 house.py 只是配色代码（palette code only）。
+
+##### English Description
+* The geo palette provides 6 colors for geographic or population gradients.
+* PCA coloring must follow geographic order, such as west to east.
+* Colors are: #c5c838, #eaa944, #e17d52, #b93234, #3e9349, #2c69a6.
+* Calling pv_palette("geo", n) interpolates colors when n > 6.
+* The chrom12 palette provides 12 colors for Manhattan plots and genome tracks.
+* Adjacent chromosomes alternate between light and dark colors. Requesting more than 12 colors throws an error.
+* Light colors are: #a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c.
+* Dark colors are: #2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29.
+* The complete alternating order is: #a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29.
+* Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A.
+* Unify negative signs to ASCII "-" for PCA-geo and Manhattan figures only; use U+2212 (−) for other house figures.
+* Example paths are figures/population-genetics/house-pca-geo/ and figures/genome/house-manhattan/; theme_viz.R and house.py are palette code only.
+
+| 名字 / Name | 顺序 / Order | 颜色 / Colours | 用途 / Use |
+|---|---|---|---|
+| `geo` | 1–6 | `#c5c838` `#eaa944` `#e17d52` `#b93234` `#3e9349` `#2c69a6` | 地理群体渐变（6色按西至东取） |
+| `chrom12` | 1–12（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …） | `#a3c7da` `#2072aa` `#accc8a` `#339a39` `#e49698` `#d02623` `#ecba73` `#e17927` `#c4b1d1` `#623f88` `#efe89c` `#ab5a29` | 染色体交替色（12色浅深交错） |
+
+| `chrom12` 对 / pair | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| 浅 / light | `#a3c7da` | `#accc8a` | `#e49698` | `#ecba73` | `#c4b1d1` | `#efe89c` |
+| 深 / dark | `#2072aa` | `#339a39` | `#d02623` | `#e17927` | `#623f88` | `#ab5a29` |
+
+```r
+cols <- pv_palette("geo")                 # 6 colours; pv_palette("geo", 9) ramps
+chr_cols <- pv_palette("chrom12")         # 12 colours; n > 12 is an error
+scale_colour_manual(values = setNames(chr_cols, 1:12))
+```
+
+```python
+cols = house.pv_palette("geo")            # 6 colours; house.pv_palette("geo", 9) ramps
+chr_cols = house.pv_palette("chrom12")    # 12 colours; n > 12 raises ValueError
+```
+
+示例 / Examples: `figures/population-genetics/house-pca-geo` (2×2), `figures/genome/house-manhattan` (4×1).
+<!-- /palettes:geo-chrom12 -->
+
 ### 导出
 
 - `pv_save_house(plot, "figure", cells = c(w, h))`：画布按上面的网格算；cairo PDF（字体嵌入，文字保留为文本，不转曲）+ 600 dpi PNG + 1200 px 宽 `preview.png`。
