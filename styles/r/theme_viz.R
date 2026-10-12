@@ -63,10 +63,12 @@ save_pub <- function(plot, filename, width_mm = 183, height_mm = 120, dpi = 600)
 # house = 9 categorical colours from FINAL STYLE.md §4 (use <= 6 coloured series per figure);
 # house_div = blue–red diverging (centre #F7F7F7); ssp = named scenario colours;
 # house_warm = warm sequential; house_grey = neutral greys (text, reference lines, CI bands).
+# geo = 6-colour geography / population gradient (FINAL STYLE.md "附加配色"; ramps when n > 6);
+# chrom12 = 12 chromosome colours, light/dark pairs interleaved (light 1, dark 1, light 2, dark 2, ...).
 pv_palette <- function(name = "categorical", n = NULL) {
   name <- match.arg(name, c(
     "categorical", "sequential", "diverging",
-    "house", "house_div", "ssp", "house_warm", "house_grey"
+    "house", "house_div", "ssp", "house_warm", "house_grey", "geo", "chrom12"
   ))
   stops <- switch(name,
     categorical = c(
@@ -92,13 +94,18 @@ pv_palette <- function(name = "categorical", n = NULL) {
     house_grey = c(
       text = "#000000", dark = "#333333", mid = "#6B6B6B", ref = "#757575",
       ci = "#BFBFBF", light = "#E0E0E0", bg = "#F0F0F0"
+    ),
+    geo = c("#c5c838", "#eaa944", "#e17d52", "#b93234", "#3e9349", "#2c69a6"),
+    chrom12 = c(
+      "#a3c7da", "#2072aa", "#accc8a", "#339a39", "#e49698", "#d02623",
+      "#ecba73", "#e17927", "#88ad69", "#623f88", "#efe89c", "#ab5a29"
     )
   )
   if (is.null(n)) return(stops)
   n <- as.integer(n)
   if (n < 1) stop("n must be >= 1")
   if (name == "categorical" && n <= length(stops)) return(stops[seq_len(n)])
-  if (name %in% c("house", "ssp", "house_grey")) {
+  if (name %in% c("house", "ssp", "house_grey", "chrom12")) {
     if (n > length(stops)) {
       stop(sprintf("pv_palette(\"%s\") has %d colours; n = %d is too many (grey out the rest)",
                    name, length(stops), n))
