@@ -366,7 +366,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 * 浅色包含：#a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c。
 * 深色包含：#2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29。
 * 完整交错顺序为：#a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29。
-* 标签对比规则：组色对白底对比度 ≥ 3:1 时标签用组色，否则用 #1A1A1A。例如 Iberia, W Europe, Balkans 标签使用 #1A1A1A，Caucasus, Central Asia, East Asia 使用组色。PCA-geo 和 Manhattan 两张图负号统一 ASCII "-"，其他 house 图使用 U+2212（−）。
+* 标签对比规则：组色对白底对比度 ≥ 3:1 时标签用组色，否则用 #1A1A1A。例如 Iberia, W Europe, Balkans 标签使用 #1A1A1A，Caucasus, Central Asia, East Asia 使用组色。新 house 图负号和连字符一律用 ASCII "-"（避免引入第二种字体子集）；旧图在按批次改风格时统一。
 * 示例路径写 figures/population-genetics/house-pca-geo/ 和 figures/genome/house-manhattan/；theme_viz.R 和 house.py 只是配色代码（palette code only）。
 
 ##### English Description
@@ -380,7 +380,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 * Dark colors are: #2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29.
 * The complete alternating order is: #a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29.
 * Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A. For example, labels for Iberia, W Europe, and Balkans use #1A1A1A, while Caucasus, Central Asia, and East Asia use group colors.
-* Unify negative signs to ASCII "-" for PCA-geo and Manhattan figures only; use U+2212 (−) for other house figures.
+* Use ASCII "-" for all minus signs and hyphens in new house figures (avoids a second font subset); older figures are unified when restyled in their batch.
 * Example paths are figures/population-genetics/house-pca-geo/ and figures/genome/house-manhattan/; theme_viz.R and house.py are palette code only.
 
 | 名字 / Name | 顺序 / Order | 颜色 / Colours | 用途 / Use |

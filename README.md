@@ -50,13 +50,13 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 117 张。
+共 120 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 11 |
 | `comparison` | 比较 | 13 |
-| `correlation` | 相关 | 10 |
+| `correlation` | 相关 | 12 |
 | `composition` | 组成 | 14 |
 | `heatmap` | 热图 | 4 |
 | `dimension-reduction` | 降维 | 6 |
@@ -68,7 +68,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
-| `layout` | 拼图 | 5 |
+| `layout` | 拼图 | 6 |
 
 ### 分布 `distribution`（11）
 
@@ -84,12 +84,14 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
 <img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
-### 相关 `correlation`（10）
+### 相关 `correlation`（12）
 
 <img src="figures/correlation/bland-altman/preview.png" width="200" alt="Bland–Altman 图">
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
+<img src="figures/correlation/house-area-scenarios/preview.png" width="200" alt="堆叠面积与情景折线、差距箭头（house 风格）">
+<img src="figures/correlation/house-point-series/preview.png" width="200" alt="空心圆点时间序列与线尾标注（house 风格）">
 
 ### 组成 `composition`（14）
 
@@ -161,9 +163,10 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 <img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 
-### 拼图 `layout`（5）
+### 拼图 `layout`（6）
 
 <img src="figures/layout/composite-figure/preview.png" width="200" alt="四面板拼图">
+<img src="figures/layout/house-ensemble-multiples/preview.png" width="200" alt="集合成员小多图与侧边箱线（house 风格）">
 <img src="figures/layout/house-mosaic-aba-kinetics/preview.png" width="200" alt="ABA 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）">
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
 <img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
