@@ -380,7 +380,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 * Dark colors are: #2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29.
 * The complete alternating order is: #a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29.
 * Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A. For example, labels for Iberia, W Europe, and Balkans use #1A1A1A, while Caucasus, Central Asia, and East Asia use group colors.
-* Unify negative signs to ASCII "-" for PCA-geo and Manhattan figures only; use U+2212 (−) for other house figures.
+* Use ASCII "-" for all minus signs and hyphens in new house figures (avoids a second font subset); older figures are unified when restyled in their batch.
 * Example paths are figures/population-genetics/house-pca-geo/ and figures/genome/house-manhattan/; theme_viz.R and house.py are palette code only.
 
 | 名字 / Name | 顺序 / Order | 颜色 / Colours | 用途 / Use |
