@@ -4,7 +4,7 @@
 source("../../../styles/r/theme_house.R")
 library(ggplot2)
 
-SIM_NOTE <- "Simulated data for illustration; not biological results"
+SIM_NOTE <- "Simulated 12-chromosome genome (rice/tomato-like). Simulated data for illustration; not biological results"
 GAP_MB <- 6                                                    # gap between chromosomes on the x axis
 
 d <- utils::read.csv("data.csv")
@@ -38,7 +38,13 @@ p <- ggplot(d, aes(x, neg_log10_p)) +
              colour = pv_palette("house_grey")[["mid"]]) +
   annotate("text", x = xr[2], y = thr + 0.25, label = thr_lab, hjust = 1, vjust = 0, size = pv_pt2size(7),
            colour = pv_palette("house_grey")[["dark"]]) +
-  geom_text(data = lead, aes(label = lab), nudge_x = 9, hjust = 0, vjust = 0.5, size = pv_pt2size(7)) +
+  # lead SNPs: red diamond with black outline, about twice a normal point, so they stand out from the
+  # red / brown-red chrom12 colours
+  geom_point(data = lead, shape = 23, size = 1.9, stroke = 0.35, fill = pv_palette("house")[["red"]],
+             colour = "black") +
+  # labels sit right of the diamond, except where that would run into the threshold label (then left)
+  geom_text(data = lead, aes(x = x + ifelse(x > 0.5 * xr[2], -11, 11), label = lab,
+                             hjust = ifelse(x > 0.5 * xr[2], 1, 0)), vjust = 0.5, size = pv_pt2size(7)) +
   annotate("text", x = xr[2], y = ymax - 0.3, label = SIM_NOTE, hjust = 1, vjust = 1, size = pv_pt2size(7),
            colour = pv_palette("house_grey")[["mid"]]) +
   scale_colour_manual(values = cols, guide = "none") +

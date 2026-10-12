@@ -1,4 +1,5 @@
-# Simulated genotypes (0/1/2) for 120 accessions from six regions; allele frequencies follow map position.
+# Simulated genotypes (0/1/2) for 120 accessions (20 per region) from six regions; allele frequencies follow
+# map position. SNPs are drawn independently (unlinked), the situation an LD-pruned panel approximates.
 # Writes data.csv: sample, region, then 300 SNP columns. Run from this directory.
 set.seed(20261012)
 regions <- c("Iberia", "W Europe", "Balkans", "Caucasus", "Central Asia", "East Asia")   # west -> east
