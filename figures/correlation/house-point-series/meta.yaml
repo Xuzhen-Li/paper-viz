@@ -16,8 +16,8 @@ data_columns:
   height: 叶位（upper / lower）
   time_s: 时间（s）
   temp_c: 叶温（°C）
-when_to_use: "PLACEHOLDER (external copy): when_to_use for house-point-series"
-customize: "PLACEHOLDER (external copy): customize for house-point-series"
+when_to_use: '适用于展示不多于 5 个均匀且密集采样的系列以保持单个读数可见，采用单面板 2x2 89 × 89 mm 尺寸及 9/10 pt Arial 字体，数据为 0 至 3600 秒的模拟叶片温度，使用 pv_palette("house") 分配四种颜色的空心圆点且无连线，线尾带粗体同色标注并在图内计算 2400 至 3600 秒的平均温差。'
+customize: '使用 cols 将系列映射到 house 颜色，通过 side 为 +1 或 -1 将标签置于系列上方或下方，标签高度由 x 大于等于 1800 秒的最值加 1 个单位间距计算得出，平台期窗口在 plat 中定义，数据点配置为 shape 1 且 size 1.1 与 stroke 0.6 pt。'
 lang: R
 style: house
 cells: 2x2
@@ -29,4 +29,4 @@ references:
     source_name: Nature Communications
     source_license: CC BY 4.0
     took: layout and chart form only; data simulated, no image reused
-    note: "TODO-TEXT"
+    note: 'The template borrows only the layout and chart type of the original figure, uses simulated data, and reuses no image.'

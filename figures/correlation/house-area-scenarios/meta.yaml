@@ -17,8 +17,8 @@ data_columns:
   year: 年份
   series: 系列（history / no_control / current_practice / target / ambitious / annual_share_of_target）
   value: 种子库（10³ seeds per m²）
-when_to_use: "PLACEHOLDER (external copy): when_to_use for house-area-scenarios"
-customize: "PLACEHOLDER (external copy): customize for house-area-scenarios"
+when_to_use: '适用于展示总量拆分及多个未来情景从共享历史产生分歧时的差距，采用单面板 2x2 89 × 89 mm 尺寸及 9/10 pt Arial 字体，数据为模拟的 2000 至 2100 年杂草种子库，包含黑色历史实线、无控制、当前实践、目标及激进情景折线，底层为深浅 house_div 蓝色的年度和多年生杂草堆叠面积，图内标注了由 data.csv 在 2050 年计算得出的差距及灰色向下箭头。'
+customize: '在 plot.R 中修改 at <- 2050 以更改差距年份，差距值将从 data.csv 重新计算并通过 stopifnot 验证正值，系列颜色来自 pal[["…"]]，面积填充为 div[3] 和 div[4]，数据变更时需手动调整 annotate() 的标签位置，y 轴标题使用 Arial 的 ³ 和 ²。'
 lang: R
 style: house
 cells: 2x2
@@ -30,4 +30,4 @@ references:
     source_name: One Earth
     source_license: CC BY 4.0
     took: layout and chart form only; data simulated, no image reused
-    note: "TODO-TEXT"
+    note: 'The template borrows only the layout and chart type of the original figure, uses simulated data, and reuses no image.'
