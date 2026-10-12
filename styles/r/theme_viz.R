@@ -98,7 +98,7 @@ pv_palette <- function(name = "categorical", n = NULL) {
     geo = c("#c5c838", "#eaa944", "#e17d52", "#b93234", "#3e9349", "#2c69a6"),
     chrom12 = c(
       "#a3c7da", "#2072aa", "#accc8a", "#339a39", "#e49698", "#d02623",
-      "#ecba73", "#e17927", "#88ad69", "#623f88", "#efe89c", "#ab5a29"
+      "#ecba73", "#e17927", "#c4b1d1", "#623f88", "#efe89c", "#ab5a29"
     )
   )
   if (is.null(n)) return(stops)

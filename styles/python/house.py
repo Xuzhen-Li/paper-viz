@@ -104,7 +104,7 @@ HOUSE_PALETTES: dict[str, list[str] | dict[str, str]] = {
     # 12 chromosome colours, light/dark pairs interleaved (light 1, dark 1, light 2, dark 2, ...)
     "chrom12": [
         "#a3c7da", "#2072aa", "#accc8a", "#339a39", "#e49698", "#d02623",
-        "#ecba73", "#e17927", "#88ad69", "#623f88", "#efe89c", "#ab5a29",
+        "#ecba73", "#e17927", "#c4b1d1", "#623f88", "#efe89c", "#ab5a29",
     ],
 }
 _RAMPABLE = {"house_div", "house_warm", "geo"}

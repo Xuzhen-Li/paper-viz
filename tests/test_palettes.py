@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 # Verbatim from FINAL STYLE.md, section "附加配色" (2026-10-12).
 GEO = "#c5c838 #eaa944 #e17d52 #b93234 #3e9349 #2c69a6".split()
-CHROM_LIGHT = "#a3c7da #accc8a #e49698 #ecba73 #88ad69 #efe89c".split()
+CHROM_LIGHT = "#a3c7da #accc8a #e49698 #ecba73 #c4b1d1 #efe89c".split()
 CHROM_DARK = "#2072aa #339a39 #d02623 #e17927 #623f88 #ab5a29".split()
 # chrom12 order: light/dark pairs interleaved, like RColorBrewer "Paired".
 CHROM12 = [c for pair in zip(CHROM_LIGHT, CHROM_DARK) for c in pair]

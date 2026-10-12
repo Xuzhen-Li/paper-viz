@@ -359,11 +359,11 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 | 名字 / Name | 顺序 / Order | 颜色 / Colours | 用途 / Use |
 |---|---|---|---|
 | `geo` | 1–6 | `#c5c838` `#eaa944` `#e17d52` `#b93234` `#3e9349` `#2c69a6` | <!-- placeholder: external copy --> 占位 / Placeholder |
-| `chrom12` | 1–12（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …） | `#a3c7da` `#2072aa` `#accc8a` `#339a39` `#e49698` `#d02623` `#ecba73` `#e17927` `#88ad69` `#623f88` `#efe89c` `#ab5a29` | <!-- placeholder: external copy --> 占位 / Placeholder |
+| `chrom12` | 1–12（浅 1, 深 1, 浅 2, 深 2, … / light 1, dark 1, light 2, dark 2, …） | `#a3c7da` `#2072aa` `#accc8a` `#339a39` `#e49698` `#d02623` `#ecba73` `#e17927` `#c4b1d1` `#623f88` `#efe89c` `#ab5a29` | <!-- placeholder: external copy --> 占位 / Placeholder |
 
 | `chrom12` 对 / pair | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
-| 浅 / light | `#a3c7da` | `#accc8a` | `#e49698` | `#ecba73` | `#88ad69` | `#efe89c` |
+| 浅 / light | `#a3c7da` | `#accc8a` | `#e49698` | `#ecba73` | `#c4b1d1` | `#efe89c` |
 | 深 / dark | `#2072aa` | `#339a39` | `#d02623` | `#e17927` | `#623f88` | `#ab5a29` |
 
 ```r
