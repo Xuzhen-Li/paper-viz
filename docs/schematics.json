@@ -1,0 +1,58 @@
+{
+  "note": "Schematics shown in the gallery's schematics section. Not figure templates: not in catalog.json and not counted.",
+  "items": [
+    {
+      "id": "arch",
+      "text": "schem-card-arch",
+      "method": "script-svg",
+      "ai_icons": true,
+      "thumb": "house-style/arch/arch_v3.png",
+      "full": "house-style/arch/arch_v3.png",
+      "width": 2000, "height": 1324,
+      "files": [
+        {"label": "SVG", "href": "house-style/arch/arch_v3.svg"},
+        {"label": "PNG", "href": "house-style/arch/arch_v3.png"},
+        {"label": "script", "href": "https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch"}
+      ]
+    },
+    {
+      "id": "pipeline",
+      "text": "schem-card-pipeline",
+      "method": "drawio",
+      "thumb": "house-style/schematics/schematic_pipeline.svg",
+      "full": "house-style/schematics/schematic_pipeline.svg",
+      "width": 4323, "height": 792,
+      "files": [
+        {"label": "SVG", "href": "house-style/schematics/schematic_pipeline.svg"},
+        {"label": "PNG", "href": "house-style/schematics/schematic_pipeline.png"},
+        {"label": ".drawio", "href": "house-style/schematics/schematic_pipeline.drawio"}
+      ]
+    },
+    {
+      "id": "typescale",
+      "text": "schem-card-typescale",
+      "method": "drawio",
+      "thumb": "house-style/schematics/schematic_typescale.svg",
+      "full": "house-style/schematics/schematic_typescale.svg",
+      "width": 4323, "height": 1669,
+      "files": [
+        {"label": "SVG", "href": "house-style/schematics/schematic_typescale.svg"},
+        {"label": "PNG", "href": "house-style/schematics/schematic_typescale.png"},
+        {"label": ".drawio", "href": "house-style/schematics/schematic_typescale.drawio"}
+      ]
+    },
+    {
+      "id": "layout",
+      "text": "schem-card-layout",
+      "method": "drawio",
+      "thumb": "house-style/schematics/schematic_layout.svg",
+      "full": "house-style/schematics/schematic_layout.svg",
+      "width": 4512, "height": 10937,
+      "files": [
+        {"label": "SVG", "href": "house-style/schematics/schematic_layout.svg"},
+        {"label": "PNG", "href": "house-style/schematics/schematic_layout.png"},
+        {"label": ".drawio", "href": "house-style/schematics/schematic_layout.drawio", "note": "schem-file-legacy"}
+      ]
+    }
+  ]
+}
