@@ -1,0 +1,23 @@
+# Simulated data. Descriptive text below is a placeholder; external copy will replace it verbatim.
+title: Manhattan plot with chrom12 colours (house style)
+title_zh: chrom12 配色曼哈顿图（house 风格）
+slug: house-manhattan
+category: genome
+tags:
+  - gwas
+  - manhattan
+  - bonferroni
+  - chrom12-palette
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  chr: 染色体编号（整数，1–12）
+  pos_mb: 位置（Mb）
+  neg_log10_p: −log10 P
+when_to_use: "PLACEHOLDER (external copy): when_to_use for house-manhattan"
+customize: "PLACEHOLDER (external copy): customize for house-manhattan"
+lang: R
+style: house
+cells: 4x1
+references: []

@@ -1,0 +1,23 @@
+# Simulated data. Descriptive text below is a placeholder; external copy will replace it verbatim.
+title: Geo-grouped PCA scatter (house style)
+title_zh: 按地理分组的 PCA 散点（house 风格）
+slug: house-pca-geo
+category: population-genetics
+tags:
+  - pca
+  - population-structure
+  - geo-palette
+  - direct-labels
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  sample: 个体编号（字符串）
+  region: 地理区组（字符串，6 组，自西向东）
+  snp001..snp300: 基因型（0/1/2，整数）
+when_to_use: "PLACEHOLDER (external copy): when_to_use for house-pca-geo"
+customize: "PLACEHOLDER (external copy): customize for house-pca-geo"
+lang: R
+style: house
+cells: 2x2
+references: []
