@@ -728,7 +728,7 @@ def build() -> list[dict]:
 
 
 # Slugs that always get a README thumbnail, even beyond the first four of their category.
-README_PINNED = {"house-mosaic-transcriptome"}
+README_PINNED = {"house-mosaic-transcriptome", "house-area-scenarios", "house-point-series"}
 
 
 def render_readme(figures: list[dict]) -> str:

@@ -90,6 +90,8 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
 <img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
+<img src="figures/correlation/house-area-scenarios/preview.png" width="200" alt="堆叠面积与情景折线、差距箭头（house 风格）">
+<img src="figures/correlation/house-point-series/preview.png" width="200" alt="空心圆点时间序列与线尾标注（house 风格）">
 
 ### 组成 `composition`（14）
 
