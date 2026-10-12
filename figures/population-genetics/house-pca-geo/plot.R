@@ -47,7 +47,9 @@ stopifnot(all(contrast_tab$ratio_text >= 3))
 # --- direct labels next to each cluster -------------------------------------------------------------
 # Work in mm on the real panel: each label is moved out from its cluster centroid along one of 24
 # directions until its box clears every point by >= 0.5 mm; a placement is accepted only if the box is
-# <= 2 mm from the nearest point of its own cluster, inside the panel and clear of earlier labels.
+# <= 2 mm from the nearest point of its own cluster, inside the panel, clear of earlier labels, and its
+# centre is closer (in canvas mm, axes are not equal) to its own group centroid than to any other centroid,
+# on the side of its cluster facing away from the nearest other group.
 LAB_PT <- 9                                                   # 7 pt + the 2x2 single-panel bump
 r_pt <- pv_point_dims()[["outer_mm"]] / 2
 lab_w <- vapply(region_order, function(t) {
@@ -88,6 +90,8 @@ place <- function(xl, yl) {
   kx <- pm[["w"]] / diff(xl); ky <- pm[["h"]] / diff(yl)
   P <- cbind((sc$pc1 - xl[1]) * kx, (sc$pc2 - yl[1]) * ky)
   boxes <- list(); out <- NULL
+  C <- t(vapply(region_order, function(r) colMeans(P[sc$region == r, , drop = FALSE]), c(0, 0)))   # centroids, mm
+  dist_c <- as.matrix(stats::dist(C)); colnames(dist_c) <- rownames(dist_c) <- region_order
   for (rg in region_order) {
     own <- sc$region == rg; c0 <- colMeans(P[own, , drop = FALSE]); w <- lab_w[[rg]]; best <- NULL
     for (ang in seq(0, 2 * pi, length.out = 25)[-25]) {
@@ -98,9 +102,12 @@ place <- function(xl, yl) {
         gap <- sqrt(dx^2 + dy^2) - r_pt
         if (min(gap) < 0.5) next
         own_gap <- min(gap[own])
-        ok <- own_gap <= 2 && bx[1] >= 0.8 && bx[3] <= pm[["w"]] - 0.8 && bx[2] >= 0.8 && bx[4] <= pm[["h"]] - 0.8 &&
+        dc <- sqrt((C[, 1] - cx)^2 + (C[, 2] - cy)^2)            # label centre to every centroid, mm
+        nb <- names(which.min(dist_c[rg, colnames(dist_c) != rg]))   # nearest other group (centroid, mm)
+        away <- sum((c(cx, cy) - C[rg, ]) * (C[nb, ] - C[rg, ])) <= 0   # label on the far side from it
+        ok <- away && dc[[rg]] < min(dc[names(dc) != rg]) && own_gap <= 2 && bx[1] >= 0.8 && bx[3] <= pm[["w"]] - 0.8 && bx[2] >= 0.8 && bx[4] <= pm[["h"]] - 0.8 &&
           all(vapply(boxes, function(o) bx[3] < o[1] - 0.8 || bx[1] > o[3] + 0.8 || bx[4] < o[2] - 0.5 || bx[2] > o[4] + 0.5, TRUE))
-        if (ok && (is.null(best) || own_gap < best$g)) best <- list(g = own_gap, bx = bx)
+        if (ok && (is.null(best) || own_gap < best$g)) best <- list(g = own_gap, bx = bx, dc = dc)
         break                                                 # first clear spot along this direction
       }
     }
@@ -108,7 +115,9 @@ place <- function(xl, yl) {
     boxes[[rg]] <- best$bx
     out <- rbind(out, data.frame(region = factor(rg, levels = region_order),
                                  x = xl[1] + mean(best$bx[c(1, 3)]) / kx, y = yl[1] + mean(best$bx[c(2, 4)]) / ky,
-                                 own_gap_mm = best$g))
+                                 own_gap_mm = best$g, own_centroid_mm = best$dc[[rg]],
+                                 other_centroid_mm = min(best$dc[names(best$dc) != rg]),
+                                 nearest_other = names(best$dc[names(best$dc) != rg])[which.min(best$dc[names(best$dc) != rg])]))
   }
   out
 }
@@ -118,9 +127,10 @@ repeat {
   xl <- range(sc$pc1) + c(-1, 1) * pad * rx; yl <- range(sc$pc2) + c(-1, 1) * pad * ry
   lab <- place(xl, yl)
   if (!is.null(lab) || pad > 0.3) break
-  pad <- pad + 0.03
+  pad <- pad + 0.02                                           # widen a little if a label has no valid spot
 }
-stopifnot(!is.null(lab), nrow(lab) == 6, all(lab$own_gap_mm >= 0.5), all(lab$own_gap_mm <= 2))
+stopifnot(!is.null(lab), nrow(lab) == 6, all(lab$own_gap_mm >= 0.5), all(lab$own_gap_mm <= 2),
+          all(lab$own_centroid_mm < lab$other_centroid_mm))   # every label is nearest its own group centroid (mm)
 p <- build(xl, yl, lab)
 print(contrast_tab, digits = 3); print(lab, digits = 3); message(sprintf("axis pad %.2f", pad))
 
