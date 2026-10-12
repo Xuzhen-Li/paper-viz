@@ -727,6 +727,10 @@ def build() -> list[dict]:
     return figures
 
 
+# Slugs that always get a README thumbnail, even beyond the first four of their category.
+README_PINNED = {"house-mosaic-transcriptome"}
+
+
 def render_readme(figures: list[dict]) -> str:
     counts: dict[str, int] = {}
     for row in figures:
@@ -740,7 +744,8 @@ def render_readme(figures: list[dict]) -> str:
         rows = [row for row in figures if row["category"] == cat]
         lines.append(f"### {CATEGORY_ZH[cat]} `{cat}`（{len(rows)}）")
         lines.append("")
-        for row in rows[:4]:
+        shown = [row for i, row in enumerate(rows) if i < 4 or row["slug"] in README_PINNED]
+        for row in shown:
             lines.append(
                 f'<img src="{row["preview"]}" width="200" alt="{row["title_zh"]}">'
             )

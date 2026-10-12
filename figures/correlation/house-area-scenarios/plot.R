@@ -36,9 +36,9 @@ p <- ggplot() +
   annotate("text", x = 2009, y = 18, label = "Annual\nweeds", lineheight = 0.9, colour = "black") +
   annotate("text", x = 2099, y = 61.5, hjust = 1, label = "No control", colour = pal[["magenta"]]) +
   annotate("text", x = 2099, y = g("current_practice")$value[8] + 3.2, hjust = 1,
-           label = "Current practice", colour = pal[["orange"]]) +
-  annotate("text", x = 2099, y = tg$value[11] + 3.2, hjust = 1, label = "Target", colour = pal[["blue"]]) +
-  annotate("text", x = 2099, y = 4.2, hjust = 1, label = "Ambitious", colour = "#8A6D00") +
+           label = "Current practice", colour = "#1A1A1A") +
+  annotate("text", x = 2099, y = tg$value[11] + 3.2, hjust = 1, label = "Target", colour = "#1A1A1A") +
+  annotate("text", x = 2099, y = 4.2, hjust = 1, label = "Ambitious", colour = "#1A1A1A") +
   annotate("text", x = 2033, y = 49.8, hjust = 0, label = "Pledge", colour = pal[["blue"]]) +
   scale_x_continuous(breaks = seq(2000, 2100, 20)) +
   scale_y_continuous(breaks = seq(0, 60, 20)) +

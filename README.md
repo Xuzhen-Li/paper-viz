@@ -167,6 +167,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/layout/house-ensemble-multiples/preview.png" width="200" alt="集合成员小多图与侧边箱线（house 风格）">
 <img src="figures/layout/house-mosaic-aba-kinetics/preview.png" width="200" alt="ABA 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）">
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
+<img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
 <!-- CATALOG:END -->
 
 </details>
