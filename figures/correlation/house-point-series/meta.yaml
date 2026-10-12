@@ -1,0 +1,26 @@
+# Simulated data. Descriptive text below is a placeholder; external copy will replace it verbatim.
+title: Dense open-circle time series with line-end labels (house style)
+title_zh: 空心圆点时间序列与线尾标注（house 风格）
+slug: house-point-series
+category: correlation
+tags:
+  - time-series
+  - open-circles
+  - line-end-labels
+  - direct-labels
+  - house-style
+packages:
+  - ggplot2
+data_columns:
+  genotype: 基因型（WT / hsp-ko）
+  height: 叶位（upper / lower）
+  time_s: 时间（s）
+  temp_c: 叶温（°C）
+when_to_use: "PLACEHOLDER (external copy): when_to_use for house-point-series"
+customize: "PLACEHOLDER (external copy): customize for house-point-series"
+lang: R
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1038/s41467-024-50279-z
+    figure: Fig. 4c

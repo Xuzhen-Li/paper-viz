@@ -2968,6 +2968,79 @@
       "search_text": "hexbin density\n六边形分箱密度图\nhexbin\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\n散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。\nplot.r 顶部 bins 调六边形粒度；show_counts 在格心标计数；legend_title 改图例名。填充色取 pv_palette(\"sequential\")（不用 categorical 第 8 色纯黑作数据色）。geom_hex 依赖 hexbin 包。\nhexbin density scatter correlation\nx 横轴连续变量（数值） y 纵轴连续变量（数值）"
     },
     {
+      "title": "Stacked area with scenario lines and gap arrows (house style)",
+      "title_zh": "堆叠面积与情景折线、差距箭头（house 风格）",
+      "slug": "house-area-scenarios",
+      "category": "correlation",
+      "tags": [
+        "area",
+        "stacked-area",
+        "scenario",
+        "projection",
+        "line",
+        "direct-labels",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "year": "年份",
+        "series": "系列（history / no_control / current_practice / target / ambitious / annual_share_of_target）",
+        "value": "种子库（10³ seeds per m²）"
+      },
+      "when_to_use": "PLACEHOLDER (external copy): when_to_use for house-area-scenarios",
+      "customize": "PLACEHOLDER (external copy): customize for house-area-scenarios",
+      "lang": "R",
+      "task": "relationship",
+      "task_zh": "相关/关系",
+      "task_en": "Relationship",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": {
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/correlation/house-area-scenarios/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/house-area-scenarios/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-area-scenarios/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/correlation/house-area-scenarios/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/house-area-scenarios/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-area-scenarios/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/correlation/house-area-scenarios/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/house-area-scenarios/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-area-scenarios/make_data.R"
+        }
+      ],
+      "dir": "figures/correlation/house-area-scenarios",
+      "preview": "figures/correlation/house-area-scenarios/preview.png",
+      "docs_preview": "previews/house-area-scenarios.png",
+      "code": "figures/correlation/house-area-scenarios/plot.R",
+      "data": "figures/correlation/house-area-scenarios/data.csv",
+      "data_files": [
+        "figures/correlation/house-area-scenarios/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-area-scenarios/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-area-scenarios/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-area-scenarios",
+      "code_text": "# House example: stacked composition area under a pathway line, scenario lines,\n# open-circle \"commitment\" marker, vertical gap arrows with printed values, direct labels.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nd <- read.csv(\"data.csv\")\ng <- function(s) d[d$series == s, ]\npal <- pv_palette(\"house\"); div <- pv_palette(\"house_div\"); grey <- pv_palette(\"house_grey\")\ntg <- g(\"target\"); an <- g(\"annual_share_of_target\")\narea <- data.frame(year = tg$year, total = tg$value, annual = an$value)\nat <- 2050\nv <- function(s) g(s)$value[g(s)$year == at]\ngap1 <- v(\"no_control\") - v(\"target\"); gap2 <- v(\"target\") - v(\"ambitious\")\nstopifnot(gap1 > 0, gap2 > 0)\nlw <- pv_house_lw(\"main\")\np <- ggplot() +\n  geom_ribbon(data = area, aes(year, ymin = 0, ymax = total), fill = div[4]) +\n  geom_ribbon(data = area, aes(year, ymin = 0, ymax = annual), fill = div[3]) +\n  geom_line(data = g(\"history\"), aes(year, value), colour = \"black\", linewidth = lw * 1.4) +\n  geom_line(data = g(\"no_control\"), aes(year, value), colour = pal[[\"magenta\"]], linewidth = lw) +\n  geom_line(data = g(\"current_practice\"), aes(year, value), colour = pal[[\"orange\"]], linewidth = lw,\n            linetype = \"22\") +\n  geom_line(data = tg[tg$year >= 2020, ], aes(year, value), colour = pal[[\"sky\"]], linewidth = lw) +\n  geom_line(data = g(\"ambitious\"), aes(year, value), colour = pal[[\"gold\"]], linewidth = lw) +\n  annotate(\"point\", x = 2030, y = v2030 <- tg$value[tg$year == 2030], shape = 21, size = 2.6,\n           stroke = 1, fill = \"white\", colour = pal[[\"blue\"]]) +\n  annotate(\"segment\", x = at, xend = at, y = v(\"no_control\") - 0.8, yend = v(\"target\") + 0.8,\n           colour = grey[[\"mid\"]], linewidth = pv_lw <- pv_pt2lw(0.8),\n           arrow = arrow(length = unit(1.4, \"mm\"), type = \"closed\")) +\n  annotate(\"segment\", x = at, xend = at, y = v(\"target\") - 0.8, yend = v(\"ambitious\") + 0.8,\n           colour = grey[[\"mid\"]], linewidth = pv_lw, arrow = arrow(length = unit(1.4, \"mm\"), type = \"closed\")) +\n  annotate(\"text\", x = at + 3, y = (v(\"no_control\") + v(\"target\")) / 2 + 9, hjust = 0, lineheight = 0.9,\n           label = sprintf(\"Control gap\\n(%.0f \\u00d7 10\\u00b3 seeds)\", gap1)) +\n  annotate(\"text\", x = at + 3, y = 8.3, hjust = 0, lineheight = 0.9,\n           label = sprintf(\"Ambition gap\\n(%.0f \\u00d7 10\\u00b3 seeds)\", gap2)) +\n  annotate(\"text\", x = 2013, y = 40, label = \"Perennial\", colour = \"black\") +\n  annotate(\"text\", x = 2009, y = 18, label = \"Annual\\nweeds\", lineheight = 0.9, colour = \"black\") +\n  annotate(\"text\", x = 2099, y = 61.5, hjust = 1, label = \"No control\", colour = pal[[\"magenta\"]]) +\n  annotate(\"text\", x = 2099, y = g(\"current_practice\")$value[8] + 3.2, hjust = 1,\n           label = \"Current practice\", colour = pal[[\"orange\"]]) +\n  annotate(\"text\", x = 2099, y = tg$value[11] + 3.2, hjust = 1, label = \"Target\", colour = pal[[\"blue\"]]) +\n  annotate(\"text\", x = 2099, y = 4.2, hjust = 1, label = \"Ambitious\", colour = \"#8A6D00\") +\n  annotate(\"text\", x = 2033, y = 49.8, hjust = 0, label = \"Pledge\", colour = pal[[\"blue\"]]) +\n  scale_x_continuous(breaks = seq(2000, 2100, 20)) +\n  scale_y_continuous(breaks = seq(0, 60, 20)) +\n  coord_cartesian(xlim = c(2000, 2100), ylim = c(0, 64), expand = FALSE, clip = \"off\") +\n  labs(x = NULL, y = \"Weed seed bank (10\\u00b3 seeds per m\\u00b2)\",\n       caption = \"Simulated data for illustration; not biological results\") +\n  theme_house() +\n  theme(plot.caption = element_text(hjust = 0, colour = grey[[\"mid\"]]),\n        plot.caption.position = \"plot\",\n        plot.margin = margin(2, 4, 1, 1, \"mm\"))\npv_save_house(p, \"figure\", cells = \"2x2\")\n",
+      "search_text": "stacked area with scenario lines and gap arrows (house style)\n堆叠面积与情景折线、差距箭头（house 风格）\nhouse-area-scenarios\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\nplaceholder (external copy): when_to_use for house-area-scenarios\nplaceholder (external copy): customize for house-area-scenarios\narea stacked-area scenario projection line direct-labels house-style\nyear 年份 series 系列（history / no_control / current_practice / target / ambitious / annual_share_of_target） value 种子库（10³ seeds per m²）"
+    },
+    {
       "title": "Line chart with CI ribbons (house style)",
       "title_zh": "带置信带的折线图（house 风格）",
       "slug": "house-line",
@@ -3055,6 +3128,78 @@
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-line",
       "code_text": "# House-style line chart: mean ± 95% CI ribbons, line-end labels, harvest difference in the panel.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nphase_start <- 63\nphase_end <- 77\nphase_label <- \"Véraison\"\ncompare <- c(\"Wine\", \"Table\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\npal <- pv_palette(\"house\")\ncols <- c(Wild = pal[[\"green\"]], Wine = pal[[\"red\"]], Table = pal[[\"blue\"]])\ngrey <- pv_palette(\"house_grey\")\n\nkey <- interaction(df$group, df$days_after_flowering, drop = TRUE)\nsm <- do.call(rbind, lapply(split(df, key), function(x) {\n  n <- nrow(x); m <- mean(x$brix); se <- stats::sd(x$brix) / sqrt(n)\n  data.frame(group = x$group[1], daf = x$days_after_flowering[1], m = m, se = se,\n             lo = m - stats::qt(0.975, n - 1) * se, hi = m + stats::qt(0.975, n - 1) * se, n = n)\n}))\nends <- sm[sm$daf == max(sm$daf), ]\nends$y <- ends$m + c(Table = 0.5, Wild = -0.6, Wine = 0)[ends$group]\na <- ends[ends$group == compare[1], ]; b <- ends[ends$group == compare[2], ]\ndlt <- a$m - b$m\npd <- 2 * stats::pt(-abs(dlt / sqrt(a$se^2 + b$se^2)), df = a$n + b$n - 2)\nn_vines <- max(sm$n)\n\np <- ggplot(sm, aes(daf, m)) +\n  annotate(\"rect\", xmin = phase_start, xmax = phase_end, ymin = -Inf, ymax = Inf, fill = grey[[\"bg\"]]) +\n  annotate(\"text\", x = (phase_start + phase_end) / 2, y = 2.3, vjust = 0, label = phase_label,\n           size = pv_pt2size(6), colour = grey[[\"mid\"]]) +\n  geom_ribbon(aes(ymin = lo, ymax = hi, fill = group), alpha = 0.2) +\n  geom_line(aes(colour = group), linewidth = pv_house_lw(\"main\")) +\n  geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n             stroke = HOUSE_POINT$stroke, colour = \"black\") +\n  geom_text(data = ends, aes(x = daf + 2.5, y = y, label = group, colour = group), hjust = 0,\n            size = pv_pt2size(7), fontface = \"bold\") +\n  annotate(\"text\", x = 20, y = 26.9, hjust = 0, vjust = 1, size = pv_pt2size(7),\n           colour = cols[[compare[1]]], label = paste(compare[1], \"\\u2212\", compare[2], \"at harvest\")) +\n  annotate(\"text\", x = 20, y = 24.7, hjust = 0, vjust = 1, size = pv_pt2size(7),\n           colour = cols[[compare[1]]], parse = TRUE,\n           label = sprintf(\"'%+.1f \\u00b0Brix, '*%s\", dlt, pv_fmt_p(pd))) +\n  annotate(\"text\", x = 136, y = 2.6, hjust = 1, vjust = 0, size = pv_pt2size(6), colour = grey[[\"mid\"]],\n           label = sprintf(\"Mean \\u00b1 95%% CI\\nn = %d vines per group\", n_vines), lineheight = 0.9) +\n  scale_colour_manual(values = cols) +\n  scale_fill_manual(values = cols) +\n  scale_x_continuous(breaks = seq(20, 120, 20)) +\n  scale_y_continuous(breaks = seq(5, 25, 5)) +\n  coord_cartesian(xlim = c(16, 138), ylim = c(2, 27.5), expand = FALSE) +\n  labs(x = \"Days after flowering\", y = \"Soluble solids (\\u00b0Brix)\") +\n  theme_house()\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "line chart with ci ribbons (house style)\n带置信带的折线图（house 风格）\nhouse-line\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\n少数几组随时间（或剂量）变化、每个时间点有重复时用；画均值线 + 95% 置信带，线尾直标组名，组间差和 p 写在图内。\nplot.r 顶部 phase_start / phase_end / phase_label 设阶段底色；compare 选要比较的两组（取最后一个时间点）。颜色取 pv_palette(\"house\")；文字字号写成印刷 pt（pv_pt2size），本图 2×1 格（89 × 43 mm），字号保持 7/8 pt（只有单个 2×2 面板才由 pv_save_house() 自动 +2 pt）。\nline time-series confidence-band direct-labels house-style\ngroup 分组（字符串） vine 重复编号（整数） days_after_flowering 开花后天数（数值，x 轴） brix 可溶性固形物（°brix）"
+    },
+    {
+      "title": "Dense open-circle time series with line-end labels (house style)",
+      "title_zh": "空心圆点时间序列与线尾标注（house 风格）",
+      "slug": "house-point-series",
+      "category": "correlation",
+      "tags": [
+        "time-series",
+        "open-circles",
+        "line-end-labels",
+        "direct-labels",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "genotype": "基因型（WT / hsp-ko）",
+        "height": "叶位（upper / lower）",
+        "time_s": "时间（s）",
+        "temp_c": "叶温（°C）"
+      },
+      "when_to_use": "PLACEHOLDER (external copy): when_to_use for house-point-series",
+      "customize": "PLACEHOLDER (external copy): customize for house-point-series",
+      "lang": "R",
+      "task": "relationship",
+      "task_zh": "相关/关系",
+      "task_en": "Relationship",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": {
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/correlation/house-point-series/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/house-point-series/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-point-series/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/correlation/house-point-series/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/house-point-series/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-point-series/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/correlation/house-point-series/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/house-point-series/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-point-series/make_data.R"
+        }
+      ],
+      "dir": "figures/correlation/house-point-series",
+      "preview": "figures/correlation/house-point-series/preview.png",
+      "docs_preview": "previews/house-point-series.png",
+      "code": "figures/correlation/house-point-series/plot.R",
+      "data": "figures/correlation/house-point-series/data.csv",
+      "data_files": [
+        "figures/correlation/house-point-series/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-point-series/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/house-point-series/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/house-point-series",
+      "code_text": "# House example: dense open-circle time series, one colour per series,\n# bold series labels at the line ends in the series colour, plateau stats printed in the panel.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nd <- read.csv(\"data.csv\")\npal <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nd$series <- paste(d$genotype, d$height)\ncols <- c(\"WT upper\" = pal[[\"magenta\"]], \"hsp-ko upper\" = pal[[\"orange\"]],\n          \"hsp-ko lower\" = pal[[\"purple\"]], \"WT lower\" = pal[[\"green\"]])\nplat <- aggregate(temp_c ~ series, d[d$time_s >= 2400, ], mean)\npm <- setNames(plat$temp_c, plat$series)\nends <- d[d$time_s == max(d$time_s), ]\nends$lab <- sprintf(\"%s (%s leaf)\", ends$genotype, ends$height)\n# label y from the series' extreme over the label's x span (x >= 1800 covers the longest label):\n# above the max for the upper series of each pair, below the min for the other, 1 unit clear.\nside <- c(\"WT upper\" = 1, \"hsp-ko upper\" = -1, \"hsp-ko lower\" = 1, \"WT lower\" = -1)\nspan <- d[d$time_s >= 1800, ]\nends$y <- vapply(ends$series, function(s) {\n  v <- span$temp_c[span$series == s]\n  if (side[[s]] > 0) max(v) + 1 else min(v) - 1\n}, numeric(1))\ndup <- pm[[\"WT upper\"]] - pm[[\"WT lower\"]]; dko <- pm[[\"hsp-ko upper\"]] - pm[[\"hsp-ko lower\"]]\np <- ggplot(d, aes(time_s, temp_c, colour = series)) +\n  geom_point(shape = 1, size = 1.1, stroke = pv_pt2lw(0.6)) +\n  geom_text(data = ends, aes(x = 3640, y = y, label = lab), hjust = 1, fontface = \"bold\") +\n  annotate(\"text\", x = 80, y = 43.6, hjust = 0, vjust = 1, lineheight = 0.95, colour = grey[[\"dark\"]],\n           label = paste(\"Upper - lower leaf, 2400\\u20133600 s\",\n                         sprintf(\"WT +%.1f \\u00b0C, hsp-ko +%.1f \\u00b0C\", dup, dko), sep = \"\\n\")) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(breaks = seq(0, 3600, 900)) +\n  scale_y_continuous(breaks = seq(20, 44, 4)) +\n  coord_cartesian(xlim = c(0, 3700), ylim = c(20, 44), expand = FALSE) +\n  labs(x = \"Time (s)\", y = \"Leaf temperature (\\u00b0C)\",\n       caption = \"Simulated data for illustration; not biological results\") +\n  theme_house() +\n  theme(plot.caption = element_text(hjust = 0, colour = grey[[\"mid\"]]), plot.caption.position = \"plot\",\n        plot.margin = margin(2, 3, 1, 1, \"mm\"))\npv_save_house(p, \"figure\", cells = \"2x2\")\n",
+      "search_text": "dense open-circle time series with line-end labels (house style)\n空心圆点时间序列与线尾标注（house 风格）\nhouse-point-series\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\nplaceholder (external copy): when_to_use for house-point-series\nplaceholder (external copy): customize for house-point-series\ntime-series open-circles line-end-labels direct-labels house-style\ngenotype 基因型（wt / hsp-ko） height 叶位（upper / lower） time_s 时间（s） temp_c 叶温（°c）"
     },
     {
       "title": "Scatter with group fits (house style)",
@@ -7666,6 +7811,79 @@
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/layout/composite-figure",
       "code_text": "# Four-panel figure in house style. Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nshow_fit <- TRUE\nbase_size <- 10\ngroup_levels <- c(\"Control\", \"Low\", \"High\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_levels)\npal <- stats::setNames(pv_palette(\"categorical\", nlevels(df$group)), group_levels)\n\nscale_treat_fill <- function() {\n  ggplot2::scale_fill_manual(values = pal, name = \"Treatment\")\n}\nscale_treat_colour <- function() {\n  ggplot2::scale_colour_manual(values = pal, guide = \"none\")\n}\ntreat_guide <- function() {\n  ggplot2::guides(\n    fill = ggplot2::guide_legend(\n      title.position = \"top\",\n      nrow = 1,\n      override.aes = list(\n        shape = 21, colour = \"black\", alpha = 1, linewidth = 0, size = 2.2\n      )\n    ),\n    colour = \"none\"\n  )\n}\n\npanel_theme <- theme_viz(base_size = base_size) +\n  ggplot2::theme(\n    plot.margin = ggplot2::margin(4.8, 1.6, 1.0, 1.2, \"mm\"),\n    plot.tag = ggplot2::element_text(face = \"bold\", size = base_size + 2, hjust = 0, vjust = 0),\n    plot.tag.position = \"topleft\",\n    legend.position = \"bottom\",\n    legend.box = \"horizontal\",\n    legend.margin = ggplot2::margin(0, 3, 0, 3, \"mm\"),\n    legend.box.margin = ggplot2::margin(0, 0, 0, 0)\n  )\n\nA <- df[df$panel == \"A\", , drop = FALSE]\npA <- ggplot2::ggplot(A, ggplot2::aes(x, y))\nif (isTRUE(show_fit)) {\n  pA <- pA + ggplot2::geom_smooth(\n    ggplot2::aes(colour = group, fill = group),\n    method = \"lm\", formula = y ~ x, se = TRUE,\n    linewidth = 0.45, alpha = 0.16\n  )\n}\npA <- pA +\n  ggplot2::geom_point(\n    ggplot2::aes(fill = group),\n    shape = 21, colour = \"black\", stroke = 0.25, size = 2.3\n  ) +\n  scale_treat_fill() +\n  scale_treat_colour() +\n  ggplot2::guides(fill = \"none\", colour = \"none\") +\n  ggplot2::labs(x = \"Marker A\", y = \"Marker B\", tag = \"A\") +\n  panel_theme\n\nB <- df[df$panel == \"B\", , drop = FALSE]\nB$class <- factor(B$class, levels = c(\"Liver\", \"Spleen\", \"Lung\", \"Kidney\"))\npB <- ggplot2::ggplot(B, ggplot2::aes(class, y, fill = group)) +\n  ggplot2::geom_col(\n    position = ggplot2::position_dodge(width = 0.72),\n    width = 0.66\n  ) +\n  scale_treat_fill() +\n  treat_guide() +\n  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.08))) +\n  ggplot2::labs(x = NULL, y = \"Response\", tag = \"B\") +\n  panel_theme\n\nC <- df[df$panel == \"C\", , drop = FALSE]\npC <- ggplot2::ggplot(C, ggplot2::aes(x, y, group = group)) +\n  ggplot2::geom_line(ggplot2::aes(colour = group), linewidth = 0.7) +\n  ggplot2::geom_point(\n    ggplot2::aes(fill = group),\n    shape = 21, colour = \"black\", stroke = 0.25, size = 2.1\n  ) +\n  scale_treat_fill() +\n  scale_treat_colour() +\n  ggplot2::guides(fill = \"none\", colour = \"none\") +\n  ggplot2::scale_x_continuous(breaks = sort(unique(C$x))) +\n  ggplot2::labs(x = \"Day\", y = \"Signal\", tag = \"C\") +\n  panel_theme\n\nD <- df[df$panel == \"D\", , drop = FALSE]\nD$class <- factor(D$class, levels = rev(c(\"Actb\", \"Myc\", \"Tp53\", \"Vegfa\", \"Cdkn1a\")))\nD$item <- factor(D$item, levels = c(\"C1\", \"C2\", \"L1\", \"L2\", \"H1\", \"H2\"))\nlim <- max(abs(D$y), na.rm = TRUE)\npD <- ggplot2::ggplot(D, ggplot2::aes(item, class, fill = y)) +\n  ggplot2::geom_tile(colour = \"white\", linewidth = 0.35) +\n  ggplot2::scale_fill_gradientn(\n    colours = pv_palette(\"diverging\", 7),\n    limits = c(-lim, lim),\n    name = \"Score\",\n    breaks = c(-1, 0, 1),\n    guide = ggplot2::guide_colourbar(\n      title.position = \"top\",\n      barwidth = ggplot2::unit(32, \"mm\"),\n      barheight = ggplot2::unit(2.8, \"mm\")\n    )\n  ) +\n  ggplot2::labs(x = NULL, y = NULL, tag = \"D\") +\n  panel_theme\n\n# ggplot2 4 does not add a second ggplot with `+` until patchwork is attached.\np <- patchwork::wrap_plots(pA, pB, pC, pD, ncol = 2, guides = \"collect\") +\n  patchwork::plot_annotation(\n    theme = ggplot2::theme(\n      legend.position = \"bottom\",\n      legend.box = \"horizontal\",\n      legend.margin = ggplot2::margin(0, 4, 0, 4, \"mm\"),\n      legend.box.spacing = ggplot2::unit(1, \"mm\")\n    )\n  )\n\npv_save(p, \"figure\", width_mm = 180, height_mm = 120)\nmessage(\"wrote preview.png\")\n",
       "search_text": "composite figure\n四面板拼图\ncomposite-figure\n\nlayout\n拼图\nlayout\n拼图\nlayout\n一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。use when a double-column figure should assemble those four panels in one font, palette, and legend.\nplot.r 顶部 show_fit 开关 a 的回归线和置信带；base_size 是四块共用的字号；group_levels 决定处理组顺序，颜色按这个顺序取 pv_palette(\"categorical\")。热图用 pv_palette(\"diverging\")。patchwork 把图例收到整图下方，面板字母 a–d 在每块左上角。\ncomposite patchwork multipanel\npanel 面板标记，a 散点、b 分组柱、c 时间曲线、d 热图（字符串） group 处理组 control、low、high；d 里是该样本所属处理（字符串） x 连续横坐标。a 是标志物 a，c 是天数；b 和 d 为空（数值） y 连续数值。a 是标志物 b，b 是响应，c 是信号，d 是标准化得分（数值） class 分类名。b 是组织，d 是基因；a 和 c 为空（字符串） item d 的样本编号；其他面板为空（字符串）"
+    },
+    {
+      "title": "Ensemble small multiples with side boxes (house style)",
+      "title_zh": "集合成员小多图与侧边箱线（house 风格）",
+      "slug": "house-ensemble-multiples",
+      "category": "layout",
+      "tags": [
+        "small-multiples",
+        "ensemble",
+        "spaghetti",
+        "side-boxplot",
+        "trend",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2",
+        "patchwork"
+      ],
+      "data_columns": {
+        "regime": "选择方案（10 个）",
+        "replicate": "重复系编号（整数）",
+        "g0 … g80": "第 0–80 代的性状偏移（表型 SD）"
+      },
+      "when_to_use": "PLACEHOLDER (external copy): when_to_use for house-ensemble-multiples",
+      "customize": "PLACEHOLDER (external copy): customize for house-ensemble-multiples",
+      "lang": "R",
+      "task": "layout",
+      "task_zh": "拼图",
+      "task_en": "Layout",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": {
+        "width_mm": "183",
+        "height_mm": "183",
+        "label": "183 × 183 mm (4×4 cells)",
+        "cells": "4x4"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/layout/house-ensemble-multiples/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-ensemble-multiples/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-ensemble-multiples/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/layout/house-ensemble-multiples/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-ensemble-multiples/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-ensemble-multiples/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/layout/house-ensemble-multiples/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/layout/house-ensemble-multiples/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-ensemble-multiples/make_data.R"
+        }
+      ],
+      "dir": "figures/layout/house-ensemble-multiples",
+      "preview": "figures/layout/house-ensemble-multiples/preview.png",
+      "docs_preview": "previews/house-ensemble-multiples.png",
+      "code": "figures/layout/house-ensemble-multiples/plot.R",
+      "data": "figures/layout/house-ensemble-multiples/data.csv",
+      "data_files": [
+        "figures/layout/house-ensemble-multiples/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-ensemble-multiples/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/layout/house-ensemble-multiples/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/layout/house-ensemble-multiples",
+      "code_text": "# House example: 2 x 5 small multiples. Each panel: every replicate as a thin grey line,\n# the regime mean in colour, regime name and n top-left, the trend (mean +- SE of per-replicate slopes)\n# top-right, and a narrow side box of the final values. Shared x; y shared within a row; only outer\n# x-axis labels; no strips.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nlibrary(patchwork)\nw <- read.csv(\"data.csv\", check.names = FALSE)   # wide: regime, replicate, g0..g80\ngcols <- grep(\"^g[0-9]+$\", names(w), value = TRUE)\nd <- data.frame(regime = rep(w$regime, length(gcols)), replicate = rep(w$replicate, length(gcols)),\n                generation = rep(as.integer(sub(\"g\", \"\", gcols)), each = nrow(w)),\n                shift_sd = unlist(w[gcols], use.names = FALSE))\ngrey <- pv_palette(\"house_grey\")\nregs <- unique(d$regime)\ncols <- setNames(pv_palette(\"geo\", length(regs)), regs)\nlw <- pv_house_lw(\"main\")\n\nstats <- do.call(rbind, lapply(regs, function(r) {\n  x <- d[d$regime == r, ]\n  sl <- vapply(split(x, x$replicate), function(z) 10 * coef(lm(shift_sd ~ generation, z))[[2]], 0)\n  fin <- vapply(split(x, x$replicate), function(z) mean(z$shift_sd[z$generation >= 71]), 0)\n  data.frame(regime = r, n = length(sl), slope = mean(sl), se = sd(sl) / sqrt(length(sl)),\n             q1 = quantile(fin, .25), med = median(fin), q3 = quantile(fin, .75),\n             lo = min(fin), hi = max(fin), mean_fin = mean(fin))\n}))\nstopifnot(all(stats$n == tapply(d$replicate, d$regime, max)[stats$regime]))\nmean_line <- aggregate(shift_sd ~ regime + generation, d, mean)\n\nrow_of <- setNames((seq_along(regs) - 1) %/% 2 + 1, regs)\nylims <- lapply(1:5, function(i) {\n  v <- d$shift_sd[row_of[d$regime] == i]\n  c(min(v) - 0.05 * diff(range(v)), max(v) + 0.32 * diff(range(v)))   # headroom for the panel text\n})\n\npanel <- function(r) {\n  i <- row_of[[r]]; s <- stats[stats$regime == r, ]; yl <- ylims[[i]]; bottom <- i == 5\n  main <- ggplot(d[d$regime == r, ], aes(generation, shift_sd)) +\n    geom_line(aes(group = replicate), colour = grey[[\"ci\"]], linewidth = pv_pt2lw(0.4)) +\n    geom_line(data = mean_line[mean_line$regime == r, ], colour = cols[[r]], linewidth = lw) +\n    annotate(\"text\", x = 3, y = yl[2], hjust = 0, vjust = 1.25, lineheight = 0.95,\n             label = sprintf(\"%s\\nn = %d\", r, s$n)) +\n    annotate(\"text\", x = 79, y = yl[2], hjust = 1, vjust = 1.25,\n             label = sprintf(\"%+.3f \\u00b1 %.3f SD per 10 gen\", s$slope, s$se)) +\n    scale_x_continuous(breaks = seq(0, 60, 20)) +   # no tick at 80: it would sit on the box divider\n    coord_cartesian(xlim = c(0, 80), ylim = yl, expand = FALSE) +\n    labs(x = if (bottom) \"Generation\" else NULL, y = NULL) +\n    theme_house() +\n    theme(plot.margin = margin(0, 0, 0, 0),\n          axis.ticks.length.y = unit(1, \"mm\"),\n          axis.text.x = if (bottom) element_text() else element_blank(),\n          axis.ticks.length.x = unit(if (bottom) 1 else 0.6, \"mm\"))\n  box <- ggplot(s) +\n    geom_segment(aes(x = 0.5, xend = 0.5, y = lo, yend = hi), linewidth = pv_pt2lw(0.5)) +\n    geom_rect(aes(xmin = 0.25, xmax = 0.75, ymin = q1, ymax = q3), fill = cols[[r]],\n              colour = \"black\", linewidth = pv_pt2lw(0.5)) +\n    geom_segment(aes(x = 0.25, xend = 0.75, y = med, yend = med), linewidth = pv_pt2lw(0.8)) +\n    geom_point(aes(0.5, mean_fin), size = 0.7) +\n    coord_cartesian(xlim = c(0, 1), ylim = yl, expand = FALSE) +\n    labs(x = NULL, y = NULL) +\n    theme_house() +\n    theme(axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks.x = element_blank(),\n          axis.ticks.y = element_blank(), axis.ticks.length = unit(0, \"mm\"), plot.margin = margin(0, 0, 0, 0))\n  list(main, box)\n}\ntiles <- unlist(lapply(regs, panel), recursive = FALSE)\ngrid <- wrap_plots(tiles, ncol = 4, widths = c(4.2, 0.9, 4.2, 0.9))\nytitle <- ggplot() + annotate(\"text\", x = 0, y = 0, angle = 90, size = pv_pt2size(8),\n                              family = house_family(), label = \"Trait shift (phenotypic SD)\") +\n  theme_void() + theme(plot.margin = margin(0, 0, 0, 0))\nfig <- (ytitle | grid) + plot_layout(widths = c(0.3, 10.2)) +\n  plot_annotation(caption = paste(\"Side box: last 10 generations (71\\u201380), one value per replicate;\",\n                                  \"line = median, dot = mean. Simulated data for illustration; not biological results\"),\n                  theme = theme(plot.caption = element_text(hjust = 0, colour = grey[[\"mid\"]], size = 7,\n                                                            family = house_family()),\n                                plot.margin = margin(1, 1, 1, 0.5, \"mm\")))\npv_save_house(fig, \"figure\", cells = \"4x4\")\n",
+      "search_text": "ensemble small multiples with side boxes (house style)\n集合成员小多图与侧边箱线（house 风格）\nhouse-ensemble-multiples\n\nlayout\n拼图\nlayout\n拼图\nlayout\nplaceholder (external copy): when_to_use for house-ensemble-multiples\nplaceholder (external copy): customize for house-ensemble-multiples\nsmall-multiples ensemble spaghetti side-boxplot trend house-style\nregime 选择方案（10 个） replicate 重复系编号（整数） g0 … g80 第 0–80 代的性状偏移（表型 sd）"
     },
     {
       "title": "ABA kinetics page, single column (house mosaic, 2x4)",

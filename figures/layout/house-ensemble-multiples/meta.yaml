@@ -1,0 +1,27 @@
+# Simulated data. Descriptive text below is a placeholder; external copy will replace it verbatim.
+title: Ensemble small multiples with side boxes (house style)
+title_zh: 集合成员小多图与侧边箱线（house 风格）
+slug: house-ensemble-multiples
+category: layout
+tags:
+  - small-multiples
+  - ensemble
+  - spaghetti
+  - side-boxplot
+  - trend
+  - house-style
+packages:
+  - ggplot2
+  - patchwork
+data_columns:
+  regime: 选择方案（10 个）
+  replicate: 重复系编号（整数）
+  g0 … g80: 第 0–80 代的性状偏移（表型 SD）
+when_to_use: "PLACEHOLDER (external copy): when_to_use for house-ensemble-multiples"
+customize: "PLACEHOLDER (external copy): customize for house-ensemble-multiples"
+lang: R
+style: house
+cells: 4x4
+references:
+  - url: https://doi.org/10.1016/j.oneear.2023.09.004
+    figure: Fig. 1
