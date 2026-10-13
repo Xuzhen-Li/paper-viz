@@ -36,14 +36,19 @@ arr <- if (use_arrow) grid::arrow(length = grid::unit(1.2, "mm"), type = "closed
 n <- nrow(wide)
 x_lim <- range(long$value) + c(-0.05, 0.05) * diff(range(long$value))
 key <- data.frame(stage = factor(stage_levels, levels = stage_levels), i = seq_along(stage_levels))
-# stop the segment at the edge of the end point so the arrow head stays visible
-gap <- 0.035 * diff(x_lim)
-wide$xend <- ifelse(abs(wide$change) > 2 * gap, wide$week12 - sign(wide$change) * gap, wide$week12)
+# point diameter in x units (HOUSE_POINT size in mm over the panel width, about 33 mm in a 1x2 tile)
+pt_x <- pv_point_dims()[["outer_mm"]] / 33 * diff(x_lim)
+# rows whose change is smaller than ~2 point diameters get a plain segment (no arrow head);
+# otherwise the segment stops at the edge of the end point so the head stays visible
+wide$arrow <- abs(wide$change) > 2 * pt_x
+wide$xend <- ifelse(wide$arrow, wide$week12 - sign(wide$change) * pt_x / 2, wide$week12)
 stat_lab <- sprintf("Mean change %+.1f\n%d of %d decrease", mean(wide$change), sum(wide$change < 0), n)
 
 p <- ggplot() +
-  geom_segment(data = wide, aes(x = baseline, xend = xend, y = y, yend = y),
-               linewidth = pv_house_lw("minor"), colour = grey[["mid"]], arrow = arr) +
+  geom_segment(data = wide[!wide$arrow, ], aes(x = baseline, xend = xend, y = y, yend = y),
+               linewidth = pv_house_lw("minor"), colour = grey[["ref"]]) +
+  geom_segment(data = wide[wide$arrow, ], aes(x = baseline, xend = xend, y = y, yend = y),
+               linewidth = pv_house_lw("minor"), colour = grey[["ref"]], arrow = arr) +
   geom_point(data = long, aes(value, y, fill = stage), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
              stroke = HOUSE_POINT$stroke, colour = "black") +
   geom_text(data = key, aes(x = x_lim[2] - 0.02 * diff(x_lim), y = 2.0 + 0.6 * (nrow(key) - i + 1),

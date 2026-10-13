@@ -31,8 +31,10 @@ y_lim <- c(rng[1] - step * 1.15, max(br$y) + step * 0.75)
 
 set.seed(7)
 p <- ggplot(df, aes(group, value)) +
-  geom_boxplot(aes(fill = group), width = 0.55, alpha = 0.6, outlier.shape = NA,
-               linewidth = pv_house_lw("frame"), colour = "black")
+  # outliers are drawn only when the raw points are hidden
+  geom_boxplot(aes(fill = group), width = 0.55, alpha = 0.6,
+               outlier.shape = if (isTRUE(show_points)) NA else 19, outlier.size = 1.2,
+               outlier.colour = "black", linewidth = pv_house_lw("frame"), colour = "black")
 if (isTRUE(show_points)) {
   p <- p + geom_point(aes(fill = group), position = position_jitter(width = 0.12, height = 0),
                       shape = HOUSE_POINT$shape, size = 1.4, stroke = HOUSE_POINT$stroke,

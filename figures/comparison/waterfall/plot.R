@@ -72,7 +72,7 @@ p <- ggplot() +
             colour = NA)
 if (!is.null(conn)) {
   p <- p + geom_segment(data = conn, aes(x = x, xend = xend, y = y, yend = y),
-                        linewidth = pv_house_lw("ref"), colour = grey[["mid"]], linetype = "22")
+                        linewidth = pv_house_lw("ref"), colour = grey[["ref"]], linetype = "22")
 }
 if (isTRUE(show_value_labels)) {
   lab_df <- plot_df
