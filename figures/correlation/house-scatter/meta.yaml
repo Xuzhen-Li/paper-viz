@@ -10,7 +10,6 @@ tags:
   - house-style
 packages:
   - ggplot2
-  - ggrepel
 data_columns:
   group: 分组（字符串，3 组）
   name: 样品名（字符串，用于点标签）

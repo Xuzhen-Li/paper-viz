@@ -39,9 +39,12 @@ p <- ggplot(df, aes(value, colour = group, fill = group)) +
         plot.caption.position = "plot")
 
 if (isTRUE(show_mode_labels)) {
+  # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+  # so the layout does not depend on machine speed.
   p <- p + ggrepel::geom_text_repel(data = modes, aes(x, y, label = group, colour = group),
                                     inherit.aes = FALSE, nudge_y = 0.04 * y_top, direction = "x",
                                     min.segment.length = Inf, box.padding = 0.15, seed = 45,
+                                    max.iter = 10000, max.time = Inf,
                                     ylim = c(NA, y_top * 0.9))
 } else {
   key <- data.frame(group = factor(group_levels, levels = group_levels), i = seq_along(group_levels))

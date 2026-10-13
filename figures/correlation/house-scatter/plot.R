@@ -2,7 +2,6 @@
 # Reads data.csv only. Run from this directory.
 source("../../../styles/r/theme_house.R")
 library(ggplot2)
-library(ggrepel)
 
 label_names <- c("Cabernet Sauvignon", "Pinot Noir", "Saperavi", "Gamay", "Kyoho", "VS133")
 group_order <- c("Wild", "Wine", "Table")
@@ -21,23 +20,30 @@ stats_df <- data.frame(group = factor(group_order, levels = group_order), x = 13
 glab <- data.frame(group = factor(group_order, levels = group_order),
                    x = c(0.335, 3.5, 7.2), y = c(9.3, 7.4, 4.9), hj = c(0, 0.5, 0.5))
 df$lab <- ifelse(df$name %in% label_names, df$name, "")
-# nudge only labelled points; unlabelled rows stay put (they still repel labels)
-labelled <- df$lab != ""
-nx <- ifelse(labelled, c(Wild = -0.10, Wine = -0.22, Table = 0.05)[as.character(df$group)], 0)
-ny <- ifelse(labelled, c(Wild = -1.6, Wine = -1.4, Table = 1.2)[as.character(df$group)], 0)
+# Names sit at fixed positions (no repel solver), so the PDF and PNG layouts match on every
+# device. Each name sits beside the fit, away from the points, with a straight leader that
+# stops just short of the name. Positions are in data units (x on the original scale).
+lab_pos <- data.frame(
+  name = c("VS133", "Saperavi", "Pinot Noir", "Gamay", "Cabernet Sauvignon", "Kyoho"),
+  lx   = c(0.62,    0.66,       1.09,         1.24,    1.40,                 6.95),
+  ly   = c(8.2,     6.9,        5.3,          3.9,     2.3,                  2.8)
+)
+lab_df <- merge(df[df$lab != "", ], lab_pos, by = "name", sort = FALSE)
+lab_df$vj <- ifelse(lab_df$ly < lab_df$anthocyanin_mg_g, 1, 0)   # name below or above its point
+lab_df$sy <- lab_df$ly + ifelse(lab_df$vj == 1, 0.25, -0.25)
 
 p <- ggplot(df, aes(berry_weight_g, anthocyanin_mg_g)) +
   geom_smooth(aes(group = group), method = "lm", formula = y ~ x, colour = NA,
               fill = pv_palette("house_grey")[["ci"]], alpha = 0.5) +
   geom_smooth(aes(colour = group), method = "lm", formula = y ~ x, se = FALSE,
               linewidth = pv_house_lw("emph")) +
+  # leaders under the points, so each starts at the marker edge
+  geom_segment(data = lab_df, aes(x = berry_weight_g, y = anthocyanin_mg_g, xend = lx, yend = sy,
+                                  colour = group), linewidth = pv_house_lw(0.4)) +
   geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,
              colour = "black") +
-  geom_text_repel(aes(label = lab, colour = group), nudge_x = nx, nudge_y = ny,
-                  size = pv_pt2size(6), box.padding = 0.4, point.padding = 0.1, max.time = 2,
-                  max.iter = 20000, point.size = HOUSE_POINT$size + 0.3, force = 4, force_pull = 0.5,
-                  min.segment.length = 0.15, segment.size = pv_house_lw(0.4), max.overlaps = Inf,
-                  seed = 3, ylim = c(1.2, 13)) +
+  geom_text(data = lab_df, aes(lx, ly, label = name, colour = group, vjust = vj),
+            size = pv_pt2size(6)) +
   geom_text(data = glab, aes(x, y, label = group, colour = group, hjust = hj), size = pv_pt2size(8),
             fontface = "bold") +
   geom_text(data = stats_df, aes(x, y, label = lab, colour = group), parse = TRUE,
