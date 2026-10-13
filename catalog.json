@@ -3870,7 +3870,7 @@
         "value": "标准化表达（数值）"
       },
       "when_to_use": "时间序列基因已分成几种变化模式、要叠看单基因和类群均值时用。",
-      "customize": "facet_clusters 分面类群；show_smooth 开关类群均值折线。颜色按 cluster 取 pv_palette(\"categorical\")。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "de",
       "task_zh": "差异表达",
@@ -3886,12 +3886,17 @@
         {
           "name": "show_smooth",
           "value": "TRUE"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "140",
-        "height_mm": "100",
-        "label": "140 × 100 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -3925,8 +3930,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/expression-trend/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/expression-trend/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/differential-expression/expression-trend",
-      "code_text": "# Expression trends by cluster. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\nfacet_clusters <- TRUE\nshow_smooth <- TRUE\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$cluster <- factor(df$cluster, levels = unique(df$cluster))\ncols <- pv_palette(\"categorical\", nlevels(df$cluster))\nnames(cols) <- levels(df$cluster)\n\nmean_df <- stats::aggregate(value ~ cluster + time, df, mean)\n\np <- ggplot2::ggplot(df, ggplot2::aes(time, value, group = gene)) +\n  ggplot2::geom_line(colour = \"grey75\", linewidth = 0.3) +\n  ggplot2::labs(x = \"Time (h)\", y = \"Expression (z)\") +\n  theme_viz()\n\nif (isTRUE(show_smooth)) {\n  p <- p + ggplot2::geom_line(\n    data = mean_df,\n    ggplot2::aes(time, value, colour = cluster, group = cluster),\n    linewidth = 0.7,\n    inherit.aes = FALSE\n  ) +\n    ggplot2::scale_colour_manual(values = cols, guide = \"none\")\n}\n\nif (isTRUE(facet_clusters)) {\n  p <- p + ggplot2::facet_wrap(~cluster, ncol = 3) +\n    ggplot2::theme(strip.background = ggplot2::element_blank())\n}\n\npv_save(p, \"figure\", width_mm = 140, height_mm = 100)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "expression trend\n表达趋势图\nexpression-trend\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n时间序列基因已分成几种变化模式、要叠看单基因和类群均值时用。\nfacet_clusters 分面类群；show_smooth 开关类群均值折线。颜色按 cluster 取 pv_palette(\"categorical\")。\nexpression time-course trend\ngene 基因编号（字符串） cluster 趋势类群（字符串） time 时间，小时（数值） value 标准化表达（数值）"
+      "code_text": "# Expression trends by cluster (house style). Single genes in light grey, cluster means in house\n# colours. Faceted: one panel per cluster; overlaid: cluster names written at the line ends.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# --- adjustable ---\nfacet_clusters <- TRUE\nshow_smooth <- TRUE\n# ------------------\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$cluster <- factor(df$cluster, levels = unique(df$cluster))\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- stats::setNames(unname(hp[seq_len(nlevels(df$cluster))]), levels(df$cluster))\n# names written on white: the cluster colour when it is >= 3:1 on white, else #1A1A1A\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\n\nmean_df <- stats::aggregate(value ~ cluster + time, df, mean)\n\np <- ggplot(df, aes(time, value, group = gene)) +\n  geom_line(colour = grey[[\"light\"]], linewidth = pv_house_lw(\"minor\")) +\n  scale_x_continuous(breaks = function(l) pretty(l, n = 4)) +\n  labs(x = \"Time (h)\", y = \"Expression (z)\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\nif (isTRUE(show_smooth)) {\n  p <- p + geom_line(data = mean_df, aes(time, value, colour = cluster, group = cluster),\n                     linewidth = pv_house_lw(\"main\"), inherit.aes = FALSE) +\n    scale_colour_manual(values = cols, guide = \"none\")\n}\n\nif (isTRUE(facet_clusters)) {\n  p <- p + facet_wrap(~cluster, ncol = 3) +\n    theme(strip.background = element_blank(), panel.spacing = unit(1.5, \"mm\"))\n} else if (isTRUE(show_smooth)) {\n  ends <- mean_df[mean_df$time == max(mean_df$time), , drop = FALSE]\n  p <- p + geom_text(data = ends, aes(time, value, label = cluster), inherit.aes = FALSE,\n                     hjust = -0.1, size = pv_pt2size(7), colour = name_cols[as.character(ends$cluster)],\n                     family = house_family()) +\n    coord_cartesian(clip = \"off\") +\n    theme(plot.margin = margin(1, 14, 1, 1, \"mm\"))\n}\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "expression trend\n表达趋势图\nexpression-trend\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n时间序列基因已分成几种变化模式、要叠看单基因和类群均值时用。\ntodo-text\nexpression time-course trend\ngene 基因编号（字符串） cluster 趋势类群（字符串） time 时间，小时（数值） value 标准化表达（数值）"
     },
     {
       "title": "MA plot",
@@ -3950,7 +3955,7 @@
         "pvalue": "原始 p 值（数值，0 到 1）"
       },
       "when_to_use": "要同时看平均表达和倍数变化、并标出显著基因时用。",
-      "customize": "lfc_cut 与 p_cut 改显著性阈值；show_labels 与 n_label 控制显著基因标签数量。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "de",
       "task_zh": "差异表达",
@@ -3973,13 +3978,18 @@
         },
         {
           "name": "n_label",
-          "value": "8"
+          "value": "5"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data;\\nnot biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -4013,8 +4023,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/ma-plot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/ma-plot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/differential-expression/ma-plot",
-      "code_text": "# MA plot. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\nlfc_cut <- 1\np_cut <- 0.01\nshow_labels <- TRUE\nn_label <- 8\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$A <- log2(df$base_mean)\ndf$direction <- ifelse(\n  df$pvalue >= p_cut | abs(df$log2fc) < lfc_cut, \"ns\",\n  ifelse(df$log2fc > 0, \"up\", \"down\")\n)\ncols <- c(ns = \"#E0E0E0\", up = pv_palette(\"categorical\", 4)[4], down = pv_palette(\"categorical\", 1)[1])\n\np <- ggplot2::ggplot(df, ggplot2::aes(A, log2fc, colour = direction)) +\n  ggplot2::geom_point(size = 1.2, alpha = 0.65) +\n  ggplot2::scale_colour_manual(values = cols, guide = \"none\") +\n  ggplot2::geom_hline(yintercept = c(-lfc_cut, 0, lfc_cut), linetype = c(\"dashed\", \"solid\", \"dashed\"), linewidth = 0.3, colour = c(\"black\", \"grey60\", \"black\")) +\n  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0.06, 0.14))) +\n  ggplot2::labs(x = \"log2 mean expression\", y = \"log2 fold change\") +\n  theme_viz(base_size = 7)\n\nif (isTRUE(show_labels) && n_label > 0) {\n  lab <- df[df$direction != \"ns\", , drop = FALSE]\n  lab <- lab[order(lab$pvalue, -abs(lab$log2fc)), , drop = FALSE]\n  lab <- utils::head(lab, n_label)\n  p <- p + ggrepel::geom_text_repel(\n    data = lab,\n    ggplot2::aes(label = gene),\n    size = 2,\n    colour = \"black\",\n    segment.size = 0.2,\n    max.overlaps = 20,\n    show.legend = FALSE,\n    seed = 1\n  )\n}\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "ma plot\nma 图\nma-plot\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n要同时看平均表达和倍数变化、并标出显著基因时用。\nlfc_cut 与 p_cut 改显著性阈值；show_labels 与 n_label 控制显著基因标签数量。\nma-plot differential-expression fold-change 差异基因\ngene 基因编号（字符串） base_mean 平均表达量（数值，正数） log2fc log2 倍数变化（数值） pvalue 原始 p 值（数值，0 到 1）"
+      "code_text": "# MA plot (house style). Up red, down blue, others light grey; counts in the panel, top genes named.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# --- adjustable ---\nlfc_cut <- 1\np_cut <- 0.01\nshow_labels <- TRUE\nn_label <- 5   # more than about 5 names do not fit a 1x1 panel at 7 pt\n# ------------------\nfootnote <- \"Simulated data;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$A <- log2(df$base_mean)\ndf$direction <- ifelse(\n  df$pvalue >= p_cut | abs(df$log2fc) < lfc_cut, \"ns\",\n  ifelse(df$log2fc > 0, \"up\", \"down\")\n)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- c(ns = grey[[\"light\"]], up = hp[[\"red\"]], down = hp[[\"blue\"]])\ndf <- df[order(df$direction != \"ns\"), , drop = FALSE]\nn_up <- sum(df$direction == \"up\"); n_down <- sum(df$direction == \"down\")\n\np <- ggplot(df, aes(A, log2fc, colour = direction)) +\n  geom_hline(yintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_hline(yintercept = c(-lfc_cut, lfc_cut), linetype = \"dashed\",\n             linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_point(size = 0.7, shape = 16) +\n  annotate(\"text\", x = Inf, y = Inf, hjust = 1.08, vjust = 1.3, label = paste(\"Up\", n_up),\n           colour = hp[[\"red\"]], size = pv_pt2size(7), family = house_family()) +\n  annotate(\"text\", x = Inf, y = -Inf, hjust = 1.08, vjust = -0.5, label = paste(\"Down\", n_down),\n           colour = hp[[\"blue\"]], size = pv_pt2size(7), family = house_family()) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = c(0.12, 0.14))) +\n  labs(x = \"log2 mean expression\", y = \"log2 fold change\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\nif (isTRUE(show_labels) && n_label > 0) {\n  lab <- df[df$direction != \"ns\", , drop = FALSE]\n  lab <- lab[order(lab$pvalue, -abs(lab$log2fc)), , drop = FALSE]\n  lab <- utils::head(lab, n_label)\n  # labelled genes get the house point outline\n  p <- p + geom_point(data = lab, aes(fill = direction), shape = HOUSE_POINT$shape, size = 1.2,\n                      stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, show.legend = FALSE) +\n    scale_fill_manual(values = cols, guide = \"none\") +\n    ggrepel::geom_text_repel(\n    data = lab, aes(label = gene), size = pv_pt2size(7), colour = \"#1A1A1A\",\n    family = house_family(), segment.size = 0.2, segment.colour = grey[[\"dark\"]],\n    max.overlaps = 20, min.segment.length = 0, box.padding = 0.15, point.padding = 0.1,\n    force = 2, max.iter = 20000, max.time = 2, show.legend = FALSE, seed = 1\n  )\n}\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "ma plot\nma 图\nma-plot\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n要同时看平均表达和倍数变化、并标出显著基因时用。\ntodo-text\nma-plot differential-expression fold-change 差异基因\ngene 基因编号（字符串） base_mean 平均表达量（数值，正数） log2fc log2 倍数变化（数值） pvalue 原始 p 值（数值，0 到 1）"
     },
     {
       "title": "Volcano plot",
@@ -4037,7 +4047,7 @@
         "pvalue": "原始 p 值（数值，0 到 1）"
       },
       "when_to_use": "两组比较要同时看倍数变化和显著性时用。",
-      "customize": "plot.R 顶部 lfc_cut 与 p_cut 改阈值；显著上调、下调、不显著三色在 cols 里换。可选 plot.py 用同一张 data.csv，阈值变量同名。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "de",
       "task_zh": "差异表达",
@@ -4053,12 +4063,17 @@
         {
           "name": "p_cut",
           "value": "0.01"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data;\\nnot biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -4098,8 +4113,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/volcano/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/volcano/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/differential-expression/volcano",
-      "code_text": "# Volcano. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nlfc_cut <- 1\np_cut <- 0.01\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$nlp <- -log10(df$pvalue)\ndf$direction <- ifelse(\n  df$pvalue >= p_cut | abs(df$log2_fold_change) < lfc_cut, \"ns\",\n  ifelse(df$log2_fold_change > 0, \"up\", \"down\")\n)\ncols <- c(\n  ns = \"#E0E0E0\",\n  up = pv_palette(\"categorical\", 4)[4],\n  down = pv_palette(\"categorical\", 3)[3]\n)\n\np <- ggplot2::ggplot(df, ggplot2::aes(log2_fold_change, nlp, colour = direction)) +\n  ggplot2::geom_point(size = 1.4, alpha = 0.7) +\n  ggplot2::scale_colour_manual(values = cols, guide = \"none\") +\n  ggplot2::geom_vline(xintercept = c(-lfc_cut, lfc_cut), linetype = \"dashed\", linewidth = 0.3) +\n  ggplot2::geom_hline(yintercept = -log10(p_cut), linetype = \"dashed\", linewidth = 0.3) +\n  ggplot2::labs(x = \"log2 fold change\", y = \"-log10(p)\") +\n  theme_viz(base_size = 7)\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "volcano plot\n火山图\nvolcano\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n两组比较要同时看倍数变化和显著性时用。\nplot.r 顶部 lfc_cut 与 p_cut 改阈值；显著上调、下调、不显著三色在 cols 里换。可选 plot.py 用同一张 data.csv，阈值变量同名。\nvolcano differential-expression fold-change 差异基因 log2fc\ngene 基因或特征编号（字符串） log2_fold_change log2 倍数变化（数值） pvalue 原始 p 值（数值，0 到 1）"
+      "code_text": "# Volcano (house style). Up red, down blue, others light grey; counts written in the panel.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nlfc_cut <- 1\np_cut <- 0.01\nfootnote <- \"Simulated data;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$nlp <- -log10(df$pvalue)\ndf$direction <- ifelse(\n  df$pvalue >= p_cut | abs(df$log2_fold_change) < lfc_cut, \"ns\",\n  ifelse(df$log2_fold_change > 0, \"up\", \"down\")\n)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- c(ns = grey[[\"light\"]], up = hp[[\"red\"]], down = hp[[\"blue\"]])\ndf <- df[order(df$direction != \"ns\"), , drop = FALSE]   # significant points on top\nn_up <- sum(df$direction == \"up\"); n_down <- sum(df$direction == \"down\")\n\np <- ggplot(df, aes(log2_fold_change, nlp, colour = direction)) +\n  geom_vline(xintercept = c(-lfc_cut, lfc_cut), linetype = \"dashed\",\n             linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_hline(yintercept = -log10(p_cut), linetype = \"dashed\",\n             linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_point(size = 0.7, shape = 16) +\n  annotate(\"text\", x = -Inf, y = Inf, hjust = -0.08, vjust = 1.3, label = paste(\"Down\", n_down),\n           colour = hp[[\"blue\"]], size = pv_pt2size(7), family = house_family()) +\n  annotate(\"text\", x = Inf, y = Inf, hjust = 1.08, vjust = 1.3, label = paste(\"Up\", n_up),\n           colour = hp[[\"red\"]], size = pv_pt2size(7), family = house_family()) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = c(0.02, 0.12))) +\n  labs(x = \"log2 fold change\", y = \"-log10(p)\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "volcano plot\n火山图\nvolcano\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n两组比较要同时看倍数变化和显著性时用。\ntodo-text\nvolcano differential-expression fold-change 差异基因 log2fc\ngene 基因或特征编号（字符串） log2_fold_change log2 倍数变化（数值） pvalue 原始 p 值（数值，0 到 1）"
     },
     {
       "title": "NMDS",
@@ -4122,7 +4137,7 @@
         "abundance": "非负丰度（数值）"
       },
       "when_to_use": "距离矩阵不适合线性主坐标、只要看样本远近时用。",
-      "customize": "颜色按 group 取 pv_palette(\"categorical\")；k 在 isoMDS 调用里，默认 2。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "ordination",
       "task_zh": "降维",
@@ -4130,11 +4145,17 @@
       "variant_of": "pca-biplot",
       "variant_label": "NMDS",
       "variants": [],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "footnote",
+          "value": "\"Simulated data;\\nnot biological results\""
+        }
+      ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -4168,8 +4189,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/nmds/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/nmds/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/dimension-reduction/nmds",
-      "code_text": "# NMDS from a Bray-Curtis matrix. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nbray <- function(x) {\n  n <- nrow(x)\n  d <- matrix(0, n, n)\n  for (i in seq_len(n - 1)) {\n    for (j in (i + 1):n) {\n      num <- sum(abs(x[i, ] - x[j, ]))\n      den <- sum(x[i, ] + x[j, ])\n      d[i, j] <- d[j, i] <- num / den\n    }\n  }\n  stats::as.dist(d)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsamples <- unique(df$sample)\ntaxa <- unique(df$taxon)\nmat <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\nmat[cbind(match(df$sample, samples), match(df$taxon, taxa))] <- df$abundance\ngroup <- df$group[match(samples, df$sample)]\nnm <- MASS::isoMDS(bray(mat), k = 2, trace = FALSE)\nplot_df <- data.frame(x = nm$points[, 1], y = nm$points[, 2], group = group)\ncols <- pv_palette(\"categorical\", length(unique(group)))\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(x, y, colour = group)) +\n  ggplot2::geom_point(size = 2.2) +\n  ggplot2::scale_colour_manual(values = cols) +\n  ggplot2::labs(x = \"NMDS1\", y = \"NMDS2\", colour = NULL) +\n  theme_viz(base_size = 7)\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "nmds\n非度量多维标度\nnmds\nnmds\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n距离矩阵不适合线性主坐标、只要看样本远近时用。\n颜色按 group 取 pv_palette(\"categorical\")；k 在 isomds 调用里，默认 2。\nnmds ordination bray-curtis\nsample 样本编号（字符串） group 分组（字符串） taxon 分类单元（字符串） abundance 非负丰度（数值）"
+      "code_text": "# NMDS from a Bray-Curtis matrix (house style). Group names written next to each group; the\n# stress value sits in the panel corner. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nfootnote <- \"Simulated data;\\nnot biological results\"\n\nbray <- function(x) {\n  n <- nrow(x)\n  d <- matrix(0, n, n)\n  for (i in seq_len(n - 1)) {\n    for (j in (i + 1):n) {\n      num <- sum(abs(x[i, ] - x[j, ]))\n      den <- sum(x[i, ] + x[j, ])\n      d[i, j] <- d[j, i] <- num / den\n    }\n  }\n  stats::as.dist(d)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsamples <- unique(df$sample)\ntaxa <- unique(df$taxon)\nmat <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\nmat[cbind(match(df$sample, samples), match(df$taxon, taxa))] <- df$abundance\ngroup <- df$group[match(samples, df$sample)]\nnm <- MASS::isoMDS(bray(mat), k = 2, trace = FALSE)\nplot_df <- data.frame(x = nm$points[, 1], y = nm$points[, 2], group = group)\nstress <- nm$stress / 100   # isoMDS reports stress in percent\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nlv <- unique(as.character(plot_df$group))\nplot_df$group <- factor(plot_df$group, levels = lv)\ncols <- stats::setNames(unname(hp[seq_along(lv)]), lv)\n# group names written on white: the group colour when it is >= 3:1 on white, else #1A1A1A\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\n# direct labels: each name sits centred just above its group's highest point\nlabs_df <- do.call(rbind, lapply(lv, function(g) {\n  s <- plot_df[plot_df$group == g, , drop = FALSE]\n  data.frame(group = g, x = mean(range(s$x)), y = max(s$y), hjust = 0.5, vjust = -0.9)\n}))\n\np <- ggplot(plot_df, aes(x, y, fill = group)) +\n  geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,\n             colour = HOUSE_POINT$colour) +\n  geom_text(data = labs_df, aes(x, y, label = group, hjust = hjust, vjust = vjust), inherit.aes = FALSE,\n            colour = name_cols[labs_df$group], size = pv_pt2size(7), family = house_family()) +\n  annotate(\"text\", x = Inf, y = Inf, hjust = 1.06, vjust = 1.3, label = sprintf(\"Stress %.3f\", stress),\n           colour = \"#1A1A1A\", size = pv_pt2size(7), family = house_family()) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = c(0.06, 0.16))) +\n  scale_x_continuous(expand = expansion(mult = 0.08)) +\n  labs(x = \"NMDS1\", y = \"NMDS2\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "nmds\n非度量多维标度\nnmds\nnmds\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n距离矩阵不适合线性主坐标、只要看样本远近时用。\ntodo-text\nnmds ordination bray-curtis\nsample 样本编号（字符串） group 分组（字符串） taxon 分类单元（字符串） abundance 非负丰度（数值）"
     },
     {
       "title": "OPLS-DA scores",
@@ -4183,7 +4204,7 @@
       ],
       "packages": [
         "ggplot2",
-        "cowplot"
+        "patchwork"
       ],
       "data_columns": {
         "sample": "样本编号（字符串）",
@@ -4194,7 +4215,7 @@
         "q2": "data_perm.csv 中的 Q2（数值）"
       },
       "when_to_use": "两组代谢或表型数据要看监督分离是否高于置换空分布时用。",
-      "customize": "show_scores 与 show_permutation 控制两个面板；show_ellipse 开关 80% 正态椭圆；分组色用 pv_palette(\"categorical\")。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "ordination",
       "task_zh": "降维",
@@ -4214,12 +4235,17 @@
         {
           "name": "show_ellipse",
           "value": "TRUE"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "if (length(panels) == 2) 160 else 89",
-        "height_mm": "72",
-        "label": "if (length(panels) == 2) 160 else 89 × 72 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -4260,8 +4286,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/opls-da/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/opls-da/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/dimension-reduction/opls-da",
-      "code_text": "# OPLS-DA scores and permutation diagnostic. Reads data*.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\nshow_scores <- TRUE\nshow_permutation <- TRUE\nshow_ellipse <- TRUE\n# ------------------\n\nscores <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nperm <- utils::read.csv(\"data_perm.csv\", stringsAsFactors = FALSE)\nscores$group <- factor(scores$group, levels = unique(scores$group))\ncols <- pv_palette(\"categorical\", nlevels(scores$group))\nnames(cols) <- levels(scores$group)\n\npanels <- list()\n\nif (isTRUE(show_scores)) {\n  p_scores <- ggplot2::ggplot(scores, ggplot2::aes(pred, ortho, colour = group)) +\n    ggplot2::geom_hline(yintercept = 0, linewidth = 0.25, colour = \"grey70\") +\n    ggplot2::geom_vline(xintercept = 0, linewidth = 0.25, colour = \"grey70\") +\n    ggplot2::geom_point(size = 1.6) +\n    ggplot2::scale_colour_manual(values = cols, name = NULL) +\n    ggplot2::labs(x = \"Predictive component\", y = \"Orthogonal component\", tag = \"a\") +\n    theme_viz() +\n    ggplot2::theme(\n      legend.position = \"inside\",\n      legend.position.inside = c(0.02, 0.98),\n      legend.justification.inside = c(0, 1)\n    )\n  if (isTRUE(show_ellipse)) {\n    p_scores <- p_scores + ggplot2::stat_ellipse(linewidth = 0.35, level = 0.8, show.legend = FALSE)\n  }\n  panels <- c(panels, list(p_scores))\n}\n\nif (isTRUE(show_permutation)) {\n  obs <- perm$q2[perm$perm == 1]\n  null <- perm[perm$perm != 1, , drop = FALSE]\n  p_perm <- ggplot2::ggplot(null, ggplot2::aes(q2)) +\n    ggplot2::geom_histogram(bins = 18, fill = pv_palette(\"sequential\", 5)[4], colour = \"white\", linewidth = 0.15) +\n    ggplot2::geom_vline(xintercept = obs, linetype = \"dashed\", linewidth = 0.35) +\n    ggplot2::annotate(\n      \"text\", x = obs, y = Inf, label = \"observed\",\n      vjust = 1.5, hjust = 1.08, size = 2.1\n    ) +\n    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.08, 0.12))) +\n    ggplot2::labs(x = \"Q2\", y = \"Permutations\", tag = \"b\") +\n    theme_viz()\n  panels <- c(panels, list(p_perm))\n}\n\nif (length(panels) == 0) stop(\"enable show_scores or show_permutation\")\np <- if (length(panels) == 1) panels[[1]] else cowplot::plot_grid(plotlist = panels, nrow = 1, rel_widths = c(1.15, 1))\n\npv_save(p, \"figure\", width_mm = if (length(panels) == 2) 160 else 89, height_mm = 72)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "opls-da scores\nopls-da 得分图\nopls-da\n\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n两组代谢或表型数据要看监督分离是否高于置换空分布时用。\nshow_scores 与 show_permutation 控制两个面板；show_ellipse 开关 80% 正态椭圆；分组色用 pv_palette(\"categorical\")。\nopls-da scores permutation\nsample 样本编号（字符串） group 分组（字符串） pred 预测成分得分（数值） ortho 正交成分得分（数值） perm data_perm.csv 中的置换序号，1 为未置换模型（整数） q2 data_perm.csv 中的 q2（数值）"
+      "code_text": "# OPLS-DA scores and permutation diagnostic (house style). Group names written next to each\n# group; the permutation panel marks the observed Q2 and its permutation p. Panels joined with\n# patchwork. Reads data.csv and data_perm.csv. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nlibrary(patchwork)\n\n# --- adjustable ---\nshow_scores <- TRUE\nshow_permutation <- TRUE\nshow_ellipse <- TRUE\n# ------------------\nfootnote <- \"Simulated data for illustration; not biological results\"\n\nscores <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nperm <- utils::read.csv(\"data_perm.csv\", stringsAsFactors = FALSE)\nscores$group <- factor(scores$group, levels = unique(scores$group))\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- stats::setNames(unname(hp[seq_len(nlevels(scores$group))]), levels(scores$group))\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\n\npanels <- list()\n\nif (isTRUE(show_scores)) {\n  labs_df <- do.call(rbind, lapply(levels(scores$group), function(g) {\n    s <- scores[scores$group == g, , drop = FALSE]\n    data.frame(group = g, pred = mean(range(s$pred)), ortho = max(s$ortho))\n  }))\n  p_scores <- ggplot(scores, aes(pred, ortho)) +\n    geom_hline(yintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n    geom_vline(xintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n    geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n               stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour) +\n    geom_text(data = labs_df, aes(label = group), vjust = -0.9, size = pv_pt2size(7),\n              colour = name_cols[labs_df$group], family = house_family()) +\n    scale_fill_manual(values = cols, guide = \"none\") +\n    scale_colour_manual(values = cols, guide = \"none\") +\n    scale_y_continuous(expand = expansion(mult = c(0.06, 0.16))) +\n    labs(x = \"Predictive component\", y = \"Orthogonal component\") +\n    theme_house()\n  if (isTRUE(show_ellipse)) {\n    p_scores <- p_scores + stat_ellipse(aes(colour = group), linewidth = pv_house_lw(\"main\"),\n                                        level = 0.8, show.legend = FALSE)\n  }\n  panels <- c(panels, list(p_scores))\n}\n\nif (isTRUE(show_permutation)) {\n  obs <- perm$q2[perm$perm == 1]\n  null <- perm[perm$perm != 1, , drop = FALSE]\n  p_val <- (sum(null$q2 >= obs) + 1) / (nrow(null) + 1)\n  p_perm <- ggplot(null, aes(q2)) +\n    geom_histogram(bins = 18, fill = grey[[\"ci\"]], colour = \"white\", linewidth = 0.15) +\n    geom_vline(xintercept = obs, linetype = \"dashed\", linewidth = pv_house_lw(\"main\"),\n               colour = hp[[\"red\"]]) +\n    annotate(\"text\", x = obs, y = Inf, vjust = 1.3, hjust = 1.08, size = pv_pt2size(7),\n             colour = hp[[\"red\"]], family = house_family(),\n             label = sprintf(\"Observed Q2 %.2f\\np = %s\", obs, format(signif(p_val, 2)))) +\n    scale_x_continuous(expand = expansion(mult = c(0.08, 0.12))) +\n    scale_y_continuous(expand = expansion(mult = c(0, 0.25))) +\n    labs(x = \"Q2 (permuted labels)\", y = \"Permutations\") +\n    theme_house()\n  panels <- c(panels, list(p_perm))\n}\n\nif (length(panels) == 0) stop(\"enable show_scores or show_permutation\")\np <- wrap_plots(panels, nrow = 1) +\n  plot_annotation(\n    caption = footnote,\n    theme = theme(text = element_text(family = house_family()),\n                  plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                              margin = margin(t = 0.8, unit = \"mm\")),\n                  plot.caption.position = \"plot\")\n  )\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "opls-da scores\nopls-da 得分图\nopls-da\n\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n两组代谢或表型数据要看监督分离是否高于置换空分布时用。\ntodo-text\nopls-da scores permutation\nsample 样本编号（字符串） group 分组（字符串） pred 预测成分得分（数值） ortho 正交成分得分（数值） perm data_perm.csv 中的置换序号，1 为未置换模型（整数） q2 data_perm.csv 中的 q2（数值）"
     },
     {
       "title": "PCA score plot",
@@ -4283,7 +4309,7 @@
         "pc2": "第二主成分得分（数值）"
       },
       "when_to_use": "已有样本的主成分坐标、要按组看分离时用。",
-      "customize": "plot.R 顶部 point_size 与 point_alpha 调点大小与透明度；分组色取 pv_palette(\"categorical\") 前 n 色。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "ordination",
       "task_zh": "降维",
@@ -4321,12 +4347,17 @@
         {
           "name": "point_alpha",
           "value": "0.85"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data;\\nnot biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -4360,8 +4391,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pca-biplot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/dimension-reduction/pca-biplot",
-      "code_text": "# PCA score scatter. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\npoint_size <- 2.2\npoint_alpha <- 0.85\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = unique(df$group))\ncols <- pv_palette(\"categorical\", nlevels(df$group))\n\np <- ggplot2::ggplot(df, ggplot2::aes(pc1, pc2, colour = group)) +\n  ggplot2::geom_point(size = point_size, alpha = point_alpha) +\n  ggplot2::scale_colour_manual(values = cols) +\n  ggplot2::labs(x = \"PC1\", y = \"PC2\", colour = NULL) +\n  theme_viz(base_size = 7)\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "pca score plot\npca 得分散点\npca-biplot\npca\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n已有样本的主成分坐标、要按组看分离时用。\nplot.r 顶部 point_size 与 point_alpha 调点大小与透明度；分组色取 pv_palette(\"categorical\") 前 n 色。\npca ordination biplot\nsample 样本编号（字符串） group 分组（字符串） pc1 第一主成分得分（数值） pc2 第二主成分得分（数值）"
+      "code_text": "# PCA score scatter (house style). House points filled by group; group names written next to\n# each group instead of a legend. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\npoint_size <- 2.2\npoint_alpha <- 0.85\nfootnote <- \"Simulated data;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nplot_df <- data.frame(x = df$pc1, y = df$pc2, group = df$group)\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nlv <- unique(as.character(plot_df$group))\nplot_df$group <- factor(plot_df$group, levels = lv)\ncols <- stats::setNames(unname(hp[seq_along(lv)]), lv)\n# group names written on white: the group colour when it is >= 3:1 on white, else #1A1A1A\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\n# direct labels: each name sits centred just above its group's highest point\nlabs_df <- do.call(rbind, lapply(lv, function(g) {\n  s <- plot_df[plot_df$group == g, , drop = FALSE]\n  data.frame(group = g, x = mean(range(s$x)), y = max(s$y), hjust = 0.5, vjust = -0.9)\n}))\n\np <- ggplot(plot_df, aes(x, y, fill = group)) +\n  geom_point(shape = HOUSE_POINT$shape, size = point_size, stroke = HOUSE_POINT$stroke,\n             colour = HOUSE_POINT$colour, alpha = point_alpha) +\n  geom_text(data = labs_df, aes(x, y, label = group, hjust = hjust, vjust = vjust), inherit.aes = FALSE,\n            colour = name_cols[labs_df$group], size = pv_pt2size(7), family = house_family()) +\n    scale_fill_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = c(0.06, 0.16))) +\n  scale_x_continuous(expand = expansion(mult = 0.08)) +\n  labs(x = \"PC1\", y = \"PC2\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "pca score plot\npca 得分散点\npca-biplot\npca\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n已有样本的主成分坐标、要按组看分离时用。\ntodo-text\npca ordination biplot\nsample 样本编号（字符串） group 分组（字符串） pc1 第一主成分得分（数值） pc2 第二主成分得分（数值）"
     },
     {
       "title": "PCoA",
@@ -4383,7 +4414,7 @@
         "abundance": "非负丰度（数值）"
       },
       "when_to_use": "有样本×分类单元的丰度、要用距离看组间分离时用。",
-      "customize": "颜色按 group 的出现顺序取 pv_palette(\"categorical\")；距离在 plot.R 的 bray()，改函数即换距离。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "ordination",
       "task_zh": "降维",
@@ -4391,11 +4422,17 @@
       "variant_of": "pca-biplot",
       "variant_label": "PCoA",
       "variants": [],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "footnote",
+          "value": "\"Simulated data;\\nnot biological results\""
+        }
+      ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -4429,8 +4466,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pcoa/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/pcoa/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/dimension-reduction/pcoa",
-      "code_text": "# PCoA from a Bray-Curtis matrix. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nbray <- function(x) {\n  n <- nrow(x)\n  d <- matrix(0, n, n)\n  for (i in seq_len(n - 1)) {\n    for (j in (i + 1):n) {\n      num <- sum(abs(x[i, ] - x[j, ]))\n      den <- sum(x[i, ] + x[j, ])\n      d[i, j] <- d[j, i] <- num / den\n    }\n  }\n  stats::as.dist(d)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsamples <- unique(df$sample)\ntaxa <- unique(df$taxon)\nmat <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\nmat[cbind(match(df$sample, samples), match(df$taxon, taxa))] <- df$abundance\ngroup <- df$group[match(samples, df$sample)]\npc <- stats::cmdscale(bray(mat), k = 2, eig = TRUE)\nplot_df <- data.frame(x = pc$points[, 1], y = pc$points[, 2], group = group)\ncols <- pv_palette(\"categorical\", length(unique(group)))\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(x, y, colour = group)) +\n  ggplot2::geom_point(size = 2.2) +\n  ggplot2::scale_colour_manual(values = cols) +\n  ggplot2::labs(x = \"PCoA1\", y = \"PCoA2\", colour = NULL) +\n  theme_viz(base_size = 7) +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.58, 0.62),\n    legend.justification.inside = c(0.5, 0.5)\n  )\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "pcoa\n主坐标分析\npcoa\npcoa\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n有样本×分类单元的丰度、要用距离看组间分离时用。\n颜色按 group 的出现顺序取 pv_palette(\"categorical\")；距离在 plot.r 的 bray()，改函数即换距离。\npcoa ordination bray-curtis\nsample 样本编号（字符串） group 分组（字符串） taxon 分类单元（字符串） abundance 非负丰度（数值）"
+      "code_text": "# PCoA from a Bray-Curtis matrix (house style). Axis titles carry the share of variation;\n# group names written next to each group. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nfootnote <- \"Simulated data;\\nnot biological results\"\n\nbray <- function(x) {\n  n <- nrow(x)\n  d <- matrix(0, n, n)\n  for (i in seq_len(n - 1)) {\n    for (j in (i + 1):n) {\n      num <- sum(abs(x[i, ] - x[j, ]))\n      den <- sum(x[i, ] + x[j, ])\n      d[i, j] <- d[j, i] <- num / den\n    }\n  }\n  stats::as.dist(d)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nsamples <- unique(df$sample)\ntaxa <- unique(df$taxon)\nmat <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\nmat[cbind(match(df$sample, samples), match(df$taxon, taxa))] <- df$abundance\ngroup <- df$group[match(samples, df$sample)]\npc <- stats::cmdscale(bray(mat), k = 2, eig = TRUE)\nplot_df <- data.frame(x = pc$points[, 1], y = pc$points[, 2], group = group)\neig_pos <- pc$eig[pc$eig > 0]\npct <- round(100 * pc$eig[1:2] / sum(eig_pos), 1)\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nlv <- unique(as.character(plot_df$group))\nplot_df$group <- factor(plot_df$group, levels = lv)\ncols <- stats::setNames(unname(hp[seq_along(lv)]), lv)\n# group names written on white: the group colour when it is >= 3:1 on white, else #1A1A1A\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\n# direct labels: each name sits centred just above its group's highest point\nlabs_df <- do.call(rbind, lapply(lv, function(g) {\n  s <- plot_df[plot_df$group == g, , drop = FALSE]\n  data.frame(group = g, x = mean(range(s$x)), y = max(s$y), hjust = 0.5, vjust = -0.9)\n}))\n\np <- ggplot(plot_df, aes(x, y, fill = group)) +\n  geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,\n             colour = HOUSE_POINT$colour) +\n  geom_text(data = labs_df, aes(x, y, label = group, hjust = hjust, vjust = vjust), inherit.aes = FALSE,\n            colour = name_cols[labs_df$group], size = pv_pt2size(7), family = house_family()) +\n    scale_fill_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = c(0.06, 0.16))) +\n  scale_x_continuous(expand = expansion(mult = 0.08)) +\n  labs(x = sprintf(\"PCoA1 (%.1f%%)\", pct[1]), y = sprintf(\"PCoA2 (%.1f%%)\", pct[2]), caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "pcoa\n主坐标分析\npcoa\npcoa\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n有样本×分类单元的丰度、要用距离看组间分离时用。\ntodo-text\npcoa ordination bray-curtis\nsample 样本编号（字符串） group 分组（字符串） taxon 分类单元（字符串） abundance 非负丰度（数值）"
     },
     {
       "title": "Pseudotime trajectory",
@@ -4453,7 +4490,7 @@
         "branch": "分支，trunk、fate-a 或 fate-b（字符串）"
       },
       "when_to_use": "要在低维嵌入上看细胞沿拟时序如何分叉时用。",
-      "customize": "color_by 选 pseudotime 或 branch；show_path 开关各分支的分箱中位轨迹。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "ordination",
       "task_zh": "降维",
@@ -4469,12 +4506,17 @@
         {
           "name": "show_path",
           "value": "TRUE"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -4508,8 +4550,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/trajectory/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/trajectory/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/dimension-reduction/trajectory",
-      "code_text": "# Pseudotime trajectory. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\ncolor_by <- \"pseudotime\"  # \"pseudotime\" or \"branch\"\nshow_path <- TRUE\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$branch <- factor(df$branch, levels = c(\"trunk\", \"fate-a\", \"fate-b\"))\n\npath_df <- do.call(rbind, lapply(split(df, df$branch), function(d) {\n  d <- d[order(d$pseudotime), , drop = FALSE]\n  if (nrow(d) < 12) return(NULL)\n  bins <- cut(d$pseudotime, breaks = 8, include.lowest = TRUE)\n  agg <- stats::aggregate(cbind(dim1, dim2, pseudotime) ~ bins, d, stats::median)\n  agg$branch <- d$branch[1]\n  agg\n}))\n\np <- ggplot2::ggplot(df, ggplot2::aes(dim1, dim2))\n\nif (color_by == \"branch\") {\n  cols <- c(\"trunk\" = \"grey30\", \"fate-a\" = pv_palette(\"categorical\", 2)[1], \"fate-b\" = pv_palette(\"categorical\", 4)[4])\n  p <- p +\n    ggplot2::geom_point(ggplot2::aes(colour = branch), size = 1.8, alpha = 0.85) +\n    ggplot2::scale_colour_manual(values = cols, name = \"Branch\")\n} else {\n  p <- p +\n    ggplot2::geom_point(ggplot2::aes(colour = pseudotime), size = 1.8, alpha = 0.85) +\n    ggplot2::scale_colour_gradientn(colours = pv_palette(\"sequential\"), name = \"Pseudotime\") +\n    ggplot2::guides(colour = ggplot2::guide_colourbar(\n      title.position = \"top\", title.hjust = 0,\n      barwidth = ggplot2::unit(3, \"mm\"),\n      barheight = ggplot2::unit(14, \"mm\")\n    ))\n}\n\nif (isTRUE(show_path) && !is.null(path_df)) {\n  p <- p + ggplot2::geom_path(\n    data = path_df,\n    ggplot2::aes(dim1, dim2, group = branch),\n    colour = \"black\",\n    linewidth = 0.4,\n    inherit.aes = FALSE\n  )\n}\n\np <- p + ggplot2::labs(x = \"Component 1\", y = \"Component 2\") +\n  theme_viz(base_size = 7) +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.42, 0.02),\n    legend.justification.inside = c(0, 0)\n  )\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "pseudotime trajectory\n拟时序轨迹\ntrajectory\n\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n要在低维嵌入上看细胞沿拟时序如何分叉时用。\ncolor_by 选 pseudotime 或 branch；show_path 开关各分支的分箱中位轨迹。\ntrajectory pseudotime single-cell\ncell 细胞编号（字符串） dim1 第一维坐标（数值） dim2 第二维坐标（数值） pseudotime 拟时序，0 到 1（数值） branch 分支，trunk、fate-a 或 fate-b（字符串）"
+      "code_text": "# Pseudotime trajectory (house style). Cells coloured by pseudotime (house_warm) or by branch;\n# the median path per branch is drawn on top and each branch is named at its end.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# --- adjustable ---\ncolor_by <- \"pseudotime\"  # \"pseudotime\" or \"branch\"\nshow_path <- TRUE\n# ------------------\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$branch <- factor(df$branch, levels = c(\"trunk\", \"fate-a\", \"fate-b\"))\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nbcols <- c(\"trunk\" = grey[[\"dark\"]], \"fate-a\" = hp[[\"blue\"]], \"fate-b\" = hp[[\"red\"]])\n\npath_df <- do.call(rbind, lapply(split(df, df$branch), function(d) {\n  d <- d[order(d$pseudotime), , drop = FALSE]\n  if (nrow(d) < 12) return(NULL)\n  bins <- cut(d$pseudotime, breaks = 8, include.lowest = TRUE)\n  agg <- stats::aggregate(cbind(dim1, dim2, pseudotime) ~ bins, d, stats::median)\n  agg$branch <- d$branch[1]\n  agg\n}))\n\np <- ggplot(df, aes(dim1, dim2))\n\nif (color_by == \"branch\") {\n  p <- p +\n    geom_point(aes(fill = branch), shape = HOUSE_POINT$shape, size = 1.6,\n               stroke = 0.2, colour = \"white\") +\n    scale_fill_manual(values = bcols, guide = \"none\")\n} else {\n  p <- p +\n    geom_point(aes(fill = pseudotime), shape = HOUSE_POINT$shape, size = 1.6,\n               stroke = 0.2, colour = \"white\") +\n    scale_fill_gradientn(colours = pv_palette(\"house_warm\"), name = \"Pseudotime\",\n                         limits = c(0, 1), breaks = c(0, 0.5, 1)) +\n    guides(fill = guide_colourbar(title.position = \"top\", title.hjust = 0,\n                                  barwidth = unit(14, \"mm\"), barheight = unit(2, \"mm\")))\n}\n\nif (isTRUE(show_path) && !is.null(path_df)) {\n  ends <- do.call(rbind, lapply(split(path_df, path_df$branch), function(d) d[which.max(d$pseudotime), , drop = FALSE]))\n  ends <- ends[ends$branch != \"trunk\", , drop = FALSE]\n  # each branch name goes just outside its own cloud: above it when the branch ends high, else below\n  start_y <- path_df$dim2[which.min(path_df$pseudotime)]\n  cells_y <- split(df$dim2, df$branch)\n  ends$up <- ends$dim2 >= start_y\n  ends$dim2 <- ifelse(ends$up, vapply(as.character(ends$branch), function(b) max(cells_y[[b]]), 0),\n                      vapply(as.character(ends$branch), function(b) min(cells_y[[b]]), 0))\n  ends$vj <- ifelse(ends$up, -0.8, 1.8)\n  p <- p + geom_path(data = path_df, aes(dim1, dim2, group = branch), colour = \"#1A1A1A\",\n                     linewidth = pv_house_lw(\"main\"), inherit.aes = FALSE) +\n    geom_text(data = ends, aes(dim1, dim2, label = branch, vjust = vj), inherit.aes = FALSE,\n              size = pv_pt2size(7), family = house_family(), colour = \"#1A1A1A\")\n}\n\np <- p +\n  scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) +\n  labs(x = \"Component 1\", y = \"Component 2\", caption = footnote) +\n  theme_house() +\n  theme(legend.position = \"inside\", legend.position.inside = c(0.02, 0.02),\n        legend.justification.inside = c(0, 0), legend.direction = \"horizontal\",\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "pseudotime trajectory\n拟时序轨迹\ntrajectory\n\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n要在低维嵌入上看细胞沿拟时序如何分叉时用。\ntodo-text\ntrajectory pseudotime single-cell\ncell 细胞编号（字符串） dim1 第一维坐标（数值） dim2 第二维坐标（数值） pseudotime 拟时序，0 到 1（数值） branch 分支，trunk、fate-a 或 fate-b（字符串）"
     },
     {
       "title": "UMAP and t-SNE",
@@ -4523,7 +4565,8 @@
         "single-cell"
       ],
       "packages": [
-        "ggplot2"
+        "ggplot2",
+        "ggrepel"
       ],
       "data_columns": {
         "cell": "细胞或样本编号（字符串）",
@@ -4533,7 +4576,7 @@
         "method": "嵌入方法，UMAP 或 t-SNE（字符串）"
       },
       "when_to_use": "要看非线性降维后的类群是否分开时用。",
-      "customize": "method_keep 选 UMAP、t-SNE 或 both；show_labels 开关类群中位标签；颜色按 cluster 取 pv_palette(\"categorical\")。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "ordination",
       "task_zh": "降维",
@@ -4552,9 +4595,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "if (nlevels(df$method) > 1) 140 else 89",
-        "height_mm": "72",
-        "label": "if (nlevels(df$method) > 1) 140 else 89 × 72 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -4588,8 +4632,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/umap-tsne/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/dimension-reduction/umap-tsne/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/dimension-reduction/umap-tsne",
-      "code_text": "# UMAP / t-SNE. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\nmethod_keep <- \"both\"   # \"UMAP\", \"t-SNE\", or \"both\"\nshow_labels <- TRUE\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nif (method_keep != \"both\") {\n  df <- df[df$method == method_keep, , drop = FALSE]\n}\ndf$cluster <- factor(df$cluster, levels = unique(df$cluster))\ndf$method <- factor(df$method, levels = intersect(c(\"UMAP\", \"t-SNE\"), unique(df$method)))\ncols <- pv_palette(\"categorical\", nlevels(df$cluster))\nnames(cols) <- levels(df$cluster)\n\np <- ggplot2::ggplot(df, ggplot2::aes(dim1, dim2, colour = cluster)) +\n  ggplot2::geom_point(size = 1.15, alpha = 0.9) +\n  ggplot2::scale_colour_manual(values = cols, name = \"Cluster\") +\n  ggplot2::labs(x = \"Dimension 1\", y = \"Dimension 2\") +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = if (isTRUE(show_labels)) \"none\" else \"inside\",\n    legend.key.size = ggplot2::unit(3, \"mm\")\n  )\n\nif (nlevels(df$method) > 1) {\n  p <- p + ggplot2::facet_wrap(~method, scales = \"free\")\n}\n\nif (isTRUE(show_labels)) {\n  centres <- stats::aggregate(cbind(dim1, dim2) ~ cluster + method, df, stats::median)\n  centres$nudge_x <- 0\n  centres$nudge_y <- 0\n  # Place each label just outside its own cloud. Coordinates are method-specific.\n  u_c1 <- centres$method == \"UMAP\" & centres$cluster == \"C1\"\n  u_c2 <- centres$method == \"UMAP\" & centres$cluster == \"C2\"\n  u_c3 <- centres$method == \"UMAP\" & centres$cluster == \"C3\"\n  u_c4 <- centres$method == \"UMAP\" & centres$cluster == \"C4\"\n  u_c5 <- centres$method == \"UMAP\" & centres$cluster == \"C5\"\n  centres$nudge_x[u_c1] <- -1.1\n  centres$nudge_y[u_c1] <- -2.0\n  centres$nudge_y[u_c2] <- -2.8\n  centres$nudge_x[u_c3] <- -2.2\n  centres$nudge_y[u_c3] <- 0.9\n  # Right of the cloud. An upward nudge lands back on the points once the\n  # label is kept inside the panel.\n  centres$nudge_x[u_c4] <- 1.8\n  centres$nudge_y[u_c4] <- 0.15\n  centres$nudge_x[u_c5] <- 1.7\n  centres$nudge_y[u_c5] <- 0.55\n  t_c1 <- centres$method == \"t-SNE\" & centres$cluster == \"C1\"\n  t_c2 <- centres$method == \"t-SNE\" & centres$cluster == \"C2\"\n  t_c3 <- centres$method == \"t-SNE\" & centres$cluster == \"C3\"\n  t_c4 <- centres$method == \"t-SNE\" & centres$cluster == \"C4\"\n  t_c5 <- centres$method == \"t-SNE\" & centres$cluster == \"C5\"\n  centres$nudge_x[t_c1] <- -12\n  centres$nudge_y[t_c2] <- 13\n  centres$nudge_x[t_c3] <- -12\n  centres$nudge_y[t_c3] <- 1.2\n  centres$nudge_y[t_c4] <- -12\n  centres$nudge_y[t_c5] <- -10\n  p <- p +\n    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.20, 0.28))) +\n    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.20)) +\n    ggrepel::geom_text_repel(\n    data = centres,\n    ggplot2::aes(dim1, dim2, label = cluster),\n    colour = \"black\",\n    size = 2.1,\n    fontface = \"bold\",\n    inherit.aes = FALSE,\n    nudge_x = centres$nudge_x,\n    nudge_y = centres$nudge_y,\n    min.segment.length = 0,\n    segment.size = 0.2,\n    segment.colour = \"grey35\",\n    box.padding = 0.25,\n    point.padding = 0.15,\n    force = 0.5,\n    force_pull = 0,\n    max.overlaps = Inf,\n    seed = 11,\n    show.legend = FALSE\n  )\n}\n\npv_save(p, \"figure\", width_mm = if (nlevels(df$method) > 1) 140 else 89, height_mm = 72)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "umap and t-sne\numap / t-sne\numap-tsne\n\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n要看非线性降维后的类群是否分开时用。\nmethod_keep 选 umap、t-sne 或 both；show_labels 开关类群中位标签；颜色按 cluster 取 pv_palette(\"categorical\")。\numap tsne embedding single-cell\ncell 细胞或样本编号（字符串） cluster 聚类标签（字符串） dim1 第一维坐标（数值） dim2 第二维坐标（数值） method 嵌入方法，umap 或 t-sne（字符串）"
+      "code_text": "# UMAP / t-SNE (house style). Clusters in house colours; cluster names written next to each cloud\n# in the cluster colour (#1A1A1A when that colour is < 3:1 on white). Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# --- adjustable ---\nmethod_keep <- \"both\"   # \"UMAP\", \"t-SNE\", or \"both\"\nshow_labels <- TRUE\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nif (method_keep != \"both\") {\n  df <- df[df$method == method_keep, , drop = FALSE]\n}\ndf$cluster <- factor(df$cluster, levels = unique(df$cluster))\ndf$method <- factor(df$method, levels = intersect(c(\"UMAP\", \"t-SNE\"), unique(df$method)))\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- stats::setNames(unname(hp[seq_len(nlevels(df$cluster))]), levels(df$cluster))\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\nfootnote <- \"Simulated data for illustration; not biological results\"\n\np <- ggplot2::ggplot(df, ggplot2::aes(dim1, dim2, colour = cluster)) +\n  ggplot2::geom_point(size = 0.8, shape = 16) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::labs(x = \"Dimension 1\", y = \"Dimension 2\", caption = footnote) +\n  theme_house() +\n  ggplot2::theme(\n    legend.position = if (isTRUE(show_labels)) \"none\" else \"right\",\n    legend.key.size = ggplot2::unit(3, \"mm\"),\n    strip.background = ggplot2::element_blank(),\n    plot.margin = ggplot2::margin(1, 2.5, 1, 1, \"mm\"),\n    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                         margin = ggplot2::margin(t = 0.8, unit = \"mm\")),\n    plot.caption.position = \"plot\"\n  )\n\nif (nlevels(df$method) > 1) {\n  p <- p + ggplot2::facet_wrap(~method, scales = \"free\")\n}\n\nif (isTRUE(show_labels)) {\n  centres <- stats::aggregate(cbind(dim1, dim2) ~ cluster + method, df, stats::median)\n  centres$nudge_x <- 0\n  centres$nudge_y <- 0\n  # Place each label just outside its own cloud. Coordinates are method-specific.\n  u_c1 <- centres$method == \"UMAP\" & centres$cluster == \"C1\"\n  u_c2 <- centres$method == \"UMAP\" & centres$cluster == \"C2\"\n  u_c3 <- centres$method == \"UMAP\" & centres$cluster == \"C3\"\n  u_c4 <- centres$method == \"UMAP\" & centres$cluster == \"C4\"\n  u_c5 <- centres$method == \"UMAP\" & centres$cluster == \"C5\"\n  centres$nudge_x[u_c1] <- -1.1\n  centres$nudge_y[u_c1] <- -2.0\n  centres$nudge_y[u_c2] <- -2.8\n  centres$nudge_x[u_c3] <- -2.2\n  centres$nudge_y[u_c3] <- 0.9\n  # Right of the cloud. An upward nudge lands back on the points once the\n  # label is kept inside the panel.\n  centres$nudge_x[u_c4] <- 1.8\n  centres$nudge_y[u_c4] <- 0.15\n  centres$nudge_x[u_c5] <- 1.7\n  centres$nudge_y[u_c5] <- 0.55\n  t_c1 <- centres$method == \"t-SNE\" & centres$cluster == \"C1\"\n  t_c2 <- centres$method == \"t-SNE\" & centres$cluster == \"C2\"\n  t_c3 <- centres$method == \"t-SNE\" & centres$cluster == \"C3\"\n  t_c4 <- centres$method == \"t-SNE\" & centres$cluster == \"C4\"\n  t_c5 <- centres$method == \"t-SNE\" & centres$cluster == \"C5\"\n  centres$nudge_x[t_c1] <- -12\n  centres$nudge_y[t_c2] <- 13\n  centres$nudge_x[t_c3] <- -12\n  centres$nudge_y[t_c3] <- 1.2\n  centres$nudge_y[t_c4] <- -12\n  centres$nudge_y[t_c5] <- -10\n  p <- p +\n    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.20, 0.28))) +\n    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.20)) +\n    ggrepel::geom_text_repel(\n    data = centres,\n    ggplot2::aes(dim1, dim2, label = cluster),\n    colour = name_cols[as.character(centres$cluster)],\n    size = pv_pt2size(7),\n    family = house_family(),\n    inherit.aes = FALSE,\n    nudge_x = centres$nudge_x,\n    nudge_y = centres$nudge_y,\n    min.segment.length = 0,\n    segment.size = 0.2,\n    segment.colour = grey[[\"dark\"]],\n    box.padding = 0.25,\n    point.padding = 0.15,\n    force = 0.5,\n    force_pull = 0,\n    max.overlaps = Inf,\n    seed = 11,\n    show.legend = FALSE\n  )\n}\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "umap and t-sne\numap / t-sne\numap-tsne\n\ndimension-reduction\n降维\nordination\n降维\ndimension reduction\n要看非线性降维后的类群是否分开时用。\ntodo-text\numap tsne embedding single-cell\ncell 细胞或样本编号（字符串） cluster 聚类标签（字符串） dim1 第一维坐标（数值） dim2 第二维坐标（数值） method 嵌入方法，umap 或 t-sne（字符串）"
     },
     {
       "title": "Beeswarm plot",
@@ -5579,7 +5623,7 @@
         "count": "命中基因数（整数）"
       },
       "when_to_use": "少量显著通路要按倍数或 p 值排开比较时用。",
-      "customize": "plot.R 顶部 horizontal 控制横条或竖条；facet_ontology 按本体分面；bar_stat 取 nlp（-log10 p）或 fold。颜色按本体，不按 p 阈值把条目拆成两张表。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "enrichment",
       "task_zh": "富集",
@@ -5599,12 +5643,17 @@
         {
           "name": "bar_stat",
           "value": "\"nlp\""
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "160",
-        "height_mm": "110",
-        "label": "160 × 110 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -5638,8 +5687,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/enrichment/enrichment-bar/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/enrichment/enrichment-bar/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/enrichment/enrichment-bar",
-      "code_text": "# Enrichment bars. Horizontal layout and ontology facets are switches.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nhorizontal <- TRUE\nfacet_ontology <- TRUE\nbar_stat <- \"nlp\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$nlp <- -log10(df$p)\ndf$ontology <- factor(df$ontology, levels = c(\"BP\", \"MF\", \"CC\"))\ndf$term <- factor(df$term, levels = df$term[order(df$ontology, df$nlp)])\nstat <- if (bar_stat == \"fold\") df$fold else df$nlp\ndf$stat <- stat\nxlab <- if (bar_stat == \"fold\") \"Fold enrichment\" else expression(-log[10](italic(p)))\nont_pal <- pv_palette(\"categorical\", 6)\npal <- c(BP = ont_pal[1], MF = ont_pal[6], CC = ont_pal[3])\n\np <- ggplot2::ggplot(df, ggplot2::aes(stat, term, fill = ontology)) +\n  ggplot2::geom_col(width = 0.72) +\n  ggplot2::scale_fill_manual(values = pal, name = NULL) +\n  ggplot2::labs(x = xlab, y = NULL) +\n  theme_viz() +\n  ggplot2::theme(legend.position = \"none\")\nif (!isTRUE(horizontal)) {\n  p <- ggplot2::ggplot(df, ggplot2::aes(term, stat, fill = ontology)) +\n    ggplot2::geom_col(width = 0.72) +\n    ggplot2::scale_fill_manual(values = pal, name = NULL) +\n    ggplot2::labs(x = NULL, y = xlab) +\n    theme_viz() +\n    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 5))\n}\nif (isTRUE(facet_ontology)) {\n  p <- p +     ggplot2::facet_grid(ontology ~ ., scales = \"free_y\", space = \"free_y\") +\n    ggplot2::theme(\n      strip.text.y = ggplot2::element_text(size = 7),\n      legend.position = \"none\"\n    )\n}\n\npv_save(p, \"figure\", width_mm = 160, height_mm = 110)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "enrichment bar\n富集柱状图\nenrichment-bar\nbar\nenrichment\n富集\nenrichment\n富集\nenrichment\n少量显著通路要按倍数或 p 值排开比较时用。\nplot.r 顶部 horizontal 控制横条或竖条；facet_ontology 按本体分面；bar_stat 取 nlp（-log10 p）或 fold。颜色按本体，不按 p 阈值把条目拆成两张表。\nenrichment bar gene-ontology\nterm 通路或 go 条目名（字符串） ontology 本体，bp / mf / cc（字符串） fold 富集倍数（数值） p 富集 p 值（数值，0 到 1） count 命中基因数（整数）"
+      "code_text": "# Enrichment bars (house style). Horizontal layout and ontology facets are switches; the hit count\n# is written at the end of each bar and the facet strips name the ontology.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nhorizontal <- TRUE\nfacet_ontology <- TRUE\nbar_stat <- \"nlp\"\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$nlp <- -log10(df$p)\ndf$ontology <- factor(df$ontology, levels = c(\"BP\", \"MF\", \"CC\"))\ndf$term <- factor(df$term, levels = df$term[order(df$ontology, df$nlp)])\nstat <- if (bar_stat == \"fold\") df$fold else df$nlp\ndf$stat <- stat\nxlab <- if (bar_stat == \"fold\") \"Fold enrichment\" else \"-log10(p)\"\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\npal <- c(BP = hp[[\"blue\"]], MF = hp[[\"purple\"]], CC = hp[[\"green\"]])\ndf$n_lab <- paste0(\"n = \", df$count)\n\nif (isTRUE(horizontal)) {\n  p <- ggplot(df, aes(stat, term, fill = ontology)) +\n    geom_col(width = 0.72) +\n    geom_text(aes(label = n_lab), hjust = -0.12, size = pv_pt2size(7), colour = \"#1A1A1A\",\n              family = house_family()) +\n    scale_x_continuous(expand = expansion(mult = c(0, 0.22))) +\n    labs(x = xlab, y = NULL)\n} else {\n  p <- ggplot(df, aes(term, stat, fill = ontology)) +\n    geom_col(width = 0.72) +\n    geom_text(aes(label = count), vjust = -0.4, size = pv_pt2size(7), colour = \"#1A1A1A\",\n              family = house_family()) +\n    scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +\n    labs(x = NULL, y = xlab) +\n    theme(axis.text.x = element_text(angle = 45, hjust = 1))\n}\np <- p +\n  scale_fill_manual(values = pal, guide = \"none\") +\n  labs(caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\nif (!isTRUE(horizontal)) p <- p + theme(axis.text.x = element_text(angle = 45, hjust = 1))\nif (isTRUE(facet_ontology)) {\n  p <- p + (if (isTRUE(horizontal)) facet_grid(ontology ~ ., scales = \"free_y\", space = \"free_y\")\n            else facet_grid(. ~ ontology, scales = \"free_x\", space = \"free_x\")) +\n    theme(strip.background = element_blank(), strip.text.y = element_text(angle = 0, hjust = 0),\n          panel.spacing = unit(1, \"mm\"))\n}\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "enrichment bar\n富集柱状图\nenrichment-bar\nbar\nenrichment\n富集\nenrichment\n富集\nenrichment\n少量显著通路要按倍数或 p 值排开比较时用。\ntodo-text\nenrichment bar gene-ontology\nterm 通路或 go 条目名（字符串） ontology 本体，bp / mf / cc（字符串） fold 富集倍数（数值） p 富集 p 值（数值，0 到 1） count 命中基因数（整数）"
     },
     {
       "title": "Enrichment dot plot",
@@ -5662,7 +5711,7 @@
         "p": "富集 p 值（数值）"
       },
       "when_to_use": "通路要同时看基因比例、命中数和显著性时用。",
-      "customize": "plot.R 顶部 size_maps_count 用点面积表示 count；colour_maps_p 用颜色表示 -log10(p)；facet_by_ontology 按本体分面。p 的着色在绑图时计算。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "enrichment",
       "task_zh": "富集",
@@ -5697,12 +5746,17 @@
         {
           "name": "facet_by_ontology",
           "value": "TRUE"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "170",
-        "height_mm": "130",
-        "label": "170 × 130 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -5736,8 +5790,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/enrichment/enrichment-dot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/enrichment/enrichment-dot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/enrichment/enrichment-dot",
-      "code_text": "# Enrichment dot plot. Size is count, colour is p, optional ontology facets.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nsize_maps_count <- TRUE\ncolour_maps_p <- TRUE\nfacet_by_ontology <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$ontology <- factor(df$ontology, levels = c(\"BP\", \"MF\", \"CC\"))\ndf$nlp <- -log10(df$p)\ndf$term <- factor(df$term, levels = df$term[order(df$ontology, df$ratio)])\n\np <- ggplot2::ggplot(df, ggplot2::aes(ratio, term))\nif (isTRUE(size_maps_count) && isTRUE(colour_maps_p)) {\n  p <- p + ggplot2::geom_point(ggplot2::aes(size = count, colour = nlp), alpha = 0.95)\n} else if (isTRUE(size_maps_count)) {\n  p <- p + ggplot2::geom_point(ggplot2::aes(size = count), colour = pv_palette(\"categorical\", 1))\n} else {\n  p <- p + ggplot2::geom_point(ggplot2::aes(colour = nlp), size = 2.6)\n}\np <- p +\n  ggplot2::scale_size_area(max_size = 6, name = \"Count\") +\n  ggplot2::scale_colour_gradientn(\n    colours = pv_palette(\"sequential\", 5), name = expression(-log[10](italic(p)))\n  ) +\n  ggplot2::labs(x = \"Gene ratio\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.y = ggplot2::element_text(size = 7),\n    legend.position = \"bottom\",\n    legend.box = \"vertical\"\n  ) +\n  ggplot2::guides(\n    colour = ggplot2::guide_colourbar(\n      barwidth = ggplot2::unit(42, \"mm\"),\n      barheight = ggplot2::unit(3, \"mm\"),\n      title.position = \"top\",\n      title.hjust = 0.5\n    )\n  )\nif (isTRUE(facet_by_ontology)) {\n  p <- p + ggplot2::facet_grid(ontology ~ ., scales = \"free_y\", space = \"free_y\")\n}\n\npv_save(p, \"figure\", width_mm = 170, height_mm = 130)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "enrichment dot plot\n富集气泡图\nenrichment-dot\ndot\nenrichment\n富集\nenrichment\n富集\nenrichment\n通路要同时看基因比例、命中数和显著性时用。\nplot.r 顶部 size_maps_count 用点面积表示 count；colour_maps_p 用颜色表示 -log10(p)；facet_by_ontology 按本体分面。p 的着色在绑图时计算。\nenrichment dotplot gene-ontology\nterm 通路名（字符串） ontology 本体，bp / mf / cc（字符串） ratio 基因比例（数值，0 到 1） count 命中基因数（整数） p 富集 p 值（数值）"
+      "code_text": "# Enrichment dot plot (house style). Size is count, colour is -log10(p) on house_warm; optional\n# ontology facets named on the strips. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nsize_maps_count <- TRUE\ncolour_maps_p <- TRUE\nfacet_by_ontology <- TRUE\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$ontology <- factor(df$ontology, levels = c(\"BP\", \"MF\", \"CC\"))\ndf$nlp <- -log10(df$p)\ndf$term <- factor(df$term, levels = df$term[order(df$ontology, df$ratio)])\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n\npt <- list(shape = HOUSE_POINT$shape, stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour)\np <- ggplot(df, aes(ratio, term))\nif (isTRUE(size_maps_count) && isTRUE(colour_maps_p)) {\n  p <- p + geom_point(aes(size = count, fill = nlp), shape = pt$shape, stroke = pt$stroke, colour = pt$colour)\n} else if (isTRUE(size_maps_count)) {\n  p <- p + geom_point(aes(size = count), fill = hp[[\"blue\"]], shape = pt$shape, stroke = pt$stroke, colour = pt$colour)\n} else {\n  p <- p + geom_point(aes(fill = nlp), size = HOUSE_POINT$size, shape = pt$shape, stroke = pt$stroke, colour = pt$colour)\n}\np <- p +\n  scale_size_area(max_size = 4.5, name = \"Count\") +\n  scale_fill_gradientn(colours = pv_palette(\"house_warm\"), name = \"-log10(p)\",\n                       breaks = function(l) pretty(l, n = 3)) +\n  scale_x_continuous(expand = expansion(mult = 0.08)) +\n  labs(x = \"Gene ratio\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(legend.position = \"bottom\", legend.box = \"horizontal\", legend.justification = \"left\",\n        legend.margin = margin(0, 0, 0, 0), legend.box.spacing = unit(1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\") +\n  guides(fill = guide_colourbar(barwidth = unit(22, \"mm\"), barheight = unit(2, \"mm\"), title.position = \"top\", order = 1),\n         size = guide_legend(order = 2, title.position = \"top\", override.aes = list(fill = grey[[\"ci\"]])))\nif (isTRUE(facet_by_ontology)) {\n  p <- p + facet_grid(ontology ~ ., scales = \"free_y\", space = \"free_y\") +\n    theme(strip.background = element_blank(), strip.text.y = element_text(angle = 0, hjust = 0),\n          panel.spacing = unit(1, \"mm\"))\n}\n\npv_save_house(p, \"figure\", cells = \"2x2\", bump = 0)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "enrichment dot plot\n富集气泡图\nenrichment-dot\ndot\nenrichment\n富集\nenrichment\n富集\nenrichment\n通路要同时看基因比例、命中数和显著性时用。\ntodo-text\nenrichment dotplot gene-ontology\nterm 通路名（字符串） ontology 本体，bp / mf / cc（字符串） ratio 基因比例（数值，0 到 1） count 命中基因数（整数） p 富集 p 值（数值）"
     },
     {
       "title": "GSEA running score",
@@ -5761,7 +5815,7 @@
         "metric": "排序统计量，两套基因集相同（数值）"
       },
       "when_to_use": "要看一个基因集在排序列表的哪一头富集时用。",
-      "customize": "plot.R 顶部 sets_keep 选择要画的基因集（一条或两条）；show_ranked_bar 是否在下方画排序统计量。命中位置来自带权抽样，不是按名次一刀切开。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "enrichment",
       "task_zh": "富集",
@@ -5777,12 +5831,17 @@
         {
           "name": "show_ranked_bar",
           "value": "TRUE"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "150",
-        "height_mm": "120",
-        "label": "150 × 120 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -5816,8 +5875,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/enrichment/gsea/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/enrichment/gsea/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/enrichment/gsea",
-      "code_text": "# GSEA running-score curves with an optional ranked-list bar.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\nlibrary(patchwork)\n\nsets_keep <- c(\"Interferon response\", \"Oxidative phosphorylation\")\nshow_ranked_bar <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf <- df[df$set %in% sets_keep, , drop = FALSE]\ndf$set <- factor(df$set, levels = sets_keep)\npal <- pv_palette(\"categorical\", length(sets_keep))\nnames(pal) <- sets_keep\n\ncurve <- ggplot2::ggplot(df, ggplot2::aes(rank, es, colour = set)) +\n  ggplot2::geom_hline(yintercept = 0, linewidth = 0.25, colour = \"grey50\") +\n  ggplot2::geom_line(linewidth = 0.55) +\n  ggplot2::scale_colour_manual(values = pal, name = NULL) +\n  ggplot2::labs(x = NULL, y = \"Enrichment score\") +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.x = ggplot2::element_blank(),\n    axis.ticks.x = ggplot2::element_blank(),\n    legend.position = \"bottom\"\n  )\n\nhits <- df[df$hit == 1, , drop = FALSE]\nhits$y <- as.numeric(hits$set)\nrug <- ggplot2::ggplot(hits, ggplot2::aes(colour = set)) +\n  ggplot2::geom_segment(\n    ggplot2::aes(x = rank, xend = rank, y = y - 0.32, yend = y + 0.32),\n    linewidth = 0.25\n  ) +\n  ggplot2::scale_colour_manual(values = pal, guide = \"none\") +\n  ggplot2::scale_y_continuous(\n    breaks = seq_along(sets_keep), labels = sets_keep,\n    limits = c(0.4, length(sets_keep) + 0.6)\n  ) +\n  ggplot2::labs(x = NULL, y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.x = ggplot2::element_blank(),\n    axis.ticks.x = ggplot2::element_blank(),\n    axis.line.x = ggplot2::element_blank()\n  )\n\nmet <- df[df$set == sets_keep[[1]], , drop = FALSE]\nbar <- ggplot2::ggplot(met, ggplot2::aes(rank, metric, fill = metric)) +\n  ggplot2::geom_col(width = 1, colour = NA) +\n  ggplot2::scale_fill_gradientn(colours = pv_palette(\"diverging\", 7), guide = \"none\") +\n  ggplot2::labs(x = \"Rank in ordered gene list\", y = \"Rank metric\") +\n  theme_viz()\n\nif (isTRUE(show_ranked_bar) && length(sets_keep) > 1) {\n  p <- curve / rug / bar + patchwork::plot_layout(heights = c(1.3, 0.38, 0.55))\n} else if (isTRUE(show_ranked_bar)) {\n  p <- curve / bar + patchwork::plot_layout(heights = c(1.4, 0.5))\n} else {\n  p <- curve\n}\n\npv_save(p, \"figure\", width_mm = 150, height_mm = 120)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "gsea running score\ngsea 富集图\ngsea\n\nenrichment\n富集\nenrichment\n富集\nenrichment\n要看一个基因集在排序列表的哪一头富集时用。\nplot.r 顶部 sets_keep 选择要画的基因集（一条或两条）；show_ranked_bar 是否在下方画排序统计量。命中位置来自带权抽样，不是按名次一刀切开。\ngsea enrichment rank\nset 基因集名称（字符串） rank 排序名次，1 为最高（整数） es 走到该名次的 running enrichment score（数值） hit 该名次是否命中基因集，1 或 0（整数） metric 排序统计量，两套基因集相同（数值）"
+      "code_text": "# GSEA running-score curves with an optional ranked-list bar (house style). Each set is named in\n# its colour at its peak score, with the peak ES written beside it. Panels joined with patchwork.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nlibrary(patchwork)\n\nsets_keep <- c(\"Interferon response\", \"Oxidative phosphorylation\")\nshow_ranked_bar <- TRUE\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf <- df[df$set %in% sets_keep, , drop = FALSE]\ndf$set <- factor(df$set, levels = sets_keep)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\npal <- stats::setNames(unname(hp[c(\"blue\", \"red\", \"green\", \"purple\", \"magenta\", \"brown\")][seq_along(sets_keep)]),\n                       sets_keep)\n\n# peak (largest |ES|) per set, labelled in the set colour\npeaks <- do.call(rbind, lapply(split(df, df$set), function(d) d[which.max(abs(d$es)), , drop = FALSE]))\npeaks$lab <- sprintf(\"%s\\nES %.2f\", peaks$set, peaks$es)\npeaks$vj <- ifelse(peaks$es >= 0, -0.25, 1.25)\npeaks$hj <- ifelse(peaks$rank > max(df$rank) / 2, 1, 0)\n\ncurve <- ggplot(df, aes(rank, es, colour = set)) +\n  geom_hline(yintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_line(linewidth = pv_house_lw(\"main\")) +\n  geom_text(data = peaks, aes(label = lab, vjust = vj, hjust = hj), size = pv_pt2size(7),\n            lineheight = 0.9, family = house_family(), show.legend = FALSE) +\n  scale_colour_manual(values = pal, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = 0.3)) +\n  labs(x = NULL, y = \"Enrichment score\") +\n  theme_house() +\n  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())\n\nhits <- df[df$hit == 1, , drop = FALSE]\nhits$y <- as.numeric(hits$set)\nrug <- ggplot(hits, aes(colour = set)) +\n  geom_segment(aes(x = rank, xend = rank, y = y - 0.32, yend = y + 0.32), linewidth = 0.25) +\n  scale_colour_manual(values = pal, guide = \"none\") +\n  scale_y_continuous(breaks = NULL, limits = c(0.4, length(sets_keep) + 0.6)) +\n  labs(x = NULL, y = \"Hits\") +\n  theme_house() +\n  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())\n\nmet <- df[df$set == sets_keep[[1]], , drop = FALSE]\nlim <- max(abs(met$metric))\nbar <- ggplot(met, aes(rank, metric, fill = metric)) +\n  geom_col(width = 1, colour = NA) +\n  scale_fill_gradientn(colours = pv_palette(\"house_div\"), limits = c(-lim, lim), guide = \"none\") +\n  labs(x = \"Rank in ordered gene list\", y = \"Rank metric\") +\n  theme_house()\n\nif (isTRUE(show_ranked_bar) && length(sets_keep) > 1) {\n  p <- curve / rug / bar + plot_layout(heights = c(1.4, 0.35, 0.55))\n} else if (isTRUE(show_ranked_bar)) {\n  p <- curve / bar + plot_layout(heights = c(1.4, 0.5))\n} else {\n  p <- curve\n}\np <- p + plot_annotation(\n  caption = footnote,\n  theme = theme(text = element_text(family = house_family()),\n                plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                            margin = margin(t = 0.8, unit = \"mm\")),\n                plot.caption.position = \"plot\"))\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "gsea running score\ngsea 富集图\ngsea\n\nenrichment\n富集\nenrichment\n富集\nenrichment\n要看一个基因集在排序列表的哪一头富集时用。\ntodo-text\ngsea enrichment rank\nset 基因集名称（字符串） rank 排序名次，1 为最高（整数） es 走到该名次的 running enrichment score（数值） hit 该名次是否命中基因集，1 或 0（整数） metric 排序统计量，两套基因集相同（数值）"
     },
     {
       "title": "BUSCO stacked bar",
@@ -8558,7 +8617,7 @@
         "mantel_r": "Mantel r；环境相关行留空（数值）"
       },
       "when_to_use": "同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。",
-      "customize": "p_cut 控制画出的 Mantel 连线；link_p_only 为 FALSE 时画出全部连线；show_env_heatmap 与 show_links 分别开关热图和连线。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "microbiome",
       "task_zh": "微生物/生态",
@@ -8585,9 +8644,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "183",
-        "height_mm": "130",
-        "label": "183 × 130 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -8621,8 +8681,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/mantel-plot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/mantel-plot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/microbiome-ecology/mantel-plot",
-      "code_text": "# Environment correlation triangle with Mantel links to omics distances.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数 -----------------------------------------------------------------\np_cut <- 0.05\nshow_env_heatmap <- TRUE\nshow_links <- TRUE\nlink_p_only <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nenv <- df[is.na(df$mantel_r), , drop = FALSE]\nman <- df[!is.na(df$mantel_r), , drop = FALSE]\n\nenv_names <- unique(c(env$var_a, env$var_b))\n# keep first-seen order from the file\nenv_names <- unique(c(env$var_a, env$var_b))\nomics <- unique(man$var_a)\n\n# mirror the triangle\nswap <- env[env$var_a != env$var_b, ]\nswap <- data.frame(var_a = swap$var_b, var_b = swap$var_a, r = swap$r, p = swap$p, mantel_r = NA_real_, stringsAsFactors = FALSE)\nenv_full <- rbind(env, swap)\nenv_full$x <- match(env_full$var_b, env_names)\nenv_full$y <- match(env_full$var_a, env_names)\n# lower triangle including diagonal (y >= x in a flipped axis)\ntri <- env_full[env_full$y >= env_full$x, , drop = FALSE]\n\nif (isTRUE(link_p_only)) man <- man[man$p < p_cut, , drop = FALSE]\n# Significant Mantel r values are all positive, so a [-1, 1] scale piled every\n# link on the orange end. Keep the stronger links and stretch those colours\n# across the diverging palette so neighbouring curves can be told apart.\nif (nrow(man)) man <- man[abs(man$mantel_r) >= 0.30, , drop = FALSE]\nman$x <- length(env_names) + 0.35\nman$xend <- length(env_names) + 2.4\nman$y <- match(man$var_b, env_names)\nom_y <- seq(1, length(env_names), length.out = length(omics))\nnames(om_y) <- omics\nman$yend <- om_y[man$var_a]\nman$sig <- ifelse(man$p < 0.01, \"p < 0.01\", \"p < 0.05\")\n\ncols_div <- pv_palette(\"diverging\", 7)\nmantel_lim <- if (nrow(man)) range(man$mantel_r) else c(-1, 1)\nmantel_breaks <- if (nrow(man)) signif(c(mantel_lim[1], mean(mantel_lim), mantel_lim[2]), 2) else c(-1, 0, 1)\n\np <- ggplot2::ggplot()\nif (isTRUE(show_env_heatmap)) {\n  p <- p + ggplot2::geom_tile(\n    data = tri,\n    ggplot2::aes(x, y, fill = r),\n    colour = \"white\", linewidth = 0.15\n  )\n}\nif (isTRUE(show_links) && nrow(man)) {\n  p <- p + ggplot2::geom_curve(\n    data = man,\n    ggplot2::aes(x = x, y = y, xend = xend, yend = yend, colour = mantel_r, linewidth = abs(mantel_r), linetype = sig),\n    curvature = 0.12, alpha = 0.9\n  )\n}\nom_df <- data.frame(name = omics, x = length(env_names) + 2.55, y = om_y[omics], stringsAsFactors = FALSE)\np <- p +\n  ggplot2::geom_point(data = om_df, ggplot2::aes(x, y), size = 1.6, colour = \"grey30\") +\n  ggplot2::geom_text(\n    data = om_df, ggplot2::aes(x + 0.15, y, label = name),\n    hjust = 0, size = 2.0, family = viz_sans_family()\n  ) +\n  ggplot2::scale_fill_gradientn(\n    colours = cols_div, limits = c(-1, 1), name = \"Pearson r\", na.value = \"grey90\",\n    breaks = c(-1, 0, 1)\n  ) +\n  ggplot2::scale_colour_gradientn(\n    colours = cols_div, limits = mantel_lim, name = \"Mantel r\",\n    breaks = mantel_breaks\n  ) +\n  ggplot2::scale_linewidth(range = c(0.25, 0.9), guide = \"none\") +\n  ggplot2::scale_linetype_manual(values = c(\"p < 0.01\" = \"solid\", \"p < 0.05\" = \"dashed\"), name = NULL) +\n  ggplot2::scale_x_continuous(\n    breaks = seq_along(env_names), labels = env_names,\n    expand = ggplot2::expansion(add = c(0.55, 2.8))\n  ) +\n  ggplot2::scale_y_continuous(breaks = seq_along(env_names), labels = env_names, expand = ggplot2::expansion(add = 0.45)) +\n  ggplot2::labs(x = NULL, y = NULL) +\n  ggplot2::guides(\n    fill = ggplot2::guide_colourbar(\n      title.position = \"top\", title.hjust = 0.5,\n      barwidth = ggplot2::unit(32, \"mm\"), barheight = ggplot2::unit(3, \"mm\"),\n      order = 1\n    ),\n    colour = ggplot2::guide_colourbar(\n      title.position = \"top\", title.hjust = 0.5,\n      barwidth = ggplot2::unit(32, \"mm\"), barheight = ggplot2::unit(3, \"mm\"),\n      order = 2\n    ),\n    linetype = ggplot2::guide_legend(order = 3, nrow = 2)\n  ) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5, size = 7),\n    axis.text.y = ggplot2::element_text(size = 7),\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    plot.margin = ggplot2::margin(3, 8, 2, 2, \"mm\"),\n    legend.position = \"bottom\",\n    legend.box = \"horizontal\",\n    legend.box.spacing = ggplot2::unit(2, \"mm\"),\n    panel.border = ggplot2::element_rect(colour = \"black\", fill = NA, linewidth = 0.5)\n  ) +\n  ggplot2::coord_fixed(clip = \"off\")\n\npv_save(p, \"figure\", width_mm = 183, height_mm = 130)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "mantel test plot\nmantel 检验图\nmantel-plot\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n同时看环境因子之间的相关，以及它们与组学距离的 mantel 关系时用。\np_cut 控制画出的 mantel 连线；link_p_only 为 false 时画出全部连线；show_env_heatmap 与 show_links 分别开关热图和连线。\nmantel environment correlation\nvar_a 环境变量或组学距离名（字符串） var_b 配对的环境变量（字符串） r 环境变量之间的 pearson 相关；mantel 行留空（数值） p 相关或 mantel 的 p 值（数值） mantel_r mantel r；环境相关行留空（数值）"
+      "code_text": "# Environment correlation triangle with Mantel links to omics distances (house style).\n# Heatmap and links on house_div; omics names written at the link ends.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\np_cut <- 0.05\nshow_env_heatmap <- TRUE\nshow_links <- TRUE\nlink_p_only <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nenv <- df[is.na(df$mantel_r), , drop = FALSE]\nman <- df[!is.na(df$mantel_r), , drop = FALSE]\n\nenv_names <- unique(c(env$var_a, env$var_b))\n# keep first-seen order from the file\nenv_names <- unique(c(env$var_a, env$var_b))\nomics <- unique(man$var_a)\n\n# mirror the triangle\nswap <- env[env$var_a != env$var_b, ]\nswap <- data.frame(var_a = swap$var_b, var_b = swap$var_a, r = swap$r, p = swap$p, mantel_r = NA_real_, stringsAsFactors = FALSE)\nenv_full <- rbind(env, swap)\nenv_full$x <- match(env_full$var_b, env_names)\nenv_full$y <- match(env_full$var_a, env_names)\n# lower triangle including diagonal (y >= x in a flipped axis)\ntri <- env_full[env_full$y >= env_full$x, , drop = FALSE]\n\nif (isTRUE(link_p_only)) man <- man[man$p < p_cut, , drop = FALSE]\n# Significant Mantel r values are all positive, so a [-1, 1] scale piled every\n# link on the orange end. Keep the stronger links and stretch those colours\n# across the diverging palette so neighbouring curves can be told apart.\nif (nrow(man)) man <- man[abs(man$mantel_r) >= 0.30, , drop = FALSE]\nman$x <- length(env_names) + 0.35\nman$xend <- length(env_names) + 2.4\nman$y <- match(man$var_b, env_names)\nom_y <- seq(1, length(env_names), length.out = length(omics))\nnames(om_y) <- omics\nman$yend <- om_y[man$var_a]\nman$sig <- ifelse(man$p < 0.01, \"p < 0.01\", \"p < 0.05\")\n\ncols_div <- pv_palette(\"house_div\")\ngrey <- pv_palette(\"house_grey\")\nfootnote <- \"Simulated data for illustration; not biological results\"\nmantel_lim <- if (nrow(man)) range(man$mantel_r) else c(-1, 1)\nmantel_breaks <- if (nrow(man)) signif(c(mantel_lim[1], mean(mantel_lim), mantel_lim[2]), 2) else c(-1, 0, 1)\n\np <- ggplot2::ggplot()\nif (isTRUE(show_env_heatmap)) {\n  p <- p + ggplot2::geom_tile(\n    data = tri,\n    ggplot2::aes(x, y, fill = r),\n    colour = \"white\", linewidth = 0.15\n  )\n}\nif (isTRUE(show_links) && nrow(man)) {\n  p <- p + ggplot2::geom_curve(\n    data = man,\n    ggplot2::aes(x = x, y = y, xend = xend, yend = yend, colour = mantel_r, linewidth = abs(mantel_r), linetype = sig),\n    curvature = 0.12\n  )\n}\nom_df <- data.frame(name = omics, x = length(env_names) + 2.55, y = om_y[omics], stringsAsFactors = FALSE)\np <- p +\n  ggplot2::geom_point(data = om_df, ggplot2::aes(x, y), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n                      stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, fill = grey[[\"dark\"]]) +\n  ggplot2::geom_text(\n    data = om_df, ggplot2::aes(x + 0.45, y, label = name),\n    hjust = 0, size = pv_pt2size(7), colour = \"#1A1A1A\", family = house_family()\n  ) +\n  ggplot2::scale_fill_gradientn(\n    colours = cols_div, limits = c(-1, 1), name = \"Pearson r\", na.value = grey[[\"light\"]],\n    breaks = c(-1, 0, 1)\n  ) +\n  ggplot2::scale_colour_gradientn(\n    colours = cols_div, limits = mantel_lim, name = \"Mantel r\",\n    breaks = mantel_breaks\n  ) +\n  ggplot2::scale_linewidth(range = c(0.3, 1.0), guide = \"none\") +\n  ggplot2::scale_linetype_manual(values = c(\"p < 0.01\" = \"solid\", \"p < 0.05\" = \"dashed\"), name = NULL) +\n  ggplot2::scale_x_continuous(\n    breaks = seq_along(env_names), labels = env_names,\n    expand = ggplot2::expansion(add = c(0.55, 4.6))\n  ) +\n  ggplot2::scale_y_continuous(breaks = seq_along(env_names), labels = env_names, expand = ggplot2::expansion(add = 0.45)) +\n  ggplot2::labs(x = NULL, y = NULL, caption = footnote) +\n  ggplot2::guides(\n    fill = ggplot2::guide_colourbar(\n      title.position = \"top\", title.hjust = 0.5,\n      barwidth = ggplot2::unit(20, \"mm\"), barheight = ggplot2::unit(2, \"mm\"),\n      order = 1\n    ),\n    colour = ggplot2::guide_colourbar(\n      title.position = \"top\", title.hjust = 0.5,\n      barwidth = ggplot2::unit(20, \"mm\"), barheight = ggplot2::unit(2, \"mm\"),\n      order = 2\n    ),\n    linetype = ggplot2::guide_legend(order = 3, nrow = 2)\n  ) +\n  theme_house() +\n  ggplot2::theme(\n    axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5, size = 7),\n    axis.text.y = ggplot2::element_text(size = 7),\n    plot.margin = ggplot2::margin(1, 1, 1, 1, \"mm\"),\n    legend.margin = ggplot2::margin(0, 0, 0, 0),\n    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                         margin = ggplot2::margin(t = 0.8, unit = \"mm\")),\n    plot.caption.position = \"plot\",\n    legend.position = \"bottom\",\n    legend.box = \"horizontal\",\n    legend.box.spacing = ggplot2::unit(2, \"mm\"),\n    legend.spacing.x = ggplot2::unit(4, \"mm\"),\n    panel.border = ggplot2::element_blank(),\n    axis.line = ggplot2::element_blank(),\n    axis.ticks = ggplot2::element_blank()\n  ) +\n  ggplot2::coord_fixed(clip = \"off\")\n\npv_save_house(p, \"figure\", cells = \"2x2\", bump = 0)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "mantel test plot\nmantel 检验图\nmantel-plot\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n同时看环境因子之间的相关，以及它们与组学距离的 mantel 关系时用。\ntodo-text\nmantel environment correlation\nvar_a 环境变量或组学距离名（字符串） var_b 配对的环境变量（字符串） r 环境变量之间的 pearson 相关；mantel 行留空（数值） p 相关或 mantel 的 p 值（数值） mantel_r mantel r；环境相关行留空（数值）"
     },
     {
       "title": "Rarefaction curve",
@@ -8645,7 +8705,7 @@
         "richness": "该深度下的期望物种丰富度（数值）"
       },
       "when_to_use": "比较各组物种丰富度是否随测序深度趋于饱和时用。",
-      "customize": "show_individuals 开关单样品细线；show_ribbon 开关组内均值加减标准差色带；group_order 改图例和配色顺序。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "microbiome",
       "task_zh": "微生物/生态",
@@ -8665,12 +8725,17 @@
         {
           "name": "group_order",
           "value": "c(\"Forest\", \"Cropland\", \"Grassland\", \"Wetland\")"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data;\\nnot biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -8704,8 +8769,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/rarefaction/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/rarefaction/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/microbiome-ecology/rarefaction",
-      "code_text": "# Rarefaction curves by group, with a mean ribbon.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数 -----------------------------------------------------------------\nshow_individuals <- TRUE\nshow_ribbon <- TRUE\ngroup_order <- c(\"Forest\", \"Cropland\", \"Grassland\", \"Wetland\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_order)\ncols <- setNames(pv_palette(\"categorical\", length(group_order)), group_order)\n\nsumm <- stats::aggregate(richness ~ group + depth, df, function(z) c(mean = mean(z), sd = stats::sd(z)))\nsumm <- do.call(data.frame, summ)\nnames(summ)[3:4] <- c(\"mean\", \"sd\")\nsumm$ymin <- pmax(0, summ$mean - summ$sd)\nsumm$ymax <- summ$mean + summ$sd\n\np <- ggplot2::ggplot()\nif (isTRUE(show_ribbon)) {\n  p <- p + ggplot2::geom_ribbon(\n    data = summ,\n    ggplot2::aes(depth, ymin = ymin, ymax = ymax, fill = group),\n    alpha = 0.18, colour = NA\n  )\n}\nif (isTRUE(show_individuals)) {\n  p <- p + ggplot2::geom_line(\n    data = df,\n    ggplot2::aes(depth, richness, group = sample, colour = group),\n    linewidth = 0.25, alpha = 0.45\n  )\n}\np <- p +\n  ggplot2::geom_line(\n    data = summ,\n    ggplot2::aes(depth, mean, colour = group),\n    linewidth = 0.6\n  ) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::scale_fill_manual(values = cols, guide = \"none\") +\n  ggplot2::labs(x = \"Reads\", y = \"Expected richness\") +\n  theme_viz(base_size = 7) +\n  ggplot2::theme(\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    legend.position = \"bottom\"\n  )\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "rarefaction curve\n稀释曲线\nrarefaction\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n比较各组物种丰富度是否随测序深度趋于饱和时用。\nshow_individuals 开关单样品细线；show_ribbon 开关组内均值加减标准差色带；group_order 改图例和配色顺序。\nrarefaction richness microbiome\nsample 样品编号（字符串） group 生境或处理（字符串） depth 抽平深度，reads（整数） richness 该深度下的期望物种丰富度（数值）"
+      "code_text": "# Rarefaction curves by group (house style), with a mean +/- SD ribbon. Group names written at the\n# right end of each mean curve. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\nshow_individuals <- TRUE\nshow_ribbon <- TRUE\ngroup_order <- c(\"Forest\", \"Cropland\", \"Grassland\", \"Wetland\")\nfootnote <- \"Simulated data;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_order)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- stats::setNames(unname(hp[seq_along(group_order)]), group_order)\nname_cols <- stats::setNames(ifelse(cols %in% hp[c(\"orange\", \"sky\", \"gold\")], \"#1A1A1A\", cols), names(cols))\n\nsumm <- stats::aggregate(richness ~ group + depth, df, function(z) c(mean = mean(z), sd = stats::sd(z)))\nsumm <- do.call(data.frame, summ)\nnames(summ)[3:4] <- c(\"mean\", \"sd\")\nsumm$ymin <- pmax(0, summ$mean - summ$sd)\nsumm$ymax <- summ$mean + summ$sd\nends <- summ[summ$depth == max(summ$depth), , drop = FALSE]\n\np <- ggplot()\nif (isTRUE(show_ribbon)) {\n  p <- p + geom_ribbon(data = summ, aes(depth, ymin = ymin, ymax = ymax, fill = group),\n                       alpha = 0.18, colour = NA)\n}\nif (isTRUE(show_individuals)) {\n  p <- p + geom_line(data = df, aes(depth, richness, group = sample, colour = group),\n                     linewidth = pv_house_lw(\"minor\"), alpha = 0.45)\n}\np <- p +\n  geom_line(data = summ, aes(depth, mean, colour = group), linewidth = pv_house_lw(\"main\")) +\n  geom_text(data = ends, aes(depth, mean, label = group), hjust = -0.08, size = pv_pt2size(7),\n            colour = name_cols[as.character(ends$group)], family = house_family()) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(breaks = function(l) pretty(l, n = 2),\n                     labels = function(x) format(x, big.mark = \",\", scientific = FALSE, trim = TRUE)) +\n  coord_cartesian(clip = \"off\") +\n  labs(x = \"Reads\", y = \"Expected richness\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 13, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "rarefaction curve\n稀释曲线\nrarefaction\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n比较各组物种丰富度是否随测序深度趋于饱和时用。\ntodo-text\nrarefaction richness microbiome\nsample 样品编号（字符串） group 生境或处理（字符串） depth 抽平深度，reads（整数） richness 该深度下的期望物种丰富度（数值）"
     },
     {
       "title": "RDA biplot",
@@ -8735,7 +8800,7 @@
         "OrganicC": "有机碳，百分数（数值，data_env.csv）"
       },
       "when_to_use": "样方群落要同时看生境分组和几个环境因子的方向时用。Use when sites should be ordinated with environmental arrows on the same RDA axes.",
-      "customize": "plot.R 顶部 scaling 传给 vegan::scores（2 为物种相关双序图）；arrow_frac 控制环境箭头相对样方云的显示长度。分组色取 pv_palette(\"categorical\") 前三色。轴标题百分比是该轴占全部惯量的比例。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "microbiome",
       "task_zh": "微生物/生态",
@@ -8745,18 +8810,27 @@
       "variants": [],
       "parameters": [
         {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
+        },
+        {
           "name": "scaling",
           "value": "2"
         },
         {
           "name": "arrow_frac",
-          "value": "0.70"
+          "value": "1.10"
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "85",
-        "label": "85 × 85 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -8797,8 +8871,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/rda-biplot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/rda-biplot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/microbiome-ecology/rda-biplot",
-      "code_text": "# RDA biplot of sites and environmental arrows. Reads the two CSVs only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\nscaling <- 2\narrow_frac <- 0.70\n# ------------------\n\ncomm_df <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nenv_df <- utils::read.csv(\"data_env.csv\", stringsAsFactors = FALSE)\nsamples <- unique(comm_df$sample)\ntaxa <- unique(comm_df$taxon)\ncomm <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\ncomm[cbind(match(comm_df$sample, samples), match(comm_df$taxon, taxa))] <- comm_df$abundance\nenv_df <- env_df[match(samples, env_df$sample), , drop = FALSE]\ngroup <- comm_df$group[match(samples, comm_df$sample)]\nenv <- env_df[, vapply(env_df, is.numeric, logical(1)), drop = FALSE]\n\ncomm_h <- vegan::decostand(comm, method = \"hellinger\")\nord <- vegan::rda(comm_h ~ ., data = env)\neig <- vegan::eigenvals(ord)\npct <- 100 * eig[seq_len(2)] / sum(eig)\nstopifnot(all(is.finite(pct)))\n\nsite_sc <- as.data.frame(vegan::scores(ord, display = \"sites\", choices = 1:2, scaling = scaling))\nbp_sc <- as.data.frame(vegan::scores(ord, display = \"bp\", choices = 1:2, scaling = scaling))\nnames(site_sc) <- c(\"RDA1\", \"RDA2\")\nnames(bp_sc) <- c(\"RDA1\", \"RDA2\")\nsite_sc$group <- factor(stats::setNames(group, samples)[rownames(site_sc)],\n                        levels = c(\"Forest\", \"Meadow\", \"Marsh\"))\nsite_r <- max(sqrt(site_sc$RDA1^2 + site_sc$RDA2^2))\nbp_r <- max(sqrt(bp_sc$RDA1^2 + bp_sc$RDA2^2))\narrow_mul <- arrow_frac * site_r / bp_r\npretty <- c(pH = \"pH\", Moisture = \"Moisture\", Nitrogen = \"Nitrogen\", Temp = \"Temp\", OrganicC = \"Organic C\")\narrows <- data.frame(\n  lab = unname(pretty[rownames(bp_sc)]),\n  x = bp_sc$RDA1 * arrow_mul,\n  y = bp_sc$RDA2 * arrow_mul,\n  stringsAsFactors = FALSE\n)\n# Label anchor sits just past the tip; hjust/vjust push the glyphs further outward.\nlab_size <- 2.3\nstretch <- 1.10\narrows$lx <- arrows$x * stretch\narrows$ly <- arrows$y * stretch\narrows$hjust <- ifelse(arrows$x >= 0, 0, 1)\narrows$vjust <- ifelse(arrows$y >= 0, 0, 1)\n# Temp's label sits on the arrowhead. Shift it down-left, off the tip.\n# Nitrogen is left where it is.\ntemp_pull <- arrows$lab == \"Temp\"\narrows$lx[temp_pull] <- arrows$lx[temp_pull] - 0.11\narrows$ly[temp_pull] <- arrows$ly[temp_pull] - 0.08\npanel_mm <- 54\nlim <- max(abs(c(site_sc$RDA1, site_sc$RDA2, arrows$lx, arrows$ly))) * 1.25\nfor (step in seq_len(5)) {\n  mm_per <- panel_mm / (2 * lim)\n  tw <- 0.52 * nchar(arrows$lab) * lab_size / mm_per\n  th <- lab_size / mm_per\n  xmin <- ifelse(arrows$hjust == 0, arrows$lx, arrows$lx - tw)\n  xmax <- ifelse(arrows$hjust == 0, arrows$lx + tw, arrows$lx)\n  ymin <- ifelse(arrows$vjust == 0, arrows$ly, arrows$ly - th)\n  ymax <- ifelse(arrows$vjust == 0, arrows$ly + th, arrows$ly)\n  lim <- max(abs(c(\n    site_sc$RDA1, site_sc$RDA2, arrows$x, arrows$y, xmin, xmax, ymin, ymax\n  ))) * 1.08\n}\npad <- 1 / (panel_mm / (2 * lim))\ncollide <- FALSE\nn_lab <- nrow(arrows)\nif (n_lab > 1) {\n  for (i in seq_len(n_lab - 1)) {\n    for (j in (i + 1):n_lab) {\n      hit <- xmax[i] + pad > xmin[j] - pad && xmax[j] + pad > xmin[i] - pad &&\n        ymax[i] + pad > ymin[j] - pad && ymax[j] + pad > ymin[i] - pad\n      if (hit) collide <- TRUE\n    }\n  }\n}\nif (collide) lim <- lim * 1.06\nif (collide) {\n  label_layer <- ggrepel::geom_text_repel(\n    data = arrows,\n    ggplot2::aes(x = x, y = y, label = lab, hjust = hjust, vjust = vjust),\n    nudge_x = arrows$lx - arrows$x,\n    nudge_y = arrows$ly - arrows$y,\n    size = lab_size,\n    colour = \"black\",\n    min.segment.length = 0,\n    segment.size = 0.25,\n    segment.colour = \"black\",\n    force = 0.4,\n    force_pull = 0.2,\n    box.padding = 0.2,\n    point.padding = 0.05,\n    max.overlaps = Inf,\n    max.iter = 5000,\n    seed = 4,\n    xlim = c(-lim, lim),\n    ylim = c(-lim, lim),\n    show.legend = FALSE\n  )\n} else {\n  label_layer <- ggplot2::geom_text(\n    data = arrows,\n    ggplot2::aes(x = lx, y = ly, label = lab, hjust = hjust, vjust = vjust),\n    size = lab_size,\n    colour = \"black\"\n  )\n}\npal <- stats::setNames(pv_palette(\"categorical\", nlevels(site_sc$group)), levels(site_sc$group))\n\np <- ggplot2::ggplot() +\n  ggplot2::geom_hline(yintercept = 0, linewidth = 0.25, colour = \"#E0E0E0\") +\n  ggplot2::geom_vline(xintercept = 0, linewidth = 0.25, colour = \"#E0E0E0\") +\n  ggplot2::geom_segment(\n    data = arrows,\n    ggplot2::aes(x = 0, y = 0, xend = x, yend = y),\n    arrow = grid::arrow(angle = 22, length = grid::unit(1.5, \"mm\"), type = \"closed\"),\n    linewidth = 0.35,\n    colour = \"black\"\n  ) +\n  ggplot2::geom_point(\n    data = site_sc,\n    ggplot2::aes(RDA1, RDA2, colour = group),\n    size = 1.7, alpha = 0.9\n  ) +\n  label_layer +\n  ggplot2::scale_colour_manual(values = pal, name = NULL) +\n  ggplot2::coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim), expand = FALSE) +\n  ggplot2::labs(\n    x = sprintf(\"RDA1 (%.1f%%)\", pct[[1]]),\n    y = sprintf(\"RDA2 (%.1f%%)\", pct[[2]])\n  ) +\n  theme_viz(base_size = 7) +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.02, 0.98),\n    legend.justification.inside = c(0, 1),\n    legend.key.height = ggplot2::unit(2.8, \"mm\"),\n    legend.key.width = ggplot2::unit(3.6, \"mm\")\n  )\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 85)\nmessage(sprintf(\"RDA1 %.1f%%  RDA2 %.1f%%\", pct[[1]], pct[[2]]))\nmessage(\"wrote preview.png\")\n",
-      "search_text": "rda biplot\nrda 双序图\nrda-biplot\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n样方群落要同时看生境分组和几个环境因子的方向时用。use when sites should be ordinated with environmental arrows on the same rda axes.\nplot.r 顶部 scaling 传给 vegan::scores（2 为物种相关双序图）；arrow_frac 控制环境箭头相对样方云的显示长度。分组色取 pv_palette(\"categorical\") 前三色。轴标题百分比是该轴占全部惯量的比例。\nrda biplot ordination environment\nsample 样方编号（字符串）；data.csv 与 data_env.csv 用它对齐 group 生境分组（字符串，只在 data.csv） taxon 物种名（字符串） abundance 该样方该物种的个体计数（非负整数） ph 土壤 ph（数值，data_env.csv） moisture 土壤含水量，百分数（数值，data_env.csv） nitrogen 全氮，g/kg（数值，data_env.csv） temp 生长季均温，摄氏度（数值，data_env.csv） organicc 有机碳，百分数（数值，data_env.csv）"
+      "code_text": "# RDA biplot of sites and environmental arrows. Reads the two CSVs only.\n# House style: sites filled by group, group names written above each group, black arrows.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\ngrey <- pv_palette(\"house_grey\")\nfootnote <- \"Simulated data for illustration; not biological results\"\n\n# --- adjustable ---\nscaling <- 2\narrow_frac <- 1.10\n# ------------------\n\ncomm_df <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nenv_df <- utils::read.csv(\"data_env.csv\", stringsAsFactors = FALSE)\nsamples <- unique(comm_df$sample)\ntaxa <- unique(comm_df$taxon)\ncomm <- matrix(0, length(samples), length(taxa), dimnames = list(samples, taxa))\ncomm[cbind(match(comm_df$sample, samples), match(comm_df$taxon, taxa))] <- comm_df$abundance\nenv_df <- env_df[match(samples, env_df$sample), , drop = FALSE]\ngroup <- comm_df$group[match(samples, comm_df$sample)]\nenv <- env_df[, vapply(env_df, is.numeric, logical(1)), drop = FALSE]\n\ncomm_h <- vegan::decostand(comm, method = \"hellinger\")\nord <- vegan::rda(comm_h ~ ., data = env)\neig <- vegan::eigenvals(ord)\npct <- 100 * eig[seq_len(2)] / sum(eig)\nstopifnot(all(is.finite(pct)))\n\nsite_sc <- as.data.frame(vegan::scores(ord, display = \"sites\", choices = 1:2, scaling = scaling))\nbp_sc <- as.data.frame(vegan::scores(ord, display = \"bp\", choices = 1:2, scaling = scaling))\nnames(site_sc) <- c(\"RDA1\", \"RDA2\")\nnames(bp_sc) <- c(\"RDA1\", \"RDA2\")\nsite_sc$group <- factor(stats::setNames(group, samples)[rownames(site_sc)],\n                        levels = c(\"Forest\", \"Meadow\", \"Marsh\"))\nsite_r <- max(sqrt(site_sc$RDA1^2 + site_sc$RDA2^2))\nbp_r <- max(sqrt(bp_sc$RDA1^2 + bp_sc$RDA2^2))\narrow_mul <- arrow_frac * site_r / bp_r\npretty <- c(pH = \"pH\", Moisture = \"Moisture\", Nitrogen = \"Nitrogen\", Temp = \"Temp\", OrganicC = \"Organic C\")\narrows <- data.frame(\n  lab = unname(pretty[rownames(bp_sc)]),\n  x = bp_sc$RDA1 * arrow_mul,\n  y = bp_sc$RDA2 * arrow_mul,\n  stringsAsFactors = FALSE\n)\n# Label anchor sits just past the tip; hjust/vjust push the glyphs further outward.\nlab_size <- pv_pt2size(7)\nstretch <- 1.10\narrows$lx <- arrows$x * stretch\narrows$ly <- arrows$y * stretch\narrows$hjust <- ifelse(arrows$x >= 0, 0, 1)\narrows$vjust <- ifelse(arrows$y >= 0, 0, 1)\n# Temp's label sits on the arrowhead. Shift it down-left, off the tip.\n# Nitrogen is left where it is.\ntemp_pull <- arrows$lab == \"Temp\"\narrows$lx[temp_pull] <- arrows$lx[temp_pull] - 0.11\narrows$ly[temp_pull] <- arrows$ly[temp_pull] - 0.08\npanel_mm <- 47\nlim <- max(abs(c(site_sc$RDA1, site_sc$RDA2, arrows$lx, arrows$ly))) * 1.15\nfor (step in seq_len(5)) {\n  mm_per <- panel_mm / (2 * lim)\n  tw <- 0.52 * nchar(arrows$lab) * lab_size / mm_per\n  th <- lab_size / mm_per\n  xmin <- ifelse(arrows$hjust == 0, arrows$lx, arrows$lx - tw)\n  xmax <- ifelse(arrows$hjust == 0, arrows$lx + tw, arrows$lx)\n  ymin <- ifelse(arrows$vjust == 0, arrows$ly, arrows$ly - th)\n  ymax <- ifelse(arrows$vjust == 0, arrows$ly + th, arrows$ly)\n  lim <- max(abs(c(\n    site_sc$RDA1, site_sc$RDA2, arrows$x, arrows$y, xmin, xmax, ymin, ymax\n  ))) * 1.08\n}\npad <- 1 / (panel_mm / (2 * lim))\ncollide <- FALSE\nn_lab <- nrow(arrows)\nif (n_lab > 1) {\n  for (i in seq_len(n_lab - 1)) {\n    for (j in (i + 1):n_lab) {\n      hit <- xmax[i] + pad > xmin[j] - pad && xmax[j] + pad > xmin[i] - pad &&\n        ymax[i] + pad > ymin[j] - pad && ymax[j] + pad > ymin[i] - pad\n      if (hit) collide <- TRUE\n    }\n  }\n}\nif (collide) lim <- lim * 1.06\n# Fixed square window: arrows reach past the site clouds, labels sit beyond the tips.\nlim <- max(abs(c(site_sc$RDA1, site_sc$RDA2, arrows$x, arrows$y))) * 1.6\nif (collide) {\n  label_layer <- ggrepel::geom_text_repel(\n    data = arrows,\n    ggplot2::aes(x = x, y = y, label = lab, hjust = hjust, vjust = vjust),\n    nudge_x = arrows$lx - arrows$x,\n    nudge_y = arrows$ly - arrows$y,\n    size = lab_size, family = house_family(),\n    colour = \"#1A1A1A\",\n    min.segment.length = 0,\n    segment.size = 0.25,\n    segment.colour = \"#1A1A1A\",\n    force = 0.4,\n    force_pull = 0.2,\n    box.padding = 0.2,\n    point.padding = 0.05,\n    max.overlaps = Inf,\n    max.iter = 5000,\n    seed = 4,\n    xlim = c(-lim, lim),\n    ylim = c(-lim, lim),\n    show.legend = FALSE\n  )\n} else {\n  label_layer <- ggplot2::geom_text(\n    data = arrows,\n    ggplot2::aes(x = lx, y = ly, label = lab, hjust = hjust, vjust = vjust),\n    size = lab_size, family = house_family(),\n    colour = \"#1A1A1A\"\n  )\n}\npal <- stats::setNames(pv_palette(\"house\")[seq_len(nlevels(site_sc$group))], levels(site_sc$group))\n# Group text keeps its colour only at >= 3:1 contrast on white.\nlab_col <- stats::setNames(ifelse(vapply(pal, function(h) {\n                                      v <- grDevices::col2rgb(h)[, 1] / 255\n                                      v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)\n                                      1.05 / (sum(c(0.2126, 0.7152, 0.0722) * v) + 0.05) < 3\n                                    }, logical(1)), \"#1A1A1A\", pal), names(pal))\ngrp_lab <- do.call(rbind, lapply(split(site_sc, site_sc$group), function(d) {\n  # Groups centred below the origin are named under their lowest point.\n  up <- mean(d$RDA2) >= 0\n  i <- if (up) which.max(d$RDA2) else which.min(d$RDA2)\n  data.frame(group = d$group[i], x = d$RDA1[i], y = d$RDA2[i], vj = if (up) -0.9 else 0.5)\n}))\ngrp_lab$col <- lab_col[as.character(grp_lab$group)]\n# Fixed text, no repel: arrow names sit just past their tips, pushed outward.\n# Two tips on the same side closer than 0.3 in y split above and below.\narrows$tx <- arrows$x * 1.06\narrows$ty <- arrows$y * 1.06\narrows$hj <- ifelse(arrows$x >= 0, -0.05, 1.05)\narrows$vj <- 0.5\n# Near-vertical arrows centre their name above or below the tip.\nsteep <- abs(arrows$x) < 0.25 * abs(arrows$y)\narrows$hj[steep] <- 0.5\narrows$vj[steep] <- ifelse(arrows$y[steep] >= 0, -0.3, 1.3)\nfor (i in seq_len(nrow(arrows))) {\n  for (j in seq_len(nrow(arrows))) {\n    if (i != j && !steep[i] && !steep[j] && sign(arrows$x[i]) == sign(arrows$x[j]) && abs(arrows$y[i] - arrows$y[j]) < 0.3 * lim) {\n      arrows$vj[i] <- if (arrows$y[i] > arrows$y[j]) 0 else 1\n    }\n  }\n}\ngrp_lab$hj <- 0.5\nlow <- grp_lab$vj >= 0\ngrp_lab$hj[low] <- ifelse(grp_lab$x[low] <= 0, 1.15, -0.15)\n# Widen the square window until every arrow name fits inside the ~37 mm panel.\n# Equal axes in a 2x1 cell: y spans the data, x widens on each side until the\n# arrow names (fixed size in mm, ~36 mm panel height) fit inside the panel.\nylim_v <- c(-1, 1) * max(abs(c(site_sc$RDA2, arrows$ty))) * 1.35\nu <- diff(ylim_v) / 36\nw_u <- 0.62 * nchar(arrows$lab) * 2.47 * u\nleft_ext <- ifelse(arrows$hj == 0.5, arrows$tx - w_u / 2, ifelse(arrows$hj > 0.5, arrows$tx - w_u, arrows$tx))\nright_ext <- ifelse(arrows$hj == 0.5, arrows$tx + w_u / 2, ifelse(arrows$hj > 0.5, arrows$tx, arrows$tx + w_u))\nxlim_v <- c(min(c(site_sc$RDA1, left_ext)) - 0.04 * diff(ylim_v), max(c(site_sc$RDA1, right_ext)) + 0.04 * diff(ylim_v))\nall_lab_layer <- list(\n  ggplot2::geom_text(data = arrows, ggplot2::aes(tx, ty, label = lab, hjust = hj, vjust = vj),\n                     size = lab_size, colour = \"#1A1A1A\", family = house_family()),\n  ggplot2::geom_text(data = grp_lab, ggplot2::aes(x, y, label = group, hjust = hj, vjust = vj),\n                     size = lab_size, colour = grp_lab$col, family = house_family())\n)\n\np <- ggplot2::ggplot() +\n  ggplot2::geom_hline(yintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"light\"]]) +\n  ggplot2::geom_vline(xintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"light\"]]) +\n  ggplot2::geom_segment(\n    data = arrows,\n    ggplot2::aes(x = 0, y = 0, xend = x, yend = y),\n    arrow = grid::arrow(angle = 22, length = grid::unit(1.5, \"mm\"), type = \"closed\"),\n    linewidth = pv_house_lw(\"main\"),\n    colour = \"#1A1A1A\"\n  ) +\n  ggplot2::geom_point(\n    data = site_sc,\n    ggplot2::aes(RDA1, RDA2, fill = group),\n    shape = HOUSE_POINT$shape, size = 1.6,\n    stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour\n  ) +\n  all_lab_layer +\n  ggplot2::scale_fill_manual(values = pal, guide = \"none\") +\n  ggplot2::coord_equal(xlim = xlim_v, ylim = ylim_v, expand = FALSE) +\n  ggplot2::scale_x_continuous(breaks = scales::breaks_pretty(n = 3)) +\n  ggplot2::scale_y_continuous(breaks = scales::breaks_pretty(n = 3)) +\n  ggplot2::labs(\n    x = sprintf(\"RDA1 (%.1f%%)\", pct[[1]]),\n    y = sprintf(\"RDA2 (%.1f%%)\", pct[[2]]),\n    caption = footnote\n  ) +\n  theme_house() +\n  ggplot2::theme(\n    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                         margin = ggplot2::margin(t = 0.8, unit = \"mm\")),\n    plot.caption.position = \"plot\"\n  )\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(sprintf(\"RDA1 %.1f%%  RDA2 %.1f%%\", pct[[1]], pct[[2]]))\nmessage(\"wrote preview.png\")\n",
+      "search_text": "rda biplot\nrda 双序图\nrda-biplot\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n样方群落要同时看生境分组和几个环境因子的方向时用。use when sites should be ordinated with environmental arrows on the same rda axes.\ntodo-text\nrda biplot ordination environment\nsample 样方编号（字符串）；data.csv 与 data_env.csv 用它对齐 group 生境分组（字符串，只在 data.csv） taxon 物种名（字符串） abundance 该样方该物种的个体计数（非负整数） ph 土壤 ph（数值，data_env.csv） moisture 土壤含水量，百分数（数值，data_env.csv） nitrogen 全氮，g/kg（数值，data_env.csv） temp 生长季均温，摄氏度（数值，data_env.csv） organicc 有机碳，百分数（数值，data_env.csv）"
     },
     {
       "title": "STAMP difference bar",
@@ -8821,7 +8895,7 @@
         "p": "双侧 p 值（数值）"
       },
       "when_to_use": "展示两组微生物类群平均比例差及置信区间时用。",
-      "customize": "p_cut 决定实心点的显著性；show_ci 开关误差线；label_p 开关右侧 p 值。方向颜色在 cols。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "microbiome",
       "task_zh": "微生物/生态",
@@ -8844,9 +8918,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "140",
-        "height_mm": "120",
-        "label": "140 × 120 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -8880,8 +8955,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/stamp-diffbar/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/stamp-diffbar/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/microbiome-ecology/stamp-diffbar",
-      "code_text": "# STAMP-style mean-difference bars with 95% CI.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数 -----------------------------------------------------------------\np_cut <- 0.05\nshow_ci <- TRUE\nlabel_p <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$taxon <- factor(df$taxon, levels = df$taxon[order(df$diff)])\ndf$direction <- ifelse(df$diff >= 0, \"higher in B\", \"higher in A\")\ndf$sig <- df$p < p_cut\ncols <- c(\"higher in A\" = pv_palette(\"categorical\", 3)[3], \"higher in B\" = pv_palette(\"categorical\", 4)[4])\n\np <- ggplot2::ggplot(df, ggplot2::aes(diff, taxon, colour = direction)) +\n  ggplot2::geom_vline(xintercept = 0, linewidth = 0.3, colour = \"black\")\nif (isTRUE(show_ci)) {\n  p <- p + ggplot2::geom_errorbar(\n    ggplot2::aes(xmin = low, xmax = high),\n    orientation = \"y\", width = 0.25, linewidth = 0.3\n  )\n}\np <- p +\n  ggplot2::geom_point(ggplot2::aes(shape = sig), size = 1.6) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::scale_shape_manual(\n    values = c(`TRUE` = 16, `FALSE` = 1),\n    breaks = c(TRUE, FALSE),\n    labels = c(\"yes\", \"no\"),\n    name = sprintf(\"p < %s\", p_cut)\n  ) +\n  ggplot2::labs(x = \"Mean proportion difference (B - A)\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    legend.position = \"bottom\",\n    legend.box = \"horizontal\"\n  )\nif (isTRUE(label_p)) {\n  p <- p + ggplot2::geom_text(\n    ggplot2::aes(x = max(high) + 0.012, label = sprintf(\"%.3f\", p)),\n    colour = \"black\", size = 1.7, hjust = 0, family = viz_sans_family()\n  ) +\n    ggplot2::coord_cartesian(clip = \"off\") +\n    ggplot2::theme(plot.margin = ggplot2::margin(4, 28, 4, 4))\n}\n\npv_save(p, \"figure\", width_mm = 140, height_mm = 120)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "stamp difference bar\nstamp 差异条形\nstamp-diffbar\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n展示两组微生物类群平均比例差及置信区间时用。\np_cut 决定实心点的显著性；show_ci 开关误差线；label_p 开关右侧 p 值。方向颜色在 cols。\nstamp microbiome difference\ntaxon 类群名（字符串） diff 两组平均相对丰度之差，b 减 a（数值） low 95% 置信区间下界（数值） high 95% 置信区间上界（数值） p 双侧 p 值（数值）"
+      "code_text": "# STAMP-style mean-difference bars with 95% CI (house style). Taxa higher in B in red, higher in A\n# in blue (named in the panel corners); filled points have p below p_cut, open points do not;\n# the p value is written at the right. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\np_cut <- 0.05\nshow_ci <- TRUE\nlabel_p <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$taxon <- factor(df$taxon, levels = df$taxon[order(df$diff)])\ndf$direction <- ifelse(df$diff >= 0, \"higher in B\", \"higher in A\")\ndf$sig <- df$p < p_cut\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- c(\"higher in A\" = hp[[\"blue\"]], \"higher in B\" = hp[[\"red\"]])\ndf$fill <- ifelse(df$sig, cols[df$direction], \"white\")\nfootnote <- sprintf(\"Filled points: p < %s. Simulated data for illustration; not biological results\", p_cut)\n\np <- ggplot(df, aes(diff, taxon, colour = direction)) +\n  geom_vline(xintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]])\nif (isTRUE(show_ci)) {\n  p <- p + geom_errorbar(aes(xmin = low, xmax = high), orientation = \"y\", width = 0.3,\n                         linewidth = pv_house_lw(\"main\"))\n}\np <- p +\n  geom_point(aes(fill = I(fill)), shape = 21, size = 1.8, stroke = 0.5) +\n  annotate(\"text\", x = -Inf, y = Inf, hjust = -0.05, vjust = -0.6, label = \"Higher in A\",\n           colour = hp[[\"blue\"]], size = pv_pt2size(7), family = house_family()) +\n  annotate(\"text\", x = Inf, y = Inf, hjust = 1.05, vjust = -0.6, label = \"Higher in B\",\n           colour = hp[[\"red\"]], size = pv_pt2size(7), family = house_family()) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  coord_cartesian(xlim = range(c(df$low, df$high)), clip = \"off\") +\n  labs(x = \"Mean proportion difference (B - A)\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(4, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\nif (isTRUE(label_p)) {\n  x_p <- max(df$high) + 0.1 * diff(range(c(df$low, df$high)))   # just right of the panel\n  p <- p +\n    geom_text(aes(x = x_p, label = ifelse(p < 0.001, \"<0.001\", sprintf(\"%.3f\", p))), colour = \"#1A1A1A\",\n              size = pv_pt2size(7), hjust = 0, family = house_family()) +\n    annotate(\"text\", x = x_p, y = Inf, hjust = 0, vjust = -0.6, label = \"p\",\n             colour = \"#1A1A1A\", size = pv_pt2size(7), family = house_family()) +\n    theme(plot.margin = margin(4, 10, 1, 1, \"mm\"))\n}\n\npv_save_house(p, \"figure\", cells = \"2x2\", bump = 0)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "stamp difference bar\nstamp 差异条形\nstamp-diffbar\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n展示两组微生物类群平均比例差及置信区间时用。\ntodo-text\nstamp microbiome difference\ntaxon 类群名（字符串） diff 两组平均相对丰度之差，b 减 a（数值） low 95% 置信区间下界（数值） high 95% 置信区间上界（数值） p 双侧 p 值（数值）"
     },
     {
       "title": "Taxa bar with tree",
@@ -8898,7 +8973,7 @@
         "ggplot2",
         "vegan",
         "ape",
-        "cowplot"
+        "patchwork"
       ],
       "data_columns": {
         "sample": "样品编号（字符串）",
@@ -8908,7 +8983,7 @@
         "tip": "与样品对应的树尖名（字符串）"
       },
       "when_to_use": "按样品聚类树的顺序展示类群相对丰度时用。",
-      "customize": "relative 为 TRUE 时按样品归一化；top_n 保留平均丰度最高的类群，其余并入 Other；group_order 控制分组颜色。",
+      "customize": "TODO-TEXT",
       "lang": "R",
       "task": "microbiome",
       "task_zh": "微生物/生态",
@@ -8931,9 +9006,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "183",
-        "height_mm": "120",
-        "label": "183 × 120 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -8967,8 +9043,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/taxa-tree-bar/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/microbiome-ecology/taxa-tree-bar/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/microbiome-ecology/taxa-tree-bar",
-      "code_text": "# Sample clustering tree beside a stacked taxon bar, ordered by the tree.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数 -----------------------------------------------------------------\nrelative <- TRUE\ntop_n <- 12\ngroup_order <- c(\"Gut\", \"Oral\", \"Skin\", \"Soil\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_order)\n\nwide <- reshape(df[, c(\"sample\", \"taxon\", \"abundance\")], idvar = \"sample\", timevar = \"taxon\", direction = \"wide\")\nrownames(wide) <- wide$sample\nwide$sample <- NULL\nnames(wide) <- sub(\"^abundance\\\\.\", \"\", names(wide))\nmat <- as.matrix(wide)\nif (isTRUE(relative)) {\n  mat <- mat / rowSums(mat)\n}\n# Bray-Curtis clustering\nbc <- vegan::vegdist(mat, method = \"bray\")\nhc <- stats::hclust(bc, method = \"average\")\ntr <- ape::as.phylo(hc)\n\ngrp <- unique(df[, c(\"sample\", \"group\")])\ngrp <- grp[match(tr$tip.label, grp$sample), ]\ngroups <- split(grp$sample, grp$group)\ntr <- ggtree::groupOTU(tr, groups, group_name = \"group\")\ngcols <- setNames(pv_palette(\"categorical\", length(group_order)), group_order)\n\np_tree <- ggtree::ggtree(tr, ggplot2::aes(colour = group), linewidth = 0.35) +\n  ggplot2::scale_colour_manual(values = gcols, name = \"Group\", na.value = \"grey30\") +\n  theme_viz() +\n  ggplot2::theme(\n    axis.line = ggplot2::element_blank(),\n    axis.text = ggplot2::element_blank(),\n    axis.ticks = ggplot2::element_blank(),\n    legend.position = \"bottom\",\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA)\n  )\n\ntip_order <- p_tree$data$label[p_tree$data$isTip][order(p_tree$data$y[p_tree$data$isTip])]\n# ggtree y order\nyd <- p_tree$data[p_tree$data$isTip, c(\"label\", \"y\")]\nyd <- yd[order(yd$y), , drop = FALSE]\n\nmean_ab <- tapply(as.vector(mat), rep(colnames(mat), each = nrow(mat)), mean)\nrank_taxa <- names(sort(mean_ab, decreasing = TRUE))\n# More than six taxa would pull in #fbee61 as a wide stack. Fold the rest into Other.\nn_keep <- min(6L, as.integer(top_n), length(rank_taxa))\nkeep <- rank_taxa[seq_len(n_keep)]\nlong <- as.data.frame(as.table(mat), stringsAsFactors = FALSE)\nnames(long) <- c(\"sample\", \"taxon\", \"abundance\")\nlong$taxon <- ifelse(long$taxon %in% keep, as.character(long$taxon), \"Other\")\nlong <- stats::aggregate(abundance ~ sample + taxon, long, sum)\nlong$sample <- factor(long$sample, levels = yd$label)\ntax_levels <- c(keep, if (\"Other\" %in% long$taxon) \"Other\")\nlong$taxon <- factor(long$taxon, levels = tax_levels)\nnamed <- setdiff(as.character(tax_levels), \"Other\")\ntcols <- setNames(pv_palette(\"categorical\", length(named)), named)\nif (\"Other\" %in% tax_levels) tcols[\"Other\"] <- \"#E0E0E0\"\n\nlong <- merge(long, yd, by.x = \"sample\", by.y = \"label\")\np_bar <- ggplot2::ggplot(long, ggplot2::aes(abundance, y, fill = taxon)) +\n  ggplot2::geom_col(\n    width = 0.8, orientation = \"y\", colour = NA,\n    position = ggplot2::position_stack(reverse = TRUE)\n  ) +\n  ggplot2::scale_fill_manual(values = tcols, name = \"Taxon\") +\n  ggplot2::scale_y_continuous(limits = range(yd$y) + c(-0.5, 0.5), expand = c(0, 0)) +\n  ggplot2::labs(x = if (isTRUE(relative)) \"Relative abundance\" else \"Abundance\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.y = ggplot2::element_blank(),\n    axis.ticks.y = ggplot2::element_blank(),\n    axis.line.y = ggplot2::element_blank(),\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    legend.position = \"bottom\",\n    legend.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    legend.box.background = ggplot2::element_rect(fill = \"white\", colour = NA)\n  ) +\n  ggplot2::guides(fill = ggplot2::guide_legend(ncol = 3, byrow = TRUE))\n\np_tree <- p_tree + ggplot2::theme(\n  legend.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n  legend.box.background = ggplot2::element_rect(fill = \"white\", colour = NA)\n)\n\ngrab_legend <- function(plot) {\n  g <- ggplot2::ggplotGrob(plot)\n  k <- which(vapply(g$grobs, function(x) identical(x$name, \"guide-box\"), logical(1)))\n  if (!length(k)) return(ggplot2::zeroGrob())\n  g$grobs[[k[[1]]]]\n}\nleg_grp <- grab_legend(p_tree)\nleg_tax <- grab_legend(p_bar)\np_tree <- p_tree + ggplot2::theme(legend.position = \"none\")\np_bar <- p_bar + ggplot2::theme(legend.position = \"none\")\nbody <- cowplot::plot_grid(p_tree, p_bar, nrow = 1, align = \"h\", axis = \"tb\", rel_widths = c(0.62, 1.38))\nlegs <- cowplot::plot_grid(leg_grp, leg_tax, ncol = 1, rel_heights = c(0.38, 0.62)) +\n  ggplot2::theme(plot.background = ggplot2::element_rect(fill = \"white\", colour = NA))\np <- cowplot::plot_grid(body, legs, ncol = 1, rel_heights = c(1, 0.28)) +\n  ggplot2::theme(plot.background = ggplot2::element_rect(fill = \"white\", colour = NA))\npv_save(p, \"figure\", width_mm = 183, height_mm = 120)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "taxa bar with tree\n带树的物种组成柱\ntaxa-tree-bar\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n按样品聚类树的顺序展示类群相对丰度时用。\nrelative 为 true 时按样品归一化；top_n 保留平均丰度最高的类群，其余并入 other；group_order 控制分组颜色。\nmicrobiome composition dendrogram\nsample 样品编号（字符串） group 样品分组（字符串） taxon 类群名（字符串） abundance 计数或丰度（数值） tip 与样品对应的树尖名（字符串）"
+      "code_text": "# Sample clustering tree beside a stacked taxon bar, ordered by the tree (house style).\n# Tree branches carry the sample group; bars use the first six house colours plus grey Other.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nlibrary(patchwork)\n\n# 可调参数 -----------------------------------------------------------------\nrelative <- TRUE\ntop_n <- 12\ngroup_order <- c(\"Gut\", \"Oral\", \"Skin\", \"Soil\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_order)\n\nwide <- reshape(df[, c(\"sample\", \"taxon\", \"abundance\")], idvar = \"sample\", timevar = \"taxon\", direction = \"wide\")\nrownames(wide) <- wide$sample\nwide$sample <- NULL\nnames(wide) <- sub(\"^abundance\\\\.\", \"\", names(wide))\nmat <- as.matrix(wide)\nif (isTRUE(relative)) {\n  mat <- mat / rowSums(mat)\n}\n# Bray-Curtis clustering\nbc <- vegan::vegdist(mat, method = \"bray\")\nhc <- stats::hclust(bc, method = \"average\")\ntr <- ape::as.phylo(hc)\n\ngrp <- unique(df[, c(\"sample\", \"group\")])\ngrp <- grp[match(tr$tip.label, grp$sample), ]\ngroups <- split(grp$sample, grp$group)\ntr <- ggtree::groupOTU(tr, groups, group_name = \"group\")\nhp <- pv_palette(\"house\")\ngrey <- pv_palette(\"house_grey\")\nfootnote <- \"Bray-Curtis distance, average linkage.\\nSimulated data for illustration; not biological results\"\n# Groups take the house colours not used by the taxa, so no colour means two things.\ngcols <- setNames(c(hp[c(\"gold\", \"magenta\", \"brown\")], grey[[\"dark\"]])[seq_along(group_order)], group_order)\n\np_tree <- ggtree::ggtree(tr, ggplot2::aes(colour = group), linewidth = pv_house_lw(\"main\")) +\n  ggtree::geom_tiplab(ggplot2::aes(label = label), size = pv_pt2size(7), colour = \"#1A1A1A\",\n                      family = house_family(), offset = 0.01, align = FALSE) +\n  ggplot2::scale_colour_manual(values = gcols, name = \"Group\", na.value = grey[[\"dark\"]],\n                               breaks = group_order) +\n  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.02, 0.18))) +\n  theme_house() +\n  ggplot2::theme(\n    panel.border = ggplot2::element_blank(),\n    axis.line = ggplot2::element_blank(),\n    axis.text.x = ggplot2::element_blank(), axis.text.y = ggplot2::element_blank(),\n    axis.ticks.x = ggplot2::element_blank(), axis.ticks.y = ggplot2::element_blank(),\n    axis.line.x = ggplot2::element_blank(), axis.line.y = ggplot2::element_blank(),\n    axis.title.x = ggplot2::element_blank(), axis.title.y = ggplot2::element_blank()\n  ) +\n  ggplot2::guides(colour = ggplot2::guide_legend(nrow = 1, override.aes = list(linewidth = 1.2)))\n\nyd <- p_tree$data[p_tree$data$isTip, c(\"label\", \"y\")]\nyd <- yd[order(yd$y), , drop = FALSE]\n\nmean_ab <- tapply(as.vector(mat), rep(colnames(mat), each = nrow(mat)), mean)\nrank_taxa <- names(sort(mean_ab, decreasing = TRUE))\n# At most six named taxa (the first six house colours); the rest fold into Other.\nn_keep <- min(6L, as.integer(top_n), length(rank_taxa))\nkeep <- rank_taxa[seq_len(n_keep)]\nlong <- as.data.frame(as.table(mat), stringsAsFactors = FALSE)\nnames(long) <- c(\"sample\", \"taxon\", \"abundance\")\nlong$taxon <- ifelse(long$taxon %in% keep, as.character(long$taxon), \"Other\")\nlong <- stats::aggregate(abundance ~ sample + taxon, long, sum)\ntax_levels <- c(keep, if (\"Other\" %in% long$taxon) \"Other\")\nlong$taxon <- factor(long$taxon, levels = tax_levels)\nnamed <- setdiff(as.character(tax_levels), \"Other\")\ntcols <- setNames(unname(hp[seq_along(named)]), named)\nif (\"Other\" %in% tax_levels) tcols[\"Other\"] <- grey[[\"light\"]]\n\nlong <- merge(long, yd, by.x = \"sample\", by.y = \"label\")\np_bar <- ggplot2::ggplot(long, ggplot2::aes(abundance, y, fill = taxon)) +\n  ggplot2::geom_col(\n    width = 0.8, orientation = \"y\", colour = NA,\n    position = ggplot2::position_stack(reverse = TRUE)\n  ) +\n  ggplot2::scale_fill_manual(values = tcols, name = \"Taxon\") +\n  ggplot2::scale_x_continuous(expand = c(0, 0), breaks = scales::breaks_pretty(n = 3)) +\n  ggplot2::scale_y_continuous(limits = range(yd$y) + c(-0.5, 0.5), expand = c(0, 0)) +\n  ggplot2::labs(x = if (isTRUE(relative)) \"Relative abundance\" else \"Abundance\", y = NULL) +\n  theme_house() +\n  ggplot2::theme(\n    axis.text.y = ggplot2::element_blank(),\n    axis.ticks.y = ggplot2::element_blank(),\n    axis.line.y = ggplot2::element_blank()\n  ) +\n  ggplot2::guides(fill = ggplot2::guide_legend(ncol = 3, byrow = TRUE))\n\np <- (p_tree | p_bar) +\n  patchwork::plot_layout(widths = c(0.8, 1.2), guides = \"collect\") +\n  patchwork::plot_annotation(\n    caption = footnote,\n    theme = ggplot2::theme(\n      text = ggplot2::element_text(family = house_family()),\n      plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                           margin = ggplot2::margin(t = 0.8, unit = \"mm\")),\n      plot.caption.position = \"plot\"\n    )\n  ) &\n  ggplot2::theme(legend.position = \"bottom\", legend.box = \"vertical\",\n                 legend.box.just = \"left\", legend.justification = \"left\",\n                 legend.key.size = ggplot2::unit(3, \"mm\"), legend.margin = ggplot2::margin(0, 0, 0, 0))\npv_save_house(p, \"figure\", cells = \"2x2\", bump = 0)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "taxa bar with tree\n带树的物种组成柱\ntaxa-tree-bar\n\nmicrobiome-ecology\n微生物与生态\nmicrobiome\n微生物/生态\nmicrobiome & ecology\n按样品聚类树的顺序展示类群相对丰度时用。\ntodo-text\nmicrobiome composition dendrogram\nsample 样品编号（字符串） group 样品分组（字符串） taxon 类群名（字符串） abundance 计数或丰度（数值） tip 与样品对应的树尖名（字符串）"
     },
     {
       "title": "Chord diagram",
