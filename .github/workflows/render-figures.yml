@@ -492,7 +492,7 @@ jobs:
 
           assert_staged_allowed() {
             bad=0
-            while IFS= read -r f; do
+            while IFS= read -r -d '' f; do
               [ -n "$f" ] || continue
               case "$f" in
                 figures/*/figure*.png|figures/*/figure*.pdf|figures/*/*/figure*.png|figures/*/*/figure*.pdf)
@@ -509,14 +509,15 @@ jobs:
                   bad=1
                   ;;
               esac
-            done < <(git diff --cached --name-only)
+            done < <(git diff --cached -z --name-only)
             [ "$bad" -eq 0 ]
           }
 
           stage_outputs() {
             # Only the figures selected for this run (their own dirs changed).
+            # git add -A stages modifications, new files and deletions alike.
             FIGFILE="${RUNNER_TEMP:-/tmp}/render-figure-dirs.txt"
-            git add -- README.md catalog.json docs/catalog.json
+            git add -A -- README.md catalog.json docs/catalog.json
             [ -f "$FIGFILE" ] || return 0
             while IFS= read -r dir; do
               [ -n "$dir" ] || continue
@@ -524,15 +525,48 @@ jobs:
                 figures/*/*) ;;
                 *) continue ;;
               esac
-              [ -d "$dir" ] || continue
-              find "$dir" -mindepth 1 -maxdepth 1 -type f \( -name preview.png -o -name 'data*.csv' \) -print0 |
-                xargs -0 -r git add --
               slug="$(sed -nE 's/^slug:[[:space:]]*["'"'"']?([^"'"'"'[:space:]]+)["'"'"']?[[:space:]]*$/\1/p' "$dir/meta.yaml" 2>/dev/null | head -n 1)"
               [ -n "$slug" ] || slug="$(basename "$dir")"
-              if [ -f "docs/previews/${slug}.png" ]; then
-                git add -- "docs/previews/${slug}.png"
-              fi
+              # Tracked (including deleted) and untracked outputs of this figure only.
+              git ls-files -z --cached --others --exclude-standard -- \
+                ":(literal)$dir/preview.png" \
+                ":(glob)$(printf '%s' "$dir" | sed 's/[][*?\\]/\\&/g')/data*.csv" \
+                ":(literal)docs/previews/${slug}.png" |
+                xargs -0 -r git --literal-pathspecs add -A --
             done < "$FIGFILE"
+          }
+
+          revert_tolerable_previews() {
+            # Re-rendered previews that differ from the committed file only by rendering
+            # noise (same size, < 0.01 % of pixels, every RGBA channel diff <= 2; or bytes
+            # only) are restored, so the bot does not commit them. New files and real
+            # changes are committed as usual.
+            tol="tools/png_within_tolerance.py"
+            if [ ! -f "$tol" ]; then
+              echo "::notice::$tol not found; committing re-rendered previews without the pixel tolerance check."
+              return 0
+            fi
+            tmp_old="${RUNNER_TEMP:-/tmp}/committed-preview.png"
+            while IFS= read -r -d '' f; do
+              [ -n "$f" ] || continue
+              case "$f" in
+                figures/*/*/preview.png|docs/previews/*.png) ;;
+                *) continue ;;
+              esac
+              git show "HEAD:$f" > "$tmp_old" 2>/dev/null || continue
+              set +e
+              result="$(python3 "$tol" "$tmp_old" "$f")"
+              code=$?
+              set -e
+              if [ "$code" -eq 0 ]; then
+                git checkout -- "$f"
+                echo "::notice file=${f}::not committed, rendering noise only: ${result#within tolerance: }"
+              else
+                echo "commit ${f}: ${result}"
+              fi
+            # Modified tracked files only; deletions and new files are always committed.
+            done < <(git diff -z --name-only --diff-filter=M -- 'figures/*/*/preview.png' 'docs/previews/*.png')
+            rm -f "$tmp_old"
           }
 
           refuse_fork() {
@@ -546,8 +580,9 @@ jobs:
           commit_outputs() {
             refuse_fork || return 1
             refuse_unsafe_ref
+            revert_tolerable_previews
             stage_outputs
-            if printf '%s\n' "$(git diff --cached --name-only)" | grep -E '^figures/.*/figure[^/]*\.(png|pdf)$'; then
+            if git diff --cached -z --name-only | grep -zqE '^figures/.*/figure[^/]*\.(png|pdf)$'; then
               echo "::error::Refusing to commit figure.png or figure.pdf"
               return 1
             fi
