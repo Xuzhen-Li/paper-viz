@@ -37,7 +37,7 @@ df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 genome_order <- unique(df$genome)
 df$genome <- factor(df$genome, levels = genome_order)
 df$te_class <- factor(df$te_class, levels = class_order)
-cols <- stats::setNames(c(hp[["blue"]], hp[["orange"]], hp[["green"]], hp[["purple"]], hp[["gold"]])[seq_along(class_order)],
+cols <- stats::setNames(c(hp[["blue"]], pv_palette("chrom12")[[12]], hp[["green"]], hp[["purple"]], hp[["gold"]])[seq_along(class_order)],
                         class_order)
 lab_cols <- text_col(cols)
 df$percent <- df$fraction * 100

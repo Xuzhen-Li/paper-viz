@@ -40,7 +40,7 @@ libraries_keep <- c("High-het", "Low-het")
 df <- df[df$library %in% libraries_keep, , drop = FALSE]
 df <- df[df$multiplicity <= df$lambda * x_coverage_mult, , drop = FALSE]
 df$library <- factor(df$library, levels = libraries_keep)
-lib_cols <- stats::setNames(c(hp[["blue"]], hp[["orange"]]), libraries_keep)
+lib_cols <- stats::setNames(c(hp[["blue"]], pv_palette("chrom12")[[12]]), libraries_keep)
 lab_cols <- text_col(lib_cols)
 
 one_panel <- function(d, first) {
@@ -57,14 +57,14 @@ one_panel <- function(d, first) {
   }
   if (isTRUE(label_peaks)) {
     # peak name on a short vertical leader above the curve
-    pk$y_lab <- pk$count + ymax * 0.17
-    p <- p + geom_segment(data = pk, aes(xend = multiplicity, y = count + ymax * 0.03, yend = y_lab - ymax * 0.02),
+    pk$y_lab <- pk$count + ymax * 0.2
+    p <- p + geom_segment(data = pk, aes(xend = multiplicity, y = count + ymax * 0.03, yend = y_lab - ymax * 0.03),
                           linewidth = pv_house_lw("ref"), colour = grey[["dark"]]) +
       geom_text(data = pk, aes(y = y_lab, label = peak), size = pv_pt2size(7), family = house_family(),
                 colour = "#1A1A1A", vjust = 0)
   }
   # library name + homozygous peak coverage (in-panel stat), top right
-  p <- p + annotate("text", x = Inf, y = Inf, hjust = 1.05, vjust = 1.3, lineheight = 0.95,
+  p <- p + annotate("text", x = Inf, y = Inf, hjust = 1.07, vjust = 1.45, lineheight = 0.95,
                     label = sprintf("%s\n2n peak %dx", lib, round(lam)), colour = lab_cols[[lib]],
                     size = pv_pt2size(7), family = house_family())
   if (isTRUE(show_trunc_note)) {

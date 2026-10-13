@@ -109,7 +109,7 @@ key <- c(if (isTRUE(show_heatmap)) sprintf("Heat ring: density\n(%.0f-%.0f)", mi
          if (isTRUE(show_links) && nrow(links)) sprintf("%d links", nrow(links)))
 key_col <- c(if (isTRUE(show_heatmap)) "#1A1A1A", if (isTRUE(show_bars)) text_col(c(b = bar_col))[[1]],
              if (isTRUE(show_links) && nrow(links)) text_col(c(l = link_col))[[1]])
-key_y <- 1 - c(0, cumsum(ifelse(grepl("\n", key), 0.075, 0.042)))[seq_along(key)]
+key_y <- 0.985 - c(0, cumsum(ifelse(grepl("\n", key), 0.075, 0.042)))[seq_along(key)]
 
 p <- ggplotify::as.ggplot(draw) +
   annotate("text", x = 0, y = key_y, label = key, colour = key_col, hjust = 0, vjust = 1, lineheight = 0.9,

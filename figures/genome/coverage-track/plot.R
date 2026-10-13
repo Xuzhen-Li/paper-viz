@@ -87,7 +87,7 @@ if (isTRUE(show_cnv)) {
   panels[[length(panels) + 1L]] <- ggplot(seg) +
     geom_rect(aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = cn, fill = fill)) +
     geom_hline(yintercept = 2, linetype = "22", linewidth = pv_house_lw("ref"), colour = grey[["dark"]]) +
-    geom_text(data = gain_loss, aes(x = (xmin + xmax) / 2, y = cn + 0.15, label = lab), vjust = 0,
+    geom_text(data = gain_loss, aes(x = (xmin + xmax) / 2, y = cn + 0.25, label = lab), vjust = 0,
               colour = "#1A1A1A", size = pv_pt2size(7), family = house_family()) +
     annotate("text", x = xr[1] + 0.01 * diff(xr), y = Inf, hjust = 0, vjust = 1.3, label = "Copy number",
              colour = "#1A1A1A", size = pv_pt2size(7), family = house_family()) +

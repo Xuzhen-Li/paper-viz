@@ -33,7 +33,7 @@ spread <- function(y, gap) {
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df <- df[df$sv_type %in% sv_keep, , drop = FALSE]
 df$sv_type <- factor(df$sv_type, levels = sv_keep)
-cols <- stats::setNames(c(hp[["blue"]], hp[["orange"]], hp[["green"]], hp[["purple"]])[seq_along(sv_keep)], sv_keep)
+cols <- stats::setNames(c(hp[["blue"]], pv_palette("chrom12")[[12]], hp[["green"]], hp[["purple"]])[seq_along(sv_keep)], sv_keep)
 lab_cols <- text_col(cols)
 
 fmt_bp <- function(b) ifelse(b >= 1e6, sprintf("%.1f Mb", b / 1e6), ifelse(b >= 1e3, sprintf("%.1f kb", b / 1e3),

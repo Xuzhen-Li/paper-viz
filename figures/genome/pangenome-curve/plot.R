@@ -74,10 +74,11 @@ nmax <- max(long$n_genomes)
 
 p_acc <- ggplot(long, aes(n_genomes, families / 1e3, colour = curve)) +
   geom_line(linewidth = pv_house_lw("main")) +
-  geom_text(data = ends, aes(x = nmax * 1.02, label = curve), hjust = 0, size = pv_pt2size(7),
+  geom_text(data = ends, aes(x = nmax * 1.06, label = curve), hjust = 0, size = pv_pt2size(7),
             family = house_family(), show.legend = FALSE) +
   scale_colour_manual(values = text_col(curve_cols), guide = "none") +
   scale_x_continuous(expand = expansion(mult = c(0.02, 0.22))) +
+  scale_y_continuous(expand = expansion(mult = c(0.05, 0.1))) +
   labs(x = "Genomes added", y = "Gene families (k)") +
   theme_house()
 if (isTRUE(show_heaps)) {

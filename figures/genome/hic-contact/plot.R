@@ -47,9 +47,9 @@ p <- ggplot(df, aes(bin_j, bin_i, fill = fill)) +
   scale_fill_gradientn(colours = pv_palette("house_warm"), name = leg) +
   scale_x_continuous(breaks = mids, labels = chr_names, expand = c(0, 0), position = "top") +
   scale_y_reverse(breaks = mids, labels = chr_names, expand = c(0, 0)) +
-  coord_fixed(clip = "off") +
-  annotate("text", x = nb * 0.03, y = nb * 0.97, label = sprintf("cis contacts %.0f%%", 100 * cis),
-           hjust = 0, vjust = 0, colour = "#1A1A1A", size = pv_pt2size(7), family = house_family()) +
+  coord_fixed(xlim = c(0.5, nb + 0.5), ylim = c(0.5, nb + 0.5), expand = FALSE, clip = "off") +
+  annotate("text", x = 0.5, y = nb + 0.5 + nb * 0.035, label = sprintf("cis contacts %.0f%%", 100 * cis),
+           hjust = 0, vjust = 1, colour = "#1A1A1A", size = pv_pt2size(7), family = house_family()) +
   labs(x = NULL, y = NULL, caption = footnote) +
   theme_house() +
   theme(legend.position = "bottom", legend.justification = "right",
