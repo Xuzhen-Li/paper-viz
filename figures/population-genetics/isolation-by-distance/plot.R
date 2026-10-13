@@ -1,41 +1,74 @@
-# Isolation by distance. Reads data.csv.
-source("../../../styles/r/theme_viz.R")
+# Isolation by distance (house style): linearised FST against geographic distance, one regression line
+# per region; region names stacked top-left, steepest
+# line first. Regions use the geo palette (north ->
+# south). Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数 -----------------------------------------------------------------
 show_regression <- TRUE
 by_region <- TRUE
 regions_show <- c("North", "Central", "South")
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# label text: the group colour if it reaches 3:1 contrast on white (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  # below 3:1, use the darker step of the same hue where one exists in the house palettes
+  # (orange -> chrom12 orange #E17927, 3.01:1); otherwise #1A1A1A
+  darker <- c("#E17D52" = "#E17927", "#F77E12" = "#E17927")
+  up <- toupper(hex)
+  stats::setNames(ifelse(ratio >= 3, hex, ifelse(up %in% names(darker), darker[up], "#1A1A1A")),
+                  names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
+# fixed house colour per population (same in every B2 figure)
+pop_cols <- c("Wild N" = hp[["blue"]], "Wild S" = hp[["sky"]], "Landrace E" = hp[["green"]],
+              "Landrace W" = hp[["gold"]], "Cultivar A" = hp[["red"]], "Cultivar B" = hp[["purple"]])
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df <- df[df$region %in% regions_show, ]
 df$region <- factor(df$region, levels = regions_show)
-pal <- pv_palette("categorical", length(regions_show))
-names(pal) <- regions_show
+geo <- pv_palette("geo")
+# spread the regions over the geo stops (no interpolated colours)
+cols <- stats::setNames(geo[round(seq(2, length(geo), length.out = length(regions_show)))], regions_show)
 
-p <- ggplot2::ggplot(df, ggplot2::aes(dist_km, fst_linear, colour = region)) +
-  ggplot2::geom_point(size = 1.8, alpha = 0.75)
+p <- ggplot(df, aes(dist_km, fst_linear)) +
+  geom_point(aes(fill = region), shape = HOUSE_POINT$shape, size = 0.9, stroke = HOUSE_POINT$stroke,
+             colour = HOUSE_POINT$colour, alpha = 0.9)
 if (isTRUE(show_regression) && isTRUE(by_region)) {
-  p <- p + ggplot2::geom_smooth(
-    method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.45
-  )
-} else if (isTRUE(show_regression)) {
-  p <- p + ggplot2::geom_smooth(
-    method = "lm", formula = y ~ x, se = TRUE, linewidth = 0.5,
-    colour = "black", inherit.aes = FALSE,
-    ggplot2::aes(dist_km, fst_linear)
-  )
+  p <- p + geom_smooth(aes(colour = region), method = "lm", formula = y ~ x, se = FALSE,
+                       linewidth = pv_house_lw("main"))
+} else {
+  if (isTRUE(show_regression)) {
+    p <- p + geom_smooth(method = "lm", formula = y ~ x, se = TRUE, linewidth = pv_house_lw("main"),
+                         colour = grey[["dark"]], fill = grey[["ci"]])
+  }
 }
+# names stacked in the empty top-left corner, steepest region first
+slope <- vapply(split(df, df$region, drop = TRUE), function(d) stats::coef(stats::lm(fst_linear ~ dist_km, d))[[2]], 0)
+lab <- names(sort(slope, decreasing = TRUE))
+y_lab <- max(df$fst_linear) * (1.1 - 0.09 * (seq_along(lab) - 1))
 p <- p +
-  ggplot2::scale_colour_manual(values = pal, name = "Region") +
-  ggplot2::labs(
-    x = "Geographic distance (km)",
-    y = expression(italic(F)[ST] / (1 - italic(F)[ST]))
-  ) +
-  theme_viz(base_size = 7) +
-  ggplot2::theme(
-    legend.key = ggplot2::element_blank(),
-    legend.position = "bottom"
-  )
+  annotate("text", x = -Inf, y = y_lab, label = lab, hjust = -0.1, vjust = 1,
+           colour = text_col(cols)[lab], size = pv_pt2size(7), family = house_family()) +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_colour_manual(values = cols, guide = "none") +
+  labs(x = "Geographic distance (km)", y = "FST / (1 - FST)",
+       caption = footnote) +
+  theme_house() + theme(plot.margin = margin(1, 1.5, 1, 1, "mm")) + caption_theme
 
-pv_save(p, "figure", width_mm = 85, height_mm = 60)
+pv_save_house(p, "figure", cells = "1x1")
 message("wrote preview.png")

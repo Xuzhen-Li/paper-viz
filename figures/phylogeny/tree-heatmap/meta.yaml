@@ -1,21 +1,23 @@
-title: Tree with heatmap
-title_zh: 树加热图或条形注释
-slug: tree-heatmap
-category: phylogeny
+title: 'Tree with heatmap'
+title_zh: '树加热图或条形注释'
+slug: 'tree-heatmap'
+category: 'phylogeny'
 tags:
-  - phylogeny
-  - heatmap
-  - annotation
+  - 'phylogeny'
+  - 'heatmap'
+  - 'annotation'
 packages:
-  - ggtree
-  - ggplot2
-  - ape
+  - 'ggtree'
+  - 'ggplot2'
+  - 'ape'
 data_columns:
-  tip: 子节点或叶名（字符串）
-  parent: 父节点；性状行留空（字符串）
-  length: 枝长；性状行留空（数值）
-  trait: 性状名；树边行留空（字符串）
-  value: 性状值，已标准化；树边行留空（数值）
-when_to_use: 把系统树和叶节点性状矩阵或单个性状条形对齐展示时用。
-customize: anno_mode 取 heatmap 或 bar；bar_trait 指定条形所用性状；n_clade 控制按树切分的分支着色数。
-lang: R
+  tip: '子节点或叶名（字符串）'
+  parent: '父节点；性状行留空（字符串）'
+  length: '枝长；性状行留空（数值）'
+  trait: '性状名；树边行留空（字符串）'
+  value: '性状值，已标准化；树边行留空（数值）'
+when_to_use: '把系统树和叶节点性状矩阵或单个性状条形对齐展示时用。'
+customize: 'anno_mode 设为 "heatmap" 显示以 0 为对称中心的 12 个性状，或 "bar" 显示由默认值为 "T01" 的 bar_trait 定义的单一性状；n_clade 默认 4，设置通过共表型（cophenetic）距离平均连锁聚类得到的演化支数量。'
+lang: 'R'
+style: 'house'
+cells: '2x3'

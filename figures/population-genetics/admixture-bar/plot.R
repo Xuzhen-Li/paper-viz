@@ -1,11 +1,47 @@
-# ADMIXTURE stacked bars. Reads data.csv.
-source("../../../styles/r/theme_viz.R")
+# ADMIXTURE stacked bars (house style): one row per K, individuals grouped by population and sorted by
+# their main ancestry at sort_k; ancestry components in house colours, row titles K = n on the left,
+# population names under the bars (no legend: components are unnamed model clusters).
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数 -----------------------------------------------------------------
 k_values <- 2:6
 sort_k <- 4
 pop_gap <- 3
 pop_order <- c("Wild N", "Wild S", "Landrace E", "Landrace W", "Cultivar A", "Cultivar B")
+
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# label text: the group colour if it reaches 3:1 contrast on white (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  # below 3:1, use the darker step of the same hue where one exists in the house palettes
+  # (orange -> chrom12 orange #E17927, 3.01:1); otherwise #1A1A1A
+  darker <- c("#E17D52" = "#E17927", "#F77E12" = "#E17927")
+  up <- toupper(hex)
+  stats::setNames(ifelse(ratio >= 3, hex, ifelse(up %in% names(darker), darker[up], "#1A1A1A")),
+                  names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
+# fixed house colour per population (same in every B2 figure)
+pop_cols <- c("Wild N" = hp[["blue"]], "Wild S" = hp[["sky"]], "Landrace E" = hp[["green"]],
+              "Landrace W" = hp[["gold"]], "Cultivar A" = hp[["red"]], "Cultivar B" = hp[["purple"]])
+# populations ordered by geography (mean sampling latitude, north -> south) on the geo palette
+pop_geo <- stats::setNames(pv_palette("geo"),
+                           c("Wild N", "Cultivar A", "Landrace W", "Landrace E", "Cultivar B", "Wild S"))
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 sub <- df[df$k == sort_k, ]
@@ -24,32 +60,30 @@ plot_df <- merge(df[df$k %in% k_values, ], pos[, c("sample", "x")], by = "sample
 plot_df$k_lab <- factor(paste0("K = ", plot_df$k), levels = paste0("K = ", k_values))
 anc_levels <- paste0("A", seq_len(max(k_values)))
 plot_df$ancestry <- factor(plot_df$ancestry, levels = anc_levels)
-pal <- pv_palette("categorical", 6)
-names(pal) <- anc_levels
+pal <- stats::setNames(pv_palette("house", length(anc_levels)), anc_levels)
 
-p <- ggplot2::ggplot(plot_df, ggplot2::aes(x, q, fill = ancestry)) +
-  ggplot2::geom_col(width = 1, colour = NA, linewidth = 0) +
-  ggplot2::facet_grid(k_lab ~ .) +
-  ggplot2::scale_fill_manual(values = pal, name = "Ancestry", drop = TRUE) +
-  ggplot2::scale_x_continuous(
+p <- ggplot(plot_df, aes(x, q, fill = ancestry)) +
+  geom_col(width = 1, colour = NA, linewidth = 0) +
+  facet_grid(k_lab ~ ., switch = "y") +
+  scale_fill_manual(values = pal, guide = "none") +
+  scale_x_continuous(
     breaks = mids$x, labels = as.character(mids$pop),
-    expand = ggplot2::expansion(add = 0.8)
+    expand = expansion(add = 0.8)
   ) +
-  ggplot2::scale_y_continuous(
-    expand = ggplot2::expansion(mult = c(0.06, 0.03)),
-    breaks = c(0, 0.5, 1)
+  scale_y_continuous(
+    expand = expansion(mult = c(0.06, 0.03)),
+    breaks = c(0, 1)
   ) +
-  ggplot2::labs(x = NULL, y = "Ancestry proportion") +
-  theme_viz() +
-  ggplot2::theme(
-    legend.position = "bottom",
-    legend.key = ggplot2::element_blank(),
-    legend.key.size = ggplot2::unit(3.2, "mm"),
-    strip.background = ggplot2::element_blank(),
-    strip.text = ggplot2::element_text(size = 6.5, hjust = 0),
-    panel.spacing.y = ggplot2::unit(4, "mm"),
-    axis.ticks.x = ggplot2::element_blank()
-  )
+  labs(x = NULL, y = "Ancestry proportion", caption = footnote) +
+  theme_house() +
+  theme(
+    strip.background = element_blank(), strip.placement = "outside",
+    strip.text.y.left = element_text(size = 7, angle = 0, hjust = 1),
+    panel.spacing.y = unit(1.5, "mm"),
+    axis.ticks.x = element_blank(),
+    plot.margin = margin(1, 1.5, 1, 1, "mm")
+  ) +
+  caption_theme
 
-pv_save(p, "figure", width_mm = 183, height_mm = 130)
+pv_save_house(p, "figure", cells = "4x2")
 message("wrote preview.png")
