@@ -1,21 +1,23 @@
-title: Protein lollipop
-title_zh: 蛋白突变棒棒糖图
-slug: protein-lollipop
-category: genome
+title: 'Protein lollipop'
+title_zh: '蛋白突变棒棒糖图'
+slug: 'protein-lollipop'
+category: 'genome'
 tags:
-  - lollipop
-  - protein
-  - mutation
-  - genome
+  - 'lollipop'
+  - 'protein'
+  - 'mutation'
+  - 'genome'
 packages:
-  - ggplot2
+  - 'ggplot2'
 data_columns:
-  pos: 突变的氨基酸位置（整数）
-  class: 突变类型（字符串）
-  n: 携带该突变的样本数（整数）
-  domain: 结构域名称，见 data_domains.csv（字符串）
-  start: 结构域起点（整数，氨基酸）
-  end: 结构域终点（整数，氨基酸）
-when_to_use: 把突变位点标在蛋白结构域上、并用高度表示复发次数时用。
-customize: plot.R 顶部 show_domains 控制结构域轨道；class_cols 与 domain_cols 改配色。
-lang: R
+  pos: '突变的氨基酸位置（整数）'
+  class: '突变类型（字符串）'
+  n: '携带该突变的样本数（整数）'
+  domain: '结构域名称，见 data_domains.csv（字符串）'
+  start: '结构域起点（整数，氨基酸）'
+  end: '结构域终点（整数，氨基酸）'
+when_to_use: '把突变位点标在蛋白结构域上、并用高度表示复发次数时用。'
+customize: 'show_domains 在主干下方用一条灰带标注所有结构域；class_levels 设定四种类型且计数图例位于左上角；突变热点标注在针头旁。'
+lang: 'R'
+style: 'house'
+cells: '4x1'

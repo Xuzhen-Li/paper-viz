@@ -1,21 +1,23 @@
-title: Pangenome pie and growth
-title_zh: 泛基因组组成与累积曲线
-slug: pangenome-curve
-category: genome
+title: 'Pangenome pie and growth'
+title_zh: '泛基因组组成与累积曲线'
+slug: 'pangenome-curve'
+category: 'genome'
 tags:
-  - pangenome
-  - core-genome
-  - heaps-law
+  - 'pangenome'
+  - 'core-genome'
+  - 'heaps-law'
 packages:
-  - ggplot2
-  - cowplot
+  - 'ggplot2'
+  - 'patchwork'
 data_columns:
-  compartment: Core、Shell 或 Cloud（data_compartment.csv）
-  n_families: 该区室基因家族数（整数）
-  step: 加入顺序（data_growth.csv，整数）
-  n_genomes: 已加入基因组数（整数）
-  pan: 泛基因组家族数（整数）
-  core: 核心基因组家族数（整数）
-when_to_use: 概括植物泛基因组的 core/shell/cloud 组成，并看 pan 与 core 随基因组数的饱和时用。
-customize: show_pie、show_accumulation、show_heaps 开关饼图、累积曲线和 Heaps 拟合；compartment_order 改区室顺序。
-lang: R
+  compartment: 'Core、Shell 或 Cloud（data_compartment.csv）'
+  n_families: '该区室基因家族数（整数）'
+  step: '加入顺序（data_growth.csv，整数）'
+  n_genomes: '已加入基因组数（整数）'
+  pan: '泛基因组家族数（整数）'
+  core: '核心基因组家族数（整数）'
+when_to_use: '概括植物泛基因组的 core/shell/cloud 组成，并看 pan 与 core 随基因组数的饱和时用。'
+customize: 'show_pie 控制饼图在扇区顺时针写明名称和占比；show_accumulation 在线端写名称且 Y 轴单位为千；show_heaps 画拟合虚线并注记 alpha 值；compartment_order 设定隔室顺序。'
+lang: 'R'
+style: 'house'
+cells: '2x1'

@@ -1,19 +1,23 @@
-title: Circos plot
-title_zh: 基因组圈图
-slug: circos
-category: genome
+title: 'Circos plot'
+title_zh: '基因组圈图'
+slug: 'circos'
+category: 'genome'
 tags:
-  - circos
-  - genome
-  - synteny
+  - 'circos'
+  - 'genome'
+  - 'synteny'
 packages:
-  - circlize
+  - 'circlize'
+  - 'ggplot2'
+  - 'ggplotify'
 data_columns:
-  chr: 染色体名（字符串）
-  start: 区间起点，bp（整数）
-  end: 区间终点，bp（整数）
-  value: 密度或柱高；连线行留空（数值）
-  link_to: 连线终点，格式 ChrN:start-end；密度行留空（字符串）
-when_to_use: 在一张圈图里同时看染色体密度和区间之间的连线时用。
-customize: show_heatmap、show_bars、show_links 分别开关热图环、柱环和连线带；link_alpha 调连线透明度。
-lang: R
+  chr: '染色体名（字符串）'
+  start: '区间起点，bp（整数）'
+  end: '区间终点，bp（整数）'
+  value: '密度或柱高；连线行留空（数值）'
+  link_to: '连线终点，格式 ChrN:start-end；密度行留空（字符串）'
+when_to_use: '在一张圈图里同时看染色体密度和区间之间的连线时用。'
+customize: 'show_heatmap 用 house_warm 颜色画密度环；show_bars 画蓝色密度柱；show_links 画紫色条带；link_alpha 调整条带透明度；左上角显示环形图例和条带计数，染色体名称朝内。'
+lang: 'R'
+style: 'house'
+cells: '2x2'

@@ -1,102 +1,105 @@
-# Stacked locus tracks: depth, ATAC, RNA, and copy-number segments.
-source("../../../styles/r/theme_viz.R")
+# Stacked locus tracks (house style): depth, ATAC, RNA and copy-number segments, track names inside the
+# panels, CN written on each non-diploid segment. Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+library(patchwork)
 
+# 可调参数 -----------------------------------------------------------------
 show_depth <- TRUE
 show_atac <- TRUE
 show_rna <- TRUE
 show_cnv <- TRUE
 
+set.seed(1)   # fixed RNG state, so the figure never depends on the session
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# orange marks/labels use the darker chrom12 step of the same hue (#E17927, 3.01:1 on white)
+hp[["orange"]] <- pv_palette("chrom12")[[8]]
+# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$mb <- df$pos / 1e6
+xr <- range(df$mb)
+track_cols <- c(Depth = hp[["blue"]], ATAC = hp[["purple"]], RNA = hp[["green"]])
 
 track_theme <- function(bottom = FALSE) {
-  th <- theme_viz() + ggplot2::theme(
-    plot.margin = ggplot2::margin(1, 6, 0, 2),
-    axis.title.y = ggplot2::element_text(size = 6)
-  )
-  if (!bottom) {
-    th <- th + ggplot2::theme(
-      axis.title.x = ggplot2::element_blank(),
-      axis.text.x = ggplot2::element_blank(),
-      axis.ticks.x = ggplot2::element_blank()
-    )
-  }
+  th <- theme_house() + theme(plot.margin = margin(0.6, 1.5, 0.6, 1, "mm"))
+  if (!bottom) th <- th + theme(axis.title.x = element_blank(), axis.text.x = element_blank())
   th
 }
+x_scale <- list(scale_x_continuous(expand = c(0, 0)), coord_cartesian(xlim = xr))
 
-panels <- list()
-heights <- numeric()
-track_pal <- pv_palette("categorical", 6)
+signal_panel <- function(trk, ylab, stat, bottom) {
+  sub <- df[df$track == trk, , drop = FALSE]
+  ggplot(sub, aes(mb, value)) +
+    geom_area(fill = track_cols[[trk]], alpha = 0.35, colour = NA) +
+    geom_line(colour = track_cols[[trk]], linewidth = pv_house_lw("minor")) +
+    annotate("text", x = xr[1] + 0.01 * diff(xr), y = Inf, hjust = 0, vjust = 1.3,
+             label = sprintf("%s  %s", trk, stat(sub$value)), colour = text_col(track_cols)[[trk]],
+             size = pv_pt2size(7), family = house_family()) +
+    x_scale + scale_y_continuous(expand = expansion(mult = c(0, 0.35))) +
+    labs(x = "Position on Chr5 (Mb)", y = ylab) + track_theme(bottom)
+}
 
+panels <- list(); heights <- numeric()
 if (isTRUE(show_depth)) {
-  sub <- df[df$track == "Depth", , drop = FALSE]
-  panels[[length(panels) + 1L]] <- ggplot2::ggplot(sub, ggplot2::aes(mb, value)) +
-    ggplot2::geom_area(
-      fill = grDevices::adjustcolor(track_pal[1], alpha.f = 0.45),
-      colour = track_pal[1], linewidth = 0.25
-    ) +
-    ggplot2::labs(x = NULL, y = "Depth") +
-    track_theme(FALSE)
+  panels[[length(panels) + 1L]] <- signal_panel("Depth", "Depth (x)", function(v) sprintf("(mean %.0fx)", mean(v)),
+                                                !isTRUE(show_atac) && !isTRUE(show_rna) && !isTRUE(show_cnv))
   heights <- c(heights, 1)
 }
 if (isTRUE(show_atac)) {
-  sub <- df[df$track == "ATAC", , drop = FALSE]
-  panels[[length(panels) + 1L]] <- ggplot2::ggplot(sub, ggplot2::aes(mb, value)) +
-    ggplot2::geom_area(
-      fill = grDevices::adjustcolor(track_pal[6], alpha.f = 0.45),
-      colour = track_pal[6], linewidth = 0.25
-    ) +
-    ggplot2::labs(x = NULL, y = "ATAC") +
-    track_theme(FALSE)
-  heights <- c(heights, 0.9)
+  panels[[length(panels) + 1L]] <- signal_panel("ATAC", "Signal", function(v) sprintf("(max %.0f)", max(v)),
+                                                !isTRUE(show_rna) && !isTRUE(show_cnv))
+  heights <- c(heights, 1)
 }
 if (isTRUE(show_rna)) {
-  sub <- df[df$track == "RNA", , drop = FALSE]
-  panels[[length(panels) + 1L]] <- ggplot2::ggplot(sub, ggplot2::aes(mb, value)) +
-    ggplot2::geom_area(
-      fill = grDevices::adjustcolor(track_pal[3], alpha.f = 0.45),
-      colour = track_pal[3], linewidth = 0.25
-    ) +
-    ggplot2::labs(x = NULL, y = "RNA") +
-    track_theme(!isTRUE(show_cnv))
-  heights <- c(heights, 0.9)
+  panels[[length(panels) + 1L]] <- signal_panel("RNA", "Signal", function(v) sprintf("(max %.0f)", max(v)),
+                                                !isTRUE(show_cnv))
+  heights <- c(heights, 1)
 }
 if (isTRUE(show_cnv)) {
   sub <- df[df$track == "CNV", , drop = FALSE]
   sub <- sub[order(sub$mb), , drop = FALSE]
   runs <- rle(sub$value)
-  end_ix <- cumsum(runs$lengths)
-  start_ix <- end_ix - runs$lengths + 1L
+  end_ix <- cumsum(runs$lengths); start_ix <- end_ix - runs$lengths + 1L
   half <- diff(sub$mb)[1] / 2
-  seg <- data.frame(
-    xmin = sub$mb[start_ix] - half,
-    xmax = sub$mb[end_ix] + half,
-    cn = factor(runs$values)
-  )
-  cn_pal <- pv_palette("categorical", 8)
-  cn_all <- c("0" = cn_pal[3], "1" = cn_pal[1], "2" = "#E0E0E0", "3" = cn_pal[6], "4" = cn_pal[4])
-  cn_cols <- cn_all[levels(seg$cn)]
-  panels[[length(panels) + 1L]] <- ggplot2::ggplot(seg, ggplot2::aes(fill = cn)) +
-    ggplot2::geom_rect(ggplot2::aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = as.numeric(as.character(cn)))) +
-    ggplot2::geom_hline(yintercept = 2, linetype = "dashed", linewidth = 0.25) +
-    ggplot2::scale_fill_manual(values = cn_cols, name = "CN", drop = TRUE) +
-    ggplot2::scale_y_continuous(breaks = 0:4, limits = c(0, 4.4)) +
-    ggplot2::labs(x = "Position on Chr5 (Mb)", y = "Copy number") +
-    track_theme(TRUE) +
-    ggplot2::theme(
-      legend.key.size = ggplot2::unit(2.6, "mm"),
-      legend.position = "bottom"
-    )
-  heights <- c(heights, 1.25)
+  seg <- data.frame(xmin = sub$mb[start_ix] - half, xmax = sub$mb[end_ix] + half, cn = runs$values)
+  cn_all <- c("0" = hp[["red"]], "1" = hp[["orange"]], "2" = grey[["light"]], "3" = hp[["sky"]], "4" = hp[["blue"]])
+  seg$fill <- cn_all[as.character(seg$cn)]
+  gain_loss <- seg[seg$cn != 2, ]
+  gain_loss$lab <- ifelse(gain_loss$cn < 2, sprintf("loss CN %d", gain_loss$cn), sprintf("gain CN %d", gain_loss$cn))
+  panels[[length(panels) + 1L]] <- ggplot(seg) +
+    geom_rect(aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = cn, fill = fill)) +
+    geom_hline(yintercept = 2, linetype = "22", linewidth = pv_house_lw("ref"), colour = grey[["dark"]]) +
+    geom_text(data = gain_loss, aes(x = (xmin + xmax) / 2, y = cn + 0.25, label = lab), vjust = 0,
+              colour = "#1A1A1A", size = pv_pt2size(7), family = house_family()) +
+    annotate("text", x = xr[1] + 0.01 * diff(xr), y = Inf, hjust = 0, vjust = 1.3, label = "Copy number",
+             colour = "#1A1A1A", size = pv_pt2size(7), family = house_family()) +
+    scale_fill_identity() +
+    x_scale + scale_y_continuous(breaks = 0:4, limits = c(0, 4.9), expand = c(0, 0)) +
+    labs(x = "Position on Chr5 (Mb)", y = "CN") + track_theme(TRUE)
+  heights <- c(heights, 1.2)
 }
 
-if (length(panels) == 1L) {
-  p <- panels[[1]]
-} else {
-  p <- cowplot::plot_grid(
-    plotlist = panels, ncol = 1, align = "v", rel_heights = heights
-  )
-}
+p <- wrap_plots(panels, ncol = 1, heights = heights) +
+  plot_annotation(caption = footnote, theme = theme_house() + caption_theme +
+                    theme(plot.margin = margin(1, 1.5, 1, 1, "mm")))
 
-pv_save(p, "figure", width_mm = 183, height_mm = 120)
+pv_save_house(p, "figure", cells = "4x2")
 message("wrote preview.png")

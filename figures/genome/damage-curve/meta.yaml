@@ -1,19 +1,21 @@
-title: aDNA damage curve
-title_zh: 古 DNA 损伤曲线
-slug: damage-curve
-category: genome
+title: 'aDNA damage curve'
+title_zh: '古 DNA 损伤曲线'
+slug: 'damage-curve'
+category: 'genome'
 tags:
-  - ancient-dna
-  - damage
-  - misincorporation
+  - 'ancient-dna'
+  - 'damage'
+  - 'misincorporation'
 packages:
-  - ggplot2
+  - 'ggplot2'
 data_columns:
-  library: 文库，no-UDG 或 half-UDG（字符串）
-  end: 读段末端，5' 或 3'（字符串）
-  pos: 距该末端的碱基位置，1 为末端（整数）
-  rate: 替代频率（数值）
-  substitution: C>T 或 G>A（字符串）
-when_to_use: 检查古 DNA 是否表现为 5' 端 C→T、3' 端 G→A 的末端损伤时用。
-customize: show_ct 与 show_ga 开关两种替代；libraries_keep 选择要画的文库。
-lang: R
+  library: '文库，no-UDG 或 half-UDG（字符串）'
+  end: '读段末端，5'' 或 3''（字符串）'
+  pos: '距该末端的碱基位置，1 为末端（整数）'
+  rate: '替代频率（数值）'
+  substitution: 'C>T 或 G>A（字符串）'
+when_to_use: '检查古 DNA 是否表现为 5'' 端 C→T、3'' 端 G→A 的末端损伤时用。'
+customize: 'show_ct 与 show_ga 开启对应曲线；libraries_keep 选择 no-UDG 和 half-UDG，每库一行且行名在右；曲线名写在顶行，各面板右上角标出 5'' 端第 1 个碱基发生 C>T 以及 3'' 端第 1 个碱基发生 G>A 的替换率。'
+lang: 'R'
+style: 'house'
+cells: '2x2'
