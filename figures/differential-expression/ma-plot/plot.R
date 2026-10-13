@@ -51,7 +51,7 @@ if (isTRUE(show_labels) && n_label > 0) {
   # data units; a gene not listed below gets a default spot straight above or below it.
   pos <- data.frame(
     gene = c("G7133", "G1202", "G7004", "G5768", "G64"),
-    lx   = c(-1.0,    4.0,     9.2,     13.3,    5.6),
+    lx   = c(-1.0,    6.5,     9.2,     13.3,    5.6),
     ly   = c(7.5,     9.5,     7.0,     5.0,     -7.0)
   )
   lab <- merge(lab, pos, by = "gene", all.x = TRUE, sort = FALSE)
