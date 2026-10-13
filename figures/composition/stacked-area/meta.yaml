@@ -15,5 +15,7 @@ data_columns:
   part: 组成分名称（字符串）
   value: 该时间点的丰度（正数）
 when_to_use: 若干组分随时间同时变化、要看总量和份额时用。
-customize: plot.R 顶部 chart_mode 取 stack、stream 或 percent；part_levels 改组分顺序和配色顺序。
+customize: "在 `plot.R` 修改 `chart_mode` 切换堆叠、流式或百分比模式，调整 `part_levels` 设定填充顺序与映射；在 `data.csv` 填入 `time`、`part` 和 `value` 列。"
 lang: R
+style: house
+cells: 2x1

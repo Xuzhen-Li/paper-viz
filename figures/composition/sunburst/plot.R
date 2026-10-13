@@ -1,10 +1,11 @@
-# Two-level sunburst from geom_rect + coord_polar. Reads data.csv only.
+# Two-level sunburst (house style) from geom_rect + coord_polar. Inner ring: parent in its house
+# colour; outer ring: children in the parent colour at reduced opacity. Reads data.csv only.
 # Run from this directory.
-source("../../../styles/r/theme_viz.R")
+source("../../../styles/r/theme_house.R")
 
 # --- adjustable ---
 label_min_share <- 0.075
-hole <- 0.62
+hole <- 0.5
 # ------------------
 
 mix_hex <- function(hex, target, amount) {
@@ -55,21 +56,23 @@ coord_sunburst <- function(start = 0, direction = 1, clip = "off") {
 
 child_shades <- function(hex, n) {
   # Lighter tints of the parent only. Never mix toward black.
-  amts <- if (n <= 1) 0.25 else seq(0.25, 0.60, length.out = n)
-  vapply(amts, function(a) mix_hex(hex, "#FFFFFF", a), character(1))
+  # One step: the parent colour at 55% opacity on white (no extra colours).
+  rep(mix_hex(hex, "#FFFFFF", 0.45), n)
 }
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 parent_sum <- tapply(df$value, df$parent, sum)
 parent_levels <- names(sort(parent_sum, decreasing = TRUE))
-pal <- stats::setNames(pv_palette("categorical", length(parent_levels)), parent_levels)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+pal <- stats::setNames(unname(hp[seq_along(parent_levels)]), parent_levels)
+footnote <- "Simulated data for illustration; not biological results"
 
 # Thick rings, limit tight to the outer edge, so the disk fills the square.
-inner_r <- c(hole, hole + 0.70)
-outer_r <- c(inner_r[2], inner_r[2] + 1.18)
+inner_r <- c(hole, hole + 0.62)
+outer_r <- c(inner_r[2], inner_r[2] + 1.42)
 outer_lim <- outer_r[2] + 0.02
-text_pt <- 6
-canvas_mm <- 100
+text_pt <- 7
+canvas_mm <- 82   # square panel inside the 89 mm canvas, above the footnote
 margin_mm <- 1.2
 
 inner_rows <- vector("list", length(parent_levels))
@@ -108,8 +111,8 @@ rings$share <- (rings$ymax - rings$ymin) / total
 rings$mid <- (rings$ymin + rings$ymax) / 2
 # Square canvas minus a thin margin. The circle is inscribed in that panel.
 panel_r_mm <- (canvas_mm - 2 * margin_mm) / 2
-char_mm <- 0.50 * pv_text_mm(text_pt)
-glyph_mm <- pv_text_mm(text_pt)
+char_mm <- 0.50 * pv_pt2size(text_pt)
+glyph_mm <- pv_pt2size(text_pt)
 rings$arc_mm <- 2 * pi * (rings$lab_r / outer_lim) * panel_r_mm * rings$share
 rings$band_mm <- (rings$xmax - rings$xmin) / outer_lim * panel_r_mm
 rings$text_mm <- nchar(rings$label) * char_mm
@@ -127,7 +130,7 @@ rings$angle <- ifelse(rings$mode == "radial", tang + 90, tang)
 # 0° reads left-to-right, 90° bottom-to-top. Flip the upside-down half.
 page <- rings$angle %% 360
 rings$angle <- rings$angle + ifelse(page > 90 & page <= 270, 180, 0)
-rings$lab_col <- ifelse(luminance(rings$fill_hex) >= 0.60, "black", "white")
+rings$lab_col <- ifelse(luminance(rings$fill_hex) >= 0.5, "black", "white")
 labs <- rings[rings$mode != "none", , drop = FALSE]
 miss <- rings$label[rings$mode == "none"]
 if (length(miss)) message("unlabeled: ", paste(miss, collapse = ", "))
@@ -141,18 +144,23 @@ p <- ggplot2::ggplot(rings) +
   ggplot2::geom_text(
     data = labs,
     ggplot2::aes(x = lab_r, y = mid, label = label, angle = angle, colour = lab_col),
-    size = pv_text_mm(text_pt),
-    family = viz_sans_family(),
+    size = pv_pt2size(text_pt),
+    family = house_family(),
     hjust = 0.5, vjust = 0.5
   ) +
   ggplot2::scale_colour_identity(guide = "none") +
   coord_sunburst(start = 0, direction = 1, clip = "off") +
   ggplot2::scale_x_continuous(limits = c(0, outer_lim), expand = c(0, 0)) +
   ggplot2::scale_y_continuous(expand = c(0, 0)) +
-  theme_viz(base_size = 7) +
+  ggplot2::labs(caption = footnote) +
+  theme_house() +
   ggplot2::theme(
     axis.text = ggplot2::element_blank(),
+    axis.text.x = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_blank(),
     axis.title = ggplot2::element_blank(),
+    axis.title.x = ggplot2::element_blank(),
+    axis.title.y = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     axis.ticks.length = ggplot2::unit(0, "mm"),
     axis.line = ggplot2::element_blank(),
@@ -161,8 +169,11 @@ p <- ggplot2::ggplot(rings) +
     aspect.ratio = 1,
     panel.background = ggplot2::element_rect(fill = "white", colour = NA),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(margin_mm, margin_mm, margin_mm, margin_mm, "mm")
+    plot.margin = ggplot2::margin(margin_mm, margin_mm, margin_mm, margin_mm, "mm"),
+    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                         lineheight = 0.9, margin = ggplot2::margin(t = 0.8, unit = "mm")),
+    plot.caption.position = "plot"
   )
 
-pv_save(p, "figure", width_mm = canvas_mm, height_mm = canvas_mm)
+pv_save_house(p, "figure", cells = "2x2", bump = 0)
 message("wrote preview.png")

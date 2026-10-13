@@ -12,5 +12,7 @@ data_columns:
   tile: 矩形块名称（字符串）
   value: 面积权重（正数）
 when_to_use: 两组里各有多块、要用面积比较大小时用。
-customize: plot.R 顶部 show_subgroup 控制组边界；show_labels 控制块内文字；group_levels 改组顺序和配色。
+customize: "在 `plot.R` 控制 `show_subgroup`（默认 `TRUE`）设间距，调 `show_labels`（默认 `TRUE`）显隐名称，设 `group_levels` 顺序；在 `data.csv` 填 `group`、`tile`、`value` 列，太小的图块不显示标签。"
 lang: R
+style: house
+cells: 2x1

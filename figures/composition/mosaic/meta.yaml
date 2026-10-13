@@ -14,5 +14,7 @@ data_columns:
   col: 列因子，这里是结局（字符串）
   n: 该格计数（整数）
 when_to_use: 两个分类变量的联合计数要同时看边际和条件比例时用。
-customize: plot.R 顶部 show_labels 控制格内计数；row_levels 与 col_levels 改顺序和配色。
+customize: "在 `plot.R` 控制 `show_labels`（默认 `TRUE`）显隐图块内计数，调整 `row_levels` 和 `col_levels` 设定行列顺序与映射；在 `data.csv` 填入 `row`、`col` 和 `n` 列。"
 lang: R
+style: house
+cells: 2x1

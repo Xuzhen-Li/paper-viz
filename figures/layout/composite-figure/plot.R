@@ -1,14 +1,19 @@
-# Four-panel figure in house style. Reads data.csv only.
-# Run from this directory.
-source("../../../styles/r/theme_viz.R")
+# Four-panel figure in house style: scatter with fits, grouped bars, time course, heatmap.
+# One row of four panels on the 4x2 grid; treatment legend and score bar collected at the bottom.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+library(patchwork)
 
 show_fit <- TRUE
-base_size <- 10
+base_size <- 7
 group_levels <- c("Control", "Low", "High")
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$group <- factor(df$group, levels = group_levels)
-pal <- stats::setNames(pv_palette("categorical", nlevels(df$group)), group_levels)
+pal <- stats::setNames(unname(pv_palette("house")[seq_len(nlevels(df$group))]), group_levels)
+grey <- pv_palette("house_grey")
+footnote <- "Simulated data for illustration; not biological results"
 
 scale_treat_fill <- function() {
   ggplot2::scale_fill_manual(values = pal, name = "Treatment")
@@ -22,17 +27,16 @@ treat_guide <- function() {
       title.position = "top",
       nrow = 1,
       override.aes = list(
-        shape = 21, colour = "black", alpha = 1, linewidth = 0, size = 2.2
+        shape = 21, colour = HOUSE_POINT$colour, alpha = 1, linewidth = 0, size = HOUSE_POINT$size
       )
     ),
     colour = "none"
   )
 }
 
-panel_theme <- theme_viz(base_size = base_size) +
+panel_theme <- theme_house(base_size = base_size) +
   ggplot2::theme(
-    plot.margin = ggplot2::margin(4.8, 1.6, 1.0, 1.2, "mm"),
-    plot.tag = ggplot2::element_text(face = "bold", size = base_size + 2, hjust = 0, vjust = 0),
+    plot.margin = ggplot2::margin(1, 1.5, 0.5, 0.5, "mm"),
     plot.tag.position = "topleft",
     legend.position = "bottom",
     legend.box = "horizontal",
@@ -46,13 +50,13 @@ if (isTRUE(show_fit)) {
   pA <- pA + ggplot2::geom_smooth(
     ggplot2::aes(colour = group, fill = group),
     method = "lm", formula = y ~ x, se = TRUE,
-    linewidth = 0.45, alpha = 0.16
+    linewidth = pv_house_lw("main"), alpha = 0.16
   )
 }
 pA <- pA +
   ggplot2::geom_point(
     ggplot2::aes(fill = group),
-    shape = 21, colour = "black", stroke = 0.25, size = 2.3
+    shape = HOUSE_POINT$shape, colour = HOUSE_POINT$colour, stroke = HOUSE_POINT$stroke, size = HOUSE_POINT$size
   ) +
   scale_treat_fill() +
   scale_treat_colour() +
@@ -75,10 +79,10 @@ pB <- ggplot2::ggplot(B, ggplot2::aes(class, y, fill = group)) +
 
 C <- df[df$panel == "C", , drop = FALSE]
 pC <- ggplot2::ggplot(C, ggplot2::aes(x, y, group = group)) +
-  ggplot2::geom_line(ggplot2::aes(colour = group), linewidth = 0.7) +
+  ggplot2::geom_line(ggplot2::aes(colour = group), linewidth = pv_house_lw("main")) +
   ggplot2::geom_point(
     ggplot2::aes(fill = group),
-    shape = 21, colour = "black", stroke = 0.25, size = 2.1
+    shape = HOUSE_POINT$shape, colour = HOUSE_POINT$colour, stroke = HOUSE_POINT$stroke, size = HOUSE_POINT$size
   ) +
   scale_treat_fill() +
   scale_treat_colour() +
@@ -94,23 +98,28 @@ lim <- max(abs(D$y), na.rm = TRUE)
 pD <- ggplot2::ggplot(D, ggplot2::aes(item, class, fill = y)) +
   ggplot2::geom_tile(colour = "white", linewidth = 0.35) +
   ggplot2::scale_fill_gradientn(
-    colours = pv_palette("diverging", 7),
+    colours = pv_palette("house_div"),
     limits = c(-lim, lim),
     name = "Score",
     breaks = c(-1, 0, 1),
     guide = ggplot2::guide_colourbar(
       title.position = "top",
-      barwidth = ggplot2::unit(32, "mm"),
-      barheight = ggplot2::unit(2.8, "mm")
+      barwidth = ggplot2::unit(22, "mm"),
+      barheight = ggplot2::unit(2.2, "mm")
     )
   ) +
   ggplot2::labs(x = NULL, y = NULL, tag = "D") +
   panel_theme
 
 # ggplot2 4 does not add a second ggplot with `+` until patchwork is attached.
-p <- patchwork::wrap_plots(pA, pB, pC, pD, ncol = 2, guides = "collect") +
+p <- patchwork::wrap_plots(pA, pB, pC, pD, nrow = 1, guides = "collect") +
   patchwork::plot_annotation(
+    caption = footnote,
     theme = ggplot2::theme(
+      text = ggplot2::element_text(family = house_family()),
+      plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                           margin = ggplot2::margin(t = 0.8, unit = "mm")),
+      plot.caption.position = "plot",
       legend.position = "bottom",
       legend.box = "horizontal",
       legend.margin = ggplot2::margin(0, 4, 0, 4, "mm"),
@@ -118,5 +127,5 @@ p <- patchwork::wrap_plots(pA, pB, pC, pD, ncol = 2, guides = "collect") +
     )
   )
 
-pv_save(p, "figure", width_mm = 180, height_mm = 120)
+pv_save_house(p, "figure", cells = "4x2")
 message("wrote preview.png")

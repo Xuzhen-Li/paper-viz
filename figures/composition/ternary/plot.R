@@ -1,6 +1,7 @@
-# Ternary scatter in Cartesian barycentric coordinates. Cluster colours are a switch.
-# ggtern did not install against this ggplot2; the triangle is drawn here.
-source("../../../styles/r/theme_viz.R")
+# Ternary scatter (house style) in Cartesian barycentric coordinates. Cluster colours are a switch.
+# The triangle and 25% grid are drawn here. Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 colour_by_cluster <- TRUE
 group_levels <- c("Cluster 1", "Cluster 2", "Cluster 3")
@@ -12,11 +13,13 @@ df$x <- df$b * 0 + df$c * 1 + df$a * 0.5
 df$y <- df$a * h
 if (isTRUE(colour_by_cluster)) {
   df$group <- factor(df$group, levels = group_levels)
-  pal <- stats::setNames(pv_palette("categorical", 3), group_levels)
+  pal <- stats::setNames(unname(pv_palette("house")[1:3]), group_levels)
 } else {
   df$group <- factor(rep("All", nrow(df)))
-  pal <- c(All = pv_palette("categorical", 1))
+  pal <- c(All = pv_palette("house")[["blue"]])
 }
+grey <- pv_palette("house_grey")
+footnote <- "Simulated data for illustration; not biological results"
 
 grid_line <- function(fixed, value, n = 40) {
   others <- setdiff(c("a", "b", "c"), fixed)
@@ -39,45 +42,32 @@ grid$id <- paste(grid$which, grid$value, sep = "-")
 
 tri <- data.frame(x = c(0.5, 0, 1), y = c(h, 0, 0))
 labs <- data.frame(
-  x = c(0.5, -0.02, 1.02),
-  y = c(h + 0.045, -0.04, -0.04),
+  x = c(0.5, 0, 1),
+  y = c(h + 0.03, -0.035, -0.035),
   label = unname(vertex_labels),
-  hjust = c(0.5, 1, 0),
+  hjust = c(0.5, 0, 1),
   vjust = c(0, 1, 1)
 )
 
-p <- ggplot2::ggplot() +
-  ggplot2::geom_polygon(data = tri, ggplot2::aes(x, y), fill = NA, colour = "black", linewidth = 0.35) +
-  ggplot2::geom_path(
-    data = grid,
-    ggplot2::aes(x, y, group = id),
-    colour = "#D0D0D0",
-    linewidth = 0.25
-  ) +
-  ggplot2::geom_point(
-    data = df,
-    ggplot2::aes(x, y, colour = group),
-    size = 1.35,
-    alpha = 0.9
-  ) +
-  ggplot2::geom_text(
-    data = labs,
-    ggplot2::aes(x, y, label = label, hjust = hjust, vjust = vjust),
-    size = 2.15,
-    colour = "black"
-  ) +
-  ggplot2::scale_colour_manual(values = if (isTRUE(colour_by_cluster)) pal else c(All = pal[[1]]), name = NULL) +
-  ggplot2::coord_equal(clip = "off", xlim = c(-0.08, 1.08), ylim = c(-0.08, h + 0.1)) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    axis.title = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank(),
-    axis.line = ggplot2::element_blank(),
-    legend.position = "inside",
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(3, 3, 3, 6, "mm")
-  )
+p <- ggplot() +
+  geom_path(data = grid, aes(x, y, group = id), colour = grey[["light"]], linewidth = pv_house_lw("minor")) +
+  geom_polygon(data = tri, aes(x, y), fill = NA, colour = grey[["dark"]], linewidth = pv_house_lw("frame")) +
+  geom_point(data = df, aes(x, y, fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
+             stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour) +
+  geom_text(data = labs, aes(x, y, label = label, hjust = hjust, vjust = vjust),
+            size = pv_pt2size(7), colour = "#1A1A1A", family = house_family()) +
+  scale_fill_manual(values = pal, name = NULL) +
+  scale_x_continuous(breaks = NULL) + scale_y_continuous(breaks = NULL) +
+  coord_equal(clip = "off", xlim = c(-0.02, 1.02), ylim = c(-0.08, h + 0.07)) +
+  labs(x = NULL, y = NULL, caption = footnote) +
+  theme_house() +
+  theme(axis.line = element_blank(), panel.border = element_blank(),
+        legend.position = "inside", legend.position.inside = c(0, 1),
+        legend.justification.inside = c(0, 1),
+        plot.margin = margin(1, 4, 1, 4, "mm"),
+        plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
-pv_save(p, "figure", width_mm = 130, height_mm = 118)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

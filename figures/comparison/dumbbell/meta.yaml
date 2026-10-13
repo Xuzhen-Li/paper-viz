@@ -15,7 +15,7 @@ data_columns:
   stage: 时间点（字符串）
   value: 得分（数值）
 when_to_use: 同一批对象要比较两个时间点或两种状态的变化方向时用。
-customize: "在 `plot.R` 控制 `use_arrow` 显隐变化方向指示，用 `sort_by` 改变排序基准，指定 `stage_levels` 前后顺序并由 `colour_by_stage` 着色；在 `data.csv` 填入 item、stage 和 value 列。"
+customize: "在 `plot.R` 控制 `use_arrow` 显隐变化方向指示（差值不到约两个点直径时不画箭头），用 `sort_by` 改变排序基准，指定 `stage_levels` 前后顺序并由 `colour_by_stage` 着色；在 `data.csv` 填入 item、stage 和 value 列。"
 lang: R
 style: house
 cells: 1x2

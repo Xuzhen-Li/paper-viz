@@ -13,5 +13,7 @@ data_columns:
   part: 组成分名称（字符串）
   value: 份额的权重（正数，图中换算为百分比）
 when_to_use: 一个整体拆成少数几份、要强调份额时用。
-customize: plot.R 顶部 donut 为 TRUE 时留中空，FALSE 时画实心饼；show_labels 控制扇区外百分比标签。
+customize: "在 `plot.R` 控制 `donut`（默认 `TRUE`）切换环形或实心饼图，调 `show_labels`（默认 `TRUE`）显隐名称，修改 `part_drop` 与 `inner_frac`；在 `data.csv` 填入 `part` 和 `value` 列。"
 lang: R
+style: house
+cells: 2x1

@@ -15,5 +15,7 @@ data_columns:
   stage3: 第三轴类别，这里是治疗反应（字符串）
   value: 该路径的人数（数值）
 when_to_use: 同一批样本在两三个分类之间怎么分流时用。
-customize: plot.R 顶部 highlight 指定要高亮的层名（例如 CR；基因–通路数据可改成通路名）；axis_labels 改三根轴的标题，基因到通路到方向时写成对应名字；show_bubbles 在层上加面积点。
+customize: "在 `plot.R` 修改 `highlight` 选定高亮流，调整 `axis_labels` 设轴名，控制 `show_bubbles`（默认 `FALSE`）显隐气泡；在 `data.csv` 填入 `stage1`、`stage2`、`stage3` 和 `value` 列。"
 lang: R
+style: house
+cells: 2x1

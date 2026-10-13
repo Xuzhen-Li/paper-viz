@@ -15,5 +15,7 @@ data_columns:
   part: 组成分，这里是门水平类群（字符串）
   value: 读段计数（整数）
 when_to_use: 每个样本由若干组分构成、要比较组间比例时用。
-customize: plot.R 顶部 as_percent 为 TRUE 时画相对丰度，FALSE 时画原始计数；part_levels 改类群顺序和配色顺序。比例在绑图时由 position fill 计算。
+customize: "在 `plot.R` 控制 `as_percent`（默认 `TRUE`）切换百分比或计数，设定 `part_levels` 顺序，`Other` 映射为浅灰；在 `data.csv` 填入 `sample`、`group`、`part` 和 `value` 列。"
 lang: R
+style: house
+cells: 2x1
