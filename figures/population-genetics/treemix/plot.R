@@ -7,16 +7,21 @@ library(ggplot2)
 # 可调参数 -----------------------------------------------------------------
 show_migration <- TRUE
 show_residual <- FALSE
-arrow_curvature <- 0.55
+arrow_curvature <- -0.4
 
 footnote <- "Simulated data;\nnot biological results"
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
-# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+# label text: the group colour if it reaches 3:1 contrast on white (no new colours)
 text_col <- function(hex) {
   v <- grDevices::col2rgb(hex) / 255
   v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
   ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
-  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+  # below 3:1, use the darker step of the same hue where one exists in the house palettes
+  # (orange -> chrom12 orange #E17927, 3.01:1); otherwise #1A1A1A
+  darker <- c("#E17D52" = "#E17927", "#F77E12" = "#E17927")
+  up <- toupper(hex)
+  stats::setNames(ifelse(ratio >= 3, hex, ifelse(up %in% names(darker), darker[up], "#1A1A1A")),
+                  names(hex))
 }
 caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
                                                    lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
@@ -74,32 +79,50 @@ p <- ggtree::ggtree(tr, linewidth = pv_house_lw("main"), colour = grey[["dark"]]
 
 if (isTRUE(show_migration) && nrow(migs)) {
   dd <- p$data
-  # arrow leaves the parent of the source tip and arrives at the parent of the target
-  # midpoint of the terminal branch, left of the tip label
+  # arrow leaves the midpoint of the source tip's terminal branch and arrives at the midpoint
+  # of the target's terminal branch (half-way between the parent node and the tip)
   mid_of <- function(tip) {
     child <- dd[dd$label == tip, , drop = FALSE]
     parent <- dd[dd$node == child$parent[1], , drop = FALSE]
-    data.frame(x = parent$x, y = child$y, stringsAsFactors = FALSE)
+    data.frame(x = (parent$x + child$x) / 2, y = child$y, stringsAsFactors = FALSE)
   }
+  # Each arrow comes in from above or below and stops just short of the target's terminal
+  # branch, so the head sits on the branch midpoint and clear of the vertical branches.
+  # approach / curvature per arrow (fixed, chosen to keep crossings few); others default.
+  approach <- c("P7>P10" = "below")
+  bend <- c("P7>P10" = 0.35)
+  row_gap <- 0.08   # head tip stops this far from the branch (data units; tip spacing is 1)
+  lead_in <- 0.45   # the curve ends this far above/below the target; a short vertical stem
+                    # carries the head straight down/up onto the branch midpoint
   seg <- lapply(seq_len(nrow(migs)), function(i) {
+    key <- paste0(migs$mig_from[i], ">", migs$mig_to[i])
     a <- mid_of(migs$mig_from[i])
     b <- mid_of(migs$mig_to[i])
+    side <- if (key %in% names(approach)) approach[[key]] else "above"
     data.frame(
-      x = a$x, y = a$y, xend = b$x, yend = b$y,
+      x = a$x, y = a$y, xend = b$x, yend = b$y + if (side == "above") lead_in else -lead_in,
+      yhead = b$y + if (side == "above") row_gap else -row_gap,
       weight = migs$weight[i],
+      curv = if (key %in% names(bend)) bend[[key]] else arrow_curvature,
       stringsAsFactors = FALSE
     )
   })
   seg <- do.call(rbind, seg)
-  p <- p + geom_curve(
-    data = seg,
-    aes(x = x, y = y, xend = xend, yend = yend, colour = weight),
-    curvature = arrow_curvature,
-    arrow = grid::arrow(length = grid::unit(1.4, "mm"), type = "closed"),
-    linewidth = pv_house_lw("main"),
-    inherit.aes = FALSE
-  ) +
-    scale_colour_gradientn(colours = pv_palette("house_warm"), name = "Migration weight",
+  for (k in seq_len(nrow(seg))) {
+    p <- p + geom_curve(
+      data = seg[k, , drop = FALSE],
+      aes(x = x, y = y, xend = xend, yend = yend, colour = weight),
+      curvature = seg$curv[k], linewidth = pv_house_lw("main"), lineend = "round",
+      inherit.aes = FALSE
+    ) + geom_segment(
+      data = seg[k, , drop = FALSE],
+      aes(x = xend, y = yend, xend = xend, yend = yhead, colour = weight),
+      arrow = grid::arrow(length = grid::unit(0.9, "mm"), angle = 20, type = "closed"),
+      linewidth = pv_house_lw("main"), lineend = "round", inherit.aes = FALSE
+    )
+  }
+  p <- p +
+    scale_colour_gradientn(colours = pv_palette("house_warm")[4:5], name = "Migration weight",
                            breaks = function(l) pretty(l, n = 2),
                            guide = guide_colourbar(title.position = "top"))
 }

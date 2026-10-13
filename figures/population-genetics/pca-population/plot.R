@@ -10,18 +10,23 @@ show_labels <- TRUE
 ellipse_level <- 0.95
 pc_x <- "PC1"
 pc_y <- "PC2"
-# side of its ellipse each population name sits on: above, below, left, right, or below_left
-# (below, ending at the ellipse centre)
+# side of its ellipse each population name sits on: above, below, left, right, below_left
+# (below, ending at the ellipse centre) or above_left (above, ending at the ellipse's right edge)
 label_side <- c("Wild N" = "below", "Wild S" = "below", "Landrace E" = "above",
-                "Landrace W" = "below_left", "Cultivar A" = "above", "Cultivar B" = "below_left")
+                "Landrace W" = "below_left", "Cultivar A" = "above_left", "Cultivar B" = "below_left")
 footnote <- "Simulated data;\nnot biological results"
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
-# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+# label text: the group colour if it reaches 3:1 contrast on white (no new colours)
 text_col <- function(hex) {
   v <- grDevices::col2rgb(hex) / 255
   v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
   ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
-  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+  # below 3:1, use the darker step of the same hue where one exists in the house palettes
+  # (orange -> chrom12 orange #E17927, 3.01:1); otherwise #1A1A1A
+  darker <- c("#E17D52" = "#E17927", "#F77E12" = "#E17927")
+  up <- toupper(hex)
+  stats::setNames(ifelse(ratio >= 3, hex, ifelse(up %in% names(darker), darker[up], "#1A1A1A")),
+                  names(hex))
 }
 caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
                                                    lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
@@ -63,6 +68,7 @@ cen <- do.call(rbind, lapply(pop_order, function(g) {
   mx <- mean(range(e$x)); my <- mean(range(e$y))
   switch(side,
     above = data.frame(pop = g, lx = mx, ly = max(e$y) + 0.03 * yr, hjust = 0.5, vjust = 0),
+    above_left = data.frame(pop = g, lx = max(e$x), ly = max(e$y) + 0.05 * yr, hjust = 1, vjust = 0),
     below = data.frame(pop = g, lx = mx, ly = min(e$y) - 0.03 * yr, hjust = 0.5, vjust = 1),
     below_left = data.frame(pop = g, lx = mx, ly = min(e$y) - 0.03 * yr, hjust = 1, vjust = 1),
     left  = data.frame(pop = g, lx = min(e$x) - 0.03 * xr, ly = my, hjust = 1, vjust = 0.5),

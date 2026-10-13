@@ -9,12 +9,17 @@ show_values <- TRUE
 pop_order <- c("WN1", "WN2", "WS1", "WS2", "LE1", "LE2", "LW1", "LW2", "CA1", "CA2", "CB1", "CB2")
 footnote <- "Simulated data;\nnot biological results"
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
-# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+# label text: the group colour if it reaches 3:1 contrast on white (no new colours)
 text_col <- function(hex) {
   v <- grDevices::col2rgb(hex) / 255
   v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
   ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
-  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+  # below 3:1, use the darker step of the same hue where one exists in the house palettes
+  # (orange -> chrom12 orange #E17927, 3.01:1); otherwise #1A1A1A
+  darker <- c("#E17D52" = "#E17927", "#F77E12" = "#E17927")
+  up <- toupper(hex)
+  stats::setNames(ifelse(ratio >= 3, hex, ifelse(up %in% names(darker), darker[up], "#1A1A1A")),
+                  names(hex))
 }
 caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
                                                    lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
@@ -41,9 +46,22 @@ df$pop_b <- factor(df$pop_b, levels = rev(pop_order))
 df$label <- sprintf("%.2f", df$fst)
 warm <- pv_palette("house_warm")
 lims <- c(0, max(df$fst))
-# tile text: white on the two darkest steps of the scale, near-black elsewhere
-step <- findInterval(df$fst / lims[2], seq(0, 1, length.out = length(warm) + 1), rightmost.closed = TRUE)
-df$txt <- ifelse(step >= length(warm) - 1, "white", "#1A1A1A")
+# tile text: white or #1A1A1A, whichever has the higher contrast on that tile's own fill
+# (fill computed the same way scale_fill_gradientn does), so every value reads at >= 4.5:1;
+rel_lum <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  colSums(c(0.2126, 0.7152, 0.0722) * v)
+}
+tile_fill <- scales::gradient_n_pal(warm)(scales::rescale(df$fst, from = lims))
+l_fill <- rel_lum(tile_fill)
+on_white <- 1.05 / (l_fill + 0.05)
+on_dark <- (l_fill + 0.05) / (rel_lum("#1A1A1A") + 0.05)
+on_black <- (l_fill + 0.05) / 0.05
+# #1A1A1A where it reaches 4.5:1; on mid-tone tiles where neither it nor white does,
+# house_grey text (#000000)
+df$txt <- ifelse(on_dark >= 4.5, "#1A1A1A", ifelse(on_white >= on_black, "white", "#000000"))
+df$txt_contrast <- ifelse(df$txt == "#1A1A1A", on_dark, pmax(on_white, on_black))
 
 p <- ggplot(df, aes(pop_a, pop_b, fill = fst)) +
   geom_tile(colour = "white", linewidth = 0.3) +

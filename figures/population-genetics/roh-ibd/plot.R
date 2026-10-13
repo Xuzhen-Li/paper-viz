@@ -10,12 +10,17 @@ pop_order <- c("Wild N", "Wild S", "Landrace E", "Landrace W", "Cultivar A", "Cu
 log_y <- TRUE
 footnote <- "Simulated data;\nnot biological results"
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
-# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+# label text: the group colour if it reaches 3:1 contrast on white (no new colours)
 text_col <- function(hex) {
   v <- grDevices::col2rgb(hex) / 255
   v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
   ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
-  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+  # below 3:1, use the darker step of the same hue where one exists in the house palettes
+  # (orange -> chrom12 orange #E17927, 3.01:1); otherwise #1A1A1A
+  darker <- c("#E17D52" = "#E17927", "#F77E12" = "#E17927")
+  up <- toupper(hex)
+  stats::setNames(ifelse(ratio >= 3, hex, ifelse(up %in% names(darker), darker[up], "#1A1A1A")),
+                  names(hex))
 }
 caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
                                                    lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
