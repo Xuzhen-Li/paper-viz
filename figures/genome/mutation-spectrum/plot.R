@@ -1,67 +1,76 @@
-# SBS96 spectrum. Six substitution classes, sixteen trinucleotide contexts, coloured by class.
-source("../../../styles/r/theme_viz.R")
+# SBS96 spectrum (house style): six substitution classes of sixteen trinucleotide contexts each,
+# class names on coloured bars above the panel, class shares as the in-panel stat. Reads data.csv only.
+# Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
+# 可调参数 -----------------------------------------------------------------
 as_proportion <- FALSE
 sub_levels <- c("C>A", "C>G", "C>T", "T>A", "T>G", "T>C")
-# Six classes. categorical n=6 stops before yellow.
-sbs_cols <- stats::setNames(pv_palette("categorical", 6), sub_levels)
+
+set.seed(1)   # fixed RNG state, so the figure never depends on the session
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# orange marks/labels use the darker chrom12 step of the same hue (#E17927, 3.01:1 on white)
+hp[["orange"]] <- pv_palette("chrom12")[[8]]
+# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
+# six classes in the usual SBS order of hues (blue, black, red, grey, green, pink -> house magenta)
+sbs_cols <- stats::setNames(c(hp[["sky"]], grey[["text"]], hp[["red"]], grey[["ci"]], hp[["green"]], hp[["magenta"]]),
+                            sub_levels)
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$substitution <- factor(df$substitution, levels = sub_levels)
 flank <- c("A", "C", "G", "T")
-ctx_of <- function(mid) {
-  paste0(rep(flank, each = 4), mid, rep(flank, times = 4))
-}
-ctx_levels <- c(ctx_of("C"), ctx_of("T"))
-df$context <- factor(df$context, levels = ctx_levels)
+ctx_of <- function(mid) paste0(rep(flank, each = 4), mid, rep(flank, times = 4))
+df$context <- factor(df$context, levels = c(ctx_of("C"), ctx_of("T")))
 df <- df[order(df$substitution, df$context), , drop = FALSE]
 df$x <- seq_len(nrow(df))
 df$y <- if (isTRUE(as_proportion)) df$count / sum(df$count) else df$count
 y_lab <- if (isTRUE(as_proportion)) "Proportion of mutations" else "Mutation count"
-df$b5 <- substr(df$context, 1, 1)
-df$midb <- substr(df$context, 2, 2)
-df$b3 <- substr(df$context, 3, 3)
 
-ann <- data.frame(
-  substitution = factor(sub_levels, levels = sub_levels),
-  xmin = (seq_along(sub_levels) - 1) * 16 + 0.4,
-  xmax = seq_along(sub_levels) * 16 + 0.6
-)
+share <- tapply(df$count, df$substitution, sum) / sum(df$count)
+ann <- data.frame(substitution = factor(sub_levels, levels = sub_levels),
+                  xmin = (seq_along(sub_levels) - 1) * 16 + 0.6, xmax = seq_along(sub_levels) * 16 + 0.4)
 ann$x <- (ann$xmin + ann$xmax) / 2
-top <- max(df$y) * 1.14
-ann$y <- top
+ann$share <- sprintf("%.0f%%", 100 * share[sub_levels])
+ymax <- max(df$y)
+top <- ymax * 1.16
 
-p <- ggplot2::ggplot(df, ggplot2::aes(x, y, fill = substitution)) +
-  ggplot2::geom_hline(yintercept = 0, linewidth = 0.25) +
-  ggplot2::geom_col(width = 0.86, colour = NA) +
-  ggplot2::geom_text(
-    data = ann,
-    ggplot2::aes(x = x, y = y, label = substitution),
-    inherit.aes = FALSE,
-    size = 2.05,
-    fontface = "bold",
-    vjust = 0
-  ) +
-  ggplot2::geom_segment(
-    data = ann,
-    ggplot2::aes(x = xmin, xend = xmax, y = top * 0.98, yend = top * 0.98, colour = substitution),
-    inherit.aes = FALSE,
-    linewidth = 1.1
-  ) +
-  ggplot2::scale_fill_manual(values = sbs_cols, guide = "none") +
-  ggplot2::scale_colour_manual(values = sbs_cols, guide = "none") +
-  ggplot2::scale_x_continuous(expand = c(0.01, 0.01)) +
-  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.06))) +
-  ggplot2::coord_cartesian(ylim = c(0, max(df$y) * 1.22), clip = "off") +
-  ggplot2::labs(x = NULL, y = y_lab) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_blank(),
-    axis.ticks.x = ggplot2::element_blank(),
-    axis.title.x = ggplot2::element_blank(),
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(2, 2, 2, 2, "mm")
-  )
+p <- ggplot(df, aes(x, y, fill = substitution)) +
+  geom_col(width = 0.8, colour = NA) +
+  # class bar + name above it (outside the panel), share inside the panel under the bar
+  geom_rect(data = ann, aes(xmin = xmin, xmax = xmax, ymin = top, ymax = top + ymax * 0.05, fill = substitution),
+            inherit.aes = FALSE) +
+  geom_text(data = ann, aes(x = x, y = top + ymax * 0.07, label = substitution), vjust = 0,
+            inherit.aes = FALSE, size = pv_pt2size(7), colour = "#1A1A1A", family = house_family()) +
+  geom_text(data = ann, aes(x = x, y = top - ymax * 0.03, label = share), vjust = 1,
+            inherit.aes = FALSE, size = pv_pt2size(7), colour = grey[["dark"]], family = house_family()) +
+  scale_fill_manual(values = sbs_cols, guide = "none") +
+  scale_x_continuous(expand = c(0.005, 0.005)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  coord_cartesian(ylim = c(0, top), clip = "off") +
+  labs(x = "Trinucleotide context (16 per class)", y = y_lab, caption = footnote) +
+  theme_house() +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+        plot.margin = margin(6, 1.5, 1, 1, "mm")) +
+  caption_theme
 
-pv_save(p, "figure", width_mm = 183, height_mm = 98)
+pv_save_house(p, "figure", cells = "4x1")
 message("wrote preview.png")

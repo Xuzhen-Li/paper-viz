@@ -1,19 +1,21 @@
-title: Chromosome ideogram
-title_zh: 染色体示意图与密度
-slug: chromosome-ideogram
-category: genome
+title: 'Chromosome ideogram'
+title_zh: '染色体示意图与密度'
+slug: 'chromosome-ideogram'
+category: 'genome'
 tags:
-  - ideogram
-  - karyotype
-  - gene-density
+  - 'ideogram'
+  - 'karyotype'
+  - 'gene-density'
 packages:
-  - ggplot2
+  - 'ggplot2'
 data_columns:
-  chr: 染色体名（字符串）
-  start: 区间起点，bp（整数）
-  end: 区间终点，bp（整数）
-  feature: chromosome、centromere、nor 或 density（字符串）
-  value: 基因密度，genes/Mb；非密度行可空（数值）
-when_to_use: 展示植物染色体相对长度、着丝粒与短臂 NOR，并叠加基因密度时用。
-customize: show_density 开关密度着色；show_band_labels 开关 CEN/NOR 标注；染色体顺序由数据中的 Chr 编号决定。
-lang: R
+  chr: '染色体名（字符串）'
+  start: '区间起点，bp（整数）'
+  end: '区间终点，bp（整数）'
+  feature: 'chromosome、centromere、nor 或 density（字符串）'
+  value: '基因密度，genes/Mb；非密度行可空（数值）'
+when_to_use: '展示植物染色体相对长度、着丝粒与短臂 NOR，并叠加基因密度时用。'
+customize: 'show_density 控制在右下角空白处放置基因密度水平色条和全基因组均值；show_band_labels 在着丝粒下方标注 CEN 并在 NOR 上方标注 NOR；染色体从上至下为 Chr1 到 Chr8。'
+lang: 'R'
+style: 'house'
+cells: '4x2'

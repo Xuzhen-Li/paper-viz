@@ -1,39 +1,57 @@
-# Oncoplot with a Ti/Tv bar and a cohort lane.
-# Drawn with ggplot. ComplexHeatmap does not finish loading in this library.
-source("../../../styles/r/theme_viz.R")
+# Oncoplot (house style) with a Ti/Tv bar and a cohort lane: genes by mutation frequency (share written
+# at the right), samples by burden, key rows under the matrix. Drawn with ggplot2 + patchwork.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+library(patchwork)
 
 # 可调参数 -----------------------------------------------------------------
 show_titv <- TRUE
 show_sample_lane <- TRUE
 cohort_order <- c("A", "B")
 
+set.seed(1)   # fixed RNG state, so the figure never depends on the session
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# orange marks/labels use the darker chrom12 step of the same hue (#E17927, 3.01:1 on white)
+hp[["orange"]] <- pv_palette("chrom12")[[8]]
+# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 genes <- unique(df$gene)
 samples <- unique(df$sample)
 classes <- c("Missense_Ti", "Missense_Tv", "Nonsense", "Frameshift", "Splice")
-pal <- pv_palette("categorical", length(classes))
-col <- c(
-  Missense_Ti = pal[1],
-  Missense_Tv = pal[2],
-  Nonsense = pal[4],
-  Frameshift = pal[3],
-  Splice = pal[5]
-)
+col <- c(Missense_Ti = hp[["blue"]], Missense_Tv = hp[["sky"]], Nonsense = hp[["red"]],
+         Frameshift = hp[["orange"]], Splice = hp[["purple"]])
+cohort_cols <- stats::setNames(c(hp[["green"]], hp[["gold"]]), cohort_order)
 
 mat <- matrix("", nrow = length(genes), ncol = length(samples), dimnames = list(genes, samples))
 for (i in seq_len(nrow(df))) mat[df$gene[i], df$sample[i]] <- df$variant_class[i]
-cohort <- tapply(df$cohort, df$sample, function(z) z[[1]])
-cohort <- cohort[samples]
-
-ti <- colSums(mat == "Missense_Ti")
-tv <- colSums(mat == "Missense_Tv")
+cohort <- tapply(df$cohort, df$sample, function(z) z[[1]])[samples]
+ti <- colSums(mat == "Missense_Ti"); tv <- colSums(mat == "Missense_Tv")
 
 gene_n <- rowSums(mat != "")
 gene_ord <- names(sort(gene_n, decreasing = TRUE))
-sample_n <- colSums(mat != "")
-sample_ord <- names(sort(sample_n, decreasing = TRUE))
+sample_ord <- names(sort(colSums(mat != ""), decreasing = TRUE))
 gene_f <- factor(gene_ord, levels = rev(gene_ord))
 sample_f <- factor(sample_ord, levels = sample_ord)
+ns <- length(sample_ord); ng <- length(gene_ord)
 
 bg <- expand.grid(gene = gene_f, sample = sample_f, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
 long <- as.data.frame(as.table(mat), stringsAsFactors = FALSE)
@@ -42,125 +60,65 @@ long <- long[long$variant_class != "", , drop = FALSE]
 long$gene <- factor(long$gene, levels = levels(gene_f))
 long$sample <- factor(long$sample, levels = levels(sample_f))
 long$variant_class <- factor(long$variant_class, levels = classes)
+pct <- data.frame(gene = gene_f, label = sprintf("%d%%", round(100 * gene_n[gene_ord] / ns)))
 
-show_names <- length(samples) <= 24
-p_mat <- ggplot2::ggplot() +
-  ggplot2::geom_tile(data = bg, ggplot2::aes(sample, gene), fill = "#F4F4F4", width = 0.92, height = 0.72) +
-  ggplot2::geom_tile(
-    data = long, ggplot2::aes(sample, gene, fill = variant_class),
-    width = 0.86, height = 0.66
-  ) +
-  ggplot2::scale_fill_manual(values = col, name = NULL, drop = FALSE) +
-  ggplot2::labs(x = if (isTRUE(show_names)) "Sample" else NULL, y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.x = if (isTRUE(show_names)) {
-      ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6)
-    } else {
-      ggplot2::element_blank()
-    },
-    axis.ticks.x = if (isTRUE(show_names)) ggplot2::element_line(linewidth = 0.3) else ggplot2::element_blank(),
-    axis.title.x = ggplot2::element_text(size = 8),
-    legend.position = "bottom",
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA)
-  ) +
-  ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2))
+x_sc <- scale_x_discrete(expand = c(0, 0.5))
+blank_x <- theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())
+p_mat <- ggplot() +
+  geom_tile(data = bg, aes(sample, gene), fill = grey[["bg"]], width = 0.9, height = 0.78) +
+  geom_tile(data = long, aes(sample, gene, fill = variant_class), width = 0.9, height = 0.78) +
+  geom_text(data = pct, aes(x = ns + 0.9, y = gene, label = label), hjust = 0, size = pv_pt2size(7),
+            colour = "#1A1A1A", family = house_family()) +
+  scale_fill_manual(values = col, guide = "none", drop = FALSE) +
+  x_sc + coord_cartesian(clip = "off") +
+  labs(x = sprintf("%d samples, sorted by burden", ns), y = NULL) +
+  theme_house() +
+  theme(panel.border = element_blank(), axis.ticks = element_blank(), axis.text.x = element_blank(),
+        axis.text.y = element_text(face = "italic"), plot.margin = margin(0.5, 7, 0.5, 1, "mm"))
 
-panels <- list()
-heights <- numeric()
-
+panels <- list(); heights <- numeric()
 if (isTRUE(show_titv)) {
-  tv_long <- rbind(
-    data.frame(sample = sample_f, class = "Ti", n = as.numeric(ti[sample_ord])),
-    data.frame(sample = sample_f, class = "Tv", n = as.numeric(tv[sample_ord]))
-  )
-  tv_long$class <- factor(tv_long$class, levels = c("Ti", "Tv"))
-  p_tv <- ggplot2::ggplot(tv_long, ggplot2::aes(sample, n, fill = class)) +
-    ggplot2::geom_col(width = 0.86, colour = NA) +
-    ggplot2::scale_fill_manual(
-      values = c(Ti = unname(col["Missense_Ti"]), Tv = unname(col["Missense_Tv"])),
-      name = NULL
-    ) +
-    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.08))) +
-    ggplot2::labs(x = NULL, y = "Count") +
-    theme_viz() +
-    ggplot2::theme(
-      axis.text.x = ggplot2::element_blank(),
-      axis.ticks.x = ggplot2::element_blank(),
-      axis.title.x = ggplot2::element_blank(),
-      legend.position = "none",
-      plot.background = ggplot2::element_rect(fill = "white", colour = NA)
-    )
-  panels <- c(panels, list(p_tv))
-  heights <- c(heights, 0.32)
+  tv_long <- rbind(data.frame(sample = sample_f, class = "Missense_Ti", n = as.numeric(ti[sample_ord])),
+                   data.frame(sample = sample_f, class = "Missense_Tv", n = as.numeric(tv[sample_ord])))
+  p_tv <- ggplot(tv_long, aes(sample, n, fill = class)) +
+    geom_col(width = 0.9, colour = NA) +
+    annotate("text", x = ns, y = Inf, hjust = 1, vjust = 1.2, size = pv_pt2size(7), colour = "#1A1A1A",
+             family = house_family(), label = sprintf("Ti/Tv = %.2f", sum(ti) / max(1, sum(tv)))) +
+    scale_fill_manual(values = col, guide = "none") + x_sc +
+    scale_y_continuous(breaks = function(l) unique(floor(pretty(l, 2))), expand = expansion(mult = c(0, 0.25))) +
+    labs(y = "Missense") + theme_house() + blank_x + theme(plot.margin = margin(1, 7, 0.5, 1, "mm"))
+  panels <- c(panels, list(p_tv)); heights <- c(heights, 0.25)
 }
-
 if (isTRUE(show_sample_lane)) {
-  coh <- data.frame(
-    sample = sample_f,
-    cohort = factor(cohort[sample_ord], levels = cohort_order),
-    stringsAsFactors = FALSE
-  )
-  cohort_cols <- stats::setNames(pv_palette("categorical", 8)[c(6, 8)], cohort_order)
-  p_coh <- ggplot2::ggplot(coh, ggplot2::aes(sample, 1, fill = cohort)) +
-    ggplot2::geom_tile(height = 0.7, width = 0.92) +
-    ggplot2::scale_fill_manual(values = cohort_cols, name = "Cohort") +
-    ggplot2::labs(x = NULL, y = NULL) +
-    theme_viz() +
-    ggplot2::theme(
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-      legend.position = "bottom",
-      plot.background = ggplot2::element_rect(fill = "white", colour = NA)
-    )
-  panels <- c(panels, list(p_coh + ggplot2::theme(legend.position = "none")))
-  heights <- c(heights, 0.07)
+  coh <- data.frame(sample = sample_f, cohort = factor(cohort[sample_ord], levels = cohort_order))
+  p_coh <- ggplot(coh, aes(sample, "Cohort", fill = cohort)) +
+    geom_tile(height = 0.8, width = 0.9) +
+    scale_fill_manual(values = cohort_cols, guide = "none") + x_sc + labs(y = NULL) +
+    theme_house() + blank_x + theme(panel.border = element_blank(), axis.ticks.y = element_blank(),
+                                    plot.margin = margin(0.5, 7, 0.5, 1, "mm"))
+  panels <- c(panels, list(p_coh)); heights <- c(heights, 0.06)
 }
 
-panels <- c(panels, list(p_mat + ggplot2::theme(legend.position = "none")))
-heights <- c(heights, 1)
-
-grab_legend <- function(plot) {
-  g <- ggplot2::ggplotGrob(plot)
-  k <- which(vapply(g$grobs, function(x) identical(x$name, "guide-box"), logical(1)))
-  if (!length(k)) return(ggplot2::zeroGrob())
-  g$grobs[[k[[1]]]]
+# key rows: variant classes, then cohorts (only when the lane is shown)
+key <- data.frame(lab = c("Missense Ti", "Missense Tv", "Nonsense", "Frameshift", "Splice"),
+                  fill = unname(col[classes]), x = c(0, 1.6, 3.2, 0, 1.6), y = c(3, 3, 3, 2, 2))
+if (isTRUE(show_sample_lane)) {
+  key <- rbind(key, data.frame(lab = sprintf("Cohort %s", cohort_order), fill = unname(cohort_cols),
+                               x = c(3.2, 4.4), y = 2))
 }
-legs <- list(grab_legend(p_mat))
-if (isTRUE(show_sample_lane)) legs <- c(legs, list(grab_legend(p_coh)))
-leg_row <- cowplot::plot_grid(plotlist = legs, ncol = 1) +
-  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
+p_key <- ggplot(key) +
+  geom_tile(aes(x = x, y = y, fill = fill), width = 0.12, height = 0.6) +
+  geom_text(aes(x = x + 0.1, y = y, label = lab), hjust = 0, size = pv_pt2size(7), colour = "#1A1A1A",
+            family = house_family()) +
+  scale_fill_identity() +
+  coord_cartesian(xlim = c(-0.1, 5.2), ylim = c(1.5, 3.5), expand = FALSE, clip = "off") +
+  theme_void() + theme(plot.margin = margin(0.5, 1, 0, 1, "mm"))
 
-body <- cowplot::plot_grid(
-  plotlist = panels, ncol = 1, align = "v", axis = "lr", rel_heights = heights
-)
+panels <- c(panels, list(p_mat), list(p_key))
+heights <- c(heights, 1, 0.1)
+p <- wrap_plots(panels, ncol = 1, heights = heights) +
+  plot_annotation(caption = footnote, theme = theme_house() + caption_theme +
+                    theme(plot.margin = margin(1, 1.5, 1, 1, "mm")))
 
-pct <- data.frame(
-  gene = gene_f,
-  label = sprintf("%d%%", round(100 * gene_n[gene_ord] / length(sample_ord))),
-  stringsAsFactors = FALSE
-)
-p_pct <- ggplot2::ggplot(pct, ggplot2::aes(1, gene, label = label)) +
-  ggplot2::geom_text(size = 2.4, colour = "black") +
-  ggplot2::labs(x = NULL, y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank(),
-    axis.title = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA)
-  )
-
-pads <- rep(list(
-  ggplot2::ggplot() + ggplot2::theme_void() +
-    ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
-), length(panels) - 1L)
-right <- cowplot::plot_grid(plotlist = c(pads, list(p_pct)), ncol = 1, rel_heights = heights)
-top <- cowplot::plot_grid(body, right, nrow = 1, rel_widths = c(1, 0.1), align = "h", axis = "tb")
-p <- cowplot::plot_grid(top, leg_row, ncol = 1, rel_heights = c(1, 0.2)) +
-  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
-
-pv_save(p, "figure", width_mm = 183, height_mm = 120)
+pv_save_house(p, "figure", cells = "2x2", bump = 0)
 message("wrote preview.png")

@@ -278,6 +278,19 @@ class RHouseTheme(unittest.TestCase):
         )
         self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
 
+    def test_r_legacy_theme_viz(self):
+        """theme_viz() + pv_save() still render after the house restyle (no catalog figure uses them)."""
+        probe = subprocess.run(
+            ["Rscript", "-e", "quit(status = !requireNamespace('ggplot2', quietly = TRUE))"],
+            capture_output=True,
+        )
+        if probe.returncode != 0:
+            self.skipTest("ggplot2 not installed")
+        out = subprocess.run(
+            ["Rscript", "tests/test_theme_viz_legacy.R"], cwd=ROOT, capture_output=True, text=True
+        )
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,18 +1,21 @@
-title: PAV heatmap
-title_zh: 基因存在缺失热图
-slug: pav-heatmap
-category: genome
+title: 'PAV heatmap'
+title_zh: '基因存在缺失热图'
+slug: 'pav-heatmap'
+category: 'genome'
 tags:
-  - pav
-  - pangenome
-  - heatmap
+  - 'pav'
+  - 'pangenome'
+  - 'heatmap'
 packages:
-  - ComplexHeatmap
+  - 'ggplot2'
+  - 'patchwork'
 data_columns:
-  genome: 基因组编号（字符串）
-  family: 基因家族编号（字符串）
-  present: 1 存在，0 缺失（整数）
-  compartment: core、shell 或 cloud（字符串）
-when_to_use: 比较多个基因组里基因家族的有无，并按核心、外壳和云基因查看时用。
-customize: cluster_genomes 开关基因组聚类；show_compartment 开关顶部区室注释。存在色在 cell_cols。
-lang: R
+  genome: '基因组编号（字符串）'
+  family: '基因家族编号（字符串）'
+  present: '1 存在，0 缺失（整数）'
+  compartment: 'core、shell 或 cloud（字符串）'
+when_to_use: '比较多个基因组里基因家族的有无，并按核心、外壳和云基因查看时用。'
+customize: 'cluster_genomes 按二元距离聚类对行排序；show_compartment 在顶部画出含家族计数的隔室色带；家族按隔室和频率排序，X 轴标题包含平均家族数。'
+lang: 'R'
+style: 'house'
+cells: '2x2'

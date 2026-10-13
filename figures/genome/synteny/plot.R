@@ -1,12 +1,39 @@
-# Synteny ribbons between chromosome bars, plus an anchor dot plot.
-# Reads data.csv only.
-source("../../../styles/r/theme_viz.R")
+# Synteny (house style): ribbons between chromosome bars (forward blue, reversed red, named in the panel)
+# and an anchor dot plot coloured by identity on the warm house ramp. Reads data.csv only.
+# Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+library(patchwork)
 
 # 可调参数 -----------------------------------------------------------------
 show_ribbon <- TRUE
 show_dotplot <- TRUE
 chr_layout <- "all" # all | A1-B1 only when "pair"
 pair_chr <- "A1"
+
+set.seed(1)   # fixed RNG state, so the figure never depends on the session
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# orange marks/labels use the darker chrom12 step of the same hue (#E17927, 3.01:1 on white)
+hp[["orange"]] <- pv_palette("chrom12")[[8]]
+# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 chr_rows <- df[df$block == "", , drop = FALSE]
@@ -67,43 +94,33 @@ for (b in blk_ids) {
 }
 poly <- do.call(rbind, poly)
 
-orient_cols <- c(forward = pv_palette("categorical", 1), reverse = pv_palette("categorical", 4)[4])
+orient_cols <- c(forward = hp[["blue"]], reverse = hp[["red"]])
+n_rev <- length(unique(poly$block[poly$orient == "reverse"]))
+n_blk <- length(unique(poly$block))
+xr_rib <- range(c(bars_a$xmin, bars_a$xmax, bars_b$xmin, bars_b$xmax)) / 1e6
+bars <- rbind(bars_a, bars_b)
 
-p_rib <- ggplot2::ggplot() +
-  ggplot2::geom_polygon(
-    data = poly,
-    ggplot2::aes(x = x / 1e6, y = y, group = block, fill = orient),
-    alpha = 0.38, colour = NA
-  ) +
-  ggplot2::geom_rect(
-    data = rbind(bars_a, bars_b),
-    ggplot2::aes(xmin = xmin / 1e6, xmax = xmax / 1e6, ymin = ymin, ymax = ymax),
-    fill = "#F4F4F4", colour = "black", linewidth = 0.25
-  ) +
-  ggplot2::geom_text(
-    data = bars_a,
-    ggplot2::aes(lab_x / 1e6, 1.16, label = chr),
-    size = 2.1, family = viz_sans_family()
-  ) +
-  ggplot2::geom_text(
-    data = bars_b,
-    ggplot2::aes(lab_x / 1e6, -0.16, label = chr),
-    size = 2.1, family = viz_sans_family()
-  ) +
-  ggplot2::annotate("text", x = -4, y = 1, label = "Genome A", size = 2.2, hjust = 1, family = viz_sans_family()) +
-  ggplot2::annotate("text", x = -4, y = 0, label = "Genome B", size = 2.2, hjust = 1, family = viz_sans_family()) +
-  ggplot2::scale_fill_manual(values = orient_cols, name = "Orientation") +
-  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.08, 0.02))) +
-  ggplot2::scale_y_continuous(limits = c(-0.35, 1.35), expand = c(0, 0)) +
-  ggplot2::labs(x = "Position (Mb)", y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.y = ggplot2::element_blank(),
-    axis.ticks.y = ggplot2::element_blank(),
-    axis.line.y = ggplot2::element_blank(),
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "bottom"
-  )
+p_rib <- ggplot() +
+  geom_polygon(data = poly, aes(x = x / 1e6, y = y, group = block, fill = orient), alpha = 0.4, colour = NA) +
+  geom_rect(data = bars, aes(xmin = xmin / 1e6, xmax = xmax / 1e6, ymin = ymin, ymax = ymax),
+            fill = grey[["bg"]], colour = grey[["text"]], linewidth = pv_house_lw("frame")) +
+  geom_text(data = bars_a, aes(lab_x / 1e6, 1.13, label = chr), vjust = 0, size = pv_pt2size(7),
+            colour = "#1A1A1A", family = house_family()) +
+  geom_text(data = bars_b, aes(lab_x / 1e6, -0.13, label = chr), vjust = 1, size = pv_pt2size(7),
+            colour = "#1A1A1A", family = house_family()) +
+  annotate("text", x = xr_rib[1] - 0.02 * diff(xr_rib), y = c(1, 0), label = c("Genome A", "Genome B"),
+           hjust = 1, size = pv_pt2size(7), colour = "#1A1A1A", family = house_family()) +
+  # ribbon key + stat, stacked in the empty top left
+  annotate("text", x = xr_rib[1] - 0.2 * diff(xr_rib), y = c(1.5, 1.39, 1.28), hjust = 0, vjust = 1,
+           label = c(sprintf("%d blocks", n_blk), sprintf("forward %d", n_blk - n_rev), sprintf("reversed %d", n_rev)),
+           colour = c("#1A1A1A", text_col(orient_cols)[["forward"]], text_col(orient_cols)[["reverse"]]),
+           size = pv_pt2size(7), family = house_family()) +
+  scale_fill_manual(values = orient_cols, guide = "none") +
+  scale_x_continuous(breaks = seq(0, 1000, 50), expand = expansion(mult = c(0.2, 0.02))) +
+  scale_y_continuous(limits = c(-0.35, 1.55), expand = c(0, 0)) +
+  labs(x = "Position (Mb)", y = NULL) +
+  theme_house() +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
 
 # anchors: pair rows that share block order
 anc_a <- anchors[anchors$genome == "A", , drop = FALSE]
@@ -126,27 +143,31 @@ if (chr_layout == "pair") {
   dots <- dots[dots$chr_a == pair_chr, , drop = FALSE]
 }
 
-p_dot <- ggplot2::ggplot(dots, ggplot2::aes(x / 1e6, y / 1e6, colour = identity)) +
-  ggplot2::geom_point(size = 0.7, alpha = 0.75) +
-  ggplot2::scale_colour_gradientn(colours = pv_palette("sequential", 5), name = "Identity (%)") +
-  ggplot2::labs(x = "Genome A (Mb)", y = "Genome B (Mb)") +
-  theme_viz() +
-  ggplot2::theme(
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "inside",
-    legend.position.inside = c(0.02, 0.98),
-    legend.justification.inside = c(0, 1)
-  )
+p_dot <- ggplot(dots, aes(x / 1e6, y / 1e6, fill = identity)) +
+  geom_point(shape = 21, size = 1.2, stroke = 0.2, colour = grey[["dark"]]) +
+  annotate("text", x = Inf, y = -Inf, hjust = 1.05, vjust = -0.6,
+           label = sprintf("%d anchors\nmedian identity %.1f%%", nrow(dots), stats::median(dots$identity)),
+           lineheight = 0.95, size = pv_pt2size(7), colour = "#1A1A1A", family = house_family()) +
+  scale_fill_gradientn(colours = pv_palette("house_warm"), name = "Identity (%)", breaks = c(80, 90)) +
+  guides(fill = guide_colourbar(direction = "horizontal", title.position = "top", ticks = FALSE,
+                                barwidth = unit(16, "mm"), barheight = unit(2, "mm"))) +
+  labs(x = "Genome A (Mb)", y = "Genome B (Mb)") +
+  theme_house() +
+  theme(legend.position = "inside", legend.position.inside = c(0.03, 0.97),
+        legend.justification.inside = c(0, 1), legend.background = element_blank(),
+        legend.title = element_text(size = 7), legend.text = element_text(size = 7))
 
-plots <- list()
-if (isTRUE(show_ribbon)) plots[[length(plots) + 1L]] <- p_rib
-if (isTRUE(show_dotplot)) plots[[length(plots) + 1L]] <- p_dot
-if (length(plots) == 2L) {
-  p <- cowplot::plot_grid(plots[[1]], plots[[2]], ncol = 1, rel_heights = c(0.85, 1.15), align = "v")
-  h <- 150
+note <- plot_annotation(caption = footnote, theme = theme_house() + caption_theme +
+                          theme(plot.margin = margin(1, 1.5, 1, 1, "mm")))
+if (isTRUE(show_ribbon) && isTRUE(show_dotplot)) {
+  p <- (p_rib | p_dot) + plot_layout(widths = c(1.45, 1)) + note
+  cells <- "4x2"
+} else if (isTRUE(show_ribbon)) {
+  p <- p_rib + note
+  cells <- "4x1"
 } else {
-  p <- plots[[1]]
-  h <- if (isTRUE(show_dotplot)) 110 else 70
+  p <- p_dot + note
+  cells <- "2x2"
 }
-pv_save(p, "figure", width_mm = 183, height_mm = h)
+pv_save_house(p, "figure", cells = cells, bump = 0)
 message("wrote preview.png")

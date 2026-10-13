@@ -187,7 +187,8 @@ STOP_LHS = {"df", "d", "dat", "data", "p", "p_plot", "wide", "long", "mat"}
 def _unquote(value: str) -> str:
     value = value.strip()
     if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
-        return value[1:-1]
+        # YAML single-quoted scalar: '' stands for one '
+        return value[1:-1].replace("''", "'") if value[0] == "'" else value[1:-1]
     return value
 
 
