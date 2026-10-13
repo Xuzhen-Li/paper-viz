@@ -16,5 +16,7 @@ data_columns:
   count: 命中基因数（整数）
   p: 富集 p 值（数值）
 when_to_use: 通路要同时看基因比例、命中数和显著性时用。
-customize: plot.R 顶部 size_maps_count 用点面积表示 count；colour_maps_p 用颜色表示 -log10(p)；facet_by_ontology 按本体分面。p 的着色在绑图时计算。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x2

@@ -8,7 +8,7 @@ tags:
   - permutation
 packages:
   - ggplot2
-  - cowplot
+  - patchwork
 data_columns:
   sample: 样本编号（字符串）
   group: 分组（字符串）
@@ -17,5 +17,7 @@ data_columns:
   perm: data_perm.csv 中的置换序号，1 为未置换模型（整数）
   q2: data_perm.csv 中的 Q2（数值）
 when_to_use: 两组代谢或表型数据要看监督分离是否高于置换空分布时用。
-customize: show_scores 与 show_permutation 控制两个面板；show_ellipse 开关 80% 正态椭圆；分组色用 pv_palette("categorical")。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x1

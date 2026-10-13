@@ -16,5 +16,7 @@ data_columns:
   p: 相关或 Mantel 的 p 值（数值）
   mantel_r: Mantel r；环境相关行留空（数值）
 when_to_use: 同时看环境因子之间的相关，以及它们与组学距离的 Mantel 关系时用。
-customize: p_cut 控制画出的 Mantel 连线；link_p_only 为 FALSE 时画出全部连线；show_env_heatmap 与 show_links 分别开关热图和连线。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x2

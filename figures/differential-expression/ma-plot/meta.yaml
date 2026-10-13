@@ -16,5 +16,7 @@ data_columns:
   log2fc: log2 倍数变化（数值）
   pvalue: 原始 p 值（数值，0 到 1）
 when_to_use: 要同时看平均表达和倍数变化、并标出显著基因时用。
-customize: lfc_cut 与 p_cut 改显著性阈值；show_labels 与 n_label 控制显著基因标签数量。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 1x1

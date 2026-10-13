@@ -17,5 +17,7 @@ data_columns:
   taxon: 分类单元（字符串）
   abundance: 非负丰度（数值）
 when_to_use: 距离矩阵不适合线性主坐标、只要看样本远近时用。
-customize: 颜色按 group 取 pv_palette("categorical")；k 在 isoMDS 调用里，默认 2。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 1x1

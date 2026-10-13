@@ -15,5 +15,7 @@ data_columns:
   pc1: 第一主成分得分（数值）
   pc2: 第二主成分得分（数值）
 when_to_use: 已有样本的主成分坐标、要按组看分离时用。
-customize: plot.R 顶部 point_size 与 point_alpha 调点大小与透明度；分组色取 pv_palette("categorical") 前 n 色。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 1x1
