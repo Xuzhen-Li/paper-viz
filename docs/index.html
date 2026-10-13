@@ -106,6 +106,13 @@
   .vchips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
   .vchips button { padding: 2px 8px; font-size: 0.75rem; }
   .empty { color: #3d4a5c; margin: 12px 0; }
+  .schem-section { max-width: 1400px; margin: 0 auto; padding: 16px 16px 12px; border-top: 1px solid #e6e8eb; }
+  @media (max-width: 520px) { .schem-section { padding: 12px; } }
+  .schem-section h2 { font-size: 1.15rem; margin: 0 0 4px; }
+  .schem-section .lead { margin: 0 0 12px; overflow-wrap: anywhere; }
+  .schem-badge { display: inline-block; margin-top: 4px; padding: 1px 6px; border: 1px solid #d5d8de; border-radius: 999px; font-size: 0.72rem; color: #3d4a5c; }
+  #sdlg-files { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+  #sdlg-img { max-height: 70vh; object-fit: contain; }
   dialog {
     border: 0;
     border-radius: 16px;
@@ -150,7 +157,7 @@
     border: 1px solid #e6e8eb;
     border-radius: 8px;
   }
-  #close {
+  #close, #sdlg-close {
     flex: none;
     border: 1px solid #d5d8de;
     border-radius: 8px;
@@ -238,6 +245,7 @@
       <p id="stats">加载中…</p>
       <div class="cta">
         <a class="primary" href="#gallery">浏览全部图 ↓</a>
+        <a href="#schematics"><span>图示与架构</span> / <span>Schematics</span></a>
         <a class="text-link" href="https://github.com/Xuzhen-Li/paper-viz#快速开始--quick-start">快速开始（GitHub）</a>
       </div>
     </div>
@@ -284,6 +292,12 @@
   <div id="grid" class="grid"></div>
   <p id="empty" class="empty" hidden>没有匹配的图。</p>
 </main>
+<section id="schematics" class="schem-section" aria-labelledby="schem-h">
+  <h2 id="schem-h"><span lang="zh-CN">示意架构与流程图</span> / <span lang="en">Schematics and Flows</span></h2>
+  <p class="lead" lang="zh-CN"><span>4张图不计入图数。1张脚本SVG与3张draw.io图。可下载SVG、PNG、.drawio及脚本。见style-contract.md。</span></p>
+  <p class="lead" lang="en"><span>4 schematics not in 120 catalog. 1 script editable SVG with AI icons, 3 legacy draw.io. Download SVG, PNG, .drawio or script. See styles/style-contract.md.</span></p>
+  <div id="schem-grid" class="grid"></div>
+</section>
 <footer>
   <div class="inner">
     <p>MIT © 2026 Xuzhen Li · <a href="https://github.com/Xuzhen-Li/paper-viz">GitHub</a> · <a href="catalog.json">catalog.json</a> · <a href="llms.txt">llms.txt</a></p>
@@ -291,6 +305,18 @@
     <p lang="en">Every chart is original, drawn by code in this repository from simulated or open data. Published figures are cited only by link and figure number; no journal images are stored here.</p>
   </div>
 </footer>
+<dialog id="sdlg">
+  <div class="dlg-head">
+    <div>
+      <h2 id="sdlg-zh"></h2>
+      <p id="sdlg-en" class="en-title"></p>
+    </div>
+    <button id="sdlg-close" type="button">关闭</button>
+  </div>
+  <img id="sdlg-img" alt="">
+  <p id="sdlg-desc"></p>
+  <div id="sdlg-files"></div>
+</dialog>
 <dialog id="dlg">
   <div class="dlg-head">
     <div>
@@ -739,6 +765,102 @@ window.addEventListener("hashchange", () => {
   openSlug(slug);
 });
 
+// ---- schematics section: static list (docs/schematics.json) plus catalog entries that are draw.io schematics
+function setText(el, text) {
+  el.textContent = text;
+}
+const sdlg = document.querySelector("#sdlg");
+function schemFromCatalog(fig) {
+  return {
+    id: fig.slug, catalogSlug: fig.slug, title_zh: fig.title_zh, title: fig.title,
+    thumb: fig.docs_preview, full: fig.docs_preview, files: []
+  };
+}
+function openSchem(item) {
+  if (item.catalogSlug) { openSlug(item.catalogSlug); return; }
+  setText(document.querySelector("#sdlg-zh"), item.title_zh);
+  setText(document.querySelector("#sdlg-en"), item.title);
+  const img = document.querySelector("#sdlg-img");
+  img.src = item.full;
+  img.alt = item.alt;
+  if (item.width) { img.width = item.width; img.height = item.height; }
+  setText(document.querySelector("#sdlg-desc"), item.desc);
+  const box = document.querySelector("#sdlg-files");
+  box.replaceChildren();
+  (item.files || []).forEach((f) => {
+    const a = document.createElement("a");
+    a.href = f.href;
+    a.textContent = f.label;
+    box.appendChild(a);
+    if (f.note_zh) {
+      const note = document.createElement("span");
+      note.className = "hint";
+      setText(note, f.note_zh + " / " + f.note_en);
+      box.appendChild(note);
+    }
+  });
+  if (!sdlg.open) sdlg.showModal();
+}
+document.querySelector("#sdlg-close").addEventListener("click", () => sdlg.close());
+sdlg.addEventListener("click", (event) => { if (event.target === sdlg) sdlg.close(); });
+function renderSchematics(items) {
+  const box = document.querySelector("#schem-grid");
+  box.replaceChildren();
+  items.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.dataset.schem = item.id;
+    const hit = document.createElement("button");
+    hit.type = "button";
+    hit.className = "hit";
+    const thumb = document.createElement("div");
+    thumb.className = "thumb";
+    const img = document.createElement("img");
+    img.src = item.thumb;
+    img.alt = item.alt || "";
+    img.loading = "lazy";
+    thumb.appendChild(img);
+    const strong = document.createElement("strong");
+    setText(strong, item.title_zh);
+    const en = document.createElement("span");
+    en.className = "en";
+    setText(en, item.title);
+    const meta = document.createElement("span");
+    meta.className = "meta";
+    meta.textContent = (item.files || []).map((f) => f.label).join(" · ");
+    hit.append(thumb, strong, en, meta);
+    if (item.ai_icons) {
+      const badge = document.createElement("span");
+      badge.className = "schem-badge";
+      badge.textContent = "AI-assisted icons";
+      hit.appendChild(badge);
+    }
+    hit.addEventListener("click", () => openSchem(item));
+    card.appendChild(hit);
+    box.appendChild(card);
+  });
+}
+function loadSchematics(catalogFigures) {
+  const fromCatalog = catalogFigures
+    .filter((fig) => fig.lang === "drawio" || fig.category === "schematic")
+    .map(schemFromCatalog);
+  return fetch("schematics.json")
+    .then((res) => {
+      if (!res.ok) throw new Error("schematics " + res.status);
+      return res.json();
+    })
+    .then((data) => {
+      const items = (data.items || []).map((item) => Object.assign({}, item, {
+        alt: item.alt_zh + " " + item.alt_en,
+        desc: item.desc_zh + " " + item.desc_en
+      }));
+      renderSchematics(items.concat(fromCatalog));
+      // the gallery grid above renders late, so redo the jump for a #schematics link
+      if (location.hash === "#schematics") document.querySelector("#schematics").scrollIntoView();
+    })
+    .catch((err) => { window.__jsErrors.push(String(err)); });
+}
+
 fetch("catalog.json")
   .then((res) => {
     if (!res.ok) throw new Error("catalog " + res.status);
@@ -765,6 +887,7 @@ fetch("catalog.json")
     });
     tagSelect.value = current;
     render();
+    loadSchematics(state.figures);
     const slug = decodeURIComponent(location.hash.replace(/^#/, ""));
     if (slug) openSlug(slug);
   })

@@ -35,7 +35,9 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Bubble chart](https://xuzhen-li.github.io/paper-viz/#bubble): 两个连续坐标之外还要用点的面积表示第三个数时用。
 - [Correlation matrix](https://xuzhen-li.github.io/paper-viz/#correlation-matrix): 十几个连续指标要一眼看出谁和谁同向或反向时用。
 - [Hexbin density](https://xuzhen-li.github.io/paper-viz/#hexbin): 散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。
+- [Stacked area with scenario lines and gap arrows (house style)](https://xuzhen-li.github.io/paper-viz/#house-area-scenarios): 适用于展示总量拆分及多个未来情景从共享历史产生分歧时的差距，采用单面板 2x2 89 × 89 mm 尺寸及 9/10 pt Arial 字体，数据为模拟的 2000 至 2100 年杂草种子库，包含黑色历史实线、无控制、当前实践、目标及激进情景折线，底层为深浅 house_div 蓝色的年度和多年生杂草堆叠面积，图内标注了由 data.csv 在 2050 年计算得出的差距及灰色向下箭头。
 - [Line chart with CI ribbons (house style)](https://xuzhen-li.github.io/paper-viz/#house-line): 少数几组随时间（或剂量）变化、每个时间点有重复时用；画均值线 + 95% 置信带，线尾直标组名，组间差和 P 写在图内。
+- [Dense open-circle time series with line-end labels (house style)](https://xuzhen-li.github.io/paper-viz/#house-point-series): 适用于展示不多于 5 个均匀且密集采样的系列以保持单个读数可见，采用单面板 2x2 89 × 89 mm 尺寸及 9/10 pt Arial 字体，数据为 0 至 3600 秒的模拟叶片温度，使用 pv_palette("house") 分配四种颜色的空心圆点且无连线，线尾带粗体同色标注并在图内计算 2400 至 3600 秒的平均温差。
 - [Scatter with group fits (house style)](https://xuzhen-li.github.io/paper-viz/#house-scatter): 两个连续变量、分几组看关系时用；每组一条拟合线，R² 与 P 写在图内，组名和重点样品直接标在点旁，不用图例。
 - [Line chart](https://xuzhen-li.github.io/paper-viz/#line-basic): 自变量有顺序、要比较几条带噪声的轨迹时用。
 - [Parallel coordinates](https://xuzhen-li.github.io/paper-viz/#parallel-coordinates): 多个量纲不同的指标要放在一起比较各组轮廓时用。
@@ -83,6 +85,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Clustered heatmap](https://xuzhen-li.github.io/paper-viz/#heatmap): 基因对样本的矩阵要同时看模块和组别时用。
 - [Annotated diverging heatmap (house style)](https://xuzhen-li.github.io/paper-viz/#house-heatmap): 少量行 × 少量列、正负都有的数值矩阵时用；蓝–红发散色以 0 为中心，每格写数值（深底白字），行按聚类排序。
 - [Composite figure](https://xuzhen-li.github.io/paper-viz/#composite-figure): 一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。Use when a double-column figure should assemble those four panels in one font, palette, and legend.
+- [Ensemble small multiples with side boxes (house style)](https://xuzhen-li.github.io/paper-viz/#house-ensemble-multiples): 适用于展示多个组的重复轨迹集合以强调分布与趋势，采用 4x4 183 × 183 mm 多面板及 7/8 pt Arial 字体，排布为 2 列 5 行小多图，使用 pv_palette("geo", 10) 绘制模拟的 80 代性状偏移数据，包含灰色重复细线、彩色均值线、组名与计算斜率，以及展示最后 10 代分布的侧边箱线。
 - [ABA kinetics page, single column (house mosaic, 2x4)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-aba-kinetics): 模拟数据，仅作示意，不是生物学结果（Simulated data for illustration; not biological results）。单栏（89 mm 宽、整页高 183 mm）讲一条通路的动态：a 时间曲线（2×1）、b 四基因与水势的小多图（2×2）、c 横向雨云图与 d 密度曲线（各 1×1）。b 的标题写相关最强的基因及 Pearson r（由数据计算），并说明它所在位点也有最强的 GWAS 信号（Fig. 3a），不作因果推断；每个小图标 Pearson r 与 n。
 - [GWAS page with a 4x1 Manhattan (house mosaic, 4x2)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-gwas): 模拟数据，仅作示意，不是生物学结果（Simulated data for illustration; not biological results）。DTI = drought tolerance index（耐旱指数）。双栏半页讲一个 GWAS：a 是通栏 4×1 曼哈顿图，b 为头号位点区域图（2×1，按 r² 着色并画基因模型），c 头号 SNP 的基因型效应（箱线 + 原始点），d 各群体等位基因频率（堆叠条）。
 - [Transcriptome overview page (house mosaic, 4x3)](https://xuzhen-li.github.io/paper-viz/#house-mosaic-transcriptome): 模拟数据，仅作示意，不是生物学结果（Simulated data for illustration; not biological results）。DEG 定义：|log2FC| >= 1，padj < 0.05，SD vs WW，单一采样时间（不跨时间点取并集），写在图底一行脚注里；b、e、f 都按此计数，e/f 只算上调且去重（unique DEGs）。双栏一整页讲一个转录组结果：左上 PCA 与 DEG 计数是数据总览，中间热图是主结果，右侧 GO 森林图（10 个 GO 正式名称）是统计，底部 3×1 UpSet 看上调 DEG 在组织间的共享，旁边 1×1 环图把去重后的上调 DEG 按共享组织数（1 / 2 / 3+）分成 3 段。七种图型在一页上，面板框上下、左右对齐。
