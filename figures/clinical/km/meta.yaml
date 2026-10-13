@@ -14,5 +14,7 @@ data_columns:
   status: 事件指示，1 为发生事件，0 为删失（整数）
   arm: 分组（字符串）
 when_to_use: 要比较两组或多组的时间-事件结局时用。
-customize: 改 arm 的取值可换分组名；颜色按出现顺序取 pv_palette("categorical")。随访上限在 make_data.R 的 pmin(..., 40)。
+customize: "在 `plot.R` 调整 `arm_levels` 设定分组顺序，控制 `show_censor` 开关（默认值为 `TRUE`）显隐删失点；并在 `data.csv` 填入 id、time、status 和 arm 列。"
 lang: R
+style: house
+cells: 2x1

@@ -15,5 +15,7 @@ data_columns:
   group: 系列名（字符串）
   value: 得分（数值）
 when_to_use: 多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。
-customize: sort_by_group 指定按哪一组数值排序类别；show_segment 在同行最值间画浅灰导引线；point_size 调点大小；group_levels 定系列顺序与配色。颜色取 pv_palette("categorical") 前 n 色（勿用第 8 色纯黑作数据点）。
+customize: "在 `plot.R` 修改 `sort_by_group` 确定排序组别，设定 `group_levels` 顺序，控制 `show_segment` 显隐极值连线，点形由 `HOUSE_POINT` 决定；在 `data.csv` 填入 category、group 和 value 列。"
 lang: R
+style: house
+cells: 1x2

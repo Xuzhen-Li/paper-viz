@@ -8,11 +8,12 @@ tags:
   - before-after
 packages:
   - ggplot2
-  - ggrepel
 data_columns:
   item: 指标名（字符串）
   stage: 阶段（字符串）
   value: 指数（数值）
 when_to_use: 一批指标只有前后两个时间点、要看谁升谁降时用。
-customize: highlight 列出强调的指标名，其余用灰色；label_ends 在两端标出强调项的名字。强调色按顺序取 pv_palette("categorical")。
+customize: "在 `plot.R` 修改 `highlight` 数组以高亮特定指标线，调整 `stage_levels` 设定阶段顺序，控制 `label_ends` 显隐两端名称标签；在 `data.csv` 填入 item、stage 和 value 列。"
 lang: R
+style: house
+cells: 1x1

@@ -18,5 +18,7 @@ data_columns:
   module: 扇区模块（字符串）
   value: 矩阵取值（数值）
 when_to_use: 特征较多、又要按模块分成扇区并加一圈汇总轨道时用。
-customize: split_sectors 按 module 分扇区；show_track 加内圈，数值是前三分之一列均值减去后三分之一列均值。色标用 pv_palette("diverging")。
+customize: '在 `plot.R` 控制 `split_sectors` 决定是否按模块切割扇区，控制 `show_track` 显隐汇总轨道，使用 `pv_palette("house_div")` 调色；在 `data.csv` 填入 row、col、module 和 value 列。'
 lang: R
+style: house
+cells: 2x2

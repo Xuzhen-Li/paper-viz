@@ -94,7 +94,7 @@
         "ci_high": "95% 区间上限（数值）"
       },
       "when_to_use": "多个研究或亚组要并列展示效应量和区间时用。",
-      "customize": "改 data.csv 的 study 名称和行序；点颜色用 pv_palette(\"categorical\") 的第一色，竖线固定在 HR = 1。",
+      "customize": "在 `plot.R` 调整 `show_values` 开关（默认值为 `TRUE`）以在区间上方显示数值，颜色取自 `pv_palette(\"house\")`；并在 `data.csv` 填入 study、hr、ci_low 和 ci_high 列。",
       "lang": "R",
       "task": "clinical",
       "task_zh": "临床",
@@ -102,11 +102,33 @@
       "variant_of": null,
       "variant_label": null,
       "variants": [],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "show_values",
+          "value": "TRUE"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "point_col",
+          "value": "hp[[\"blue\"]]"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for\\nillustration; not\\nbiological results\""
+        }
+      ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "43",
+        "height_mm": "89",
+        "label": "43 × 89 mm (1×2 cells)",
+        "cells": "1x2"
       },
       "downloads": [
         {
@@ -140,8 +162,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/forest/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/forest/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/clinical/forest",
-      "code_text": "# Forest plot. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$study <- factor(df$study, levels = rev(df$study))\ncols <- pv_palette(\"categorical\", 1)\n\np <- ggplot2::ggplot(df, ggplot2::aes(hr, study)) +\n  ggplot2::geom_vline(xintercept = 1, linetype = \"dashed\", linewidth = 0.3) +\n  ggplot2::geom_errorbarh(ggplot2::aes(xmin = ci_low, xmax = ci_high), height = 0.15, linewidth = 0.4) +\n  ggplot2::geom_point(size = 2, colour = cols[1]) +\n  ggplot2::scale_x_log10() +\n  ggplot2::labs(x = \"Hazard ratio\", y = NULL) +\n  theme_viz(base_size = 7)\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "forest plot\n森林图\nforest\n\nclinical\n临床\nclinical\n临床\nclinical\n多个研究或亚组要并列展示效应量和区间时用。\n改 data.csv 的 study 名称和行序；点颜色用 pv_palette(\"categorical\") 的第一色，竖线固定在 hr = 1。\nforest hazard-ratio confidence-interval\nstudy 研究或亚组名（字符串，行顺序即从上到下的反向） hr 风险比（数值，大于 0） ci_low 95% 区间下限（数值） ci_high 95% 区间上限（数值）"
+      "code_text": "# Forest plot (house style): hazard ratio and 95% CI per study on a log axis, dashed line at HR = 1,\n# HR [CI] written beside each row and the study count in the panel. Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nshow_values <- TRUE   # HR [low, high] written just above each CI line\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue is >= 3:1 on white, so the point colour is also used for the value text\npoint_col <- hp[[\"blue\"]]\nfootnote <- \"Simulated data for\\nillustration; not\\nbiological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$y <- rev(seq_len(nrow(df)))\ndf$lab <- sprintf(\"%.2f [%.2f, %.2f]\", df$hr, df$ci_low, df$ci_high)\nn_up <- sum(df$ci_low > 1); n_down <- sum(df$ci_high < 1)\nx_lim <- c(min(df$ci_low) / 1.2, max(df$ci_high) * 1.2)\ny_lim <- c(0.4, nrow(df) + 1.75)\n\np <- ggplot(df, aes(hr, y)) +\n  geom_vline(xintercept = 1, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_segment(aes(x = ci_low, xend = ci_high, yend = y), linewidth = pv_house_lw(0.9),\n                 colour = point_col) +\n  geom_point(shape = 16, size = 3, colour = point_col) +\n  annotate(\"text\", x = x_lim[1] * 1.06, y = nrow(df) + 1.2, hjust = 0, vjust = 0.5,\n           label = sprintf(\"N = %d studies\\n%d CI > 1, %d CI < 1\", nrow(df), n_up, n_down),\n           lineheight = 0.9)\nif (isTRUE(show_values)) {\n  p <- p + geom_text(aes(x = x_lim[1] * 1.06, y = y + 0.42, label = lab), hjust = 0, colour = point_col)\n}\np <- p +\n  scale_x_log10(breaks = c(0.5, 1, 2, 4), labels = c(\"0.5\", \"1\", \"2\", \"4\")) +\n  scale_y_continuous(breaks = df$y, labels = df$study) +\n  coord_cartesian(xlim = x_lim, ylim = y_lim, expand = FALSE) +\n  labs(x = \"Hazard ratio\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "forest plot\n森林图\nforest\n\nclinical\n临床\nclinical\n临床\nclinical\n多个研究或亚组要并列展示效应量和区间时用。\n在 `plot.r` 调整 `show_values` 开关（默认值为 `true`）以在区间上方显示数值，颜色取自 `pv_palette(\"house\")`；并在 `data.csv` 填入 study、hr、ci_low 和 ci_high 列。\nforest hazard-ratio confidence-interval\nstudy 研究或亚组名（字符串，行顺序即从上到下的反向） hr 风险比（数值，大于 0） ci_low 95% 区间下限（数值） ci_high 95% 区间上限（数值）"
     },
     {
       "title": "Kaplan-Meier curves",
@@ -163,7 +185,7 @@
         "arm": "分组（字符串）"
       },
       "when_to_use": "要比较两组或多组的时间-事件结局时用。",
-      "customize": "改 arm 的取值可换分组名；颜色按出现顺序取 pv_palette(\"categorical\")。随访上限在 make_data.R 的 pmin(..., 40)。",
+      "customize": "在 `plot.R` 调整 `arm_levels` 设定分组顺序，控制 `show_censor` 开关（默认值为 `TRUE`）显隐删失点；并在 `data.csv` 填入 id、time、status 和 arm 列。",
       "lang": "R",
       "task": "clinical",
       "task_zh": "临床",
@@ -171,11 +193,37 @@
       "variant_of": null,
       "variant_label": null,
       "variants": [],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "show_censor",
+          "value": "TRUE"
+        },
+        {
+          "name": "arm_levels",
+          "value": "c(\"Control\", \"Treatment\")"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "cols",
+          "value": "stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]]), arm_levels)"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
+        }
+      ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -209,8 +257,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/km/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/km/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/clinical/km",
-      "code_text": "# Kaplan-Meier step curves. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nfit <- survival::survfit(survival::Surv(time, status) ~ arm, data = df)\nsf <- summary(fit)\narm <- sub(\"^arm=\", \"\", sf$strata)\nplot_df <- data.frame(time = sf$time, surv = sf$surv, arm = arm, n_censor = sf$n.censor)\ncens <- plot_df[plot_df$n_censor > 0, , drop = FALSE]\npal <- pv_palette(\"categorical\", 2)\nkm_cols <- setNames(pal[1:2], unique(plot_df$arm))\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(time, surv, colour = arm)) +\n  ggplot2::geom_step(linewidth = 0.6) +\n  ggplot2::geom_point(\n    data = cens,\n    ggplot2::aes(time, surv),\n    shape = \"|\",\n    size = 2.4,\n    show.legend = FALSE\n  ) +\n  ggplot2::scale_colour_manual(values = km_cols) +\n  ggplot2::scale_y_continuous(limits = c(0, 1)) +\n  ggplot2::labs(x = \"Time\", y = \"Survival probability\", colour = NULL) +\n  theme_viz(base_size = 7)\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "kaplan-meier curves\nkaplan-meier 生存曲线\nkm\n\nclinical\n临床\nclinical\n临床\nclinical\n要比较两组或多组的时间-事件结局时用。\n改 arm 的取值可换分组名；颜色按出现顺序取 pv_palette(\"categorical\")。随访上限在 make_data.r 的 pmin(..., 40)。\nsurvival kaplan-meier\nid 个体编号（字符串） time 随访时间（数值） status 事件指示，1 为发生事件，0 为删失（整数） arm 分组（字符串）"
+      "code_text": "# Kaplan-Meier curves (house style): step lines per arm with censor ticks, arm names and\n# median survival written at the curve ends, log-rank P in the panel. survival only computes.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nshow_censor <- TRUE\narm_levels <- c(\"Control\", \"Treatment\")\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue and red are both >= 3:1 on white, so the arm labels keep the line colour\ncols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]]), arm_levels)\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$arm <- factor(df$arm, levels = arm_levels)\nfit <- survival::survfit(survival::Surv(time, status) ~ arm, data = df)\nsf <- summary(fit, censored = TRUE)\narm <- factor(sub(\"^arm=\", \"\", sf$strata), levels = arm_levels)\ncurve <- data.frame(time = sf$time, surv = sf$surv, arm = arm, n_censor = sf$n.censor)\n# start every curve at (0, 1)\ncurve <- rbind(data.frame(time = 0, surv = 1, arm = factor(arm_levels, levels = arm_levels), n_censor = 0), curve)\ncurve <- curve[order(curve$arm, curve$time), ]\ncens <- curve[curve$n_censor > 0, , drop = FALSE]\nlr <- survival::survdiff(survival::Surv(time, status) ~ arm, data = df)\np_lr <- stats::pchisq(lr$chisq, df = length(arm_levels) - 1, lower.tail = FALSE)\nmed <- summary(fit)$table[, \"median\"]\nnames(med) <- sub(\"^arm=\", \"\", names(med))\nends <- do.call(rbind, lapply(arm_levels, function(a) {\n  d <- curve[curve$arm == a, ]\n  data.frame(arm = factor(a, levels = arm_levels), time = max(d$time), surv = d$surv[nrow(d)],\n             n = sum(df$arm == a), med = med[[a]])\n}))\nends$lab <- sprintf(\"%s (n = %d)\\nmedian %s\", ends$arm, ends$n,\n                    ifelse(is.na(ends$med), \"not reached\", sprintf(\"%.1f mo\", ends$med)))\nx_max <- max(curve$time)\n# keep the end labels apart\nends <- ends[order(ends$surv), ]\nfor (i in seq_len(nrow(ends))[-1]) ends$surv[i] <- max(ends$surv[i], ends$surv[i - 1] + 0.2)\n\np <- ggplot(curve, aes(time, surv, colour = arm)) +\n  geom_step(linewidth = pv_house_lw(\"main\"))\nif (isTRUE(show_censor)) {\n  # censor marks as short vertical segments (a \"|\" point shape would be drawn as a text glyph)\n  tick_h <- 0.025\n  p <- p + geom_segment(data = cens, aes(x = time, xend = time, y = surv - tick_h, yend = surv + tick_h),\n                        linewidth = pv_house_lw(\"minor\"))\n}\np <- p +\n  geom_text(data = ends, aes(x = x_max * 1.02, y = surv, label = lab), hjust = 0, vjust = 0.5,\n            lineheight = 0.9) +\n  annotate(\"text\", x = x_max * 0.02, y = 0.04, hjust = 0, vjust = 0,\n           label = sprintf(\"'Log-rank '*%s\", pv_fmt_p(p_lr)), parse = TRUE) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(breaks = seq(0, 40, 10)) +\n  scale_y_continuous(breaks = seq(0, 1, 0.25)) +\n  coord_cartesian(xlim = c(0, x_max * 1.42), ylim = c(0, 1.02), expand = FALSE) +\n  labs(x = \"Time (months)\", y = \"Survival probability\", caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "kaplan-meier curves\nkaplan-meier 生存曲线\nkm\n\nclinical\n临床\nclinical\n临床\nclinical\n要比较两组或多组的时间-事件结局时用。\n在 `plot.r` 调整 `arm_levels` 设定分组顺序，控制 `show_censor` 开关（默认值为 `true`）显隐删失点；并在 `data.csv` 填入 id、time、status 和 arm 列。\nsurvival kaplan-meier\nid 个体编号（字符串） time 随访时间（数值） status 事件指示，1 为发生事件，0 为删失（整数） arm 分组（字符串）"
     },
     {
       "title": "ROC curve",
@@ -234,7 +282,7 @@
         "time": "事件或删失时间，月（数值）"
       },
       "when_to_use": "几个连续标志物要比较区分病例和对照的能力时用。",
-      "customize": "plot.R 顶部 markers_keep 选择曲线；show_auc 在图例里写 AUC；time_dependent 为 TRUE 时按 landmark_time 重定义病例（该时点前发生事件）和对照（随访超过该时点）。得分保持连续，不按阈值生成两类。",
+      "customize": "在 `plot.R` 修改 `markers_keep` 选定标志物，控制 `show_auc` 显隐面积标签，利用 `time_dependent` 和 `landmark_time` 指定时间；在 `data.csv` 填入 subject、marker、score、label 和 time 列。",
       "lang": "R",
       "task": "clinical",
       "task_zh": "临床",
@@ -258,12 +306,29 @@
         {
           "name": "landmark_time",
           "value": "18"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "pal",
+          "value": "stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]], hp[[\"brown\"]])[seq_along(markers_keep)], markers_keep)"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration;\\nnot biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "85",
-        "label": "85 × 85 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -297,8 +362,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/roc/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/roc/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/clinical/roc",
-      "code_text": "# ROC curves. Multi-marker overlay, optional landmark status, AUC in the legend.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nmarkers_keep <- c(\"AFP\", \"DCP\", \"ALT\")\nshow_auc <- TRUE\ntime_dependent <- FALSE\nlandmark_time <- 18\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf <- df[df$marker %in% markers_keep, , drop = FALSE]\nif (isTRUE(time_dependent)) {\n  event <- df$label == 1 & df$time <= landmark_time\n  control <- df$time > landmark_time\n  df <- df[event | control, , drop = FALSE]\n  df$label <- as.integer(event[event | control])\n}\n\ncurves <- lapply(split(df, df$marker), function(sub) {\n  roc <- pROC::roc(sub$label, sub$score, quiet = TRUE, direction = \"<\")\n  auc <- as.numeric(pROC::auc(roc))\n  data.frame(\n    fpr = 1 - roc$specificities,\n    tpr = roc$sensitivities,\n    marker = unique(sub$marker),\n    auc = auc\n  )\n})\nplot_df <- do.call(rbind, curves)\nplot_df$marker <- factor(plot_df$marker, levels = markers_keep)\nlab <- if (isTRUE(show_auc)) {\n  auc_map <- tapply(plot_df$auc, plot_df$marker, function(z) unique(z)[1])\n  sprintf(\"%s (AUC %.2f)\", markers_keep, auc_map[markers_keep])\n} else {\n  markers_keep\n}\nnames(lab) <- markers_keep\nplot_df$legend <- factor(lab[as.character(plot_df$marker)], levels = lab)\nplot_df <- plot_df[order(plot_df$legend, plot_df$fpr, plot_df$tpr), ]\npal <- pv_palette(\"categorical\", length(markers_keep))\nnames(pal) <- lab\n\np <- ggplot2::ggplot(plot_df, ggplot2::aes(fpr, tpr, colour = legend)) +\n  ggplot2::geom_abline(slope = 1, intercept = 0, linewidth = 0.3, colour = \"grey60\", linetype = \"dashed\") +\n  ggplot2::geom_line(linewidth = 0.6) +\n  ggplot2::scale_colour_manual(values = pal, name = NULL) +\n  ggplot2::coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +\n  ggplot2::labs(\n    x = \"False positive rate\",\n    y = \"True positive rate\",\n    title = if (isTRUE(time_dependent)) sprintf(\"Status at %s months\", landmark_time) else NULL\n  ) +\n  theme_viz(base_size = 7) +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.98, 0.04),\n    legend.justification.inside = c(1, 0)\n  )\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 85)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "roc curve\nroc 曲线\nroc\n\nclinical\n临床\nclinical\n临床\nclinical\n几个连续标志物要比较区分病例和对照的能力时用。\nplot.r 顶部 markers_keep 选择曲线；show_auc 在图例里写 auc；time_dependent 为 true 时按 landmark_time 重定义病例（该时点前发生事件）和对照（随访超过该时点）。得分保持连续，不按阈值生成两类。\nroc auc biomarker\nsubject 受试者编号（字符串） marker 标志物名称（字符串） score 连续得分（数值） label 观察期内是否发生事件，1 或 0（整数） time 事件或删失时间，月（数值）"
+      "code_text": "# ROC curves (house style): one curve per marker, marker names with AUC written in the panel in the\n# curve colour (no legend), optional landmark status. pROC only computes; ggplot2 draws.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nmarkers_keep <- c(\"AFP\", \"DCP\", \"ALT\")\nshow_auc <- TRUE\ntime_dependent <- FALSE\nlandmark_time <- 18\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue, red, green: all >= 3:1 on white, so the marker labels keep the curve colour\npal <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]],\n                         hp[[\"brown\"]])[seq_along(markers_keep)], markers_keep)\nfootnote <- \"Simulated data for illustration;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf <- df[df$marker %in% markers_keep, , drop = FALSE]\nif (isTRUE(time_dependent)) {\n  event <- df$label == 1 & df$time <= landmark_time\n  control <- df$time > landmark_time\n  df <- df[event | control, , drop = FALSE]\n  df$label <- as.integer(event[event | control])\n}\n\ncurves <- lapply(split(df, df$marker), function(sub) {\n  roc <- pROC::roc(sub$label, sub$score, quiet = TRUE, direction = \"<\")\n  data.frame(fpr = 1 - roc$specificities, tpr = roc$sensitivities,\n             marker = unique(sub$marker), auc = as.numeric(pROC::auc(roc)))\n})\nplot_df <- do.call(rbind, curves)\nplot_df$marker <- factor(plot_df$marker, levels = markers_keep)\nplot_df <- plot_df[order(plot_df$marker, plot_df$fpr, plot_df$tpr), ]\nkey <- data.frame(marker = factor(markers_keep, levels = markers_keep), i = seq_along(markers_keep))\nkey$auc <- vapply(markers_keep, function(m) plot_df$auc[plot_df$marker == m][1], numeric(1))\nkey$lab <- if (isTRUE(show_auc)) sprintf(\"%s  AUC %.2f\", key$marker, key$auc) else markers_keep\nn_case <- sum(df$label == 1 & df$marker == markers_keep[1])\nn_ctrl <- sum(df$label == 0 & df$marker == markers_keep[1])\n\np <- ggplot(plot_df, aes(fpr, tpr, colour = marker)) +\n  geom_abline(slope = 1, intercept = 0, linetype = \"22\", linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_step(linewidth = pv_house_lw(\"main\"), direction = \"vh\") +\n  geom_text(data = key, aes(x = 0.98, y = 0.04 + 0.11 * (nrow(key) - i + 1), label = lab), hjust = 1,\n            vjust = 0) +\n  annotate(\"text\", x = 0.98, y = 0.04, hjust = 1, vjust = 0,\n           label = sprintf(\"%d cases, %d controls\", n_case, n_ctrl)) +\n  scale_colour_manual(values = pal, guide = \"none\") +\n  scale_x_continuous(breaks = c(0, 0.5, 1), labels = c(\"0\", \"0.5\", \"1\")) +\n  scale_y_continuous(breaks = c(0, 0.5, 1), labels = c(\"0\", \"0.5\", \"1\")) +\n  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), expand = TRUE) +\n  labs(x = \"False positive rate\", y = \"True positive rate\",\n       title = if (isTRUE(time_dependent)) sprintf(\"Status at %s months\", landmark_time) else NULL,\n       caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "roc curve\nroc 曲线\nroc\n\nclinical\n临床\nclinical\n临床\nclinical\n几个连续标志物要比较区分病例和对照的能力时用。\n在 `plot.r` 修改 `markers_keep` 选定标志物，控制 `show_auc` 显隐面积标签，利用 `time_dependent` 和 `landmark_time` 指定时间；在 `data.csv` 填入 subject、marker、score、label 和 time 列。\nroc auc biomarker\nsubject 受试者编号（字符串） marker 标志物名称（字符串） score 连续得分（数值） label 观察期内是否发生事件，1 或 0（整数） time 事件或删失时间，月（数值）"
     },
     {
       "title": "Grouped bar chart",
@@ -319,7 +384,7 @@
         "value": "该格的均值（数值）"
       },
       "when_to_use": "类别少、要并排比较两个或多个系列的汇总数值时用。",
-      "customize": "plot.R 顶部 bar_width 与 dodge_width 调柱宽与并排间距；show_legend 开关图例；系列色取 pv_palette(\"categorical\") 前 n 色。",
+      "customize": "在 `plot.R` 修改 `bar_width` 和 `dodge_width` 调整柱宽与间距，控制 `show_values`（默认值为 `TRUE`）显示数值，及 `show_legend` 图例；在 `data.csv` 填入 group、series 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -354,12 +419,17 @@
         {
           "name": "show_legend",
           "value": "TRUE"
+        },
+        {
+          "name": "show_values",
+          "value": "TRUE"
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -393,8 +463,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bar-grouped/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/bar-grouped",
-      "code_text": "# Grouped bars. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nbar_width <- 0.72\ndodge_width <- 0.8\nshow_legend <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = unique(df$group))\ndf$series <- factor(df$series, levels = unique(df$series))\nn_series <- nlevels(df$series)\ncols <- pv_palette(\"categorical\", n_series)\n\np <- ggplot2::ggplot(df, ggplot2::aes(group, value, fill = series)) +\n  ggplot2::geom_col(\n    width = bar_width,\n    position = ggplot2::position_dodge(width = dodge_width),\n    colour = NA\n  ) +\n  ggplot2::scale_fill_manual(values = cols) +\n  ggplot2::labs(x = NULL, y = \"Value\", fill = NULL) +\n  theme_viz(base_size = 7)\n\nif (!isTRUE(show_legend)) {\n  p <- p + ggplot2::theme(legend.position = \"none\")\n} else {\n  p <- p + ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.98, 0.98),\n    legend.justification.inside = c(1, 1),\n    legend.key.height = ggplot2::unit(3.2, \"mm\"),\n    legend.key.width = ggplot2::unit(4, \"mm\")\n  )\n}\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "grouped bar chart\n分组柱状图\nbar-grouped\ngrouped\ncomparison\n比较\ncompare\n比较组\ncompare groups\n类别少、要并排比较两个或多个系列的汇总数值时用。\nplot.r 顶部 bar_width 与 dodge_width 调柱宽与并排间距；show_legend 开关图例；系列色取 pv_palette(\"categorical\") 前 n 色。\nbar grouped comparison\ngroup 横轴类别（字符串） series 并排系列名（字符串） value 该格的均值（数值）"
+      "code_text": "# Grouped bars (house style): series side by side, value on each bar, series names as a coloured\n# key inside the panel (no legend), mean ratio of the last to the first series written in the panel.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nbar_width <- 0.72\ndodge_width <- 0.8\nshow_legend <- TRUE    # coloured series key inside the panel\nshow_values <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = unique(df$group))\ndf$series <- factor(df$series, levels = unique(df$series))\ns_lv <- levels(df$series)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue, red, green, purple: all >= 3:1 on white, so key text keeps the bar colour\ncols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]])[seq_along(s_lv)], s_lv)\nfootnote <- \"Simulated data for illustration; not biological results\"\ny_top <- max(df$value) * 1.32\n\nfirst <- df[df$series == s_lv[1], ]; last <- df[df$series == s_lv[length(s_lv)], ]\nratio <- mean(last$value[match(first$group, last$group)] / first$value)\n\npd <- position_dodge(width = dodge_width)\np <- ggplot(df, aes(group, value, fill = series)) +\n  geom_col(width = bar_width, position = pd, colour = NA)\nif (isTRUE(show_values)) {\n  p <- p + geom_text(aes(label = sprintf(\"%.1f\", value), group = series), position = pd, vjust = -0.4)\n}\nif (isTRUE(show_legend)) {\n  key <- data.frame(series = factor(s_lv, levels = s_lv), i = seq_along(s_lv))\n  p <- p + geom_text(data = key, aes(x = 0.56, y = y_top * (0.97 - 0.09 * (i - 1)), label = series,\n                                     colour = series),\n                     hjust = 0, vjust = 1, inherit.aes = FALSE)\n}\np <- p +\n  annotate(\"text\", x = nlevels(df$group) + 0.44, y = y_top * 0.97, hjust = 1, vjust = 1,\n           label = sprintf(\"Mean %s / %s = %.2f\", s_lv[length(s_lv)], s_lv[1], ratio)) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(limits = c(0, y_top), expand = c(0, 0)) +\n  scale_x_discrete(expand = expansion(add = 0.5)) +\n  labs(x = NULL, y = \"Value\", caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "grouped bar chart\n分组柱状图\nbar-grouped\ngrouped\ncomparison\n比较\ncompare\n比较组\ncompare groups\n类别少、要并排比较两个或多个系列的汇总数值时用。\n在 `plot.r` 修改 `bar_width` 和 `dodge_width` 调整柱宽与间距，控制 `show_values`（默认值为 `true`）显示数值，及 `show_legend` 图例；在 `data.csv` 填入 group、series 和 value 列。\nbar grouped comparison\ngroup 横轴类别（字符串） series 并排系列名（字符串） value 该格的均值（数值）"
     },
     {
       "title": "Bump chart",
@@ -431,12 +501,29 @@
         {
           "name": "time_levels",
           "value": "paste0(\"T\", 1:6)"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "hi_cols",
+          "value": "c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]])[seq_along(highlight_items)]"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "150",
-        "height_mm": "92",
-        "label": "150 × 92 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -470,7 +557,7 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bump-chart/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/bump-chart/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/bump-chart",
-      "code_text": "# Bump chart. Highlight named items; the rest stay grey. Direct labels, no legend.\nsource(\"../../../styles/r/theme_viz.R\")\n\nhighlight_items <- c(\"TP53\", \"KRAS\")\ntime_levels <- paste0(\"T\", 1:6)\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$time <- factor(df$time, levels = time_levels)\ndf$item <- factor(df$item, levels = unique(df$item))\ndf$mark <- ifelse(df$item %in% highlight_items, as.character(df$item), \"Other\")\nmark_levels <- c(highlight_items, \"Other\")\ndf$mark <- factor(df$mark, levels = mark_levels)\nhi_cols <- pv_palette(\"categorical\", length(highlight_items))\ncols <- stats::setNames(c(hi_cols, \"#B0B0B0\"), mark_levels)\nlw <- ifelse(df$mark == \"Other\", 0.35, 0.7)\n\nends <- df[df$time == time_levels[length(time_levels)], , drop = FALSE]\n\np <- ggplot2::ggplot(df, ggplot2::aes(time, rank, group = item, colour = mark)) +\n  ggplot2::geom_line(ggplot2::aes(linewidth = lw)) +\n  ggplot2::geom_point(size = 1.6) +\n  ggplot2::geom_text(\n    data = ends,\n    ggplot2::aes(x = time, y = rank, label = item, colour = mark),\n    hjust = -0.15, size = 2.05, show.legend = FALSE\n  ) +\n  ggplot2::scale_colour_manual(values = cols, guide = \"none\") +\n  ggplot2::scale_linewidth_identity() +\n  ggplot2::scale_y_reverse(breaks = 1:8, expand = ggplot2::expansion(add = 0.35)) +\n  ggplot2::scale_x_discrete(expand = ggplot2::expansion(add = c(0.35, 1.15))) +\n  ggplot2::labs(x = \"Time point\", y = \"Rank\") +\n  theme_viz() +\n  ggplot2::theme(plot.background = ggplot2::element_rect(fill = \"white\", colour = NA))\n\npv_save(p, \"figure\", width_mm = 150, height_mm = 92)\nmessage(\"wrote preview.png\")\n",
+      "code_text": "# Bump chart (house style): ranks over time, named items coloured and the rest grey, item names\n# written at the line ends in the line colour, rank change of the highlighted items in the panel.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nhighlight_items <- c(\"TP53\", \"KRAS\")\ntime_levels <- paste0(\"T\", 1:6)\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue and red are >= 3:1 on white, so highlighted names keep the line colour;\n# grey lines (#BFBFBF, < 3:1) get their names in mid grey #6B6B6B (5.3:1)\nhi_cols <- c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]])[seq_along(highlight_items)]\nfootnote <- \"Simulated data for illustration; not biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$time <- factor(df$time, levels = time_levels)\ndf$x <- as.numeric(df$time)\ndf$mark <- ifelse(df$item %in% highlight_items, df$item, \"Other\")\nmark_levels <- c(highlight_items, \"Other\")\ndf$mark <- factor(df$mark, levels = mark_levels)\nline_cols <- stats::setNames(c(hi_cols, grey[[\"ci\"]]), mark_levels)\ntext_cols <- stats::setNames(c(hi_cols, grey[[\"mid\"]]), mark_levels)\ndf <- df[order(df$mark != \"Other\"), ]   # highlighted lines drawn last (on top)\nn_t <- length(time_levels)\nends <- df[df$time == time_levels[n_t], , drop = FALSE]\nstarts <- df[df$time == time_levels[1], , drop = FALSE]\nchg <- vapply(highlight_items, function(it) {\n  sprintf(\"%s: rank %d to %d\", it, starts$rank[starts$item == it], ends$rank[ends$item == it])\n}, character(1))\nn_rank <- max(df$rank)\ny_bottom <- n_rank + 1.45   # one line of rank-change text under the last rank\n\np <- ggplot(df, aes(x, rank, group = item)) +\n  geom_line(aes(colour = mark, linewidth = mark == \"Other\")) +\n  geom_point(aes(fill = mark), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n             stroke = HOUSE_POINT$stroke, colour = \"black\") +\n  geom_text(data = ends, aes(x = n_t + 0.22, label = item, colour = I(text_cols[as.character(mark)])),\n            hjust = 0) +\n  annotate(\"text\", x = 0.8, y = y_bottom - 0.12, hjust = 0, vjust = 0, lineheight = 0.95,\n           label = paste(chg, collapse = \"; \"), colour = \"black\") +\n  scale_colour_manual(values = line_cols, guide = \"none\") +\n  scale_fill_manual(values = line_cols, guide = \"none\") +\n  scale_linewidth_manual(values = c(`TRUE` = pv_house_lw(\"minor\"), `FALSE` = pv_house_lw(\"main\")),\n                         guide = \"none\") +\n  scale_x_continuous(breaks = seq_len(n_t), labels = time_levels) +\n  scale_y_reverse(breaks = seq_len(n_rank)) +\n  coord_cartesian(xlim = c(0.7, n_t + 1.05), ylim = c(y_bottom, 0.6),\n                  expand = FALSE) +\n  labs(x = \"Time point\", y = \"Rank\", caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "bump chart\n凹凸图\nbump-chart\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n比较多个对象在若干时间点的名次升降时用。\nplot.r 顶部 highlight_items 填写要高亮的项目名，其余画成灰色。\nbump-chart rank comparison\nitem 项目名称（字符串） time 时间点（字符串） rank 该时间点的名次（整数，1 为最高）"
     },
     {
@@ -524,9 +611,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "140",
-        "height_mm": "145",
-        "label": "140 × 145 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -560,7 +648,7 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/circular-bar/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/circular-bar/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/circular-bar",
-      "code_text": "# Circular bars. Grouped dodge, optional outside labels, optional inner hole.\nsource(\"../../../styles/r/theme_viz.R\")\n\nshow_groups <- TRUE\nlabels_outside <- TRUE\ninner_hole <- 0.42\ncategory_levels <- c(\n  \"Liver\", \"Lung\", \"Colon\", \"Breast\", \"Skin\", \"Kidney\", \"Brain\", \"Pancreas\",\n  \"Stomach\", \"Ovary\", \"Prostate\", \"Bladder\", \"Thyroid\", \"Uterus\", \"Esophagus\", \"Blood\"\n)\ngroup_levels <- c(\"Primary\", \"Metastasis\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nif (!isTRUE(show_groups)) df <- df[df$group == group_levels[1], , drop = FALSE]\ndf$category <- factor(df$category, levels = category_levels)\ndf$group <- factor(df$group, levels = intersect(group_levels, unique(df$group)))\npal <- stats::setNames(pv_palette(\"categorical\", nlevels(df$group)), levels(df$group))\n\nymax <- max(df$value)\npad <- if (inner_hole > 0) inner_hole * ymax else 0\nncat <- nlevels(df$category)\nng <- nlevels(df$group)\ndf$x <- as.numeric(df$category)\noff <- if (ng == 1L) 0 else (as.numeric(df$group) - (ng + 1) / 2) * 0.46\nhalf <- if (ng == 1L) 0.34 else 0.18\ndf$xmin <- df$x + off - half\ndf$xmax <- df$x + off + half\ndf$ymin <- pad\ndf$ymax <- pad + df$value\n# Labels sit just outside the longest bar so the ring can fill the canvas.\nbar_outer <- pad + ymax\ntheta <- (seq_len(ncat) - 0.5) / ncat\nlab <- data.frame(\n  x = seq_len(ncat),\n  y = bar_outer * 1.08,\n  label = category_levels,\n  angle = 0,\n  hjust = ifelse(theta < 0.5, 0, 1)\n)\n\n# ggplot2 polar coords draw inside a hard 0.4 radius, so the ring stays small\n# no matter how tight scale_y is. Build the same wedges in cartesian space\n# (clockwise from 12 o'clock, matching coord_polar) and let them fill the panel.\nx_min <- 0.35\nx_max <- ncat + 0.65\ntheta_of <- function(x) (x - x_min) / (x_max - x_min) * 2 * pi\nsector_poly <- function(xmin, xmax, r0, r1, id, group, n = 14) {\n  ang <- seq(theta_of(xmin), theta_of(xmax), length.out = n)\n  data.frame(\n    x = c(r1 * sin(ang), r0 * sin(rev(ang))),\n    y = c(r1 * cos(ang), r0 * cos(rev(ang))),\n    id = id,\n    group = group,\n    stringsAsFactors = FALSE\n  )\n}\npoly_df <- do.call(rbind, lapply(seq_len(nrow(df)), function(i) {\n  sector_poly(df$xmin[i], df$xmax[i], df$ymin[i], df$ymax[i], i, as.character(df$group[i]))\n}))\npoly_df$group <- factor(poly_df$group, levels = levels(df$group))\nlab$theta <- theta_of(lab$x)\nlab$lx <- lab$y * sin(lab$theta)\nlab$ly <- lab$y * cos(lab$theta)\nlim <- bar_outer * 1.12\n\np <- ggplot2::ggplot() +\n  ggplot2::geom_polygon(\n    data = poly_df,\n    ggplot2::aes(x, y, group = id, fill = group),\n    colour = NA\n  ) +\n  ggplot2::scale_fill_manual(values = pal, name = NULL) +\n  ggplot2::annotate(\n    \"text\",\n    x = 0,\n    y = 0,\n    label = sprintf(\"max %.0f\", ymax),\n    size = 3.2,\n    colour = \"black\",\n    family = viz_sans_family()\n  ) +\n  ggplot2::coord_equal(\n    xlim = c(-lim, lim), ylim = c(-lim, lim),\n    expand = FALSE, clip = \"off\"\n  ) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text = ggplot2::element_blank(),\n    axis.ticks = ggplot2::element_blank(),\n    axis.title = ggplot2::element_blank(),\n    axis.line = ggplot2::element_blank(),\n    panel.border = ggplot2::element_blank(),\n    legend.position = \"bottom\",\n    plot.background = ggplot2::element_rect(fill = \"white\", colour = NA),\n    plot.margin = ggplot2::margin(2, 12, 1, 12, \"mm\")\n  )\n\nif (isTRUE(labels_outside)) {\n  p <- p + ggplot2::geom_text(\n    data = lab,\n    ggplot2::aes(x = lx, y = ly, label = label, hjust = hjust),\n    inherit.aes = FALSE,\n    size = 2.2,\n    colour = \"black\",\n    family = viz_sans_family()\n  )\n}\n\npv_save(p, \"figure\", width_mm = 140, height_mm = 145)\nmessage(\"wrote preview.png\")\n",
+      "code_text": "# Circular bars (house style): grouped dodge, optional outside labels, optional inner hole; group\n# names and the count of categories where the second group is higher are written in the hole.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nshow_groups <- TRUE\nlabels_outside <- TRUE\ninner_hole <- 0.42\ncategory_levels <- c(\n  \"Liver\", \"Lung\", \"Colon\", \"Breast\", \"Skin\", \"Kidney\", \"Brain\", \"Pancreas\",\n  \"Stomach\", \"Ovary\", \"Prostate\", \"Bladder\", \"Thyroid\", \"Uterus\", \"Esophagus\", \"Blood\"\n)\ngroup_levels <- c(\"Primary\", \"Metastasis\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nif (!isTRUE(show_groups)) df <- df[df$group == group_levels[1], , drop = FALSE]\ndf$category <- factor(df$category, levels = category_levels)\ndf$group <- factor(df$group, levels = intersect(group_levels, unique(df$group)))\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue and red are both >= 3:1 on white, so the group names in the hole keep the bar colour\npal <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]])[seq_len(nlevels(df$group))], levels(df$group))\nfootnote <- \"Simulated data for illustration; not biological results\"\n\nymax <- max(df$value)\npad <- if (inner_hole > 0) inner_hole * ymax else 0\nncat <- nlevels(df$category)\nng <- nlevels(df$group)\ndf$x <- as.numeric(df$category)\noff <- if (ng == 1L) 0 else (as.numeric(df$group) - (ng + 1) / 2) * 0.46\nhalf <- if (ng == 1L) 0.34 else 0.18\ndf$xmin <- df$x + off - half\ndf$xmax <- df$x + off + half\ndf$ymin <- pad\ndf$ymax <- pad + df$value\n# Each label sits just outside the longer bar of its own category.\nbar_outer <- pad + ymax\ntheta <- (seq_len(ncat) - 0.5) / ncat\nlab <- data.frame(\n  x = seq_len(ncat),\n  y = pad + as.numeric(tapply(df$value, df$category, max)) + 0.03 * bar_outer,\n  label = category_levels,\n  angle = 0,\n  hjust = 0\n)\n\n# ggplot2 polar coords draw inside a hard 0.4 radius, so the ring stays small\n# no matter how tight scale_y is. Build the same wedges in cartesian space\n# (clockwise from 12 o'clock, matching coord_polar) and let them fill the panel.\nx_min <- 0.35\nx_max <- ncat + 0.65\ntheta_of <- function(x) (x - x_min) / (x_max - x_min) * 2 * pi\nsector_poly <- function(xmin, xmax, r0, r1, id, group, n = 14) {\n  ang <- seq(theta_of(xmin), theta_of(xmax), length.out = n)\n  data.frame(\n    x = c(r1 * sin(ang), r0 * sin(rev(ang))),\n    y = c(r1 * cos(ang), r0 * cos(rev(ang))),\n    id = id,\n    group = group,\n    stringsAsFactors = FALSE\n  )\n}\npoly_df <- do.call(rbind, lapply(seq_len(nrow(df)), function(i) {\n  sector_poly(df$xmin[i], df$xmax[i], df$ymin[i], df$ymax[i], i, as.character(df$group[i]))\n}))\npoly_df$group <- factor(poly_df$group, levels = levels(df$group))\nlab$theta <- theta_of(lab$x)\nlab$lx <- lab$y * sin(lab$theta)\nlab$ly <- lab$y * cos(lab$theta)\n# radial text, read left to right on both halves\ndeg <- 90 - lab$theta * 180 / pi\nflip <- lab$theta > pi\nlab$angle <- ifelse(flip, deg + 180, deg)\nlab$hjust <- ifelse(flip, 1, 0)\nlim <- bar_outer * 1.12\n\nng_lv <- levels(df$group)\nkey <- data.frame(group = factor(ng_lv, levels = ng_lv), y = lim - (seq_along(ng_lv) - 1) * 0.085 * lim)\nkey$lab <- as.character(key$group)\nstat_lab <- if (ng == 2L) {\n  w <- tapply(df$value, list(df$category, df$group), sum)\n  sprintf(\"%s higher\\nin %d of %d\\ncategories\", ng_lv[2], sum(w[, 2] > w[, 1]), ncat)\n} else sprintf(\"max %.0f\", ymax)\n\np <- ggplot() +\n  geom_polygon(data = poly_df, aes(x, y, group = id, fill = group), colour = NA) +\n  geom_text(data = key, aes(x = -lim, y = y, label = lab, colour = group), hjust = 0, vjust = 1) +\n  annotate(\"text\", x = lim, y = lim, label = stat_lab, hjust = 1, vjust = 1, lineheight = 0.95) +\n  scale_fill_manual(values = pal, guide = \"none\") +\n  scale_colour_manual(values = pal, guide = \"none\") +\n  coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim), expand = FALSE, clip = \"off\") +\n  scale_x_continuous(breaks = NULL) +\n  scale_y_continuous(breaks = NULL) +\n  labs(x = NULL, y = NULL, caption = footnote) +\n  theme_house() +\n  theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(),\n        panel.border = element_blank(), plot.margin = margin(1, 3, 0.9, 3, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\nif (isTRUE(labels_outside)) {\n  p <- p + geom_text(data = lab, aes(x = lx, y = ly, label = label, hjust = hjust, angle = angle), vjust = 0.5, colour = \"black\")\n}\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "circular bar\n环状柱形图\ncircular-bar\ncircular\ncomparison\n比较\ncompare\n比较组\ncompare groups\n类别较多、又要并排比较两组时，用环形柱代替长条形图。\nplot.r 顶部 show_groups 控制是否分组并排；labels_outside 控制环外标签；inner_hole 为内圆半径占最大值的比例。\ncircular-bar comparison polar\ncategory 类别名称（字符串） group 分组（字符串） value 数值（正数）"
     },
     {
@@ -583,7 +671,7 @@
         "value": "得分（数值）"
       },
       "when_to_use": "多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。",
-      "customize": "sort_by_group 指定按哪一组数值排序类别；show_segment 在同行最值间画浅灰导引线；point_size 调点大小；group_levels 定系列顺序与配色。颜色取 pv_palette(\"categorical\") 前 n 色（勿用第 8 色纯黑作数据点）。",
+      "customize": "在 `plot.R` 修改 `sort_by_group` 确定排序组别，设定 `group_levels` 顺序，控制 `show_segment` 显隐极值连线，点形由 `HOUSE_POINT` 决定；在 `data.csv` 填入 category、group 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -617,17 +705,34 @@
         },
         {
           "name": "point_size",
-          "value": "2.0"
+          "value": "HOUSE_POINT$size"
         },
         {
           "name": "group_levels",
           "value": "c(\"Urban\", \"Rural\")"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "cols",
+          "value": "stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]])[seq_along(group_levels)], group_levels)"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for\\nillustration; not\\nbiological results\""
         }
       ],
       "canvas": {
-        "width_mm": "100",
-        "height_mm": "110",
-        "label": "100 × 110 mm"
+        "width_mm": "43",
+        "height_mm": "89",
+        "label": "43 × 89 mm (1×2 cells)",
+        "cells": "1x2"
       },
       "downloads": [
         {
@@ -661,8 +766,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/cleveland-dot/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/cleveland-dot/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/cleveland-dot",
-      "code_text": "# Cleveland dot plot: categories sorted by value, multi-group points.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nsort_by_group <- \"Urban\"   # which group drives category order\nshow_segment <- TRUE       # light guide from min to max within row\npoint_size <- 2.0\ngroup_levels <- c(\"Urban\", \"Rural\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_levels)\n# Order categories by the chosen group's value (ascending = low at bottom)\nord_vals <- df$value[df$group == sort_by_group]\nnames(ord_vals) <- df$category[df$group == sort_by_group]\ncat_order <- names(sort(ord_vals, decreasing = FALSE))\ndf$category <- factor(df$category, levels = cat_order)\n\ncols <- setNames(pv_palette(\"categorical\", length(group_levels)), group_levels)\n\n# Per-category min/max for optional Cleveland guide segments\nseg <- aggregate(value ~ category, data = df, FUN = function(x) c(min = min(x), max = max(x)))\nseg <- data.frame(\n  category = seg$category,\n  xmin = seg$value[, \"min\"],\n  xmax = seg$value[, \"max\"],\n  stringsAsFactors = FALSE\n)\n\np <- ggplot2::ggplot()\nif (isTRUE(show_segment)) {\n  p <- p + ggplot2::geom_segment(\n    data = seg,\n    ggplot2::aes(x = xmin, xend = xmax, y = category, yend = category),\n    linewidth = 0.35,\n    colour = \"grey70\"\n  )\n}\np <- p +\n  ggplot2::geom_point(\n    data = df,\n    ggplot2::aes(value, category, colour = group),\n    size = point_size\n  ) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.08, 0.04))) +\n  ggplot2::labs(x = \"Score\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.42, 0.55),\n    legend.justification.inside = c(0, 0.5)\n  )\n\npv_save(p, \"figure\", width_mm = 100, height_mm = 110)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "cleveland dot plot\ncleveland 点图\ncleveland-dot\ncleveland\ncomparison\n比较\ncompare\n比较组\ncompare groups\n多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。\nsort_by_group 指定按哪一组数值排序类别；show_segment 在同行最值间画浅灰导引线；point_size 调点大小；group_levels 定系列顺序与配色。颜色取 pv_palette(\"categorical\") 前 n 色（勿用第 8 色纯黑作数据点）。\ncleveland dot ranking comparison\ncategory 指标或类别名（字符串） group 系列名（字符串） value 得分（数值）"
+      "code_text": "# Cleveland dot plot (house style): categories sorted by one group, a grey guide from min to max in\n# each row, group names as a coloured key and the count of rows where the first group is higher,\n# both inside the panel. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nsort_by_group <- \"Urban\"   # which group drives category order\nshow_segment <- TRUE       # light guide from min to max within row\npoint_size <- HOUSE_POINT$size\ngroup_levels <- c(\"Urban\", \"Rural\")\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue and red are both >= 3:1 on white, so the key keeps the point colour\ncols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]])[seq_along(group_levels)],\n                        group_levels)\nfootnote <- \"Simulated data for\\nillustration; not\\nbiological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = group_levels)\nord_vals <- df$value[df$group == sort_by_group]\nnames(ord_vals) <- df$category[df$group == sort_by_group]\ncat_order <- names(sort(ord_vals, decreasing = FALSE))\ndf$category <- factor(df$category, levels = cat_order)\ndf$y <- as.numeric(df$category)\nseg <- do.call(rbind, lapply(split(df, df$category), function(d) {\n  data.frame(y = d$y[1], xmin = min(d$value), xmax = max(d$value))\n}))\nw <- tapply(df$value, list(df$category, df$group), sum)\nn_hi <- sum(w[, group_levels[1]] > w[, group_levels[2]])\nn_cat <- nlevels(df$category)\nx_lim <- range(df$value) + c(-0.05, 0.05) * diff(range(df$value))\nkey <- data.frame(group = factor(group_levels, levels = group_levels), i = seq_along(group_levels))\n\np <- ggplot()\nif (isTRUE(show_segment)) {\n  p <- p + geom_segment(data = seg, aes(x = xmin, xend = xmax, y = y, yend = y),\n                        linewidth = pv_house_lw(\"minor\"), colour = grey[[\"ci\"]])\n}\np <- p +\n  geom_point(data = df, aes(value, y, fill = group), shape = HOUSE_POINT$shape, size = point_size,\n             stroke = HOUSE_POINT$stroke, colour = \"black\") +\n  geom_text(data = key, aes(x = x_lim[2] - 0.02 * diff(x_lim), y = 1.75 + 0.5 * (nrow(key) - i + 1), label = group,\n                            colour = group), hjust = 1, vjust = 0) +\n  annotate(\"text\", x = x_lim[2] - 0.02 * diff(x_lim), y = 0.6, hjust = 1, vjust = 0, lineheight = 0.95,\n           label = sprintf(\"%s higher\\nin %d of %d\", group_levels[1], n_hi, n_cat)) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(breaks = seq_len(n_cat), labels = levels(df$category)) +\n  coord_cartesian(xlim = x_lim, ylim = c(0.4, n_cat + 0.6), expand = FALSE) +\n  labs(x = \"Score\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "cleveland dot plot\ncleveland 点图\ncleveland-dot\ncleveland\ncomparison\n比较\ncompare\n比较组\ncompare groups\n多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。\n在 `plot.r` 修改 `sort_by_group` 确定排序组别，设定 `group_levels` 顺序，控制 `show_segment` 显隐极值连线，点形由 `house_point` 决定；在 `data.csv` 填入 category、group 和 value 列。\ncleveland dot ranking comparison\ncategory 指标或类别名（字符串） group 系列名（字符串） value 得分（数值）"
     },
     {
       "title": "Diverging bar chart",
@@ -683,7 +788,7 @@
         "class": "升高或降低（字符串）"
       },
       "when_to_use": "一批指标有正有负、需要以 0 为中心比较方向和幅度时用。",
-      "customize": "sort_bars 按数值排序；center_at_zero 为 FALSE 时参考线改到中位数；class_levels 决定图例顺序。颜色取 pv_palette(\"diverging\") 两端。",
+      "customize": "在 `plot.R` 控制 `sort_bars` 决定是否排序，开启 `center_at_zero` 确保零点居中，设定 `class_levels` 分类顺序，由 `pv_palette(\"house_div\")` 映射颜色；在 `data.csv` 填入 item、value 和 class 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -703,12 +808,29 @@
         {
           "name": "class_levels",
           "value": "c(\"Decreased\", \"Increased\")"
+        },
+        {
+          "name": "div",
+          "value": "pv_palette(\"house_div\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "cols",
+          "value": "stats::setNames(div[c(1, length(div))], class_levels)"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for\\nillustration; not\\nbiological results\""
         }
       ],
       "canvas": {
-        "width_mm": "110",
-        "height_mm": "125",
-        "label": "110 × 125 mm"
+        "width_mm": "43",
+        "height_mm": "89",
+        "label": "43 × 89 mm (1×2 cells)",
+        "cells": "1x2"
       },
       "downloads": [
         {
@@ -742,8 +864,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/diverging-bar/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/diverging-bar/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/diverging-bar",
-      "code_text": "# Diverging bars centered at zero. Reads data.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nsort_bars <- TRUE\ncenter_at_zero <- TRUE\nclass_levels <- c(\"Decreased\", \"Increased\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$class <- factor(df$class, levels = class_levels)\nif (sort_bars) {\n  df$item <- factor(df$item, levels = df$item[order(df$value)])\n} else {\n  df$item <- factor(df$item, levels = rev(unique(df$item)))\n}\ncols <- setNames(pv_palette(\"diverging\", 7)[c(1, 7)], class_levels)\n\np <- ggplot2::ggplot(df, ggplot2::aes(value, item, fill = class)) +\n  ggplot2::geom_col(width = 0.72) +\n  ggplot2::geom_vline(xintercept = if (center_at_zero) 0 else stats::median(df$value), linewidth = 0.3) +\n  ggplot2::scale_fill_manual(values = cols, name = NULL) +\n  ggplot2::scale_x_continuous(labels = function(x) paste0(x, \"%\")) +\n  ggplot2::labs(x = \"Change from baseline\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.98, 0.06),\n    legend.justification.inside = c(1, 0)\n  )\n\npv_save(p, \"figure\", width_mm = 110, height_mm = 125)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "diverging bar chart\n正负条形图\ndiverging-bar\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n一批指标有正有负、需要以 0 为中心比较方向和幅度时用。\nsort_bars 按数值排序；center_at_zero 为 false 时参考线改到中位数；class_levels 决定图例顺序。颜色取 pv_palette(\"diverging\") 两端。\nbar diverging comparison\nitem 指标名（字符串） value 相对基线的变化，百分比（数值） class 升高或降低（字符串）"
+      "code_text": "# Diverging bars (house style): bars centred at zero in the two ends of house_div, class names with\n# counts written inside the panel in the bar colour (no legend). Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nsort_bars <- TRUE\ncenter_at_zero <- TRUE\nclass_levels <- c(\"Decreased\", \"Increased\")\n\ndiv <- pv_palette(\"house_div\"); grey <- pv_palette(\"house_grey\")\n# both ends of house_div are >= 3:1 on white (blue 4.5:1, red 5.5:1), so labels keep the bar colour\ncols <- stats::setNames(div[c(1, length(div))], class_levels)\nfootnote <- \"Simulated data for\\nillustration; not\\nbiological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$class <- factor(df$class, levels = class_levels)\nord <- if (sort_bars) order(df$value) else rev(seq_len(nrow(df)))\ndf$y[ord] <- seq_len(nrow(df))\nref <- if (center_at_zero) 0 else stats::median(df$value)\nn <- nrow(df)\nx_lim <- range(c(df$value, 0)) * 1.08\nkey <- data.frame(class = factor(class_levels, levels = class_levels),\n                  n = as.integer(table(df$class)[class_levels]))\nkey$lab <- sprintf(\"%s\\nn = %d\", key$class, key$n)\n# Decreased key bottom right, Increased key top left: the empty corners of a sorted diverging plot\nkey$x <- c(x_lim[2] * 0.96, x_lim[1] * 0.96)\nkey$y <- c(1.6, n - 0.6)\nkey$hjust <- c(1, 0)\n\np <- ggplot(df) +\n  geom_col(aes(value, y, fill = class), orientation = \"y\", width = 0.7) +\n  geom_vline(xintercept = ref, linewidth = pv_house_lw(\"frame\"), colour = \"black\") +\n  geom_text(data = key, aes(x = x, y = y, label = lab, colour = class, hjust = hjust), lineheight = 0.95) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(labels = function(x) paste0(x, \"%\")) +\n  scale_y_continuous(breaks = df$y, labels = df$item) +\n  coord_cartesian(xlim = x_lim, ylim = c(0.4, n + 0.6), expand = FALSE) +\n  labs(x = \"Change from baseline\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "diverging bar chart\n正负条形图\ndiverging-bar\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n一批指标有正有负、需要以 0 为中心比较方向和幅度时用。\n在 `plot.r` 控制 `sort_bars` 决定是否排序，开启 `center_at_zero` 确保零点居中，设定 `class_levels` 分类顺序，由 `pv_palette(\"house_div\")` 映射颜色；在 `data.csv` 填入 item、value 和 class 列。\nbar diverging comparison\nitem 指标名（字符串） value 相对基线的变化，百分比（数值） class 升高或降低（字符串）"
     },
     {
       "title": "Dumbbell chart",
@@ -764,7 +886,7 @@
         "value": "得分（数值）"
       },
       "when_to_use": "同一批对象要比较两个时间点或两种状态的变化方向时用。",
-      "customize": "use_arrow 在变化方向上加箭头；sort_by 取 change、week12 或 input；colour_by_stage 按阶段着色。颜色取 pv_palette(\"categorical\")。",
+      "customize": "在 `plot.R` 控制 `use_arrow` 显隐变化方向指示，用 `sort_by` 改变排序基准，指定 `stage_levels` 前后顺序并由 `colour_by_stage` 着色；在 `data.csv` 填入 item、stage 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -788,12 +910,25 @@
         {
           "name": "stage_levels",
           "value": "c(\"Baseline\", \"Week 12\")"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "cols",
+          "value": "stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]]), stage_levels)"
         }
       ],
       "canvas": {
-        "width_mm": "110",
-        "height_mm": "115",
-        "label": "110 × 115 mm"
+        "width_mm": "43",
+        "height_mm": "89",
+        "label": "43 × 89 mm (1×2 cells)",
+        "cells": "1x2"
       },
       "downloads": [
         {
@@ -827,8 +962,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/dumbbell/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/dumbbell/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/dumbbell",
-      "code_text": "# Dumbbell of two stages, optional arrow. Reads data.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nuse_arrow <- TRUE\nsort_by <- \"change\" # change | week12 | input\ncolour_by_stage <- TRUE\nstage_levels <- c(\"Baseline\", \"Week 12\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$stage <- factor(df$stage, levels = stage_levels)\nwide <- reshape(df, idvar = \"item\", timevar = \"stage\", direction = \"wide\")\nnames(wide) <- c(\"item\", \"baseline\", \"week12\")\nwide$change <- wide$week12 - wide$baseline\nif (sort_by == \"change\") {\n  wide <- wide[order(wide$change), ]\n} else if (sort_by == \"week12\") {\n  wide <- wide[order(wide$week12), ]\n}\nwide$item <- factor(wide$item, levels = wide$item)\nlong <- rbind(\n  data.frame(item = wide$item, stage = stage_levels[1], value = wide$baseline),\n  data.frame(item = wide$item, stage = stage_levels[2], value = wide$week12)\n)\nlong$stage <- factor(long$stage, levels = stage_levels)\ncols <- setNames(pv_palette(\"categorical\", 2), stage_levels)\narr <- if (use_arrow) grid::arrow(length = grid::unit(1.5, \"mm\"), type = \"closed\") else NULL\n\np <- ggplot2::ggplot() +\n  ggplot2::geom_segment(\n    data = wide,\n    ggplot2::aes(x = baseline, xend = week12, y = item, yend = item),\n    linewidth = 0.4,\n    colour = \"grey55\",\n    arrow = arr\n  ) +\n  ggplot2::geom_point(\n    data = long,\n    ggplot2::aes(value, item, colour = if (colour_by_stage) stage else NULL),\n    size = 1.8\n  ) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::labs(x = \"Score\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.98, 0.04),\n    legend.justification.inside = c(1, 0)\n  )\n\npv_save(p, \"figure\", width_mm = 110, height_mm = 115)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "dumbbell chart\n哑铃图\ndumbbell\ndumbbell\ncomparison\n比较\ncompare\n比较组\ncompare groups\n同一批对象要比较两个时间点或两种状态的变化方向时用。\nuse_arrow 在变化方向上加箭头；sort_by 取 change、week12 或 input；colour_by_stage 按阶段着色。颜色取 pv_palette(\"categorical\")。\ndumbbell comparison before-after\nitem 位点或对象（字符串） stage 时间点（字符串） value 得分（数值）"
+      "code_text": "# Dumbbell (house style): two stages per row joined by a grey segment with an optional arrow,\n# stage names as a coloured key and the mean change written inside the panel (no legend).\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nuse_arrow <- TRUE\nsort_by <- \"change\" # change | week12 | input\ncolour_by_stage <- TRUE\nstage_levels <- c(\"Baseline\", \"Week 12\")\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue and red are both >= 3:1 on white, so the stage key keeps the point colour\ncols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]]), stage_levels)\nif (!isTRUE(colour_by_stage)) cols[] <- grey[[\"dark\"]]\nfootnote <- \"Simulated data for\\nillustration; not\\nbiological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$stage <- factor(df$stage, levels = stage_levels)\nwide <- reshape(df, idvar = \"item\", timevar = \"stage\", direction = \"wide\")\nnames(wide) <- c(\"item\", \"baseline\", \"week12\")\nwide$change <- wide$week12 - wide$baseline\nif (sort_by == \"change\") {\n  wide <- wide[order(wide$change), ]\n} else if (sort_by == \"week12\") {\n  wide <- wide[order(wide$week12), ]\n}\nwide$y <- seq_len(nrow(wide))\nlong <- rbind(\n  data.frame(y = wide$y, stage = stage_levels[1], value = wide$baseline),\n  data.frame(y = wide$y, stage = stage_levels[2], value = wide$week12)\n)\nlong$stage <- factor(long$stage, levels = stage_levels)\narr <- if (use_arrow) grid::arrow(length = grid::unit(1.2, \"mm\"), type = \"closed\") else NULL\nn <- nrow(wide)\nx_lim <- range(long$value) + c(-0.05, 0.05) * diff(range(long$value))\nkey <- data.frame(stage = factor(stage_levels, levels = stage_levels), i = seq_along(stage_levels))\n# point diameter in x units (HOUSE_POINT size in mm over the panel width, about 33 mm in a 1x2 tile)\npt_x <- pv_point_dims()[[\"outer_mm\"]] / 33 * diff(x_lim)\n# rows whose change is smaller than ~2 point diameters get a plain segment (no arrow head);\n# otherwise the segment stops at the edge of the end point so the head stays visible\nwide$arrow <- abs(wide$change) > 2 * pt_x\nwide$xend <- ifelse(wide$arrow, wide$week12 - sign(wide$change) * pt_x / 2, wide$week12)\nstat_lab <- sprintf(\"Mean change %+.1f\\n%d of %d decrease\", mean(wide$change), sum(wide$change < 0), n)\n\np <- ggplot() +\n  geom_segment(data = wide[!wide$arrow, ], aes(x = baseline, xend = xend, y = y, yend = y),\n               linewidth = pv_house_lw(\"minor\"), colour = grey[[\"ref\"]]) +\n  geom_segment(data = wide[wide$arrow, ], aes(x = baseline, xend = xend, y = y, yend = y),\n               linewidth = pv_house_lw(\"minor\"), colour = grey[[\"ref\"]], arrow = arr) +\n  geom_point(data = long, aes(value, y, fill = stage), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,\n             stroke = HOUSE_POINT$stroke, colour = \"black\") +\n  geom_text(data = key, aes(x = x_lim[2] - 0.02 * diff(x_lim), y = 2.0 + 0.6 * (nrow(key) - i + 1),\n                            label = stage, colour = stage), hjust = 1, vjust = 0) +\n  annotate(\"text\", x = x_lim[2] - 0.02 * diff(x_lim), y = 0.6, hjust = 1, vjust = 0, lineheight = 0.95,\n           label = stat_lab) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(breaks = wide$y, labels = wide$item) +\n  coord_cartesian(xlim = x_lim, ylim = c(0.4, n + 0.6), expand = FALSE) +\n  labs(x = \"Score\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "dumbbell chart\n哑铃图\ndumbbell\ndumbbell\ncomparison\n比较\ncompare\n比较组\ncompare groups\n同一批对象要比较两个时间点或两种状态的变化方向时用。\n在 `plot.r` 控制 `use_arrow` 显隐变化方向指示，用 `sort_by` 改变排序基准，指定 `stage_levels` 前后顺序并由 `colour_by_stage` 着色；在 `data.csv` 填入 item、stage 和 value 列。\ndumbbell comparison before-after\nitem 位点或对象（字符串） stage 时间点（字符串） value 得分（数值）"
     },
     {
       "title": "Grouped boxplot with significance",
@@ -848,7 +983,7 @@
         "value": "观测值（数值）"
       },
       "when_to_use": "少数组的连续指标要看分布并标两两比较时用。",
-      "customize": "plot.R 的 comparisons 列出要比的组对；填充色按组水平顺序取 pv_palette(\"categorical\")。",
+      "customize": "在 `plot.R` 修改 `comparisons` 列表指定需要进行两两比较的组别对，控制 `show_points` 开关（默认值为 `TRUE`）显隐原始数据点；在 `data.csv` 填入 group 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -860,12 +995,17 @@
         {
           "name": "comparisons",
           "value": "list(c(\"A\", \"B\"), c(\"B\", \"C\"))"
+        },
+        {
+          "name": "show_points",
+          "value": "TRUE"
         }
       ],
       "canvas": {
-        "width_mm": "85",
-        "height_mm": "60",
-        "label": "85 × 60 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -899,8 +1039,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/grouped-boxplot-signif/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/grouped-boxplot-signif/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/grouped-boxplot-signif",
-      "code_text": "# Grouped boxplot with two Wilcoxon brackets. Reads data.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\ncomparisons <- list(c(\"A\", \"B\"), c(\"B\", \"C\"))\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = unique(df$group))\ncols <- pv_palette(\"categorical\", nlevels(df$group))\n\nstar <- function(p) {\n  if (p < 0.001) return(\"***\")\n  if (p < 0.01) return(\"**\")\n  if (p < 0.05) return(\"*\")\n  \"ns\"\n}\nymax <- max(df$value)\nstep <- diff(range(df$value)) * 0.12\nbrackets <- lapply(seq_along(comparisons), function(i) {\n  pair <- comparisons[[i]]\n  x1 <- match(pair[1], levels(df$group))\n  x2 <- match(pair[2], levels(df$group))\n  p <- stats::wilcox.test(value ~ group, data = df[df$group %in% pair, ])$p.value\n  y <- ymax + step * i\n  data.frame(x1 = x1, x2 = x2, y = y, label = star(p))\n})\nbr <- do.call(rbind, brackets)\n\np <- ggplot2::ggplot(df, ggplot2::aes(group, value, fill = group)) +\n  ggplot2::geom_boxplot(width = 0.6, outlier.size = 0.6) +\n  ggplot2::scale_fill_manual(values = cols, guide = \"none\") +\n  ggplot2::geom_segment(data = br, ggplot2::aes(x = x1, xend = x2, y = y, yend = y), inherit.aes = FALSE, linewidth = 0.3) +\n  ggplot2::geom_segment(data = br, ggplot2::aes(x = x1, xend = x1, y = y - step * 0.2, yend = y), inherit.aes = FALSE, linewidth = 0.3) +\n  ggplot2::geom_segment(data = br, ggplot2::aes(x = x2, xend = x2, y = y - step * 0.2, yend = y), inherit.aes = FALSE, linewidth = 0.3) +\n  ggplot2::geom_text(data = br, ggplot2::aes(x = (x1 + x2) / 2, y = y + step * 0.15, label = label), inherit.aes = FALSE, size = 2.2) +\n  ggplot2::labs(x = NULL, y = \"Value\") +\n  ggplot2::coord_cartesian(ylim = c(min(df$value), max(br$y) + step * 0.45)) +\n  theme_viz(base_size = 7)\n\npv_save(p, \"figure\", width_mm = 85, height_mm = 60)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "grouped boxplot with significance\n分组箱线图与显著性\ngrouped-boxplot-signif\nboxplot\ncomparison\n比较\ncompare\n比较组\ncompare groups\n少数组的连续指标要看分布并标两两比较时用。\nplot.r 的 comparisons 列出要比的组对；填充色按组水平顺序取 pv_palette(\"categorical\")。\nboxplot significance wilcoxon\ngroup 分组（字符串） value 观测值（数值）"
+      "code_text": "# Grouped boxplot (house style): semi-transparent boxes, jittered shape-21 points instead of outliers,\n# Wilcoxon P over brackets and n per group written in the group colour. Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\ncomparisons <- list(c(\"A\", \"B\"), c(\"B\", \"C\"))\nshow_points <- TRUE\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$group <- factor(df$group, levels = unique(df$group))\ng_lv <- levels(df$group)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue, red, green, purple: all >= 3:1 on white, so the n labels keep the group colour\ncols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]],\n                          hp[[\"brown\"]])[seq_along(g_lv)], g_lv)\nfootnote <- \"Simulated data for illustration; not biological results\"\n\nrng <- range(df$value)\nstep <- diff(rng) * 0.13\nbr <- do.call(rbind, lapply(seq_along(comparisons), function(i) {\n  pair <- comparisons[[i]]\n  pw <- stats::wilcox.test(value ~ group, data = droplevels(df[df$group %in% pair, ]))$p.value\n  data.frame(x1 = match(pair[1], g_lv), x2 = match(pair[2], g_lv), y = rng[2] + step * (i - 0.3),\n             label = pv_fmt_p(pw))\n}))\ntick <- step * 0.18\ncnt <- data.frame(group = factor(g_lv, levels = g_lv), x = seq_along(g_lv),\n                  lab = sprintf(\"n = %d\", as.integer(table(df$group)[g_lv])))\ny_lim <- c(rng[1] - step * 1.15, max(br$y) + step * 0.75)\n\nset.seed(7)\np <- ggplot(df, aes(group, value)) +\n  # outliers are drawn only when the raw points are hidden\n  geom_boxplot(aes(fill = group), width = 0.55, alpha = 0.6,\n               outlier.shape = if (isTRUE(show_points)) NA else 19, outlier.size = 1.2,\n               outlier.colour = \"black\", linewidth = pv_house_lw(\"frame\"), colour = \"black\")\nif (isTRUE(show_points)) {\n  p <- p + geom_point(aes(fill = group), position = position_jitter(width = 0.12, height = 0),\n                      shape = HOUSE_POINT$shape, size = 1.4, stroke = HOUSE_POINT$stroke,\n                      colour = \"black\", alpha = 0.7)\n}\np <- p +\n  geom_segment(data = br, aes(x = x1, xend = x2, y = y, yend = y), inherit.aes = FALSE,\n               linewidth = pv_house_lw(\"frame\")) +\n  geom_segment(data = br, aes(x = x1, xend = x1, y = y - tick, yend = y), inherit.aes = FALSE,\n               linewidth = pv_house_lw(\"frame\")) +\n  geom_segment(data = br, aes(x = x2, xend = x2, y = y - tick, yend = y), inherit.aes = FALSE,\n               linewidth = pv_house_lw(\"frame\")) +\n  geom_text(data = br, aes(x = (x1 + x2) / 2, y = y + step * 0.08, label = label), inherit.aes = FALSE,\n            parse = TRUE, vjust = 0) +\n  geom_text(data = cnt, aes(x = x, y = rng[1] - step * 0.75, label = lab, colour = group),\n            inherit.aes = FALSE) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  coord_cartesian(ylim = y_lim, expand = FALSE) +\n  labs(x = NULL, y = \"Value\", caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "grouped boxplot with significance\n分组箱线图与显著性\ngrouped-boxplot-signif\nboxplot\ncomparison\n比较\ncompare\n比较组\ncompare groups\n少数组的连续指标要看分布并标两两比较时用。\n在 `plot.r` 修改 `comparisons` 列表指定需要进行两两比较的组别对，控制 `show_points` 开关（默认值为 `true`）显隐原始数据点；在 `data.csv` 填入 group 和 value 列。\nboxplot significance wilcoxon\ngroup 分组（字符串） value 观测值（数值）"
     },
     {
       "title": "Bar chart with points and P values (house style)",
@@ -1110,7 +1250,7 @@
         "signif": "是否强调（逻辑值）"
       },
       "when_to_use": "特征较多、要按大小排序并标出需要强调的条目时用。",
-      "customize": "rank_items 按得分从下到上排列；highlight_signif 用 signif 列着强调色；map_importance 为 TRUE 时点的大小跟随得分。颜色取 pv_palette(\"categorical\")。",
+      "customize": "在 `plot.R` 控制 `rank_items` 决定是否按得分排序，开启 `highlight_signif` 高亮显著项，控制 `map_importance` 映射点大小；在 `data.csv` 填入 item、value 和 signif 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -1132,18 +1272,31 @@
           "value": "FALSE"
         },
         {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
           "name": "signif_colour",
-          "value": "pv_palette(\"categorical\", 4)[4]"
+          "value": "hp[[\"red\"]]"
         },
         {
           "name": "base_colour",
-          "value": "pv_palette(\"categorical\", 1)"
+          "value": "hp[[\"blue\"]]"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for\\nillustration; not\\nbiological results\""
         }
       ],
       "canvas": {
-        "width_mm": "100",
-        "height_mm": "140",
-        "label": "100 × 140 mm"
+        "width_mm": "43",
+        "height_mm": "89",
+        "label": "43 × 89 mm (1×2 cells)",
+        "cells": "1x2"
       },
       "downloads": [
         {
@@ -1177,8 +1330,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/lollipop/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/lollipop/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/lollipop",
-      "code_text": "# Ranked lollipops. Highlight can follow the signif column. Reads data.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nrank_items <- TRUE\nhighlight_signif <- TRUE\nmap_importance <- FALSE\nsignif_colour <- pv_palette(\"categorical\", 4)[4]\nbase_colour <- pv_palette(\"categorical\", 1)\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$signif <- as.logical(df$signif)\nif (rank_items) {\n  df <- df[order(df$value), ]\n}\ndf$item <- factor(df$item, levels = df$item)\ndf$mark <- ifelse(highlight_signif & df$signif, \"Marked\", \"Other\")\ncols <- c(Other = base_colour, Marked = signif_colour)\npt <- if (map_importance) pmax(1.2, df$value) else rep(1.9, nrow(df))\n\np <- ggplot2::ggplot(df, ggplot2::aes(value, item)) +\n  ggplot2::geom_segment(\n    ggplot2::aes(x = 0, xend = value, y = item, yend = item, colour = mark),\n    linewidth = 0.4\n  ) +\n  ggplot2::geom_point(ggplot2::aes(colour = mark, size = pt)) +\n  ggplot2::scale_colour_manual(values = cols, name = NULL) +\n  ggplot2::scale_size_identity() +\n  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.06))) +\n  ggplot2::labs(x = \"Importance\", y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.72, 0.18),\n    legend.justification.inside = c(0.5, 0.5)\n  )\n\npv_save(p, \"figure\", width_mm = 100, height_mm = 140)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "lollipop chart\n棒棒糖图\nlollipop\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n特征较多、要按大小排序并标出需要强调的条目时用。\nrank_items 按得分从下到上排列；highlight_signif 用 signif 列着强调色；map_importance 为 true 时点的大小跟随得分。颜色取 pv_palette(\"categorical\")。\nlollipop ranking importance\nitem 特征名（字符串） value 重要性得分（数值） signif 是否强调（逻辑值）"
+      "code_text": "# Ranked lollipops (house style): stems from zero, items flagged in the signif column in the accent\n# colour, key and count written inside the panel (no legend). Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nrank_items <- TRUE\nhighlight_signif <- TRUE\nmap_importance <- FALSE\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# red and blue are both >= 3:1 on white, so the key text keeps the point colour\nsignif_colour <- hp[[\"red\"]]\nbase_colour <- hp[[\"blue\"]]\nfootnote <- \"Simulated data for\\nillustration; not\\nbiological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$signif <- as.logical(df$signif)\nif (rank_items) df <- df[order(df$value), ]\ndf$y <- seq_len(nrow(df))\ndf$mark <- factor(ifelse(highlight_signif & df$signif, \"Significant\", \"Other\"), levels = c(\"Significant\", \"Other\"))\ncols <- c(Significant = signif_colour, Other = base_colour)\ndf$pt <- if (map_importance) pmax(1.2, 1.2 + df$value / max(df$value) * 1.6) else HOUSE_POINT$size\nn <- nrow(df)\nx_max <- max(df$value) * 1.08\nkey <- data.frame(mark = factor(c(\"Significant\", \"Other\"), levels = levels(df$mark)),\n                  lab = c(sprintf(\"Significant (%d)\", sum(df$mark == \"Significant\")),\n                          sprintf(\"Not significant (%d)\", sum(df$mark == \"Other\"))),\n                  y = c(2.9, 1.6))\nif (!isTRUE(highlight_signif)) key <- key[2, ]\n\np <- ggplot(df, aes(value, y)) +\n  geom_segment(aes(x = 0, xend = value, yend = y, colour = mark), linewidth = pv_house_lw(\"minor\")) +\n  geom_point(aes(fill = mark, size = pt), shape = HOUSE_POINT$shape, stroke = HOUSE_POINT$stroke,\n             colour = \"black\") +\n  geom_text(data = key, aes(x = x_max * 0.98, y = y, label = lab, colour = mark), hjust = 1) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_size_identity() +\n  scale_y_continuous(breaks = df$y, labels = df$item) +\n  coord_cartesian(xlim = c(0, x_max), ylim = c(0.4, n + 0.6), expand = FALSE) +\n  labs(x = \"Importance\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "lollipop chart\n棒棒糖图\nlollipop\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n特征较多、要按大小排序并标出需要强调的条目时用。\n在 `plot.r` 控制 `rank_items` 决定是否按得分排序，开启 `highlight_signif` 高亮显著项，控制 `map_importance` 映射点大小；在 `data.csv` 填入 item、value 和 signif 列。\nlollipop ranking importance\nitem 特征名（字符串） value 重要性得分（数值） signif 是否强调（逻辑值）"
     },
     {
       "title": "Radar chart",
@@ -1199,7 +1352,7 @@
         "value": "0 到 100 的得分（数值）"
       },
       "when_to_use": "少数组别要在同一组性状上比较轮廓差异时用。",
-      "customize": "fill_polygon 开关半透明填充；facet_groups 为 TRUE 时每组单独一面；axis_levels 与 group_levels 决定轴序和图例。颜色取 pv_palette(\"categorical\")。",
+      "customize": "在 `plot.R` 调整 `axis_levels` 与 `group_levels` 顺序，设定 `radius_max` 极值，控制 `fill_polygon` 填充与 `facet_groups` 分面；在 `data.csv` 填入 group、axis 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -1230,9 +1383,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "120",
-        "height_mm": "125",
-        "label": "120 × 125 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -1266,8 +1420,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/radar/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/radar/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/radar",
-      "code_text": "# Radar polygons in cartesian space so edges stay straight. Reads data.csv only.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nfill_polygon <- TRUE\nfacet_groups <- FALSE\naxis_levels <- c(\"Growth\", \"Stress\", \"Yield\", \"Size\", \"Color\", \"Firm\")\ngroup_levels <- c(\"Line A\", \"Line B\", \"Line C\", \"Line D\")\nradius_max <- 100\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$axis <- factor(df$axis, levels = axis_levels)\ndf$group <- factor(df$group, levels = group_levels)\nn_ax <- length(axis_levels)\nang_of <- function(axis) {\n  pi / 2 - (as.numeric(axis) - 1) * 2 * pi / n_ax\n}\ndf$x <- df$value * cos(ang_of(df$axis))\ndf$y <- df$value * sin(ang_of(df$axis))\nclosed <- do.call(rbind, lapply(split(df, df$group), function(g) rbind(g, g[1, ])))\ncols <- setNames(pv_palette(\"categorical\", nlevels(df$group)), group_levels)\n\nring_n <- 160\nrings <- do.call(rbind, lapply(c(25, 50, 75, 100), function(r) {\n  a <- seq(0, 2 * pi, length.out = ring_n)\n  data.frame(x = r * cos(a), y = r * sin(a), ring = r)\n}))\nspoke_a <- ang_of(factor(axis_levels, levels = axis_levels))\nspokes <- data.frame(\n  x = 0, y = 0,\n  xend = radius_max * cos(spoke_a),\n  yend = radius_max * sin(spoke_a)\n)\nlab_r <- radius_max + 12\nlabs <- data.frame(\n  x = lab_r * cos(spoke_a),\n  y = lab_r * sin(spoke_a),\n  label = axis_levels,\n  stringsAsFactors = FALSE\n)\n\ndraw_one <- function(dat) {\n  ggplot2::ggplot() +\n    ggplot2::geom_path(\n      data = rings,\n      ggplot2::aes(x, y, group = ring),\n      colour = \"grey88\", linewidth = 0.25\n    ) +\n    ggplot2::geom_segment(\n      data = spokes,\n      ggplot2::aes(x = x, y = y, xend = xend, yend = yend),\n      colour = \"grey88\", linewidth = 0.25\n    ) +\n    ggplot2::geom_polygon(\n      data = dat,\n      ggplot2::aes(x, y, group = group, colour = group, fill = group),\n      alpha = if (fill_polygon) 0.12 else 0,\n      linewidth = 0.5\n    ) +\n    ggplot2::geom_point(\n      data = dat[!duplicated(interaction(dat$group, dat$axis)), ],\n      ggplot2::aes(x, y, colour = group),\n      size = 1.2\n    ) +\n    ggplot2::geom_text(\n      data = labs,\n      ggplot2::aes(x, y, label = label),\n      size = 2.2\n    ) +\n    ggplot2::scale_colour_manual(values = cols, name = NULL) +\n    ggplot2::scale_fill_manual(values = cols, guide = \"none\") +\n    ggplot2::coord_equal(xlim = c(-125, 125), ylim = c(-125, 125), clip = \"off\") +\n    theme_viz() +\n    ggplot2::theme(\n      axis.line = ggplot2::element_blank(),\n      axis.text = ggplot2::element_blank(),\n      axis.ticks = ggplot2::element_blank(),\n      axis.title = ggplot2::element_blank(),\n      legend.position = \"bottom\",\n      plot.margin = ggplot2::margin(8, 8, 4, 8)\n    )\n}\n\nif (facet_groups) {\n  p <- draw_one(closed) + ggplot2::facet_wrap(~group)\n} else {\n  p <- draw_one(closed)\n}\n\npv_save(p, \"figure\", width_mm = 120, height_mm = 125)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "radar chart\n雷达图\nradar\nradar\ncomparison\n比较\ncompare\n比较组\ncompare groups\n少数组别要在同一组性状上比较轮廓差异时用。\nfill_polygon 开关半透明填充；facet_groups 为 true 时每组单独一面；axis_levels 与 group_levels 决定轴序和图例。颜色取 pv_palette(\"categorical\")。\nradar comparison profile\ngroup 品系或组别（字符串） axis 性状轴（字符串） value 0 到 100 的得分（数值）"
+      "code_text": "# Radar (house style): polygons in cartesian space so edges stay straight; group names with their\n# mean score written as a coloured key inside the panel (no legend). Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nfill_polygon <- TRUE\nfacet_groups <- FALSE\naxis_levels <- c(\"Growth\", \"Stress\", \"Yield\", \"Size\", \"Color\", \"Firm\")\ngroup_levels <- c(\"Line A\", \"Line B\", \"Line C\", \"Line D\")\nradius_max <- 100\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$axis <- factor(df$axis, levels = axis_levels)\ndf$group <- factor(df$group, levels = group_levels)\nn_ax <- length(axis_levels)\nang_of <- function(axis) {\n  pi / 2 - (as.numeric(axis) - 1) * 2 * pi / n_ax\n}\ndf$x <- df$value * cos(ang_of(df$axis))\ndf$y <- df$value * sin(ang_of(df$axis))\nclosed <- do.call(rbind, lapply(split(df, df$group), function(g) rbind(g, g[1, ])))\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue, red, green, purple: all >= 3:1 on white, so the key keeps the line colour\ncols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]],\n                          hp[[\"brown\"]])[seq_along(group_levels)], group_levels)\nfootnote <- \"Simulated data for illustration; not biological results\"\nkey <- data.frame(group = factor(group_levels, levels = group_levels), i = seq_along(group_levels))\nkey$m <- vapply(group_levels, function(g) mean(df$value[df$group == g]), numeric(1))\nkey$lab <- sprintf(\"%s  mean %.0f\", key$group, key$m)\n\nring_n <- 160\nrings <- do.call(rbind, lapply(c(25, 50, 75, 100), function(r) {\n  a <- seq(0, 2 * pi, length.out = ring_n)\n  data.frame(x = r * cos(a), y = r * sin(a), ring = r)\n}))\nspoke_a <- ang_of(factor(axis_levels, levels = axis_levels))\nspokes <- data.frame(\n  x = 0, y = 0,\n  xend = radius_max * cos(spoke_a),\n  yend = radius_max * sin(spoke_a)\n)\nlab_r <- radius_max + 12\nlabs <- data.frame(\n  x = lab_r * cos(spoke_a),\n  y = lab_r * sin(spoke_a),\n  label = axis_levels,\n  stringsAsFactors = FALSE\n)\n\n# ring values on the lower-left bisector between two axes, clear of the key\nring_a <- spoke_a[1] - pi + pi / n_ax\nring_lab <- data.frame(x = c(25, 50, 75, 100) * cos(ring_a), y = c(25, 50, 75, 100) * sin(ring_a),\n                       label = c(25, 50, 75, 100))\nlim <- 128\n\ndraw_one <- function(dat, with_key = TRUE) {\n  g <- ggplot() +\n    geom_path(data = rings, aes(x, y, group = ring), colour = grey[[\"light\"]], linewidth = pv_house_lw(\"frame\")) +\n    geom_segment(data = spokes, aes(x = x, y = y, xend = xend, yend = yend), colour = grey[[\"light\"]],\n                 linewidth = pv_house_lw(\"frame\")) +\n    geom_text(data = ring_lab, aes(x, y, label = label), colour = grey[[\"mid\"]], vjust = -0.3) +\n    geom_polygon(data = dat, aes(x, y, group = group, colour = group, fill = group),\n                 alpha = if (fill_polygon) 0.12 else 0, linewidth = pv_house_lw(\"main\")) +\n    geom_point(data = dat[!duplicated(interaction(dat$group, dat$axis)), ],\n               aes(x, y, fill = group), shape = HOUSE_POINT$shape, size = 1.6, stroke = HOUSE_POINT$stroke,\n               colour = \"black\") +\n    geom_text(data = labs, aes(x, y, label = label))\n  if (with_key) {\n    g <- g + geom_text(data = key, aes(x = -lim, y = lim - (i - 1) * 13, label = lab, colour = group),\n                       hjust = 0, vjust = 1)\n  }\n  g +\n    scale_colour_manual(values = cols, guide = \"none\") +\n    scale_fill_manual(values = cols, guide = \"none\") +\n    scale_x_continuous(breaks = NULL) +\n    scale_y_continuous(breaks = NULL) +\n    coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim), expand = FALSE, clip = \"off\") +\n    labs(x = NULL, y = NULL, caption = footnote) +\n    theme_house() +\n    theme(panel.border = element_blank(),\n          plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                      margin = margin(t = 0.8, unit = \"mm\")),\n          plot.caption.position = \"plot\")\n}\n\nif (facet_groups) {\n  p <- draw_one(closed, with_key = FALSE) + facet_wrap(~group)\n} else {\n  p <- draw_one(closed)\n}\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "radar chart\n雷达图\nradar\nradar\ncomparison\n比较\ncompare\n比较组\ncompare groups\n少数组别要在同一组性状上比较轮廓差异时用。\n在 `plot.r` 调整 `axis_levels` 与 `group_levels` 顺序，设定 `radius_max` 极值，控制 `fill_polygon` 填充与 `facet_groups` 分面；在 `data.csv` 填入 group、axis 和 value 列。\nradar comparison profile\ngroup 品系或组别（字符串） axis 性状轴（字符串） value 0 到 100 的得分（数值）"
     },
     {
       "title": "Slope chart",
@@ -1280,8 +1434,7 @@
         "before-after"
       ],
       "packages": [
-        "ggplot2",
-        "ggrepel"
+        "ggplot2"
       ],
       "data_columns": {
         "item": "指标名（字符串）",
@@ -1289,7 +1442,7 @@
         "value": "指数（数值）"
       },
       "when_to_use": "一批指标只有前后两个时间点、要看谁升谁降时用。",
-      "customize": "highlight 列出强调的指标名，其余用灰色；label_ends 在两端标出强调项的名字。强调色按顺序取 pv_palette(\"categorical\")。",
+      "customize": "在 `plot.R` 修改 `highlight` 数组以高亮特定指标线，调整 `stage_levels` 设定阶段顺序，控制 `label_ends` 显隐两端名称标签；在 `data.csv` 填入 item、stage 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -1309,12 +1462,29 @@
         {
           "name": "stage_levels",
           "value": "c(\"Before\", \"After\")"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "hi_cols",
+          "value": "c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]])[seq_along(highlight)]"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration;\\nnot biological results\""
         }
       ],
       "canvas": {
-        "width_mm": "100",
-        "height_mm": "105",
-        "label": "100 × 105 mm"
+        "width_mm": "43",
+        "height_mm": "43",
+        "label": "43 × 43 mm (1×1 cells)",
+        "cells": "1x1"
       },
       "downloads": [
         {
@@ -1348,8 +1518,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/slope-chart/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/slope-chart/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/slope-chart",
-      "code_text": "# Slope chart. Highlighted series are coloured and both ends are labeled.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nhighlight <- c(\"P04\", \"P07\", \"P11\")\nlabel_ends <- TRUE\nstage_levels <- c(\"Before\", \"After\")\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$stage <- factor(df$stage, levels = stage_levels)\ndf$item <- factor(df$item, levels = unique(df$item))\ndf$emph <- ifelse(df$item %in% highlight, as.character(df$item), \"Other\")\nemph_levels <- c(\"Other\", highlight)\npal <- setNames(\n  c(\"#B0B0B0\", pv_palette(\"categorical\", length(highlight))),\n  emph_levels\n)\n\np <- ggplot2::ggplot(df, ggplot2::aes(stage, value, group = item, colour = emph)) +\n  ggplot2::geom_line(linewidth = 0.45) +\n  ggplot2::geom_point(size = 1.6) +\n  ggplot2::scale_colour_manual(values = pal, breaks = highlight, name = NULL) +\n  ggplot2::labs(x = NULL, y = \"Index\") +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"bottom\"\n  )\n\nif (label_ends) {\n  ends <- df[df$emph != \"Other\", ]\n  p <- p + ggrepel::geom_text_repel(\n    data = ends,\n    ggplot2::aes(label = item),\n    size = 2.1,\n    direction = \"y\",\n    min.segment.length = 0,\n    segment.size = 0.2,\n    box.padding = 0.25,\n    show.legend = FALSE,\n    seed = 51\n  )\n}\n\npv_save(p, \"figure\", width_mm = 100, height_mm = 105)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "slope chart\n斜率图\nslope-chart\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n一批指标只有前后两个时间点、要看谁升谁降时用。\nhighlight 列出强调的指标名，其余用灰色；label_ends 在两端标出强调项的名字。强调色按顺序取 pv_palette(\"categorical\")。\nslope comparison before-after\nitem 指标名（字符串） stage 阶段（字符串） value 指数（数值）"
+      "code_text": "# Slope chart (house style): every item from the first to the second stage, highlighted items\n# coloured and named at both ends in the line colour, the rest grey, mean change in the panel.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nhighlight <- c(\"P04\", \"P07\", \"P11\")\nlabel_ends <- TRUE\nstage_levels <- c(\"Before\", \"After\")\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue, red, green: all >= 3:1 on white, so the end labels keep the line colour\nhi_cols <- c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"magenta\"]])[seq_along(highlight)]\nfootnote <- \"Simulated data for illustration;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$stage <- factor(df$stage, levels = stage_levels)\ndf$x <- as.numeric(df$stage)\ndf$emph <- factor(ifelse(df$item %in% highlight, df$item, \"Other\"), levels = c(highlight, \"Other\"))\npal <- stats::setNames(c(hi_cols, grey[[\"ci\"]]), c(highlight, \"Other\"))\ndf <- df[order(df$emph != \"Other\"), ]\nw <- reshape(df[, c(\"item\", \"stage\", \"value\")], idvar = \"item\", timevar = \"stage\", direction = \"wide\")\nchg <- w[[paste0(\"value.\", stage_levels[2])]] - w[[paste0(\"value.\", stage_levels[1])]]\nstat_lab <- sprintf(\"Mean change %+.1f\\n%d of %d rise\", mean(chg), sum(chg > 0), length(chg))\ny_rng <- range(df$value)\ny_lim <- c(y_rng[1] - 0.04 * diff(y_rng), y_rng[2] + 0.22 * diff(y_rng))\n\np <- ggplot(df, aes(x, value, group = item, colour = emph)) +\n  geom_line(aes(linewidth = emph == \"Other\")) +\n  geom_point(aes(fill = emph), shape = HOUSE_POINT$shape, size = 1.6, stroke = HOUSE_POINT$stroke,\n             colour = \"black\") +\n  annotate(\"text\", x = 0.62, y = y_lim[2], hjust = 0, vjust = 1.15, lineheight = 0.95, label = stat_lab,\n           colour = \"black\")\nif (isTRUE(label_ends)) {\n  ends <- df[df$emph != \"Other\", ]\n  ends$hjust <- ifelse(ends$x == 1, 1, 0)\n  ends$nx <- ifelse(ends$x == 1, 0.9, 2.1)\n  # keep labels on the same side at least min_gap apart (in y units)\n  min_gap <- 0.075 * diff(y_lim)\n  ends <- do.call(rbind, lapply(split(ends, ends$x), function(d) {\n    d <- d[order(d$value), ]\n    d$ly <- d$value\n    for (i in seq_len(nrow(d))[-1]) d$ly[i] <- max(d$ly[i], d$ly[i - 1] + min_gap)\n    d\n  }))\n  p <- p + geom_text(data = ends, aes(x = nx, y = ly, label = item, hjust = hjust), vjust = 0.5)\n}\np <- p +\n  scale_colour_manual(values = pal, guide = \"none\") +\n  scale_fill_manual(values = pal, guide = \"none\") +\n  scale_linewidth_manual(values = c(`TRUE` = pv_house_lw(\"minor\"), `FALSE` = pv_house_lw(\"main\")),\n                         guide = \"none\") +\n  scale_x_continuous(breaks = 1:2, labels = stage_levels) +\n  coord_cartesian(xlim = c(0.55, 2.45), ylim = y_lim, expand = FALSE) +\n  labs(x = NULL, y = \"Index\", caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "slope chart\n斜率图\nslope-chart\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n一批指标只有前后两个时间点、要看谁升谁降时用。\n在 `plot.r` 修改 `highlight` 数组以高亮特定指标线，调整 `stage_levels` 设定阶段顺序，控制 `label_ends` 显隐两端名称标签；在 `data.csv` 填入 item、stage 和 value 列。\nslope comparison before-after\nitem 指标名（字符串） stage 阶段（字符串） value 指数（数值）"
     },
     {
       "title": "Waterfall chart",
@@ -1371,7 +1541,7 @@
         "value": "总量水平或有符号增量（数值）"
       },
       "when_to_use": "要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。",
-      "customize": "plot.R 顶部 bar_width 调柱宽；show_connectors 画步骤间水平桥接线；show_value_labels 与 label_size 控制柱顶数值。Increase/Decrease/Total 三色取自 pv_palette(\"categorical\") 前几格（勿用第 8 色纯黑作数据填充）。",
+      "customize": "在 `plot.R` 调整 `bar_width` 设定柱宽，修改 `label_size` 控制字号，控制 `show_connectors` 和 `show_value_labels` 显隐连线与数值；在 `data.csv` 填入 label、kind 和 value 列。",
       "lang": "R",
       "task": "compare",
       "task_zh": "比较组",
@@ -1394,13 +1564,14 @@
         },
         {
           "name": "label_size",
-          "value": "2.2"
+          "value": "pv_pt2size(7)"
         }
       ],
       "canvas": {
-        "width_mm": "120",
-        "height_mm": "85",
-        "label": "120 × 85 mm"
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
       },
       "downloads": [
         {
@@ -1434,8 +1605,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/waterfall/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/waterfall/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/waterfall",
-      "code_text": "# Waterfall: opening → signed steps → closing. Reads data.csv only.\n# Run from this directory. Pure ggplot2 (no waterfalls package).\nsource(\"../../../styles/r/theme_viz.R\")\n\n# 可调参数\nbar_width <- 0.62\nshow_connectors <- TRUE\nshow_value_labels <- TRUE\nlabel_size <- 2.2\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$label <- factor(df$label, levels = unique(df$label))\nn <- nrow(df)\n\nymin <- numeric(n)\nymax <- numeric(n)\nfill_key <- character(n)\nleave <- numeric(n)\nrunning <- 0\nfor (i in seq_len(n)) {\n  if (df$kind[i] == \"total\") {\n    ymin[i] <- 0\n    ymax[i] <- df$value[i]\n    running <- df$value[i]\n    fill_key[i] <- \"Total\"\n  } else {\n    start <- running\n    end <- running + df$value[i]\n    ymin[i] <- min(start, end)\n    ymax[i] <- max(start, end)\n    running <- end\n    fill_key[i] <- if (df$value[i] >= 0) \"Increase\" else \"Decrease\"\n  }\n  leave[i] <- running\n}\n\nplot_df <- data.frame(\n  label = df$label,\n  xmin = as.numeric(df$label) - bar_width / 2,\n  xmax = as.numeric(df$label) + bar_width / 2,\n  ymin = ymin,\n  ymax = ymax,\n  fill_key = factor(fill_key, levels = c(\"Increase\", \"Decrease\", \"Total\")),\n  stringsAsFactors = FALSE\n)\n\nconn <- NULL\nif (isTRUE(show_connectors) && n > 1) {\n  conn <- data.frame(\n    x = as.numeric(df$label[-n]) + bar_width / 2,\n    xend = as.numeric(df$label[-1]) - bar_width / 2,\n    y = leave[-n],\n    yend = leave[-n]\n  )\n}\n\npal <- pv_palette(\"categorical\", 4)\ncols <- c(Increase = pal[3], Decrease = pal[4], Total = pal[1])\n\np <- ggplot2::ggplot() +\n  ggplot2::geom_rect(\n    data = plot_df,\n    ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_key),\n    colour = NA\n  )\nif (!is.null(conn)) {\n  p <- p + ggplot2::geom_segment(\n    data = conn,\n    ggplot2::aes(x = x, xend = xend, y = y, yend = yend),\n    linewidth = 0.3,\n    colour = \"grey55\"\n  )\n}\nif (isTRUE(show_value_labels)) {\n  lab_df <- plot_df\n  lab_df$txt <- ifelse(\n    df$kind == \"total\",\n    sprintf(\"%.1f\", df$value),\n    sprintf(\"%+.1f\", df$value)\n  )\n  p <- p + ggplot2::geom_text(\n    data = lab_df,\n    ggplot2::aes(x = (xmin + xmax) / 2, y = ymax, label = txt),\n    vjust = -0.35,\n    size = label_size,\n    colour = \"grey20\"\n  )\n}\np <- p +\n  ggplot2::scale_fill_manual(values = cols, name = NULL) +\n  ggplot2::scale_x_continuous(\n    breaks = as.numeric(df$label),\n    labels = as.character(levels(df$label)),\n    expand = ggplot2::expansion(mult = c(0.02, 0.02))\n  ) +\n  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.12))) +\n  ggplot2::labs(x = NULL, y = \"Value\") +\n  theme_viz() +\n  ggplot2::theme(\n    legend.position = \"inside\",\n    legend.position.inside = c(0.55, 0.32),\n    legend.justification.inside = c(0.5, 0.5),\n    axis.text.x = ggplot2::element_text(angle = 35, hjust = 1)\n  )\n\npv_save(p, \"figure\", width_mm = 120, height_mm = 85)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "waterfall chart\n瀑布图\nwaterfall\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。\nplot.r 顶部 bar_width 调柱宽；show_connectors 画步骤间水平桥接线；show_value_labels 与 label_size 控制柱顶数值。increase/decrease/total 三色取自 pv_palette(\"categorical\") 前几格（勿用第 8 色纯黑作数据填充）。\nwaterfall contribution bridge comparison\nlabel 步骤名（字符串；首尾为期初/期末总量） kind total 或 step（字符串） value 总量水平或有符号增量（数值）"
+      "code_text": "# Waterfall (house style): opening, signed steps, closing; value on every bar, bar classes as a\n# coloured key and the net change written inside the panel (no legend). Reads data.csv only.\n# Run from this directory. Pure ggplot2 (no waterfalls package).\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nbar_width <- 0.62\nshow_connectors <- TRUE\nshow_value_labels <- TRUE\nlabel_size <- pv_pt2size(7)\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$label <- factor(df$label, levels = unique(df$label))\nn <- nrow(df)\n\nymin <- numeric(n)\nymax <- numeric(n)\nfill_key <- character(n)\nleave <- numeric(n)\nrunning <- 0\nfor (i in seq_len(n)) {\n  if (df$kind[i] == \"total\") {\n    ymin[i] <- 0\n    ymax[i] <- df$value[i]\n    running <- df$value[i]\n    fill_key[i] <- \"Total\"\n  } else {\n    start <- running\n    end <- running + df$value[i]\n    ymin[i] <- min(start, end)\n    ymax[i] <- max(start, end)\n    running <- end\n    fill_key[i] <- if (df$value[i] >= 0) \"Increase\" else \"Decrease\"\n  }\n  leave[i] <- running\n}\n\nplot_df <- data.frame(\n  label = df$label,\n  xmin = as.numeric(df$label) - bar_width / 2,\n  xmax = as.numeric(df$label) + bar_width / 2,\n  ymin = ymin,\n  ymax = ymax,\n  fill_key = factor(fill_key, levels = c(\"Increase\", \"Decrease\", \"Total\")),\n  stringsAsFactors = FALSE\n)\n\nconn <- NULL\nif (isTRUE(show_connectors) && n > 1) {\n  conn <- data.frame(\n    x = as.numeric(df$label[-n]) + bar_width / 2,\n    xend = as.numeric(df$label[-1]) - bar_width / 2,\n    y = leave[-n],\n    yend = leave[-n]\n  )\n}\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# key and net change sit in the empty band under the steps\n# green, red, blue: all >= 3:1 on white, so the key text keeps the bar colour\ncols <- c(Increase = hp[[\"green\"]], Decrease = hp[[\"red\"]], Total = hp[[\"blue\"]])\nfootnote <- \"Simulated data for illustration; not biological results\"\ny_top <- max(plot_df$ymax) * 1.16\ntot <- which(df$kind == \"total\")\nnet <- if (length(tot) >= 2) df$value[tot[length(tot)]] - df$value[tot[1]] else sum(df$value[df$kind != \"total\"])\nkey <- data.frame(k = factor(c(\"Increase\", \"Decrease\", \"Total\"), levels = c(\"Increase\", \"Decrease\", \"Total\")),\n                  i = 1:3)\n\np <- ggplot() +\n  geom_rect(data = plot_df, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_key),\n            colour = NA)\nif (!is.null(conn)) {\n  p <- p + geom_segment(data = conn, aes(x = x, xend = xend, y = y, yend = y),\n                        linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]], linetype = \"22\")\n}\nif (isTRUE(show_value_labels)) {\n  lab_df <- plot_df\n  lab_df$txt <- ifelse(df$kind == \"total\", sprintf(\"%.1f\", df$value), sprintf(\"%+.1f\", df$value))\n  p <- p + geom_text(data = lab_df, aes(x = (xmin + xmax) / 2, y = ymax, label = txt), vjust = -0.4,\n                     size = label_size, colour = \"black\")\n}\np <- p +\n  geom_text(data = key, aes(x = 1.55, y = y_top * (0.5 - 0.085 * (i - 1)), label = k, colour = k),\n            hjust = 0, vjust = 1) +\n  annotate(\"text\", x = n - 0.55, y = y_top * 0.5, hjust = 1, vjust = 1,\n           label = sprintf(\"Net change %+.1f\", net)) +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(breaks = as.numeric(df$label), labels = as.character(levels(df$label))) +\n  scale_y_continuous(limits = c(0, y_top), expand = c(0, 0)) +\n  coord_cartesian(xlim = c(0.45, n + 0.55), expand = FALSE) +\n  labs(x = NULL, y = \"Value\", caption = footnote) +\n  theme_house() +\n  theme(axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "waterfall chart\n瀑布图\nwaterfall\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。\n在 `plot.r` 调整 `bar_width` 设定柱宽，修改 `label_size` 控制字号，控制 `show_connectors` 和 `show_value_labels` 显隐连线与数值；在 `data.csv` 填入 label、kind 和 value 列。\nwaterfall contribution bridge comparison\nlabel 步骤名（字符串；首尾为期初/期末总量） kind total 或 step（字符串） value 总量水平或有符号增量（数值）"
     },
     {
       "title": "Alluvial and Sankey",
@@ -7391,7 +7562,7 @@
         "value": "矩阵取值（数值）"
       },
       "when_to_use": "特征较多、又要按模块分成扇区并加一圈汇总轨道时用。",
-      "customize": "split_sectors 按 module 分扇区；show_track 加内圈，数值是前三分之一列均值减去后三分之一列均值。色标用 pv_palette(\"diverging\")。",
+      "customize": "在 `plot.R` 控制 `split_sectors` 决定是否按模块切割扇区，控制 `show_track` 显隐汇总轨道，使用 `pv_palette(\"house_div\")` 调色；在 `data.csv` 填入 row、col、module 和 value 列。",
       "lang": "R",
       "task": "relationship",
       "task_zh": "相关/关系",
@@ -7410,9 +7581,10 @@
         }
       ],
       "canvas": {
-        "width_mm": "120",
-        "height_mm": "120",
-        "label": "120 × 120 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -7446,8 +7618,8 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/circular-heatmap/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/circular-heatmap/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/heatmap/circular-heatmap",
-      "code_text": "# Circular heatmap. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\n# --- adjustable ---\nsplit_sectors <- TRUE\nshow_track <- TRUE\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nrows <- unique(df$row)\ncols <- unique(df$col)\nmat <- matrix(NA_real_, length(rows), length(cols), dimnames = list(rows, cols))\nmat[cbind(match(df$row, rows), match(df$col, cols))] <- df$value\nmodules <- df$module[match(rows, df$row)]\nsplit <- if (isTRUE(split_sectors)) factor(modules, levels = unique(modules)) else NULL\n\npal <- pv_palette(\"diverging\")\ncol_fun <- circlize::colorRamp2(c(-2, 0, 2), c(pal[1], pal[4], pal[7]))\nfam <- viz_sans_family()\n\ndraw_heat <- function() {\n  graphics::par(bg = \"white\", mar = c(1.4, 1.4, 1.4, 1.4), family = fam)\n  circlize::circos.clear()\n  circlize::circos.par(\n    start.degree = 90,\n    gap.degree = if (isTRUE(split_sectors)) 8 else 2,\n    canvas.xlim = c(-1.55, 1.55),\n    canvas.ylim = c(-1.55, 1.55),\n    points.overflow.warning = FALSE\n  )\n  circlize::circos.heatmap(\n    mat,\n    split = split,\n    col = col_fun,\n    cluster = FALSE,\n    rownames.side = \"outside\",\n    rownames.cex = 0.5,\n    rownames.font = 1,\n    show.sector.labels = FALSE,\n    track.height = 0.26,\n    bg.border = \"grey35\",\n    cell.border = \"white\",\n    cell.lwd = 0.25\n  )\n  if (isTRUE(show_track)) {\n    nc <- ncol(mat)\n    left <- seq_len(max(1, nc %/% 3))\n    right <- seq(nc - max(1, nc %/% 3) + 1, nc)\n    score <- rowMeans(mat[, left, drop = FALSE]) - rowMeans(mat[, right, drop = FALSE])\n    track <- cbind(score = score)\n    rownames(track) <- rownames(mat)\n    circlize::circos.heatmap(\n      track,\n      split = split,\n      col = col_fun,\n      cluster = FALSE,\n      rownames.side = \"none\",\n      track.height = 0.05,\n      cell.border = NA\n    )\n  }\n  if (isTRUE(split_sectors)) {\n    for (s in circlize::get.all.sector.index()) {\n      xy <- circlize::circlize(\n        circlize::get.cell.meta.data(\"xcenter\", sector.index = s, track.index = 1),\n        1.35,\n        sector.index = s,\n        track.index = 1\n      )\n      graphics::text(xy[[1]][1], xy[[2]][1], s, cex = 0.72, font = 2)\n    }\n  }\n  # Same colorRamp2 scale as a ComplexHeatmap legend. Drawn in base graphics\n  # so it stays inside the circos hole; a grid legend on this device hangs.\n  n <- 80\n  z <- seq(-2, 2, length.out = n)\n  cols <- col_fun(z)\n  xs <- seq(-0.46, 0.46, length.out = n)\n  graphics::rect(utils::head(xs, -1), -0.07, xs[-1], 0.07, col = utils::head(cols, -1), border = NA)\n  graphics::text(0, 0.16, \"z-score\", cex = 0.85)\n  graphics::text(c(-0.46, 0, 0.46), -0.16, c(\"-2\", \"0\", \"2\"), cex = 0.7)\n  circlize::circos.clear()\n}\n\np <- ggplotify::as.ggplot(draw_heat)\npv_save(p, \"figure\", width_mm = 120, height_mm = 120)\nmessage(\"wrote preview.png\")\n",
-      "search_text": "circular heatmap\n环状热图\ncircular-heatmap\ncircular\nheatmap\n热图\nrelationship\n相关/关系\nrelationship\n特征较多、又要按模块分成扇区并加一圈汇总轨道时用。\nsplit_sectors 按 module 分扇区；show_track 加内圈，数值是前三分之一列均值减去后三分之一列均值。色标用 pv_palette(\"diverging\")。\nheatmap circular circlize\nrow 特征编号（字符串） col 样本编号（字符串） module 扇区模块（字符串） value 矩阵取值（数值）"
+      "code_text": "# Circular heatmap (house style): circlize draws in base graphics, so theme_house() cannot reach it;\n# the house look is set by hand (Arial, 7 pt via cex, 0.5 pt borders, house_div scale) and the\n# drawing is wrapped with ggplotify for pv_save_house(). Colour key and counts sit in the hole.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# --- adjustable ---\nsplit_sectors <- TRUE\nshow_track <- TRUE\n# ------------------\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nrows <- unique(df$row)\ncols <- unique(df$col)\nmat <- matrix(NA_real_, length(rows), length(cols), dimnames = list(rows, cols))\nmat[cbind(match(df$row, rows), match(df$col, cols))] <- df$value\nmodules <- df$module[match(rows, df$row)]\nsplit <- if (isTRUE(split_sectors)) factor(modules, levels = unique(modules)) else NULL\n\ndiv <- pv_palette(\"house_div\"); grey <- pv_palette(\"house_grey\")\ncol_fun <- circlize::colorRamp2(seq(-2, 2, length.out = length(div)), div)\nfam <- house_family()\nfootnote <- \"Simulated data for illustration; not biological results\"\nlwd_pt <- function(pt) pt / (72.27 / 96)   # base lwd 1 = 1/96 inch\n# ggplotify replays the drawing on a 12 pt device, so text size is set as cex = pt / 12\ncex_pt <- function(pt) pt / 12\n\ndraw_heat <- function() {\n  graphics::par(bg = \"white\", mar = c(0, 0, 0, 0), family = fam)\n  circlize::circos.clear()\n  circlize::circos.par(\n    start.degree = 90,\n    gap.degree = if (isTRUE(split_sectors)) 8 else 2,\n    canvas.xlim = c(-1.25, 1.25),\n    canvas.ylim = c(-1.25, 1.25),\n    points.overflow.warning = FALSE\n  )\n  circlize::circos.heatmap(\n    mat,\n    split = split,\n    col = col_fun,\n    cluster = FALSE,\n    rownames.side = \"outside\",\n    rownames.cex = cex_pt(7),\n    rownames.font = 1,\n    show.sector.labels = FALSE,\n    track.height = 0.26,\n    bg.border = grey[[\"dark\"]],\n    bg.lwd = lwd_pt(0.5),\n    cell.border = \"white\",\n    cell.lwd = 0.25\n  )\n  if (isTRUE(show_track)) {\n    nc <- ncol(mat)\n    left <- seq_len(max(1, nc %/% 3))\n    right <- seq(nc - max(1, nc %/% 3) + 1, nc)\n    score <- rowMeans(mat[, left, drop = FALSE]) - rowMeans(mat[, right, drop = FALSE])\n    track <- cbind(score = score)\n    rownames(track) <- rownames(mat)\n    circlize::circos.heatmap(\n      track,\n      split = split,\n      col = col_fun,\n      cluster = FALSE,\n      rownames.side = \"none\",\n      track.height = 0.05,\n      cell.border = NA\n    )\n  }\n  if (isTRUE(split_sectors)) {\n    for (s in circlize::get.all.sector.index()) {\n      # circlize() returns polar coordinates (degrees, radius); module name goes outside the row names\n      pol <- circlize::circlize(\n        circlize::get.cell.meta.data(\"xcenter\", sector.index = s, track.index = 1), 0,\n        sector.index = s, track.index = 1\n      )\n      ang <- pol[1, 1] * pi / 180\n      graphics::text(1.19 * cos(ang), 1.19 * sin(ang), s, cex = cex_pt(8))\n    }\n  }\n  # Same colorRamp2 scale as a ComplexHeatmap legend. Drawn in base graphics\n  # so it stays inside the circos hole; a grid legend on this device hangs.\n  n <- 80\n  z <- seq(-2, 2, length.out = n)\n  cols <- col_fun(z)\n  xs <- seq(-0.46, 0.46, length.out = n)\n  graphics::rect(utils::head(xs, -1), -0.07, xs[-1], 0.07, col = utils::head(cols, -1), border = NA)\n  graphics::text(0, 0.17, \"z-score\", cex = cex_pt(7))\n  graphics::text(c(-0.46, 0, 0.46), -0.17, c(\"-2\", \"0\", \"2\"), cex = cex_pt(7))\n  graphics::text(0, -0.36, sprintf(\"%d features, %d samples\", nrow(mat), ncol(mat)), cex = cex_pt(7))\n  circlize::circos.clear()\n}\n\np <- ggplotify::as.ggplot(draw_heat) +\n  labs(caption = footnote) +\n  theme(text = element_text(family = fam),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\", plot.background = element_rect(fill = \"white\", colour = NA),\n        plot.margin = margin(0.4, 0.4, 0.9, 0.4, \"mm\"))\n# base-graphics text is set to 7/8 pt above; no +2 pt single-panel bump for the wrapped drawing\npv_save_house(p, \"figure\", cells = \"2x2\", bump = 0)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "circular heatmap\n环状热图\ncircular-heatmap\ncircular\nheatmap\n热图\nrelationship\n相关/关系\nrelationship\n特征较多、又要按模块分成扇区并加一圈汇总轨道时用。\n在 `plot.r` 控制 `split_sectors` 决定是否按模块切割扇区，控制 `show_track` 显隐汇总轨道，使用 `pv_palette(\"house_div\")` 调色；在 `data.csv` 填入 row、col、module 和 value 列。\nheatmap circular circlize\nrow 特征编号（字符串） col 样本编号（字符串） module 扇区模块（字符串） value 矩阵取值（数值）"
     },
     {
       "title": "Dot heatmap",
@@ -7486,12 +7658,29 @@
         {
           "name": "map_size",
           "value": "TRUE"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
+        },
+        {
+          "name": "cap_theme",
+          "value": "theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], margin = margin(t = 0.8, unit = \"mm\")), plot.caption.position = \"plot\")"
         }
       ],
       "canvas": {
-        "width_mm": "160",
-        "height_mm": "140",
-        "label": "160 × 140 mm"
+        "width_mm": "89",
+        "height_mm": "89",
+        "label": "89 × 89 mm (2×2 cells)",
+        "cells": "2x2"
       },
       "downloads": [
         {
@@ -7532,7 +7721,7 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/dot-heatmap/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/dot-heatmap/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/heatmap/dot-heatmap",
-      "code_text": "# Dot heatmap (colour and size) or scatter pies.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\n\nmode <- \"dot\"\nmap_size <- TRUE\n\nif (mode == \"pie\") {\n  pie <- utils::read.csv(\"data_pie.csv\", stringsAsFactors = FALSE)\n  pie$x <- as.numeric(factor(pie$col, levels = unique(pie$col)))\n  pie$y <- as.numeric(factor(pie$row, levels = rev(unique(pie$row))))\n  p <- ggplot2::ggplot() +\n    scatterpie::geom_scatterpie(\n      ggplot2::aes(x = x, y = y, r = 0.28 + 0.22 * size),\n      data = pie,\n      cols = c(\"Lymphoid\", \"Myeloid\", \"Stromal\"),\n      color = NA\n    ) +\n    scatterpie::geom_scatterpie_legend(0.28 + 0.22 * c(0.2, 0.8), x = 13.4, y = 4) +\n    ggplot2::scale_fill_manual(values = pv_palette(\"categorical\", 3), name = NULL) +\n    ggplot2::scale_x_continuous(\n      breaks = seq_along(unique(pie$col)),\n      labels = unique(pie$col),\n      expand = ggplot2::expansion(add = 0.6)\n    ) +\n    ggplot2::scale_y_continuous(\n      breaks = seq_along(unique(pie$row)),\n      labels = rev(unique(pie$row)),\n      expand = ggplot2::expansion(add = 0.6)\n    ) +\n    ggplot2::coord_fixed() +\n    ggplot2::labs(x = NULL, y = NULL) +\n    theme_viz()\n  pv_save(p, \"figure\", width_mm = 183, height_mm = 160)\n  message(\"wrote preview.png\")\n  quit(save = \"no\", status = 0)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$row <- factor(df$row, levels = rev(unique(df$row)))\ndf$col <- factor(df$col, levels = unique(df$col))\nlim <- max(abs(df$value))\np <- ggplot2::ggplot(df, ggplot2::aes(col, row, fill = value))\nif (isTRUE(map_size)) {\n  p <- p + ggplot2::geom_point(ggplot2::aes(size = size), shape = 21, colour = \"black\", stroke = 0.15)\n  p <- p + ggplot2::scale_size_area(max_size = 5.2, name = \"Fraction\", limits = c(0, 1))\n} else {\n  p <- p + ggplot2::geom_point(size = 3.2, shape = 21, colour = \"black\", stroke = 0.15)\n}\np <- p +\n  ggplot2::scale_fill_gradientn(\n    colours = pv_palette(\"diverging\", 9), limits = c(-lim, lim), name = \"Score\"\n  ) +\n  ggplot2::labs(x = NULL, y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.y = ggplot2::element_text(size = 7),\n    legend.position = \"bottom\",\n    legend.box = \"vertical\"\n  )\n\npv_save(p, \"figure\", width_mm = 160, height_mm = 140)\nmessage(\"wrote preview.png\")\n",
+      "code_text": "# Dot heatmap (house style): fill = score on the house blue-red scale centred at 0, area = fraction;\n# or scatter pies of three components. Colour bar and size key sit just right of the panel,\n# the number of cells above and below 0 is written under the keys. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\nmode <- \"dot\"\nmap_size <- TRUE\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nfootnote <- \"Simulated data for illustration; not biological results\"\ncap_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                               margin = margin(t = 0.8, unit = \"mm\")),\n                   plot.caption.position = \"plot\")\n\nif (mode == \"pie\") {\n  pie <- utils::read.csv(\"data_pie.csv\", stringsAsFactors = FALSE)\n  comp <- c(\"Lymphoid\", \"Myeloid\", \"Stromal\")\n  # blue, red, green: all >= 3:1 on white, so the component names keep the slice colour\n  comp_cols <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]]), comp)\n  cl <- unique(pie$col); rl <- unique(pie$row)\n  pie$x <- as.numeric(factor(pie$col, levels = cl))\n  pie$y <- as.numeric(factor(pie$row, levels = rev(rl)))\n  key <- data.frame(comp = factor(comp, levels = comp), i = seq_along(comp))\n  p <- ggplot() +\n    scatterpie::geom_scatterpie(aes(x = x, y = y, r = 0.2 + 0.25 * size), data = pie, cols = comp,\n                                color = NA) +\n    geom_text(data = key, aes(x = length(cl) + 0.75, y = length(rl) + 0.5 - (i - 1) * 0.9, label = comp,\n                              colour = comp), hjust = 0, vjust = 1, inherit.aes = FALSE) +\n    annotate(\"text\", x = length(cl) + 0.75, y = length(rl) - 2.4, hjust = 0, vjust = 1, lineheight = 0.95,\n             label = \"Radius shows\\ndetected\\nfraction\") +\n    scale_fill_manual(values = comp_cols, guide = \"none\") +\n    scale_colour_manual(values = comp_cols, guide = \"none\") +\n    scale_x_continuous(breaks = seq_along(cl), labels = cl, limits = c(0.4, length(cl) + 4.6), expand = c(0, 0)) +\n    scale_y_continuous(breaks = seq_along(rl), labels = rev(rl), limits = c(0.4, length(rl) + 0.6),\n                       expand = c(0, 0)) +\n    coord_fixed() +\n    labs(x = NULL, y = NULL, caption = footnote) +\n    theme_house() + cap_theme +\n    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))\n  pv_save_house(p, \"figure\", cells = \"2x2\")\n  message(\"wrote preview.png\")\n  quit(save = \"no\", status = 0)\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$row <- factor(df$row, levels = rev(unique(df$row)))\ndf$col <- factor(df$col, levels = unique(df$col))\nlim <- ceiling(max(abs(df$value)) * 2) / 2\nstat_lab <- sprintf(\"Cells\\n%d > 0\\n%d < 0\", sum(df$value > 0), sum(df$value < 0))\np <- ggplot(df, aes(col, row, fill = value))\nif (isTRUE(map_size)) {\n  p <- p + geom_point(aes(size = size), shape = 21, colour = grey[[\"dark\"]], stroke = 0.3) +\n    scale_size_area(max_size = 3.6, name = \"Fraction\", limits = c(0, 1), breaks = c(0.25, 0.5, 1))\n} else {\n  p <- p + geom_point(size = 3, shape = 21, colour = grey[[\"dark\"]], stroke = 0.3)\n}\np <- p +\n  annotate(\"text\", x = nlevels(df$col) + 1.05, y = 0.6, hjust = 0, vjust = 0, lineheight = 0.95,\n           label = stat_lab) +\n  coord_cartesian(clip = \"off\") +\n  scale_fill_gradientn(colours = pv_palette(\"house_div\"), limits = c(-lim, lim), name = \"Score\",\n                       guide = guide_colourbar(order = 1,\n                                               theme = theme(legend.key.width = unit(2, \"mm\"),\n                                                             legend.key.height = unit(18, \"mm\")))) +\n  guides(size = guide_legend(order = 2)) +\n  labs(x = NULL, y = NULL, caption = footnote) +\n  theme_house() + cap_theme +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),\n        legend.position = \"right\", legend.box.spacing = unit(1, \"mm\"),\n        legend.title = element_text(margin = margin(b = 1, unit = \"mm\")),\n        legend.spacing.y = unit(3, \"mm\"))\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "dot heatmap\n点状热图\ndot-heatmap\n\nheatmap\n热图\nrelationship\n相关/关系\nrelationship\n格子要同时编码强度和比例，又不想用色块铺满时用。\nplot.r 顶部 mode 取 dot 或 pie（pie 读 data_pie.csv，三份组成画成小饼）；map_size 是否把 size 映成点面积。颜色用 diverging 色板，不在数据里按阈值切开。\nheatmap dot composition\nrow 行名，这里是细胞类型（字符串） col 列名，这里是病人（字符串） value 连续得分（数值） size 检出比例，0 到 1（数值）"
     },
     {
@@ -7591,12 +7780,29 @@
         {
           "name": "split_columns",
           "value": "TRUE"
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data for illustration; not biological results\""
+        },
+        {
+          "name": "cap_theme",
+          "value": "theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], margin = margin(t = 0.8, unit = \"mm\")), plot.caption.position = \"plot\")"
         }
       ],
       "canvas": {
-        "width_mm": "183",
-        "height_mm": "150",
-        "label": "183 × 150 mm"
+        "width_mm": "135",
+        "height_mm": "183",
+        "label": "135 × 183 mm (3×4 cells)",
+        "cells": "3x4"
       },
       "downloads": [
         {
@@ -7644,7 +7850,7 @@
       "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/heatmap/plot.R",
       "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/heatmap/heatmap/data.csv",
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/heatmap/heatmap",
-      "code_text": "# Clustered heatmap. Annotation, column split, geneset, or module-trait.\n# Run from this directory.\nsource(\"../../../styles/r/theme_viz.R\")\nlibrary(patchwork)\n\nview <- \"expression\"\nshow_annotation <- TRUE\nsplit_columns <- TRUE\n\nif (view == \"module-trait\") {\n  mt <- utils::read.csv(\"data_module.csv\", stringsAsFactors = FALSE)\n  mt$module <- factor(mt$module, levels = unique(mt$module))\n  mt$trait <- factor(mt$trait, levels = unique(mt$trait))\n  p <- ggplot2::ggplot(mt, ggplot2::aes(trait, module, fill = r)) +\n    ggplot2::geom_tile(colour = \"white\", linewidth = 0.3) +\n    ggplot2::geom_text(ggplot2::aes(label = sprintf(\"%.2f\", r)), size = 2.4) +\n    ggplot2::scale_fill_gradientn(\n      colours = pv_palette(\"diverging\", 9), limits = c(-1, 1), name = \"r\"\n    ) +\n    ggplot2::labs(x = NULL, y = NULL) +\n    theme_viz()\n  pv_save(p, \"figure\", width_mm = 110, height_mm = 70)\n  message(\"wrote preview.png\")\n  quit(save = \"no\", status = 0)\n}\n\nsrc <- if (view == \"geneset\") \"data_geneset.csv\" else \"data.csv\"\ndf <- utils::read.csv(src, stringsAsFactors = FALSE)\nfeats <- unique(df$feature)\nsamps <- unique(df$sample)\nmat <- matrix(NA_real_, length(feats), length(samps), dimnames = list(feats, samps))\nmat[cbind(match(df$feature, feats), match(df$sample, samps))] <- df$value\nmat <- t(scale(t(mat)))\ngrp <- df$group[match(samps, df$sample)]\nnames(grp) <- samps\ngrp <- factor(grp, levels = c(\"Tumor\", \"Adjacent\", \"Normal\", \"Treated\"))\n\nif (isTRUE(split_columns)) {\n  col_ord <- unlist(lapply(levels(grp), function(g) {\n    cols <- samps[grp == g]\n    if (length(cols) > 2) cols[stats::hclust(stats::dist(t(mat[, cols, drop = FALSE])))$order] else cols\n  }), use.names = FALSE)\n} else {\n  col_ord <- samps[stats::hclust(stats::dist(t(mat)))$order]\n}\nrow_ord <- feats[stats::hclust(stats::dist(mat))$order]\nmat <- mat[row_ord, col_ord, drop = FALSE]\n\nlevels_x <- character()\nfor (g in levels(grp)) {\n  cols <- col_ord[grp[col_ord] == g]\n  if (!length(cols)) next\n  if (length(levels_x) && isTRUE(split_columns)) levels_x <- c(levels_x, paste0(\".gap.\", g))\n  levels_x <- c(levels_x, cols)\n}\n\nlong <- data.frame(\n  feature = factor(rownames(mat)[row(mat)], levels = rev(rownames(mat))),\n  sample = factor(colnames(mat)[col(mat)], levels = levels_x),\n  value = as.vector(mat)\n)\nann <- data.frame(\n  sample = factor(col_ord, levels = levels_x),\n  group = grp[col_ord]\n)\nann_pal <- pv_palette(\"categorical\", 4)\nnames(ann_pal) <- levels(grp)\nlim <- max(abs(long$value), na.rm = TRUE)\n\nheat <- ggplot2::ggplot(long, ggplot2::aes(sample, feature, fill = value)) +\n  ggplot2::geom_tile() +\n  ggplot2::scale_fill_gradientn(\n    colours = pv_palette(\"diverging\", 11),\n    limits = c(-lim, lim),\n    name = \"z\",\n    guide = ggplot2::guide_colourbar(\n      direction = \"horizontal\",\n      title.position = \"top\",\n      barwidth = ggplot2::unit(40, \"mm\"),\n      barheight = ggplot2::unit(3, \"mm\")\n    )\n  ) +\n  ggplot2::scale_x_discrete(\n    drop = FALSE,\n    labels = function(x) ifelse(grepl(\"^\\\\.gap\", x), \"\", x)\n  ) +\n  ggplot2::labs(x = NULL, y = NULL) +\n  theme_viz() +\n  ggplot2::theme(\n    axis.text.y = ggplot2::element_text(size = 6.5),\n    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 6.5)\n  )\n\nif (isTRUE(show_annotation)) {\n  bar <- ggplot2::ggplot(ann, ggplot2::aes(sample, 1, fill = group)) +\n    ggplot2::geom_tile() +\n    ggplot2::scale_fill_manual(values = ann_pal, name = NULL) +\n    ggplot2::scale_x_discrete(drop = FALSE) +\n    ggplot2::labs(x = NULL, y = NULL) +\n    theme_viz() +\n    ggplot2::theme(\n      axis.text = ggplot2::element_blank(),\n      axis.ticks = ggplot2::element_blank(),\n      axis.line = ggplot2::element_blank(),\n      plot.margin = ggplot2::margin(0, 5, 0, 5)\n    )\n  p <- bar / heat +\n    patchwork::plot_layout(heights = c(0.06, 1), guides = \"collect\") &\n    ggplot2::theme(legend.position = \"bottom\", legend.box = \"horizontal\")\n} else {\n  p <- heat\n}\n\npv_save(p, \"figure\", width_mm = 183, height_mm = 150)\nmessage(\"wrote preview.png\")\n",
+      "code_text": "# Clustered heatmap (house style): z-scores on the house blue-red scale centred at 0, white cell\n# borders, sample groups as a coloured bar with the group names written above it (no legend),\n# colour bar just right of the panel. Views: expression, geneset or module-trait (r in each cell).\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\nlibrary(patchwork)\n\nview <- \"expression\"\nshow_annotation <- TRUE\nsplit_columns <- TRUE\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nfootnote <- \"Simulated data for illustration; not biological results\"\ncap_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                               margin = margin(t = 0.8, unit = \"mm\")),\n                   plot.caption.position = \"plot\")\ncbar <- function(h_mm) guide_colourbar(theme = theme(legend.key.width = unit(2, \"mm\"),\n                                                     legend.key.height = unit(h_mm, \"mm\")))\n\nif (view == \"module-trait\") {\n  mt <- utils::read.csv(\"data_module.csv\", stringsAsFactors = FALSE)\n  mt$module <- factor(mt$module, levels = rev(unique(mt$module)))\n  mt$trait <- factor(mt$trait, levels = unique(mt$trait))\n  mt$txt <- ifelse(abs(mt$r) > 0.6, \"white\", \"black\")   # dark cells get white text\n  p <- ggplot(mt, aes(trait, module, fill = r)) +\n    geom_tile(colour = \"white\", linewidth = pv_house_lw(0.3)) +\n    geom_text(aes(label = sprintf(\"%.2f\", r), colour = txt)) +\n    scale_colour_identity() +\n    scale_fill_gradientn(colours = pv_palette(\"house_div\"), limits = c(-1, 1), name = \"r\", guide = cbar(30)) +\n    scale_x_discrete(expand = c(0, 0)) +\n    scale_y_discrete(expand = c(0, 0)) +\n    labs(x = NULL, y = NULL, caption = footnote) +\n    theme_house() + cap_theme +\n    theme(panel.border = element_blank(), axis.ticks = element_blank(), legend.position = \"right\",\n          legend.box.spacing = unit(1, \"mm\"), legend.title = element_text(face = \"italic\"),\n          axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))\n  pv_save_house(p, \"figure\", cells = \"2x2\")\n  message(\"wrote preview.png\")\n  quit(save = \"no\", status = 0)\n}\n\nsrc <- if (view == \"geneset\") \"data_geneset.csv\" else \"data.csv\"\ndf <- utils::read.csv(src, stringsAsFactors = FALSE)\nfeats <- unique(df$feature)\nsamps <- unique(df$sample)\nmat <- matrix(NA_real_, length(feats), length(samps), dimnames = list(feats, samps))\nmat[cbind(match(df$feature, feats), match(df$sample, samps))] <- df$value\nmat <- t(scale(t(mat)))\ngrp <- df$group[match(samps, df$sample)]\nnames(grp) <- samps\ngrp <- factor(grp, levels = c(\"Tumor\", \"Adjacent\", \"Normal\", \"Treated\"))\n\nif (isTRUE(split_columns)) {\n  col_ord <- unlist(lapply(levels(grp), function(g) {\n    cols <- samps[grp == g]\n    if (length(cols) > 2) cols[stats::hclust(stats::dist(t(mat[, cols, drop = FALSE])))$order] else cols\n  }), use.names = FALSE)\n} else {\n  col_ord <- samps[stats::hclust(stats::dist(t(mat)))$order]\n}\nrow_ord <- feats[stats::hclust(stats::dist(mat))$order]\nmat <- mat[row_ord, col_ord, drop = FALSE]\n\nlevels_x <- character()\nfor (g in levels(grp)) {\n  cols <- col_ord[grp[col_ord] == g]\n  if (!length(cols)) next\n  if (length(levels_x) && isTRUE(split_columns)) levels_x <- c(levels_x, paste0(\".gap.\", g))\n  levels_x <- c(levels_x, cols)\n}\n\nlong <- data.frame(\n  feature = factor(rownames(mat)[row(mat)], levels = rev(rownames(mat))),\n  sample = factor(colnames(mat)[col(mat)], levels = levels_x),\n  value = as.vector(mat)\n)\nann <- data.frame(\n  sample = factor(col_ord, levels = levels_x),\n  group = grp[col_ord]\n)\n# blue, red, green, purple: all >= 3:1 on white, so the group names keep the bar colour\nann_pal <- stats::setNames(c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]]), levels(grp))\nlim <- ceiling(max(abs(long$value), na.rm = TRUE))\nann_lab <- do.call(rbind, lapply(levels(grp), function(g) {\n  x <- match(col_ord[grp[col_ord] == g], levels_x)\n  if (!length(x)) return(NULL)\n  data.frame(group = factor(g, levels = levels(grp)), x = mean(range(x)))\n}))\nstat_lab <- sprintf(\"%d features, %d samples, rows clustered\", nrow(mat), ncol(mat))\n\nheat <- ggplot(long, aes(sample, feature, fill = value)) +\n  geom_tile(colour = \"white\", linewidth = pv_house_lw(0.3)) +\n  scale_fill_gradientn(colours = pv_palette(\"house_div\"), limits = c(-lim, lim), name = \"z\",\n                       guide = cbar(40)) +\n  scale_x_discrete(drop = FALSE, expand = c(0, 0), labels = function(x) ifelse(grepl(\"^\\\\.gap\", x), \"\", x)) +\n  scale_y_discrete(expand = c(0, 0)) +\n  labs(x = NULL, y = NULL) +\n  theme_house() +\n  theme(panel.border = element_blank(), axis.ticks = element_blank(),\n        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),\n        legend.position = \"right\", legend.box.spacing = unit(1, \"mm\"),\n        legend.title = element_text(face = \"italic\", margin = margin(b = 1, unit = \"mm\")))\n\nif (isTRUE(show_annotation)) {\n  bar <- ggplot(ann, aes(sample, 1, fill = group)) +\n    geom_tile(colour = \"white\", linewidth = pv_house_lw(0.3)) +\n    geom_text(data = ann_lab, aes(x = x, y = 1.75, label = group, colour = group), vjust = 0,\n              inherit.aes = FALSE) +\n    scale_fill_manual(values = ann_pal, guide = \"none\") +\n    scale_colour_manual(values = ann_pal, guide = \"none\") +\n    scale_x_discrete(drop = FALSE, expand = c(0, 0)) +\n    coord_cartesian(ylim = c(0.5, 1.5), clip = \"off\") +\n    labs(x = NULL, y = NULL, title = stat_lab) +\n    theme_house() +\n    theme(axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),\n          panel.border = element_blank(),\n          plot.title = element_text(size = 7, margin = margin(b = 4.2, unit = \"mm\")),\n          plot.margin = margin(1.2, 0.8, 0.6, 0.4, \"mm\"))\n  p <- bar / heat + plot_layout(heights = c(0.035, 1), guides = \"collect\") +\n    plot_annotation(caption = footnote,\n                    theme = cap_theme + theme(text = element_text(family = house_family()))) &\n    theme(legend.position = \"right\")\n} else {\n  p <- heat + labs(caption = footnote) + cap_theme\n}\n\npv_save_house(p, \"figure\", cells = c(3, 4))\nmessage(\"wrote preview.png\")\n",
       "search_text": "clustered heatmap\n聚类热图\nheatmap\nclustered\nheatmap\n热图\nrelationship\n相关/关系\nrelationship\n基因对样本的矩阵要同时看模块和组别时用。\nplot.r 顶部 view 取 expression、geneset（读 data_geneset.csv）或 module-trait（读 data_module.csv）；show_annotation 打开样本色条；split_columns 在组间留空并只在组内聚类。z 分数在绑图时按行计算。\nheatmap clustering expression\nfeature 行名，基因或基因集（字符串） sample 列名（字符串） value 连续表达或得分（数值） group 样本分组，随样本重复（字符串）"
     },
     {

@@ -15,3 +15,5 @@ data_columns:
 when_to_use: 比较多个对象在若干时间点的名次升降时用。
 customize: plot.R 顶部 highlight_items 填写要高亮的项目名，其余画成灰色。
 lang: R
+style: house
+cells: 2x1

@@ -1,39 +1,49 @@
-# Ranked lollipops. Highlight can follow the signif column. Reads data.csv only.
-source("../../../styles/r/theme_viz.R")
+# Ranked lollipops (house style): stems from zero, items flagged in the signif column in the accent
+# colour, key and count written inside the panel (no legend). Reads data.csv only.
+# Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数
 rank_items <- TRUE
 highlight_signif <- TRUE
 map_importance <- FALSE
-signif_colour <- pv_palette("categorical", 4)[4]
-base_colour <- pv_palette("categorical", 1)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# red and blue are both >= 3:1 on white, so the key text keeps the point colour
+signif_colour <- hp[["red"]]
+base_colour <- hp[["blue"]]
+footnote <- "Simulated data for\nillustration; not\nbiological results"
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$signif <- as.logical(df$signif)
-if (rank_items) {
-  df <- df[order(df$value), ]
-}
-df$item <- factor(df$item, levels = df$item)
-df$mark <- ifelse(highlight_signif & df$signif, "Marked", "Other")
-cols <- c(Other = base_colour, Marked = signif_colour)
-pt <- if (map_importance) pmax(1.2, df$value) else rep(1.9, nrow(df))
+if (rank_items) df <- df[order(df$value), ]
+df$y <- seq_len(nrow(df))
+df$mark <- factor(ifelse(highlight_signif & df$signif, "Significant", "Other"), levels = c("Significant", "Other"))
+cols <- c(Significant = signif_colour, Other = base_colour)
+df$pt <- if (map_importance) pmax(1.2, 1.2 + df$value / max(df$value) * 1.6) else HOUSE_POINT$size
+n <- nrow(df)
+x_max <- max(df$value) * 1.08
+key <- data.frame(mark = factor(c("Significant", "Other"), levels = levels(df$mark)),
+                  lab = c(sprintf("Significant (%d)", sum(df$mark == "Significant")),
+                          sprintf("Not significant (%d)", sum(df$mark == "Other"))),
+                  y = c(2.9, 1.6))
+if (!isTRUE(highlight_signif)) key <- key[2, ]
 
-p <- ggplot2::ggplot(df, ggplot2::aes(value, item)) +
-  ggplot2::geom_segment(
-    ggplot2::aes(x = 0, xend = value, y = item, yend = item, colour = mark),
-    linewidth = 0.4
-  ) +
-  ggplot2::geom_point(ggplot2::aes(colour = mark, size = pt)) +
-  ggplot2::scale_colour_manual(values = cols, name = NULL) +
-  ggplot2::scale_size_identity() +
-  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.06))) +
-  ggplot2::labs(x = "Importance", y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    legend.position = "inside",
-    legend.position.inside = c(0.72, 0.18),
-    legend.justification.inside = c(0.5, 0.5)
-  )
+p <- ggplot(df, aes(value, y)) +
+  geom_segment(aes(x = 0, xend = value, yend = y, colour = mark), linewidth = pv_house_lw("minor")) +
+  geom_point(aes(fill = mark, size = pt), shape = HOUSE_POINT$shape, stroke = HOUSE_POINT$stroke,
+             colour = "black") +
+  geom_text(data = key, aes(x = x_max * 0.98, y = y, label = lab, colour = mark), hjust = 1) +
+  scale_colour_manual(values = cols, guide = "none") +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_size_identity() +
+  scale_y_continuous(breaks = df$y, labels = df$item) +
+  coord_cartesian(xlim = c(0, x_max), ylim = c(0.4, n + 0.6), expand = FALSE) +
+  labs(x = "Importance", y = NULL, caption = footnote) +
+  theme_house() +
+  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
-pv_save(p, "figure", width_mm = 100, height_mm = 140)
+pv_save_house(p, "figure", cells = "1x2")
 message("wrote preview.png")
