@@ -1,5 +1,8 @@
-# UMAP / t-SNE. Reads data.csv only. Run from this directory.
-source("../../../styles/r/theme_viz.R")
+# UMAP / t-SNE (house style). Clusters in house colours; cluster names written next to each cloud
+# in the cluster colour (#1A1A1A when that colour is < 3:1 on white). Reads data.csv only.
+# Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # --- adjustable ---
 method_keep <- "both"   # "UMAP", "t-SNE", or "both"
@@ -12,17 +15,24 @@ if (method_keep != "both") {
 }
 df$cluster <- factor(df$cluster, levels = unique(df$cluster))
 df$method <- factor(df$method, levels = intersect(c("UMAP", "t-SNE"), unique(df$method)))
-cols <- pv_palette("categorical", nlevels(df$cluster))
-names(cols) <- levels(df$cluster)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+cols <- stats::setNames(unname(hp[seq_len(nlevels(df$cluster))]), levels(df$cluster))
+name_cols <- stats::setNames(ifelse(cols %in% hp[c("orange", "sky", "gold")], "#1A1A1A", cols), names(cols))
+footnote <- "Simulated data for illustration; not biological results"
 
 p <- ggplot2::ggplot(df, ggplot2::aes(dim1, dim2, colour = cluster)) +
-  ggplot2::geom_point(size = 1.15, alpha = 0.9) +
-  ggplot2::scale_colour_manual(values = cols, name = "Cluster") +
-  ggplot2::labs(x = "Dimension 1", y = "Dimension 2") +
-  theme_viz() +
+  ggplot2::geom_point(size = 0.8, shape = 16) +
+  ggplot2::scale_colour_manual(values = cols, name = NULL) +
+  ggplot2::labs(x = "Dimension 1", y = "Dimension 2", caption = footnote) +
+  theme_house() +
   ggplot2::theme(
-    legend.position = if (isTRUE(show_labels)) "none" else "inside",
-    legend.key.size = ggplot2::unit(3, "mm")
+    legend.position = if (isTRUE(show_labels)) "none" else "right",
+    legend.key.size = ggplot2::unit(3, "mm"),
+    strip.background = ggplot2::element_blank(),
+    plot.margin = ggplot2::margin(1, 2.5, 1, 1, "mm"),
+    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                         margin = ggplot2::margin(t = 0.8, unit = "mm")),
+    plot.caption.position = "plot"
   )
 
 if (nlevels(df$method) > 1) {
@@ -61,30 +71,42 @@ if (isTRUE(show_labels)) {
   centres$nudge_y[t_c3] <- 1.2
   centres$nudge_y[t_c4] <- -12
   centres$nudge_y[t_c5] <- -10
+  # Every cell is a blank-label obstacle, so names keep clear of all points.
+  rep_df <- rbind(
+    data.frame(dim1 = centres$dim1, dim2 = centres$dim2, method = centres$method,
+               lab = as.character(centres$cluster), col = unname(name_cols[as.character(centres$cluster)]),
+               nudge_x = centres$nudge_x, nudge_y = centres$nudge_y),
+    data.frame(dim1 = df$dim1, dim2 = df$dim2, method = df$method, lab = "", col = "#1A1A1A",
+               nudge_x = 0, nudge_y = 0)
+  )
   p <- p +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.20, 0.28))) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.20)) +
+    # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+    # so the layout does not depend on machine speed.
     ggrepel::geom_text_repel(
-    data = centres,
-    ggplot2::aes(dim1, dim2, label = cluster),
-    colour = "black",
-    size = 2.1,
-    fontface = "bold",
+    data = rep_df,
+    ggplot2::aes(dim1, dim2, label = lab),
+    colour = rep_df$col,
+    point.size = 0.8,
+    size = pv_pt2size(7),
+    family = house_family(),
     inherit.aes = FALSE,
-    nudge_x = centres$nudge_x,
-    nudge_y = centres$nudge_y,
-    min.segment.length = 0,
+    nudge_x = rep_df$nudge_x,
+    nudge_y = rep_df$nudge_y,
+    min.segment.length = Inf,
     segment.size = 0.2,
-    segment.colour = "grey35",
+    segment.colour = grey[["dark"]],
     box.padding = 0.25,
     point.padding = 0.15,
-    force = 0.5,
+    force = 1,
     force_pull = 0,
+    max.iter = 20000, max.time = Inf,
     max.overlaps = Inf,
     seed = 11,
     show.legend = FALSE
   )
 }
 
-pv_save(p, "figure", width_mm = if (nlevels(df$method) > 1) 140 else 89, height_mm = 72)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")

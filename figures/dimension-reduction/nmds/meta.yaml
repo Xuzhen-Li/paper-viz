@@ -11,11 +11,14 @@ tags:
 packages:
   - ggplot2
   - MASS
+  - ggrepel
 data_columns:
   sample: 样本编号（字符串）
   group: 分组（字符串）
   taxon: 分类单元（字符串）
   abundance: 非负丰度（数值）
 when_to_use: 距离矩阵不适合线性主坐标、只要看样本远近时用。
-customize: 颜色按 group 取 pv_palette("categorical")；k 在 isoMDS 调用里，默认 2。
+customize: "Replace the local `bray()` function in `plot.R` to change the distance metric; `data.csv` requires `sample`, `group`, `taxon`, and `abundance` columns, with group names drawn using `ggrepel` with a fixed seed."
 lang: R
+style: house
+cells: 1x1

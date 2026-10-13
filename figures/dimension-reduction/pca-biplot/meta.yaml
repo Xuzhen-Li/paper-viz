@@ -9,11 +9,14 @@ tags:
   - biplot
 packages:
   - ggplot2
+  - ggrepel
 data_columns:
   sample: 样本编号（字符串）
   group: 分组（字符串）
   pc1: 第一主成分得分（数值）
   pc2: 第二主成分得分（数值）
 when_to_use: 已有样本的主成分坐标、要按组看分离时用。
-customize: plot.R 顶部 point_size 与 point_alpha 调点大小与透明度；分组色取 pv_palette("categorical") 前 n 色。
+customize: "Adjust `point_size` (default 2.2) and `point_alpha` (default 0.85) in `plot.R`; supply `group`, `pc1`, and `pc2` columns in `data.csv` alongside `sample` (only as an identifier, not read by plotting code), drawing group names using `ggrepel` with a fixed seed."
 lang: R
+style: house
+cells: 1x1

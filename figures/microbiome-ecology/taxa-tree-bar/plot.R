@@ -1,5 +1,9 @@
-# Sample clustering tree beside a stacked taxon bar, ordered by the tree.
-source("../../../styles/r/theme_viz.R")
+# Sample clustering tree beside a stacked taxon bar, ordered by the tree (house style).
+# Tree branches carry the sample group; bars use the first six house colours plus grey Other.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+library(patchwork)
 
 # 可调参数 -----------------------------------------------------------------
 relative <- TRUE
@@ -26,39 +30,46 @@ grp <- unique(df[, c("sample", "group")])
 grp <- grp[match(tr$tip.label, grp$sample), ]
 groups <- split(grp$sample, grp$group)
 tr <- ggtree::groupOTU(tr, groups, group_name = "group")
-gcols <- setNames(pv_palette("categorical", length(group_order)), group_order)
+hp <- pv_palette("house")
+grey <- pv_palette("house_grey")
+footnote <- "Bray-Curtis distance, average linkage.\nSimulated data for illustration; not biological results"
+# Groups take the house colours not used by the taxa, so no colour means two things.
+gcols <- setNames(c(hp[c("gold", "magenta", "brown")], grey[["dark"]])[seq_along(group_order)], group_order)
 
-p_tree <- ggtree::ggtree(tr, ggplot2::aes(colour = group), linewidth = 0.35) +
-  ggplot2::scale_colour_manual(values = gcols, name = "Group", na.value = "grey30") +
-  theme_viz() +
+p_tree <- ggtree::ggtree(tr, ggplot2::aes(colour = group), linewidth = pv_house_lw("main")) +
+  ggtree::geom_tiplab(ggplot2::aes(label = label), size = pv_pt2size(7), colour = "#1A1A1A",
+                      family = house_family(), offset = 0.01, align = FALSE) +
+  ggplot2::scale_colour_manual(values = gcols, name = "Group", na.value = grey[["dark"]],
+                               breaks = group_order) +
+  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.02, 0.18))) +
+  theme_house() +
   ggplot2::theme(
+    panel.border = ggplot2::element_blank(),
     axis.line = ggplot2::element_blank(),
-    axis.text = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank(),
-    legend.position = "bottom",
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA)
-  )
+    axis.text.x = ggplot2::element_blank(), axis.text.y = ggplot2::element_blank(),
+    axis.ticks.x = ggplot2::element_blank(), axis.ticks.y = ggplot2::element_blank(),
+    axis.line.x = ggplot2::element_blank(), axis.line.y = ggplot2::element_blank(),
+    axis.title.x = ggplot2::element_blank(), axis.title.y = ggplot2::element_blank()
+  ) +
+  ggplot2::guides(colour = ggplot2::guide_legend(nrow = 1, override.aes = list(linewidth = 1.2)))
 
-tip_order <- p_tree$data$label[p_tree$data$isTip][order(p_tree$data$y[p_tree$data$isTip])]
-# ggtree y order
 yd <- p_tree$data[p_tree$data$isTip, c("label", "y")]
 yd <- yd[order(yd$y), , drop = FALSE]
 
 mean_ab <- tapply(as.vector(mat), rep(colnames(mat), each = nrow(mat)), mean)
 rank_taxa <- names(sort(mean_ab, decreasing = TRUE))
-# More than six taxa would pull in #fbee61 as a wide stack. Fold the rest into Other.
+# At most six named taxa (the first six house colours); the rest fold into Other.
 n_keep <- min(6L, as.integer(top_n), length(rank_taxa))
 keep <- rank_taxa[seq_len(n_keep)]
 long <- as.data.frame(as.table(mat), stringsAsFactors = FALSE)
 names(long) <- c("sample", "taxon", "abundance")
 long$taxon <- ifelse(long$taxon %in% keep, as.character(long$taxon), "Other")
 long <- stats::aggregate(abundance ~ sample + taxon, long, sum)
-long$sample <- factor(long$sample, levels = yd$label)
 tax_levels <- c(keep, if ("Other" %in% long$taxon) "Other")
 long$taxon <- factor(long$taxon, levels = tax_levels)
 named <- setdiff(as.character(tax_levels), "Other")
-tcols <- setNames(pv_palette("categorical", length(named)), named)
-if ("Other" %in% tax_levels) tcols["Other"] <- "#E0E0E0"
+tcols <- setNames(unname(hp[seq_along(named)]), named)
+if ("Other" %in% tax_levels) tcols["Other"] <- grey[["light"]]
 
 long <- merge(long, yd, by.x = "sample", by.y = "label")
 p_bar <- ggplot2::ggplot(long, ggplot2::aes(abundance, y, fill = taxon)) +
@@ -67,39 +78,30 @@ p_bar <- ggplot2::ggplot(long, ggplot2::aes(abundance, y, fill = taxon)) +
     position = ggplot2::position_stack(reverse = TRUE)
   ) +
   ggplot2::scale_fill_manual(values = tcols, name = "Taxon") +
+  ggplot2::scale_x_continuous(expand = c(0, 0), breaks = scales::breaks_pretty(n = 3)) +
   ggplot2::scale_y_continuous(limits = range(yd$y) + c(-0.5, 0.5), expand = c(0, 0)) +
   ggplot2::labs(x = if (isTRUE(relative)) "Relative abundance" else "Abundance", y = NULL) +
-  theme_viz() +
+  theme_house() +
   ggplot2::theme(
     axis.text.y = ggplot2::element_blank(),
     axis.ticks.y = ggplot2::element_blank(),
-    axis.line.y = ggplot2::element_blank(),
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.position = "bottom",
-    legend.background = ggplot2::element_rect(fill = "white", colour = NA),
-    legend.box.background = ggplot2::element_rect(fill = "white", colour = NA)
+    axis.line.y = ggplot2::element_blank()
   ) +
   ggplot2::guides(fill = ggplot2::guide_legend(ncol = 3, byrow = TRUE))
 
-p_tree <- p_tree + ggplot2::theme(
-  legend.background = ggplot2::element_rect(fill = "white", colour = NA),
-  legend.box.background = ggplot2::element_rect(fill = "white", colour = NA)
-)
-
-grab_legend <- function(plot) {
-  g <- ggplot2::ggplotGrob(plot)
-  k <- which(vapply(g$grobs, function(x) identical(x$name, "guide-box"), logical(1)))
-  if (!length(k)) return(ggplot2::zeroGrob())
-  g$grobs[[k[[1]]]]
-}
-leg_grp <- grab_legend(p_tree)
-leg_tax <- grab_legend(p_bar)
-p_tree <- p_tree + ggplot2::theme(legend.position = "none")
-p_bar <- p_bar + ggplot2::theme(legend.position = "none")
-body <- cowplot::plot_grid(p_tree, p_bar, nrow = 1, align = "h", axis = "tb", rel_widths = c(0.62, 1.38))
-legs <- cowplot::plot_grid(leg_grp, leg_tax, ncol = 1, rel_heights = c(0.38, 0.62)) +
-  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
-p <- cowplot::plot_grid(body, legs, ncol = 1, rel_heights = c(1, 0.28)) +
-  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "white", colour = NA))
-pv_save(p, "figure", width_mm = 183, height_mm = 120)
+p <- (p_tree | p_bar) +
+  patchwork::plot_layout(widths = c(0.8, 1.2), guides = "collect") +
+  patchwork::plot_annotation(
+    caption = footnote,
+    theme = ggplot2::theme(
+      text = ggplot2::element_text(family = house_family()),
+      plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                           margin = ggplot2::margin(t = 0.8, unit = "mm")),
+      plot.caption.position = "plot"
+    )
+  ) &
+  ggplot2::theme(legend.position = "bottom", legend.box = "vertical",
+                 legend.box.just = "left", legend.justification = "left",
+                 legend.key.size = ggplot2::unit(3, "mm"), legend.margin = ggplot2::margin(0, 0, 0, 0))
+pv_save_house(p, "figure", cells = "2x2", bump = 0)
 message("wrote preview.png")

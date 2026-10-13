@@ -15,5 +15,7 @@ data_columns:
   high: 95% 置信区间上界（数值）
   p: 双侧 p 值（数值）
 when_to_use: 展示两组微生物类群平均比例差及置信区间时用。
-customize: p_cut 决定实心点的显著性；show_ci 开关误差线；label_p 开关右侧 p 值。方向颜色在 cols。
+customize: "Set `p_cut` (default 0.05) and toggle `show_ci` (default `TRUE`) and `label_p` (default `TRUE`) in `plot.R` to display confidence intervals and side statistics; fill `taxon`, `diff`, `low`, `high`, and `p` columns in `data.csv`."
 lang: R
+style: house
+cells: 2x2

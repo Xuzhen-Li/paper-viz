@@ -9,6 +9,7 @@ tags:
   - single-cell
 packages:
   - ggplot2
+  - ggrepel
 data_columns:
   cell: 细胞或样本编号（字符串）
   cluster: 聚类标签（字符串）
@@ -16,5 +17,7 @@ data_columns:
   dim2: 第二维坐标（数值）
   method: 嵌入方法，UMAP 或 t-SNE（字符串）
 when_to_use: 要看非线性降维后的类群是否分开时用。
-customize: method_keep 选 UMAP、t-SNE 或 both；show_labels 开关类群中位标签；颜色按 cluster 取 pv_palette("categorical")。
+customize: 'Modify `method_keep` (default "both") and toggle `show_labels` (default `TRUE`) in `plot.R` to filter embeddings and draw cluster names via `ggrepel` with a fixed seed; supply `cluster`, `dim1`, `dim2`, and `method` columns in `data.csv` alongside `cell` (only as an identifier, not read by plotting code).'
 lang: R
+style: house
+cells: 2x1
