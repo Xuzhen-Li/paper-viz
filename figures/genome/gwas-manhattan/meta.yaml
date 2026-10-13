@@ -17,7 +17,7 @@ data_columns:
   snp: '位点名（字符串）'
   highlight: '1 为要高亮的 QTL，0 为背景（整数）'
 when_to_use: '全基因组关联要同时看染色体峰和 p 值校准（QQ）时用。'
-customize: 'TODO-TEXT'
+customize: 'sig_threshold 画红虚线并在左端标记，sug_threshold 画灰点线；show_qq 显示带有基因组膨胀系数的 QQ 面板；show_labels 结合 n_label 标记顶部 QTL 位点；红色菱形框黑边标出命中点。'
 lang: 'R'
 style: 'house'
 cells: '4x1'

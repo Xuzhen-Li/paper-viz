@@ -15,7 +15,7 @@ data_columns:
   end: '位点内终点，bp（整数）'
   strand: '链方向，+ 或 -（字符串）'
 when_to_use: '比较转录本外显子、UTR、结构域和点突变位置时用。'
-customize: 'TODO-TEXT'
+customize: 'show_domains，show_isoforms 和 show_mutations 开启对应元素；突变以红三角画在模型上方；图例行及包含总数的统计列于右上角；链方向用 3'' 端箭头表示并在行名中标出。'
 lang: 'R'
 style: 'house'
 cells: '4x2'

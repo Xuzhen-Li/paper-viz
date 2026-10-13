@@ -14,7 +14,7 @@ data_columns:
   chr: 'bin_i 所在染色体（字符串）'
   count: '接触次数（整数）'
 when_to_use: '查看染色体领地、距离衰减，以及植物中着丝粒之间的 Rabl 接触时用。'
-customize: 'TODO-TEXT'
+customize: 'log_color 为 TRUE 时对计数加一后取对数，FALSE 用原始计数；show_chr_split 用灰线显示染色体边界；色条位于地图右下方，左下角显示顺式互作比例。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

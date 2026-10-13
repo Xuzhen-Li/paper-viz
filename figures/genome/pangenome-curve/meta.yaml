@@ -17,7 +17,7 @@ data_columns:
   pan: '泛基因组家族数（整数）'
   core: '核心基因组家族数（整数）'
 when_to_use: '概括植物泛基因组的 core/shell/cloud 组成，并看 pan 与 core 随基因组数的饱和时用。'
-customize: 'TODO-TEXT'
+customize: 'show_pie 控制饼图在扇区顺时针写明名称和占比；show_accumulation 在线端写名称且 Y 轴单位为千；show_heaps 画拟合虚线并注记 alpha 值；compartment_order 设定隔室顺序。'
 lang: 'R'
 style: 'house'
 cells: '2x1'

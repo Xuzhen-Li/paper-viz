@@ -12,7 +12,7 @@ data_columns:
   status: 'Complete single-copy、Complete duplicated、Fragmented 或 Missing（字符串）'
   percent: '该类别占 BUSCO 基因的百分比（数值）'
 when_to_use: '比较多份基因组组装的完整度、重复、碎片和缺失比例时用。'
-customize: 'TODO-TEXT'
+customize: 'sort_by_completeness 为 TRUE 时按单拷贝与重复之和的完整度将最优组装排在顶部，FALSE 则按名称排序；show_percent 在单拷贝块内以白字写出完整度百分比；分类名称列于条形上方且无图例。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

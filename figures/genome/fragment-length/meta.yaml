@@ -11,7 +11,7 @@ data_columns:
   library: '文库，Ancient、Nucleosome 或 Modern（字符串）'
   length_bp: '插入片段长度，bp（整数）'
 when_to_use: '比较古 DNA 短片段、核小体保护峰和现代文库插入长度时用。'
-customize: 'TODO-TEXT'
+customize: 'binwidth 设为 5 且 xmax 设为 500；facet_by_library 为 TRUE 时单库独立分面，右上角写名称与中值并画虚线；FALSE 时三库叠加在一处并在密度峰值处标记。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

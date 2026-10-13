@@ -16,7 +16,7 @@ data_columns:
   prob: '该位置碱基频率（0 到 1）'
   count: '该碱基的计数（整数，列和为序列条数）'
 when_to_use: '展示一个 DNA 模体各位置的保守性和碱基偏好时用。'
-customize: 'TODO-TEXT'
+customize: 'method 为 bits 时字母高度等于频率乘信息量，为 prob 时代表概率；base_levels 设定四种碱基；右上角显示总信息量，不读取 count 列。'
 lang: 'R'
 style: 'house'
 cells: '2x1'

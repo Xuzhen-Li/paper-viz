@@ -17,7 +17,7 @@ data_columns:
   block: '共线性区块编号；染色体骨架行留空（字符串）'
   identity: '序列一致性（%）；骨架行留空（数值）'
 when_to_use: '比较两个基因组的共线性区块、方向和锚点一致性时用。'
-customize: 'TODO-TEXT'
+customize: 'show_ribbon 开关整个条带面板，正向蓝色反向红色，并在左上角显示区块计数；show_dotplot 在左上角放色条并在右下角写锚点数与一致性中位数；chr_layout 为 all 时全显，pair 时仅保留 A1 点图。'
 lang: 'R'
 style: 'house'
 cells: '4x2'

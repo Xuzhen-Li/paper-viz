@@ -16,7 +16,7 @@ data_columns:
   model: '无噪声的负二项加误差模型（数值）'
   lambda: '该文库纯合峰覆盖度 λ（数值）'
 when_to_use: '从 k-mer 频谱看错误峰、杂合 1n 峰和纯合 2n 峰，判断植物基因组杂合度时用。'
-customize: 'TODO-TEXT'
+customize: 'log_y 控制 Y 轴；label_peaks 在曲线正上方短引线上标记 1n 和 2n；show_model 画拟合虚线；show_trunc_note 在文库名下注记截断；peak_headroom 设为 1.8 留出空间；文库并排且 Y 轴单位为千。'
 lang: 'R'
 style: 'house'
 cells: '2x1'

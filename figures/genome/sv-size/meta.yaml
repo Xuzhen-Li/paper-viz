@@ -11,7 +11,7 @@ data_columns:
   sv_type: 'DEL、INS、DUP 或 INV（字符串）'
   size_bp: '变异长度，bp，至少 50（整数）'
 when_to_use: '比较缺失、插入、重复和倒位的长度谱，尤其是植物 LTR 尺度的插入峰时用。'
-customize: 'TODO-TEXT'
+customize: 'log_x 控制对数 X 轴；sv_keep 选择保留四种结构变异；各密度峰值处标记类型和中值大小；log_x 为 FALSE 时名称在右上角。'
 lang: 'R'
 style: 'house'
 cells: '2x1'

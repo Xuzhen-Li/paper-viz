@@ -17,7 +17,7 @@ data_columns:
   value: '密度或柱高；连线行留空（数值）'
   link_to: '连线终点，格式 ChrN:start-end；密度行留空（字符串）'
 when_to_use: '在一张圈图里同时看染色体密度和区间之间的连线时用。'
-customize: 'TODO-TEXT'
+customize: 'show_heatmap 用 house_warm 颜色画密度环；show_bars 画蓝色密度柱；show_links 画紫色条带；link_alpha 调整条带透明度；左上角显示环形图例和条带计数，染色体名称朝内。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

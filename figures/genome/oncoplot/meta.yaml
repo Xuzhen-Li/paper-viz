@@ -15,7 +15,7 @@ data_columns:
   variant_class: 'Missense_Ti、Missense_Tv、Nonsense、Frameshift 或 Splice（字符串）'
   cohort: '样品队列，用于注释条（字符串）'
 when_to_use: '展示多样品、多基因的突变类型，并在上方汇总转换与颠换时用。'
-customize: 'TODO-TEXT'
+customize: 'show_titv 在顶部画错义 Ti/Tv 条并写出整体 Ti/Tv 比值；show_sample_lane 显示队列通道；cohort_order 设定 A 与 B 的顺序；图例行位于矩阵下方，右侧列出各个基因突变百分比。'
 lang: 'R'
 style: 'house'
 cells: '2x2'
