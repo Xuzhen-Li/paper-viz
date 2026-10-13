@@ -17,7 +17,7 @@ data_columns:
   dim2: 第二维坐标（数值）
   method: 嵌入方法，UMAP 或 t-SNE（字符串）
 when_to_use: 要看非线性降维后的类群是否分开时用。
-customize: "Modify `method_keep` (default \"both\") and toggle `show_labels` (default `TRUE`) in `plot.R` to filter embeddings and draw cluster names via `ggrepel` with a fixed seed; supply `cluster`, `dim1`, `dim2`, and `method` columns in `data.csv` alongside `cell` (only as an identifier, not read by plotting code)."
+customize: 'Modify `method_keep` (default "both") and toggle `show_labels` (default `TRUE`) in `plot.R` to filter embeddings and draw cluster names via `ggrepel` with a fixed seed; supply `cluster`, `dim1`, `dim2`, and `method` columns in `data.csv` alongside `cell` (only as an identifier, not read by plotting code).'
 lang: R
 style: house
 cells: 2x1

@@ -19,7 +19,7 @@ data_columns:
   abundance: 计数或丰度（数值）
   tip: 与样品对应的树尖名（字符串）
 when_to_use: 按样品聚类树的顺序展示类群相对丰度时用。
-customize: "Toggle `relative` (default `TRUE`) normalisation in `plot.R`, modifying `group_order` (default c(\"Gut\", \"Oral\", \"Skin\", \"Soil\")) and `top_n` (default 12) while keeping at most six named taxa; provide `sample`, `group`, `taxon`, and `abundance` columns in `data.csv` alongside `tip` (only as an identifier, not read by plotting code)."
+customize: 'Toggle `relative` (default `TRUE`) normalisation in `plot.R`, modifying `group_order` (default c("Gut", "Oral", "Skin", "Soil")) and `top_n` (default 12) while keeping at most six named taxa; provide `sample`, `group`, `taxon`, and `abundance` columns in `data.csv` alongside `tip` (only as an identifier, not read by plotting code).'
 lang: R
 style: house
 cells: 2x2

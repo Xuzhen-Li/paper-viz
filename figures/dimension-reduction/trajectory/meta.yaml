@@ -15,7 +15,7 @@ data_columns:
   pseudotime: 拟时序，0 到 1（数值）
   branch: 分支，trunk、fate-a 或 fate-b（字符串）
 when_to_use: 要在低维嵌入上看细胞沿拟时序如何分叉时用。
-customize: "Change `color_by` (default \"pseudotime\") and `show_path` (default `TRUE`) in `plot.R` to color points or draw median paths; supply `dim1`, `dim2`, `pseudotime`, and `branch` columns in `data.csv` alongside `cell` (only as an identifier, not read by plotting code)."
+customize: 'Change `color_by` (default "pseudotime") and `show_path` (default `TRUE`) in `plot.R` to color points or draw median paths; supply `dim1`, `dim2`, `pseudotime`, and `branch` columns in `data.csv` alongside `cell` (only as an identifier, not read by plotting code).'
 lang: R
 style: house
 cells: 2x2

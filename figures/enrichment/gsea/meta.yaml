@@ -16,7 +16,7 @@ data_columns:
   hit: 该名次是否命中基因集，1 或 0（整数）
   metric: 排序统计量，两套基因集相同（数值）
 when_to_use: 要看一个基因集在排序列表的哪一头富集时用。
-customize: "Modify `sets_keep` (default c(\"Interferon response\", \"Oxidative phosphorylation\")) to select sets and toggle `show_ranked_bar` (default `TRUE`) in `plot.R`; fill `set`, `rank`, `es`, `hit`, and `metric` columns in `data.csv`."
+customize: 'Modify `sets_keep` (default c("Interferon response", "Oxidative phosphorylation")) to select sets and toggle `show_ranked_bar` (default `TRUE`) in `plot.R`; fill `set`, `rank`, `es`, `hit`, and `metric` columns in `data.csv`.'
 lang: R
 style: house
 cells: 2x2
