@@ -82,6 +82,8 @@ if (isTRUE(show_labels)) {
   p <- p +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.20, 0.28))) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.20)) +
+    # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+    # so the layout does not depend on machine speed.
     ggrepel::geom_text_repel(
     data = rep_df,
     ggplot2::aes(dim1, dim2, label = lab),
@@ -99,7 +101,7 @@ if (isTRUE(show_labels)) {
     point.padding = 0.15,
     force = 1,
     force_pull = 0,
-    max.iter = 20000,
+    max.iter = 20000, max.time = Inf,
     max.overlaps = Inf,
     seed = 11,
     show.legend = FALSE

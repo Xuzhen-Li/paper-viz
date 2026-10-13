@@ -27,7 +27,8 @@ p <- ggplot(df, aes(A, log2fc, colour = direction)) +
   geom_hline(yintercept = c(-lfc_cut, lfc_cut), linetype = "dashed",
              linewidth = pv_house_lw("ref"), colour = grey[["ref"]]) +
   geom_point(size = 0.7, shape = 16) +
-  annotate("text", x = Inf, y = Inf, hjust = 1.08, vjust = 1.3, label = paste("Up", n_up),
+  # both counts sit in the empty lower-right corner, clear of the gene names above the cloud
+  annotate("text", x = Inf, y = -Inf, hjust = 1.08, vjust = -1.9, label = paste("Up", n_up),
            colour = hp[["red"]], size = pv_pt2size(7), family = house_family()) +
   annotate("text", x = Inf, y = -Inf, hjust = 1.08, vjust = -0.5, label = paste("Down", n_down),
            colour = hp[["blue"]], size = pv_pt2size(7), family = house_family()) +
@@ -49,17 +50,22 @@ if (isTRUE(show_labels) && n_label > 0) {
   rep_df <- df
   rep_df$lab_txt <- ifelse(rep_df$gene %in% lab$gene, rep_df$gene, "")
   span <- diff(range(df$log2fc))
-  rep_df$ny <- ifelse(rep_df$lab_txt == "", 0, sign(rep_df$log2fc) * 0.25 * span)
+  rep_df$ny <- ifelse(rep_df$lab_txt == "", 0, sign(rep_df$log2fc) * 0.3 * span)
+  # and sideways away from the x centre, so leaders fan out instead of crossing other names
+  mid_x <- mean(range(df$A))
+  rep_df$nx <- ifelse(rep_df$lab_txt == "", 0, 0.3 * (rep_df$A - mid_x))
   # labelled genes get the house point outline
   p <- p + geom_point(data = lab, aes(fill = direction), shape = HOUSE_POINT$shape, size = 1.2,
                       stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, show.legend = FALSE) +
     scale_fill_manual(values = cols, guide = "none") +
+    # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+    # so the layout does not depend on machine speed.
     ggrepel::geom_text_repel(
     data = rep_df, aes(label = lab_txt), size = pv_pt2size(7), colour = "#1A1A1A",
     family = house_family(), segment.size = 0.2, segment.colour = grey[["dark"]],
-    nudge_y = rep_df$ny, direction = "both", point.size = 0.7,
-    max.overlaps = Inf, min.segment.length = 0, box.padding = 0.25, point.padding = 0.15,
-    force = 3, force_pull = 0.3, max.iter = 50000, max.time = 4, show.legend = FALSE, seed = 1
+    nudge_x = rep_df$nx, nudge_y = rep_df$ny, direction = "both", point.size = 0.7,
+    max.overlaps = Inf, min.segment.length = 0, box.padding = 0.35, point.padding = 0.15,
+    force = 3, force_pull = 0.3, max.iter = 50000, max.time = Inf, show.legend = FALSE, seed = 1
   )
 }
 

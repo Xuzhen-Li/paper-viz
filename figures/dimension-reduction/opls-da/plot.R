@@ -61,11 +61,13 @@ if (isTRUE(show_scores)) {
   }
   p_scores <- p_scores +
     # names repel from every score point (blank labels are obstacles), starting above the group
+    # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+    # so the layout does not depend on machine speed.
     ggrepel::geom_text_repel(data = rep_df, aes(pred, ortho, label = lab), inherit.aes = FALSE,
               colour = rep_df$col, size = pv_pt2size(7), family = house_family(),
               point.size = HOUSE_POINT$size, nudge_y = rep_df$ny, min.segment.length = Inf,
               box.padding = 0.4, point.padding = 0.3, force = 2, max.overlaps = Inf,
-              max.iter = 20000, seed = 1, show.legend = FALSE)
+              max.iter = 20000, max.time = Inf, seed = 1, show.legend = FALSE)
   panels <- c(panels, list(p_scores))
 }
 

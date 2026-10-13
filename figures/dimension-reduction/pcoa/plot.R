@@ -57,11 +57,13 @@ p <- ggplot(plot_df, aes(x, y, fill = group)) +
   geom_point(shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke,
              colour = HOUSE_POINT$colour) +
   # Names repel from every point (blank labels are obstacles), starting just above the group.
+  # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+  # so the layout does not depend on machine speed.
   ggrepel::geom_text_repel(
     data = rep_df, aes(x, y, label = lab), inherit.aes = FALSE, colour = rep_df$col,
     size = pv_pt2size(7), family = house_family(), point.size = HOUSE_POINT$size,
     nudge_y = rep_df$ny, min.segment.length = Inf, box.padding = 0.2, point.padding = 0.15,
-    force = 2, max.overlaps = Inf, max.iter = 20000, seed = 1, show.legend = FALSE
+    force = 2, max.overlaps = Inf, max.iter = 20000, max.time = Inf, seed = 1, show.legend = FALSE
   ) +
     scale_fill_manual(values = cols, guide = "none") +
   scale_y_continuous(expand = expansion(mult = c(0.16, 0.16))) +

@@ -85,6 +85,8 @@ if (collide) lim <- lim * 1.06
 # Fixed square window: arrows reach past the site clouds, labels sit beyond the tips.
 lim <- max(abs(c(site_sc$RDA1, site_sc$RDA2, arrows$x, arrows$y))) * 1.6
 if (collide) {
+  # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+  # so the layout does not depend on machine speed.
   label_layer <- ggrepel::geom_text_repel(
     data = arrows,
     ggplot2::aes(x = x, y = y, label = lab, hjust = hjust, vjust = vjust),
@@ -100,7 +102,7 @@ if (collide) {
     box.padding = 0.2,
     point.padding = 0.05,
     max.overlaps = Inf,
-    max.iter = 5000,
+    max.iter = 5000, max.time = Inf,
     seed = 4,
     xlim = c(-lim, lim),
     ylim = c(-lim, lim),
