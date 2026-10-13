@@ -106,7 +106,6 @@
   .vchips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
   .vchips button { padding: 2px 8px; font-size: 0.75rem; }
   .empty { color: #3d4a5c; margin: 12px 0; }
-  .todo-text { background: #fff4c2; outline: 1px dashed #b7791f; color: #7a4b00; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8em; overflow-wrap: anywhere; }
   .schem-section { max-width: 1400px; margin: 0 auto; padding: 16px 16px 12px; border-top: 1px solid #e6e8eb; }
   @media (max-width: 520px) { .schem-section { padding: 12px; } }
   .schem-section h2 { font-size: 1.15rem; margin: 0 0 4px; }
@@ -246,7 +245,7 @@
       <p id="stats">加载中…</p>
       <div class="cta">
         <a class="primary" href="#gallery">浏览全部图 ↓</a>
-        <a href="#schematics"><span class="todo-text">[[TODO-TEXT:schem-nav-label.zh]]</span> / <span class="todo-text">[[TODO-TEXT:schem-nav-label.en]]</span></a>
+        <a href="#schematics"><span>图示与架构</span> / <span>Schematics</span></a>
         <a class="text-link" href="https://github.com/Xuzhen-Li/paper-viz#快速开始--quick-start">快速开始（GitHub）</a>
       </div>
     </div>
@@ -294,9 +293,9 @@
   <p id="empty" class="empty" hidden>没有匹配的图。</p>
 </main>
 <section id="schematics" class="schem-section" aria-labelledby="schem-h">
-  <h2 id="schem-h"><span class="todo-text" lang="zh-CN">[[TODO-TEXT:schem-section-title.zh]]</span> / <span class="todo-text" lang="en">[[TODO-TEXT:schem-section-title.en]]</span></h2>
-  <p class="lead" lang="zh-CN"><span class="todo-text">[[TODO-TEXT:schem-section-intro.zh]]</span></p>
-  <p class="lead" lang="en"><span class="todo-text">[[TODO-TEXT:schem-section-intro.en]]</span></p>
+  <h2 id="schem-h"><span lang="zh-CN">示意架构与流程图</span> / <span lang="en">Schematics and Flows</span></h2>
+  <p class="lead" lang="zh-CN"><span>4张图不计入图数。1张脚本SVG与3张draw.io图。可下载SVG、PNG、.drawio及脚本。见style-contract.md。</span></p>
+  <p class="lead" lang="en"><span>4 schematics not in 117 catalog. 1 script editable SVG with AI icons, 3 legacy draw.io. Download SVG, PNG, .drawio or script. See styles/style-contract.md.</span></p>
   <div id="schem-grid" class="grid"></div>
 </section>
 <footer>
@@ -767,11 +766,8 @@ window.addEventListener("hashchange", () => {
 });
 
 // ---- schematics section: static list (docs/schematics.json) plus catalog entries that are draw.io schematics
-const TODO_RE = /^\[\[TODO-TEXT:[^\]]+\]\]$/;
-function todo(id) { return "[[TODO-TEXT:" + id + "]]"; }
 function setText(el, text) {
   el.textContent = text;
-  el.classList.toggle("todo-text", TODO_RE.test(text));
 }
 const sdlg = document.querySelector("#sdlg");
 function schemFromCatalog(fig) {
@@ -796,11 +792,10 @@ function openSchem(item) {
     a.href = f.href;
     a.textContent = f.label;
     box.appendChild(a);
-    if (f.note) {
+    if (f.note_zh) {
       const note = document.createElement("span");
       note.className = "hint";
-      setText(note, todo(f.note + ".zh") + " / " + todo(f.note + ".en"));
-      note.classList.add("todo-text");
+      setText(note, f.note_zh + " / " + f.note_en);
       box.appendChild(note);
     }
   });
@@ -856,10 +851,8 @@ function loadSchematics(catalogFigures) {
     })
     .then((data) => {
       const items = (data.items || []).map((item) => Object.assign({}, item, {
-        title_zh: todo(item.text + "-title.zh"),
-        title: todo(item.text + "-title.en"),
-        alt: todo(item.text + "-alt.zh") + " " + todo(item.text + "-alt.en"),
-        desc: todo(item.text + "-desc.zh") + " " + todo(item.text + "-desc.en")
+        alt: item.alt_zh + " " + item.alt_en,
+        desc: item.desc_zh + " " + item.desc_en
       }));
       renderSchematics(items.concat(fromCatalog));
       // the gallery grid above renders late, so redo the jump for a #schematics link
