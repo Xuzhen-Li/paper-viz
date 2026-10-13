@@ -176,7 +176,7 @@ def house_rc(base_size: float = 7, title_size: float | None = None) -> dict:
         "axes.spines.bottom": True,
         "axes.grid": False,
         "axes.facecolor": "white",
-        "axes.unicode_minus": True,
+        "axes.unicode_minus": False,
         "axes.prop_cycle": mpl.cycler(color=HOUSE_PALETTES["house"]),
         "axes.xmargin": 0.04,
         "axes.ymargin": 0.04,
