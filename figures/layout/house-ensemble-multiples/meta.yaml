@@ -18,7 +18,7 @@ data_columns:
   replicate: 重复系编号（整数）
   g0 … g80: 第 0–80 代的性状偏移（表型 SD）
 when_to_use: '适用于展示多个组的重复轨迹集合以强调分布与趋势，采用 4x4 183 × 183 mm 多面板及 7/8 pt Arial 字体，排布为 2 列 5 行小多图，使用 pv_palette("geo", 10) 绘制模拟的 80 代性状偏移数据，包含灰色重复细线、彩色均值线、组名与计算斜率，以及展示最后 10 代分布的侧边箱线。'
-customize: 'plot.R 将宽格式的 data.csv 重塑为长格式，面板顺序与颜色跟随 data.csv 顺序，y 轴限制按行设置并预留增加 32% 的文本空间，侧边箱线宽度比例由 widths = c(4.2, 0.9, 4.2, 0.9) 控制，为避免重叠 80 处无 x 轴刻度，且需要 patchwork 包。'
+customize: 'plot.R 将宽格式的 data.csv 重塑为长格式，面板顺序与颜色跟随 data.csv 顺序，y 轴限制按行设置并预留增加 32% 的文本空间，侧边箱线宽度比例由 widths = c(4.2, 0.9, 4.2, 0.9) 控制，x = 80 处无刻度以避免其与箱线分割线重叠，且需要 patchwork 包。'
 lang: R
 style: house
 cells: 4x4
@@ -30,4 +30,4 @@ references:
     source_name: One Earth
     source_license: CC BY-NC 4.0
     took: layout and chart form only; data simulated, no image reused
-    note: 'The template borrows only the layout and chart type of the original figure, uses simulated data, and reuses no image.'
+    note: 'For One Earth 2023, https://doi.org/10.1016/j.oneear.2023.09.004 Fig. 1, the template borrows only the layout and chart type of the original figure, uses simulated data, and reuses no image.'

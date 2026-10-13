@@ -105,6 +105,7 @@ class PythonHouseTheme(unittest.TestCase):
         self.assertAlmostEqual(mpl.rcParams["xtick.major.size"], 72 / 25.4, places=6)
         self.assertFalse(mpl.rcParams["axes.grid"])
         self.assertEqual(mpl.rcParams["pdf.fonttype"], 42)
+        self.assertFalse(mpl.rcParams["axes.unicode_minus"])
 
     def _check_export(self, res, w_mm, h_mm):
         w_px, h_px = png_size(res["png"])

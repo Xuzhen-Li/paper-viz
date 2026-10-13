@@ -23,10 +23,10 @@ ax.plot(x, y, color=house.pv_palette("house")[0], lw=house.LW_PT["main"])
 n = len(x)
 mx, my = sum(x) / n, sum(y) / n
 slope = sum((a - mx) * (b - my) for a, b in zip(x, y)) / sum((a - mx) ** 2 for a in x)
-ax.text(0.02, 0.96, f"Slope {slope:+.3f} per unit time (n = {n})", transform=ax.transAxes,
+ax.text(0.02, 0.96, f"Slope {slope:+.3f} per day (n = {n})", transform=ax.transAxes,
         ha="left", va="top", color=house.pv_palette("house")[0])
-ax.set_xlabel("Time (a.u.)")
-ax.set_ylabel("Signal")
+ax.set_xlabel("Day")
+ax.set_ylabel("Relative abundance")
 ax.set_xlim(min(x), max(x))
 # footnote below the x-axis title, inside the canvas (an axes annotation, so the layout makes room)
 ax.annotate(FOOTNOTE, xy=(0, 0), xycoords="axes fraction", xytext=(0, -24), textcoords="offset points",
