@@ -1,5 +1,7 @@
-# Waffle. layout is square or parliament. Reads data.csv only.
-source("../../../styles/r/theme_viz.R")
+# Waffle (house style). layout is square or parliament. "Other" stays light grey.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 layout <- "square"
 part_levels <- c("Clone A", "Clone B", "Clone C", "Clone D", "Other")
@@ -9,8 +11,10 @@ df$part <- factor(df$part, levels = part_levels)
 df <- df[order(df$part, df$cell), , drop = FALSE]
 df$cell <- seq_len(nrow(df))
 named <- setdiff(levels(df$part), "Other")
-pal <- stats::setNames(pv_palette("categorical", length(named)), named)
-if ("Other" %in% levels(df$part)) pal["Other"] <- "#E0E0E0"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+pal <- stats::setNames(unname(hp[seq_along(named)]), named)
+if ("Other" %in% levels(df$part)) pal["Other"] <- grey[["light"]]
+footnote <- "Simulated data;\nnot biological results"
 
 if (layout == "parliament") {
   n <- nrow(df)
@@ -38,29 +42,35 @@ if (layout == "parliament") {
   seat <- seat[order(atan2(seat$y, seat$x), seat$y), , drop = FALSE]
   df$x <- seat$x
   df$y <- seat$y
-  pt <- 2.6
+  pt <- 1.5
 } else {
   ncol_grid <- 10L
   df$x <- (df$cell - 1L) %% ncol_grid
   df$y <- (df$cell - 1L) %/% ncol_grid
-  pt <- 5.2
+  pt <- NA
 }
 
-p <- ggplot2::ggplot(df, ggplot2::aes(x, y, fill = part)) +
-  ggplot2::geom_point(shape = 22, size = pt, colour = "white", stroke = 0.35) +
-  ggplot2::scale_fill_manual(values = pal, name = NULL) +
-  ggplot2::coord_equal(clip = "off") +
-  ggplot2::labs(x = NULL, y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank(),
-    axis.line = ggplot2::element_blank(),
-    legend.position = "bottom",
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(2, 2, 2, 2, "mm")
-  )
+p <- ggplot(df, aes(x, y, fill = part))
+p <- if (layout == "parliament") {
+  p + geom_point(shape = 21, size = pt, colour = "white", stroke = 0.2)
+} else {
+  p + geom_tile(width = 0.88, height = 0.88, colour = NA)
+}
+p <- p +
+  scale_fill_manual(values = pal, name = NULL) +
+  scale_x_continuous(breaks = NULL) + scale_y_continuous(breaks = NULL) +
+  coord_equal(clip = "off") +
+  labs(x = NULL, y = NULL, caption = footnote) +
+  guides(fill = guide_legend(ncol = 1, keywidth = unit(2.2, "mm"), keyheight = unit(2.2, "mm"))) +
+  theme_house() +
+  theme(axis.line = element_blank(), panel.border = element_blank(),
+        legend.position = "right", legend.text = element_text(size = 7),
+        legend.margin = margin(0, 0, 0, 0), legend.box.spacing = unit(1, "mm"),
+        legend.key.spacing.y = unit(0.3, "mm"),
+        plot.margin = margin(1, 1, 1, 1, "mm"),
+        plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
-h <- if (layout == "parliament") 78 else 112
-pv_save(p, "figure", width_mm = 120, height_mm = h)
+pv_save_house(p, "figure", cells = "1x1")
 message("wrote preview.png")

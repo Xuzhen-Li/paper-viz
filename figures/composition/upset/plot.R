@@ -1,12 +1,15 @@
-# UpSet bars and dot matrix. Choose how many sets and how to sort.
-# Run from this directory.
-source("../../../styles/r/theme_viz.R")
+# UpSet bars and dot matrix (house style). Choose how many sets and how to sort.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 library(patchwork)
 
 n_sets <- 5
 sort_by <- "degree"
 max_intersections <- 16
 set_levels <- c("ATAC", "H3K27ac", "H3K4me3", "CTCF", "RNA")
+grey <- pv_palette("house_grey")
+footnote <- "Simulated data for illustration; not biological results"
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 use <- set_levels[seq_len(min(n_sets, length(set_levels)))]
@@ -38,36 +41,32 @@ dot <- do.call(rbind, lapply(seq_len(nrow(tab)), function(i) {
 }))
 on_pts <- dot[dot$on, , drop = FALSE]
 
-p_bar <- ggplot2::ggplot(tab, ggplot2::aes(code, n)) +
-  ggplot2::geom_col(fill = "#333333", width = 0.72) +
-  ggplot2::labs(x = NULL, y = "Intersection") +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_blank(),
-    axis.ticks.x = ggplot2::element_blank(),
-    plot.margin = ggplot2::margin(2, 6, 0, 2)
-  )
+p_bar <- ggplot(tab, aes(code, n)) +
+  geom_col(fill = grey[["dark"]], width = 0.72) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  labs(x = NULL, y = "Intersection") +
+  theme_house() +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+        plot.margin = margin(1, 1, 0, 1, "mm"))
 
-p_dot <- ggplot2::ggplot(dot, ggplot2::aes(code, set)) +
-  ggplot2::geom_line(
-    data = on_pts,
-    ggplot2::aes(code, set, group = code),
-    linewidth = 0.45, colour = "#222222"
-  ) +
-  ggplot2::geom_point(ggplot2::aes(colour = on, size = on), shape = 16) +
-  ggplot2::scale_colour_manual(values = c(`TRUE` = "#222222", `FALSE` = "grey80"), guide = "none") +
-  ggplot2::scale_size_manual(values = c(`TRUE` = 2.2, `FALSE` = 1.3), guide = "none") +
-  ggplot2::scale_y_discrete(labels = set_lab[rev(use)]) +
-  ggplot2::labs(x = NULL, y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_blank(),
-    axis.ticks.x = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_text(size = 6),
-    plot.margin = ggplot2::margin(0, 6, 2, 2)
-  )
+p_dot <- ggplot(dot, aes(code, set)) +
+  geom_line(data = on_pts, aes(code, set, group = code), linewidth = pv_house_lw("main"),
+            colour = grey[["dark"]]) +
+  geom_point(aes(colour = on), shape = 16, size = 2.1) +
+  scale_colour_manual(values = c(`TRUE` = grey[["dark"]], `FALSE` = grey[["light"]]), guide = "none") +
+  scale_y_discrete(labels = set_lab[rev(use)]) +
+  labs(x = NULL, y = NULL) +
+  theme_house() +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+        axis.line.x = element_blank(), axis.text.y = element_text(size = 7),
+        plot.margin = margin(0, 1, 0, 1, "mm"))
 
-p <- p_bar / p_dot + patchwork::plot_layout(heights = c(0.7, 1))
+p <- p_bar / p_dot + plot_layout(heights = c(1, 1)) +
+  plot_annotation(caption = footnote,
+                  theme = theme(text = element_text(family = house_family()),
+                                plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                            lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                                plot.caption.position = "plot"))
 
-pv_save(p, "figure", width_mm = 160, height_mm = 100)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")
