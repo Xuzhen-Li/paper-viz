@@ -14,7 +14,7 @@ data_columns:
   series: 并排系列名（字符串）
   value: 该格的均值（数值）
 when_to_use: 类别少、要并排比较两个或多个系列的汇总数值时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 修改 `bar_width` 和 `dodge_width` 调整柱宽与间距，控制 `show_values`（默认值为 `TRUE`）显示数值，及 `show_legend` 图例；在 `data.csv` 填入 group、series 和 value 列。"
 lang: R
 style: house
 cells: 2x1

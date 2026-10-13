@@ -16,7 +16,7 @@ data_columns:
   label: 观察期内是否发生事件，1 或 0（整数）
   time: 事件或删失时间，月（数值）
 when_to_use: 几个连续标志物要比较区分病例和对照的能力时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 修改 `markers_keep` 选定标志物，控制 `show_auc` 显隐面积标签，利用 `time_dependent` 和 `landmark_time` 指定时间；在 `data.csv` 填入 subject、marker、score、label 和 time 列。"
 lang: R
 style: house
 cells: 1x1

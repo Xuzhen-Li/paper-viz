@@ -14,7 +14,7 @@ data_columns:
   group: 分组（字符串）
   value: 观测值（数值）
 when_to_use: 少数组的连续指标要看分布并标两两比较时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 修改 `comparisons` 列表指定需要进行两两比较的组别对，控制 `show_points` 开关（默认值为 `TRUE`）显隐原始数据点；在 `data.csv` 填入 group 和 value 列。"
 lang: R
 style: house
 cells: 2x1

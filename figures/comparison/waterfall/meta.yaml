@@ -14,7 +14,7 @@ data_columns:
   kind: total 或 step（字符串）
   value: 总量水平或有符号增量（数值）
 when_to_use: 要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 调整 `bar_width` 设定柱宽，修改 `label_size` 控制字号，控制 `show_connectors` 和 `show_value_labels` 显隐连线与数值；在 `data.csv` 填入 label、kind 和 value 列。"
 lang: R
 style: house
 cells: 2x1

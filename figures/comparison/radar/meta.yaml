@@ -15,7 +15,7 @@ data_columns:
   axis: 性状轴（字符串）
   value: 0 到 100 的得分（数值）
 when_to_use: 少数组别要在同一组性状上比较轮廓差异时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 调整 `axis_levels` 与 `group_levels` 顺序，设定 `radius_max` 极值，控制 `fill_polygon` 填充与 `facet_groups` 分面；在 `data.csv` 填入 group、axis 和 value 列。"
 lang: R
 style: house
 cells: 2x2

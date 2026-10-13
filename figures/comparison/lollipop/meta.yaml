@@ -13,7 +13,7 @@ data_columns:
   value: 重要性得分（数值）
   signif: 是否强调（逻辑值）
 when_to_use: 特征较多、要按大小排序并标出需要强调的条目时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 控制 `rank_items` 决定是否按得分排序，开启 `highlight_signif` 高亮显著项，控制 `map_importance` 映射点大小；在 `data.csv` 填入 item、value 和 signif 列。"
 lang: R
 style: house
 cells: 1x2
