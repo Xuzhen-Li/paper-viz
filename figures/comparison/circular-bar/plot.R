@@ -1,5 +1,8 @@
-# Circular bars. Grouped dodge, optional outside labels, optional inner hole.
-source("../../../styles/r/theme_viz.R")
+# Circular bars (house style): grouped dodge, optional outside labels, optional inner hole; group
+# names and the count of categories where the second group is higher are written in the hole.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 show_groups <- TRUE
 labels_outside <- TRUE
@@ -14,7 +17,10 @@ df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 if (!isTRUE(show_groups)) df <- df[df$group == group_levels[1], , drop = FALSE]
 df$category <- factor(df$category, levels = category_levels)
 df$group <- factor(df$group, levels = intersect(group_levels, unique(df$group)))
-pal <- stats::setNames(pv_palette("categorical", nlevels(df$group)), levels(df$group))
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# blue and red are both >= 3:1 on white, so the group names in the hole keep the bar colour
+pal <- stats::setNames(c(hp[["blue"]], hp[["red"]])[seq_len(nlevels(df$group))], levels(df$group))
+footnote <- "Simulated data for illustration; not biological results"
 
 ymax <- max(df$value)
 pad <- if (inner_hole > 0) inner_hole * ymax else 0
@@ -27,15 +33,15 @@ df$xmin <- df$x + off - half
 df$xmax <- df$x + off + half
 df$ymin <- pad
 df$ymax <- pad + df$value
-# Labels sit just outside the longest bar so the ring can fill the canvas.
+# Each label sits just outside the longer bar of its own category.
 bar_outer <- pad + ymax
 theta <- (seq_len(ncat) - 0.5) / ncat
 lab <- data.frame(
   x = seq_len(ncat),
-  y = bar_outer * 1.08,
+  y = pad + as.numeric(tapply(df$value, df$category, max)) + 0.03 * bar_outer,
   label = category_levels,
   angle = 0,
-  hjust = ifelse(theta < 0.5, 0, 1)
+  hjust = 0
 )
 
 # ggplot2 polar coords draw inside a hard 0.4 radius, so the ring stays small
@@ -61,50 +67,41 @@ poly_df$group <- factor(poly_df$group, levels = levels(df$group))
 lab$theta <- theta_of(lab$x)
 lab$lx <- lab$y * sin(lab$theta)
 lab$ly <- lab$y * cos(lab$theta)
+# radial text, read left to right on both halves
+deg <- 90 - lab$theta * 180 / pi
+flip <- lab$theta > pi
+lab$angle <- ifelse(flip, deg + 180, deg)
+lab$hjust <- ifelse(flip, 1, 0)
 lim <- bar_outer * 1.12
 
-p <- ggplot2::ggplot() +
-  ggplot2::geom_polygon(
-    data = poly_df,
-    ggplot2::aes(x, y, group = id, fill = group),
-    colour = NA
-  ) +
-  ggplot2::scale_fill_manual(values = pal, name = NULL) +
-  ggplot2::annotate(
-    "text",
-    x = 0,
-    y = 0,
-    label = sprintf("max %.0f", ymax),
-    size = 3.2,
-    colour = "black",
-    family = viz_sans_family()
-  ) +
-  ggplot2::coord_equal(
-    xlim = c(-lim, lim), ylim = c(-lim, lim),
-    expand = FALSE, clip = "off"
-  ) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank(),
-    axis.title = ggplot2::element_blank(),
-    axis.line = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    legend.position = "bottom",
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(2, 12, 1, 12, "mm")
-  )
+ng_lv <- levels(df$group)
+key <- data.frame(group = factor(ng_lv, levels = ng_lv), y = lim - (seq_along(ng_lv) - 1) * 0.085 * lim)
+key$lab <- as.character(key$group)
+stat_lab <- if (ng == 2L) {
+  w <- tapply(df$value, list(df$category, df$group), sum)
+  sprintf("%s higher\nin %d of %d\ncategories", ng_lv[2], sum(w[, 2] > w[, 1]), ncat)
+} else sprintf("max %.0f", ymax)
+
+p <- ggplot() +
+  geom_polygon(data = poly_df, aes(x, y, group = id, fill = group), colour = NA) +
+  geom_text(data = key, aes(x = -lim, y = y, label = lab, colour = group), hjust = 0, vjust = 1) +
+  annotate("text", x = lim, y = lim, label = stat_lab, hjust = 1, vjust = 1, lineheight = 0.95) +
+  scale_fill_manual(values = pal, guide = "none") +
+  scale_colour_manual(values = pal, guide = "none") +
+  coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim), expand = FALSE, clip = "off") +
+  scale_x_continuous(breaks = NULL) +
+  scale_y_continuous(breaks = NULL) +
+  labs(x = NULL, y = NULL, caption = footnote) +
+  theme_house() +
+  theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(),
+        panel.border = element_blank(), plot.margin = margin(1, 3, 0.9, 3, "mm"),
+        plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
 if (isTRUE(labels_outside)) {
-  p <- p + ggplot2::geom_text(
-    data = lab,
-    ggplot2::aes(x = lx, y = ly, label = label, hjust = hjust),
-    inherit.aes = FALSE,
-    size = 2.2,
-    colour = "black",
-    family = viz_sans_family()
-  )
+  p <- p + geom_text(data = lab, aes(x = lx, y = ly, label = label, hjust = hjust, angle = angle), vjust = 0.5, colour = "black")
 }
 
-pv_save(p, "figure", width_mm = 140, height_mm = 145)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

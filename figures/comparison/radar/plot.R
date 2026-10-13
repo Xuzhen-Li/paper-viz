@@ -1,5 +1,8 @@
-# Radar polygons in cartesian space so edges stay straight. Reads data.csv only.
-source("../../../styles/r/theme_viz.R")
+# Radar (house style): polygons in cartesian space so edges stay straight; group names with their
+# mean score written as a coloured key inside the panel (no legend). Reads data.csv only.
+# Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数
 fill_polygon <- TRUE
@@ -18,7 +21,14 @@ ang_of <- function(axis) {
 df$x <- df$value * cos(ang_of(df$axis))
 df$y <- df$value * sin(ang_of(df$axis))
 closed <- do.call(rbind, lapply(split(df, df$group), function(g) rbind(g, g[1, ])))
-cols <- setNames(pv_palette("categorical", nlevels(df$group)), group_levels)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# blue, red, green, purple: all >= 3:1 on white, so the key keeps the line colour
+cols <- stats::setNames(c(hp[["blue"]], hp[["red"]], hp[["green"]], hp[["purple"]], hp[["magenta"]],
+                          hp[["brown"]])[seq_along(group_levels)], group_levels)
+footnote <- "Simulated data for illustration; not biological results"
+key <- data.frame(group = factor(group_levels, levels = group_levels), i = seq_along(group_levels))
+key$m <- vapply(group_levels, function(g) mean(df$value[df$group == g]), numeric(1))
+key$lab <- sprintf("%s  mean %.0f", key$group, key$m)
 
 ring_n <- 160
 rings <- do.call(rbind, lapply(c(25, 50, 75, 100), function(r) {
@@ -39,53 +49,47 @@ labs <- data.frame(
   stringsAsFactors = FALSE
 )
 
-draw_one <- function(dat) {
-  ggplot2::ggplot() +
-    ggplot2::geom_path(
-      data = rings,
-      ggplot2::aes(x, y, group = ring),
-      colour = "grey88", linewidth = 0.25
-    ) +
-    ggplot2::geom_segment(
-      data = spokes,
-      ggplot2::aes(x = x, y = y, xend = xend, yend = yend),
-      colour = "grey88", linewidth = 0.25
-    ) +
-    ggplot2::geom_polygon(
-      data = dat,
-      ggplot2::aes(x, y, group = group, colour = group, fill = group),
-      alpha = if (fill_polygon) 0.12 else 0,
-      linewidth = 0.5
-    ) +
-    ggplot2::geom_point(
-      data = dat[!duplicated(interaction(dat$group, dat$axis)), ],
-      ggplot2::aes(x, y, colour = group),
-      size = 1.2
-    ) +
-    ggplot2::geom_text(
-      data = labs,
-      ggplot2::aes(x, y, label = label),
-      size = 2.2
-    ) +
-    ggplot2::scale_colour_manual(values = cols, name = NULL) +
-    ggplot2::scale_fill_manual(values = cols, guide = "none") +
-    ggplot2::coord_equal(xlim = c(-125, 125), ylim = c(-125, 125), clip = "off") +
-    theme_viz() +
-    ggplot2::theme(
-      axis.line = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-      legend.position = "bottom",
-      plot.margin = ggplot2::margin(8, 8, 4, 8)
-    )
+# ring values on the lower-left bisector between two axes, clear of the key
+ring_a <- spoke_a[1] - pi + pi / n_ax
+ring_lab <- data.frame(x = c(25, 50, 75, 100) * cos(ring_a), y = c(25, 50, 75, 100) * sin(ring_a),
+                       label = c(25, 50, 75, 100))
+lim <- 128
+
+draw_one <- function(dat, with_key = TRUE) {
+  g <- ggplot() +
+    geom_path(data = rings, aes(x, y, group = ring), colour = grey[["light"]], linewidth = pv_house_lw("frame")) +
+    geom_segment(data = spokes, aes(x = x, y = y, xend = xend, yend = yend), colour = grey[["light"]],
+                 linewidth = pv_house_lw("frame")) +
+    geom_text(data = ring_lab, aes(x, y, label = label), colour = grey[["mid"]], vjust = -0.3) +
+    geom_polygon(data = dat, aes(x, y, group = group, colour = group, fill = group),
+                 alpha = if (fill_polygon) 0.12 else 0, linewidth = pv_house_lw("main")) +
+    geom_point(data = dat[!duplicated(interaction(dat$group, dat$axis)), ],
+               aes(x, y, fill = group), shape = HOUSE_POINT$shape, size = 1.6, stroke = HOUSE_POINT$stroke,
+               colour = "black") +
+    geom_text(data = labs, aes(x, y, label = label))
+  if (with_key) {
+    g <- g + geom_text(data = key, aes(x = -lim, y = lim - (i - 1) * 13, label = lab, colour = group),
+                       hjust = 0, vjust = 1)
+  }
+  g +
+    scale_colour_manual(values = cols, guide = "none") +
+    scale_fill_manual(values = cols, guide = "none") +
+    scale_x_continuous(breaks = NULL) +
+    scale_y_continuous(breaks = NULL) +
+    coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim), expand = FALSE, clip = "off") +
+    labs(x = NULL, y = NULL, caption = footnote) +
+    theme_house() +
+    theme(panel.border = element_blank(),
+          plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                      margin = margin(t = 0.8, unit = "mm")),
+          plot.caption.position = "plot")
 }
 
 if (facet_groups) {
-  p <- draw_one(closed) + ggplot2::facet_wrap(~group)
+  p <- draw_one(closed, with_key = FALSE) + facet_wrap(~group)
 } else {
   p <- draw_one(closed)
 }
 
-pv_save(p, "figure", width_mm = 120, height_mm = 125)
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

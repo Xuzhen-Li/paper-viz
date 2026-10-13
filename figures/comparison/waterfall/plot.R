@@ -1,12 +1,14 @@
-# Waterfall: opening → signed steps → closing. Reads data.csv only.
+# Waterfall (house style): opening, signed steps, closing; value on every bar, bar classes as a
+# coloured key and the net change written inside the panel (no legend). Reads data.csv only.
 # Run from this directory. Pure ggplot2 (no waterfalls package).
-source("../../../styles/r/theme_viz.R")
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数
 bar_width <- 0.62
 show_connectors <- TRUE
 show_value_labels <- TRUE
-label_size <- 2.2
+label_size <- pv_pt2size(7)
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$label <- factor(df$label, levels = unique(df$label))
@@ -54,54 +56,46 @@ if (isTRUE(show_connectors) && n > 1) {
   )
 }
 
-pal <- pv_palette("categorical", 4)
-cols <- c(Increase = pal[3], Decrease = pal[4], Total = pal[1])
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# key and net change sit in the empty band under the steps
+# green, red, blue: all >= 3:1 on white, so the key text keeps the bar colour
+cols <- c(Increase = hp[["green"]], Decrease = hp[["red"]], Total = hp[["blue"]])
+footnote <- "Simulated data for illustration; not biological results"
+y_top <- max(plot_df$ymax) * 1.16
+tot <- which(df$kind == "total")
+net <- if (length(tot) >= 2) df$value[tot[length(tot)]] - df$value[tot[1]] else sum(df$value[df$kind != "total"])
+key <- data.frame(k = factor(c("Increase", "Decrease", "Total"), levels = c("Increase", "Decrease", "Total")),
+                  i = 1:3)
 
-p <- ggplot2::ggplot() +
-  ggplot2::geom_rect(
-    data = plot_df,
-    ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_key),
-    colour = NA
-  )
+p <- ggplot() +
+  geom_rect(data = plot_df, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_key),
+            colour = NA)
 if (!is.null(conn)) {
-  p <- p + ggplot2::geom_segment(
-    data = conn,
-    ggplot2::aes(x = x, xend = xend, y = y, yend = yend),
-    linewidth = 0.3,
-    colour = "grey55"
-  )
+  p <- p + geom_segment(data = conn, aes(x = x, xend = xend, y = y, yend = y),
+                        linewidth = pv_house_lw("ref"), colour = grey[["mid"]], linetype = "22")
 }
 if (isTRUE(show_value_labels)) {
   lab_df <- plot_df
-  lab_df$txt <- ifelse(
-    df$kind == "total",
-    sprintf("%.1f", df$value),
-    sprintf("%+.1f", df$value)
-  )
-  p <- p + ggplot2::geom_text(
-    data = lab_df,
-    ggplot2::aes(x = (xmin + xmax) / 2, y = ymax, label = txt),
-    vjust = -0.35,
-    size = label_size,
-    colour = "grey20"
-  )
+  lab_df$txt <- ifelse(df$kind == "total", sprintf("%.1f", df$value), sprintf("%+.1f", df$value))
+  p <- p + geom_text(data = lab_df, aes(x = (xmin + xmax) / 2, y = ymax, label = txt), vjust = -0.4,
+                     size = label_size, colour = "black")
 }
 p <- p +
-  ggplot2::scale_fill_manual(values = cols, name = NULL) +
-  ggplot2::scale_x_continuous(
-    breaks = as.numeric(df$label),
-    labels = as.character(levels(df$label)),
-    expand = ggplot2::expansion(mult = c(0.02, 0.02))
-  ) +
-  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.12))) +
-  ggplot2::labs(x = NULL, y = "Value") +
-  theme_viz() +
-  ggplot2::theme(
-    legend.position = "inside",
-    legend.position.inside = c(0.55, 0.32),
-    legend.justification.inside = c(0.5, 0.5),
-    axis.text.x = ggplot2::element_text(angle = 35, hjust = 1)
-  )
+  geom_text(data = key, aes(x = 1.55, y = y_top * (0.5 - 0.085 * (i - 1)), label = k, colour = k),
+            hjust = 0, vjust = 1) +
+  annotate("text", x = n - 0.55, y = y_top * 0.5, hjust = 1, vjust = 1,
+           label = sprintf("Net change %+.1f", net)) +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_colour_manual(values = cols, guide = "none") +
+  scale_x_continuous(breaks = as.numeric(df$label), labels = as.character(levels(df$label))) +
+  scale_y_continuous(limits = c(0, y_top), expand = c(0, 0)) +
+  coord_cartesian(xlim = c(0.45, n + 0.55), expand = FALSE) +
+  labs(x = NULL, y = "Value", caption = footnote) +
+  theme_house() +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1),
+        plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
 
-pv_save(p, "figure", width_mm = 120, height_mm = 85)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")

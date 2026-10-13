@@ -1,25 +1,41 @@
-# Clustered heatmap. Annotation, column split, geneset, or module-trait.
+# Clustered heatmap (house style): z-scores on the house blue-red scale centred at 0, white cell
+# borders, sample groups as a coloured bar with the group names written above it (no legend),
+# colour bar just right of the panel. Views: expression, geneset or module-trait (r in each cell).
 # Run from this directory.
-source("../../../styles/r/theme_viz.R")
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 library(patchwork)
 
 view <- "expression"
 show_annotation <- TRUE
 split_columns <- TRUE
 
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+footnote <- "Simulated data for illustration; not biological results"
+cap_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                               margin = margin(t = 0.8, unit = "mm")),
+                   plot.caption.position = "plot")
+cbar <- function(h_mm) guide_colourbar(theme = theme(legend.key.width = unit(2, "mm"),
+                                                     legend.key.height = unit(h_mm, "mm")))
+
 if (view == "module-trait") {
   mt <- utils::read.csv("data_module.csv", stringsAsFactors = FALSE)
-  mt$module <- factor(mt$module, levels = unique(mt$module))
+  mt$module <- factor(mt$module, levels = rev(unique(mt$module)))
   mt$trait <- factor(mt$trait, levels = unique(mt$trait))
-  p <- ggplot2::ggplot(mt, ggplot2::aes(trait, module, fill = r)) +
-    ggplot2::geom_tile(colour = "white", linewidth = 0.3) +
-    ggplot2::geom_text(ggplot2::aes(label = sprintf("%.2f", r)), size = 2.4) +
-    ggplot2::scale_fill_gradientn(
-      colours = pv_palette("diverging", 9), limits = c(-1, 1), name = "r"
-    ) +
-    ggplot2::labs(x = NULL, y = NULL) +
-    theme_viz()
-  pv_save(p, "figure", width_mm = 110, height_mm = 70)
+  mt$txt <- ifelse(abs(mt$r) > 0.6, "white", "black")   # dark cells get white text
+  p <- ggplot(mt, aes(trait, module, fill = r)) +
+    geom_tile(colour = "white", linewidth = pv_house_lw(0.3)) +
+    geom_text(aes(label = sprintf("%.2f", r), colour = txt)) +
+    scale_colour_identity() +
+    scale_fill_gradientn(colours = pv_palette("house_div"), limits = c(-1, 1), name = "r", guide = cbar(30)) +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    labs(x = NULL, y = NULL, caption = footnote) +
+    theme_house() + cap_theme +
+    theme(panel.border = element_blank(), axis.ticks = element_blank(), legend.position = "right",
+          legend.box.spacing = unit(1, "mm"), legend.title = element_text(face = "italic"),
+          axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+  pv_save_house(p, "figure", cells = "2x2")
   message("wrote preview.png")
   quit(save = "no", status = 0)
 }
@@ -63,53 +79,51 @@ ann <- data.frame(
   sample = factor(col_ord, levels = levels_x),
   group = grp[col_ord]
 )
-ann_pal <- pv_palette("categorical", 4)
-names(ann_pal) <- levels(grp)
-lim <- max(abs(long$value), na.rm = TRUE)
+# blue, red, green, purple: all >= 3:1 on white, so the group names keep the bar colour
+ann_pal <- stats::setNames(c(hp[["blue"]], hp[["red"]], hp[["green"]], hp[["purple"]]), levels(grp))
+lim <- ceiling(max(abs(long$value), na.rm = TRUE))
+ann_lab <- do.call(rbind, lapply(levels(grp), function(g) {
+  x <- match(col_ord[grp[col_ord] == g], levels_x)
+  if (!length(x)) return(NULL)
+  data.frame(group = factor(g, levels = levels(grp)), x = mean(range(x)))
+}))
+stat_lab <- sprintf("%d features, %d samples, rows clustered", nrow(mat), ncol(mat))
 
-heat <- ggplot2::ggplot(long, ggplot2::aes(sample, feature, fill = value)) +
-  ggplot2::geom_tile() +
-  ggplot2::scale_fill_gradientn(
-    colours = pv_palette("diverging", 11),
-    limits = c(-lim, lim),
-    name = "z",
-    guide = ggplot2::guide_colourbar(
-      direction = "horizontal",
-      title.position = "top",
-      barwidth = ggplot2::unit(40, "mm"),
-      barheight = ggplot2::unit(3, "mm")
-    )
-  ) +
-  ggplot2::scale_x_discrete(
-    drop = FALSE,
-    labels = function(x) ifelse(grepl("^\\.gap", x), "", x)
-  ) +
-  ggplot2::labs(x = NULL, y = NULL) +
-  theme_viz() +
-  ggplot2::theme(
-    axis.text.y = ggplot2::element_text(size = 6.5),
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 6.5)
-  )
+heat <- ggplot(long, aes(sample, feature, fill = value)) +
+  geom_tile(colour = "white", linewidth = pv_house_lw(0.3)) +
+  scale_fill_gradientn(colours = pv_palette("house_div"), limits = c(-lim, lim), name = "z",
+                       guide = cbar(40)) +
+  scale_x_discrete(drop = FALSE, expand = c(0, 0), labels = function(x) ifelse(grepl("^\\.gap", x), "", x)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(x = NULL, y = NULL) +
+  theme_house() +
+  theme(panel.border = element_blank(), axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        legend.position = "right", legend.box.spacing = unit(1, "mm"),
+        legend.title = element_text(face = "italic", margin = margin(b = 1, unit = "mm")))
 
 if (isTRUE(show_annotation)) {
-  bar <- ggplot2::ggplot(ann, ggplot2::aes(sample, 1, fill = group)) +
-    ggplot2::geom_tile() +
-    ggplot2::scale_fill_manual(values = ann_pal, name = NULL) +
-    ggplot2::scale_x_discrete(drop = FALSE) +
-    ggplot2::labs(x = NULL, y = NULL) +
-    theme_viz() +
-    ggplot2::theme(
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      axis.line = ggplot2::element_blank(),
-      plot.margin = ggplot2::margin(0, 5, 0, 5)
-    )
-  p <- bar / heat +
-    patchwork::plot_layout(heights = c(0.06, 1), guides = "collect") &
-    ggplot2::theme(legend.position = "bottom", legend.box = "horizontal")
+  bar <- ggplot(ann, aes(sample, 1, fill = group)) +
+    geom_tile(colour = "white", linewidth = pv_house_lw(0.3)) +
+    geom_text(data = ann_lab, aes(x = x, y = 1.75, label = group, colour = group), vjust = 0,
+              inherit.aes = FALSE) +
+    scale_fill_manual(values = ann_pal, guide = "none") +
+    scale_colour_manual(values = ann_pal, guide = "none") +
+    scale_x_discrete(drop = FALSE, expand = c(0, 0)) +
+    coord_cartesian(ylim = c(0.5, 1.5), clip = "off") +
+    labs(x = NULL, y = NULL, title = stat_lab) +
+    theme_house() +
+    theme(axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),
+          panel.border = element_blank(),
+          plot.title = element_text(size = 7, margin = margin(b = 4.2, unit = "mm")),
+          plot.margin = margin(1.2, 0.8, 0.6, 0.4, "mm"))
+  p <- bar / heat + plot_layout(heights = c(0.035, 1), guides = "collect") +
+    plot_annotation(caption = footnote,
+                    theme = cap_theme + theme(text = element_text(family = house_family()))) &
+    theme(legend.position = "right")
 } else {
-  p <- heat
+  p <- heat + labs(caption = footnote) + cap_theme
 }
 
-pv_save(p, "figure", width_mm = 183, height_mm = 150)
+pv_save_house(p, "figure", cells = c(3, 4))
 message("wrote preview.png")
