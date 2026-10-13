@@ -3428,8 +3428,7 @@
         "house-style"
       ],
       "packages": [
-        "ggplot2",
-        "ggrepel"
+        "ggplot2"
       ],
       "data_columns": {
         "group": "分组（字符串，3 组）",
