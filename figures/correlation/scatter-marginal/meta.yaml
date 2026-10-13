@@ -15,7 +15,7 @@ data_columns:
   y: 因变量，基因 B 的 log2 CPM（数值）
   group: 样本来源细胞系，三组（字符串）
 when_to_use: "要同时看两个连续变量的组间相关，以及各变量在各组里的边缘分布时用。Use when a grouped scatter should also show each axis as a marginal density, histogram, or boxplot."
-customize: "TODO-TEXT"
+customize: 'plot.R 顶部 marginal 选 density、histogram 或 boxplot，show_regression 显组别回归统计。data.csv 填 x、y 与 group。点形取 HOUSE_POINT，组色取 pv_palette("house")。'
 lang: R
 style: house
 cells: 2x2

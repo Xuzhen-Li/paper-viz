@@ -13,7 +13,7 @@ data_columns:
   group: 组别（字符串）
   value: 观测值（数值）
 when_to_use: 要在同一坐标上比较多组累积分布、看整体偏移或尾部差异时用。
-customize: "TODO-TEXT"
+customize: 'plot.R 顶部 line_width 改线条粗细，show_legend 开关面板内图例，group_levels 设定组别。data.csv 填入 sample、group 和 value 列。多组累积分布线取 pv_palette("house")。'
 lang: R
 style: house
 cells: 1x1

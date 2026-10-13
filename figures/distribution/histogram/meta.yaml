@@ -12,7 +12,7 @@ data_columns:
   group: 组别（字符串）
   value: 测量值（数值）
 when_to_use: 要看一两个组的取值频数，并对照分布形状时用。
-customize: "TODO-TEXT"
+customize: 'plot.R 顶部 layout 选 mirrored 或 facet，show_density 加密度曲线，n_bins 调分箱数，group_levels 定组别。data.csv 提供 group 和 value 列。色彩取 pv_palette("house")。'
 lang: R
 style: house
 cells: 2x1

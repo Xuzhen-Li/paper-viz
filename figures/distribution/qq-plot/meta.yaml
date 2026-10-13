@@ -13,7 +13,7 @@ data_columns:
   sample: 观测编号（字符串）
   value: 观测值（数值）
 when_to_use: 检查单变量是否近似正态、或看尾部偏离时用。
-customize: "TODO-TEXT"
+customize: 'plot.R 顶部 point_size 和 point_alpha 调点的大小和透明度，show_ref_line 开关正态参考线。data.csv 填 sample 与 value 观测值。单变量点形 HOUSE_POINT，取 pv_palette("house") 蓝。'
 lang: R
 style: house
 cells: 1x1

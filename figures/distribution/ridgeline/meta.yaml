@@ -13,7 +13,7 @@ data_columns:
   group: 队列或分组（字符串）
   value: 得分（数值）
 when_to_use: 组数较多、要比较多条分布的位置和重叠时用。
-customize: "TODO-TEXT"
+customize: 'plot.R 顶部 ridge_scale 调分布重叠，show_quantile 与 quantiles 画分位数，sort_by_median 控制中位数排序。data.csv 填 group 队列和 value 列。填充用 pv_palette("house") 蓝色。'
 lang: R
 style: house
 cells: 1x2

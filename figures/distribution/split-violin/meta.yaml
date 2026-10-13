@@ -16,7 +16,7 @@ data_columns:
   condition: 两个条件，左半为第一水平，右半为第二水平（字符串）
   value: 表达量，log2 尺度（数值）
 when_to_use: "每个分组里都有两个条件，要并排比较分布形状和中位数时用。Use when each group has two conditions and the two density shapes should share one axis position."
-customize: "TODO-TEXT"
+customize: 'plot.R 顶部 group_levels 设横轴组织顺序，condition_levels 定并排两条件，half_width 调分半提琴宽。data.csv 给 sample、group、condition 和 value 列。组色取 pv_palette("house")。'
 lang: R
 style: house
 cells: 2x1
