@@ -1,10 +1,35 @@
-# Sequence logo. Letter height is frequency times information, stacked small to large.
-source("../../../styles/r/theme_viz.R")
+# Sequence logo (house style): letter height is frequency times information, stacked small to large;
+# total information content as the in-panel stat. Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
+# 可调参数 -----------------------------------------------------------------
 method <- "bits"
 base_levels <- c("A", "C", "G", "T")
-# A/C/G/T in chip order. n=4 stops before yellow.
-base_cols <- stats::setNames(pv_palette("categorical", 4), base_levels)
+
+set.seed(1)   # fixed RNG state, so the figure never depends on the session
+footnote <- "Simulated data;\nnot biological results"
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
+text_col <- function(hex) {
+  v <- grDevices::col2rgb(hex) / 255
+  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)
+  stats::setNames(ifelse(ratio >= 3, hex, "#1A1A1A"), names(hex))
+}
+caption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = "mm")),
+                       plot.caption.position = "plot")
+# push end-of-line label positions apart to at least `gap` (data units), keeping their order
+spread <- function(y, gap) {
+  o <- order(y); z <- y[o]
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  shift <- mean(z) - mean(y[o]); z <- z - shift
+  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)
+  y[o] <- z; y
+}
+# usual nucleotide hues taken from the house palette: A green, C blue, G orange, T red
+base_cols <- stats::setNames(c(hp[["green"]], hp[["blue"]], hp[["orange"]], hp[["red"]]), base_levels)
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$base <- factor(df$base, levels = base_levels)
@@ -52,20 +77,17 @@ fitted <- fitted[!vapply(fitted, is.null, logical(1))]
 letters_df <- do.call(rbind, fitted)
 letters_df$gid <- paste(letters_df$position, letters_df$letter)
 
-p <- ggplot2::ggplot(letters_df) +
-  ggplot2::geom_polygon(
-    ggplot2::aes(x, y, group = gid, fill = letter),
-    colour = NA
-  ) +
-  ggplot2::scale_fill_manual(values = base_cols, guide = "none") +
-  ggplot2::scale_x_continuous(breaks = sort(unique(df$pos)), expand = ggplot2::expansion(add = 0.4)) +
-  ggplot2::scale_y_continuous(limits = c(0, y_top), expand = ggplot2::expansion(mult = c(0, 0.02))) +
-  ggplot2::labs(x = "Position in motif", y = y_lab) +
-  theme_viz() +
-  ggplot2::theme(
-    legend.position = "none",
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA)
-  )
+ic <- sum(logo_mat)
+stat <- if (method == "prob") sprintf("%d positions", ncol(logo_mat)) else sprintf("Total information %.1f bits", ic)
+p <- ggplot(letters_df) +
+  geom_polygon(aes(x, y, group = gid, fill = letter), colour = NA) +
+  annotate("text", x = Inf, y = Inf, hjust = 1.03, vjust = 1.4, label = stat, size = pv_pt2size(7),
+           colour = "#1A1A1A", family = house_family()) +
+  scale_fill_manual(values = base_cols, guide = "none") +
+  scale_x_continuous(breaks = sort(unique(df$pos)), expand = expansion(add = 0.4)) +
+  scale_y_continuous(limits = c(0, y_top * 1.15), expand = expansion(mult = c(0, 0.02))) +
+  labs(x = "Position in motif", y = y_lab, caption = footnote) +
+  theme_house() + theme(plot.margin = margin(1, 1.5, 1, 1, "mm")) + caption_theme
 
-pv_save(p, "figure", width_mm = 183, height_mm = 96)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")
