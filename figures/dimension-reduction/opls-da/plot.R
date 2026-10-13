@@ -1,35 +1,46 @@
-# OPLS-DA scores and permutation diagnostic. Reads data*.csv only.
-source("../../../styles/r/theme_viz.R")
+# OPLS-DA scores and permutation diagnostic (house style). Group names written next to each
+# group; the permutation panel marks the observed Q2 and its permutation p. Panels joined with
+# patchwork. Reads data.csv and data_perm.csv. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
+library(patchwork)
 
 # --- adjustable ---
 show_scores <- TRUE
 show_permutation <- TRUE
 show_ellipse <- TRUE
 # ------------------
+footnote <- "Simulated data for illustration; not biological results"
 
 scores <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 perm <- utils::read.csv("data_perm.csv", stringsAsFactors = FALSE)
 scores$group <- factor(scores$group, levels = unique(scores$group))
-cols <- pv_palette("categorical", nlevels(scores$group))
-names(cols) <- levels(scores$group)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+cols <- stats::setNames(unname(hp[seq_len(nlevels(scores$group))]), levels(scores$group))
+name_cols <- stats::setNames(ifelse(cols %in% hp[c("orange", "sky", "gold")], "#1A1A1A", cols), names(cols))
 
 panels <- list()
 
 if (isTRUE(show_scores)) {
-  p_scores <- ggplot2::ggplot(scores, ggplot2::aes(pred, ortho, colour = group)) +
-    ggplot2::geom_hline(yintercept = 0, linewidth = 0.25, colour = "grey70") +
-    ggplot2::geom_vline(xintercept = 0, linewidth = 0.25, colour = "grey70") +
-    ggplot2::geom_point(size = 1.6) +
-    ggplot2::scale_colour_manual(values = cols, name = NULL) +
-    ggplot2::labs(x = "Predictive component", y = "Orthogonal component", tag = "a") +
-    theme_viz() +
-    ggplot2::theme(
-      legend.position = "inside",
-      legend.position.inside = c(0.02, 0.98),
-      legend.justification.inside = c(0, 1)
-    )
+  labs_df <- do.call(rbind, lapply(levels(scores$group), function(g) {
+    s <- scores[scores$group == g, , drop = FALSE]
+    data.frame(group = g, pred = mean(range(s$pred)), ortho = max(s$ortho))
+  }))
+  p_scores <- ggplot(scores, aes(pred, ortho)) +
+    geom_hline(yintercept = 0, linewidth = pv_house_lw("ref"), colour = grey[["ref"]]) +
+    geom_vline(xintercept = 0, linewidth = pv_house_lw("ref"), colour = grey[["ref"]]) +
+    geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
+               stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour) +
+    geom_text(data = labs_df, aes(label = group), vjust = -0.9, size = pv_pt2size(7),
+              colour = name_cols[labs_df$group], family = house_family()) +
+    scale_fill_manual(values = cols, guide = "none") +
+    scale_colour_manual(values = cols, guide = "none") +
+    scale_y_continuous(expand = expansion(mult = c(0.06, 0.16))) +
+    labs(x = "Predictive component", y = "Orthogonal component") +
+    theme_house()
   if (isTRUE(show_ellipse)) {
-    p_scores <- p_scores + ggplot2::stat_ellipse(linewidth = 0.35, level = 0.8, show.legend = FALSE)
+    p_scores <- p_scores + stat_ellipse(aes(colour = group), linewidth = pv_house_lw("main"),
+                                        level = 0.8, show.legend = FALSE)
   }
   panels <- c(panels, list(p_scores))
 }
@@ -37,21 +48,30 @@ if (isTRUE(show_scores)) {
 if (isTRUE(show_permutation)) {
   obs <- perm$q2[perm$perm == 1]
   null <- perm[perm$perm != 1, , drop = FALSE]
-  p_perm <- ggplot2::ggplot(null, ggplot2::aes(q2)) +
-    ggplot2::geom_histogram(bins = 18, fill = pv_palette("sequential", 5)[4], colour = "white", linewidth = 0.15) +
-    ggplot2::geom_vline(xintercept = obs, linetype = "dashed", linewidth = 0.35) +
-    ggplot2::annotate(
-      "text", x = obs, y = Inf, label = "observed",
-      vjust = 1.5, hjust = 1.08, size = 2.1
-    ) +
-    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0.08, 0.12))) +
-    ggplot2::labs(x = "Q2", y = "Permutations", tag = "b") +
-    theme_viz()
+  p_val <- (sum(null$q2 >= obs) + 1) / (nrow(null) + 1)
+  p_perm <- ggplot(null, aes(q2)) +
+    geom_histogram(bins = 18, fill = grey[["ci"]], colour = "white", linewidth = 0.15) +
+    geom_vline(xintercept = obs, linetype = "dashed", linewidth = pv_house_lw("main"),
+               colour = hp[["red"]]) +
+    annotate("text", x = obs, y = Inf, vjust = 1.3, hjust = 1.08, size = pv_pt2size(7),
+             colour = hp[["red"]], family = house_family(),
+             label = sprintf("Observed Q2 %.2f\np = %s", obs, format(signif(p_val, 2)))) +
+    scale_x_continuous(expand = expansion(mult = c(0.08, 0.12))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.25))) +
+    labs(x = "Q2 (permuted labels)", y = "Permutations") +
+    theme_house()
   panels <- c(panels, list(p_perm))
 }
 
 if (length(panels) == 0) stop("enable show_scores or show_permutation")
-p <- if (length(panels) == 1) panels[[1]] else cowplot::plot_grid(plotlist = panels, nrow = 1, rel_widths = c(1.15, 1))
+p <- wrap_plots(panels, nrow = 1) +
+  plot_annotation(
+    caption = footnote,
+    theme = theme(text = element_text(family = house_family()),
+                  plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                              margin = margin(t = 0.8, unit = "mm")),
+                  plot.caption.position = "plot")
+  )
 
-pv_save(p, "figure", width_mm = if (length(panels) == 2) 160 else 89, height_mm = 72)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")

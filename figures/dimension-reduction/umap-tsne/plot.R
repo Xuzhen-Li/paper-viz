@@ -1,5 +1,8 @@
-# UMAP / t-SNE. Reads data.csv only. Run from this directory.
-source("../../../styles/r/theme_viz.R")
+# UMAP / t-SNE (house style). Clusters in house colours; cluster names written next to each cloud
+# in the cluster colour (#1A1A1A when that colour is < 3:1 on white). Reads data.csv only.
+# Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # --- adjustable ---
 method_keep <- "both"   # "UMAP", "t-SNE", or "both"
@@ -12,17 +15,24 @@ if (method_keep != "both") {
 }
 df$cluster <- factor(df$cluster, levels = unique(df$cluster))
 df$method <- factor(df$method, levels = intersect(c("UMAP", "t-SNE"), unique(df$method)))
-cols <- pv_palette("categorical", nlevels(df$cluster))
-names(cols) <- levels(df$cluster)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+cols <- stats::setNames(unname(hp[seq_len(nlevels(df$cluster))]), levels(df$cluster))
+name_cols <- stats::setNames(ifelse(cols %in% hp[c("orange", "sky", "gold")], "#1A1A1A", cols), names(cols))
+footnote <- "Simulated data for illustration; not biological results"
 
 p <- ggplot2::ggplot(df, ggplot2::aes(dim1, dim2, colour = cluster)) +
-  ggplot2::geom_point(size = 1.15, alpha = 0.9) +
-  ggplot2::scale_colour_manual(values = cols, name = "Cluster") +
-  ggplot2::labs(x = "Dimension 1", y = "Dimension 2") +
-  theme_viz() +
+  ggplot2::geom_point(size = 0.8, shape = 16) +
+  ggplot2::scale_colour_manual(values = cols, name = NULL) +
+  ggplot2::labs(x = "Dimension 1", y = "Dimension 2", caption = footnote) +
+  theme_house() +
   ggplot2::theme(
-    legend.position = if (isTRUE(show_labels)) "none" else "inside",
-    legend.key.size = ggplot2::unit(3, "mm")
+    legend.position = if (isTRUE(show_labels)) "none" else "right",
+    legend.key.size = ggplot2::unit(3, "mm"),
+    strip.background = ggplot2::element_blank(),
+    plot.margin = ggplot2::margin(1, 2.5, 1, 1, "mm"),
+    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                         margin = ggplot2::margin(t = 0.8, unit = "mm")),
+    plot.caption.position = "plot"
   )
 
 if (nlevels(df$method) > 1) {
@@ -67,15 +77,15 @@ if (isTRUE(show_labels)) {
     ggrepel::geom_text_repel(
     data = centres,
     ggplot2::aes(dim1, dim2, label = cluster),
-    colour = "black",
-    size = 2.1,
-    fontface = "bold",
+    colour = name_cols[as.character(centres$cluster)],
+    size = pv_pt2size(7),
+    family = house_family(),
     inherit.aes = FALSE,
     nudge_x = centres$nudge_x,
     nudge_y = centres$nudge_y,
     min.segment.length = 0,
     segment.size = 0.2,
-    segment.colour = "grey35",
+    segment.colour = grey[["dark"]],
     box.padding = 0.25,
     point.padding = 0.15,
     force = 0.5,
@@ -86,5 +96,5 @@ if (isTRUE(show_labels)) {
   )
 }
 
-pv_save(p, "figure", width_mm = if (nlevels(df$method) > 1) 140 else 89, height_mm = 72)
+pv_save_house(p, "figure", cells = "2x1")
 message("wrote preview.png")
