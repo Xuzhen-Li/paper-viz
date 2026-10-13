@@ -229,10 +229,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends fontconfig fonts-liberation
           echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ttf-mscorefonts-installer \
-            || echo "::warning::ttf-mscorefonts-installer failed; falling back to Liberation Sans"
-          sudo fc-cache -f
+          # The installer downloads Arial from SourceForge and can fail without a non-zero exit;
+          # rendering then falls back to Liberation Sans and commits previews with other text
+          # widths. Retry, and stop the job if Arial is still missing.
+          # If the package itself did not install (apt error), install it again; if it is
+          # installed but the font download failed, dpkg-reconfigure repeats the download.
+          # The EULA answer preseeded above is reused in both cases.
+          for attempt in 1 2 3; do
+            if [ "$attempt" -gt 1 ]; then sleep 10; fi
+            if dpkg-query -W -f='${Status}' ttf-mscorefonts-installer 2>/dev/null | grep -q 'install ok installed'; then
+              sudo DEBIAN_FRONTEND=noninteractive dpkg-reconfigure ttf-mscorefonts-installer || true
+            else
+              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ttf-mscorefonts-installer || true
+            fi
+            sudo fc-cache -f
+            if [ "$(fc-match -f '%{family[0]}' Arial)" = "Arial" ]; then break; fi
+            echo "::warning::Arial not installed (attempt $attempt)"
+          done
           echo "fc-match Arial: $(fc-match Arial)"
+          if [ "$(fc-match -f '%{family[0]}' Arial)" != "Arial" ]; then
+            echo "::error::Arial could not be installed; refusing to render previews with a fallback font"
+            exit 1
+          fi
           echo "fc-match Helvetica: $(fc-match Helvetica)"
 
       - name: Install R packages from tools/r-packages.txt
