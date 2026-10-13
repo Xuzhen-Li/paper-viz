@@ -32,7 +32,6 @@ p <- ggvenn::ggvenn(
   text_color = "#1A1A1A",
   text_size = pv_pt2size(7)
 ) +
-  coord_fixed(clip = "off") +
   labs(title = NULL, caption = footnote) +
   theme_house() +
   theme(axis.line = element_blank(), panel.border = element_blank(),

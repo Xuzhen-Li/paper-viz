@@ -17,5 +17,7 @@ data_columns:
   class: 分类名。B 是组织，D 是基因；A 和 C 为空（字符串）
   item: D 的样本编号；其他面板为空（字符串）
 when_to_use: "一张期刊图里要并排放散点、分组柱、时间曲线和小热图，并共用处理组图例时用。Use when a double-column figure should assemble those four panels in one font, palette, and legend."
-customize: 'plot.R 顶部 show_fit 开关 A 的回归线和置信带；base_size 是四块共用的字号；group_levels 决定处理组顺序，颜色按这个顺序取 pv_palette("categorical")。热图用 pv_palette("diverging")。patchwork 把图例收到整图下方，面板字母 A–D 在每块左上角。'
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 4x2

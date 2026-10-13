@@ -14,5 +14,7 @@ data_columns:
   c: 组分 C 的比例（0 到 1）
   group: 聚类标签（字符串）
 when_to_use: 三个组分之和为 1、要看样本落在单纯形的哪一区时用。
-customize: plot.R 顶部 colour_by_cluster 为 FALSE 时所有点同色；vertex_labels 改三个顶点的轴名；group_levels 改聚类顺序和配色。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x2

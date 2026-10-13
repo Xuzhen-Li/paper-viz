@@ -14,5 +14,7 @@ data_columns:
   col: 列因子，这里是结局（字符串）
   n: 该格计数（整数）
 when_to_use: 两个分类变量的联合计数要同时看边际和条件比例时用。
-customize: plot.R 顶部 show_labels 控制格内计数；row_levels 与 col_levels 改顺序和配色。
+customize: "TODO-TEXT"
 lang: R
+style: house
+cells: 2x1

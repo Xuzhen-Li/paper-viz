@@ -19,7 +19,8 @@ hp <- pv_palette("house"); grey <- pv_palette("house_grey")
 pal <- stats::setNames(unname(hp[seq_len(nlevels(df$stage1))]), levels(df$stage1))
 
 p <- ggplot(df, aes(y = value, axis1 = stage1, axis2 = stage2, axis3 = stage3)) +
-  geom_alluvium(aes(fill = stage1, alpha = on), width = 0.34, colour = NA, curve_type = "sigmoid") +
+  geom_alluvium(aes(fill = stage1, alpha = on), width = 0.34, colour = NA, curve_type = "sigmoid",
+                key_glyph = "rect") +
   geom_stratum(width = 0.34, fill = "white", colour = grey[["dark"]], linewidth = pv_house_lw("frame")) +
   geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = pv_pt2size(7),
             colour = "#1A1A1A", family = house_family()) +
@@ -27,6 +28,7 @@ p <- ggplot(df, aes(y = value, axis1 = stage1, axis2 = stage2, axis3 = stage3)) 
   scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
   scale_fill_manual(values = pal, name = NULL) +
   scale_alpha_manual(values = c(`TRUE` = 0.85, `FALSE` = 0.25), guide = "none") +
+  guides(fill = guide_legend(override.aes = list(alpha = 0.85))) +
   labs(x = NULL, y = "Patients", caption = footnote) +
   theme_house() +
   theme(legend.position = "top", legend.justification = "left",

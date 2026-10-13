@@ -19,7 +19,7 @@ groups0 <- sort(unique(c(df$source, df$target)))
 w_src <- tapply(df$value, df$source, sum)
 w_tgt <- tapply(df$value, df$target, sum)
 score <- vapply(groups0, function(g) sum(w_src[g], w_tgt[g], na.rm = TRUE), numeric(1))
-# Eight sectors pull in #fbee61 and tangle the ribbons. Five named groups plus Other.
+# More than six sectors tangle the ribbons: keep five named groups plus Other.
 if (length(groups0) > 6) {
   keep <- names(sort(score, decreasing = TRUE))[seq_len(5)]
   map_g <- function(g) if (g %in% keep) g else "Other"
