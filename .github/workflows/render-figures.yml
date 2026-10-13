@@ -7,6 +7,7 @@ on:
       - "styles/**"
       - "tests/**"
       - "tools/**"
+      - ".github/workflows/render-figures.yml"
   workflow_dispatch:
     inputs:
       render_all:
@@ -56,8 +57,10 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           RENDER_ALL: ${{ github.event.inputs.render_all }}
+          # Only set for pull_request events; workflow_dispatch uses the checked-out ref.
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_SHA: ${{ github.sha }}
         run: |
           # step:select
           set -euo pipefail
@@ -101,15 +104,19 @@ jobs:
               *) RENDER_ALL=false ;;
             esac
 
-            if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$RENDER_ALL" = true ]; then
-              MODE=all
-              CHECK_ALL=true
-              FIGURES="$(list_all_figures)"
+            if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+              # No pull request here: never read PR SHAs. Render what is checked out.
+              echo "workflow_dispatch on ${GITHUB_REF_NAME:-?} at ${RUN_SHA:-$(git rev-parse HEAD 2>/dev/null || echo unknown)} (render_all=$RENDER_ALL)"
+              if [ "$RENDER_ALL" = true ]; then
+                MODE=all
+                CHECK_ALL=true
+                FIGURES="$(list_all_figures)"
+              fi
             elif [ "$EVENT_NAME" = "pull_request" ]; then
               if [ "${SELECT_LIB_ONLY:-}" = 1 ]; then
                 CHANGED="${CHANGED_FILES-}"
               else
-                if [ -z "${BASE_SHA}" ] || [ -z "${HEAD_SHA}" ]; then
+                if [ -z "${BASE_SHA:-}" ] || [ -z "${HEAD_SHA:-}" ]; then
                   echo "::error::pull request is missing base or head SHA"
                   exit 1
                 fi
@@ -127,6 +134,10 @@ jobs:
               if printf '%s\n' "$CHANGED" | grep -Eq '^tools/(check_figure\.sh|check_png_grid\.sh|blocklist\.txt|check_all\.sh|build_catalog\.py|r-packages\.txt)$'; then
                 FORCE_ALL=true
               fi
+              # A change to this workflow (fonts, R setup, render logic) is checked by a full render.
+              if printf '%s\n' "$CHANGED" | grep -Eq '^\.github/workflows/render-figures\.yml$'; then
+                FORCE_ALL=true
+              fi
 
               FIG_DIRS="$(printf '%s\n' "$CHANGED" | grep -E '^figures/[^/]+/[^/]+/' | sed -E 's|^(figures/[^/]+/[^/]+)/.*|\1|' | sort -u || true)"
 
@@ -134,7 +145,7 @@ jobs:
                 # Full render is check-only: never commit previews/docs/catalog.
                 MODE=all
                 FIGURES="$(list_all_figures)"
-                echo "::notice::styles/, tests/ or check tooling changed: rendering all figures as a check only; nothing will be committed."
+                echo "::notice::styles/, tests/, check tooling or this workflow changed: rendering all figures as a check only; nothing will be committed."
                 if [ -n "$FIG_DIRS" ]; then
                   echo "::notice::Figure directories also changed in this pull request. Their previews are NOT auto-committed in a check-only run; commit them by hand or via a later figure-only push."
                 fi
@@ -229,10 +240,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends fontconfig fonts-liberation
           echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ttf-mscorefonts-installer \
-            || echo "::warning::ttf-mscorefonts-installer failed; falling back to Liberation Sans"
-          sudo fc-cache -f
+          # The installer downloads Arial from SourceForge and can fail without a non-zero exit;
+          # rendering then falls back to Liberation Sans and commits previews with other text
+          # widths. Retry, and stop the job if Arial is still missing.
+          # If the package itself did not install (apt error), install it again; if it is
+          # installed but the font download failed, dpkg-reconfigure repeats the download.
+          # The EULA answer preseeded above is reused in both cases.
+          for attempt in 1 2 3; do
+            if [ "$attempt" -gt 1 ]; then sleep 10; fi
+            if [ "$(dpkg-query -W -f='${Status}' ttf-mscorefonts-installer 2>/dev/null || true)" = "install ok installed" ]; then
+              sudo DEBIAN_FRONTEND=noninteractive dpkg-reconfigure ttf-mscorefonts-installer || true
+            else
+              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ttf-mscorefonts-installer || true
+            fi
+            sudo fc-cache -f
+            if [ "$(fc-match -f '%{family[0]}' Arial)" = "Arial" ]; then break; fi
+            echo "::warning::Arial not installed (attempt $attempt)"
+          done
           echo "fc-match Arial: $(fc-match Arial)"
+          if [ "$(fc-match -f '%{family[0]}' Arial)" != "Arial" ]; then
+            echo "::error::Arial could not be installed; refusing to render previews with a fallback font"
+            exit 1
+          fi
           echo "fc-match Helvetica: $(fc-match Helvetica)"
 
       - name: Install R packages from tools/r-packages.txt
