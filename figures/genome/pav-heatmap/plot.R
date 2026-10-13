@@ -12,6 +12,8 @@ show_compartment <- TRUE
 set.seed(1)   # fixed RNG state, so the figure never depends on the session
 footnote <- "Simulated data;\nnot biological results"
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# orange marks/labels use the darker chrom12 step of the same hue (#E17927, 3.01:1 on white)
+hp[["orange"]] <- pv_palette("chrom12")[[8]]
 # label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)
 text_col <- function(hex) {
   v <- grDevices::col2rgb(hex) / 255
