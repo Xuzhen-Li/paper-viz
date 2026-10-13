@@ -59,6 +59,10 @@ hulls <- do.call(rbind, lapply(split(df, df$pop), function(d) {
   d[c(h, h[1]), ]
 }))
 
+# names sit on the land fill (#F0F0F0), not on white: orange #E17927 is only 2.65:1 there, so it
+# takes the next darker orange step in the house palettes (chrom12 #AB5A29, 4.37:1 on #F0F0F0)
+map_text_col <- text_col(cols)
+map_text_col[map_text_col == "#E17927"] <- "#AB5A29"
 p <- ggplot() +
   geom_polygon(data = world, aes(long, lat, group = group),
                fill = grey[["bg"]], colour = grey[["ci"]], linewidth = pv_house_lw("minor"))
@@ -98,7 +102,7 @@ if (isTRUE(show_labels)) {
       below = data.frame(pop = g, x = stats::median(d$x), y = min(d$y) - pad, hjust = 0.5, vjust = 1))
   }))
   p <- p + geom_text(data = cen, aes(x, y, label = pop, hjust = hjust, vjust = vjust),
-                     colour = text_col(cols)[cen$pop], size = pv_pt2size(7), family = house_family())
+                     colour = map_text_col[cen$pop], size = pv_pt2size(7), family = house_family())
 }
 
 pv_save_house(p, "figure", cells = "2x2", bump = 0)

@@ -75,7 +75,7 @@ p <- ggplot(df, aes(x, score, colour = chr_col)) +
     strip.background = element_blank(), strip.placement = "outside",
     strip.text.y.left = element_text(size = 7, angle = 0, hjust = 1),
     panel.spacing.y = unit(2, "mm"),
-    plot.margin = margin(1, 1.5, 1, 1, "mm")
+    plot.margin = margin(2, 1.5, 1, 1, "mm")   # top 2 mm: the top y tick label sits on the panel edge
   ) +
   caption_theme
 if (isTRUE(show_threshold)) {

@@ -82,7 +82,7 @@ if (isTRUE(show_migration) && nrow(migs)) {
   # arrow leaves the midpoint of the source tip's terminal branch and arrives at the midpoint
   # of the target's terminal branch (half-way between the parent node and the tip)
   mid_of <- function(tip) {
-    child <- dd[dd$label == tip, , drop = FALSE]
+    child <- dd[which(dd$label == tip), , drop = FALSE]   # which(): internal nodes have NA labels
     parent <- dd[dd$node == child$parent[1], , drop = FALSE]
     data.frame(x = (parent$x + child$x) / 2, y = child$y, stringsAsFactors = FALSE)
   }
@@ -90,7 +90,7 @@ if (isTRUE(show_migration) && nrow(migs)) {
   # branch, so the head sits on the branch midpoint and clear of the vertical branches.
   # approach / curvature per arrow (fixed, chosen to keep crossings few); others default.
   approach <- c("P7>P10" = "below")
-  bend <- c("P7>P10" = 0.35)
+  bend <- c("P7>P10" = 0.35, "P6>P5" = 0)   # P6 -> P5 straight, clear of the P9 label
   row_gap <- 0.08   # head tip stops this far from the branch (data units; tip spacing is 1)
   lead_in <- 0.45   # the curve ends this far above/below the target; a short vertical stem
                     # carries the head straight down/up onto the branch midpoint
