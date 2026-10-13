@@ -1,0 +1,120 @@
+{
+  "note": "Schematics shown in the gallery's schematics section. Not figure templates: not in catalog.json and not counted.",
+  "items": [
+    {
+      "id": "arch",
+      "method": "script-svg",
+      "ai_icons": true,
+      "thumb": "house-style/arch/arch_v3.png",
+      "full": "house-style/arch/arch_v3.png",
+      "width": 2000,
+      "height": 1324,
+      "files": [
+        {
+          "label": "SVG",
+          "href": "house-style/arch/arch_v3.svg"
+        },
+        {
+          "label": "PNG",
+          "href": "house-style/arch/arch_v3.png"
+        },
+        {
+          "label": "script",
+          "href": "https://github.com/Xuzhen-Li/paper-viz/tree/main/docs/house-style/arch"
+        }
+      ],
+      "title_zh": "表型预测通用流程图",
+      "title": "Phenotype Pipeline",
+      "alt_zh": "输入表型、基因型与环境数据，进行质控及基因型与环境双编码分支，经交叉注意力融合与G×E交互，通过预测头输出，评估观测预测散点、精度及逐地点交叉验证。",
+      "alt_en": "Phenotype, genotype, environment inputs. QC. Genotype and environment encode branches. Cross attention fuse and G×E. Prediction head. Observed predicted scatter, accuracy, leave site CV.",
+      "desc_zh": "Python脚本生成可编辑SVG，含4个带矢量备用的AI图标。提供SVG和PNG下载，脚本见docs/house-style/arch/。",
+      "desc_en": "Python script editable SVG. 4 AI icons each with vector fallback. PNG 2000×1324. Download SVG, PNG. Script at docs/house-style/arch/."
+    },
+    {
+      "id": "pipeline",
+      "method": "drawio",
+      "thumb": "house-style/schematics/schematic_pipeline.svg",
+      "full": "house-style/schematics/schematic_pipeline.svg",
+      "width": 4323,
+      "height": 792,
+      "files": [
+        {
+          "label": "SVG",
+          "href": "house-style/schematics/schematic_pipeline.svg"
+        },
+        {
+          "label": "PNG",
+          "href": "house-style/schematics/schematic_pipeline.png"
+        },
+        {
+          "label": ".drawio",
+          "href": "house-style/schematics/schematic_pipeline.drawio"
+        }
+      ],
+      "title_zh": "绘图出图流程图",
+      "title": "Plotting Pipeline",
+      "alt_zh": "图示依次为数据输入、调用theme_house()应用主题、调用pv_save_house()保存函数，最终输出PDF与PNG格式文件。",
+      "alt_en": "Diagram shows data input, applying theme_house(), calling pv_save_house(), and outputting PDF and PNG files.",
+      "desc_zh": "数据经theme_house与pv_save_house输出PDF和PNG。由draw.io制作，可下载SVG、PNG与.drawio。",
+      "desc_en": "Pipeline passes data to theme_house() then pv_save_house() to output PDF and PNG. Made in draw.io. Download SVG, PNG, .drawio."
+    },
+    {
+      "id": "typescale",
+      "method": "drawio",
+      "thumb": "house-style/schematics/schematic_typescale.svg",
+      "full": "house-style/schematics/schematic_typescale.svg",
+      "width": 4323,
+      "height": 1669,
+      "files": [
+        {
+          "label": "SVG",
+          "href": "house-style/schematics/schematic_typescale.svg"
+        },
+        {
+          "label": "PNG",
+          "href": "house-style/schematics/schematic_typescale.png"
+        },
+        {
+          "label": ".drawio",
+          "href": "house-style/schematics/schematic_typescale.drawio"
+        }
+      ],
+      "title_zh": "规范字号层级图",
+      "title": "Type Scale Hierarchy",
+      "alt_zh": "图示标明面板字母10 pt，轴标题8 pt，刻度7 pt，最小6 pt。仅单个2×2的89×89 mm面板内字号增加2 pt。",
+      "alt_en": "Indicates panel letters 10 pt, axis titles 8 pt, ticks 7 pt, and min 6 pt. Adds 2 pt only for a single 2×2 89×89 mm panel.",
+      "desc_zh": "面板字母10pt，轴标题8pt，刻度7pt，最小6pt。单个2×2面板加2pt。draw.io制作，可下载SVG、PNG与.drawio。",
+      "desc_en": "Panel letters 10 pt, axis titles 8 pt, ticks 7 pt, min 6 pt. +2 pt for single 2×2 89×89 mm. draw.io. Download SVG, PNG, .drawio."
+    },
+    {
+      "id": "layout",
+      "method": "drawio",
+      "thumb": "house-style/schematics/schematic_layout.svg",
+      "full": "house-style/schematics/schematic_layout.svg",
+      "width": 4512,
+      "height": 10937,
+      "files": [
+        {
+          "label": "SVG",
+          "href": "house-style/schematics/schematic_layout.svg"
+        },
+        {
+          "label": "PNG",
+          "href": "house-style/schematics/schematic_layout.png"
+        },
+        {
+          "label": ".drawio",
+          "href": "house-style/schematics/schematic_layout.drawio",
+          "note_zh": "旧做法存档",
+          "note_en": "Legacy method archived"
+        }
+      ],
+      "title_zh": "标准网格版面图",
+      "title": "Grid Layout Dimensions",
+      "alt_zh": "图示43 mm方格及3 mm间距，1至4格宽度分别为43/89/135/181 mm，满4格为183 mm，包含双栏4格与单栏2格排版。",
+      "alt_en": "Shows 43 mm grids with 3 mm gaps, listing widths for 1 to 4 grids as 43/89/135/181 mm and 183 mm for full 4 grids. Includes dual col 4 cells and single col 2 cells.",
+      "desc_zh": "43mm方格距3mm，1至4格43/89/135/181mm。满4格183mm。单栏2格，双栏4格。可下载SVG、PNG及.drawio。",
+      "desc_en": "43 mm cell, 3 mm gap. 1 to 4 cells: 43/89/135/181 mm. 4 cells plus sides 183 mm. Dual col 4, single 2. 4512×10937. Get SVG, PNG, .drawio."
+    }
+  ]
+}
