@@ -45,28 +45,32 @@ if (isTRUE(show_labels) && n_label > 0) {
   lab <- df[df$direction != "ns", , drop = FALSE]
   lab <- lab[order(lab$pvalue, -abs(lab$log2fc)), , drop = FALSE]
   lab <- utils::head(lab, n_label)
-  # Every point is a repel obstacle (blank label), so names avoid the whole cloud;
-  # names are pushed away from zero, into the space beyond the point cloud.
-  rep_df <- df
-  rep_df$lab_txt <- ifelse(rep_df$gene %in% lab$gene, rep_df$gene, "")
-  span <- diff(range(df$log2fc))
-  rep_df$ny <- ifelse(rep_df$lab_txt == "", 0, sign(rep_df$log2fc) * 0.3 * span)
-  # and sideways away from the x centre, so leaders fan out instead of crossing other names
-  mid_x <- mean(range(df$A))
-  rep_df$nx <- ifelse(rep_df$lab_txt == "", 0, 0.3 * (rep_df$A - mid_x))
-  # labelled genes get the house point outline
-  p <- p + geom_point(data = lab, aes(fill = direction), shape = HOUSE_POINT$shape, size = 1.2,
-                      stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, show.legend = FALSE) +
-    scale_fill_manual(values = cols, guide = "none") +
-    # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
-    # so the layout does not depend on machine speed.
-    ggrepel::geom_text_repel(
-    data = rep_df, aes(label = lab_txt), size = pv_pt2size(7), colour = "#1A1A1A",
-    family = house_family(), segment.size = 0.2, segment.colour = grey[["dark"]],
-    nudge_x = rep_df$nx, nudge_y = rep_df$ny, direction = "both", point.size = 0.7,
-    max.overlaps = Inf, min.segment.length = 0, box.padding = 0.35, point.padding = 0.15,
-    force = 3, force_pull = 0.3, max.iter = 50000, max.time = Inf, show.legend = FALSE, seed = 1
+  # Names are placed by hand (fixed coordinates, no repel solver), so the PDF and PNG
+  # layouts are the same on every device. Each name sits beyond the point cloud and a
+  # straight leader runs from the point to the near edge of the name. Positions are in
+  # data units; a gene not listed below gets a default spot straight above or below it.
+  pos <- data.frame(
+    gene = c("G7133", "G1202", "G7004", "G5768", "G64"),
+    lx   = c(-1.0,    4.0,     9.2,     13.3,    5.6),
+    ly   = c(7.5,     9.5,     7.0,     5.0,     -7.0)
   )
+  lab <- merge(lab, pos, by = "gene", all.x = TRUE, sort = FALSE)
+  miss <- is.na(lab$lx)
+  lab$lx[miss] <- lab$A[miss]
+  lab$ly[miss] <- lab$log2fc[miss] + sign(lab$log2fc[miss]) * 3
+  lab$vj <- ifelse(lab$ly > lab$log2fc, 0, 1)     # name above (bottom-anchored) or below
+  # leader stops a little short of the name
+  gap <- 0.8
+  lab$sy <- lab$ly - sign(lab$ly - lab$log2fc) * gap
+  p <- p +
+    geom_segment(data = lab, aes(x = A, y = log2fc, xend = lx, yend = sy), inherit.aes = FALSE,
+                 linewidth = 0.2, colour = grey[["dark"]]) +
+    # labelled genes get the house point outline
+    geom_point(data = lab, aes(fill = direction), shape = HOUSE_POINT$shape, size = 1.2,
+               stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, show.legend = FALSE) +
+    scale_fill_manual(values = cols, guide = "none") +
+    geom_text(data = lab, aes(lx, ly, label = gene, vjust = vj), inherit.aes = FALSE,
+              size = pv_pt2size(7), colour = "#1A1A1A", family = house_family())
 }
 
 pv_save_house(p, "figure", cells = "1x1")
