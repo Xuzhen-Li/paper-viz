@@ -16,5 +16,7 @@ data_columns:
   facet: 组织或分面（字符串）
   value: 表达量，log2 尺度（数值）
 when_to_use: 要同时看组间位置和分布形状，并标两两比较时用。
-customize: layout 取 split（左右半小提琴）或 facet（按组织分面）；show_signif 开关 Wilcoxon 星号；group_levels 与 facet_levels 决定顺序和配色（pv_palette categorical）。
+customize: 'plot.R 顶部 layout 选 split 或 facet，show_signif 标组间差异，group_levels 设处理组，facet_levels 定组织分面。data.csv 填 sample、group、facet 和 value 列。取 pv_palette("house")。'
 lang: R
+style: house
+cells: 1x1

@@ -16,5 +16,7 @@ data_columns:
   group: 剂量组（字符串）
   value: 响应值（数值）
 when_to_use: 样本量中等、想看每个点又不想堆成一条线时用。
-customize: show_signif 与 comparisons 控制括号；use_facet 把四组拆成低剂量和高剂量两栏；group_levels 决定顺序。颜色取 pv_palette("categorical")。
+customize: 'plot.R 顶部 show_signif 标差异，use_facet 开关分面，group_levels 定剂量组序，comparisons 选比较对。data.csv 提供 sample、group 和 value 列。点色用 pv_palette("house")。'
 lang: R
+style: house
+cells: 2x1

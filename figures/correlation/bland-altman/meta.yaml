@@ -13,5 +13,7 @@ data_columns:
   method_a: 方法 A 的测量值（数值）
   method_b: 方法 B 的测量值（数值）
 when_to_use: 比较两种测量方法是否一致时用；看差值是否随均值漂移，并标出均值差与一致性界限。
-customize: plot.R 顶部 loa_mult 调一致性界限（默认 1.96 SD）；point_size / point_alpha 调点；show_loa_labels 开关三条参考线旁的数值标签。点色与参考线色取自 pv_palette("categorical") 前 3 色（勿用第 8 色纯黑）。
+customize: 'plot.R 顶部 point_size 调点大小，loa_mult 设一致性界限 SD 倍数，show_loa_labels 显示偏差与界限标签。在 data.csv 填入 method_a 和 method_b 列。点形 HOUSE_POINT，色取 pv_palette("house")。'
 lang: R
+style: house
+cells: 2x1

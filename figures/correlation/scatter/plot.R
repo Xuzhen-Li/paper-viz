@@ -1,58 +1,60 @@
-# Scatter with optional regression, group colour, and 2D density.
-# Run from this directory.
-source("../../../styles/r/theme_viz.R")
+# Scatter (house style): three groups, per-group fit with grey CI, R² and P per group in the panel.
+# Group names in the stat lines double as the legend. Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 show_regression <- TRUE
 colour_by_group <- TRUE
 show_density <- FALSE
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
-df$group <- factor(df$group, levels = c("MCF7", "A549", "HepG2"))
-pal <- pv_palette("categorical", 3)
-names(pal) <- levels(df$group)
+group_order <- c("MCF7", "A549", "HepG2")
+df$group <- factor(df$group, levels = group_order)
+hp <- pv_palette("house"); grey <- pv_palette("house_grey")
+# all three are >= 3:1 on white, so labels keep the group colour
+pal <- c(MCF7 = hp[["blue"]], A549 = hp[["red"]], HepG2 = hp[["green"]])
+footnote <- "Simulated data for illustration; not biological results"
+if (!isTRUE(colour_by_group)) pal[] <- hp[["blue"]]
 
-p <- ggplot2::ggplot(df, ggplot2::aes(x, y))
+x_lim <- range(df$x) + c(-1, 1) * 0.04 * diff(range(df$x))
+y_lim <- c(min(df$y) - 0.04 * diff(range(df$y)), max(df$y) + 0.22 * diff(range(df$y)))
+
+p <- ggplot(df, aes(x, y))
 if (isTRUE(show_density)) {
-  if (isTRUE(colour_by_group)) {
-    p <- p + ggplot2::geom_density_2d(ggplot2::aes(colour = group), linewidth = 0.3, bins = 5)
-  } else {
-    p <- p + ggplot2::geom_density_2d(linewidth = 0.3, colour = "#E0E0E0", bins = 5)
-  }
-}
-if (isTRUE(colour_by_group)) {
-  p <- p + ggplot2::geom_point(ggplot2::aes(colour = group), size = 2.2, alpha = 0.85)
-  p <- p + ggplot2::scale_colour_manual(values = pal, name = NULL)
-} else {
-  p <- p + ggplot2::geom_point(colour = pal[[1]], size = 2.2, alpha = 0.85)
+  p <- p + geom_density_2d(aes(colour = group), linewidth = pv_house_lw("minor"), bins = 5)
 }
 if (isTRUE(show_regression)) {
-  if (isTRUE(colour_by_group)) {
-    p <- p + ggplot2::geom_smooth(
-      ggplot2::aes(colour = group, fill = group),
-      method = "lm", se = TRUE, linewidth = 0.45, alpha = 0.15
-    ) +
-      ggplot2::guides(colour = ggplot2::guide_legend(override.aes = list(fill = NA)))
-  } else {
-    p <- p + ggplot2::geom_smooth(
-      method = "lm", se = TRUE, linewidth = 0.45,
-      colour = pal[[1]], fill = "#E0E0E0", alpha = 0.25
-    )
-  }
-  p <- p + ggplot2::scale_fill_manual(values = pal, guide = "none")
+  p <- p +
+    geom_smooth(aes(group = group), method = "lm", formula = y ~ x, colour = NA,
+                fill = grey[["ci"]], alpha = 0.5) +
+    geom_smooth(aes(colour = group), method = "lm", formula = y ~ x, se = FALSE,
+                linewidth = pv_house_lw("emph"))
 }
 p <- p +
-  ggplot2::labs(
-    x = "Gene A expression (log2 CPM)",
-    y = "Gene B expression (log2 CPM)"
-  ) +
-  theme_viz(base_size = 7) +
-  ggplot2::theme(
-    legend.position = "inside",
-    legend.position.inside = c(0.02, 0.98),
-    legend.justification.inside = c(0, 1),
-    legend.key.height = ggplot2::unit(3.2, "mm"),
-    legend.key.width = ggplot2::unit(5, "mm")
-  )
+  geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
+             stroke = HOUSE_POINT$stroke, colour = "black")
 
-pv_save(p, "figure", width_mm = 85, height_mm = 60)
+if (isTRUE(colour_by_group)) {
+  st <- do.call(rbind, lapply(seq_along(group_order), function(i) {
+    s <- summary(stats::lm(y ~ x, data = df[df$group == group_order[i], ]))
+    data.frame(group = factor(group_order[i], levels = group_order), i = i,
+               lab = sprintf("'%s  '*italic(R)*'\u00b2 = %.2f, '*%s", group_order[i], s$r.squared,
+                             pv_fmt_p(stats::coef(s)[2, 4])))
+  }))
+  st$y <- y_lim[2] - (st$i - 0.5) * 0.065 * diff(y_lim)
+  p <- p + geom_text(data = st, aes(x = x_lim[1] + 0.02 * diff(x_lim), y = y, label = lab, colour = group),
+                     parse = TRUE, hjust = 0, vjust = 0.5)
+}
+
+p <- p +
+  scale_colour_manual(values = pal) +
+  scale_fill_manual(values = pal) +
+  coord_cartesian(xlim = x_lim, ylim = y_lim, expand = FALSE) +
+  labs(x = "Gene A expression (log2 CPM)", y = "Gene B expression (log2 CPM)", caption = footnote) +
+  theme_house() +
+  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[["mid"]],
+                                    margin = margin(t = 0.8, unit = "mm")),
+        plot.caption.position = "plot")
+
+pv_save_house(p, "figure", cells = "2x2")
 message("wrote preview.png")

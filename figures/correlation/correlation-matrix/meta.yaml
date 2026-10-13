@@ -16,3 +16,5 @@ data_columns:
 when_to_use: 十几个连续指标要一眼看出谁和谁同向或反向时用。
 customize: plot.R 顶部 cell_shape 取 circle 或 square；show_significance 是否标 p < sig_cut 的星号；upper_only 只画上三角。变量顺序按 1-r 聚类，不要在数据里预先切显著与否。
 lang: R
+style: house
+cells: 2x2

@@ -15,3 +15,5 @@ data_columns:
 when_to_use: 自变量有顺序、要比较几条带噪声的轨迹时用。
 customize: plot.R 顶部 series_keep 选择曲线；show_ribbon 加 loess 置信带；show_area 铺面积；show_points 在折线上加点。同目录 plot.py 仍读 x 和 y，作单序列 Python 变体。
 lang: R
+style: house
+cells: 2x1
