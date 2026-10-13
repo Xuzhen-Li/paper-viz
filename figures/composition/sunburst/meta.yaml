@@ -13,7 +13,7 @@ data_columns:
   child: 外环子类，属于对应的 parent（字符串）
   value: 组成权重（正数，图中按总和换算成圆心角）
 when_to_use: "一个整体分成大类、大类再分成子类，要在同一张圆图里看两层份额时用。Use when a whole splits into parent categories and their children, drawn as two concentric rings."
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 调整 `label_min_share` 设定切线标签最小份额，修改 `hole` 设定内孔半径；在 `data.csv` 填入 `parent`、`child` 和 `value` 列。"
 lang: R
 style: house
 cells: 2x2

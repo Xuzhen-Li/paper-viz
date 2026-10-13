@@ -12,7 +12,7 @@ data_columns:
   cell: 单元格序号（整数，共 100 个）
   part: 该格所属组成分（字符串）
 when_to_use: 用可数的格子表示份额、总数固定为一百时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 设定 `layout` 切换正方形或议会型布局，调整 `part_levels` 填充顺序，`Other` 映射为浅灰色；在 `data.csv` 填入 `cell` 和 `part` 列。"
 lang: R
 style: house
 cells: 1x1

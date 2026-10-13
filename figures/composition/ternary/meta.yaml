@@ -14,7 +14,7 @@ data_columns:
   c: 组分 C 的比例（0 到 1）
   group: 聚类标签（字符串）
 when_to_use: 三个组分之和为 1、要看样本落在单纯形的哪一区时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 控制 `colour_by_cluster`（默认 `TRUE`）按组着色，设定 `group_levels` 顺序与 `vertex_labels` 顶点说明；在 `data.csv` 填入 `a`、`b`、`c` 和 `group` 列。"
 lang: R
 style: house
 cells: 2x2

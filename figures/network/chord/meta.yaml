@@ -15,7 +15,7 @@ data_columns:
   target: 流入组（字符串）
   value: 流量强度（数值）
 when_to_use: 展示若干组别之间的定向流量或互作强度时用。
-customize: "TODO-TEXT"
+customize: "在 `plot.R` 调 `show_labels`（默认 `TRUE`）显隐名称，改 `link_alpha` 与 `directional`（默认 `TRUE`）；填 `data.csv` 的 `source`、`target`、`value`。仅留前五大组，其余并入 `Other`，不画 `Other` 到 `Other` 流量。"
 lang: R
 style: house
 cells: 2x2
