@@ -48,8 +48,11 @@ if (isTRUE(show_significance)) {
   p <- p + geom_text(aes(label = stars), vjust = 0.75, colour = "black")
 }
 k <- length(ord)
+# annotation sits a fixed fraction (23.5%) of the panel height above the bottom edge, clear of the
+# colour bar, so it stays in the empty lower triangle for any k (k = 15 gives about 4)
+note_y <- 0.5 + 0.235 * k
 if (isTRUE(upper_only)) {
-  p <- p + annotate("text", x = k, y = 4, hjust = 1, vjust = 0, lineheight = 0.95,
+  p <- p + annotate("text", x = k, y = note_y, hjust = 1, vjust = 0, lineheight = 0.95,
                     label = sprintf("* P < %.2f\n%d of %d pairs", sig_cut, n_sig, nrow(plot_df)))
 }
 p <- p +
