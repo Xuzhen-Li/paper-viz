@@ -1,5 +1,8 @@
-# Environment correlation triangle with Mantel links to omics distances.
-source("../../../styles/r/theme_viz.R")
+# Environment correlation triangle with Mantel links to omics distances (house style).
+# Heatmap and links on house_div; omics names written at the link ends.
+# Reads data.csv only. Run from this directory.
+source("../../../styles/r/theme_house.R")
+library(ggplot2)
 
 # 可调参数 -----------------------------------------------------------------
 p_cut <- 0.05
@@ -38,7 +41,9 @@ names(om_y) <- omics
 man$yend <- om_y[man$var_a]
 man$sig <- ifelse(man$p < 0.01, "p < 0.01", "p < 0.05")
 
-cols_div <- pv_palette("diverging", 7)
+cols_div <- pv_palette("house_div")
+grey <- pv_palette("house_grey")
+footnote <- "Simulated data for illustration; not biological results"
 mantel_lim <- if (nrow(man)) range(man$mantel_r) else c(-1, 1)
 mantel_breaks <- if (nrow(man)) signif(c(mantel_lim[1], mean(mantel_lim), mantel_lim[2]), 2) else c(-1, 0, 1)
 
@@ -54,57 +59,64 @@ if (isTRUE(show_links) && nrow(man)) {
   p <- p + ggplot2::geom_curve(
     data = man,
     ggplot2::aes(x = x, y = y, xend = xend, yend = yend, colour = mantel_r, linewidth = abs(mantel_r), linetype = sig),
-    curvature = 0.12, alpha = 0.9
+    curvature = 0.12
   )
 }
 om_df <- data.frame(name = omics, x = length(env_names) + 2.55, y = om_y[omics], stringsAsFactors = FALSE)
 p <- p +
-  ggplot2::geom_point(data = om_df, ggplot2::aes(x, y), size = 1.6, colour = "grey30") +
+  ggplot2::geom_point(data = om_df, ggplot2::aes(x, y), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
+                      stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, fill = grey[["dark"]]) +
   ggplot2::geom_text(
-    data = om_df, ggplot2::aes(x + 0.15, y, label = name),
-    hjust = 0, size = 2.0, family = viz_sans_family()
+    data = om_df, ggplot2::aes(x + 0.45, y, label = name),
+    hjust = 0, size = pv_pt2size(7), colour = "#1A1A1A", family = house_family()
   ) +
   ggplot2::scale_fill_gradientn(
-    colours = cols_div, limits = c(-1, 1), name = "Pearson r", na.value = "grey90",
+    colours = cols_div, limits = c(-1, 1), name = "Pearson r", na.value = grey[["light"]],
     breaks = c(-1, 0, 1)
   ) +
   ggplot2::scale_colour_gradientn(
     colours = cols_div, limits = mantel_lim, name = "Mantel r",
     breaks = mantel_breaks
   ) +
-  ggplot2::scale_linewidth(range = c(0.25, 0.9), guide = "none") +
+  ggplot2::scale_linewidth(range = c(0.3, 1.0), guide = "none") +
   ggplot2::scale_linetype_manual(values = c("p < 0.01" = "solid", "p < 0.05" = "dashed"), name = NULL) +
   ggplot2::scale_x_continuous(
     breaks = seq_along(env_names), labels = env_names,
-    expand = ggplot2::expansion(add = c(0.55, 2.8))
+    expand = ggplot2::expansion(add = c(0.55, 4.6))
   ) +
   ggplot2::scale_y_continuous(breaks = seq_along(env_names), labels = env_names, expand = ggplot2::expansion(add = 0.45)) +
-  ggplot2::labs(x = NULL, y = NULL) +
+  ggplot2::labs(x = NULL, y = NULL, caption = footnote) +
   ggplot2::guides(
     fill = ggplot2::guide_colourbar(
       title.position = "top", title.hjust = 0.5,
-      barwidth = ggplot2::unit(32, "mm"), barheight = ggplot2::unit(3, "mm"),
+      barwidth = ggplot2::unit(20, "mm"), barheight = ggplot2::unit(2, "mm"),
       order = 1
     ),
     colour = ggplot2::guide_colourbar(
       title.position = "top", title.hjust = 0.5,
-      barwidth = ggplot2::unit(32, "mm"), barheight = ggplot2::unit(3, "mm"),
+      barwidth = ggplot2::unit(20, "mm"), barheight = ggplot2::unit(2, "mm"),
       order = 2
     ),
     linetype = ggplot2::guide_legend(order = 3, nrow = 2)
   ) +
-  theme_viz() +
+  theme_house() +
   ggplot2::theme(
     axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5, size = 7),
     axis.text.y = ggplot2::element_text(size = 7),
-    plot.background = ggplot2::element_rect(fill = "white", colour = NA),
-    plot.margin = ggplot2::margin(3, 8, 2, 2, "mm"),
+    plot.margin = ggplot2::margin(1, 1, 1, 1, "mm"),
+    legend.margin = ggplot2::margin(0, 0, 0, 0),
+    plot.caption = ggplot2::element_text(size = 7, hjust = 0, colour = grey[["mid"]], lineheight = 0.9,
+                                         margin = ggplot2::margin(t = 0.8, unit = "mm")),
+    plot.caption.position = "plot",
     legend.position = "bottom",
     legend.box = "horizontal",
     legend.box.spacing = ggplot2::unit(2, "mm"),
-    panel.border = ggplot2::element_rect(colour = "black", fill = NA, linewidth = 0.5)
+    legend.spacing.x = ggplot2::unit(4, "mm"),
+    panel.border = ggplot2::element_blank(),
+    axis.line = ggplot2::element_blank(),
+    axis.ticks = ggplot2::element_blank()
   ) +
   ggplot2::coord_fixed(clip = "off")
 
-pv_save(p, "figure", width_mm = 183, height_mm = 130)
+pv_save_house(p, "figure", cells = "2x2", bump = 0)
 message("wrote preview.png")
