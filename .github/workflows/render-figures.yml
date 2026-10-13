@@ -460,6 +460,73 @@ jobs:
 
           exit "$fail"
 
+      - name: Record render environment
+        if: ${{ !cancelled() && (steps.select.outputs.mode == 'selected' || steps.select.outputs.mode == 'all') }}
+        env:
+          NEED_R: ${{ steps.select.outputs.need_r }}
+          NEED_PY: ${{ steps.select.outputs.need_py }}
+        run: |
+          # Versions behind this render, for comparing CI output with local renders.
+          set -uo pipefail
+          out="${RUNNER_TEMP}/render-artifacts"
+          mkdir -p "$out"
+          info="$out/session-info.txt"
+          {
+            echo "commit: ${GITHUB_SHA}  ref: ${GITHUB_REF}  run: ${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}"
+            echo "runner: ${ImageOS:-unknown} ${ImageVersion:-}"
+            echo "fc-match Arial: $(fc-match Arial 2>/dev/null || echo n/a)"
+            echo
+          } > "$info"
+          if [ "$NEED_R" = "true" ]; then
+            export R_LIBS_USER="${GITHUB_WORKSPACE}/.Rlib"
+            Rscript -e 'for (p in c("ggplot2", "ragg", "systemfonts", "textshaping", "patchwork")) suppressWarnings(requireNamespace(p, quietly = TRUE)); print(sessionInfo()); cat("\nInstalled packages:\n"); ip <- installed.packages()[, c("Package", "Version")]; write.table(ip[order(ip[, 1]), ], quote = FALSE, row.names = FALSE, col.names = FALSE)' >> "$info" 2>&1 \
+              || echo "::warning::could not record R session info"
+          fi
+          if [ "$NEED_PY" = "true" ]; then
+            { echo; echo "Python: $(python3 --version 2>&1)"; python3 -m pip freeze 2>/dev/null; } >> "$info"
+          fi
+          {
+            echo "### Render environment"
+            echo '```'
+            grep -E '^(R version|Platform|Running under|fc-match|Python)|^(ggplot2|ragg|systemfonts|textshaping|matplotlib)( |==)' "$info" || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Collect rendered figures
+        if: ${{ !cancelled() && (steps.select.outputs.mode == 'selected' || steps.select.outputs.mode == 'all') }}
+        run: |
+          # Copy figure.pdf and preview.png of the figures rendered in this run; figure.pdf is
+          # not committed, so this artifact is the only place to see the CI vector output.
+          set -euo pipefail
+          FIGFILE="${RUNNER_TEMP}/render-figure-dirs.txt"
+          out="${RUNNER_TEMP}/render-artifacts"
+          mkdir -p "$out"
+          [ -f "$FIGFILE" ] || exit 0
+          n=0
+          while IFS= read -r dir; do
+            case "$dir" in
+              figures/*/*) ;;
+              *) continue ;;
+            esac
+            for f in figure.pdf preview.png; do
+              if [ -f "$dir/$f" ]; then
+                mkdir -p "$out/$dir"
+                cp -- "$dir/$f" "$out/$dir/$f"
+                n=$((n + 1))
+              fi
+            done
+          done < "$FIGFILE"
+          echo "Collected $n file(s) for the render artifact."
+
+      - name: Upload rendered figures
+        if: ${{ !cancelled() && (steps.select.outputs.mode == 'selected' || steps.select.outputs.mode == 'all') }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: rendered-figures-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/render-artifacts/
+          retention-days: 14
+          if-no-files-found: ignore
+
       - name: Build catalog
         run: |
           set -euo pipefail
