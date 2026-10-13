@@ -1,5 +1,5 @@
 # Rarefaction curves by group (house style), with a mean +/- SD ribbon. Group names written at the
-# right end of each mean curve. Reads data.csv only. Run from this directory.
+# right end of each mean curve, just outside the frame. Reads data.csv only. Run from this directory.
 source("../../../styles/r/theme_house.R")
 library(ggplot2)
 
@@ -33,7 +33,7 @@ if (isTRUE(show_individuals)) {
 }
 p <- p +
   geom_line(data = summ, aes(depth, mean, colour = group), linewidth = pv_house_lw("main")) +
-  geom_text(data = ends, aes(depth, mean, label = group), hjust = -0.08, size = pv_pt2size(7),
+  geom_text(data = ends, aes(Inf, mean, label = group), hjust = -0.15, size = pv_pt2size(7),
             colour = name_cols[as.character(ends$group)], family = house_family()) +
   scale_colour_manual(values = cols, guide = "none") +
   scale_fill_manual(values = cols, guide = "none") +

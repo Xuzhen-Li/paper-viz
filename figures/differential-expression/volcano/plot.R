@@ -29,7 +29,7 @@ p <- ggplot(df, aes(log2_fold_change, nlp, colour = direction)) +
   annotate("text", x = Inf, y = Inf, hjust = 1.08, vjust = 1.3, label = paste("Up", n_up),
            colour = hp[["red"]], size = pv_pt2size(7), family = house_family()) +
   scale_colour_manual(values = cols, guide = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0.02, 0.12))) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.20))) +
   labs(x = "log2 fold change", y = "-log10(p)", caption = footnote) +
   theme_house() +
   theme(plot.margin = margin(1, 1.5, 1, 1, "mm"),

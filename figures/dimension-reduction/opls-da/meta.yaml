@@ -9,6 +9,7 @@ tags:
 packages:
   - ggplot2
   - patchwork
+  - ggrepel
 data_columns:
   sample: 样本编号（字符串）
   group: 分组（字符串）

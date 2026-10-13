@@ -32,7 +32,7 @@ p <- ggplot(df, aes(A, log2fc, colour = direction)) +
   annotate("text", x = Inf, y = -Inf, hjust = 1.08, vjust = -0.5, label = paste("Down", n_down),
            colour = hp[["blue"]], size = pv_pt2size(7), family = house_family()) +
   scale_colour_manual(values = cols, guide = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0.12, 0.14))) +
+  scale_y_continuous(expand = expansion(mult = c(0.22, 0.24))) +
   labs(x = "log2 mean expression", y = "log2 fold change", caption = footnote) +
   theme_house() +
   theme(plot.margin = margin(1, 1.5, 1, 1, "mm"),
@@ -44,15 +44,22 @@ if (isTRUE(show_labels) && n_label > 0) {
   lab <- df[df$direction != "ns", , drop = FALSE]
   lab <- lab[order(lab$pvalue, -abs(lab$log2fc)), , drop = FALSE]
   lab <- utils::head(lab, n_label)
+  # Every point is a repel obstacle (blank label), so names avoid the whole cloud;
+  # names are pushed away from zero, into the space beyond the point cloud.
+  rep_df <- df
+  rep_df$lab_txt <- ifelse(rep_df$gene %in% lab$gene, rep_df$gene, "")
+  span <- diff(range(df$log2fc))
+  rep_df$ny <- ifelse(rep_df$lab_txt == "", 0, sign(rep_df$log2fc) * 0.25 * span)
   # labelled genes get the house point outline
   p <- p + geom_point(data = lab, aes(fill = direction), shape = HOUSE_POINT$shape, size = 1.2,
                       stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, show.legend = FALSE) +
     scale_fill_manual(values = cols, guide = "none") +
     ggrepel::geom_text_repel(
-    data = lab, aes(label = gene), size = pv_pt2size(7), colour = "#1A1A1A",
+    data = rep_df, aes(label = lab_txt), size = pv_pt2size(7), colour = "#1A1A1A",
     family = house_family(), segment.size = 0.2, segment.colour = grey[["dark"]],
-    max.overlaps = 20, min.segment.length = 0, box.padding = 0.15, point.padding = 0.1,
-    force = 2, max.iter = 20000, max.time = 2, show.legend = FALSE, seed = 1
+    nudge_y = rep_df$ny, direction = "both", point.size = 0.7,
+    max.overlaps = Inf, min.segment.length = 0, box.padding = 0.25, point.padding = 0.15,
+    force = 3, force_pull = 0.3, max.iter = 50000, max.time = 4, show.legend = FALSE, seed = 1
   )
 }
 

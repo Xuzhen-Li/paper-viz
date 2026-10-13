@@ -134,10 +134,11 @@ arrows$tx <- arrows$x * 1.06
 arrows$ty <- arrows$y * 1.06
 arrows$hj <- ifelse(arrows$x >= 0, -0.05, 1.05)
 arrows$vj <- 0.5
-# Near-vertical arrows centre their name above or below the tip.
+# Near-vertical arrows put their name to the right of the tip, clear of the arrow and
+# beyond the vertical zero line (group names below the origin run left instead).
 steep <- abs(arrows$x) < 0.25 * abs(arrows$y)
-arrows$hj[steep] <- 0.5
-arrows$vj[steep] <- ifelse(arrows$y[steep] >= 0, -0.3, 1.3)
+arrows$hj[steep] <- -0.15
+arrows$vj[steep] <- 0.5
 for (i in seq_len(nrow(arrows))) {
   for (j in seq_len(nrow(arrows))) {
     if (i != j && !steep[i] && !steep[j] && sign(arrows$x[i]) == sign(arrows$x[j]) && abs(arrows$y[i] - arrows$y[j]) < 0.3 * lim) {
@@ -145,10 +146,10 @@ for (i in seq_len(nrow(arrows))) {
     }
   }
 }
-grp_lab$hj <- 0.5
+# Names above a group run away from the vertical zero line, ending at the top point.
+grp_lab$hj <- ifelse(grp_lab$x <= 0, 1, 0)
 low <- grp_lab$vj >= 0
 grp_lab$hj[low] <- ifelse(grp_lab$x[low] <= 0, 1.15, -0.15)
-# Widen the square window until every arrow name fits inside the ~37 mm panel.
 # Equal axes in a 2x1 cell: y spans the data, x widens on each side until the
 # arrow names (fixed size in mm, ~36 mm panel height) fit inside the panel.
 ylim_v <- c(-1, 1) * max(abs(c(site_sc$RDA2, arrows$ty))) * 1.35
@@ -157,6 +158,9 @@ w_u <- 0.62 * nchar(arrows$lab) * 2.47 * u
 left_ext <- ifelse(arrows$hj == 0.5, arrows$tx - w_u / 2, ifelse(arrows$hj > 0.5, arrows$tx - w_u, arrows$tx))
 right_ext <- ifelse(arrows$hj == 0.5, arrows$tx + w_u / 2, ifelse(arrows$hj > 0.5, arrows$tx, arrows$tx + w_u))
 xlim_v <- c(min(c(site_sc$RDA1, left_ext)) - 0.04 * diff(ylim_v), max(c(site_sc$RDA1, right_ext)) + 0.04 * diff(ylim_v))
+# Pad x evenly so the equal-axis panel fills the 2x1 cell instead of leaving side margins.
+x_target <- 2.1 * diff(ylim_v)
+if (diff(xlim_v) < x_target) xlim_v <- xlim_v + c(-1, 1) * (x_target - diff(xlim_v)) / 2
 all_lab_layer <- list(
   ggplot2::geom_text(data = arrows, ggplot2::aes(tx, ty, label = lab, hjust = hj, vjust = vj),
                      size = lab_size, colour = "#1A1A1A", family = house_family()),
@@ -183,7 +187,7 @@ p <- ggplot2::ggplot() +
   all_lab_layer +
   ggplot2::scale_fill_manual(values = pal, guide = "none") +
   ggplot2::coord_equal(xlim = xlim_v, ylim = ylim_v, expand = FALSE) +
-  ggplot2::scale_x_continuous(breaks = scales::breaks_pretty(n = 3)) +
+  ggplot2::scale_x_continuous(breaks = scales::breaks_pretty(n = 5)) +
   ggplot2::scale_y_continuous(breaks = scales::breaks_pretty(n = 3)) +
   ggplot2::labs(
     x = sprintf("RDA1 (%.1f%%)", pct[[1]]),

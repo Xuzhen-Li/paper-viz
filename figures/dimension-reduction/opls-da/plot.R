@@ -22,26 +22,50 @@ name_cols <- stats::setNames(ifelse(cols %in% hp[c("orange", "sky", "gold")], "#
 panels <- list()
 
 if (isTRUE(show_scores)) {
+  # Ellipse outlines (when drawn) are obstacles too: sample them from a throwaway build.
+  ell <- NULL
+  if (isTRUE(show_ellipse)) {
+    eb <- ggplot_build(ggplot(scores, aes(pred, ortho, group = group)) + stat_ellipse(level = 0.8))$data[[1]]
+    ell <- data.frame(pred = eb$x, ortho = eb$y, group = levels(scores$group)[eb$group])
+  }
   labs_df <- do.call(rbind, lapply(levels(scores$group), function(g) {
     s <- scores[scores$group == g, , drop = FALSE]
-    data.frame(group = g, pred = mean(range(s$pred)), ortho = max(s$ortho))
+    top <- max(c(s$ortho, ell$ortho[ell$group == g]))
+    data.frame(group = g, pred = mean(range(s$pred)), ortho = top)
   }))
+  oy <- diff(range(c(scores$ortho, ell$ortho)))
+  rep_df <- rbind(
+    data.frame(pred = labs_df$pred, ortho = labs_df$ortho, lab = labs_df$group,
+               col = unname(name_cols[labs_df$group]), ny = 0.06 * oy),
+    data.frame(pred = scores$pred, ortho = scores$ortho, lab = "", col = "#1A1A1A", ny = 0),
+    if (!is.null(ell)) data.frame(pred = ell$pred, ortho = ell$ortho, lab = "", col = "#1A1A1A", ny = 0),
+    # the two zero reference lines, sampled inside the data range as obstacles
+    data.frame(pred = 0, ortho = seq(min(c(scores$ortho, ell$ortho)), max(c(scores$ortho, ell$ortho)), length.out = 60),
+               lab = "", col = "#1A1A1A", ny = 0),
+    data.frame(pred = seq(min(c(scores$pred, ell$pred)), max(c(scores$pred, ell$pred)), length.out = 60), ortho = 0,
+               lab = "", col = "#1A1A1A", ny = 0)
+  )
   p_scores <- ggplot(scores, aes(pred, ortho)) +
     geom_hline(yintercept = 0, linewidth = pv_house_lw("ref"), colour = grey[["ref"]]) +
     geom_vline(xintercept = 0, linewidth = pv_house_lw("ref"), colour = grey[["ref"]]) +
     geom_point(aes(fill = group), shape = HOUSE_POINT$shape, size = HOUSE_POINT$size,
                stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour) +
-    geom_text(data = labs_df, aes(label = group), vjust = -0.9, size = pv_pt2size(7),
-              colour = name_cols[labs_df$group], family = house_family()) +
     scale_fill_manual(values = cols, guide = "none") +
     scale_colour_manual(values = cols, guide = "none") +
-    scale_y_continuous(expand = expansion(mult = c(0.06, 0.16))) +
+    scale_y_continuous(expand = expansion(mult = c(0.06, 0.22))) +
     labs(x = "Predictive component", y = "Orthogonal component") +
     theme_house()
   if (isTRUE(show_ellipse)) {
     p_scores <- p_scores + stat_ellipse(aes(colour = group), linewidth = pv_house_lw("main"),
                                         level = 0.8, show.legend = FALSE)
   }
+  p_scores <- p_scores +
+    # names repel from every score point (blank labels are obstacles), starting above the group
+    ggrepel::geom_text_repel(data = rep_df, aes(pred, ortho, label = lab), inherit.aes = FALSE,
+              colour = rep_df$col, size = pv_pt2size(7), family = house_family(),
+              point.size = HOUSE_POINT$size, nudge_y = rep_df$ny, min.segment.length = Inf,
+              box.padding = 0.4, point.padding = 0.3, force = 2, max.overlaps = Inf,
+              max.iter = 20000, seed = 1, show.legend = FALSE)
   panels <- c(panels, list(p_scores))
 }
 

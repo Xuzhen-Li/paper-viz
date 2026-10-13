@@ -51,10 +51,19 @@ if (isTRUE(show_path) && !is.null(path_df)) {
   ends$dim2 <- ifelse(ends$up, vapply(as.character(ends$branch), function(b) max(cells_y[[b]]), 0),
                       vapply(as.character(ends$branch), function(b) min(cells_y[[b]]), 0))
   ends$vj <- ifelse(ends$up, -0.8, 1.8)
+  # branch names take the branch colour when it is >= 3:1 on white, else #1A1A1A
+  contrast_ok <- function(h) {
+    v <- grDevices::col2rgb(h)[, 1] / 255
+    v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+    1.05 / (sum(c(0.2126, 0.7152, 0.0722) * v) + 0.05) >= 3
+  }
+  ends$col <- vapply(as.character(ends$branch), function(b) {
+    h <- bcols[[b]]; if (contrast_ok(h)) h else "#1A1A1A"
+  }, "")
   p <- p + geom_path(data = path_df, aes(dim1, dim2, group = branch), colour = "#1A1A1A",
                      linewidth = pv_house_lw("main"), inherit.aes = FALSE) +
     geom_text(data = ends, aes(dim1, dim2, label = branch, vjust = vj), inherit.aes = FALSE,
-              size = pv_pt2size(7), family = house_family(), colour = "#1A1A1A")
+              size = pv_pt2size(7), family = house_family(), colour = ends$col)
 }
 
 p <- p +
