@@ -43,12 +43,14 @@ if (isTRUE(show_labels)) {
   lab <- df[df$highlight == 1L, , drop = FALSE]
   lab <- lab[order(lab$p), , drop = FALSE]
   lab <- head(lab, n_label)
+  # Fixed seed and iteration cap, no time cap (ggrepel defaults max.time to 0.5 s),
+  # so the layout does not depend on machine speed.
   p_man <- p_man + ggrepel::geom_text_repel(
     data = lab,
     ggplot2::aes(label = snp),
     size = 2.0, colour = "black",
     segment.size = 0.2, min.segment.length = 0,
-    max.overlaps = 20, seed = 1,
+    max.overlaps = 20, seed = 1, max.iter = 10000, max.time = Inf,
     family = viz_sans_family()
   )
 }
