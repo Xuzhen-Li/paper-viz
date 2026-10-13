@@ -17,7 +17,7 @@ data_columns:
   taxon: 分类单元（字符串）
   abundance: 非负丰度（数值）
 when_to_use: 有样本×分类单元的丰度、要用距离看组间分离时用。
-customize: "TODO-TEXT"
+customize: "Replace the `bray()` function in `plot.R` to apply a different distance metric; fill `sample`, `group`, `taxon`, and `abundance` columns in `data.csv`, drawing group names using `ggrepel` with a fixed seed."
 lang: R
 style: house
 cells: 1x1

@@ -16,7 +16,7 @@ data_columns:
   log2fc: log2 倍数变化（数值）
   pvalue: 原始 p 值（数值，0 到 1）
 when_to_use: 要同时看平均表达和倍数变化、并标出显著基因时用。
-customize: "TODO-TEXT"
+customize: "Set `lfc_cut` (default 1) and `p_cut` (default 0.01) in `plot.R` to define significant genes, and toggle `show_labels` (default `TRUE`) with `n_label` (default 5) to draw `geom_text` labels at fixed coordinates with straight leader lines and no `ggrepel`; supply `gene`, `base_mean`, `log2fc`, and `pvalue` columns in `data.csv`."
 lang: R
 style: house
 cells: 1x1

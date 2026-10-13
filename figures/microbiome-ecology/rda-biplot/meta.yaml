@@ -22,7 +22,7 @@ data_columns:
   Temp: 生长季均温，摄氏度（数值，data_env.csv）
   OrganicC: 有机碳，百分数（数值，data_env.csv）
 when_to_use: "样方群落要同时看生境分组和几个环境因子的方向时用。Use when sites should be ordinated with environmental arrows on the same RDA axes."
-customize: "TODO-TEXT"
+customize: "Adjust `scaling` (default 2) and `arrow_frac` (default 1.10) in `plot.R` to scale site points and arrow lengths; supply `sample`, `group`, `taxon`, and `abundance` columns in `data.csv`, and numeric environmental columns in `data_env.csv`, drawing labels via `ggrepel` with a fixed seed."
 lang: R
 style: house
 cells: 2x1

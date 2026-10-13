@@ -15,7 +15,7 @@ data_columns:
   log2_fold_change: log2 倍数变化（数值）
   pvalue: 原始 p 值（数值，0 到 1）
 when_to_use: 两组比较要同时看倍数变化和显著性时用。
-customize: "TODO-TEXT"
+customize: "Modify `lfc_cut` (default 1) and `p_cut` (default 0.01) in `plot.R` and `plot.py` to set thresholds; supply `log2_fold_change` and `pvalue` columns in `data.csv` alongside `gene` (only as an identifier, not read by plotting code)."
 lang: R
 style: house
 cells: 1x1

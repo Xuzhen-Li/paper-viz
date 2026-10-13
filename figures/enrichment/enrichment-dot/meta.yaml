@@ -16,7 +16,7 @@ data_columns:
   count: 命中基因数（整数）
   p: 富集 p 值（数值）
 when_to_use: 通路要同时看基因比例、命中数和显著性时用。
-customize: "TODO-TEXT"
+customize: "Toggle `size_maps_count` (default `TRUE`), `colour_maps_p` (default `TRUE`), and `facet_by_ontology` (default `TRUE`) in `plot.R` to configure point mapping; provide `term`, `ontology`, `ratio`, `count`, and `p` columns in `data.csv`."
 lang: R
 style: house
 cells: 2x2

@@ -15,7 +15,7 @@ data_columns:
   depth: 抽平深度，reads（整数）
   richness: 该深度下的期望物种丰富度（数值）
 when_to_use: 比较各组物种丰富度是否随测序深度趋于饱和时用。
-customize: "TODO-TEXT"
+customize: "Toggle `show_individuals` (default `TRUE`) and `show_ribbon` (default `TRUE`) in `plot.R`, modifying `group_order` (default c(\"Forest\", \"Cropland\", \"Grassland\", \"Wetland\")) to set colors; fill `sample`, `group`, `depth`, and `richness` columns in `data.csv`."
 lang: R
 style: house
 cells: 1x1
