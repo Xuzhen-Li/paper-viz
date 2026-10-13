@@ -13,7 +13,7 @@ data_columns:
   pop_b: '群体乙（字符串）'
   fst: '成对 Fst（数值，对角线为 0；文件存上三角含对角线，作图时镜像）'
 when_to_use: '十二个群体的成对分化要按地理或驯化顺序排开、而不是按聚类字母序时用。'
-customize: 'TODO-TEXT'
+customize: 'show_values 设为 TRUE 在每个图块中写入两位小数值；pop_order 设为 WN1 到 CB2 对 12 个亚群进行排序。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

@@ -16,7 +16,7 @@ data_columns:
   PC3: '第三主成分得分（数值，供 pc-pair 切换）'
   var_explained: 'data.csv 中为 PC1 方差百分比的重复值；data_variance.csv 的 pc / var_explained 给出 PC1–PC3 各轴百分比'
 when_to_use: '用个体主成分看群体是否分开、栽培种是否比野生种更紧时用。'
-customize: 'TODO-TEXT'
+customize: 'show_ellipse 设为 TRUE 且 ellipse_level 默认 0.95 绘制正态椭圆；show_labels 设为 TRUE 显示名称或 FALSE 显示图例；pc_x 默认 "PC1" 且 pc_y 默认 "PC2" 选择绘制的主成分；提供命名向量给 label_side 使用 "above"、"below"、"left"、"right" 或 "below_left" 定位每个椭圆名称。'
 lang: 'R'
 style: 'house'
 cells: '1x1'

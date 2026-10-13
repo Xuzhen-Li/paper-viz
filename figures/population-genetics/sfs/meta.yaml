@@ -14,7 +14,7 @@ data_columns:
   count: '该分箱的位点数（整数）'
   folded: '1 为折叠频谱，0 为展开频谱（整数）'
 when_to_use: '比较野生种、农家种和栽培种的稀有等位基因是过多还是被瓶颈削平。'
-customize: 'TODO-TEXT'
+customize: 'use_folded 设为 TRUE 绘制次等位基因计数，或 FALSE 绘制展开的衍生等位基因计数；pops_show 设为 Wild N、Landrace E 和 Cultivar A 过滤显示为位点比例的群体。'
 lang: 'R'
 style: 'house'
 cells: '1x1'

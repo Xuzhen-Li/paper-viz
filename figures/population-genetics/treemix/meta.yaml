@@ -19,7 +19,7 @@ data_columns:
   mig_to: '迁移去向群体；树边行留空（字符串）'
   weight: '迁移权重；树边行留空（数值）'
 when_to_use: '在最大似然群体树上画出迁移边，并用颜色表示迁移权重时用。'
-customize: 'TODO-TEXT'
+customize: 'show_migration 设为 TRUE 绘制按权重着色的弯曲箭头；show_residual 设为 FALSE 隐藏残差矩阵，或 TRUE 在树旁添加该矩阵；arrow_curvature 默认 0.55 调整迁移箭头的弯曲度。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

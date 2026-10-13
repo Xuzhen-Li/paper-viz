@@ -13,7 +13,7 @@ data_columns:
   dist_kb: '距离分箱中点，单位 kb（数值）'
   r2: '该距离上的平均 r²（数值，0 到 1）'
 when_to_use: '比较野生、农家种和栽培种的连锁不平衡随物理距离衰减有多快。'
-customize: 'TODO-TEXT'
+customize: 'show_loess 设为 TRUE 绘制跨度为 0.65 的曲线；pops_show 设为 Wild N、Landrace E、Cultivar A 和 Cultivar B 过滤线条；log_x 设为 TRUE 对横轴使用对数刻度并在 1、10 和 100 kb 处设置刻度线。'
 lang: 'R'
 style: 'house'
 cells: '1x1'

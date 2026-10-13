@@ -13,7 +13,7 @@ data_columns:
   kind: 'ROH 或 IBD（字符串）'
   length_mb: '片段长度，单位 Mb（数值）'
 when_to_use: '比较群体的纯合片段和同源 IBD 片段是短而多，还是出现很长的尾巴。'
-customize: 'TODO-TEXT'
+customize: 'kinds_show 默认 c("ROH", "IBD") 选择绘制的行；pop_order 以 Wild N 开始并以 Cultivar B 结束对横轴群体进行排序；log_y 设为 TRUE 对纵轴应用对数刻度并带有特定的兆碱基刻度线。'
 lang: 'R'
 style: 'house'
 cells: '2x1'

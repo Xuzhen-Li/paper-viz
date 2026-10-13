@@ -16,7 +16,7 @@ data_columns:
   ne_low: '自助法下界（数值）'
   ne_high: '自助法上界（数值）'
 when_to_use: '看驯化瓶颈和野生种、栽培种在哪个时间尺度上 Ne 分开或重新汇合。'
-customize: 'TODO-TEXT'
+customize: 'model 设为 "psmc" 对应 10 ka 到 1 Ma 的横轴窗口，或 "smcpp" 对应 2 ka 到 500 ka；show_ribbon 设为 TRUE 显示自举条带；pops_show 设为 Wild N 和 Cultivar A 过滤显示的曲线。'
 lang: 'R'
 style: 'house'
 cells: '2x1'

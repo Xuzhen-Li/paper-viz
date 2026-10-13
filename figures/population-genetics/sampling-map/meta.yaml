@@ -16,7 +16,7 @@ data_columns:
   y: '纬度（数值）'
   n: '该点样本数（整数）'
 when_to_use: '采样点要按群体着色、按样本量缩放，并看出群体的地理范围时用。'
-customize: 'TODO-TEXT'
+customize: 'show_hull 设为 TRUE 为每个群体显示浅色凸包；show_pie 保持 FALSE 让凸包可见；show_labels 设为 TRUE 渲染名称；将六个群体提供给 pops_show 以包含它们；调整 label_side 使用 "left"、"right"、"above"、"below" 或 "above_left" 相对站点定位文本。'
 lang: 'R'
 style: 'house'
 cells: '2x2'

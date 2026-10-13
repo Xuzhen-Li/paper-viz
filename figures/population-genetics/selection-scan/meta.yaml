@@ -16,7 +16,7 @@ data_columns:
   score: 'XP-CLR 分数或 |iHS|（数值，由 method 决定）'
   method: 'xpclr 或 ihs'
 when_to_use: '沿基因组找选择信号，XP-CLR 看群体间扫描，|iHS| 看单倍型纯合延伸。'
-customize: 'TODO-TEXT'
+customize: 'methods_show 默认 c("xpclr", "ihs") 选择绘制的行；show_threshold 设为 TRUE 显示水平线；xpclr_q 默认 0.995 调整全基因组分位数线，ihs_cut 默认 2 调整绝对 iHS 线。'
 lang: 'R'
 style: 'house'
 cells: '4x2'

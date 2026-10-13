@@ -15,7 +15,7 @@ data_columns:
   ancestry: '祖先成分名 A1–Ak（字符串）'
   q: '该成分比例（数值，同一个体同一 K 下加总为 1）'
 when_to_use: '展示个体祖先成分，并沿群体比较 K = 2 到 6 的结构。'
-customize: 'TODO-TEXT'
+customize: 'k_values 默认 2:6，设置显示的行；sort_k 默认 4，在此 K 值下按主要祖先成分对群体内个体进行排序；pop_gap 默认 3，设置群体间的空白条带宽度；pop_order 设为 Wild N、Wild S、Landrace E、Landrace W、Cultivar A 和 Cultivar B 对群体进行排序。'
 lang: 'R'
 style: 'house'
 cells: '4x2'

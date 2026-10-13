@@ -17,7 +17,7 @@ data_columns:
   stat: 'fst、pi 或 tajima'
   value: 'fst 为 Weir–Cockerham Fst；pi 为 π×10^3（每 kb）；tajima 为 Tajima''s D'
 when_to_use: '沿染色体看分化高峰、多样性低谷和 Tajima''s D 偏负是否落在同一段。'
-customize: 'TODO-TEXT'
+customize: 'stats_show 默认 c("fst", "pi", "tajima") 设置绘制的统计量行；show_threshold 设为 TRUE 绘制显著性线；fst_q 默认 0.99 调整上分位数，pi_q 默认 0.05 调整下分位数，tajima_line 默认 -2 调整 Tajima''s D 线。'
 lang: 'R'
 style: 'house'
 cells: '4x2'
