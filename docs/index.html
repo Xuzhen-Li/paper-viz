@@ -220,7 +220,7 @@
   footer { border-top: 1px solid #e6e8eb; background: #fff; color: #4b5563; font-size: 0.85rem; }
   footer .inner { max-width: 1400px; margin: 0 auto; padding: 12px 16px 16px; }
   footer p { margin: 2px 0; }
-  #dlg-files { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+  #dlg-files, #dlg-draw-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
   .hint, #dlg-status { color: #3d4a5c; font-size: 0.85rem; }
   #dlg-variants { margin: 0 0 4px; }
   @media (max-width: 520px) {
@@ -293,9 +293,9 @@
   <p id="empty" class="empty" hidden>没有匹配的图。</p>
 </main>
 <section id="schematics" class="schem-section" aria-labelledby="schem-h">
-  <h2 id="schem-h"><span lang="zh-CN">示意架构与流程图</span> / <span lang="en">Schematics and Flows</span></h2>
-  <p class="lead" lang="zh-CN"><span>4张图不计入图数。1张脚本SVG与3张draw.io图。可下载SVG、PNG、.drawio及脚本。见style-contract.md。</span></p>
-  <p class="lead" lang="en"><span>4 schematics not in 120 catalog. 1 script editable SVG with AI icons, 3 legacy draw.io. Download SVG, PNG, .drawio or script. See styles/style-contract.md.</span></p>
+  <h2 id="schem-h"><span lang="en">Schematics</span> / <span lang="zh-CN">流程图</span></h2>
+  <p class="lead" lang="zh-CN"><span>[[TODO-TEXT]]</span></p>
+  <p class="lead" lang="en"><span>[[TODO-TEXT]]</span></p>
   <div id="schem-grid" class="grid"></div>
 </section>
 <footer>
@@ -347,7 +347,12 @@
       <button id="copy" type="button">复制代码</button>
     </div>
     <pre id="dlg-code"></pre>
-    </div>
+  </div>
+  <div id="dlg-drawio" hidden>
+    <p id="dlg-draw-custom"></p>
+    <div id="dlg-draw-links"></div>
+    <p id="dlg-draw-status" class="hint"></p>
+  </div>
   </div>
 </dialog>
 <script>
@@ -383,8 +388,17 @@ function joinUrl(base, path) {
   return String(base || "").replace(/\/$/, "") + "/" + String(path || "").replace(/^\/+/, "");
 }
 
+// draw.io schematics live in the #schematics section, not in the data-figure grid
+function isSchematic(fig) {
+  return fig.lang === "drawio" || fig.category === "schematic";
+}
+
+function dataFigures() {
+  return state.figures.filter((fig) => !isSchematic(fig));
+}
+
 function mains() {
-  return state.figures.filter((fig) => !fig.variant_of);
+  return dataFigures().filter((fig) => !fig.variant_of);
 }
 
 function variantFigs(main) {
@@ -436,7 +450,7 @@ function shortCanvas(fig) {
 
 function renderStats(shownCount) {
   const cards = mains().length;
-  const total = state.figures.length;
+  const total = dataFigures().length;
   let text = cards + " 张卡片 · " + total + " 张图";
   if (shownCount !== cards) text += " · 当前 " + shownCount + " 张卡片";
   document.querySelector("#stats").textContent = text;
@@ -652,7 +666,8 @@ function fillDialog(fig) {
   img.alt = fig.title_zh || fig.title || "";
   document.querySelector("#dlg-when").textContent = fig.when_to_use || "";
   const canvas = document.querySelector("#dlg-canvas");
-  canvas.textContent = fig.canvas && fig.canvas.label ? "画布 " + fig.canvas.label : "画布大小未写在 pv_save 里";
+  if (isSchematic(fig)) canvas.textContent = "";
+  else canvas.textContent = fig.canvas && fig.canvas.label ? "画布 " + fig.canvas.label : "画布大小未写在 pv_save 里";
   const main = fig.variant_of ? state.bySlug[fig.variant_of] : fig;
   const chips = document.querySelector("#dlg-variants");
   clearNode(chips);
@@ -664,6 +679,25 @@ function fillDialog(fig) {
       }));
     });
   }
+  const dataBlock = document.querySelector("#dlg-data");
+  const drawBlock = document.querySelector("#dlg-drawio");
+  if (isSchematic(fig)) {
+    dataBlock.hidden = true;
+    drawBlock.hidden = false;
+    document.querySelector("#dlg-draw-custom").textContent = fig.customize || "";
+    const links = document.querySelector("#dlg-draw-links");
+    const status = document.querySelector("#dlg-draw-status");
+    clearNode(links);
+    status.textContent = "";
+    (fig.downloads || []).forEach((item) => {
+      const url = item.raw || joinUrl(state.rawBase, item.path);
+      links.appendChild(fileButton("下载 " + item.name, url, item.name, status));
+    });
+    links.appendChild(githubLink(fig));
+    return;
+  }
+  dataBlock.hidden = false;
+  drawBlock.hidden = true;
   const cols = document.querySelector("#dlg-cols");
   clearNode(cols);
   addRow(cols, ["列", "含义"], true);
@@ -773,7 +807,8 @@ const sdlg = document.querySelector("#sdlg");
 function schemFromCatalog(fig) {
   return {
     id: fig.slug, catalogSlug: fig.slug, title_zh: fig.title_zh, title: fig.title,
-    thumb: fig.docs_preview, full: fig.docs_preview, files: []
+    thumb: fig.docs_preview, full: fig.docs_preview,
+    files: (fig.downloads || []).map((item) => ({ label: item.name, href: item.raw }))
   };
 }
 function openSchem(item) {
@@ -842,7 +877,7 @@ function renderSchematics(items) {
 }
 function loadSchematics(catalogFigures) {
   const fromCatalog = catalogFigures
-    .filter((fig) => fig.lang === "drawio" || fig.category === "schematic")
+    .filter(isSchematic)
     .map(schemFromCatalog);
   return fetch("schematics.json")
     .then((res) => {
@@ -858,7 +893,10 @@ function loadSchematics(catalogFigures) {
       // the gallery grid above renders late, so redo the jump for a #schematics link
       if (location.hash === "#schematics") document.querySelector("#schematics").scrollIntoView();
     })
-    .catch((err) => { window.__jsErrors.push(String(err)); });
+    .catch((err) => {
+      window.__jsErrors.push(String(err));
+      renderSchematics(fromCatalog);
+    });
 }
 
 fetch("catalog.json")
@@ -872,7 +910,7 @@ fetch("catalog.json")
     state.tasks = data.tasks || [];
     if (data.raw_base) state.rawBase = data.raw_base;
     if (data.github_base) state.blobBase = data.github_base;
-    const tags = new Set(state.figures.flatMap((fig) => fig.tags || []));
+    const tags = new Set(dataFigures().flatMap((fig) => fig.tags || []));
     const current = tagSelect.value;
     tagSelect.replaceChildren();
     const first = document.createElement("option");
