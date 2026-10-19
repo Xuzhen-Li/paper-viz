@@ -919,7 +919,7 @@ def render_llms(figures: list[dict]) -> str:
         "with plotting code and synthetic sample data. An AI agent finds a figure "
         "with tools/find_figure.py or catalog.json, copies that folder, replaces "
         "data.csv without renaming the declared columns, edits the parameters at "
-        "the top of plot.R, and renders with Rscript. [[TODO-TEXT]]"
+        "the top of plot.R, and renders with Rscript. There are also 20 draw.io schematics with editable SVG in their own section."
     )
     lines = [
         "# paper-viz",

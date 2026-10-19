@@ -35,7 +35,7 @@ You can also filter `catalog.json` → `figures`. Fields that matter: `slug`, `t
 
 `lang: Python` uses `python3 plot.py` and the same columns.
 
-[[TODO-TEXT]]
+For a schematic, copy the folder and edit template.drawio or figure.svg. The folder has no data file and no plot script, but text in figure.svg is editable vector text. The tools/build_catalog.py script rejects any figure.svg that contains embedded images or HTML labels.
 
 Raw downloads follow `https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/` plus the path, for `plot.R`, `data.csv`, and `make_data.R`.
 

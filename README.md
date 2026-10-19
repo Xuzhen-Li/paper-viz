@@ -278,7 +278,7 @@ python3 tools/find_figure.py --slug volcano --json
 3. `meta.yaml` 必填：`title`、`title_zh`、`slug`、`category`、`tags`（英文）、`packages`、`data_columns`、`when_to_use`、`customize`、`lang`（`R`、`Python` 或 `drawio`）。`title_zh`、`when_to_use`、`customize` 不能为空。
 4. 质量门：`bash tools/check_figure.sh figures/<category>/<slug>` 必须通过，然后 `python3 tools/build_catalog.py`。
 
-[[TODO-TEXT]]
+每个模板文件夹包含template.drawio和figure.svg以及preview.png，这里没有数据文件或绘图脚本。tools/build_catalog.py会拒绝任何包含嵌入图片或HTML标签的figure.svg文件。现有的draw.io模板保持原样，而新的示意图由生成SVG的Python脚本制作。
 
 同一图型只留一版。变体写进 `plot.R` 顶部参数，并记在 `customize`。
 

@@ -1,6 +1,6 @@
 # paper-viz
 
-paper-viz is a free MIT R library of journal-style scientific figures with plotting code and synthetic sample data. An AI agent finds a figure with tools/find_figure.py or catalog.json, copies that folder, replaces data.csv without renaming the declared columns, edits the parameters at the top of plot.R, and renders with Rscript. [[TODO-TEXT]]
+paper-viz is a free MIT R library of journal-style scientific figures with plotting code and synthetic sample data. An AI agent finds a figure with tools/find_figure.py or catalog.json, copies that folder, replaces data.csv without renaming the declared columns, edits the parameters at the top of plot.R, and renders with Rscript. There are also 20 draw.io schematics with editable SVG in their own section.
 
 - [README](https://github.com/Xuzhen-Li/paper-viz/blob/main/README.md)
 - [AGENTS.md](https://github.com/Xuzhen-Li/paper-viz/blob/main/AGENTS.md)
