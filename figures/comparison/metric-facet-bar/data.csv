@@ -1,0 +1,81 @@
+"method","metric","direction","fold","value"
+"CNN","Accuracy (%)","higher",1,88.33
+"CNN","Accuracy (%)","higher",2,89.41
+"CNN","Accuracy (%)","higher",3,88.72
+"CNN","Accuracy (%)","higher",4,88.19
+"CNN","Accuracy (%)","higher",5,87.56
+"GBM","Accuracy (%)","higher",1,82.61
+"GBM","Accuracy (%)","higher",2,84.01
+"GBM","Accuracy (%)","higher",3,87.63
+"GBM","Accuracy (%)","higher",4,85.56
+"GBM","Accuracy (%)","higher",5,84.22
+"SVM","Accuracy (%)","higher",1,79.82
+"SVM","Accuracy (%)","higher",2,81.92
+"SVM","Accuracy (%)","higher",3,83.13
+"SVM","Accuracy (%)","higher",4,81.13
+"SVM","Accuracy (%)","higher",5,82.1
+"LR","Accuracy (%)","higher",1,77.31
+"LR","Accuracy (%)","higher",2,79.71
+"LR","Accuracy (%)","higher",3,79.3
+"LR","Accuracy (%)","higher",4,81.45
+"LR","Accuracy (%)","higher",5,75.95
+"CNN","F1 score","higher",1,0.8848
+"CNN","F1 score","higher",2,0.8716
+"CNN","F1 score","higher",3,0.8503
+"CNN","F1 score","higher",4,0.8667
+"CNN","F1 score","higher",5,0.8579
+"GBM","F1 score","higher",1,0.8265
+"GBM","F1 score","higher",2,0.8585
+"GBM","F1 score","higher",3,0.826
+"GBM","F1 score","higher",4,0.8424
+"GBM","F1 score","higher",5,0.861
+"SVM","F1 score","higher",1,0.815
+"SVM","F1 score","higher",2,0.8149
+"SVM","F1 score","higher",3,0.8012
+"SVM","F1 score","higher",4,0.7939
+"SVM","F1 score","higher",5,0.8022
+"LR","F1 score","higher",1,0.7667
+"LR","F1 score","higher",2,0.7752
+"LR","F1 score","higher",3,0.7732
+"LR","F1 score","higher",4,0.7645
+"LR","F1 score","higher",5,0.7665
+"CNN","AUROC","higher",1,0.9335
+"CNN","AUROC","higher",2,0.944
+"CNN","AUROC","higher",3,0.9448
+"CNN","AUROC","higher",4,0.9389
+"CNN","AUROC","higher",5,0.9401
+"GBM","AUROC","higher",1,0.9445
+"GBM","AUROC","higher",2,0.9094
+"GBM","AUROC","higher",3,0.9168
+"GBM","AUROC","higher",4,0.9193
+"GBM","AUROC","higher",5,0.931
+"SVM","AUROC","higher",1,0.8893
+"SVM","AUROC","higher",2,0.8981
+"SVM","AUROC","higher",3,0.8847
+"SVM","AUROC","higher",4,0.884
+"SVM","AUROC","higher",5,0.8885
+"LR","AUROC","higher",1,0.8495
+"LR","AUROC","higher",2,0.8765
+"LR","AUROC","higher",3,0.8661
+"LR","AUROC","higher",4,0.8706
+"LR","AUROC","higher",5,0.8771
+"CNN","Runtime (min)","lower",1,13.84
+"CNN","Runtime (min)","lower",2,15.27
+"CNN","Runtime (min)","lower",3,11.77
+"CNN","Runtime (min)","lower",4,16.22
+"CNN","Runtime (min)","lower",5,12.49
+"GBM","Runtime (min)","lower",1,29.77
+"GBM","Runtime (min)","lower",2,32.44
+"GBM","Runtime (min)","lower",3,32.36
+"GBM","Runtime (min)","lower",4,32.89
+"GBM","Runtime (min)","lower",5,31.45
+"SVM","Runtime (min)","lower",1,10.4
+"SVM","Runtime (min)","lower",2,12.03
+"SVM","Runtime (min)","lower",3,12.01
+"SVM","Runtime (min)","lower",4,9.461
+"SVM","Runtime (min)","lower",5,8.422
+"LR","Runtime (min)","lower",1,5.376
+"LR","Runtime (min)","lower",2,10.51
+"LR","Runtime (min)","lower",3,6.344
+"LR","Runtime (min)","lower",4,9.204
+"LR","Runtime (min)","lower",5,2.544

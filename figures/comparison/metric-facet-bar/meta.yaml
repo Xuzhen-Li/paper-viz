@@ -1,0 +1,26 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Multi-metric faceted bars (house style)'
+title_zh: '多指标分面柱图（house 风格）'
+slug: 'metric-facet-bar'
+category: 'comparison'
+tags:
+  - 'bar'
+  - 'facet'
+  - 'small-multiples'
+  - 'benchmark'
+  - 'multi-metric'
+  - 'house-style'
+packages:
+  - 'ggplot2'
+data_columns:
+  method: '方法名（字符串，横轴）'
+  metric: '指标名，含单位（字符串，每个一个面板）'
+  direction: '该指标越大越好（higher）或越小越好（lower）（字符串）'
+  fold: '交叉验证折或重复编号（整数）'
+  value: '该次运行的指标值（数值）'
+when_to_use: '[[TODO-TEXT]]'
+customize: '[[TODO-TEXT]]'
+lang: 'R'
+style: 'house'
+cells: '4x1'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'

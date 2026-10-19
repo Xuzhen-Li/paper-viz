@@ -50,13 +50,13 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 120 张。
+共 123 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 11 |
-| `comparison` | 比较 | 13 |
-| `correlation` | 相关 | 12 |
+| `comparison` | 比较 | 15 |
+| `correlation` | 相关 | 13 |
 | `composition` | 组成 | 14 |
 | `heatmap` | 热图 | 4 |
 | `dimension-reduction` | 降维 | 6 |
@@ -77,19 +77,19 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/distribution/ecdf/preview.png" width="200" alt="经验累积分布">
 <img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
 
-### 比较 `comparison`（13）
+### 比较 `comparison`（15）
 
+<img src="figures/comparison/ablation-bar/preview.png" width="200" alt="消融实验柱图（house 风格）">
 <img src="figures/comparison/bar-grouped/preview.png" width="200" alt="分组柱状图">
 <img src="figures/comparison/bump-chart/preview.png" width="200" alt="凹凸图">
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
-<img src="figures/comparison/cleveland-dot/preview.png" width="200" alt="Cleveland 点图">
 
-### 相关 `correlation`（12）
+### 相关 `correlation`（13）
 
 <img src="figures/correlation/bland-altman/preview.png" width="200" alt="Bland–Altman 图">
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
 <img src="figures/correlation/correlation-matrix/preview.png" width="200" alt="相关矩阵">
-<img src="figures/correlation/hexbin/preview.png" width="200" alt="六边形分箱密度图">
+<img src="figures/correlation/cumulative-timeline/preview.png" width="200" alt="带事件标注的累计数量时间曲线（house 风格）">
 <img src="figures/correlation/house-area-scenarios/preview.png" width="200" alt="堆叠面积与情景折线、差距箭头（house 风格）">
 <img src="figures/correlation/house-point-series/preview.png" width="200" alt="空心圆点时间序列与线尾标注（house 风格）">
 

@@ -1,0 +1,23 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Ablation study bars (house style)'
+title_zh: '消融实验柱图（house 风格）'
+slug: 'ablation-bar'
+category: 'comparison'
+tags:
+  - 'ablation'
+  - 'bar'
+  - 'baseline'
+  - 'model-comparison'
+  - 'house-style'
+packages:
+  - 'ggplot2'
+data_columns:
+  variant: '模型版本（字符串；其中一行为完整模型，其余为去掉某一组件的版本）'
+  seed: '随机种子或重复编号（整数）'
+  score: '该次运行的评价指标（数值，此例为准确率 %）'
+when_to_use: '[[TODO-TEXT]]'
+customize: '[[TODO-TEXT]]'
+lang: 'R'
+style: 'house'
+cells: '2x1'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'

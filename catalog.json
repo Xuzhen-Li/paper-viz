@@ -366,6 +366,130 @@
       "search_text": "roc curve\nroc 曲线\nroc\n\nclinical\n临床\nclinical\n临床\nclinical\n几个连续标志物要比较区分病例和对照的能力时用。\n在 `plot.r` 修改 `markers_keep` 选定标志物，控制 `show_auc` 显隐面积标签，利用 `time_dependent` 和 `landmark_time` 指定时间；在 `data.csv` 填入 subject、marker、score、label 和 time 列。\nroc auc biomarker\nsubject 受试者编号（字符串） marker 标志物名称（字符串） score 连续得分（数值） label 观察期内是否发生事件，1 或 0（整数） time 事件或删失时间，月（数值）"
     },
     {
+      "title": "Ablation study bars (house style)",
+      "title_zh": "消融实验柱图（house 风格）",
+      "slug": "ablation-bar",
+      "category": "comparison",
+      "tags": [
+        "ablation",
+        "bar",
+        "baseline",
+        "model-comparison",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "variant": "模型版本（字符串；其中一行为完整模型，其余为去掉某一组件的版本）",
+        "seed": "随机种子或重复编号（整数）",
+        "score": "该次运行的评价指标（数值，此例为准确率 %）"
+      },
+      "when_to_use": "[[TODO-TEXT]]",
+      "customize": "[[TODO-TEXT]]",
+      "lang": "R",
+      "task": "compare",
+      "task_zh": "比较组",
+      "task_en": "Compare groups",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [
+        {
+          "name": "full_name",
+          "value": "\"Full model\""
+        },
+        {
+          "name": "metric_label",
+          "value": "\"Accuracy (%)\""
+        },
+        {
+          "name": "x_limits",
+          "value": "c(0, 100)"
+        },
+        {
+          "name": "sort_by_drop",
+          "value": "TRUE"
+        },
+        {
+          "name": "show_points",
+          "value": "FALSE"
+        },
+        {
+          "name": "drop_digits",
+          "value": "1"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data; not real model results.\\nBars: mean \\u00b1 s.d. of 5 seeds; dashed line: full model\""
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "col_full",
+          "value": "hp[[\"blue\"]]"
+        },
+        {
+          "name": "col_ablated",
+          "value": "grey[[\"ref\"]]"
+        },
+        {
+          "name": "col_ref",
+          "value": "grey[[\"dark\"]]"
+        },
+        {
+          "name": "col_text",
+          "value": "\"#1A1A1A\""
+        }
+      ],
+      "canvas": {
+        "width_mm": "89",
+        "height_mm": "43",
+        "label": "89 × 43 mm (2×1 cells)",
+        "cells": "2x1"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/comparison/ablation-bar/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/comparison/ablation-bar/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/ablation-bar/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/comparison/ablation-bar/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/comparison/ablation-bar/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/ablation-bar/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/comparison/ablation-bar/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/comparison/ablation-bar/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/ablation-bar/make_data.R"
+        }
+      ],
+      "dir": "figures/comparison/ablation-bar",
+      "preview": "figures/comparison/ablation-bar/preview.png",
+      "docs_preview": "previews/ablation-bar.png",
+      "code": "figures/comparison/ablation-bar/plot.R",
+      "data": "figures/comparison/ablation-bar/data.csv",
+      "data_files": [
+        "figures/comparison/ablation-bar/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/ablation-bar/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/ablation-bar/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/ablation-bar",
+      "code_text": "# Ablation study bars (house style): one bar per model variant (mean of seeds, s.d. error bar,\n# one open point per seed), the full model as a dashed reference line, and the drop from the full\n# model written at the right of each ablated row. Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\nfull_name <- \"Full model\"          # the reference row in column `variant`\nmetric_label <- \"Accuracy (%)\"     # x-axis title\nx_limits <- c(0, 100)              # bars start at 0; keep 0 unless the metric has no true zero\nsort_by_drop <- TRUE               # largest drop right under the full model\nshow_points <- FALSE               # TRUE: one open circle per seed on each bar\ndrop_digits <- 1                   # decimals of the drop labels\nfootnote <- \"Simulated data; not real model results.\\nBars: mean \\u00b1 s.d. of 5 seeds; dashed line: full model\"\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncol_full <- hp[[\"blue\"]]           # 5.0:1 on white, so its value label keeps the bar colour\ncol_ablated <- grey[[\"ref\"]]       # #757575 bars for the variants (4.6:1 on white)\ncol_ref <- grey[[\"dark\"]]          # #333333 dashed full-model line, darker than the grey bars\ncol_text <- \"#1A1A1A\"              # drop labels\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nstopifnot(full_name %in% df$variant)\ns <- do.call(rbind, lapply(split(df, df$variant), function(d) {\n  data.frame(variant = d$variant[1], mean = mean(d$score), sd = stats::sd(d$score), n = nrow(d))\n}))\nfull_mean <- s$mean[s$variant == full_name]\ns$drop <- s$mean - full_mean\nlv <- if (isTRUE(sort_by_drop)) {\n  c(full_name, s$variant[s$variant != full_name][order(s$drop[s$variant != full_name])])\n} else unique(df$variant)\n# first level on top\ns$variant <- factor(s$variant, levels = rev(lv))\ndf$variant <- factor(df$variant, levels = rev(lv))\ns$is_full <- s$variant == full_name\n# drop labels: ASCII hyphen-minus, fixed x right of the reference line and every error bar\ns$lab <- ifelse(s$is_full, sprintf(paste0(\"%.\", drop_digits, \"f\"), s$mean),\n                sprintf(paste0(\"%+.\", drop_digits, \"f\"), s$drop))\ns$lab <- gsub(\"\\u2212\", \"-\", s$lab)\nlab_x <- max(s$mean + s$sd, full_mean) + 0.025 * diff(x_limits)\ns$lab_col <- ifelse(s$is_full, col_full, col_text)\n# seed points at fixed vertical offsets (no jitter, so every render is identical)\ndf <- df[order(df$variant, df$seed), ]\ndf$k <- stats::ave(df$score, df$variant, FUN = seq_along)\ndf$n <- stats::ave(df$score, df$variant, FUN = length)\ndf$y <- as.numeric(df$variant) + (df$k - (df$n + 1) / 2) * 0.1\n\np <- ggplot(s, aes(mean, variant)) +\n  geom_col(aes(fill = is_full), width = 0.7, colour = NA, orientation = \"y\") +\n  geom_vline(xintercept = full_mean, linetype = \"22\", colour = col_ref,\n             linewidth = pv_house_lw(\"ref\"))\nif (isTRUE(show_points)) {\n  p <- p + geom_point(data = df, aes(score, y), inherit.aes = FALSE, shape = 21, size = 0.8,\n                      stroke = 0.3, fill = \"white\", colour = \"black\")\n}\np <- p +\n  geom_errorbar(aes(xmin = mean - sd, xmax = mean + sd), width = 0.22,\n                linewidth = pv_house_lw(\"errorbar\"), orientation = \"y\") +\n  geom_text(aes(x = lab_x, label = lab, colour = lab_col), hjust = 0, size = pv_pt2size(7)) +\n  scale_fill_manual(values = c(`TRUE` = col_full, `FALSE` = col_ablated), guide = \"none\") +\n  scale_colour_identity() +\n  scale_x_continuous(limits = x_limits, expand = c(0, 0), breaks = pretty(x_limits, n = 5)) +\n  scale_y_discrete(expand = expansion(add = 0.55)) +\n  labs(x = metric_label, y = NULL, caption = footnote) +\n  theme_house() +\n  theme(axis.ticks.y = element_blank(),\n        plot.margin = margin(1.6, 2.4, 0.9, 0.4, \"mm\"),   # room for the last x tick \"100\"\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x1\")\nmessage(\"wrote preview.png\")\n",
+      "search_text": "ablation study bars (house style)\n消融实验柱图（house 风格）\nablation-bar\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n[[todo-text]]\n[[todo-text]]\nablation bar baseline model-comparison house-style\nvariant 模型版本（字符串；其中一行为完整模型，其余为去掉某一组件的版本） seed 随机种子或重复编号（整数） score 该次运行的评价指标（数值，此例为准确率 %）"
+    },
+    {
       "title": "Grouped bar chart",
       "title_zh": "分组柱状图",
       "slug": "bar-grouped",
@@ -1332,6 +1456,125 @@
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/lollipop",
       "code_text": "# Ranked lollipops (house style): stems from zero, items flagged in the signif column in the accent\n# colour, key and count written inside the panel (no legend). Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数\nrank_items <- TRUE\nhighlight_signif <- TRUE\nmap_importance <- FALSE\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# red and blue are both >= 3:1 on white, so the key text keeps the point colour\nsignif_colour <- hp[[\"red\"]]\nbase_colour <- hp[[\"blue\"]]\nfootnote <- \"Simulated data for\\nillustration; not\\nbiological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$signif <- as.logical(df$signif)\nif (rank_items) df <- df[order(df$value), ]\ndf$y <- seq_len(nrow(df))\ndf$mark <- factor(ifelse(highlight_signif & df$signif, \"Significant\", \"Other\"), levels = c(\"Significant\", \"Other\"))\ncols <- c(Significant = signif_colour, Other = base_colour)\ndf$pt <- if (map_importance) pmax(1.2, 1.2 + df$value / max(df$value) * 1.6) else HOUSE_POINT$size\nn <- nrow(df)\nx_max <- max(df$value) * 1.08\nkey <- data.frame(mark = factor(c(\"Significant\", \"Other\"), levels = levels(df$mark)),\n                  lab = c(sprintf(\"Significant (%d)\", sum(df$mark == \"Significant\")),\n                          sprintf(\"Not significant (%d)\", sum(df$mark == \"Other\"))),\n                  y = c(2.9, 1.6))\nif (!isTRUE(highlight_signif)) key <- key[2, ]\n\np <- ggplot(df, aes(value, y)) +\n  geom_segment(aes(x = 0, xend = value, yend = y, colour = mark), linewidth = pv_house_lw(\"minor\")) +\n  geom_point(aes(fill = mark, size = pt), shape = HOUSE_POINT$shape, stroke = HOUSE_POINT$stroke,\n             colour = \"black\") +\n  geom_text(data = key, aes(x = x_max * 0.98, y = y, label = lab, colour = mark), hjust = 1) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_size_identity() +\n  scale_y_continuous(breaks = df$y, labels = df$item) +\n  coord_cartesian(xlim = c(0, x_max), ylim = c(0.4, n + 0.6), expand = FALSE) +\n  labs(x = \"Importance\", y = NULL, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]], lineheight = 0.9,\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"1x2\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "lollipop chart\n棒棒糖图\nlollipop\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n特征较多、要按大小排序并标出需要强调的条目时用。\n在 `plot.r` 控制 `rank_items` 决定是否按得分排序，开启 `highlight_signif` 高亮显著项，控制 `map_importance` 映射点大小；在 `data.csv` 填入 item、value 和 signif 列。\nlollipop ranking importance\nitem 特征名（字符串） value 重要性得分（数值） signif 是否强调（逻辑值）"
+    },
+    {
+      "title": "Multi-metric faceted bars (house style)",
+      "title_zh": "多指标分面柱图（house 风格）",
+      "slug": "metric-facet-bar",
+      "category": "comparison",
+      "tags": [
+        "bar",
+        "facet",
+        "small-multiples",
+        "benchmark",
+        "multi-metric",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2"
+      ],
+      "data_columns": {
+        "method": "方法名（字符串，横轴）",
+        "metric": "指标名，含单位（字符串，每个一个面板）",
+        "direction": "该指标越大越好（higher）或越小越好（lower）（字符串）",
+        "fold": "交叉验证折或重复编号（整数）",
+        "value": "该次运行的指标值（数值）"
+      },
+      "when_to_use": "[[TODO-TEXT]]",
+      "customize": "[[TODO-TEXT]]",
+      "lang": "R",
+      "task": "compare",
+      "task_zh": "比较组",
+      "task_en": "Compare groups",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [
+        {
+          "name": "n_cols",
+          "value": "4"
+        },
+        {
+          "name": "fig_cells",
+          "value": "\"4x1\""
+        },
+        {
+          "name": "show_values",
+          "value": "TRUE"
+        },
+        {
+          "name": "mark_best",
+          "value": "TRUE"
+        },
+        {
+          "name": "show_direction",
+          "value": "TRUE"
+        },
+        {
+          "name": "digits",
+          "value": "c(\"Accuracy (%)\" = 1, \"F1 score\" = 3, \"AUROC\" = 3, \"Runtime (min)\" = 1)"
+        },
+        {
+          "name": "headroom",
+          "value": "1.22"
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data; not real benchmark results. Bars: mean \\u00b1 s.d. of 5 folds; bold = best\""
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "method_cols",
+          "value": "c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"brown\"]], hp[[\"magenta\"]])"
+        }
+      ],
+      "canvas": {
+        "width_mm": "183",
+        "height_mm": "43",
+        "label": "183 × 43 mm (4×1 cells)",
+        "cells": "4x1"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/comparison/metric-facet-bar/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/comparison/metric-facet-bar/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/metric-facet-bar/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/comparison/metric-facet-bar/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/comparison/metric-facet-bar/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/metric-facet-bar/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/comparison/metric-facet-bar/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/comparison/metric-facet-bar/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/metric-facet-bar/make_data.R"
+        }
+      ],
+      "dir": "figures/comparison/metric-facet-bar",
+      "preview": "figures/comparison/metric-facet-bar/preview.png",
+      "docs_preview": "previews/metric-facet-bar.png",
+      "code": "figures/comparison/metric-facet-bar/plot.R",
+      "data": "figures/comparison/metric-facet-bar/data.csv",
+      "data_files": [
+        "figures/comparison/metric-facet-bar/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/metric-facet-bar/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/comparison/metric-facet-bar/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/comparison/metric-facet-bar",
+      "code_text": "# Multi-metric faceted bars (house style): one small panel per metric, each with its own y axis\n# starting at zero, bars = mean over folds with an s.d. error bar, the mean written above each bar\n# and the best method per metric (by the `direction` column) written in bold.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\nn_cols <- 4                    # panels per row (4 panels in one 4x1 row)\nfig_cells <- \"4x1\"             # house grid cells (183 x 43 mm)\nshow_values <- TRUE            # mean above each bar\nmark_best <- TRUE              # bold value for the best method in each panel\nshow_direction <- TRUE         # add \"higher/lower is better\" to the panel title\ndigits <- c(\"Accuracy (%)\" = 1, \"F1 score\" = 3, \"AUROC\" = 3, \"Runtime (min)\" = 1)\nheadroom <- 1.22               # y top = headroom x (mean + s.d.) of the tallest bar, per panel\nfootnote <- \"Simulated data; not real benchmark results. Bars: mean \\u00b1 s.d. of 5 folds; bold = best\"\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\nmethod_cols <- c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"brown\"]], hp[[\"magenta\"]])\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$method <- factor(df$method, levels = unique(df$method))\nm_lv <- unique(df$metric)\ns <- do.call(rbind, lapply(split(df, list(df$metric, df$method), drop = TRUE), function(d) {\n  data.frame(metric = d$metric[1], direction = d$direction[1], method = d$method[1],\n             mean = mean(d$value), sd = stats::sd(d$value), stringsAsFactors = FALSE)\n}))\ns$method <- factor(s$method, levels = levels(df$method))\ndirs <- tapply(s$direction, s$metric, `[`, 1)\nstrip <- if (isTRUE(show_direction)) {\n  sprintf(\"%s, %s is better\", m_lv, dirs[m_lv])\n} else m_lv\ns$panel <- factor(strip[match(s$metric, m_lv)], levels = strip)\ns$best <- stats::ave(seq_len(nrow(s)), s$metric, FUN = function(i) {\n  v <- s$mean[i]\n  if (s$direction[i[1]] == \"lower\") v == min(v) else v == max(v)\n}) == 1\ndg <- ifelse(s$metric %in% names(digits), digits[s$metric], 2)\ns$lab <- mapply(function(v, d) formatC(v, format = \"f\", digits = d), s$mean, dg)\n# per-panel y top, set by an invisible point so every panel keeps 0 at the bottom\ntops <- tapply(s$mean + s$sd, s$panel, max) * headroom\nblank <- data.frame(panel = factor(names(tops), levels = strip), y = as.numeric(tops),\n                    method = factor(levels(s$method)[1], levels = levels(s$method)))\ns$lab_y <- s$mean + s$sd + 0.035 * as.numeric(tops[as.character(s$panel)])\ncols <- stats::setNames(method_cols[seq_len(nlevels(s$method))], levels(s$method))\n\np <- ggplot(s, aes(method, mean)) +\n  geom_blank(data = blank, aes(method, y)) +\n  geom_col(aes(fill = method), width = 0.7, colour = NA) +\n  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25,\n                linewidth = pv_house_lw(\"errorbar\"))\nif (isTRUE(show_values)) {\n  p <- p + geom_text(aes(y = lab_y, label = lab,\n                         fontface = ifelse(mark_best & best, \"bold\", \"plain\")),\n                     vjust = 0, size = pv_pt2size(7), colour = \"#1A1A1A\")\n}\np <- p +\n  facet_wrap(~panel, nrow = ceiling(length(strip) / n_cols), scales = \"free_y\") +\n  scale_fill_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0)),\n                     breaks = function(l) pretty(c(0, l[2] / headroom), n = 3)) +\n  labs(x = NULL, y = NULL, caption = footnote) +\n  theme_house() +\n  theme(panel.spacing.x = unit(3, \"mm\"),\n        strip.text = element_text(size = 7, hjust = 0, margin = margin(b = 0.8, unit = \"mm\")),\n        axis.text.x = element_text(size = 7, colour = \"black\", angle = 0,\n                                   margin = margin(t = 0.7, unit = \"mm\")),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = fig_cells)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "multi-metric faceted bars (house style)\n多指标分面柱图（house 风格）\nmetric-facet-bar\n\ncomparison\n比较\ncompare\n比较组\ncompare groups\n[[todo-text]]\n[[todo-text]]\nbar facet small-multiples benchmark multi-metric house-style\nmethod 方法名（字符串，横轴） metric 指标名，含单位（字符串，每个一个面板） direction 该指标越大越好（higher）或越小越好（lower）（字符串） fold 交叉验证折或重复编号（整数） value 该次运行的指标值（数值）"
     },
     {
       "title": "Radar chart",
@@ -3098,6 +3341,139 @@
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/correlation-matrix",
       "code_text": "# Correlation matrix (house style): circle or square cells on the blue-red diverging scale,\n# stars for P < sig_cut, colour bar inside the empty lower triangle. Reads data.csv only.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\ncell_shape <- \"circle\"\nshow_significance <- TRUE\nupper_only <- TRUE\nsig_cut <- 0.05\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nvars <- unique(c(df$var_a, df$var_b))\nr_mat <- matrix(0, length(vars), length(vars), dimnames = list(vars, vars))\ndiag(r_mat) <- 1\nr_mat[cbind(df$var_a, df$var_b)] <- df$r\nr_mat[cbind(df$var_b, df$var_a)] <- df$r\nord <- vars[stats::hclust(stats::as.dist(1 - r_mat))$order]\ndf$var_a <- factor(df$var_a, levels = ord)\ndf$var_b <- factor(df$var_b, levels = ord)\nia <- as.integer(df$var_a)\nib <- as.integer(df$var_b)\n# each pair is stored once; put it on the x < y side so the upper triangle is complete\nswap <- ia > ib\ndf[swap, c(\"var_a\", \"var_b\")] <- df[swap, c(\"var_b\", \"var_a\")]\nia <- as.integer(df$var_a)\nib <- as.integer(df$var_b)\nif (!isTRUE(upper_only)) {\n  mirror <- df; mirror[, c(\"var_a\", \"var_b\")] <- df[, c(\"var_b\", \"var_a\")]\n  df <- rbind(df, mirror); ia <- as.integer(df$var_a); ib <- as.integer(df$var_b)\n}\nkeep <- if (isTRUE(upper_only)) ia < ib else ia != ib\nplot_df <- df[keep, , drop = FALSE]\nplot_df$stars <- ifelse(plot_df$p < sig_cut, \"*\", \"\")\nfills <- pv_palette(\"house_div\")   # blue (negative) to red (positive), centred on 0\ngrey <- pv_palette(\"house_grey\")\nfootnote <- \"Simulated data for illustration; not biological results\"\nn_sig <- sum(df$p[keep] < sig_cut & as.integer(df$var_a)[keep] < as.integer(df$var_b)[keep])\n\np <- ggplot(plot_df, aes(var_a, var_b, fill = r))\nif (cell_shape == \"square\") {\n  p <- p + geom_tile(colour = \"white\", linewidth = pv_house_lw(0.3))\n} else {\n  p <- p + geom_point(aes(size = abs(r)), shape = 21, stroke = HOUSE_POINT$stroke, colour = grey[[\"dark\"]])\n  p <- p + scale_size_area(max_size = 5.2, limits = c(0, 1), guide = \"none\")\n}\nif (isTRUE(show_significance)) {\n  p <- p + geom_text(aes(label = stars), vjust = 0.75, colour = \"black\")\n}\nk <- length(ord)\n# annotation sits a fixed fraction (23.5%) of the panel height above the bottom edge, clear of the\n# colour bar, so it stays in the empty lower triangle for any k (k = 15 gives about 4)\nnote_y <- 0.5 + 0.235 * k\nif (isTRUE(upper_only)) {\n  p <- p + annotate(\"text\", x = k, y = note_y, hjust = 1, vjust = 0, lineheight = 0.95,\n                    label = sprintf(\"* P < %.2f\\n%d of %d pairs\", sig_cut, n_sig, nrow(plot_df)))\n}\np <- p +\n  scale_fill_gradientn(colours = fills, limits = c(-1, 1), breaks = c(-1, 0, 1), name = \"r\",\n                       guide = guide_colourbar(direction = \"horizontal\", title.position = \"top\",\n                                               barwidth = unit(16, \"mm\"), barheight = unit(2, \"mm\"))) +\n  scale_x_discrete(drop = FALSE) +\n  scale_y_discrete(drop = FALSE) +\n  labs(x = NULL, y = NULL, caption = footnote) +\n  theme_house(legend = \"inside\") +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),\n        legend.position.inside = c(0.98, 0.02), legend.justification.inside = c(1, 0),\n        legend.title = element_text(face = \"italic\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = \"2x2\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "correlation matrix\n相关矩阵\ncorrelation-matrix\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\n十几个连续指标要一眼看出谁和谁同向或反向时用。\nplot.r 顶部 cell_shape 取 circle 或 square；show_significance 是否标 p < sig_cut 的星号；upper_only 只画上三角。变量顺序按 1-r 聚类，不要在数据里预先切显著与否。\ncorrelation matrix heatmap\nvar_a 变量甲的短名（字符串） var_b 变量乙的短名（字符串） r 皮尔逊相关系数（数值，-1 到 1） p 相关检验的 p 值（数值，0 到 1）"
+    },
+    {
+      "title": "Cumulative count over time with event markers (house style)",
+      "title_zh": "带事件标注的累计数量时间曲线（house 风格）",
+      "slug": "cumulative-timeline",
+      "category": "correlation",
+      "tags": [
+        "cumulative",
+        "time-series",
+        "step",
+        "events",
+        "literature",
+        "house-style"
+      ],
+      "packages": [
+        "ggplot2",
+        "systemfonts"
+      ],
+      "data_columns": {
+        "year": "年份（整数，x 轴）",
+        "topic": "主题或检索词（字符串，每个一条线）",
+        "n": "该年新增数量（整数，此例为发表文献数）"
+      },
+      "when_to_use": "[[TODO-TEXT]]",
+      "customize": "[[TODO-TEXT]]",
+      "lang": "R",
+      "task": "relationship",
+      "task_zh": "相关/关系",
+      "task_en": "Relationship",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [
+        {
+          "name": "cumulative",
+          "value": "TRUE"
+        },
+        {
+          "name": "as_step",
+          "value": "TRUE"
+        },
+        {
+          "name": "show_events",
+          "value": "TRUE"
+        },
+        {
+          "name": "event_rows",
+          "value": "3"
+        },
+        {
+          "name": "show_event_year",
+          "value": "FALSE"
+        },
+        {
+          "name": "show_end_labels",
+          "value": "TRUE"
+        },
+        {
+          "name": "x_break_step",
+          "value": "5"
+        },
+        {
+          "name": "fig_cells",
+          "value": "\"3x1\""
+        },
+        {
+          "name": "y_label",
+          "value": "\"Cumulative publications\""
+        },
+        {
+          "name": "footnote",
+          "value": "\"Simulated data; not a real literature search\""
+        },
+        {
+          "name": "hp",
+          "value": "pv_palette(\"house\")"
+        },
+        {
+          "name": "grey",
+          "value": "pv_palette(\"house_grey\")"
+        },
+        {
+          "name": "line_cols",
+          "value": "c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"brown\"]], hp[[\"magenta\"]])"
+        }
+      ],
+      "canvas": {
+        "width_mm": "135",
+        "height_mm": "43",
+        "label": "135 × 43 mm (3×1 cells)",
+        "cells": "3x1"
+      },
+      "downloads": [
+        {
+          "name": "plot.R",
+          "path": "figures/correlation/cumulative-timeline/plot.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/cumulative-timeline/plot.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/cumulative-timeline/plot.R"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/correlation/cumulative-timeline/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/cumulative-timeline/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/cumulative-timeline/data.csv"
+        },
+        {
+          "name": "make_data.R",
+          "path": "figures/correlation/cumulative-timeline/make_data.R",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/cumulative-timeline/make_data.R",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/cumulative-timeline/make_data.R"
+        },
+        {
+          "name": "data_events.csv",
+          "path": "figures/correlation/cumulative-timeline/data_events.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/cumulative-timeline/data_events.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/cumulative-timeline/data_events.csv"
+        }
+      ],
+      "dir": "figures/correlation/cumulative-timeline",
+      "preview": "figures/correlation/cumulative-timeline/preview.png",
+      "docs_preview": "previews/cumulative-timeline.png",
+      "code": "figures/correlation/cumulative-timeline/plot.R",
+      "data": "figures/correlation/cumulative-timeline/data.csv",
+      "data_files": [
+        "figures/correlation/cumulative-timeline/data.csv",
+        "figures/correlation/cumulative-timeline/data_events.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/cumulative-timeline/plot.R",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/cumulative-timeline/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/cumulative-timeline",
+      "code_text": "# Cumulative publication count over time with event markers (house style): one step line per\n# topic (running total of the yearly counts), the topic name and final total at the line end, and\n# dated events as dashed vertical lines labelled at the top of the panel.\n# Reads data.csv and data_events.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\ncumulative <- TRUE            # FALSE: plot the yearly counts instead of the running total\nas_step <- TRUE               # step line (counts change once a year); FALSE: straight segments\nshow_events <- TRUE           # dashed lines and labels from data_events.csv\nevent_rows <- 3               # at most this many label rows at the top (used only when labels would collide)\nshow_event_year <- FALSE      # TRUE: write \"2006 Method X released\"; the x axis already gives the year\nshow_end_labels <- TRUE       # topic name and final value at the right end of each line\nx_break_step <- 5             # years between x ticks\nfig_cells <- \"3x1\"            # house grid cells (135 x 43 mm)\ny_label <- \"Cumulative publications\"\nfootnote <- \"Simulated data; not a real literature search\"\n\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# blue, red, green: all >= 3:1 on white, so end labels keep the line colour\nline_cols <- c(hp[[\"blue\"]], hp[[\"red\"]], hp[[\"green\"]], hp[[\"purple\"]], hp[[\"brown\"]], hp[[\"magenta\"]])\n# push label positions apart to at least `gap` (data units), keeping their order\nspread <- function(y, gap) {\n  o <- order(y); z <- y[o]\n  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)\n  y[o] <- z; y\n}\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\nev <- utils::read.csv(\"data_events.csv\", stringsAsFactors = FALSE)\ndf <- df[order(df$topic, df$year), ]\ndf$topic <- factor(df$topic, levels = unique(df$topic))\n# drop each topic's leading zero years, so a line starts at its first paper instead of running\n# along the bottom frame\nfirst_year <- tapply(ifelse(df$n > 0, df$year, Inf), df$topic, min)\ndf <- df[df$year >= first_year[as.character(df$topic)], ]\ndf$y <- if (isTRUE(cumulative)) stats::ave(df$n, df$topic, FUN = cumsum) else df$n\ncols <- stats::setNames(line_cols[seq_len(nlevels(df$topic))], levels(df$topic))\n\nx_min <- min(df$year); x_max <- max(df$year)\ny_max <- max(df$y)\ny_top <- y_max / 0.70                         # top 30 % of the panel holds the event labels\nx_right <- x_max + 0.30 * (x_max - x_min)     # room for the end labels\n\nends <- do.call(rbind, lapply(split(df, df$topic), function(d) d[which.max(d$year), ]))\nends$lab <- sprintf(\"%s (%s)\", ends$topic, formatC(ends$y, format = \"d\", big.mark = \",\"))\nends$ly <- spread(ends$y, gap = 0.075 * y_top)\n# a step line ends with a flat segment over the last year; start the label just past it\nend_x <- x_max + if (isTRUE(as_step)) 1 else 0\n\np <- ggplot(df, aes(year, y, colour = topic))\nif (isTRUE(show_events) && nrow(ev)) {\n  ev <- ev[order(ev$year), ]\n  ev$lab <- if (isTRUE(show_event_year)) sprintf(\"%d %s\", ev$year, ev$event) else ev$event\n  # label width in years: text width (mm, Arial 7 pt) over the panel width (mm per year), with\n  # the panel taken as the canvas minus about 15 mm of axis and margin\n  w_mm <- systemfonts::string_width(ev$lab, family = house_family(), size = 7, res = 72) / 72 * 25.4\n  mm_per_year <- (pv_house_canvas(fig_cells)$width_mm - 15) / (x_right - x_min)\n  ev$x0 <- ev$year + 0.25; ev$x1 <- ev$x0 + w_mm / mm_per_year + 0.15\n  # greedy rows: a later event's dashed line runs up to its own row, so it must sit on a lower\n  # row than any earlier label it would cross; labels on one row must not overlap\n  ev$row <- 0\n  for (j in seq_len(nrow(ev))[-1]) {\n    r <- 0\n    repeat {\n      prev <- seq_len(j - 1)\n      clash <- any(ev$x1[prev] > ev$x0[j] - 0.25 & ev$row[prev] >= r)\n      if (!clash) break\n      if (r >= event_rows - 1) {\n        warning(\"event labels collide: shorten the names in data_events.csv or raise event_rows\")\n        break\n      }\n      r <- r + 1\n    }\n    ev$row[j] <- r\n  }\n  ev$ly <- y_top * (0.975 - 0.095 * ev$row)\n  p <- p +\n    geom_segment(data = ev, aes(x = year, xend = year, y = 0, yend = ly), inherit.aes = FALSE,\n                 linetype = \"22\", colour = grey[[\"ref\"]], linewidth = pv_house_lw(\"ref\")) +\n    geom_text(data = ev, aes(x = year + 0.25, y = ly, label = lab), inherit.aes = FALSE,\n              hjust = 0, vjust = 1, colour = \"#1A1A1A\", size = pv_pt2size(7))\n}\nif (isTRUE(as_step)) {\n  # extend each topic by one year so the last count gets its own flat step\n  last <- ends; last$year <- last$year + 1\n  p <- p + geom_step(data = rbind(df, last[, names(df)]), direction = \"hv\",\n                     linewidth = pv_house_lw(\"main\"))\n} else {\n  p <- p + geom_line(linewidth = pv_house_lw(\"main\"))\n}\nif (isTRUE(show_end_labels)) {\n  p <- p + geom_text(data = ends, aes(x = end_x + 0.5, y = ly, label = lab), hjust = 0,\n                     size = pv_pt2size(7))\n}\np <- p +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_x_continuous(limits = c(x_min, x_right), expand = c(0, 0),\n                     breaks = seq(ceiling(x_min / x_break_step) * x_break_step, x_max + 1, by = x_break_step)) +\n  scale_y_continuous(limits = c(0, y_top), expand = c(0, 0), breaks = pretty(c(0, y_max), n = 4),\n                     labels = function(b) formatC(b, format = \"d\", big.mark = \",\")) +\n  labs(x = \"Year\", y = y_label, caption = footnote) +\n  theme_house() +\n  theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\npv_save_house(p, \"figure\", cells = fig_cells)\nmessage(\"wrote preview.png\")\n",
+      "search_text": "cumulative count over time with event markers (house style)\n带事件标注的累计数量时间曲线（house 风格）\ncumulative-timeline\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\n[[todo-text]]\n[[todo-text]]\ncumulative time-series step events literature house-style\nyear 年份（整数，x 轴） topic 主题或检索词（字符串，每个一条线） n 该年新增数量（整数，此例为发表文献数）"
     },
     {
       "title": "Hexbin density",

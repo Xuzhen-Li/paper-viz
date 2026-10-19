@@ -1,0 +1,25 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Cumulative count over time with event markers (house style)'
+title_zh: '带事件标注的累计数量时间曲线（house 风格）'
+slug: 'cumulative-timeline'
+category: 'correlation'
+tags:
+  - 'cumulative'
+  - 'time-series'
+  - 'step'
+  - 'events'
+  - 'literature'
+  - 'house-style'
+packages:
+  - 'ggplot2'
+  - 'systemfonts'
+data_columns:
+  year: '年份（整数，x 轴）'
+  topic: '主题或检索词（字符串，每个一条线）'
+  n: '该年新增数量（整数，此例为发表文献数）'
+when_to_use: '[[TODO-TEXT]]'
+customize: '[[TODO-TEXT]]'
+lang: 'R'
+style: 'house'
+cells: '3x1'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'

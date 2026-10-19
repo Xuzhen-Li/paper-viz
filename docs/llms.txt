@@ -9,6 +9,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Forest plot](https://xuzhen-li.github.io/paper-viz/#forest): 多个研究或亚组要并列展示效应量和区间时用。
 - [Kaplan-Meier curves](https://xuzhen-li.github.io/paper-viz/#km): 要比较两组或多组的时间-事件结局时用。
 - [ROC curve](https://xuzhen-li.github.io/paper-viz/#roc): 几个连续标志物要比较区分病例和对照的能力时用。
+- [Ablation study bars (house style)](https://xuzhen-li.github.io/paper-viz/#ablation-bar): [[TODO-TEXT]]
 - [Grouped bar chart](https://xuzhen-li.github.io/paper-viz/#bar-grouped): 类别少、要并排比较两个或多个系列的汇总数值时用。
 - [Bump chart](https://xuzhen-li.github.io/paper-viz/#bump-chart): 比较多个对象在若干时间点的名次升降时用。
 - [Cleveland dot plot](https://xuzhen-li.github.io/paper-viz/#cleveland-dot): 多类指标要按大小排序、并在同一行比较两个或多个系列时用；比柱状图更省墨、更易读排序。
@@ -16,6 +17,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Bar chart with points and P values (house style)](https://xuzhen-li.github.io/paper-viz/#house-bar): 几个处理与对照比较均值时用；柱为均值、误差棒为 s.d.，叠加原始点，柱内写均值，括号线标出与对照的 t 检验 P。
 - [Forest plot of effects (house style)](https://xuzhen-li.github.io/paper-viz/#house-forest): 多个条目的效应量（± 95% CI）在两个批次或条件下对照时用；CI 跨 0 的点画成空心，数值写在 CI 右侧，N 写在角落。
 - [Lollipop chart](https://xuzhen-li.github.io/paper-viz/#lollipop): 特征较多、要按大小排序并标出需要强调的条目时用。
+- [Multi-metric faceted bars (house style)](https://xuzhen-li.github.io/paper-viz/#metric-facet-bar): [[TODO-TEXT]]
 - [Slope chart](https://xuzhen-li.github.io/paper-viz/#slope-chart): 一批指标只有前后两个时间点、要看谁升谁降时用。
 - [Waterfall chart](https://xuzhen-li.github.io/paper-viz/#waterfall): 要把期初水平拆成若干增减项并接到期末总量时用；适合贡献分解、预算桥接。
 - [Alluvial and Sankey](https://xuzhen-li.github.io/paper-viz/#alluvial): 同一批样本在两三个分类之间怎么分流时用。
@@ -34,6 +36,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Bland–Altman plot](https://xuzhen-li.github.io/paper-viz/#bland-altman): 比较两种测量方法是否一致时用；看差值是否随均值漂移，并标出均值差与一致性界限。
 - [Bubble chart](https://xuzhen-li.github.io/paper-viz/#bubble): 两个连续坐标之外还要用点的面积表示第三个数时用。
 - [Correlation matrix](https://xuzhen-li.github.io/paper-viz/#correlation-matrix): 十几个连续指标要一眼看出谁和谁同向或反向时用。
+- [Cumulative count over time with event markers (house style)](https://xuzhen-li.github.io/paper-viz/#cumulative-timeline): [[TODO-TEXT]]
 - [Hexbin density](https://xuzhen-li.github.io/paper-viz/#hexbin): 散点很密、普通散点叠成一团时用；用六边形分箱看二维密度与热点，比透明散点更清晰。
 - [Stacked area with scenario lines and gap arrows (house style)](https://xuzhen-li.github.io/paper-viz/#house-area-scenarios): 适用于展示总量拆分及多个未来情景从共享历史产生分歧时的差距，采用单面板 2x2 89 × 89 mm 尺寸及 9/10 pt Arial 字体，数据为模拟的 2000 至 2100 年杂草种子库，包含黑色历史实线、无控制、当前实践、目标及激进情景折线，底层为深浅 house_div 蓝色的年度和多年生杂草堆叠面积，图内标注了由 data.csv 在 2050 年计算得出的差距及灰色向下箭头。
 - [Line chart with CI ribbons (house style)](https://xuzhen-li.github.io/paper-viz/#house-line): 少数几组随时间（或剂量）变化、每个时间点有重复时用；画均值线 + 95% 置信带，线尾直标组名，组间差和 P 写在图内。
