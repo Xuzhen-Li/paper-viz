@@ -1,0 +1,14 @@
+title: Population-genetic study design
+title_zh: 群体遗传三目标
+slug: popgen-three-aims
+category: schematic
+tags:
+  - population-genetics
+  - aims
+  - parallel
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 一个问题拆成结构、历史和选择三条线，再汇合。
+customize: 三列标题和列内步骤可改。汇合框保持在最下方，箭头从列底边进入。
+lang: drawio
