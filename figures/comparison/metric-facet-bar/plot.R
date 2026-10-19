@@ -13,13 +13,14 @@ mark_best <- TRUE              # bold value for the best method in each panel
 show_direction <- TRUE         # add "higher/lower is better" to the panel title
 digits <- c("Accuracy (%)" = 1, "F1 score" = 3, "AUROC" = 3, "Runtime (min)" = 1)
 headroom <- 1.22               # y top = headroom x (mean + s.d.) of the tallest bar, per panel
-footnote <- "Simulated data; not real benchmark results. Bars: mean \u00b1 s.d. of 5 folds; bold = best"
+footnote <- "Simulated data; not real benchmark results. Bars: mean \u00b1 s.d. of %d folds; bold = best"   # %d = number of folds in data.csv
 
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
 method_cols <- c(hp[["blue"]], hp[["red"]], hp[["green"]], hp[["purple"]], hp[["brown"]], hp[["magenta"]])
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 df$method <- factor(df$method, levels = unique(df$method))
+footnote <- sprintf(footnote, length(unique(df$fold)))
 m_lv <- unique(df$metric)
 s <- do.call(rbind, lapply(split(df, list(df$metric, df$method), drop = TRUE), function(d) {
   data.frame(metric = d$metric[1], direction = d$direction[1], method = d$method[1],

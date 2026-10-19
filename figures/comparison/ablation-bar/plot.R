@@ -11,16 +11,17 @@ x_limits <- c(0, 100)              # bars start at 0; keep 0 unless the metric h
 sort_by_drop <- TRUE               # largest drop right under the full model
 show_points <- FALSE               # TRUE: one open circle per seed on each bar
 drop_digits <- 1                   # decimals of the drop labels
-footnote <- "Simulated data; not real model results.\nBars: mean \u00b1 s.d. of 5 seeds; dashed line: full model"
+footnote <- "Simulated data; not real model results.\nBars: mean \u00b1 s.d. of %d seeds; dashed line: full model"   # %d = number of seeds in data.csv
 
 hp <- pv_palette("house"); grey <- pv_palette("house_grey")
-col_full <- hp[["blue"]]           # 5.0:1 on white, so its value label keeps the bar colour
+col_full <- hp[["blue"]]           # 5.15:1 on white, so its value label keeps the bar colour
 col_ablated <- grey[["ref"]]       # #757575 bars for the variants (4.6:1 on white)
 col_ref <- grey[["dark"]]          # #333333 dashed full-model line, darker than the grey bars
 col_text <- "#1A1A1A"              # drop labels
 
 df <- utils::read.csv("data.csv", stringsAsFactors = FALSE)
 stopifnot(full_name %in% df$variant)
+footnote <- sprintf(footnote, length(unique(df$seed)))
 s <- do.call(rbind, lapply(split(df, df$variant), function(d) {
   data.frame(variant = d$variant[1], mean = mean(d$score), sd = stats::sd(d$score), n = nrow(d))
 }))
