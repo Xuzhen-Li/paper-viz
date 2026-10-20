@@ -1,0 +1,25 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Cumulative count over time with event markers (house style)'
+title_zh: '带事件标注的累计数量时间曲线（house 风格）'
+slug: 'cumulative-timeline'
+category: 'correlation'
+tags:
+  - 'cumulative'
+  - 'time-series'
+  - 'step'
+  - 'events'
+  - 'literature'
+  - 'house-style'
+packages:
+  - 'ggplot2'
+  - 'systemfonts'
+data_columns:
+  year: '年份（整数，x 轴）'
+  topic: '主题或检索词（字符串，每个一条线）'
+  n: '该年新增数量（整数，此例为发表文献数）'
+when_to_use: 展示一个或多个主题随年份增长的累计数量变化（如文献逐年累计发表量），并在时间轴上标出关键历史事件时用。
+customize: 在 `data.csv` 填入 `year`（年份）、`topic`（主题名，每个主题画一条线）和 `n`（当年新增数量），在 `data_events.csv` 填入 `year` 和 `event`（事件名称）；在 `plot.R` 顶部将 `cumulative` 设为 `FALSE` 可改为画每年新增量，`as_step` 控制是否画成阶梯线（逐年跃升的折线），`show_events` 和 `event_rows` 控制事件竖线开关与顶部标签排布行数，`show_end_labels` 控制线末端是否标出主题名和最终数值。
+lang: 'R'
+style: 'house'
+cells: '3x1'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'

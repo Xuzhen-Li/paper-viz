@@ -1,0 +1,23 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Ablation study bars (house style)'
+title_zh: '消融实验柱图（house 风格）'
+slug: 'ablation-bar'
+category: 'comparison'
+tags:
+  - 'ablation'
+  - 'bar'
+  - 'baseline'
+  - 'model-comparison'
+  - 'house-style'
+packages:
+  - 'ggplot2'
+data_columns:
+  variant: '模型版本（字符串；其中一行为完整模型，其余为去掉某一组件的版本）'
+  seed: '随机种子或重复编号（整数）'
+  score: '该次运行的评价指标（数值，此例为准确率 %）'
+when_to_use: 消融实验（逐一去掉某个模块看性能下降多少的实验）中，比较完整模型与各删减变体在多次重复实验下的平均得分与差值时用。
+customize: 在 `data.csv` 填入 `variant`（模型变体名，完整模型一行，其余写「w/o 模块名」）、`seed`（随机种子，即每次重复实验的编号）和 `score`（得分）；在 `plot.R` 顶部修改 `full_name` 指定完整模型名称（默认「Full model」），改 `metric_label` 和 `x_limits` 设横轴名称与范围（有真实零点时保持从 0 开始），用 `sort_by_drop` 控制是否按性能下降幅度排序，`show_points` 设为 `TRUE` 可画出每次实验的散点。
+lang: 'R'
+style: 'house'
+cells: '2x1'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'

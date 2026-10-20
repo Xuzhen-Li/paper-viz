@@ -1,0 +1,31 @@
+"variant","seed","score"
+"Full model",1,84.91
+"Full model",2,83.95
+"Full model",3,84.68
+"Full model",4,84.55
+"Full model",5,84.2
+"w/o attention",1,79.39
+"w/o attention",2,80.46
+"w/o attention",3,80.29
+"w/o attention",4,80.97
+"w/o attention",5,80.62
+"w/o pretraining",1,75.96
+"w/o pretraining",2,75.76
+"w/o pretraining",3,76.07
+"w/o pretraining",4,76.06
+"w/o pretraining",5,74.67
+"w/o augmentation",1,83.91
+"w/o augmentation",2,83.47
+"w/o augmentation",3,83.23
+"w/o augmentation",4,82.62
+"w/o augmentation",5,83.51
+"w/o multi-scale",1,81.8
+"w/o multi-scale",2,81.9
+"w/o multi-scale",3,81.16
+"w/o multi-scale",4,82.88
+"w/o multi-scale",5,82.03
+"w/o contrastive loss",1,80.54
+"w/o contrastive loss",2,80.44
+"w/o contrastive loss",3,79.43
+"w/o contrastive loss",4,79.79
+"w/o contrastive loss",5,80.44
