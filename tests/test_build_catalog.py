@@ -1,4 +1,4 @@
-"""Tests for the README badge step of tools/build_catalog.py. Run: python3 -m unittest discover tests"""
+"""Tests for tools/build_catalog.py: README badge step and the schematic SVG check. Run: python3 -m unittest discover tests"""
 from __future__ import annotations
 
 import importlib.util
@@ -38,6 +38,35 @@ class RewriteBadgeTest(unittest.TestCase):
         self.readme.write_text(text, encoding="utf-8")
         self.assertFalse(self.mod.rewrite_badge(115, self.readme))
         self.assertEqual(self.readme.read_text(encoding="utf-8"), text)
+
+
+class VectorSvgTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.mod = load_builder()
+        self.tmp = tempfile.TemporaryDirectory()
+        self.svg = Path(self.tmp.name) / "figure.svg"
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def test_native_text_passes(self) -> None:
+        self.svg.write_text('<svg xmlns="http://www.w3.org/2000/svg"><rect/><text>QC</text></svg>', encoding="utf-8")
+        self.mod.check_vector_svg(self.svg)
+
+    def test_embedded_bitmap_fails(self) -> None:
+        for body in (
+            '<image href="data:image/png;base64,AAAA"/>',
+            '<switch><foreignObject><div>QC</div></foreignObject></switch>',
+        ):
+            self.svg.write_text(f'<svg xmlns="http://www.w3.org/2000/svg">{body}</svg>', encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                self.mod.check_vector_svg(self.svg)
+
+    def test_committed_schematics_are_vector(self) -> None:
+        svgs = sorted((ROOT / "figures" / "schematic").glob("*/figure.svg"))
+        self.assertEqual(len(svgs), 20)
+        for svg in svgs:
+            self.mod.check_vector_svg(svg)
 
 
 if __name__ == "__main__":

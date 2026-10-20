@@ -1,0 +1,14 @@
+title: Assembly strategy comparison
+title_zh: 组装策略对比
+slug: assembly-compare
+category: schematic
+tags:
+  - assembly
+  - comparison
+  - methods
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 比较 HiFi、纳米孔、混合和短读长四条组装路线。
+customize: 每列一种策略，列内步骤自上而下。底部绿色条是各列共用的评估，不要在列之间互相连线。
+lang: drawio

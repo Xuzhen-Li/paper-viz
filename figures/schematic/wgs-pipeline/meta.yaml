@@ -1,0 +1,14 @@
+title: Whole-genome sequencing pipeline
+title_zh: 全基因组测序流程
+slug: wgs-pipeline
+category: schematic
+tags:
+  - wgs
+  - pipeline
+  - sequencing
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 从采样到变异检出的一条直线流程。
+customize: 改六个方框文字即可换步骤；增减方框时保持等宽并拉开箭头空隙。主色用蓝，交付物用绿。
+lang: drawio
