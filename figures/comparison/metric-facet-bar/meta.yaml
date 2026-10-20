@@ -18,8 +18,8 @@ data_columns:
   direction: '该指标越大越好（higher）或越小越好（lower）（字符串）'
   fold: '交叉验证折或重复编号（整数）'
   value: '该次运行的指标值（数值）'
-when_to_use: '[[TODO-TEXT]]'
-customize: '[[TODO-TEXT]]'
+when_to_use: 在多个具有不同单位或量纲的评价指标下，分小面板并排比较几种方法在多折交叉验证（把数据分成几份轮流测试）中的平均表现时用。
+customize: 在 `data.csv` 填入 `method`（方法名）、`metric`（带单位的指标名，每个指标占一个小面板）、`direction`（填 `higher` 表示越高越好，或 `lower` 表示越低越好）、`fold`（交叉验证折数编号）和 `value`（数值）；在 `plot.R` 顶部修改 `n_cols` 和 `fig_cells` 调整面板排列列数与画布尺寸，用 `mark_best` 控制是否依 `direction` 加粗最佳方法的数值，`show_direction` 控制是否在标题注明优劣方向，`digits` 设各指标小数位。
 lang: 'R'
 style: 'house'
 cells: '4x1'
