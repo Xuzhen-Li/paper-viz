@@ -1,0 +1,14 @@
+title: Ancient DNA workflow by role
+title_zh: 古 DNA 分工泳道
+slug: adna-swimlane
+category: schematic
+tags:
+  - ancient-dna
+  - swimlane
+  - roles
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 野外、实验和计算分成三条泳道。
+customize: 泳道名在左侧色块。每条泳道内从左到右连线，只在泳道之间用一条向下的箭头交接。
+lang: drawio

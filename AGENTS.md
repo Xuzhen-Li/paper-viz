@@ -35,6 +35,8 @@ You can also filter `catalog.json` → `figures`. Fields that matter: `slug`, `t
 
 `lang: Python` uses `python3 plot.py` and the same columns.
 
+For a schematic, copy the folder and edit template.drawio or figure.svg. The folder has no data file and no plot script, but text in figure.svg is editable vector text. The tools/build_catalog.py script rejects any figure.svg that contains embedded images or HTML labels.
+
 Raw downloads follow `https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/` plus the path, for `plot.R`, `data.csv`, and `make_data.R`.
 
 A main figure with `variants` has near-duplicate folders. Copy the slug you will actually plot. A variant's `variant_of` names its main figure.
@@ -101,8 +103,8 @@ New schematics are editable SVG built by a Python script; the method, numbers an
 
 1. Create `figures/<category>/<slug>/`.
 2. R folder: `make_data.R` (fixed random seed; `data.csv` under 200KB), `data.csv`, `plot.R`, `preview.png`, `meta.yaml`. `plot.R` only reads the CSV, sources `../../../styles/r/theme_house.R`, and calls `theme_house()`, `pv_palette("house")`, and `pv_save_house()`. The `layout` category uses this same folder; multi-panel arrangement stays in `plot.R`.
-3. Required `meta.yaml` keys: `title`, `title_zh`, `slug`, `category`, `tags` (English), `packages`, `data_columns` (name → description), `when_to_use`, `customize`, `lang` (`R` or `Python`). `title_zh`, `when_to_use`, and `customize` must be non-empty. `slug` equals the directory name. A gallery toggle also needs `variant_of` and `variant_label`.
-4. `category` is one of: `distribution`, `comparison`, `correlation`, `composition`, `heatmap`, `dimension-reduction`, `differential-expression`, `enrichment`, `population-genetics`, `genome`, `phylogeny`, `network`, `microbiome-ecology`, `clinical`, `layout`.
+3. Required `meta.yaml` keys: `title`, `title_zh`, `slug`, `category`, `tags` (English), `packages`, `data_columns` (name → description), `when_to_use`, `customize`, `lang` (`R`, `Python`, or `drawio`). `title_zh`, `when_to_use`, and `customize` must be non-empty. `slug` equals the directory name. A gallery toggle also needs `variant_of` and `variant_label`.
+4. `category` is one of: `distribution`, `comparison`, `correlation`, `composition`, `heatmap`, `dimension-reduction`, `differential-expression`, `enrichment`, `population-genetics`, `genome`, `phylogeny`, `network`, `microbiome-ecology`, `clinical`, `layout`, `schematic`.
 5. Run `python3 tools/build_catalog.py`. That refreshes `catalog.json`, `docs/catalog.json`, `docs/llms.txt`, the README catalog block, and the figures badge.
 
 Keep one main folder per chart type. Small options belong in the parameters at the top of `plot.R` and in `customize`.
