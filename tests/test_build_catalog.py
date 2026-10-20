@@ -64,7 +64,7 @@ class VectorSvgTest(unittest.TestCase):
 
     def test_committed_schematics_are_vector(self) -> None:
         svgs = sorted((ROOT / "figures" / "schematic").glob("*/figure.svg"))
-        self.assertEqual(len(svgs), 20)
+        self.assertEqual(len(svgs), 21)
         for svg in svgs:
             self.mod.check_vector_svg(svg)
 

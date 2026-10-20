@@ -1,0 +1,14 @@
+title: Selective sweep concept
+title_zh: 选择性清除概念
+slug: selective-sweep-concept
+category: schematic
+tags:
+  - population-genetics
+  - selection
+  - concept
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 演示有利突变在群体中频率上升时，如何带动周围单倍型（同一条染色体上一起遗传的变异组合）趋同并造成局部核苷酸多样性（π，序列间差异程度）出现低谷。
+customize: 可直接在 draw.io 中打开 `template.drawio` 编辑，或修改 `build.py` 后运行 `python3 figures/schematic/selective-sweep-concept/build.py` 重新生成。常改项包括单倍型条数 `NH`、中性位点数 `NS`、受选择位点位置 `SITE`、重组断点范围 `left_d` 与 `right_d`（祖先片段边界）、低谷宽度 `LSC` 以及配色和标签文字。注意标签超出画布、互相重叠或字号小于 6 pt 时脚本会报错。
+lang: drawio

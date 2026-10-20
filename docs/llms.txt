@@ -129,6 +129,7 @@ paper-viz is a free MIT R library of journal-style scientific figures with plott
 - [Sample routing by material](https://xuzhen-li.github.io/paper-viz/#sample-routing): 新鲜组织、馆藏标本和沉积物走不同前处理。
 - [Field sampling timeline](https://xuzhen-li.github.io/paper-viz/#sampling-timeline): 按年份排采样和分析里程碑。
 - [Convergent evidence for selection](https://xuzhen-li.github.io/paper-viz/#selection-evidence): 多种选择或关联证据汇到候选位点，再做功能验证。
+- [Selective sweep concept](https://xuzhen-li.github.io/paper-viz/#selective-sweep-concept): 演示有利突变在群体中频率上升时，如何带动周围单倍型（同一条染色体上一起遗传的变异组合）趋同并造成局部核苷酸多样性（π，序列间差异程度）出现低谷。
 - [Sequencing quality gate](https://xuzhen-li.github.io/paper-viz/#sequencing-qc-gate): 质控通过才继续，不通过回到建库。
 - [Variant filtering cascade](https://xuzhen-li.github.io/paper-viz/#variant-filter-cascade): 变异集逐级变窄，直到高置信集合。
 - [Variant discovery modules](https://xuzhen-li.github.io/paper-viz/#variant-modules): 比对读段分到 SNV、indel、SV 和 CNV，再合并。
