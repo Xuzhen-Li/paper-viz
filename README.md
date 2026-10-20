@@ -50,7 +50,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 140 张。
+共 141 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
@@ -69,7 +69,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
 | `layout` | 拼图 | 6 |
-| `schematic` | 流程图 | 20 |
+| `schematic` | 流程图 | 21 |
 
 ### 分布 `distribution`（11）
 
@@ -172,7 +172,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
 <img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
 
-### 流程图 `schematic`（20）
+### 流程图 `schematic`（21）
 
 <img src="figures/schematic/adna-processing/preview.png" width="200" alt="古 DNA 处理步骤">
 <img src="figures/schematic/adna-swimlane/preview.png" width="200" alt="古 DNA 分工泳道">
