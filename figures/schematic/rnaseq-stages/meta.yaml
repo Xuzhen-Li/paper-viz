@@ -1,0 +1,14 @@
+title: RNA-seq analysis route
+title_zh: RNA-seq 分析路线
+slug: rnaseq-stages
+category: schematic
+tags:
+  - rna-seq
+  - stages
+  - deliverable
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 每个分析阶段对应一项工作和一项交付。
+customize: 三列分别是阶段、工作和交付。往下加行时复制一行并保持左缘对齐。
+lang: drawio

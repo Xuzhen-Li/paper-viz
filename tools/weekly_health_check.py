@@ -35,6 +35,7 @@ CATEGORIES = {
     "microbiome-ecology",
     "clinical",
     "layout",
+    "schematic",
 }
 ABS_PATH_RE = re.compile(
     r"(?:/Users/|/home/(?!runner\b)|[A-Za-z]:\\|/Volumes/|\\\\[A-Za-z])"
@@ -135,12 +136,12 @@ def main() -> int:
     cats = {f.get("category") for f in figs_root}
     missing_cats = sorted(CATEGORIES - cats)
     extra_cats = sorted(cats - CATEGORIES)
-    if len(cats & CATEGORIES) != 15 or missing_cats or extra_cats:
+    if len(cats & CATEGORIES) != len(CATEGORIES) or missing_cats or extra_cats:
         errors.append(
             {
                 "kind": "categories",
                 "detail": (
-                    f"分类应为 15 类齐全；现有 {len(cats & CATEGORIES)} 类。"
+                    f"分类应为 {len(CATEGORIES)} 类齐全；现有 {len(cats & CATEGORIES)} 类。"
                     f" 缺={missing_cats or '无'} 多={extra_cats or '无'}"
                 ),
                 "url": f"{GALLERY}/",

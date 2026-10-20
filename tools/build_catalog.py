@@ -53,7 +53,10 @@ CATEGORIES = {
     "microbiome-ecology",
     "clinical",
     "layout",
+    "schematic",
 }
+# draw.io templates: catalogued with the figures, shown in their own gallery section.
+SCHEMATIC_CATEGORY = "schematic"
 START = "<!-- CATALOG:START -->"
 END = "<!-- CATALOG:END -->"
 CATEGORY_ZH = {
@@ -72,6 +75,7 @@ CATEGORY_ZH = {
     "microbiome-ecology": "微生物与生态",
     "clinical": "临床",
     "layout": "拼图",
+    "schematic": "流程图",
 }
 CATEGORY_ORDER = (
     "distribution",
@@ -89,6 +93,7 @@ CATEGORY_ORDER = (
     "microbiome-ecology",
     "clinical",
     "layout",
+    "schematic",
 )
 # Task list is the gallery filter. heatmap has no task of its own; those
 # matrices sit with correlation under 相关/关系.
@@ -108,6 +113,7 @@ CATEGORY_TASK = {
     "clinical": "clinical",
     "microbiome-ecology": "microbiome",
     "layout": "layout",
+    "schematic": "schematic",
 }
 TASKS = (
     ("compare", "比较组", "Compare groups"),
@@ -124,6 +130,7 @@ TASKS = (
     ("clinical", "临床", "Clinical"),
     ("microbiome", "微生物/生态", "Microbiome & ecology"),
     ("layout", "拼图", "Layout"),
+    ("schematic", "流程图", "Schematics"),
 )
 TASK_LABELS = {task_id: (zh, en) for task_id, zh, en in TASKS}
 # Audit A merges. Main slug first, then variant chips in this order.
@@ -214,6 +221,8 @@ def load_meta(path: Path) -> dict:
         raise SystemExit(f"{path}: illegal category {data['category']}")
     if data["lang"] not in ("R", "Python", "drawio"):
         raise SystemExit(f"{path}: lang must be R, Python, or drawio")
+    if (data["lang"] == "drawio") != (data["category"] == SCHEMATIC_CATEGORY):
+        raise SystemExit(f"{path}: lang drawio and category schematic go together")
     if not isinstance(data["tags"], list) or not isinstance(data["packages"], list):
         raise SystemExit(f"{path}: tags and packages must be lists")
     if not isinstance(data["data_columns"], dict):
@@ -602,6 +611,20 @@ def _script_meta(code_text: str, rel_code: str) -> tuple[list[dict], dict | None
         return [], None
 
 
+RASTER_IN_SVG_RE = re.compile(r"<image\b|data:image/|<foreignObject\b")
+
+
+def check_vector_svg(svg: Path) -> None:
+    """figure.svg must be vector with native text: no embedded bitmaps, no HTML labels."""
+    hit = RASTER_IN_SVG_RE.search(svg.read_text(encoding="utf-8"))
+    if hit:
+        raise SystemExit(f"{svg}: {hit.group(0)} found; labels must be native SVG text")
+
+
+def is_schematic(row: dict) -> bool:
+    return row["category"] == SCHEMATIC_CATEGORY
+
+
 def build() -> list[dict]:
     metas = sorted(FIGURES.glob("*/*/meta.yaml"))
     if not metas:
@@ -622,9 +645,10 @@ def build() -> list[dict]:
         if not preview.exists():
             raise SystemExit(f"missing {preview}")
         if meta["lang"] == "drawio":
-            drawio = fig_dir / "template.drawio"
-            if not drawio.exists():
-                raise SystemExit(f"missing {drawio}")
+            for name in ("template.drawio", "figure.svg"):
+                if not (fig_dir / name).exists():
+                    raise SystemExit(f"missing {fig_dir / name}")
+            check_vector_svg(fig_dir / "figure.svg")
             rel_data = None
             rel_data_files: list[str] = []
         else:
@@ -834,6 +858,8 @@ p <- ggplot2::ggplot(df)
         raise SystemExit("task map")
     if task_of("genome") != "genome" or task_of("layout") != "layout" or TASK_LABELS["de"][0] != "差异表达":
         raise SystemExit("task labels")
+    if task_of("schematic") != "schematic" or CATEGORY_ORDER[-1] != SCHEMATIC_CATEGORY:
+        raise SystemExit("task labels")
     for plot in FIGURES.glob("*/*/plot.R"):
         text = plot.read_text(encoding="utf-8")
         parse_parameters(text)
@@ -862,6 +888,11 @@ def assert_catalog(figures: list[dict]) -> None:
         raise SystemExit("parameters type")
     if "pv_save" in volcano["code_text"] and not (volcano.get("canvas") or {}).get("width_mm"):
         raise SystemExit("volcano canvas")
+    for row in figures:
+        if is_schematic(row) and (row["variant_of"] or row["variants"]):
+            raise SystemExit(f"{row['slug']}: schematics have no variants")
+        if is_schematic(row) and row["data"]:
+            raise SystemExit(f"{row['slug']}: schematic with data csv")
     joined = "\n".join(row["search_text"] for row in figures if row["slug"] in {"pca-biplot", "pcoa", "nmds"})
     if "pcoa" not in joined:
         raise SystemExit("variant search text")
@@ -888,7 +919,7 @@ def render_llms(figures: list[dict]) -> str:
         "with plotting code and synthetic sample data. An AI agent finds a figure "
         "with tools/find_figure.py or catalog.json, copies that folder, replaces "
         "data.csv without renaming the declared columns, edits the parameters at "
-        "the top of plot.R, and renders with Rscript."
+        "the top of plot.R, and renders with Rscript. There are also 20 draw.io schematics with editable SVG in their own section."
     )
     lines = [
         "# paper-viz",
@@ -936,8 +967,9 @@ def main() -> None:
     rewrite_readme(render_readme(figures))
     badge = rewrite_badge(len(figures))
     write_llms(figures)
-    cards = sum(1 for row in figures if not row["variant_of"])
-    print(f"catalog {len(figures)} figures, {cards} cards")
+    cards = sum(1 for row in figures if not row["variant_of"] and not is_schematic(row))
+    schematics = sum(1 for row in figures if is_schematic(row))
+    print(f"catalog {len(figures)} figures: {len(figures) - schematics} data ({cards} cards), {schematics} schematics")
     if badge:
         print(f"badge figures-{len(figures)}")
     print("wrote docs/llms.txt")

@@ -1,0 +1,14 @@
+title: Convergent evidence for selection
+title_zh: 选择信号的多重证据
+slug: selection-evidence
+category: schematic
+tags:
+  - selection
+  - evidence
+  - convergence
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 多种选择或关联证据汇到候选位点，再做功能验证。
+customize: 上方证据框等距排列，箭头在中线上方的空白汇入候选框，不要穿过文字。
+lang: drawio

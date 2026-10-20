@@ -1,0 +1,14 @@
+title: Multi-omics integration
+title_zh: 多组学整合中心
+slug: multiomics-hub
+category: schematic
+tags:
+  - multi-omics
+  - hub
+  - integration
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 基因组、转录组、表观和表型汇入一个联合模型。
+customize: 四个输入放在四角，中心椭圆是模型，下方绿色框是解释。连线停在椭圆边缘。
+lang: drawio

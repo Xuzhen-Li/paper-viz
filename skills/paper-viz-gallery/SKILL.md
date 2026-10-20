@@ -24,13 +24,13 @@ description: >-
 | `data_columns` | 列名 → 含义；列名是接口 |
 | `when_to_use` | 何时用（中文） |
 | `customize` | 改哪些参数 |
-| `lang` | `R` 或 `Python` |
+| `lang` | `R`、`Python` 或 `drawio` |
 | `dir` | `figures/<category>/<slug>` |
 | `code` / `data` | `plot.R`（或 `plot.py`）与 `data.csv` |
 | `preview` | `preview.png` |
 | `github_code` / `github_data` / `github_dir` | GitHub blob 链接 |
 
-`category` 只可能是 `distribution`、`comparison`、`correlation`、`composition`、`heatmap`、`dimension-reduction`、`differential-expression`、`enrichment`、`population-genetics`、`genome`、`phylogeny`、`network`、`microbiome-ecology`、`clinical`、`layout`。
+`category` 只可能是 `distribution`、`comparison`、`correlation`、`composition`、`heatmap`、`dimension-reduction`、`differential-expression`、`enrichment`、`population-genetics`、`genome`、`phylogeny`、`network`、`microbiome-ecology`、`clinical`、`layout`、`schematic`。
 
 ## 检索
 
@@ -46,6 +46,7 @@ description: >-
 4. 在该目录运行 `Rscript plot.R`。脚本 `source("../../../styles/r/theme_viz.R")`。目录深度变了就把 `styles/r/theme_viz.R` 一起复制，并改这一行。`pv_save()` 同时写出 PDF、600 dpi PNG 和 `preview.png`。
 5. `lang: Python` 时运行 `python3 plot.py`，列接口仍然是 `data_columns`。
 6. `layout` 拼图同样复制整个文件夹，换 `data.csv`，改 `plot.R` 里的面板开关后 `Rscript plot.R`。
+7. 示意图文件夹没有数据文件，请打开template.drawio或编辑figure.svg。如果figure.svg包含嵌入图片或HTML标签，tools/build_catalog.py会拒绝它。
 
 ## 示例
 

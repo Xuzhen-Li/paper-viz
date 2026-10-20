@@ -1,0 +1,14 @@
+title: Technical route for a genomics project
+title_zh: 基因组课题技术路线
+slug: project-phases
+category: schematic
+tags:
+  - project
+  - phases
+  - roadmap
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 课题按设计、产生数据、分析和写作四段往下走。
+customize: 左侧序号是阶段，右侧是该阶段的三步，最后一步是该阶段交付。阶段之间只连左侧色块。
+lang: drawio

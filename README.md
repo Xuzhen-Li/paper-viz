@@ -50,7 +50,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 120 张。
+共 140 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
@@ -69,6 +69,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
 | `layout` | 拼图 | 6 |
+| `schematic` | 流程图 | 20 |
 
 ### 分布 `distribution`（11）
 
@@ -170,6 +171,13 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/layout/house-mosaic-aba-kinetics/preview.png" width="200" alt="ABA 通路动态单栏拼版：时间曲线、小多图、雨云图、密度曲线（house 风格，2×4）">
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
 <img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
+
+### 流程图 `schematic`（20）
+
+<img src="figures/schematic/adna-processing/preview.png" width="200" alt="古 DNA 处理步骤">
+<img src="figures/schematic/adna-swimlane/preview.png" width="200" alt="古 DNA 分工泳道">
+<img src="figures/schematic/assembly-compare/preview.png" width="200" alt="组装策略对比">
+<img src="figures/schematic/assembly-iteration/preview.png" width="200" alt="基因组组装迭代">
 <!-- CATALOG:END -->
 
 </details>
@@ -253,6 +261,7 @@ python3 tools/find_figure.py --slug volcano --json
 | 路径 | 内容 |
 |------|------|
 | `figures/<category>/<slug>/` | `make_data.R`、`data.csv`、`plot.R`、`preview.png`、`meta.yaml` |
+| `figures/schematic/<slug>/` | `template.drawio`、`figure.svg`、`preview.png`、`meta.yaml` |
 | `styles/` | 主题与导出：新图用 house style（`theme_house()`），旧图保留 `theme_viz()`，见 [styles/style-contract.md](styles/style-contract.md) |
 | `catalog.json` | 全库索引 |
 | `AGENTS.md` | AI agent 怎么检索、换数据、出图 |
@@ -264,10 +273,12 @@ python3 tools/find_figure.py --slug volcano --json
 
 ## 贡献 / Contributing
 
-1. 新建 `figures/<category>/<slug>/`。`category` 只能是：`distribution`、`comparison`、`correlation`、`composition`、`heatmap`、`dimension-reduction`、`differential-expression`、`enrichment`、`population-genetics`、`genome`、`phylogeny`、`network`、`microbiome-ecology`、`clinical`、`layout`。
+1. 新建 `figures/<category>/<slug>/`。`category` 只能是：`distribution`、`comparison`、`correlation`、`composition`、`heatmap`、`dimension-reduction`、`differential-expression`、`enrichment`、`population-genetics`、`genome`、`phylogeny`、`network`、`microbiome-ecology`、`clinical`、`layout`、`schematic`。
 2. `make_data.R` 固定随机种子，写出小于 200KB 的 `data.csv`。`plot.R` 只读数据；新图用 house style（`theme_house()` / `pv_save_house()`，见 [House style](#house-style)），旧图保留 `theme_viz()` / `pv_save()`。`layout` 也走这一套，多面板写在同一份 `plot.R` 里。
-3. `meta.yaml` 必填：`title`、`title_zh`、`slug`、`category`、`tags`（英文）、`packages`、`data_columns`、`when_to_use`、`customize`、`lang`（`R` 或 `Python`）。`title_zh`、`when_to_use`、`customize` 不能为空。
+3. `meta.yaml` 必填：`title`、`title_zh`、`slug`、`category`、`tags`（英文）、`packages`、`data_columns`、`when_to_use`、`customize`、`lang`（`R`、`Python` 或 `drawio`）。`title_zh`、`when_to_use`、`customize` 不能为空。
 4. 质量门：`bash tools/check_figure.sh figures/<category>/<slug>` 必须通过，然后 `python3 tools/build_catalog.py`。
+
+每个模板文件夹包含template.drawio和figure.svg以及preview.png，这里没有数据文件或绘图脚本。tools/build_catalog.py会拒绝任何包含嵌入图片或HTML标签的figure.svg文件。现有的draw.io模板保持原样，而新的示意图由生成SVG的Python脚本制作。
 
 同一图型只留一版。变体写进 `plot.R` 顶部参数，并记在 `customize`。
 
