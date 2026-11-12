@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Metagene profile with clustered signal heatmap around TSS
+title_zh: TSS 周围信号的 metagene 曲线与分簇热图
+slug: metagene-heatmap
+category: genome
+tags:
+  - chip-seq
+  - atac-seq
+  - metagene
+  - tss
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  gene: 基因 ID
+  cluster: 分簇（按出现顺序上下排）
+  bin_mid: 相对 TSS 的 bin 中点（bp）
+  signal: 归一化信号
+when_to_use: 看一组区域（TSS、峰中心）周围的信号分布时用：上方是各簇平均曲线并直接标簇名与基因数，下方热图每行一个基因，簇内按平均信号从高到低排，色条放在热图框内右下角。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`clusters`（簇名与颜色）、`vmax_q`（色标上限分位数）。
+lang: Python
+style: house
+cells: 2x3
+references:
+  - url: https://doi.org/10.1093/nar/gkw257
+    figure: [待确认]
