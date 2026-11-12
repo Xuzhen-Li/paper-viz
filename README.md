@@ -50,24 +50,24 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 150 张。
+共 155 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 11 |
 | `comparison` | 比较 | 16 |
-| `correlation` | 相关 | 13 |
+| `correlation` | 相关 | 14 |
 | `composition` | 组成 | 14 |
 | `heatmap` | 热图 | 4 |
 | `dimension-reduction` | 降维 | 6 |
-| `differential-expression` | 差异表达 | 3 |
+| `differential-expression` | 差异表达 | 4 |
 | `enrichment` | 富集 | 3 |
 | `population-genetics` | 群体遗传 | 15 |
-| `genome` | 基因组 | 21 |
+| `genome` | 基因组 | 23 |
 | `phylogeny` | 系统发育 | 2 |
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
-| `clinical` | 临床 | 3 |
+| `clinical` | 临床 | 4 |
 | `layout` | 拼图 | 7 |
 | `schematic` | 流程图 | 25 |
 
@@ -85,7 +85,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/comparison/bump-chart/preview.png" width="200" alt="凹凸图">
 <img src="figures/comparison/circular-bar/preview.png" width="200" alt="环状柱形图">
 
-### 相关 `correlation`（13）
+### 相关 `correlation`（14）
 
 <img src="figures/correlation/bland-altman/preview.png" width="200" alt="Bland–Altman 图">
 <img src="figures/correlation/bubble/preview.png" width="200" alt="气泡图">
@@ -115,10 +115,11 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/dimension-reduction/pca-biplot/preview.png" width="200" alt="PCA 得分散点">
 <img src="figures/dimension-reduction/pcoa/preview.png" width="200" alt="主坐标分析">
 
-### 差异表达 `differential-expression`（3）
+### 差异表达 `differential-expression`（4）
 
 <img src="figures/differential-expression/expression-trend/preview.png" width="200" alt="表达趋势图">
 <img src="figures/differential-expression/ma-plot/preview.png" width="200" alt="MA 图">
+<img src="figures/differential-expression/quadrant-fc/preview.png" width="200" alt="两组对比倍数变化的四象限图">
 <img src="figures/differential-expression/volcano/preview.png" width="200" alt="火山图">
 
 ### 富集 `enrichment`（3）
@@ -134,7 +135,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/population-genetics/fst-heatmap/preview.png" width="200" alt="成对 Fst 热图">
 <img src="figures/population-genetics/fstats-point/preview.png" width="200" alt="f3 / f4 / D 点距图">
 
-### 基因组 `genome`（21）
+### 基因组 `genome`（23）
 
 <img src="figures/genome/busco-bar/preview.png" width="200" alt="BUSCO 堆积条形">
 <img src="figures/genome/chromosome-ideogram/preview.png" width="200" alt="染色体示意图与密度">
@@ -158,9 +159,10 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/microbiome-ecology/rda-biplot/preview.png" width="200" alt="RDA 双序图">
 <img src="figures/microbiome-ecology/stamp-diffbar/preview.png" width="200" alt="STAMP 差异条形">
 
-### 临床 `clinical`（3）
+### 临床 `clinical`（4）
 
 <img src="figures/clinical/forest/preview.png" width="200" alt="森林图">
+<img src="figures/clinical/funnel-plot/preview.png" width="200" alt="Meta 分析漏斗图（伪 95% 界与 Egger 检验）">
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 <img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 

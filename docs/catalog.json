@@ -171,6 +171,74 @@
       "search_text": "forest plot\n森林图\nforest\n\nclinical\n临床\nclinical\n临床\nclinical\n多个研究或亚组要并列展示效应量和区间时用。\n在 `plot.r` 调整 `show_values` 开关（默认值为 `true`）以在区间上方显示数值，颜色取自 `pv_palette(\"house\")`；并在 `data.csv` 填入 study、hr、ci_low 和 ci_high 列。\nforest hazard-ratio confidence-interval\nstudy 研究或亚组名（字符串，行顺序即从上到下的反向） hr 风险比（数值，大于 0） ci_low 95% 区间下限（数值） ci_high 95% 区间上限（数值）"
     },
     {
+      "title": "Funnel plot with pseudo 95% limits and Egger test",
+      "title_zh": "Meta 分析漏斗图（伪 95% 界与 Egger 检验）",
+      "slug": "funnel-plot",
+      "category": "clinical",
+      "tags": [
+        "meta-analysis",
+        "funnel-plot",
+        "publication-bias",
+        "egger",
+        "house-style"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy",
+        "pandas"
+      ],
+      "data_columns": {
+        "study": "研究编号",
+        "log_or": "效应量（对数优势比）",
+        "se": "标准误"
+      },
+      "when_to_use": "Meta 分析检查小样本研究效应或发表偏倚时用：纵轴标准误倒置，灰色三角是固定效应估计的伪 95% 界，框内写固定效应、Egger 截距与 P（双侧，正态近似，未作多重校正）。",
+      "customize": "改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`x_label`；如用随机效应模型，把 `fe` 换成随机效应估计并改框内文字。",
+      "lang": "Python",
+      "task": "clinical",
+      "task_zh": "临床",
+      "task_en": "Clinical",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": null,
+      "downloads": [
+        {
+          "name": "plot.py",
+          "path": "figures/clinical/funnel-plot/plot.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/clinical/funnel-plot/plot.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/funnel-plot/plot.py"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/clinical/funnel-plot/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/clinical/funnel-plot/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/funnel-plot/data.csv"
+        },
+        {
+          "name": "make_data.py",
+          "path": "figures/clinical/funnel-plot/make_data.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/clinical/funnel-plot/make_data.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/funnel-plot/make_data.py"
+        }
+      ],
+      "dir": "figures/clinical/funnel-plot",
+      "preview": "figures/clinical/funnel-plot/preview.png",
+      "docs_preview": "previews/funnel-plot.png",
+      "code": "figures/clinical/funnel-plot/plot.py",
+      "data": "figures/clinical/funnel-plot/data.csv",
+      "data_files": [
+        "figures/clinical/funnel-plot/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/funnel-plot/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/clinical/funnel-plot/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/clinical/funnel-plot",
+      "code_text": "\"\"\"Funnel plot with pseudo 95% limits, fixed-effect estimate and Egger test; house style, 2x2.\"\"\"\nimport sys\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nHERE = Path(__file__).resolve().parent\nsys.path.insert(0, str(HERE.parents[2] / \"styles\" / \"python\"))\nimport house  # noqa: E402\n\nhouse.apply_house_style()\nPAL = house.pv_palette(\"house\")\nGREY = house.pv_palette(\"house_grey\")\nLW = house.LW_PT\nfrom math import erf, sqrt\n\n# ---- parameters\nx_label = \"Log odds ratio\"\n# ----\n\ndf = pd.read_csv(HERE / \"data.csv\")\ny, se = df.log_or.values, df.se.values\nw = 1 / se ** 2; fe = np.sum(w * y) / np.sum(w)\n# Egger regression: standardised effect on precision; intercept tests asymmetry\nX = np.c_[np.ones_like(se), 1 / se]; z = y / se\ncoef, res, *_ = np.linalg.lstsq(X, z, rcond=None)\nresid = z - X @ coef; s2 = resid @ resid / (len(z) - 2)\nse_b0 = np.sqrt(s2 * np.linalg.inv(X.T @ X)[0, 0]); t0 = coef[0] / se_b0\np_norm = 2 * (1 - 0.5 * (1 + erf(abs(t0) / sqrt(2))))          # normal approximation to the t test\nfig, ax = house.house_figure(cells=\"2x2\")\nss = np.linspace(0, se.max() * 1.08, 50)\nax.fill_betweenx(ss, fe - 1.96 * ss, fe + 1.96 * ss, color=GREY[\"bg\"], lw=0)\nax.plot(fe - 1.96 * ss, ss, color=GREY[\"mid\"], lw=LW[\"ref\"], ls=(0, (2, 1.5))); ax.plot(fe + 1.96 * ss, ss, color=GREY[\"mid\"], lw=LW[\"ref\"], ls=(0, (2, 1.5)))\ntop = se.max() * 1.08\nax.plot([fe, fe], [0, top], color=PAL[1], lw=LW[\"minor\"]); ax.plot([0, 0], [0, top], color=\"black\", lw=0.5)\nax.scatter(y, se, color=PAL[0], zorder=3, **house.SCATTER)\nax.set_ylim(se.max() * 1.08, -0.2); ax.set_ylabel(\"Standard error\"); ax.set_xlabel(x_label)\nax.text(0.03, 0.98, f\"fixed effect = {fe:.2f} (orange)\\nEgger intercept = {coef[0]:.2f}\\nP = {p_norm:.2f} (two-sided, normal approx.)\",\n        transform=ax.transAxes, va=\"top\", fontsize=6.5)\nax.set_xlim(fe - 1.96 * top * 1.05, fe + 1.96 * top * 1.05)\nax.set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])\nax.text(0.97, 0.98, f\"{len(df)} studies\\ngrey: 95% limits\\nsimulated data\", transform=ax.transAxes, ha=\"right\", va=\"top\", fontsize=6.5, color=GREY[\"mid\"])\nhouse.save_house(fig, HERE / \"figure\")\n",
+      "search_text": "funnel plot with pseudo 95% limits and egger test\nmeta 分析漏斗图（伪 95% 界与 egger 检验）\nfunnel-plot\n\nclinical\n临床\nclinical\n临床\nclinical\nmeta 分析检查小样本研究效应或发表偏倚时用：纵轴标准误倒置，灰色三角是固定效应估计的伪 95% 界，框内写固定效应、egger 截距与 p（双侧，正态近似，未作多重校正）。\n改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`x_label`；如用随机效应模型，把 `fe` 换成随机效应估计并改框内文字。\nmeta-analysis funnel-plot publication-bias egger house-style\nstudy 研究编号 log_or 效应量（对数优势比） se 标准误"
+    },
+    {
       "title": "Kaplan-Meier curves",
       "title_zh": "Kaplan-Meier 生存曲线",
       "slug": "km",
@@ -4044,6 +4112,76 @@
       "search_text": "line chart\n折线图\nline-basic\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\n自变量有顺序、要比较几条带噪声的轨迹时用。\nplot.r 顶部 series_keep 选择曲线；show_ribbon 加 loess 置信带；show_area 铺面积；show_points 在折线上加点。同目录 plot.py 仍读 x 和 y，作单序列 python 变体。\nline time-series ribbon\nx 有序自变量，这里是天数（数值） y 相对丰度（数值） series 曲线名称（字符串）"
     },
     {
+      "title": "Mendelian randomisation scatter with IVW and MR-Egger fits",
+      "title_zh": "孟德尔随机化散点图（IVW 与 MR-Egger 斜率）",
+      "slug": "mr-scatter",
+      "category": "correlation",
+      "tags": [
+        "mendelian-randomisation",
+        "causal-inference",
+        "gwas",
+        "scatter",
+        "house-style"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy",
+        "pandas"
+      ],
+      "data_columns": {
+        "snp": "工具变量 SNP",
+        "beta_exposure": "SNP 对暴露的效应",
+        "se_exposure": "其标准误",
+        "beta_outcome": "SNP 对结局的效应",
+        "se_outcome": "其标准误"
+      },
+      "when_to_use": "两样本孟德尔随机化报告主结果时用：每个点是一个工具变量，灰色十字为 95% CI；橙线是过原点的 IVW 估计，绿色虚线是带截距的 MR-Egger，截距偏离 0 提示水平多效性；斜率与区间写在框内。",
+      "customize": "改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：轴标题 `x_label`/`y_label`；如需加加权中位数等方法，在 IVW 之后再加一条线并在框内同色直标。",
+      "lang": "Python",
+      "task": "relationship",
+      "task_zh": "相关/关系",
+      "task_en": "Relationship",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": null,
+      "downloads": [
+        {
+          "name": "plot.py",
+          "path": "figures/correlation/mr-scatter/plot.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/mr-scatter/plot.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/mr-scatter/plot.py"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/correlation/mr-scatter/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/mr-scatter/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/mr-scatter/data.csv"
+        },
+        {
+          "name": "make_data.py",
+          "path": "figures/correlation/mr-scatter/make_data.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/correlation/mr-scatter/make_data.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/mr-scatter/make_data.py"
+        }
+      ],
+      "dir": "figures/correlation/mr-scatter",
+      "preview": "figures/correlation/mr-scatter/preview.png",
+      "docs_preview": "previews/mr-scatter.png",
+      "code": "figures/correlation/mr-scatter/plot.py",
+      "data": "figures/correlation/mr-scatter/data.csv",
+      "data_files": [
+        "figures/correlation/mr-scatter/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/mr-scatter/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/correlation/mr-scatter/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/correlation/mr-scatter",
+      "code_text": "\"\"\"Mendelian randomisation scatter: SNP effects with error bars and IVW / MR-Egger slopes; house style, 2x2.\"\"\"\nimport sys\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nHERE = Path(__file__).resolve().parent\nsys.path.insert(0, str(HERE.parents[2] / \"styles\" / \"python\"))\nimport house  # noqa: E402\n\nhouse.apply_house_style()\nPAL = house.pv_palette(\"house\")\nGREY = house.pv_palette(\"house_grey\")\nLW = house.LW_PT\n\n# ---- parameters\nx_label, y_label = \"SNP effect on exposure\", \"SNP effect on outcome\"\n# ----\n\ndf = pd.read_csv(HERE / \"data.csv\")\nbx, by, sy, sx = df.beta_exposure.values, df.beta_outcome.values, df.se_outcome.values, df.se_exposure.values\nw = 1 / sy ** 2\nivw = np.sum(w * bx * by) / np.sum(w * bx ** 2)                       # IVW through the origin\nivw_se = np.sqrt(1 / np.sum(w * bx ** 2))\nX = np.c_[np.ones_like(bx), bx]; W = np.diag(w)                        # MR-Egger: weighted regression with intercept\nbeta = np.linalg.solve(X.T @ W @ X, X.T @ W @ by)\nfig, ax = house.house_figure(cells=\"2x2\")\nax.errorbar(bx, by, xerr=1.96 * sx, yerr=1.96 * sy, fmt=\"none\", ecolor=GREY[\"ci\"], lw=0.5, zorder=1)\nax.scatter(bx, by, color=PAL[0], zorder=3, **house.SCATTER)\nxx = np.linspace(0, bx.max() * 1.08, 50)\nax.plot(xx, ivw * xx, color=PAL[1], lw=LW[\"main\"])\nax.plot(xx, beta[0] + beta[1] * xx, color=PAL[2], lw=LW[\"main\"], ls=(0, (3, 1.5)))\nax.axhline(0, color=GREY[\"ref\"], lw=LW[\"ref\"])\nax.set_xlim(0, bx.max() * 1.1); ax.set_xlabel(x_label); ax.set_ylabel(y_label)\nax.text(0.04, 0.95, f\"IVW slope {ivw:.2f} (95% CI {ivw - 1.96 * ivw_se:.2f} to {ivw + 1.96 * ivw_se:.2f})\", transform=ax.transAxes, va=\"top\", color=PAL[1], fontsize=7)\nax.text(0.04, 0.88, f\"MR-Egger slope {beta[1]:.2f}, intercept {beta[0]:.3f}\", transform=ax.transAxes, va=\"top\", color=PAL[2], fontsize=7)\nax.text(0.96, 0.04, f\"{len(df)} instruments; bars = 95% CI; simulated data\", transform=ax.transAxes, ha=\"right\", fontsize=6.5, color=GREY[\"mid\"])\nhouse.save_house(fig, HERE / \"figure\")\n",
+      "search_text": "mendelian randomisation scatter with ivw and mr-egger fits\n孟德尔随机化散点图（ivw 与 mr-egger 斜率）\nmr-scatter\n\ncorrelation\n相关\nrelationship\n相关/关系\nrelationship\n两样本孟德尔随机化报告主结果时用：每个点是一个工具变量，灰色十字为 95% ci；橙线是过原点的 ivw 估计，绿色虚线是带截距的 mr-egger，截距偏离 0 提示水平多效性；斜率与区间写在框内。\n改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：轴标题 `x_label`/`y_label`；如需加加权中位数等方法，在 ivw 之后再加一条线并在框内同色直标。\nmendelian-randomisation causal-inference gwas scatter house-style\nsnp 工具变量 snp beta_exposure snp 对暴露的效应 se_exposure 其标准误 beta_outcome snp 对结局的效应 se_outcome 其标准误"
+    },
+    {
       "title": "Parallel coordinates",
       "title_zh": "平行坐标",
       "slug": "parallel-coordinates",
@@ -4473,6 +4611,74 @@
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/differential-expression/ma-plot",
       "code_text": "# MA plot (house style). Up red, down blue, others light grey; counts in the panel, top genes named.\n# Reads data.csv only. Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# --- adjustable ---\nlfc_cut <- 1\np_cut <- 0.01\nshow_labels <- TRUE\nn_label <- 5   # more than about 5 names do not fit a 1x1 panel at 7 pt\n# ------------------\nfootnote <- \"Simulated data;\\nnot biological results\"\n\ndf <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndf$A <- log2(df$base_mean)\ndf$direction <- ifelse(\n  df$pvalue >= p_cut | abs(df$log2fc) < lfc_cut, \"ns\",\n  ifelse(df$log2fc > 0, \"up\", \"down\")\n)\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\ncols <- c(ns = grey[[\"light\"]], up = hp[[\"red\"]], down = hp[[\"blue\"]])\ndf <- df[order(df$direction != \"ns\"), , drop = FALSE]\nn_up <- sum(df$direction == \"up\"); n_down <- sum(df$direction == \"down\")\n\np <- ggplot(df, aes(A, log2fc, colour = direction)) +\n  geom_hline(yintercept = 0, linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_hline(yintercept = c(-lfc_cut, lfc_cut), linetype = \"dashed\",\n             linewidth = pv_house_lw(\"ref\"), colour = grey[[\"ref\"]]) +\n  geom_point(size = 0.7, shape = 16) +\n  # both counts sit in the empty lower-right corner, clear of the gene names above the cloud\n  annotate(\"text\", x = Inf, y = -Inf, hjust = 1.08, vjust = -1.9, label = paste(\"Up\", n_up),\n           colour = hp[[\"red\"]], size = pv_pt2size(7), family = house_family()) +\n  annotate(\"text\", x = Inf, y = -Inf, hjust = 1.08, vjust = -0.5, label = paste(\"Down\", n_down),\n           colour = hp[[\"blue\"]], size = pv_pt2size(7), family = house_family()) +\n  scale_colour_manual(values = cols, guide = \"none\") +\n  scale_y_continuous(expand = expansion(mult = c(0.22, 0.24))) +\n  labs(x = \"log2 mean expression\", y = \"log2 fold change\", caption = footnote) +\n  theme_house() +\n  theme(plot.margin = margin(1, 1.5, 1, 1, \"mm\"),\n        plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                    lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n        plot.caption.position = \"plot\")\n\nif (isTRUE(show_labels) && n_label > 0) {\n  lab <- df[df$direction != \"ns\", , drop = FALSE]\n  lab <- lab[order(lab$pvalue, -abs(lab$log2fc)), , drop = FALSE]\n  lab <- utils::head(lab, n_label)\n  # Names are placed by hand (fixed coordinates, no repel solver), so the PDF and PNG\n  # layouts are the same on every device. Each name sits beyond the point cloud and a\n  # straight leader runs from the point to the near edge of the name. Positions are in\n  # data units; a gene not listed below gets a default spot straight above or below it.\n  pos <- data.frame(\n    gene = c(\"G7133\", \"G1202\", \"G7004\", \"G5768\", \"G64\"),\n    lx   = c(-1.0,    6.5,     9.2,     13.3,    5.6),\n    ly   = c(7.5,     9.5,     7.0,     5.0,     -7.0)\n  )\n  lab <- merge(lab, pos, by = \"gene\", all.x = TRUE, sort = FALSE)\n  miss <- is.na(lab$lx)\n  lab$lx[miss] <- lab$A[miss]\n  lab$ly[miss] <- lab$log2fc[miss] + sign(lab$log2fc[miss]) * 3\n  lab$vj <- ifelse(lab$ly > lab$log2fc, 0, 1)     # name above (bottom-anchored) or below\n  # leader stops a little short of the name\n  gap <- 0.8\n  lab$sy <- lab$ly - sign(lab$ly - lab$log2fc) * gap\n  p <- p +\n    geom_segment(data = lab, aes(x = A, y = log2fc, xend = lx, yend = sy), inherit.aes = FALSE,\n                 linewidth = 0.2, colour = grey[[\"dark\"]]) +\n    # labelled genes get the house point outline\n    geom_point(data = lab, aes(fill = direction), shape = HOUSE_POINT$shape, size = 1.2,\n               stroke = HOUSE_POINT$stroke, colour = HOUSE_POINT$colour, show.legend = FALSE) +\n    scale_fill_manual(values = cols, guide = \"none\") +\n    geom_text(data = lab, aes(lx, ly, label = gene, vjust = vj), inherit.aes = FALSE,\n              size = pv_pt2size(7), colour = \"#1A1A1A\", family = house_family())\n}\n\npv_save_house(p, \"figure\", cells = \"1x1\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "ma plot\nma 图\nma-plot\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n要同时看平均表达和倍数变化、并标出显著基因时用。\nset `lfc_cut` (default 1) and `p_cut` (default 0.01) in `plot.r` to define significant genes, and toggle `show_labels` (default `true`) with `n_label` (default 5) to draw `geom_text` labels at fixed coordinates with straight leader lines and no `ggrepel`; supply `gene`, `base_mean`, `log2fc`, and `pvalue` columns in `data.csv`.\nma-plot differential-expression fold-change 差异基因\ngene 基因编号（字符串） base_mean 平均表达量（数值，正数） log2fc log2 倍数变化（数值） pvalue 原始 p 值（数值，0 到 1）"
+    },
+    {
+      "title": "Four-way plot of fold changes in two contrasts",
+      "title_zh": "两组对比倍数变化的四象限图",
+      "slug": "quadrant-fc",
+      "category": "differential-expression",
+      "tags": [
+        "fold-change",
+        "four-way-plot",
+        "rna-seq",
+        "quadrant",
+        "house-style"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy",
+        "pandas"
+      ],
+      "data_columns": {
+        "gene": "基因 ID",
+        "lfc_a": "对比 1 的 log2 倍数变化",
+        "lfc_b": "对比 2 的 log2 倍数变化"
+      },
+      "when_to_use": "比较两种处理（或两个物种、两个时间点）的差异表达是否一致时用：两轴各为一个对比的 log2FC，虚线为阈值，四个象限的基因分别着色并在角上写数量，框内写相关系数。",
+      "customize": "改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cut`（两轴共用的 |log2FC| 阈值）、轴标题、象限颜色 `cols`。",
+      "lang": "Python",
+      "task": "de",
+      "task_zh": "差异表达",
+      "task_en": "Differential expression",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": null,
+      "downloads": [
+        {
+          "name": "plot.py",
+          "path": "figures/differential-expression/quadrant-fc/plot.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/differential-expression/quadrant-fc/plot.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/quadrant-fc/plot.py"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/differential-expression/quadrant-fc/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/differential-expression/quadrant-fc/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/quadrant-fc/data.csv"
+        },
+        {
+          "name": "make_data.py",
+          "path": "figures/differential-expression/quadrant-fc/make_data.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/differential-expression/quadrant-fc/make_data.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/quadrant-fc/make_data.py"
+        }
+      ],
+      "dir": "figures/differential-expression/quadrant-fc",
+      "preview": "figures/differential-expression/quadrant-fc/preview.png",
+      "docs_preview": "previews/quadrant-fc.png",
+      "code": "figures/differential-expression/quadrant-fc/plot.py",
+      "data": "figures/differential-expression/quadrant-fc/data.csv",
+      "data_files": [
+        "figures/differential-expression/quadrant-fc/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/quadrant-fc/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/differential-expression/quadrant-fc/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/differential-expression/quadrant-fc",
+      "code_text": "\"\"\"Four-way (quadrant) plot of log2 fold changes in two contrasts with counts per quadrant; house style, 2x2.\"\"\"\nimport sys\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nHERE = Path(__file__).resolve().parent\nsys.path.insert(0, str(HERE.parents[2] / \"styles\" / \"python\"))\nimport house  # noqa: E402\n\nhouse.apply_house_style()\nPAL = house.pv_palette(\"house\")\nGREY = house.pv_palette(\"house_grey\")\nLW = house.LW_PT\n\n# ---- parameters\ncut = 1.0                     # |log2FC| threshold in both contrasts\nx_label, y_label = r\"log$_2$ FC, drought vs control\", r\"log$_2$ FC, heat vs control\"\n# ----\n\ndf = pd.read_csv(HERE / \"data.csv\")\na, b = df.lfc_a.values, df.lfc_b.values\nq = {\"up-up\": (a > cut) & (b > cut), \"down-down\": (a < -cut) & (b < -cut), \"up-down\": (a > cut) & (b < -cut), \"down-up\": (a < -cut) & (b > cut)}\ncols = {\"up-up\": PAL[3], \"down-down\": PAL[0], \"up-down\": PAL[1], \"down-up\": PAL[4]}\nrest = ~np.any(np.vstack(list(q.values())), axis=0)\nr = np.corrcoef(a, b)[0, 1]\nfig, ax = house.house_figure(cells=\"2x2\")\nax.scatter(a[rest], b[rest], s=3, color=GREY[\"light\"], linewidths=0, rasterized=True)\nfor k, m in q.items():\n    ax.scatter(a[m], b[m], s=5, color=cols[k], linewidths=0)\nfor v in (-cut, cut):\n    ax.axvline(v, color=GREY[\"ref\"], lw=LW[\"ref\"], ls=(0, (2, 1.5))); ax.axhline(v, color=GREY[\"ref\"], lw=LW[\"ref\"], ls=(0, (2, 1.5)))\nlim = np.ceil(np.abs(np.r_[a, b]).max())\nax.set_xlim(-lim, lim); ax.set_ylim(-lim, lim)\npos = {\"up-up\": (0.97, 0.97, \"right\", \"top\"), \"down-down\": (0.03, 0.03, \"left\", \"bottom\"), \"up-down\": (0.97, 0.03, \"right\", \"bottom\"), \"down-up\": (0.03, 0.97, \"left\", \"top\")}\nfor k, (x, y, ha, va) in pos.items():\n    ax.text(x, y, f\"{k}\\nn = {q[k].sum()}\", transform=ax.transAxes, ha=ha, va=va, color=cols[k], fontsize=7)\nax.text(0.5, 0.97, f\"Pearson r = {r:.2f}; simulated data\", transform=ax.transAxes, ha=\"center\", va=\"top\", fontsize=6.5, color=GREY[\"mid\"])\nax.set_xlabel(x_label); ax.set_ylabel(y_label)\nhouse.save_house(fig, HERE / \"figure\")\n",
+      "search_text": "four-way plot of fold changes in two contrasts\n两组对比倍数变化的四象限图\nquadrant-fc\n\ndifferential-expression\n差异表达\nde\n差异表达\ndifferential expression\n比较两种处理（或两个物种、两个时间点）的差异表达是否一致时用：两轴各为一个对比的 log2fc，虚线为阈值，四个象限的基因分别着色并在角上写数量，框内写相关系数。\n改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cut`（两轴共用的 |log2fc| 阈值）、轴标题、象限颜色 `cols`。\nfold-change four-way-plot rna-seq quadrant house-style\ngene 基因 id lfc_a 对比 1 的 log2 倍数变化 lfc_b 对比 2 的 log2 倍数变化"
     },
     {
       "title": "Volcano plot",
@@ -7258,6 +7464,75 @@
       "search_text": "k-mer spectrum\nk-mer 频谱\nkmer-spectrum\n\ngenome\n基因组\ngenome\n基因组\ngenome\n从 k-mer 频谱看错误峰、杂合 1n 峰和纯合 2n 峰，判断植物基因组杂合度时用。\nlog_y 控制 y 轴；label_peaks 在曲线正上方短引线上标记 1n 和 2n；show_model 画拟合虚线；show_trunc_note 在文库名下注记截断；peak_headroom 设为 1.8 留出空间；文库并排且 y 轴单位为千。\nkmer heterozygosity genomescope\nlibrary 文库，high-het 或 low-het（字符串） multiplicity k-mer 覆盖次数（整数） count 该覆盖次数上的不同 k-mer 数（数值） model 无噪声的负二项加误差模型（数值） lambda 该文库纯合峰覆盖度 λ（数值）"
     },
     {
+      "title": "Miami plot of two GWAS traits",
+      "title_zh": "双性状 GWAS 镜像曼哈顿图（Miami 图）",
+      "slug": "miami-plot",
+      "category": "genome",
+      "tags": [
+        "gwas",
+        "manhattan",
+        "miami",
+        "pleiotropy",
+        "house-style"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy",
+        "pandas"
+      ],
+      "data_columns": {
+        "trait": "性状代码（A 在上，B 在下）",
+        "chrom": "染色体（整数）",
+        "pos": "位置（bp，整数）",
+        "p": "P 值（数值）"
+      },
+      "when_to_use": "比较两个性状（或两个群体、两种模型）的全基因组关联结果时用：上半是性状 A，下半是性状 B，虚线为全基因组显著线，两者共有的位点在中线上用菱形标出。",
+      "customize": "改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`traits`（两行标签）、`gw`（显著线）、`shared_window`（判定共有位点的距离）。",
+      "lang": "Python",
+      "task": "genome",
+      "task_zh": "基因组",
+      "task_en": "Genome",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": null,
+      "downloads": [
+        {
+          "name": "plot.py",
+          "path": "figures/genome/miami-plot/plot.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/genome/miami-plot/plot.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/miami-plot/plot.py"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/genome/miami-plot/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/genome/miami-plot/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/miami-plot/data.csv"
+        },
+        {
+          "name": "make_data.py",
+          "path": "figures/genome/miami-plot/make_data.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/genome/miami-plot/make_data.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/miami-plot/make_data.py"
+        }
+      ],
+      "dir": "figures/genome/miami-plot",
+      "preview": "figures/genome/miami-plot/preview.png",
+      "docs_preview": "previews/miami-plot.png",
+      "code": "figures/genome/miami-plot/plot.py",
+      "data": "figures/genome/miami-plot/data.csv",
+      "data_files": [
+        "figures/genome/miami-plot/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/miami-plot/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/miami-plot/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/genome/miami-plot",
+      "code_text": "\"\"\"Miami plot: two GWAS traits mirrored around the genome axis, shared loci highlighted; house style, 4x2.\"\"\"\nimport sys\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nHERE = Path(__file__).resolve().parent\nsys.path.insert(0, str(HERE.parents[2] / \"styles\" / \"python\"))\nimport house  # noqa: E402\n\nhouse.apply_house_style()\nPAL = house.pv_palette(\"house\")\nGREY = house.pv_palette(\"house_grey\")\nLW = house.LW_PT\n\n# ---- parameters\ntraits = {\"A\": \"Trait A (e.g. flowering time)\", \"B\": \"Trait B (e.g. berry weight)\"}\ngw = 5e-8                     # genome-wide line\nshared_window = 2e6           # loci within this distance are called shared\n# ----\n\ndf = pd.read_csv(HERE / \"data.csv\")\nchroms = sorted(df.chrom.unique()); off, x0, ticks = {}, 0.0, []\nfor c in chroms:\n    L = df[df.chrom == c].pos.max(); off[c] = x0; ticks.append(x0 + L / 2); x0 += L + 5e6\ndf[\"x\"] = (df.pos + df.chrom.map(off)) / 1e6\ndf[\"lp\"] = -np.log10(df.p)\nfig, ax = house.house_figure(cells=\"4x2\")\nlead = {}\nfor t, sign in ((\"A\", 1), (\"B\", -1)):\n    d = df[df.trait == t]\n    col = np.where(d.chrom % 2 == 1, PAL[0] if t == \"A\" else PAL[1], house.pv_palette(\"house_div\")[2] if t == \"A\" else house.pv_palette(\"house_warm\")[1])\n    ax.scatter(d.x, sign * d.lp, s=2.2, c=col, linewidths=0, rasterized=True)\n    hits = d[d.p < gw]\n    lead[t] = [g.loc[g.lp.idxmax()] for _, g in hits.groupby([\"chrom\", (hits.pos // 1e7)])]\n    ax.axhline(sign * -np.log10(gw), color=GREY[\"ref\"], lw=LW[\"ref\"], ls=(0, (2, 1.5)))\nshared = {}\nfor a in lead[\"A\"]:\n    for b in lead[\"B\"]:\n        if a.chrom == b.chrom and abs(a.pos - b.pos) < shared_window:\n            shared.setdefault((a.chrom, round(a.pos / 1e7)), a)\nnshared = len(shared)\nfor a in shared.values():\n    ax.plot(a.x, 0, marker=\"D\", ms=4, color=PAL[3], mec=\"black\", mew=0.4, zorder=5)\n    ax.text(a.x + 6, 12.0, f\"shared locus, chr{a.chrom}\", color=PAL[3], fontsize=6.5, va=\"center\")\nax.axhline(0, color=\"black\", lw=0.5)\nax.set_xticks(np.array(ticks) / 1e6, [str(c) for c in chroms]); ax.set_xlim(-5, x0 / 1e6)\nyl = np.ceil(df.lp.max()) + 1\nax.set_ylim(-yl, yl); ax.set_yticks(np.arange(-15, 16, 5), [str(abs(v)) for v in np.arange(-15, 16, 5)])\nax.set_xlabel(\"Chromosome\"); ax.set_ylabel(r\"$-$log$_{10}$ P\")\nax.text(0.005, 0.97, traits[\"A\"], transform=ax.transAxes, va=\"top\", color=PAL[0], fontsize=7)\nax.text(0.005, 0.03, traits[\"B\"], transform=ax.transAxes, va=\"bottom\", color=PAL[1], fontsize=7)\nax.text(0.995, 0.97, f\"dashed: P = 5e-8 (two-sided Wald, no further correction); {nshared} shared locus (diamond); simulated data\",\n        transform=ax.transAxes, ha=\"right\", va=\"top\", fontsize=6.5, color=GREY[\"mid\"])\nhouse.save_house(fig, HERE / \"figure\")\n",
+      "search_text": "miami plot of two gwas traits\n双性状 gwas 镜像曼哈顿图（miami 图）\nmiami-plot\n\ngenome\n基因组\ngenome\n基因组\ngenome\n比较两个性状（或两个群体、两种模型）的全基因组关联结果时用：上半是性状 a，下半是性状 b，虚线为全基因组显著线，两者共有的位点在中线上用菱形标出。\n改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`traits`（两行标签）、`gw`（显著线）、`shared_window`（判定共有位点的距离）。\ngwas manhattan miami pleiotropy house-style\ntrait 性状代码（a 在上，b 在下） chrom 染色体（整数） pos 位置（bp，整数） p p 值（数值）"
+    },
+    {
       "title": "Multiple sequence alignment",
       "title_zh": "多序列比对",
       "slug": "msa",
@@ -7758,6 +8033,74 @@
       "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/genome/protein-lollipop",
       "code_text": "# Protein lollipop (house style): stems coloured by mutation class, class names in a key row, domains\n# named on a grey band under the stems, hotspot as the in-panel stat. Reads data.csv and data_domains.csv.\n# Run from this directory.\nsource(\"../../../styles/r/theme_house.R\")\nlibrary(ggplot2)\n\n# 可调参数 -----------------------------------------------------------------\nshow_domains <- TRUE\nclass_levels <- c(\"Missense\", \"Nonsense\", \"Frameshift\", \"Inframe\")\n\nset.seed(1)   # fixed RNG state, so the figure never depends on the session\nfootnote <- \"Simulated data;\\nnot biological results\"\nhp <- pv_palette(\"house\"); grey <- pv_palette(\"house_grey\")\n# orange marks/labels use the darker chrom12 step of the same hue (#E17927, 3.01:1 on white)\nhp[[\"orange\"]] <- pv_palette(\"chrom12\")[[8]]\n# label text: the group colour if it reaches 3:1 contrast on white, else #1A1A1A (no new colours)\ntext_col <- function(hex) {\n  v <- grDevices::col2rgb(hex) / 255\n  v <- ifelse(v <= 0.03928, v / 12.92, ((v + 0.055) / 1.055)^2.4)\n  ratio <- 1.05 / (colSums(c(0.2126, 0.7152, 0.0722) * v) + 0.05)\n  stats::setNames(ifelse(ratio >= 3, hex, \"#1A1A1A\"), names(hex))\n}\ncaption_theme <- theme(plot.caption = element_text(size = 7, hjust = 0, colour = grey[[\"mid\"]],\n                                                   lineheight = 0.9, margin = margin(t = 0.8, unit = \"mm\")),\n                       plot.caption.position = \"plot\")\n# push end-of-line label positions apart to at least `gap` (data units), keeping their order\nspread <- function(y, gap) {\n  o <- order(y); z <- y[o]\n  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)\n  shift <- mean(z) - mean(y[o]); z <- z - shift\n  for (i in seq_along(z)[-1]) z[i] <- max(z[i], z[i - 1] + gap)\n  y[o] <- z; y\n}\nclass_cols <- c(Missense = hp[[\"blue\"]], Nonsense = hp[[\"red\"]], Frameshift = hp[[\"purple\"]],\n                Inframe = hp[[\"orange\"]])[class_levels]\n\nmut <- utils::read.csv(\"data.csv\", stringsAsFactors = FALSE)\ndom <- utils::read.csv(\"data_domains.csv\", stringsAsFactors = FALSE)\nmut$class <- factor(mut$class, levels = class_levels)\nprot_end <- max(c(dom$end, mut$pos))\nymax <- max(mut$n)\nhot <- mut[which.max(mut$n), ]\n\n# key row: point + class name with its count, top left\ncnt <- table(mut$class)\nkey <- data.frame(class = factor(class_levels, levels = class_levels),\n                  x = prot_end * c(0.02, 0.16, 0.3, 0.46), y = ymax * 1.18)\nkey$lab <- sprintf(\"%s (%d)\", class_levels, as.integer(cnt[class_levels]))\n\np <- ggplot() +\n  geom_segment(data = mut, aes(x = pos, xend = pos, y = 0, yend = n), linewidth = pv_house_lw(\"ref\"),\n               colour = grey[[\"dark\"]]) +\n  geom_point(data = mut, aes(pos, n, fill = class), shape = 21, size = 1.8, stroke = 0.3, colour = \"black\") +\n  geom_point(data = key, aes(x, y, fill = class), shape = 21, size = 1.8, stroke = 0.3, colour = \"black\") +\n  geom_text(data = key, aes(x = x + prot_end * 0.008, y = y, label = lab), hjust = 0, size = pv_pt2size(7),\n            colour = \"#1A1A1A\", family = house_family()) +\n  annotate(\"text\", x = hot$pos + prot_end * 0.012, y = hot$n, hjust = 0,\n           label = sprintf(\"Hotspot p.%d, %d samples\", hot$pos, hot$n), size = pv_pt2size(7),\n           colour = \"#1A1A1A\", family = house_family()) +\n  scale_fill_manual(values = class_cols, guide = \"none\") +\n  scale_x_continuous(limits = c(0, prot_end), expand = c(0, 0), breaks = seq(0, prot_end, by = 100)) +\n  scale_y_continuous(breaks = seq(0, ymax + 2, by = 4), expand = expansion(mult = c(0.02, 0.04))) +\n  labs(x = \"Amino acid position\", y = \"Mutated samples\", caption = footnote) +\n  theme_house() + theme(plot.margin = margin(1, 2.5, 1, 1, \"mm\")) + caption_theme\n\nif (isTRUE(show_domains)) {\n  p <- p +\n    geom_rect(data = dom, aes(xmin = start, xmax = end, ymin = -0.3 * ymax, ymax = -0.06 * ymax),\n              fill = grey[[\"light\"]], colour = grey[[\"dark\"]], linewidth = pv_house_lw(\"ref\")) +\n    geom_text(data = dom, aes(x = (start + end) / 2, y = -0.18 * ymax, label = domain), size = pv_pt2size(7),\n              colour = \"#1A1A1A\", family = house_family()) +\n    coord_cartesian(ylim = c(-0.32 * ymax, ymax * 1.24), clip = \"off\")\n} else {\n  p <- p + coord_cartesian(ylim = c(0, ymax * 1.24))\n}\n\npv_save_house(p, \"figure\", cells = \"4x1\")\nmessage(\"wrote preview.png\")\n",
       "search_text": "protein lollipop\n蛋白突变棒棒糖图\nprotein-lollipop\n\ngenome\n基因组\ngenome\n基因组\ngenome\n把突变位点标在蛋白结构域上、并用高度表示复发次数时用。\nshow_domains 在主干下方用一条灰带标注所有结构域；class_levels 设定四种类型且计数图例位于左上角；突变热点标注在针头旁。\nlollipop protein mutation genome\npos 突变的氨基酸位置（整数） class 突变类型（字符串） n 携带该突变的样本数（整数） domain 结构域名称，见 data_domains.csv（字符串） start 结构域起点（整数，氨基酸） end 结构域终点（整数，氨基酸）"
+    },
+    {
+      "title": "Rainfall plot of inter-mutation distances",
+      "title_zh": "突变间距降雨图（kataegis 局部高突变）",
+      "slug": "rainfall-plot",
+      "category": "genome",
+      "tags": [
+        "rainfall",
+        "kataegis",
+        "somatic-mutation",
+        "genome-wide",
+        "house-style"
+      ],
+      "packages": [
+        "matplotlib",
+        "numpy",
+        "pandas"
+      ],
+      "data_columns": {
+        "chrom": "染色体（字符串，按出现顺序排）",
+        "pos": "位置（bp，整数）",
+        "substitution": "替换类型（C>A 等 6 类）"
+      },
+      "when_to_use": "看体细胞突变是否在局部成簇时用：横轴按染色体首尾相接，纵轴是与前一个突变的距离（log10 bp），成簇区掉到底部并标注；6 类替换颜色直接写在框内左上角。",
+      "customize": "改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`classes`（替换类型与颜色顺序）、`kataegis_max_bp`（成簇的间距阈值，连续 ≥6 个间距低于阈值记为一簇）。",
+      "lang": "Python",
+      "task": "genome",
+      "task_zh": "基因组",
+      "task_en": "Genome",
+      "variant_of": null,
+      "variant_label": null,
+      "variants": [],
+      "parameters": [],
+      "canvas": null,
+      "downloads": [
+        {
+          "name": "plot.py",
+          "path": "figures/genome/rainfall-plot/plot.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/genome/rainfall-plot/plot.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/rainfall-plot/plot.py"
+        },
+        {
+          "name": "data.csv",
+          "path": "figures/genome/rainfall-plot/data.csv",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/genome/rainfall-plot/data.csv",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/rainfall-plot/data.csv"
+        },
+        {
+          "name": "make_data.py",
+          "path": "figures/genome/rainfall-plot/make_data.py",
+          "raw": "https://raw.githubusercontent.com/Xuzhen-Li/paper-viz/main/figures/genome/rainfall-plot/make_data.py",
+          "github": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/rainfall-plot/make_data.py"
+        }
+      ],
+      "dir": "figures/genome/rainfall-plot",
+      "preview": "figures/genome/rainfall-plot/preview.png",
+      "docs_preview": "previews/rainfall-plot.png",
+      "code": "figures/genome/rainfall-plot/plot.py",
+      "data": "figures/genome/rainfall-plot/data.csv",
+      "data_files": [
+        "figures/genome/rainfall-plot/data.csv"
+      ],
+      "code_python": null,
+      "github_code": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/rainfall-plot/plot.py",
+      "github_data": "https://github.com/Xuzhen-Li/paper-viz/blob/main/figures/genome/rainfall-plot/data.csv",
+      "github_dir": "https://github.com/Xuzhen-Li/paper-viz/tree/main/figures/genome/rainfall-plot",
+      "code_text": "\"\"\"Rainfall plot: inter-mutation distance along the genome, coloured by substitution class; house style, 4x1.\"\"\"\nimport sys\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nHERE = Path(__file__).resolve().parent\nsys.path.insert(0, str(HERE.parents[2] / \"styles\" / \"python\"))\nimport house  # noqa: E402\n\nhouse.apply_house_style()\nPAL = house.pv_palette(\"house\")\nGREY = house.pv_palette(\"house_grey\")\nLW = house.LW_PT\n\n# ---- parameters\nclasses = [\"C>A\", \"C>G\", \"C>T\", \"T>A\", \"T>C\", \"T>G\"]\nkataegis_max_bp = 2000        # cluster rule: >= 6 consecutive gaps below this\n# ----\n\ndf = pd.read_csv(HERE / \"data.csv\")\nchroms = list(dict.fromkeys(df.chrom)); off, x0, ticks = {}, 0.0, []\nfor c in chroms:\n    L = df[df.chrom == c].pos.max(); off[c] = x0; ticks.append(x0 + L / 2); x0 += L + 8e6\nfig, ax = house.house_figure(cells=\"4x1\")\nnclu = 0\nfor c in chroms:\n    d = df[df.chrom == c].sort_values(\"pos\")\n    gap = np.diff(d.pos.values); x = (d.pos.values[1:] + off[c]) / 1e6; sub = d.substitution.values[1:]\n    for k, s in enumerate(classes):\n        m = sub == s\n        ax.scatter(x[m], np.log10(gap[m] + 1), s=3, color=PAL[k], linewidths=0)\n    small = gap < kataegis_max_bp\n    run, last = 0, -1e9\n    for i, sm in enumerate(small):\n        run = run + 1 if sm else 0\n        if run >= 6 and x[i] - last > 5:       # one label per cluster\n            last = x[i]\n            nclu += 1\n            ax.annotate(\"kataegis\", (x[i], 1.4), xytext=(0, -1), textcoords=\"offset points\", ha=\"center\", va=\"top\", fontsize=6.5, color=PAL[3])\nfor c in chroms[1:]:\n    ax.axvline(off[c] / 1e6 - 4, color=GREY[\"light\"], lw=0.5)\nax.set_xticks(np.array(ticks) / 1e6, chroms); ax.set_xlim(-5, x0 / 1e6)\nax.set_ylim(0.2, 7.8); ax.set_ylabel(r\"log$_{10}$ distance (bp)\")\nfor k, s in enumerate(classes):\n    ax.text(0.005 + 0.045 * k, 0.95, s, transform=ax.transAxes, color=PAL[k], va=\"top\", fontsize=6.5)\nax.text(0.995, 0.95, f\"{len(df):,} SNVs; {nclu} clusters; simulated data\", transform=ax.transAxes, ha=\"right\", va=\"top\", fontsize=6.5, color=GREY[\"mid\"])\nhouse.save_house(fig, HERE / \"figure\")\n",
+      "search_text": "rainfall plot of inter-mutation distances\n突变间距降雨图（kataegis 局部高突变）\nrainfall-plot\n\ngenome\n基因组\ngenome\n基因组\ngenome\n看体细胞突变是否在局部成簇时用：横轴按染色体首尾相接，纵轴是与前一个突变的距离（log10 bp），成簇区掉到底部并标注；6 类替换颜色直接写在框内左上角。\n改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`classes`（替换类型与颜色顺序）、`kataegis_max_bp`（成簇的间距阈值，连续 ≥6 个间距低于阈值记为一簇）。\nrainfall kataegis somatic-mutation genome-wide house-style\nchrom 染色体（字符串，按出现顺序排） pos 位置（bp，整数） substitution 替换类型（c>a 等 6 类）"
     },
     {
       "title": "Sequence logo",
