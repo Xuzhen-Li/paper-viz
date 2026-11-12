@@ -1,0 +1,30 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Specification curve (multiverse analysis)
+title_zh: 设定曲线（多元宇宙分析）
+slug: specification-curve
+category: layout
+tags:
+  - specification-curve
+  - robustness
+  - multiverse
+  - effect-size
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  outcome: 结局变量选择
+  covariates: 协变量选择
+  sample: 样本选择
+  model: 模型选择
+  estimate: 效应估计（数值）
+  se: 标准误（数值）
+when_to_use: 展示结论对分析选择是否稳健时用：a 把所有设定的估计值和 95% CI 按大小排序，红线是中位数；b 的点阵标出每个设定用了哪些选择，CI 不含 0 的设定为蓝色。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`choice_cols`（选择维度及其顺序）；选择多时把 cells 升到 4x2。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://www.nature.com/articles/s41562-020-0912-z
+    figure: [待确认]

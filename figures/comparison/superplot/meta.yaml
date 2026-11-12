@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: SuperPlot of cell-level data with replicate means
+title_zh: SuperPlot：细胞级数据叠加重复均值
+slug: superplot
+category: comparison
+tags:
+  - superplot
+  - replicates
+  - cell-biology
+  - paired-test
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  condition: 处理（字符串，第一组为对照）
+  replicate: 生物学重复编号（整数）
+  speed: 单细胞测量值（数值）
+when_to_use: 细胞或图像测量里每个重复有很多细胞时用：小点是细胞，按重复着色；大点是各重复均值，黑线与误差棒是重复均值的均值与 s.d.；检验在重复均值上做（n = 重复数），避免把细胞当独立样本。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`conditions`、`y_label`、`seed`（抖动）；括号与检验文字自动放在数据上方。
+lang: Python
+style: house
+cells: 2x1
+references:
+  - url: https://doi.org/10.1083/jcb.202001064
+    figure: [待确认]

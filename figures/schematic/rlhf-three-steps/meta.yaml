@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Three-step RLHF pipeline (SFT, reward model, PPO)
+title_zh: 三步 RLHF 流程（监督微调、奖励模型、PPO）
+slug: rlhf-three-steps
+category: schematic
+tags:
+  - llm
+  - rlhf
+  - alignment
+  - training-pipeline
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 介绍指令微调与人类反馈强化学习时用：三栏各四张卡片自上而下，栏间彩色折线表示上一步的产物（SFT 策略、奖励模型）被下一步使用。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/rlhf-three-steps/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`ST`（三栏标题与主色）、各卡片文字、`X`/`ZW`（栏位置与宽度）。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2203.02155
+    figure: Fig. 2

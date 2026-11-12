@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="66.000mm" viewBox="0 0 183.000 66.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>reasoning-topologies</title>
+<desc>Schematic: four LLM reasoning topologies (IO, chain of thought, self-consistency, tree of thoughts). Layout type only; labels and numbers are invented. Drawn by script, no icons.</desc>
+<rect x="0" y="0" width="183.000" height="66.000" fill="#ffffff"/>
+<g id="panel-a">
+<rect x="1.000" y="1.000" width="43.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="22.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Input-output (IO)</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<text x="22.500" y="62.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">1 LM call, answer only</text>
+</g>
+<g id="panel-b">
+<rect x="47.000" y="1.000" width="43.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="68.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Chain of thought</text>
+<text x="48.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<text x="68.500" y="62.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">1 call, steps in order</text>
+</g>
+<g id="panel-c">
+<rect x="93.000" y="1.000" width="43.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="114.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Self-consistency</text>
+<text x="94.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+<text x="114.500" y="62.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">k = 3 chains, then vote</text>
+</g>
+<g id="panel-d">
+<rect x="139.000" y="1.000" width="43.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="160.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Tree of thoughts</text>
+<text x="140.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">d</text>
+<text x="160.500" y="62.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">BFS, keep b = 2 per level</text>
+</g>
+<g id="panel-a-nodes">
+<rect x="13.500" y="8.800" width="18.000" height="4.400" rx="1.00" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="22.500" y="11.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Input</text>
+<rect x="13.500" y="52.800" width="18.000" height="4.400" rx="1.00" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="22.500" y="55.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Output</text>
+<polyline points="22.500,13.200 22.500,51.400" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="22.500,52.600 21.880,51.100 23.120,51.100" fill="#1c2430"/>
+<rect x="4.000" y="21.000" width="16.500" height="11.098" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="12.250" y="24.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Example</text>
+<text x="12.250" y="28.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">4 9 10 13</text>
+<text x="12.250" y="30.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">make 24</text>
+<text x="24.500" y="32.500" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">no intermediate</text>
+<text x="24.500" y="35.300" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">text is shown</text>
+</g>
+<g id="panel-b-nodes">
+<rect x="59.500" y="8.800" width="18.000" height="4.400" rx="1.00" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="68.500" y="11.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Input</text>
+<rect x="56.500" y="19.800" width="24.000" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="68.500" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Thought 1</text>
+<polyline points="68.500,13.200 68.500,18.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="68.500,19.600 67.880,18.100 69.120,18.100" fill="#1c2430"/>
+<rect x="56.500" y="29.800" width="24.000" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="68.500" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Thought 2</text>
+<polyline points="68.500,24.200 68.500,28.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="68.500,29.600 67.880,28.100 69.120,28.100" fill="#1c2430"/>
+<rect x="56.500" y="39.800" width="24.000" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="68.500" y="42.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Thought 3</text>
+<polyline points="68.500,34.200 68.500,38.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="68.500,39.600 67.880,38.100 69.120,38.100" fill="#1c2430"/>
+<rect x="59.500" y="52.800" width="18.000" height="4.400" rx="1.00" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="68.500" y="55.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Output</text>
+<polyline points="68.500,44.200 68.500,51.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="68.500,52.600 67.880,51.100 69.120,51.100" fill="#1c2430"/>
+<text x="82.000" y="27.400" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">step</text>
+<text x="82.000" y="37.400" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">step</text>
+</g>
+<g id="panel-c-nodes">
+<rect x="105.500" y="8.800" width="18.000" height="4.400" rx="1.00" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="114.500" y="11.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Input</text>
+<rect x="95.250" y="19.800" width="11.500" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="101.000" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">T1.1</text>
+<polyline points="114.500,13.200 102.084,19.086" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="101.000,19.600 102.090,18.397 102.621,19.518" fill="#1c2430"/>
+<rect x="95.250" y="29.800" width="11.500" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="101.000" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">T1.2</text>
+<polyline points="101.000,24.200 101.000,28.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="101.000,29.600 100.380,28.100 101.620,28.100" fill="#1c2430"/>
+<text x="101.000" y="39.300" font-size="2.1872" fill="#2aa198" text-anchor="middle" xml:space="preserve">= 24</text>
+<polyline points="101.000,40.400 114.500,43.400" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<rect x="108.750" y="19.800" width="11.500" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="114.500" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">T2.1</text>
+<polyline points="114.500,13.200 114.500,18.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="114.500,19.600 113.880,18.100 115.120,18.100" fill="#1c2430"/>
+<rect x="108.750" y="29.800" width="11.500" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="114.500" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">T2.2</text>
+<polyline points="114.500,24.200 114.500,28.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="114.500,29.600 113.880,28.100 115.120,28.100" fill="#1c2430"/>
+<text x="114.500" y="39.300" font-size="2.1872" fill="#2aa198" text-anchor="middle" xml:space="preserve">= 24</text>
+<polyline points="114.500,40.400 114.500,43.400" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<rect x="122.250" y="19.800" width="11.500" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="128.000" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">T3.1</text>
+<polyline points="114.500,13.200 126.916,19.086" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="128.000,19.600 126.379,19.518 126.910,18.397" fill="#1c2430"/>
+<rect x="122.250" y="29.800" width="11.500" height="4.400" rx="1.00" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="128.000" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">T3.2</text>
+<polyline points="128.000,24.200 128.000,28.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="128.000,29.600 127.380,28.100 128.620,28.100" fill="#1c2430"/>
+<text x="128.000" y="39.300" font-size="2.1872" fill="#CC312C" text-anchor="middle" xml:space="preserve">= 21</text>
+<polyline points="128.000,40.400 114.500,43.400" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<rect x="100.500" y="43.600" width="28.000" height="4.400" rx="1.00" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="114.500" y="46.550" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Majority vote 2/3</text>
+<polyline points="114.500,48.000 114.500,51.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="114.500,52.600 113.880,51.100 115.120,51.100" fill="#1c2430"/>
+<rect x="105.500" y="52.800" width="18.000" height="4.400" rx="1.00" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="114.500" y="55.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Output: 24</text>
+</g>
+<g id="panel-d-nodes">
+<rect x="151.500" y="8.800" width="18.000" height="4.400" rx="1.00" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="160.500" y="11.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Input</text>
+<rect x="142.000" y="19.800" width="10.000" height="4.400" rx="1.00" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="147.000" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.8</text>
+<polyline points="160.500,13.200 148.084,19.086" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="147.000,19.600 148.090,18.397 148.621,19.518" fill="#1c2430"/>
+<rect x="155.500" y="19.800" width="10.000" height="4.400" rx="1.00" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822" stroke-dasharray="0.9 0.6"/>
+<text x="160.500" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.1</text>
+<polyline points="160.500,13.200 160.500,18.400" fill="none" stroke="#5b6878" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="160.500,19.600 159.880,18.100 161.120,18.100" fill="#5b6878"/>
+<rect x="169.000" y="19.800" width="10.000" height="4.400" rx="1.00" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="174.000" y="22.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.6</text>
+<polyline points="160.500,13.200 172.916,19.086" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="174.000,19.600 172.379,19.518 172.910,18.397" fill="#1c2430"/>
+<text x="160.500" y="28.000" font-size="2.1167" fill="#CC312C" text-anchor="middle" xml:space="preserve">pruned</text>
+<rect x="139.200" y="29.800" width="7.200" height="4.400" rx="1.00" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="142.800" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.9</text>
+<polyline points="147.000,24.200 143.537,28.653" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="142.800,29.600 143.232,28.035 144.210,28.797" fill="#1c2430"/>
+<rect x="147.600" y="29.800" width="7.200" height="4.400" rx="1.00" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822" stroke-dasharray="0.9 0.6"/>
+<text x="151.200" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.3</text>
+<polyline points="147.000,24.200 150.463,28.653" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="151.200,29.600 149.790,28.797 150.768,28.035" fill="#1c2430"/>
+<rect x="166.200" y="29.800" width="7.200" height="4.400" rx="1.00" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822" stroke-dasharray="0.9 0.6"/>
+<text x="169.800" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.2</text>
+<polyline points="174.000,24.200 170.537,28.653" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="169.800,29.600 170.232,28.035 171.210,28.797" fill="#1c2430"/>
+<rect x="174.600" y="29.800" width="7.200" height="4.400" rx="1.00" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822" stroke-dasharray="0.9 0.6"/>
+<text x="178.200" y="32.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.4</text>
+<polyline points="174.000,24.200 177.463,28.653" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="178.200,29.600 176.790,28.797 177.768,28.035" fill="#1c2430"/>
+<rect x="141.500" y="39.800" width="16.000" height="4.400" rx="1.00" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="149.500" y="42.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Solution</text>
+<polyline points="142.800,34.200 142.800,38.400" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="142.800,39.600 142.180,38.100 143.420,38.100" fill="#1c2430"/>
+<polyline points="149.500,44.200 153.433,51.542" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="154.000,52.600 152.745,51.571 153.838,50.985" fill="#1c2430"/>
+<rect x="151.500" y="52.800" width="18.000" height="4.400" rx="1.00" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="160.500" y="55.750" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Output</text>
+<text x="159.500" y="41.000" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">LM scores</text>
+<text x="159.500" y="43.800" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">each state 0-1</text>
+</g>
+</svg>

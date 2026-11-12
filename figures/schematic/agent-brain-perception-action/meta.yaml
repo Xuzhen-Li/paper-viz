@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: "LLM agent framework: perception, brain and action"
+title_zh: 大模型 agent 概念框架：感知、大脑、行动
+slug: agent-brain-perception-action
+category: schematic
+tags:
+  - llm
+  - agent
+  - framework
+  - survey
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 综述或引言里给出 agent 总体框架时用：三区分别列感知输入、LLM 大脑的五个能力、行动输出，底部绿色回路表示与环境的观察和作用。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/agent-brain-perception-action/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`Z`（三区位置、标题、主色）、各卡片文字、底部环境卡的说明。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2309.07864
+    figure: Fig. 2

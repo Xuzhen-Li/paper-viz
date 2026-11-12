@@ -1,0 +1,21 @@
+# Layout type redrawn from scratch; labels and numbers are invented. References are links only (URL + figure number); no text or images copied.
+title: LLM reasoning topologies (IO, chain of thought, self-consistency, tree of thoughts)
+title_zh: 大模型推理拓扑对比（直接作答、思维链、自洽投票、思维树）
+slug: reasoning-topologies
+category: schematic
+tags:
+  - llm
+  - reasoning
+  - agent
+  - comparison
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 方法论文或综述里并排比较几种提示/推理方式时用：四栏各画一种结构，从单次调用、单链步骤、多链投票到带打分和剪枝的树搜索，每栏底部一句话说明调用方式。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/reasoning-topologies/build.py` 重新生成，或直接在 draw.io 里打开 `template.drawio`。常改项：`TITLES` 与 `NOTES`（栏标题和底注）、`LV`（各层纵坐标）、思维树各节点的分数与颜色（teal 保留、red 剪掉）。标签出框、重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2305.10601
+    figure: Fig. 1
+  - url: https://arxiv.org/abs/2201.11903
+    figure: Fig. 1
