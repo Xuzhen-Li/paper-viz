@@ -50,16 +50,16 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 179 张。
+共 191 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
-| `distribution` | 分布 | 11 |
-| `comparison` | 比较 | 16 |
+| `distribution` | 分布 | 12 |
+| `comparison` | 比较 | 17 |
 | `correlation` | 相关 | 15 |
 | `composition` | 组成 | 15 |
 | `heatmap` | 热图 | 7 |
-| `dimension-reduction` | 降维 | 6 |
+| `dimension-reduction` | 降维 | 7 |
 | `differential-expression` | 差异表达 | 4 |
 | `enrichment` | 富集 | 3 |
 | `population-genetics` | 群体遗传 | 16 |
@@ -68,17 +68,17 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 7 |
-| `layout` | 拼图 | 7 |
-| `schematic` | 流程图 | 37 |
+| `layout` | 拼图 | 8 |
+| `schematic` | 流程图 | 45 |
 
-### 分布 `distribution`（11）
+### 分布 `distribution`（12）
 
 <img src="figures/distribution/beeswarm/preview.png" width="200" alt="蜂群图">
 <img src="figures/distribution/density/preview.png" width="200" alt="密度图">
 <img src="figures/distribution/ecdf/preview.png" width="200" alt="经验累积分布">
-<img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
+<img src="figures/distribution/halfeye-interval/preview.png" width="200" alt="后验分布半眼图（66% 与 95% 区间）">
 
-### 比较 `comparison`（16）
+### 比较 `comparison`（17）
 
 <img src="figures/comparison/ablation-bar/preview.png" width="200" alt="消融实验柱图（house 风格）">
 <img src="figures/comparison/bar-grouped/preview.png" width="200" alt="分组柱状图">
@@ -108,7 +108,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/heatmap/confusion-matrix/preview.png" width="200" alt="行归一化混淆矩阵">
 <img src="figures/heatmap/dot-heatmap/preview.png" width="200" alt="点状热图">
 
-### 降维 `dimension-reduction`（6）
+### 降维 `dimension-reduction`（7）
 
 <img src="figures/dimension-reduction/nmds/preview.png" width="200" alt="非度量多维标度">
 <img src="figures/dimension-reduction/opls-da/preview.png" width="200" alt="OPLS-DA 得分图">
@@ -166,7 +166,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/clinical/funnel-plot/preview.png" width="200" alt="Meta 分析漏斗图（伪 95% 界与 Egger 检验）">
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 
-### 拼图 `layout`（7）
+### 拼图 `layout`（8）
 
 <img src="figures/layout/composite-figure/preview.png" width="200" alt="四面板拼图">
 <img src="figures/layout/house-ensemble-multiples/preview.png" width="200" alt="集合成员小多图与侧边箱线（house 风格）">
@@ -174,12 +174,12 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
 <img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
 
-### 流程图 `schematic`（37）
+### 流程图 `schematic`（45）
 
+<img src="figures/schematic/action-space-agent/preview.png" width="200" alt="从文献挖掘动作空间的通用科研 agent">
 <img src="figures/schematic/adna-processing/preview.png" width="200" alt="古 DNA 处理步骤">
 <img src="figures/schematic/adna-swimlane/preview.png" width="200" alt="古 DNA 分工泳道">
 <img src="figures/schematic/agent-brain-perception-action/preview.png" width="200" alt="大模型 agent 概念框架：感知、大脑、行动">
-<img src="figures/schematic/assembly-compare/preview.png" width="200" alt="组装策略对比">
 <!-- CATALOG:END -->
 
 </details>
