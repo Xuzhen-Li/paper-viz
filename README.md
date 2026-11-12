@@ -50,7 +50,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 155 张。
+共 163 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
@@ -58,18 +58,18 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `comparison` | 比较 | 16 |
 | `correlation` | 相关 | 14 |
 | `composition` | 组成 | 14 |
-| `heatmap` | 热图 | 4 |
+| `heatmap` | 热图 | 5 |
 | `dimension-reduction` | 降维 | 6 |
 | `differential-expression` | 差异表达 | 4 |
 | `enrichment` | 富集 | 3 |
 | `population-genetics` | 群体遗传 | 15 |
-| `genome` | 基因组 | 23 |
+| `genome` | 基因组 | 24 |
 | `phylogeny` | 系统发育 | 2 |
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
-| `clinical` | 临床 | 4 |
+| `clinical` | 临床 | 6 |
 | `layout` | 拼图 | 7 |
-| `schematic` | 流程图 | 25 |
+| `schematic` | 流程图 | 29 |
 
 ### 分布 `distribution`（11）
 
@@ -101,7 +101,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/composition/house-donut/preview.png" width="200" alt="直标环图（house 风格）">
 <img src="figures/composition/house-upset/preview.png" width="200" alt="UpSet 交集图（house 风格）">
 
-### 热图 `heatmap`（4）
+### 热图 `heatmap`（5）
 
 <img src="figures/heatmap/circular-heatmap/preview.png" width="200" alt="环状热图">
 <img src="figures/heatmap/dot-heatmap/preview.png" width="200" alt="点状热图">
@@ -135,7 +135,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/population-genetics/fst-heatmap/preview.png" width="200" alt="成对 Fst 热图">
 <img src="figures/population-genetics/fstats-point/preview.png" width="200" alt="f3 / f4 / D 点距图">
 
-### 基因组 `genome`（23）
+### 基因组 `genome`（24）
 
 <img src="figures/genome/busco-bar/preview.png" width="200" alt="BUSCO 堆积条形">
 <img src="figures/genome/chromosome-ideogram/preview.png" width="200" alt="染色体示意图与密度">
@@ -159,12 +159,12 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/microbiome-ecology/rda-biplot/preview.png" width="200" alt="RDA 双序图">
 <img src="figures/microbiome-ecology/stamp-diffbar/preview.png" width="200" alt="STAMP 差异条形">
 
-### 临床 `clinical`（4）
+### 临床 `clinical`（6）
 
+<img src="figures/clinical/decision-curve/preview.png" width="200" alt="决策曲线分析（两个预测模型的净获益）">
 <img src="figures/clinical/forest/preview.png" width="200" alt="森林图">
 <img src="figures/clinical/funnel-plot/preview.png" width="200" alt="Meta 分析漏斗图（伪 95% 界与 Egger 检验）">
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
-<img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 
 ### 拼图 `layout`（7）
 
@@ -174,7 +174,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
 <img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
 
-### 流程图 `schematic`（25）
+### 流程图 `schematic`（29）
 
 <img src="figures/schematic/adna-processing/preview.png" width="200" alt="古 DNA 处理步骤">
 <img src="figures/schematic/adna-swimlane/preview.png" width="200" alt="古 DNA 分工泳道">
