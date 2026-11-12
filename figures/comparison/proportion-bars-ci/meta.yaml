@@ -1,0 +1,30 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout; not copied).
+title: 'Proportion bars with Wilson CI by keyword'
+title_zh: '按关键词的任务比例横条（Wilson 置信区间）'
+slug: 'proportion-bars-ci'
+category: 'comparison'
+tags:
+  - 'proportion'
+  - 'binomial'
+  - 'wilson-ci'
+  - 'horizontal-bar'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261317
+data_columns:
+  task: 'task id (string)'
+  keyword: 'keyword tag (string; a task may appear under several keywords)'
+  has_property: '1 if the task shows the property, else 0'
+when_to_use: 'Share of items per category that show a binary property, with a binomial interval and the k/n count beside each bar. Not for cell-type proportions (cell-proportion-bars).'
+customize: 'One row per task x keyword. plot.py counts distinct tasks per keyword (n), the number with the property (k), and draws k/n with a 95% Wilson score interval (ci_level); keywords with n < min_n are dropped. The dashed line is the share over distinct tasks. No test is run.'
+references:
+  - url: 'https://arxiv.org/abs/2206.07682'
+    figure: 'Fig. 8'
+references_note: 'Chart type only; the published figure was not downloaded or redrawn. Simulated data; layout follows the house rules.'

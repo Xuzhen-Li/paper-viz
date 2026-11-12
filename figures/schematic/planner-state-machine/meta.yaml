@@ -1,0 +1,26 @@
+title: LLM planner with state-machine task execution (v2)
+title_zh: LLM 规划器 + 任务分解 + 状态机执行（v2：每个状态 = 一轮交互，人类用户全程监督；通用标签）
+slug: planner-state-machine
+version: v2
+supersedes_content_of: redraws/planner-state-machine/ (v1, unchanged)
+category: schematic
+style: house
+targets_id: S17
+tags:
+  - llm
+  - agent
+  - planning
+  - state-machine
+  - human-in-the-loop
+  - ai4science
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [181, 89]
+references:
+  - url: https://arxiv.org/abs/2404.18021
+    figure: Fig. 1 / Fig. 3
+when_to_use: 左侧 LLM 规划器把用户请求拆成有序任务列表并调用工具/知识库；右侧把其中一个任务画成一串状态（Start → State 1 → State 2 → … → State n → Next task），每个状态是一轮交互：先给说明并索取所需输入 → 用户或代用户的 LLM Agent 回复 → 输出与反馈（状态内可调用工具）→ 进入下一状态。上方的人类用户监督全过程，可矫正任一状态或接手。只用通用标签，不含任何真实编辑靶点或基因名。
+customize: 改 `build.py` 底部 figure 段里的坐标、文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt、对比度低于 4.5:1 或右栏任何线条穿过文字时报错退出。常改项：`TASKS` 任务名；`state()` 状态链；`step()` 一轮交互的三步；颜色：绿=人类用户，蓝=LLM agent 步骤，橙=工具调用。
+lang: drawio

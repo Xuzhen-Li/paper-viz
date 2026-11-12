@@ -1,0 +1,25 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'TOST equivalence plot'
+title_zh: '双向单侧检验（TOST）等效性图'
+slug: 'tost-equivalence'
+category: 'comparison'
+tags:
+  - 'tost'
+  - 'equivalence'
+  - 'confidence-interval'
+  - 'two-one-sided-tests'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '3x1'
+seed: 20261131
+data_columns:
+  group: 'group name (string; first group is the reference)'
+  score: 'continuous score (arbitrary units)'
+when_to_use: 'Ask whether a mean difference is small enough to be practically equivalent: the mean difference and its (1 - 2 alpha) CI against pre-specified bounds -Delta and +Delta, with both one-sided tests printed.'
+customize: 'Replace data.csv with two groups of scores. Set delta (equivalence margin, fixed before looking at data), alpha and unit at the top of plot.py. Uses Welch two-sample t procedures: two one-sided tests (intersection-union, no multiplicity correction) and the matching 90% CI when alpha = 0.05.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules.'

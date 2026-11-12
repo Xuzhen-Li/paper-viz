@@ -1,0 +1,26 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used).
+title: 'Caterpillar plot of random-effect estimates'
+title_zh: '随机效应毛虫图（分组截距）'
+slug: 'caterpillar-re'
+category: 'comparison'
+tags:
+  - 'caterpillar'
+  - 'random-effects'
+  - 'blup'
+  - 'mixed-model'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+data_columns:
+  'group': 'group label (string)'
+  'y': 'observation (arbitrary units)'
+when_to_use: 'Display group-level random intercepts from a mixed model, ordered by the estimate, with intervals that show precision and shrinkage.'
+customize: 'Replace data.csv with group and y. plot.py estimates a one-way random-intercept model by method of moments and draws BLUPs +/- z x conditional SE (LEVEL = 0.95; variance components treated as known), ordered by the BLUP. Reference line at 0 = grand mean. The in-frame key and footnote sit in a band below the rows (BAND).'
+lang: 'Python'
+style: 'house'
+cells: '2x3'
+references_note: 'Layout idea only (caterpillar plot of random intercepts with intervals, ordered by estimate). Simulated data with seed 20261134; placeholder group labels. No published values, images or tracings are used.'
+seed: 20261134

@@ -1,0 +1,22 @@
+title: "Self-supervised tool-call annotation: sample, execute, filter"
+title_zh: "工具调用自监督标注三步：采样 API 调用→执行→按损失过滤"
+slug: tool-call-filter
+category: schematic
+style: house
+targets_id: S02
+tags:
+  - llm
+  - tool-use
+  - self-supervised
+  - data-pipeline
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [181, 89]
+references:
+  - url: https://arxiv.org/abs/2302.04761
+    figure: "Fig. 2"
+when_to_use: "说明“模型自己生成候选 API 调用、执行、只保留能降低后续 token 损失的调用，再在增广语料上微调”的流程；下方为一个位置 i 的候选示例（数值为示意，τ = 0.5）和过滤规则。"
+customize: "改 `build.py` 底部 figure 段里的坐标、文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。常改项：`cards` 的五张卡片文字和颜色；`rows` 的候选调用、结果、gain 与 keep/drop（改 gain 时保持与 τ 的判定一致）；右下过滤规则文字。"
+lang: drawio

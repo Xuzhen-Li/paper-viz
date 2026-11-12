@@ -1,0 +1,20 @@
+title: "Structure prediction: input embedding, Pairformer trunk, diffusion module"
+title_zh: "结构预测架构：输入嵌入 → Pairformer → 扩散模块"
+slug: pairformer-diffusion
+category: schematic
+style: house
+tags:
+  - ai4science
+  - structure-prediction
+  - architecture
+  - diffusion
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+references:
+  - url: https://www.nature.com/articles/s41586-024-07487-w
+    figure: "Fig. 1 [待确认 面板]"
+when_to_use: "画结构预测类模型的总体架构：输入（序列、其他分子、比对与模板）按 token 嵌入，Pairformer 主干更新 single 与 pair 表示（带 recycling 回路），扩散模块在主干条件下逐步去噪原子坐标，输出结构与置信度。只画通用流程，块数、维度与损失项未画。"
+customize: "改 `build.py` 底部 figure 段：`inputs` 列表改输入卡片，`blocks` 改 Pairformer 内部块，扩散模块示意的点位在 `g_dots`/`g_chain` 调用里；运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio、preview.png（只写新文件，目标目录已有同名文件时拒绝运行）。也可直接在 draw.io 打开 `template.drawio`。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。"
+lang: drawio

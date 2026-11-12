@@ -1,0 +1,26 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Paired estimation plot (before/after + paired mean difference)'
+title_zh: '配对估计图（前后连线 + 配对均值差 bootstrap 分布）'
+slug: 'paired-estimation'
+category: 'comparison'
+tags:
+  - 'paired'
+  - 'estimation'
+  - 'before-after'
+  - 'bootstrap'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261126
+data_columns:
+  subject: 'subject identifier (placeholder string)'
+  condition: 'Before or After (string)'
+  value: 'observed response (numeric, a.u.)'
+when_to_use: 'Show paired measurements: each subject joined Before to After in the left panel, and the paired mean difference with its bootstrap distribution and 95% CI in the right panel on an aligned axis (zero at the Before mean). Distinct from the unpaired gardner-altman template and the multi-group estimation-plot.'
+customize: 'Replace data.csv with two rows per subject (Before, After). plot.py keeps complete pairs only and computes n pairs, the paired mean difference, and its 95% percentile-bootstrap CI (5000 resamples of the paired differences, fixed seed). No P value is printed.'
+references_note: 'Layout idea only: Ho et al. 2019, Nature Methods, https://www.nature.com/articles/s41592-019-0470-3 (estimation graphics; Fig. 1 shows the two-group forms; the figure number of the paired variant is not confirmed from the cached caption text [待确认]). TARGETS C08. No image was traced or uploaded; simulated data.'

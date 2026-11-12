@@ -1,0 +1,35 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Enrichment map: pathway-similarity network with cluster colouring (house style)'
+title_zh: '富集图谱：通路相似度网络与聚类着色（house 风格）'
+slug: 'enrichment-network'
+category: 'enrichment'
+tags:
+  - 'enrichment-map'
+  - 'pathway-enrichment'
+  - 'gene-set'
+  - 'network'
+  - 'jaccard'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+  - 'scipy'
+data_columns:
+  pathway: '通路名，如 Pathway 1'
+  gene: '成员基因名'
+  in_list: '该基因是否在待检验基因列表中：1 是 / 0 否'
+when_to_use: '富集分析得到很多相互重叠的通路时，用相似度网络把共享基因多的通路连成簇、按簇着色，看结果归为哪几类生物学主题时用。'
+customize: 'data.csv 每个通路 × 成员基因一行；plot.py 顶部改 q_max（BH 校正后 q 阈值）、jaccard_min（连边的 Jaccard 阈值）、seed（簇内力导向布局的随机种子）、cells。检验为单侧超几何检验（过表达），背景 = data.csv 中出现的全部基因，BH 校正覆盖全部通路；聚类 = 连边后连通分量（≥2 个节点）。节点面积表示通路基因数，节点内数字为通路编号。单个 2x2 面板：字号在脚本里按印刷尺寸 +2 pt 设好，save_house(..., bump=0)。'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261126
+references:
+  - '来源待补 [待确认]'
+references_note: 'Source figure not yet identified [待确认]; layout follows the house rules in styles/style-contract.md. All labels generic; no real GO/KEGG terms.'
+version: 2
+supersedes: 'redraws/enrichment-network/ (v1, unchanged)'
+changes_v2:
+  - 'Text-only contrast fix: title ''Cluster 2 (6 pathways)'' #F77E12 -> #B95E0E (dark variant of the same swatch). Node fills, white/black node numerals and the #119B76 Cluster 3 title unchanged.'
+  - 'House import path resolves the worktree styles/python from redraws/; no pvr, no _apply_canvas. Data, wording, statistics, typography (labels set after the +2 pt bump, save_house(..., bump=0)) unchanged.'

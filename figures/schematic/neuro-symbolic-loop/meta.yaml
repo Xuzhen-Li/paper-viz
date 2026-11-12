@@ -1,0 +1,20 @@
+title: Neuro-symbolic proof loop
+title_zh: 神经-符号证明闭环（语言模型提出构造，符号引擎演绎）
+slug: neuro-symbolic-loop
+category: schematic
+style: house
+tags:
+  - ai4science
+  - neuro-symbolic
+  - theorem-proving
+  - reasoning
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+when_to_use: "画神经-符号闭环：符号引擎从前提演绎出能推出的所有事实；目标已推出就输出逐步证明，否则语言模型提出一个辅助对象（如中点）加入前提，再演绎，循环。左侧是离线合成训练数据：随机前提 → 符号演绎 → 回溯证明，证明需要而题面没有的对象作为语言模型的学习目标。几何标签为通用示例，不复现原文图或定理。"
+customize: "改 `build.py` 底部 figure 段里的坐标、卡片文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行，不会覆盖）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 等编辑器改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出画布或出框、文字重叠、游离标签压到框线、连线穿过文字、小于 6 pt、线宽超出 0.5-1.6 pt 或文字对比度低于 4.5:1 时报错退出。"
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41586-023-06747-5
+    figure: "[待确认]"

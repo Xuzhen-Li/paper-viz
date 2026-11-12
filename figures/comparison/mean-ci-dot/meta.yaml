@@ -1,0 +1,23 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Means with 95% CI (dot and interval)'
+title_zh: '均值与 95% 置信区间（点+区间，非 dynamite）'
+slug: 'mean-ci-dot'
+category: 'comparison'
+tags:
+  - 'mean'
+  - 'confidence-interval'
+  - 'dot-plot'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+lang: 'Python'
+style: 'house'
+cells: '2x1'
+seed: 20261123
+data_columns:
+  condition: 'condition or group name (string)'
+  value: 'observed response (numeric, a.u.)'
+when_to_use: 'Compare several group means with 95% confidence intervals, without using a bar-and-error (dynamite) chart.'
+customize: 'Replace data.csv with one row per observation. plot.py computes each mean, the percentile bootstrap 95% CI (5000 resamples, fixed seed), and n from the file. Change n_boot in plot.py if needed. No P values are printed.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules. Built as staging try2 because try1 placed the n labels directly on the CI line ends (0 pt gap); data and make_data.py are unchanged from try1.'
