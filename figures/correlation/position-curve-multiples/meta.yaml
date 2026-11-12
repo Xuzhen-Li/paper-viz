@@ -1,0 +1,40 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout via paths relative to plot.py; not copied).
+# Version 2: y-tick label fix for panels a-c only (C04 review item 1-1); data and seed unchanged.
+title: 'Position-curve small multiples: accuracy by answer position at 10, 20 and 30 documents'
+title_zh: '位置曲线小多图：10/20/30 篇文档下答案位置与准确率'
+slug: 'position-curve-multiples'
+version: 2
+targets_id: 'C04'
+category: 'correlation'
+tags:
+  - 'small-multiples'
+  - 'position-bias'
+  - 'long-context'
+  - 'u-shape'
+  - 'multi-panel'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+canvas_mm: [183, 89]
+seed: 20261404
+data_columns:
+  model: 'model label (string; Model A-C, unnamed)'
+  total_docs: 'total documents in the input context (10, 20 or 30)'
+  position: 'position of the answer document (1 = start of context)'
+  n_questions: 'simulated questions at this point'
+  n_correct: 'questions answered correctly'
+when_to_use: 'Compare a position curve across several context lengths: one small panel per length on a shared y axis, plus a summary panel of the edge-minus-middle gap per model.'
+customize: 'Accuracy = n_correct / n_questions with 95% Wilson bands. Panel d gap = mean(first, last) - middle position, in percentage points, with a 95% Wald interval for that linear combination of independent proportions. n is read from data.csv. No P values are computed.'
+distinct_from:
+  - 'redraws/context-position/ (single accuracy-vs-position panel, 2x1)'
+  - 'redraws/lost-in-middle-curve/ (single U-shaped curve panel, 2x1)'
+references:
+  - url: 'https://arxiv.org/abs/2307.03172'
+    figure: 'Fig. 5'
+references_note: 'v2 corrects only the panel a-c y-tick labels so each printed label equals its data coordinate (v1 printed 0.3-0.8 at 0.35-0.85, 0.05 too low); ticks now 0.4-0.8. data.csv, make_data.py and seed are byte-identical to v1; curves, Wilson bands, panel d and n unchanged. Chart type only; the published figures were not downloaded, traced or redrawn. Context lengths 10/20/30 total documents follow the paper text (Sect. 2.3). In that paper, Fig. 3 and Fig. 4 are schematics; the position-accuracy results are Fig. 5. Fig. 7 (key-value retrieval) is not part of this redraw. Curves and counts are invented; new seed 20261404.'

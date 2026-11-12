@@ -1,0 +1,42 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout; not copied).
+title: 'Scaling mosaic: training-curve envelope, isoFLOP minima and compute-optimal extrapolation'
+title_zh: '缩放律组合图：训练曲线包络、IsoFLOP 最优点与计算最优外推'
+slug: 'scaling-envelope-mosaic'
+version: 2
+targets_id: 'C03'
+category: 'correlation'
+tags:
+  - 'scaling-law'
+  - 'envelope'
+  - 'isoflop'
+  - 'extrapolation'
+  - 'multi-panel'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+canvas_mm: [183, 89]
+seed: 20261403
+data_columns:
+  kind: 'run (training-curve log point) or isoflop (final loss at a fixed budget)'
+  run_id: 'run id (R01-R40) or budget id (B1-B6)'
+  params: 'model parameters N'
+  tokens: 'training tokens D seen at this point'
+  cycle_tokens: 'cosine cycle length in tokens (run); equals tokens for isoflop rows'
+  budget_flops: 'fixed compute budget in FLOPs (isoflop rows only; empty for runs)'
+  loss: 'simulated training loss'
+when_to_use: 'Show three views of one compute-optimal analysis side by side: all training runs with their minimum-loss envelope, isoFLOP U-curves with fitted minima, and the power-law fit of optimal model size against compute extrapolated to a larger budget.'
+customize: 'FLOPs are 6 N D. Panel a envelope = minimum interpolated loss over all runs on a 160-point log FLOP grid; its model size is fitted over fit_range. Panel b fits a quadratic in log10 N per budget. Panel c shows every 6th envelope grid point, the isoFLOP minima, log-log least-squares lines (solid inside the data, dashed beyond) and target_flops. Log-axis tick labels are plain text (1e19, 100M, 1B). No P values are computed.'
+distinct_from:
+  - 'redraws/scaling-law-v2/ (single loss-vs-size panel, 2x2)'
+  - 'redraws/isoflop-curves-v4/ (isoFLOP curves + optimum fit, 3x1; constants taken from the paper)'
+references:
+  - url: 'https://arxiv.org/abs/2203.15556'
+    figure: 'Fig. 2–3'
+v2_note: 'v2 only separates the panel-c target-budget dashed line from the lower-right footnote: the line at target_flops (1e24; same colour, 0.5 pt, same dash pattern) now stops 1 mm above the footnote text box instead of running full height. data.csv and make_data.py are byte-identical to v1; seed, fits, slopes (0.50/0.46) and extrapolated sizes (92.3B/55B) unchanged.'
+references_note: 'Chart type only; the published figures were not downloaded, traced or redrawn. Simulation constants are invented (not the published fit); new seed 20261403.'
