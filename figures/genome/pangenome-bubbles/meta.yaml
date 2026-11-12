@@ -1,0 +1,33 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Linear graph-pangenome bubbles with per-path alleles (house style)'
+title_zh: '图泛基因组气泡线性布局与各路径等位（house 风格）'
+slug: 'pangenome-bubbles'
+category: 'genome'
+tags:
+  - 'pangenome'
+  - 'pangenome-graph'
+  - 'bubble'
+  - 'structural-variant'
+  - 'haplotype-path'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  record: '行类型：bubble（气泡的一个等位）/ path（某路径在某气泡上走的等位）'
+  bubble: '气泡编号，如 B1'
+  type: '气泡类型：SNV / insertion / deletion / divergent（仅 bubble 行）'
+  pos_kb: '气泡在参考坐标上的位置（kb，仅 bubble 行）'
+  allele: '等位编号：0 = 参考，1、2 = 替代'
+  length_bp: '该等位的序列长度（bp，仅 bubble 行；插入的参考等位与缺失的替代等位为 0）'
+  path: '路径名，如 Path 1（仅 path 行；Path 1 为参考）'
+when_to_use: '示意线性化的图泛基因组：参考骨架上各气泡（SNV、插入、缺失、多等位分歧区）的位置与长度，并在同一坐标下看每条单倍型路径在各气泡上走哪个等位时用。与 pangenome-saturation-curves（泛基因组大小随基因组数的饱和曲线）不同。'
+customize: 'data.csv 按 record 填两类行；plot.py 顶部改 ref_len_kb、arc_w（气泡画宽，真实长度写在标签里）、cell_w、cells。路径数、气泡数、各气泡替代等位路径数都从 data.csv 计算。图例与 Simulated data 脚注都在坐标框内。'
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+seed: 20261124
+references:
+  - '来源待补 [待确认]'
+references_note: 'Source figure not yet identified [待确认]; schematic layout follows the house rules in styles/style-contract.md. All labels generic.'

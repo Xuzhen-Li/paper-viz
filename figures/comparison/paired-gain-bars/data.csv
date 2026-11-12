@@ -1,0 +1,4801 @@
+model,condition,prompt,outcome
+Model 1,Alone,P001,1
+Model 1,Alone,P002,1
+Model 1,Alone,P003,0
+Model 1,Alone,P004,0
+Model 1,Alone,P005,0
+Model 1,Alone,P006,1
+Model 1,Alone,P007,1
+Model 1,Alone,P008,0
+Model 1,Alone,P009,0
+Model 1,Alone,P010,0
+Model 1,Alone,P011,0
+Model 1,Alone,P012,0
+Model 1,Alone,P013,1
+Model 1,Alone,P014,0
+Model 1,Alone,P015,1
+Model 1,Alone,P016,1
+Model 1,Alone,P017,0
+Model 1,Alone,P018,0
+Model 1,Alone,P019,0
+Model 1,Alone,P020,0
+Model 1,Alone,P021,1
+Model 1,Alone,P022,0
+Model 1,Alone,P023,0
+Model 1,Alone,P024,0
+Model 1,Alone,P025,0
+Model 1,Alone,P026,0
+Model 1,Alone,P027,0
+Model 1,Alone,P028,0
+Model 1,Alone,P029,0
+Model 1,Alone,P030,0
+Model 1,Alone,P031,0
+Model 1,Alone,P032,0
+Model 1,Alone,P033,0.5
+Model 1,Alone,P034,1
+Model 1,Alone,P035,1
+Model 1,Alone,P036,0
+Model 1,Alone,P037,0
+Model 1,Alone,P038,0
+Model 1,Alone,P039,0
+Model 1,Alone,P040,0
+Model 1,Alone,P041,1
+Model 1,Alone,P042,1
+Model 1,Alone,P043,0
+Model 1,Alone,P044,1
+Model 1,Alone,P045,0
+Model 1,Alone,P046,1
+Model 1,Alone,P047,0
+Model 1,Alone,P048,0
+Model 1,Alone,P049,0
+Model 1,Alone,P050,1
+Model 1,Alone,P051,0
+Model 1,Alone,P052,1
+Model 1,Alone,P053,1
+Model 1,Alone,P054,0
+Model 1,Alone,P055,0
+Model 1,Alone,P056,0
+Model 1,Alone,P057,0
+Model 1,Alone,P058,0
+Model 1,Alone,P059,1
+Model 1,Alone,P060,1
+Model 1,Alone,P061,0
+Model 1,Alone,P062,0
+Model 1,Alone,P063,0
+Model 1,Alone,P064,0
+Model 1,Alone,P065,1
+Model 1,Alone,P066,1
+Model 1,Alone,P067,0.5
+Model 1,Alone,P068,0
+Model 1,Alone,P069,0
+Model 1,Alone,P070,1
+Model 1,Alone,P071,0
+Model 1,Alone,P072,0
+Model 1,Alone,P073,0
+Model 1,Alone,P074,0
+Model 1,Alone,P075,0
+Model 1,Alone,P076,0
+Model 1,Alone,P077,0
+Model 1,Alone,P078,0
+Model 1,Alone,P079,1
+Model 1,Alone,P080,1
+Model 1,Alone,P081,1
+Model 1,Alone,P082,0
+Model 1,Alone,P083,0
+Model 1,Alone,P084,0
+Model 1,Alone,P085,0
+Model 1,Alone,P086,1
+Model 1,Alone,P087,1
+Model 1,Alone,P088,1
+Model 1,Alone,P089,1
+Model 1,Alone,P090,0
+Model 1,Alone,P091,0
+Model 1,Alone,P092,0
+Model 1,Alone,P093,1
+Model 1,Alone,P094,0
+Model 1,Alone,P095,1
+Model 1,Alone,P096,1
+Model 1,Alone,P097,0
+Model 1,Alone,P098,0
+Model 1,Alone,P099,0
+Model 1,Alone,P100,0
+Model 1,Alone,P101,0
+Model 1,Alone,P102,0.5
+Model 1,Alone,P103,0
+Model 1,Alone,P104,0
+Model 1,Alone,P105,0.5
+Model 1,Alone,P106,0
+Model 1,Alone,P107,0
+Model 1,Alone,P108,1
+Model 1,Alone,P109,0
+Model 1,Alone,P110,0
+Model 1,Alone,P111,0
+Model 1,Alone,P112,1
+Model 1,Alone,P113,0
+Model 1,Alone,P114,0
+Model 1,Alone,P115,1
+Model 1,Alone,P116,0
+Model 1,Alone,P117,0
+Model 1,Alone,P118,0
+Model 1,Alone,P119,0
+Model 1,Alone,P120,0
+Model 1,Alone,P121,0
+Model 1,Alone,P122,0
+Model 1,Alone,P123,0
+Model 1,Alone,P124,0
+Model 1,Alone,P125,0.5
+Model 1,Alone,P126,0
+Model 1,Alone,P127,0
+Model 1,Alone,P128,0
+Model 1,Alone,P129,1
+Model 1,Alone,P130,0
+Model 1,Alone,P131,0
+Model 1,Alone,P132,0
+Model 1,Alone,P133,0.5
+Model 1,Alone,P134,0
+Model 1,Alone,P135,0.5
+Model 1,Alone,P136,0
+Model 1,Alone,P137,0
+Model 1,Alone,P138,0
+Model 1,Alone,P139,1
+Model 1,Alone,P140,0
+Model 1,Alone,P141,1
+Model 1,Alone,P142,0
+Model 1,Alone,P143,0
+Model 1,Alone,P144,1
+Model 1,Alone,P145,0
+Model 1,Alone,P146,1
+Model 1,Alone,P147,0
+Model 1,Alone,P148,0
+Model 1,Alone,P149,0.5
+Model 1,Alone,P150,0
+Model 1,Alone,P151,1
+Model 1,Alone,P152,1
+Model 1,Alone,P153,0
+Model 1,Alone,P154,1
+Model 1,Alone,P155,0
+Model 1,Alone,P156,1
+Model 1,Alone,P157,0
+Model 1,Alone,P158,0
+Model 1,Alone,P159,0
+Model 1,Alone,P160,1
+Model 1,Alone,P161,0
+Model 1,Alone,P162,0
+Model 1,Alone,P163,1
+Model 1,Alone,P164,0
+Model 1,Alone,P165,0
+Model 1,Alone,P166,0
+Model 1,Alone,P167,1
+Model 1,Alone,P168,0
+Model 1,Alone,P169,0
+Model 1,Alone,P170,0
+Model 1,Alone,P171,1
+Model 1,Alone,P172,0
+Model 1,Alone,P173,0
+Model 1,Alone,P174,0
+Model 1,Alone,P175,0.5
+Model 1,Alone,P176,0
+Model 1,Alone,P177,0
+Model 1,Alone,P178,0.5
+Model 1,Alone,P179,0
+Model 1,Alone,P180,1
+Model 1,Alone,P181,0
+Model 1,Alone,P182,0.5
+Model 1,Alone,P183,0
+Model 1,Alone,P184,0
+Model 1,Alone,P185,0
+Model 1,Alone,P186,0
+Model 1,Alone,P187,0
+Model 1,Alone,P188,0
+Model 1,Alone,P189,1
+Model 1,Alone,P190,0
+Model 1,Alone,P191,1
+Model 1,Alone,P192,0
+Model 1,Alone,P193,0
+Model 1,Alone,P194,0
+Model 1,Alone,P195,1
+Model 1,Alone,P196,0
+Model 1,Alone,P197,1
+Model 1,Alone,P198,1
+Model 1,Alone,P199,1
+Model 1,Alone,P200,0.5
+Model 1,Alone,P201,1
+Model 1,Alone,P202,1
+Model 1,Alone,P203,0
+Model 1,Alone,P204,1
+Model 1,Alone,P205,0
+Model 1,Alone,P206,1
+Model 1,Alone,P207,1
+Model 1,Alone,P208,0
+Model 1,Alone,P209,0
+Model 1,Alone,P210,1
+Model 1,Alone,P211,0
+Model 1,Alone,P212,0
+Model 1,Alone,P213,1
+Model 1,Alone,P214,0
+Model 1,Alone,P215,1
+Model 1,Alone,P216,0
+Model 1,Alone,P217,0
+Model 1,Alone,P218,0
+Model 1,Alone,P219,1
+Model 1,Alone,P220,0
+Model 1,Alone,P221,0
+Model 1,Alone,P222,0
+Model 1,Alone,P223,0
+Model 1,Alone,P224,1
+Model 1,Alone,P225,0.5
+Model 1,Alone,P226,0
+Model 1,Alone,P227,0
+Model 1,Alone,P228,0
+Model 1,Alone,P229,0
+Model 1,Alone,P230,0
+Model 1,Alone,P231,0
+Model 1,Alone,P232,0.5
+Model 1,Alone,P233,1
+Model 1,Alone,P234,0
+Model 1,Alone,P235,0
+Model 1,Alone,P236,1
+Model 1,Alone,P237,0.5
+Model 1,Alone,P238,0
+Model 1,Alone,P239,0
+Model 1,Alone,P240,0
+Model 1,Alone,P241,1
+Model 1,Alone,P242,1
+Model 1,Alone,P243,0
+Model 1,Alone,P244,1
+Model 1,Alone,P245,0
+Model 1,Alone,P246,1
+Model 1,Alone,P247,1
+Model 1,Alone,P248,0
+Model 1,Alone,P249,1
+Model 1,Alone,P250,1
+Model 1,Alone,P251,0
+Model 1,Alone,P252,1
+Model 1,Alone,P253,1
+Model 1,Alone,P254,0
+Model 1,Alone,P255,1
+Model 1,Alone,P256,1
+Model 1,Alone,P257,1
+Model 1,Alone,P258,0
+Model 1,Alone,P259,1
+Model 1,Alone,P260,1
+Model 1,Alone,P261,1
+Model 1,Alone,P262,1
+Model 1,Alone,P263,0
+Model 1,Alone,P264,0
+Model 1,Alone,P265,0
+Model 1,Alone,P266,0
+Model 1,Alone,P267,1
+Model 1,Alone,P268,0.5
+Model 1,Alone,P269,0
+Model 1,Alone,P270,1
+Model 1,Alone,P271,0
+Model 1,Alone,P272,0
+Model 1,Alone,P273,0
+Model 1,Alone,P274,0.5
+Model 1,Alone,P275,0.5
+Model 1,Alone,P276,1
+Model 1,Alone,P277,0.5
+Model 1,Alone,P278,0
+Model 1,Alone,P279,0
+Model 1,Alone,P280,0
+Model 1,Alone,P281,1
+Model 1,Alone,P282,0
+Model 1,Alone,P283,0
+Model 1,Alone,P284,1
+Model 1,Alone,P285,0
+Model 1,Alone,P286,0.5
+Model 1,Alone,P287,0
+Model 1,Alone,P288,1
+Model 1,Alone,P289,1
+Model 1,Alone,P290,0
+Model 1,Alone,P291,0
+Model 1,Alone,P292,0
+Model 1,Alone,P293,0
+Model 1,Alone,P294,0
+Model 1,Alone,P295,0
+Model 1,Alone,P296,0
+Model 1,Alone,P297,0
+Model 1,Alone,P298,0.5
+Model 1,Alone,P299,1
+Model 1,Alone,P300,0
+Model 1,Alone,P301,0
+Model 1,Alone,P302,0
+Model 1,Alone,P303,0
+Model 1,Alone,P304,0
+Model 1,Alone,P305,0
+Model 1,Alone,P306,0
+Model 1,Alone,P307,1
+Model 1,Alone,P308,0
+Model 1,Alone,P309,1
+Model 1,Alone,P310,0
+Model 1,Alone,P311,0
+Model 1,Alone,P312,0
+Model 1,Alone,P313,0
+Model 1,Alone,P314,0
+Model 1,Alone,P315,1
+Model 1,Alone,P316,1
+Model 1,Alone,P317,0
+Model 1,Alone,P318,0
+Model 1,Alone,P319,0
+Model 1,Alone,P320,1
+Model 1,Alone,P321,0
+Model 1,Alone,P322,1
+Model 1,Alone,P323,1
+Model 1,Alone,P324,0.5
+Model 1,Alone,P325,0
+Model 1,Alone,P326,0
+Model 1,Alone,P327,0
+Model 1,Alone,P328,0
+Model 1,Alone,P329,0
+Model 1,Alone,P330,1
+Model 1,Alone,P331,0
+Model 1,Alone,P332,0
+Model 1,Alone,P333,0
+Model 1,Alone,P334,1
+Model 1,Alone,P335,0
+Model 1,Alone,P336,0
+Model 1,Alone,P337,0
+Model 1,Alone,P338,0.5
+Model 1,Alone,P339,1
+Model 1,Alone,P340,1
+Model 1,Alone,P341,0
+Model 1,Alone,P342,0
+Model 1,Alone,P343,0
+Model 1,Alone,P344,0
+Model 1,Alone,P345,0
+Model 1,Alone,P346,0
+Model 1,Alone,P347,1
+Model 1,Alone,P348,0
+Model 1,Alone,P349,0
+Model 1,Alone,P350,0
+Model 1,Alone,P351,0
+Model 1,Alone,P352,0
+Model 1,Alone,P353,1
+Model 1,Alone,P354,0
+Model 1,Alone,P355,1
+Model 1,Alone,P356,0
+Model 1,Alone,P357,1
+Model 1,Alone,P358,0
+Model 1,Alone,P359,0
+Model 1,Alone,P360,0
+Model 1,Alone,P361,0
+Model 1,Alone,P362,1
+Model 1,Alone,P363,1
+Model 1,Alone,P364,1
+Model 1,Alone,P365,0
+Model 1,Alone,P366,0
+Model 1,Alone,P367,1
+Model 1,Alone,P368,1
+Model 1,Alone,P369,0
+Model 1,Alone,P370,0
+Model 1,Alone,P371,1
+Model 1,Alone,P372,0
+Model 1,Alone,P373,0
+Model 1,Alone,P374,0
+Model 1,Alone,P375,0
+Model 1,Alone,P376,0
+Model 1,Alone,P377,0
+Model 1,Alone,P378,0
+Model 1,Alone,P379,0
+Model 1,Alone,P380,1
+Model 1,Alone,P381,0
+Model 1,Alone,P382,0.5
+Model 1,Alone,P383,0
+Model 1,Alone,P384,1
+Model 1,Alone,P385,0.5
+Model 1,Alone,P386,0
+Model 1,Alone,P387,1
+Model 1,Alone,P388,0
+Model 1,Alone,P389,0
+Model 1,Alone,P390,1
+Model 1,Alone,P391,0
+Model 1,Alone,P392,1
+Model 1,Alone,P393,0
+Model 1,Alone,P394,0
+Model 1,Alone,P395,0
+Model 1,Alone,P396,0
+Model 1,Alone,P397,0
+Model 1,Alone,P398,0
+Model 1,Alone,P399,1
+Model 1,Alone,P400,0
+Model 1,With other models' answers,P001,0
+Model 1,With other models' answers,P002,0
+Model 1,With other models' answers,P003,0
+Model 1,With other models' answers,P004,0
+Model 1,With other models' answers,P005,0
+Model 1,With other models' answers,P006,0
+Model 1,With other models' answers,P007,0
+Model 1,With other models' answers,P008,0
+Model 1,With other models' answers,P009,0
+Model 1,With other models' answers,P010,1
+Model 1,With other models' answers,P011,0
+Model 1,With other models' answers,P012,0
+Model 1,With other models' answers,P013,1
+Model 1,With other models' answers,P014,0
+Model 1,With other models' answers,P015,1
+Model 1,With other models' answers,P016,0.5
+Model 1,With other models' answers,P017,0
+Model 1,With other models' answers,P018,1
+Model 1,With other models' answers,P019,0.5
+Model 1,With other models' answers,P020,0
+Model 1,With other models' answers,P021,1
+Model 1,With other models' answers,P022,1
+Model 1,With other models' answers,P023,0
+Model 1,With other models' answers,P024,1
+Model 1,With other models' answers,P025,0
+Model 1,With other models' answers,P026,1
+Model 1,With other models' answers,P027,0
+Model 1,With other models' answers,P028,1
+Model 1,With other models' answers,P029,1
+Model 1,With other models' answers,P030,1
+Model 1,With other models' answers,P031,0.5
+Model 1,With other models' answers,P032,0
+Model 1,With other models' answers,P033,0.5
+Model 1,With other models' answers,P034,1
+Model 1,With other models' answers,P035,1
+Model 1,With other models' answers,P036,0
+Model 1,With other models' answers,P037,1
+Model 1,With other models' answers,P038,1
+Model 1,With other models' answers,P039,0.5
+Model 1,With other models' answers,P040,0
+Model 1,With other models' answers,P041,1
+Model 1,With other models' answers,P042,1
+Model 1,With other models' answers,P043,0
+Model 1,With other models' answers,P044,1
+Model 1,With other models' answers,P045,1
+Model 1,With other models' answers,P046,1
+Model 1,With other models' answers,P047,0
+Model 1,With other models' answers,P048,1
+Model 1,With other models' answers,P049,0
+Model 1,With other models' answers,P050,0.5
+Model 1,With other models' answers,P051,0
+Model 1,With other models' answers,P052,1
+Model 1,With other models' answers,P053,0
+Model 1,With other models' answers,P054,1
+Model 1,With other models' answers,P055,0
+Model 1,With other models' answers,P056,1
+Model 1,With other models' answers,P057,0
+Model 1,With other models' answers,P058,0.5
+Model 1,With other models' answers,P059,1
+Model 1,With other models' answers,P060,1
+Model 1,With other models' answers,P061,1
+Model 1,With other models' answers,P062,1
+Model 1,With other models' answers,P063,0
+Model 1,With other models' answers,P064,1
+Model 1,With other models' answers,P065,0
+Model 1,With other models' answers,P066,1
+Model 1,With other models' answers,P067,1
+Model 1,With other models' answers,P068,0
+Model 1,With other models' answers,P069,0
+Model 1,With other models' answers,P070,1
+Model 1,With other models' answers,P071,0
+Model 1,With other models' answers,P072,0
+Model 1,With other models' answers,P073,0
+Model 1,With other models' answers,P074,0
+Model 1,With other models' answers,P075,0
+Model 1,With other models' answers,P076,1
+Model 1,With other models' answers,P077,0
+Model 1,With other models' answers,P078,1
+Model 1,With other models' answers,P079,1
+Model 1,With other models' answers,P080,0
+Model 1,With other models' answers,P081,1
+Model 1,With other models' answers,P082,0
+Model 1,With other models' answers,P083,1
+Model 1,With other models' answers,P084,1
+Model 1,With other models' answers,P085,0
+Model 1,With other models' answers,P086,0
+Model 1,With other models' answers,P087,1
+Model 1,With other models' answers,P088,0.5
+Model 1,With other models' answers,P089,0
+Model 1,With other models' answers,P090,1
+Model 1,With other models' answers,P091,1
+Model 1,With other models' answers,P092,1
+Model 1,With other models' answers,P093,0.5
+Model 1,With other models' answers,P094,1
+Model 1,With other models' answers,P095,1
+Model 1,With other models' answers,P096,1
+Model 1,With other models' answers,P097,1
+Model 1,With other models' answers,P098,0
+Model 1,With other models' answers,P099,0.5
+Model 1,With other models' answers,P100,0
+Model 1,With other models' answers,P101,0
+Model 1,With other models' answers,P102,1
+Model 1,With other models' answers,P103,0
+Model 1,With other models' answers,P104,0
+Model 1,With other models' answers,P105,0
+Model 1,With other models' answers,P106,1
+Model 1,With other models' answers,P107,1
+Model 1,With other models' answers,P108,1
+Model 1,With other models' answers,P109,0
+Model 1,With other models' answers,P110,0
+Model 1,With other models' answers,P111,0
+Model 1,With other models' answers,P112,1
+Model 1,With other models' answers,P113,0
+Model 1,With other models' answers,P114,0
+Model 1,With other models' answers,P115,0
+Model 1,With other models' answers,P116,0
+Model 1,With other models' answers,P117,1
+Model 1,With other models' answers,P118,0.5
+Model 1,With other models' answers,P119,0
+Model 1,With other models' answers,P120,0.5
+Model 1,With other models' answers,P121,0
+Model 1,With other models' answers,P122,1
+Model 1,With other models' answers,P123,1
+Model 1,With other models' answers,P124,1
+Model 1,With other models' answers,P125,0
+Model 1,With other models' answers,P126,1
+Model 1,With other models' answers,P127,1
+Model 1,With other models' answers,P128,1
+Model 1,With other models' answers,P129,1
+Model 1,With other models' answers,P130,1
+Model 1,With other models' answers,P131,0.5
+Model 1,With other models' answers,P132,1
+Model 1,With other models' answers,P133,0
+Model 1,With other models' answers,P134,0
+Model 1,With other models' answers,P135,0
+Model 1,With other models' answers,P136,0
+Model 1,With other models' answers,P137,0
+Model 1,With other models' answers,P138,0
+Model 1,With other models' answers,P139,0.5
+Model 1,With other models' answers,P140,1
+Model 1,With other models' answers,P141,0
+Model 1,With other models' answers,P142,0
+Model 1,With other models' answers,P143,1
+Model 1,With other models' answers,P144,0
+Model 1,With other models' answers,P145,1
+Model 1,With other models' answers,P146,1
+Model 1,With other models' answers,P147,1
+Model 1,With other models' answers,P148,1
+Model 1,With other models' answers,P149,1
+Model 1,With other models' answers,P150,1
+Model 1,With other models' answers,P151,0
+Model 1,With other models' answers,P152,0
+Model 1,With other models' answers,P153,1
+Model 1,With other models' answers,P154,0
+Model 1,With other models' answers,P155,0
+Model 1,With other models' answers,P156,1
+Model 1,With other models' answers,P157,1
+Model 1,With other models' answers,P158,0
+Model 1,With other models' answers,P159,1
+Model 1,With other models' answers,P160,1
+Model 1,With other models' answers,P161,1
+Model 1,With other models' answers,P162,0
+Model 1,With other models' answers,P163,1
+Model 1,With other models' answers,P164,0
+Model 1,With other models' answers,P165,1
+Model 1,With other models' answers,P166,1
+Model 1,With other models' answers,P167,1
+Model 1,With other models' answers,P168,1
+Model 1,With other models' answers,P169,0
+Model 1,With other models' answers,P170,1
+Model 1,With other models' answers,P171,1
+Model 1,With other models' answers,P172,1
+Model 1,With other models' answers,P173,0
+Model 1,With other models' answers,P174,1
+Model 1,With other models' answers,P175,1
+Model 1,With other models' answers,P176,1
+Model 1,With other models' answers,P177,1
+Model 1,With other models' answers,P178,1
+Model 1,With other models' answers,P179,0
+Model 1,With other models' answers,P180,0
+Model 1,With other models' answers,P181,0
+Model 1,With other models' answers,P182,0
+Model 1,With other models' answers,P183,0
+Model 1,With other models' answers,P184,0
+Model 1,With other models' answers,P185,1
+Model 1,With other models' answers,P186,0
+Model 1,With other models' answers,P187,1
+Model 1,With other models' answers,P188,1
+Model 1,With other models' answers,P189,1
+Model 1,With other models' answers,P190,0
+Model 1,With other models' answers,P191,0
+Model 1,With other models' answers,P192,1
+Model 1,With other models' answers,P193,1
+Model 1,With other models' answers,P194,1
+Model 1,With other models' answers,P195,0
+Model 1,With other models' answers,P196,0
+Model 1,With other models' answers,P197,1
+Model 1,With other models' answers,P198,0
+Model 1,With other models' answers,P199,0
+Model 1,With other models' answers,P200,0
+Model 1,With other models' answers,P201,1
+Model 1,With other models' answers,P202,0
+Model 1,With other models' answers,P203,0.5
+Model 1,With other models' answers,P204,0
+Model 1,With other models' answers,P205,0
+Model 1,With other models' answers,P206,1
+Model 1,With other models' answers,P207,1
+Model 1,With other models' answers,P208,0
+Model 1,With other models' answers,P209,1
+Model 1,With other models' answers,P210,1
+Model 1,With other models' answers,P211,0
+Model 1,With other models' answers,P212,1
+Model 1,With other models' answers,P213,0
+Model 1,With other models' answers,P214,1
+Model 1,With other models' answers,P215,0
+Model 1,With other models' answers,P216,1
+Model 1,With other models' answers,P217,0
+Model 1,With other models' answers,P218,1
+Model 1,With other models' answers,P219,0
+Model 1,With other models' answers,P220,1
+Model 1,With other models' answers,P221,1
+Model 1,With other models' answers,P222,0
+Model 1,With other models' answers,P223,0
+Model 1,With other models' answers,P224,1
+Model 1,With other models' answers,P225,0
+Model 1,With other models' answers,P226,1
+Model 1,With other models' answers,P227,1
+Model 1,With other models' answers,P228,1
+Model 1,With other models' answers,P229,0
+Model 1,With other models' answers,P230,1
+Model 1,With other models' answers,P231,0
+Model 1,With other models' answers,P232,0
+Model 1,With other models' answers,P233,0
+Model 1,With other models' answers,P234,1
+Model 1,With other models' answers,P235,1
+Model 1,With other models' answers,P236,0
+Model 1,With other models' answers,P237,1
+Model 1,With other models' answers,P238,1
+Model 1,With other models' answers,P239,0
+Model 1,With other models' answers,P240,1
+Model 1,With other models' answers,P241,0
+Model 1,With other models' answers,P242,0
+Model 1,With other models' answers,P243,1
+Model 1,With other models' answers,P244,1
+Model 1,With other models' answers,P245,0
+Model 1,With other models' answers,P246,0
+Model 1,With other models' answers,P247,1
+Model 1,With other models' answers,P248,1
+Model 1,With other models' answers,P249,1
+Model 1,With other models' answers,P250,1
+Model 1,With other models' answers,P251,0
+Model 1,With other models' answers,P252,0
+Model 1,With other models' answers,P253,0
+Model 1,With other models' answers,P254,1
+Model 1,With other models' answers,P255,0
+Model 1,With other models' answers,P256,0
+Model 1,With other models' answers,P257,0
+Model 1,With other models' answers,P258,0
+Model 1,With other models' answers,P259,1
+Model 1,With other models' answers,P260,1
+Model 1,With other models' answers,P261,0
+Model 1,With other models' answers,P262,0
+Model 1,With other models' answers,P263,0.5
+Model 1,With other models' answers,P264,1
+Model 1,With other models' answers,P265,1
+Model 1,With other models' answers,P266,1
+Model 1,With other models' answers,P267,1
+Model 1,With other models' answers,P268,0
+Model 1,With other models' answers,P269,0
+Model 1,With other models' answers,P270,0
+Model 1,With other models' answers,P271,1
+Model 1,With other models' answers,P272,1
+Model 1,With other models' answers,P273,0
+Model 1,With other models' answers,P274,0
+Model 1,With other models' answers,P275,1
+Model 1,With other models' answers,P276,1
+Model 1,With other models' answers,P277,0
+Model 1,With other models' answers,P278,1
+Model 1,With other models' answers,P279,0
+Model 1,With other models' answers,P280,0
+Model 1,With other models' answers,P281,1
+Model 1,With other models' answers,P282,0
+Model 1,With other models' answers,P283,0
+Model 1,With other models' answers,P284,1
+Model 1,With other models' answers,P285,1
+Model 1,With other models' answers,P286,0
+Model 1,With other models' answers,P287,0
+Model 1,With other models' answers,P288,1
+Model 1,With other models' answers,P289,1
+Model 1,With other models' answers,P290,0
+Model 1,With other models' answers,P291,1
+Model 1,With other models' answers,P292,0
+Model 1,With other models' answers,P293,1
+Model 1,With other models' answers,P294,0
+Model 1,With other models' answers,P295,0
+Model 1,With other models' answers,P296,0
+Model 1,With other models' answers,P297,1
+Model 1,With other models' answers,P298,0
+Model 1,With other models' answers,P299,0
+Model 1,With other models' answers,P300,1
+Model 1,With other models' answers,P301,0
+Model 1,With other models' answers,P302,0
+Model 1,With other models' answers,P303,1
+Model 1,With other models' answers,P304,0
+Model 1,With other models' answers,P305,0
+Model 1,With other models' answers,P306,0
+Model 1,With other models' answers,P307,0.5
+Model 1,With other models' answers,P308,0
+Model 1,With other models' answers,P309,1
+Model 1,With other models' answers,P310,0.5
+Model 1,With other models' answers,P311,1
+Model 1,With other models' answers,P312,0
+Model 1,With other models' answers,P313,1
+Model 1,With other models' answers,P314,1
+Model 1,With other models' answers,P315,1
+Model 1,With other models' answers,P316,1
+Model 1,With other models' answers,P317,0
+Model 1,With other models' answers,P318,1
+Model 1,With other models' answers,P319,1
+Model 1,With other models' answers,P320,1
+Model 1,With other models' answers,P321,1
+Model 1,With other models' answers,P322,0
+Model 1,With other models' answers,P323,0
+Model 1,With other models' answers,P324,0
+Model 1,With other models' answers,P325,1
+Model 1,With other models' answers,P326,1
+Model 1,With other models' answers,P327,0
+Model 1,With other models' answers,P328,0
+Model 1,With other models' answers,P329,0
+Model 1,With other models' answers,P330,1
+Model 1,With other models' answers,P331,1
+Model 1,With other models' answers,P332,0
+Model 1,With other models' answers,P333,0.5
+Model 1,With other models' answers,P334,0
+Model 1,With other models' answers,P335,0
+Model 1,With other models' answers,P336,1
+Model 1,With other models' answers,P337,1
+Model 1,With other models' answers,P338,0
+Model 1,With other models' answers,P339,0
+Model 1,With other models' answers,P340,1
+Model 1,With other models' answers,P341,0.5
+Model 1,With other models' answers,P342,0
+Model 1,With other models' answers,P343,0
+Model 1,With other models' answers,P344,1
+Model 1,With other models' answers,P345,1
+Model 1,With other models' answers,P346,0
+Model 1,With other models' answers,P347,1
+Model 1,With other models' answers,P348,1
+Model 1,With other models' answers,P349,1
+Model 1,With other models' answers,P350,0
+Model 1,With other models' answers,P351,1
+Model 1,With other models' answers,P352,0
+Model 1,With other models' answers,P353,1
+Model 1,With other models' answers,P354,1
+Model 1,With other models' answers,P355,1
+Model 1,With other models' answers,P356,1
+Model 1,With other models' answers,P357,0
+Model 1,With other models' answers,P358,1
+Model 1,With other models' answers,P359,1
+Model 1,With other models' answers,P360,0
+Model 1,With other models' answers,P361,1
+Model 1,With other models' answers,P362,1
+Model 1,With other models' answers,P363,0.5
+Model 1,With other models' answers,P364,0
+Model 1,With other models' answers,P365,0
+Model 1,With other models' answers,P366,1
+Model 1,With other models' answers,P367,1
+Model 1,With other models' answers,P368,1
+Model 1,With other models' answers,P369,0
+Model 1,With other models' answers,P370,0
+Model 1,With other models' answers,P371,0
+Model 1,With other models' answers,P372,1
+Model 1,With other models' answers,P373,0
+Model 1,With other models' answers,P374,1
+Model 1,With other models' answers,P375,1
+Model 1,With other models' answers,P376,0
+Model 1,With other models' answers,P377,1
+Model 1,With other models' answers,P378,0
+Model 1,With other models' answers,P379,1
+Model 1,With other models' answers,P380,0
+Model 1,With other models' answers,P381,1
+Model 1,With other models' answers,P382,0
+Model 1,With other models' answers,P383,1
+Model 1,With other models' answers,P384,1
+Model 1,With other models' answers,P385,0
+Model 1,With other models' answers,P386,1
+Model 1,With other models' answers,P387,0.5
+Model 1,With other models' answers,P388,0.5
+Model 1,With other models' answers,P389,0
+Model 1,With other models' answers,P390,1
+Model 1,With other models' answers,P391,0
+Model 1,With other models' answers,P392,1
+Model 1,With other models' answers,P393,1
+Model 1,With other models' answers,P394,1
+Model 1,With other models' answers,P395,0
+Model 1,With other models' answers,P396,1
+Model 1,With other models' answers,P397,0
+Model 1,With other models' answers,P398,0
+Model 1,With other models' answers,P399,0
+Model 1,With other models' answers,P400,1
+Model 2,Alone,P001,0
+Model 2,Alone,P002,0
+Model 2,Alone,P003,0
+Model 2,Alone,P004,0
+Model 2,Alone,P005,0
+Model 2,Alone,P006,0
+Model 2,Alone,P007,0
+Model 2,Alone,P008,0
+Model 2,Alone,P009,0
+Model 2,Alone,P010,0
+Model 2,Alone,P011,0.5
+Model 2,Alone,P012,0
+Model 2,Alone,P013,0
+Model 2,Alone,P014,0
+Model 2,Alone,P015,0
+Model 2,Alone,P016,1
+Model 2,Alone,P017,0
+Model 2,Alone,P018,0
+Model 2,Alone,P019,1
+Model 2,Alone,P020,0
+Model 2,Alone,P021,0
+Model 2,Alone,P022,0
+Model 2,Alone,P023,0
+Model 2,Alone,P024,0
+Model 2,Alone,P025,0
+Model 2,Alone,P026,0
+Model 2,Alone,P027,0
+Model 2,Alone,P028,0
+Model 2,Alone,P029,0
+Model 2,Alone,P030,0
+Model 2,Alone,P031,1
+Model 2,Alone,P032,0
+Model 2,Alone,P033,0
+Model 2,Alone,P034,1
+Model 2,Alone,P035,0
+Model 2,Alone,P036,1
+Model 2,Alone,P037,1
+Model 2,Alone,P038,0
+Model 2,Alone,P039,1
+Model 2,Alone,P040,0
+Model 2,Alone,P041,0
+Model 2,Alone,P042,1
+Model 2,Alone,P043,0
+Model 2,Alone,P044,0
+Model 2,Alone,P045,0
+Model 2,Alone,P046,0
+Model 2,Alone,P047,0
+Model 2,Alone,P048,0
+Model 2,Alone,P049,1
+Model 2,Alone,P050,1
+Model 2,Alone,P051,1
+Model 2,Alone,P052,0
+Model 2,Alone,P053,1
+Model 2,Alone,P054,0
+Model 2,Alone,P055,1
+Model 2,Alone,P056,0
+Model 2,Alone,P057,0
+Model 2,Alone,P058,0
+Model 2,Alone,P059,0
+Model 2,Alone,P060,1
+Model 2,Alone,P061,0
+Model 2,Alone,P062,0
+Model 2,Alone,P063,0
+Model 2,Alone,P064,0
+Model 2,Alone,P065,1
+Model 2,Alone,P066,0.5
+Model 2,Alone,P067,1
+Model 2,Alone,P068,1
+Model 2,Alone,P069,0
+Model 2,Alone,P070,1
+Model 2,Alone,P071,0
+Model 2,Alone,P072,0
+Model 2,Alone,P073,0
+Model 2,Alone,P074,0
+Model 2,Alone,P075,0
+Model 2,Alone,P076,1
+Model 2,Alone,P077,0
+Model 2,Alone,P078,0
+Model 2,Alone,P079,1
+Model 2,Alone,P080,0
+Model 2,Alone,P081,1
+Model 2,Alone,P082,0
+Model 2,Alone,P083,0
+Model 2,Alone,P084,0
+Model 2,Alone,P085,0
+Model 2,Alone,P086,1
+Model 2,Alone,P087,1
+Model 2,Alone,P088,1
+Model 2,Alone,P089,0
+Model 2,Alone,P090,0.5
+Model 2,Alone,P091,0
+Model 2,Alone,P092,0
+Model 2,Alone,P093,0
+Model 2,Alone,P094,0
+Model 2,Alone,P095,0
+Model 2,Alone,P096,0
+Model 2,Alone,P097,0
+Model 2,Alone,P098,0
+Model 2,Alone,P099,0
+Model 2,Alone,P100,1
+Model 2,Alone,P101,0
+Model 2,Alone,P102,1
+Model 2,Alone,P103,0
+Model 2,Alone,P104,0
+Model 2,Alone,P105,0
+Model 2,Alone,P106,1
+Model 2,Alone,P107,0
+Model 2,Alone,P108,0.5
+Model 2,Alone,P109,0
+Model 2,Alone,P110,0
+Model 2,Alone,P111,0
+Model 2,Alone,P112,0
+Model 2,Alone,P113,1
+Model 2,Alone,P114,0
+Model 2,Alone,P115,0.5
+Model 2,Alone,P116,0
+Model 2,Alone,P117,0
+Model 2,Alone,P118,0
+Model 2,Alone,P119,0
+Model 2,Alone,P120,1
+Model 2,Alone,P121,0.5
+Model 2,Alone,P122,0
+Model 2,Alone,P123,0
+Model 2,Alone,P124,0
+Model 2,Alone,P125,1
+Model 2,Alone,P126,1
+Model 2,Alone,P127,0
+Model 2,Alone,P128,1
+Model 2,Alone,P129,0
+Model 2,Alone,P130,0.5
+Model 2,Alone,P131,0
+Model 2,Alone,P132,0
+Model 2,Alone,P133,1
+Model 2,Alone,P134,0
+Model 2,Alone,P135,0
+Model 2,Alone,P136,0
+Model 2,Alone,P137,0
+Model 2,Alone,P138,0
+Model 2,Alone,P139,0
+Model 2,Alone,P140,0
+Model 2,Alone,P141,0
+Model 2,Alone,P142,0.5
+Model 2,Alone,P143,0
+Model 2,Alone,P144,1
+Model 2,Alone,P145,0
+Model 2,Alone,P146,1
+Model 2,Alone,P147,1
+Model 2,Alone,P148,0
+Model 2,Alone,P149,0
+Model 2,Alone,P150,0
+Model 2,Alone,P151,1
+Model 2,Alone,P152,0.5
+Model 2,Alone,P153,0
+Model 2,Alone,P154,0
+Model 2,Alone,P155,0
+Model 2,Alone,P156,1
+Model 2,Alone,P157,0
+Model 2,Alone,P158,0
+Model 2,Alone,P159,0
+Model 2,Alone,P160,0
+Model 2,Alone,P161,0
+Model 2,Alone,P162,1
+Model 2,Alone,P163,0
+Model 2,Alone,P164,1
+Model 2,Alone,P165,0
+Model 2,Alone,P166,0
+Model 2,Alone,P167,1
+Model 2,Alone,P168,0
+Model 2,Alone,P169,0
+Model 2,Alone,P170,0.5
+Model 2,Alone,P171,1
+Model 2,Alone,P172,0
+Model 2,Alone,P173,0
+Model 2,Alone,P174,1
+Model 2,Alone,P175,1
+Model 2,Alone,P176,0
+Model 2,Alone,P177,0
+Model 2,Alone,P178,0
+Model 2,Alone,P179,1
+Model 2,Alone,P180,1
+Model 2,Alone,P181,0
+Model 2,Alone,P182,0.5
+Model 2,Alone,P183,0
+Model 2,Alone,P184,0
+Model 2,Alone,P185,0.5
+Model 2,Alone,P186,0
+Model 2,Alone,P187,0
+Model 2,Alone,P188,0
+Model 2,Alone,P189,0.5
+Model 2,Alone,P190,0
+Model 2,Alone,P191,0
+Model 2,Alone,P192,1
+Model 2,Alone,P193,1
+Model 2,Alone,P194,0
+Model 2,Alone,P195,0
+Model 2,Alone,P196,0
+Model 2,Alone,P197,0
+Model 2,Alone,P198,0
+Model 2,Alone,P199,0
+Model 2,Alone,P200,0
+Model 2,Alone,P201,0
+Model 2,Alone,P202,1
+Model 2,Alone,P203,0
+Model 2,Alone,P204,0
+Model 2,Alone,P205,0
+Model 2,Alone,P206,0.5
+Model 2,Alone,P207,1
+Model 2,Alone,P208,0
+Model 2,Alone,P209,0.5
+Model 2,Alone,P210,0
+Model 2,Alone,P211,0.5
+Model 2,Alone,P212,0
+Model 2,Alone,P213,0
+Model 2,Alone,P214,1
+Model 2,Alone,P215,0.5
+Model 2,Alone,P216,0
+Model 2,Alone,P217,1
+Model 2,Alone,P218,0
+Model 2,Alone,P219,1
+Model 2,Alone,P220,1
+Model 2,Alone,P221,0
+Model 2,Alone,P222,0
+Model 2,Alone,P223,0
+Model 2,Alone,P224,1
+Model 2,Alone,P225,0
+Model 2,Alone,P226,0
+Model 2,Alone,P227,1
+Model 2,Alone,P228,1
+Model 2,Alone,P229,0
+Model 2,Alone,P230,0
+Model 2,Alone,P231,0
+Model 2,Alone,P232,0
+Model 2,Alone,P233,0
+Model 2,Alone,P234,1
+Model 2,Alone,P235,1
+Model 2,Alone,P236,0
+Model 2,Alone,P237,0
+Model 2,Alone,P238,0
+Model 2,Alone,P239,1
+Model 2,Alone,P240,0
+Model 2,Alone,P241,0
+Model 2,Alone,P242,0
+Model 2,Alone,P243,1
+Model 2,Alone,P244,1
+Model 2,Alone,P245,0
+Model 2,Alone,P246,0
+Model 2,Alone,P247,0.5
+Model 2,Alone,P248,0
+Model 2,Alone,P249,0
+Model 2,Alone,P250,0.5
+Model 2,Alone,P251,0
+Model 2,Alone,P252,1
+Model 2,Alone,P253,0
+Model 2,Alone,P254,0
+Model 2,Alone,P255,1
+Model 2,Alone,P256,1
+Model 2,Alone,P257,1
+Model 2,Alone,P258,0
+Model 2,Alone,P259,0
+Model 2,Alone,P260,0
+Model 2,Alone,P261,1
+Model 2,Alone,P262,0
+Model 2,Alone,P263,0
+Model 2,Alone,P264,0
+Model 2,Alone,P265,0
+Model 2,Alone,P266,1
+Model 2,Alone,P267,1
+Model 2,Alone,P268,0
+Model 2,Alone,P269,0
+Model 2,Alone,P270,0
+Model 2,Alone,P271,1
+Model 2,Alone,P272,0.5
+Model 2,Alone,P273,0
+Model 2,Alone,P274,0.5
+Model 2,Alone,P275,0
+Model 2,Alone,P276,0.5
+Model 2,Alone,P277,0
+Model 2,Alone,P278,0
+Model 2,Alone,P279,1
+Model 2,Alone,P280,0
+Model 2,Alone,P281,1
+Model 2,Alone,P282,1
+Model 2,Alone,P283,0
+Model 2,Alone,P284,1
+Model 2,Alone,P285,0
+Model 2,Alone,P286,0
+Model 2,Alone,P287,1
+Model 2,Alone,P288,0
+Model 2,Alone,P289,0
+Model 2,Alone,P290,0
+Model 2,Alone,P291,0
+Model 2,Alone,P292,0
+Model 2,Alone,P293,1
+Model 2,Alone,P294,0
+Model 2,Alone,P295,0
+Model 2,Alone,P296,0
+Model 2,Alone,P297,0
+Model 2,Alone,P298,0
+Model 2,Alone,P299,0
+Model 2,Alone,P300,0
+Model 2,Alone,P301,0
+Model 2,Alone,P302,0
+Model 2,Alone,P303,1
+Model 2,Alone,P304,0
+Model 2,Alone,P305,0.5
+Model 2,Alone,P306,0
+Model 2,Alone,P307,1
+Model 2,Alone,P308,0
+Model 2,Alone,P309,1
+Model 2,Alone,P310,1
+Model 2,Alone,P311,0
+Model 2,Alone,P312,0
+Model 2,Alone,P313,0
+Model 2,Alone,P314,1
+Model 2,Alone,P315,0
+Model 2,Alone,P316,0
+Model 2,Alone,P317,0
+Model 2,Alone,P318,0
+Model 2,Alone,P319,1
+Model 2,Alone,P320,0
+Model 2,Alone,P321,0
+Model 2,Alone,P322,0
+Model 2,Alone,P323,1
+Model 2,Alone,P324,0
+Model 2,Alone,P325,0
+Model 2,Alone,P326,0.5
+Model 2,Alone,P327,1
+Model 2,Alone,P328,0
+Model 2,Alone,P329,0
+Model 2,Alone,P330,0
+Model 2,Alone,P331,0
+Model 2,Alone,P332,1
+Model 2,Alone,P333,1
+Model 2,Alone,P334,0
+Model 2,Alone,P335,0
+Model 2,Alone,P336,1
+Model 2,Alone,P337,0
+Model 2,Alone,P338,0
+Model 2,Alone,P339,0
+Model 2,Alone,P340,0
+Model 2,Alone,P341,0
+Model 2,Alone,P342,1
+Model 2,Alone,P343,0
+Model 2,Alone,P344,0
+Model 2,Alone,P345,0
+Model 2,Alone,P346,1
+Model 2,Alone,P347,1
+Model 2,Alone,P348,0
+Model 2,Alone,P349,0.5
+Model 2,Alone,P350,0
+Model 2,Alone,P351,0
+Model 2,Alone,P352,0
+Model 2,Alone,P353,0
+Model 2,Alone,P354,0
+Model 2,Alone,P355,1
+Model 2,Alone,P356,0
+Model 2,Alone,P357,0
+Model 2,Alone,P358,0
+Model 2,Alone,P359,0.5
+Model 2,Alone,P360,0
+Model 2,Alone,P361,1
+Model 2,Alone,P362,1
+Model 2,Alone,P363,1
+Model 2,Alone,P364,0.5
+Model 2,Alone,P365,1
+Model 2,Alone,P366,0.5
+Model 2,Alone,P367,0
+Model 2,Alone,P368,0
+Model 2,Alone,P369,0
+Model 2,Alone,P370,0
+Model 2,Alone,P371,0
+Model 2,Alone,P372,1
+Model 2,Alone,P373,0
+Model 2,Alone,P374,0
+Model 2,Alone,P375,0
+Model 2,Alone,P376,0
+Model 2,Alone,P377,1
+Model 2,Alone,P378,0
+Model 2,Alone,P379,0.5
+Model 2,Alone,P380,0
+Model 2,Alone,P381,0.5
+Model 2,Alone,P382,0
+Model 2,Alone,P383,1
+Model 2,Alone,P384,0
+Model 2,Alone,P385,0.5
+Model 2,Alone,P386,0
+Model 2,Alone,P387,0
+Model 2,Alone,P388,0
+Model 2,Alone,P389,1
+Model 2,Alone,P390,0
+Model 2,Alone,P391,0
+Model 2,Alone,P392,1
+Model 2,Alone,P393,0
+Model 2,Alone,P394,0
+Model 2,Alone,P395,1
+Model 2,Alone,P396,0
+Model 2,Alone,P397,0
+Model 2,Alone,P398,1
+Model 2,Alone,P399,0
+Model 2,Alone,P400,0
+Model 2,With other models' answers,P001,0
+Model 2,With other models' answers,P002,0
+Model 2,With other models' answers,P003,1
+Model 2,With other models' answers,P004,0
+Model 2,With other models' answers,P005,0
+Model 2,With other models' answers,P006,1
+Model 2,With other models' answers,P007,0
+Model 2,With other models' answers,P008,0
+Model 2,With other models' answers,P009,1
+Model 2,With other models' answers,P010,1
+Model 2,With other models' answers,P011,1
+Model 2,With other models' answers,P012,0
+Model 2,With other models' answers,P013,1
+Model 2,With other models' answers,P014,0
+Model 2,With other models' answers,P015,0
+Model 2,With other models' answers,P016,0.5
+Model 2,With other models' answers,P017,0
+Model 2,With other models' answers,P018,0
+Model 2,With other models' answers,P019,0
+Model 2,With other models' answers,P020,1
+Model 2,With other models' answers,P021,0
+Model 2,With other models' answers,P022,1
+Model 2,With other models' answers,P023,1
+Model 2,With other models' answers,P024,0
+Model 2,With other models' answers,P025,0
+Model 2,With other models' answers,P026,0
+Model 2,With other models' answers,P027,0.5
+Model 2,With other models' answers,P028,1
+Model 2,With other models' answers,P029,0
+Model 2,With other models' answers,P030,1
+Model 2,With other models' answers,P031,1
+Model 2,With other models' answers,P032,1
+Model 2,With other models' answers,P033,1
+Model 2,With other models' answers,P034,0
+Model 2,With other models' answers,P035,1
+Model 2,With other models' answers,P036,0
+Model 2,With other models' answers,P037,0.5
+Model 2,With other models' answers,P038,0
+Model 2,With other models' answers,P039,1
+Model 2,With other models' answers,P040,0
+Model 2,With other models' answers,P041,1
+Model 2,With other models' answers,P042,1
+Model 2,With other models' answers,P043,0.5
+Model 2,With other models' answers,P044,0
+Model 2,With other models' answers,P045,0
+Model 2,With other models' answers,P046,1
+Model 2,With other models' answers,P047,0
+Model 2,With other models' answers,P048,0
+Model 2,With other models' answers,P049,0
+Model 2,With other models' answers,P050,1
+Model 2,With other models' answers,P051,0
+Model 2,With other models' answers,P052,0
+Model 2,With other models' answers,P053,1
+Model 2,With other models' answers,P054,0
+Model 2,With other models' answers,P055,0
+Model 2,With other models' answers,P056,1
+Model 2,With other models' answers,P057,1
+Model 2,With other models' answers,P058,0
+Model 2,With other models' answers,P059,1
+Model 2,With other models' answers,P060,0
+Model 2,With other models' answers,P061,1
+Model 2,With other models' answers,P062,0
+Model 2,With other models' answers,P063,1
+Model 2,With other models' answers,P064,1
+Model 2,With other models' answers,P065,0
+Model 2,With other models' answers,P066,0
+Model 2,With other models' answers,P067,0.5
+Model 2,With other models' answers,P068,0.5
+Model 2,With other models' answers,P069,0
+Model 2,With other models' answers,P070,0
+Model 2,With other models' answers,P071,0
+Model 2,With other models' answers,P072,0
+Model 2,With other models' answers,P073,0
+Model 2,With other models' answers,P074,1
+Model 2,With other models' answers,P075,1
+Model 2,With other models' answers,P076,1
+Model 2,With other models' answers,P077,0
+Model 2,With other models' answers,P078,0
+Model 2,With other models' answers,P079,1
+Model 2,With other models' answers,P080,0
+Model 2,With other models' answers,P081,1
+Model 2,With other models' answers,P082,1
+Model 2,With other models' answers,P083,0
+Model 2,With other models' answers,P084,1
+Model 2,With other models' answers,P085,1
+Model 2,With other models' answers,P086,0
+Model 2,With other models' answers,P087,1
+Model 2,With other models' answers,P088,0
+Model 2,With other models' answers,P089,0.5
+Model 2,With other models' answers,P090,1
+Model 2,With other models' answers,P091,1
+Model 2,With other models' answers,P092,1
+Model 2,With other models' answers,P093,0
+Model 2,With other models' answers,P094,1
+Model 2,With other models' answers,P095,0
+Model 2,With other models' answers,P096,0
+Model 2,With other models' answers,P097,0.5
+Model 2,With other models' answers,P098,0
+Model 2,With other models' answers,P099,0.5
+Model 2,With other models' answers,P100,0
+Model 2,With other models' answers,P101,1
+Model 2,With other models' answers,P102,1
+Model 2,With other models' answers,P103,0
+Model 2,With other models' answers,P104,0
+Model 2,With other models' answers,P105,0
+Model 2,With other models' answers,P106,1
+Model 2,With other models' answers,P107,0.5
+Model 2,With other models' answers,P108,1
+Model 2,With other models' answers,P109,1
+Model 2,With other models' answers,P110,1
+Model 2,With other models' answers,P111,1
+Model 2,With other models' answers,P112,0
+Model 2,With other models' answers,P113,0
+Model 2,With other models' answers,P114,1
+Model 2,With other models' answers,P115,0
+Model 2,With other models' answers,P116,1
+Model 2,With other models' answers,P117,0
+Model 2,With other models' answers,P118,1
+Model 2,With other models' answers,P119,1
+Model 2,With other models' answers,P120,1
+Model 2,With other models' answers,P121,0
+Model 2,With other models' answers,P122,1
+Model 2,With other models' answers,P123,0
+Model 2,With other models' answers,P124,0.5
+Model 2,With other models' answers,P125,1
+Model 2,With other models' answers,P126,0
+Model 2,With other models' answers,P127,0
+Model 2,With other models' answers,P128,0
+Model 2,With other models' answers,P129,1
+Model 2,With other models' answers,P130,1
+Model 2,With other models' answers,P131,1
+Model 2,With other models' answers,P132,1
+Model 2,With other models' answers,P133,1
+Model 2,With other models' answers,P134,0.5
+Model 2,With other models' answers,P135,0.5
+Model 2,With other models' answers,P136,1
+Model 2,With other models' answers,P137,0
+Model 2,With other models' answers,P138,0
+Model 2,With other models' answers,P139,1
+Model 2,With other models' answers,P140,1
+Model 2,With other models' answers,P141,0
+Model 2,With other models' answers,P142,0
+Model 2,With other models' answers,P143,1
+Model 2,With other models' answers,P144,0
+Model 2,With other models' answers,P145,0
+Model 2,With other models' answers,P146,0
+Model 2,With other models' answers,P147,1
+Model 2,With other models' answers,P148,0.5
+Model 2,With other models' answers,P149,0
+Model 2,With other models' answers,P150,0
+Model 2,With other models' answers,P151,1
+Model 2,With other models' answers,P152,1
+Model 2,With other models' answers,P153,0
+Model 2,With other models' answers,P154,1
+Model 2,With other models' answers,P155,0.5
+Model 2,With other models' answers,P156,0
+Model 2,With other models' answers,P157,0
+Model 2,With other models' answers,P158,0
+Model 2,With other models' answers,P159,1
+Model 2,With other models' answers,P160,0.5
+Model 2,With other models' answers,P161,0.5
+Model 2,With other models' answers,P162,0
+Model 2,With other models' answers,P163,0
+Model 2,With other models' answers,P164,0
+Model 2,With other models' answers,P165,0
+Model 2,With other models' answers,P166,1
+Model 2,With other models' answers,P167,0
+Model 2,With other models' answers,P168,1
+Model 2,With other models' answers,P169,0
+Model 2,With other models' answers,P170,1
+Model 2,With other models' answers,P171,0
+Model 2,With other models' answers,P172,1
+Model 2,With other models' answers,P173,1
+Model 2,With other models' answers,P174,1
+Model 2,With other models' answers,P175,0
+Model 2,With other models' answers,P176,1
+Model 2,With other models' answers,P177,1
+Model 2,With other models' answers,P178,0
+Model 2,With other models' answers,P179,0.5
+Model 2,With other models' answers,P180,1
+Model 2,With other models' answers,P181,1
+Model 2,With other models' answers,P182,0
+Model 2,With other models' answers,P183,1
+Model 2,With other models' answers,P184,0
+Model 2,With other models' answers,P185,0
+Model 2,With other models' answers,P186,0
+Model 2,With other models' answers,P187,1
+Model 2,With other models' answers,P188,0
+Model 2,With other models' answers,P189,0.5
+Model 2,With other models' answers,P190,1
+Model 2,With other models' answers,P191,0
+Model 2,With other models' answers,P192,1
+Model 2,With other models' answers,P193,1
+Model 2,With other models' answers,P194,1
+Model 2,With other models' answers,P195,0.5
+Model 2,With other models' answers,P196,0
+Model 2,With other models' answers,P197,0
+Model 2,With other models' answers,P198,0
+Model 2,With other models' answers,P199,1
+Model 2,With other models' answers,P200,0.5
+Model 2,With other models' answers,P201,1
+Model 2,With other models' answers,P202,0
+Model 2,With other models' answers,P203,0.5
+Model 2,With other models' answers,P204,0
+Model 2,With other models' answers,P205,0
+Model 2,With other models' answers,P206,0
+Model 2,With other models' answers,P207,1
+Model 2,With other models' answers,P208,0
+Model 2,With other models' answers,P209,0.5
+Model 2,With other models' answers,P210,0
+Model 2,With other models' answers,P211,0
+Model 2,With other models' answers,P212,1
+Model 2,With other models' answers,P213,0
+Model 2,With other models' answers,P214,1
+Model 2,With other models' answers,P215,1
+Model 2,With other models' answers,P216,1
+Model 2,With other models' answers,P217,1
+Model 2,With other models' answers,P218,0
+Model 2,With other models' answers,P219,1
+Model 2,With other models' answers,P220,1
+Model 2,With other models' answers,P221,1
+Model 2,With other models' answers,P222,0.5
+Model 2,With other models' answers,P223,0
+Model 2,With other models' answers,P224,0
+Model 2,With other models' answers,P225,0
+Model 2,With other models' answers,P226,1
+Model 2,With other models' answers,P227,1
+Model 2,With other models' answers,P228,1
+Model 2,With other models' answers,P229,0.5
+Model 2,With other models' answers,P230,1
+Model 2,With other models' answers,P231,0.5
+Model 2,With other models' answers,P232,0
+Model 2,With other models' answers,P233,0
+Model 2,With other models' answers,P234,0.5
+Model 2,With other models' answers,P235,1
+Model 2,With other models' answers,P236,0
+Model 2,With other models' answers,P237,1
+Model 2,With other models' answers,P238,1
+Model 2,With other models' answers,P239,0.5
+Model 2,With other models' answers,P240,0
+Model 2,With other models' answers,P241,0
+Model 2,With other models' answers,P242,1
+Model 2,With other models' answers,P243,1
+Model 2,With other models' answers,P244,0
+Model 2,With other models' answers,P245,0
+Model 2,With other models' answers,P246,0
+Model 2,With other models' answers,P247,0
+Model 2,With other models' answers,P248,1
+Model 2,With other models' answers,P249,0
+Model 2,With other models' answers,P250,1
+Model 2,With other models' answers,P251,0
+Model 2,With other models' answers,P252,1
+Model 2,With other models' answers,P253,0
+Model 2,With other models' answers,P254,0
+Model 2,With other models' answers,P255,1
+Model 2,With other models' answers,P256,0.5
+Model 2,With other models' answers,P257,1
+Model 2,With other models' answers,P258,0.5
+Model 2,With other models' answers,P259,1
+Model 2,With other models' answers,P260,1
+Model 2,With other models' answers,P261,0
+Model 2,With other models' answers,P262,0
+Model 2,With other models' answers,P263,1
+Model 2,With other models' answers,P264,0
+Model 2,With other models' answers,P265,0
+Model 2,With other models' answers,P266,0
+Model 2,With other models' answers,P267,1
+Model 2,With other models' answers,P268,0
+Model 2,With other models' answers,P269,0
+Model 2,With other models' answers,P270,0
+Model 2,With other models' answers,P271,1
+Model 2,With other models' answers,P272,1
+Model 2,With other models' answers,P273,0
+Model 2,With other models' answers,P274,0
+Model 2,With other models' answers,P275,0
+Model 2,With other models' answers,P276,1
+Model 2,With other models' answers,P277,1
+Model 2,With other models' answers,P278,0
+Model 2,With other models' answers,P279,1
+Model 2,With other models' answers,P280,0
+Model 2,With other models' answers,P281,1
+Model 2,With other models' answers,P282,1
+Model 2,With other models' answers,P283,0
+Model 2,With other models' answers,P284,1
+Model 2,With other models' answers,P285,1
+Model 2,With other models' answers,P286,1
+Model 2,With other models' answers,P287,0
+Model 2,With other models' answers,P288,1
+Model 2,With other models' answers,P289,1
+Model 2,With other models' answers,P290,0
+Model 2,With other models' answers,P291,1
+Model 2,With other models' answers,P292,0
+Model 2,With other models' answers,P293,0.5
+Model 2,With other models' answers,P294,1
+Model 2,With other models' answers,P295,0
+Model 2,With other models' answers,P296,0
+Model 2,With other models' answers,P297,0
+Model 2,With other models' answers,P298,0
+Model 2,With other models' answers,P299,1
+Model 2,With other models' answers,P300,0
+Model 2,With other models' answers,P301,0
+Model 2,With other models' answers,P302,1
+Model 2,With other models' answers,P303,0
+Model 2,With other models' answers,P304,1
+Model 2,With other models' answers,P305,1
+Model 2,With other models' answers,P306,1
+Model 2,With other models' answers,P307,1
+Model 2,With other models' answers,P308,0
+Model 2,With other models' answers,P309,1
+Model 2,With other models' answers,P310,0
+Model 2,With other models' answers,P311,0
+Model 2,With other models' answers,P312,0
+Model 2,With other models' answers,P313,1
+Model 2,With other models' answers,P314,1
+Model 2,With other models' answers,P315,0
+Model 2,With other models' answers,P316,0
+Model 2,With other models' answers,P317,0
+Model 2,With other models' answers,P318,0.5
+Model 2,With other models' answers,P319,1
+Model 2,With other models' answers,P320,1
+Model 2,With other models' answers,P321,1
+Model 2,With other models' answers,P322,0
+Model 2,With other models' answers,P323,1
+Model 2,With other models' answers,P324,0
+Model 2,With other models' answers,P325,0
+Model 2,With other models' answers,P326,0
+Model 2,With other models' answers,P327,0
+Model 2,With other models' answers,P328,0
+Model 2,With other models' answers,P329,0
+Model 2,With other models' answers,P330,0
+Model 2,With other models' answers,P331,0
+Model 2,With other models' answers,P332,0
+Model 2,With other models' answers,P333,1
+Model 2,With other models' answers,P334,1
+Model 2,With other models' answers,P335,0.5
+Model 2,With other models' answers,P336,0
+Model 2,With other models' answers,P337,0
+Model 2,With other models' answers,P338,0
+Model 2,With other models' answers,P339,1
+Model 2,With other models' answers,P340,0
+Model 2,With other models' answers,P341,1
+Model 2,With other models' answers,P342,0
+Model 2,With other models' answers,P343,0
+Model 2,With other models' answers,P344,0
+Model 2,With other models' answers,P345,1
+Model 2,With other models' answers,P346,0
+Model 2,With other models' answers,P347,0
+Model 2,With other models' answers,P348,0
+Model 2,With other models' answers,P349,0
+Model 2,With other models' answers,P350,0
+Model 2,With other models' answers,P351,1
+Model 2,With other models' answers,P352,0
+Model 2,With other models' answers,P353,1
+Model 2,With other models' answers,P354,1
+Model 2,With other models' answers,P355,0
+Model 2,With other models' answers,P356,0
+Model 2,With other models' answers,P357,0
+Model 2,With other models' answers,P358,0
+Model 2,With other models' answers,P359,0
+Model 2,With other models' answers,P360,0
+Model 2,With other models' answers,P361,0
+Model 2,With other models' answers,P362,0.5
+Model 2,With other models' answers,P363,1
+Model 2,With other models' answers,P364,0.5
+Model 2,With other models' answers,P365,1
+Model 2,With other models' answers,P366,1
+Model 2,With other models' answers,P367,0
+Model 2,With other models' answers,P368,0
+Model 2,With other models' answers,P369,0.5
+Model 2,With other models' answers,P370,1
+Model 2,With other models' answers,P371,0.5
+Model 2,With other models' answers,P372,1
+Model 2,With other models' answers,P373,0
+Model 2,With other models' answers,P374,0
+Model 2,With other models' answers,P375,1
+Model 2,With other models' answers,P376,0
+Model 2,With other models' answers,P377,1
+Model 2,With other models' answers,P378,0
+Model 2,With other models' answers,P379,1
+Model 2,With other models' answers,P380,1
+Model 2,With other models' answers,P381,0
+Model 2,With other models' answers,P382,1
+Model 2,With other models' answers,P383,1
+Model 2,With other models' answers,P384,1
+Model 2,With other models' answers,P385,0
+Model 2,With other models' answers,P386,1
+Model 2,With other models' answers,P387,0
+Model 2,With other models' answers,P388,0
+Model 2,With other models' answers,P389,0
+Model 2,With other models' answers,P390,1
+Model 2,With other models' answers,P391,1
+Model 2,With other models' answers,P392,0
+Model 2,With other models' answers,P393,1
+Model 2,With other models' answers,P394,0.5
+Model 2,With other models' answers,P395,0
+Model 2,With other models' answers,P396,0
+Model 2,With other models' answers,P397,0
+Model 2,With other models' answers,P398,1
+Model 2,With other models' answers,P399,0
+Model 2,With other models' answers,P400,0.5
+Model 3,Alone,P001,0
+Model 3,Alone,P002,0.5
+Model 3,Alone,P003,1
+Model 3,Alone,P004,1
+Model 3,Alone,P005,1
+Model 3,Alone,P006,0
+Model 3,Alone,P007,1
+Model 3,Alone,P008,0
+Model 3,Alone,P009,0
+Model 3,Alone,P010,1
+Model 3,Alone,P011,1
+Model 3,Alone,P012,1
+Model 3,Alone,P013,1
+Model 3,Alone,P014,1
+Model 3,Alone,P015,0
+Model 3,Alone,P016,0
+Model 3,Alone,P017,0.5
+Model 3,Alone,P018,0
+Model 3,Alone,P019,0
+Model 3,Alone,P020,1
+Model 3,Alone,P021,1
+Model 3,Alone,P022,1
+Model 3,Alone,P023,1
+Model 3,Alone,P024,0.5
+Model 3,Alone,P025,0
+Model 3,Alone,P026,0
+Model 3,Alone,P027,0
+Model 3,Alone,P028,0.5
+Model 3,Alone,P029,0
+Model 3,Alone,P030,1
+Model 3,Alone,P031,1
+Model 3,Alone,P032,0
+Model 3,Alone,P033,0
+Model 3,Alone,P034,1
+Model 3,Alone,P035,1
+Model 3,Alone,P036,0
+Model 3,Alone,P037,0
+Model 3,Alone,P038,0.5
+Model 3,Alone,P039,1
+Model 3,Alone,P040,0.5
+Model 3,Alone,P041,0.5
+Model 3,Alone,P042,1
+Model 3,Alone,P043,1
+Model 3,Alone,P044,0
+Model 3,Alone,P045,1
+Model 3,Alone,P046,1
+Model 3,Alone,P047,0
+Model 3,Alone,P048,0
+Model 3,Alone,P049,0
+Model 3,Alone,P050,1
+Model 3,Alone,P051,0
+Model 3,Alone,P052,1
+Model 3,Alone,P053,0.5
+Model 3,Alone,P054,0
+Model 3,Alone,P055,1
+Model 3,Alone,P056,1
+Model 3,Alone,P057,1
+Model 3,Alone,P058,0
+Model 3,Alone,P059,0
+Model 3,Alone,P060,0
+Model 3,Alone,P061,1
+Model 3,Alone,P062,0
+Model 3,Alone,P063,0
+Model 3,Alone,P064,1
+Model 3,Alone,P065,1
+Model 3,Alone,P066,0
+Model 3,Alone,P067,0
+Model 3,Alone,P068,0
+Model 3,Alone,P069,1
+Model 3,Alone,P070,0
+Model 3,Alone,P071,0
+Model 3,Alone,P072,1
+Model 3,Alone,P073,0
+Model 3,Alone,P074,0
+Model 3,Alone,P075,1
+Model 3,Alone,P076,0
+Model 3,Alone,P077,0.5
+Model 3,Alone,P078,0
+Model 3,Alone,P079,0
+Model 3,Alone,P080,0
+Model 3,Alone,P081,1
+Model 3,Alone,P082,0
+Model 3,Alone,P083,0
+Model 3,Alone,P084,1
+Model 3,Alone,P085,1
+Model 3,Alone,P086,1
+Model 3,Alone,P087,1
+Model 3,Alone,P088,0
+Model 3,Alone,P089,1
+Model 3,Alone,P090,1
+Model 3,Alone,P091,1
+Model 3,Alone,P092,0
+Model 3,Alone,P093,0
+Model 3,Alone,P094,0
+Model 3,Alone,P095,1
+Model 3,Alone,P096,0
+Model 3,Alone,P097,0
+Model 3,Alone,P098,1
+Model 3,Alone,P099,0.5
+Model 3,Alone,P100,1
+Model 3,Alone,P101,0
+Model 3,Alone,P102,1
+Model 3,Alone,P103,0
+Model 3,Alone,P104,1
+Model 3,Alone,P105,0
+Model 3,Alone,P106,1
+Model 3,Alone,P107,0
+Model 3,Alone,P108,1
+Model 3,Alone,P109,0
+Model 3,Alone,P110,0
+Model 3,Alone,P111,0
+Model 3,Alone,P112,1
+Model 3,Alone,P113,0
+Model 3,Alone,P114,1
+Model 3,Alone,P115,1
+Model 3,Alone,P116,0
+Model 3,Alone,P117,0
+Model 3,Alone,P118,1
+Model 3,Alone,P119,0
+Model 3,Alone,P120,0
+Model 3,Alone,P121,0
+Model 3,Alone,P122,0
+Model 3,Alone,P123,0
+Model 3,Alone,P124,1
+Model 3,Alone,P125,1
+Model 3,Alone,P126,0
+Model 3,Alone,P127,1
+Model 3,Alone,P128,1
+Model 3,Alone,P129,0
+Model 3,Alone,P130,1
+Model 3,Alone,P131,0
+Model 3,Alone,P132,0
+Model 3,Alone,P133,0
+Model 3,Alone,P134,0.5
+Model 3,Alone,P135,1
+Model 3,Alone,P136,1
+Model 3,Alone,P137,0.5
+Model 3,Alone,P138,1
+Model 3,Alone,P139,1
+Model 3,Alone,P140,1
+Model 3,Alone,P141,1
+Model 3,Alone,P142,0
+Model 3,Alone,P143,0
+Model 3,Alone,P144,1
+Model 3,Alone,P145,0.5
+Model 3,Alone,P146,1
+Model 3,Alone,P147,0
+Model 3,Alone,P148,1
+Model 3,Alone,P149,1
+Model 3,Alone,P150,0
+Model 3,Alone,P151,1
+Model 3,Alone,P152,0
+Model 3,Alone,P153,1
+Model 3,Alone,P154,0
+Model 3,Alone,P155,0
+Model 3,Alone,P156,0
+Model 3,Alone,P157,0.5
+Model 3,Alone,P158,0
+Model 3,Alone,P159,1
+Model 3,Alone,P160,0
+Model 3,Alone,P161,1
+Model 3,Alone,P162,0
+Model 3,Alone,P163,0
+Model 3,Alone,P164,1
+Model 3,Alone,P165,0
+Model 3,Alone,P166,0
+Model 3,Alone,P167,1
+Model 3,Alone,P168,0
+Model 3,Alone,P169,0
+Model 3,Alone,P170,1
+Model 3,Alone,P171,1
+Model 3,Alone,P172,0
+Model 3,Alone,P173,1
+Model 3,Alone,P174,1
+Model 3,Alone,P175,1
+Model 3,Alone,P176,1
+Model 3,Alone,P177,0
+Model 3,Alone,P178,0
+Model 3,Alone,P179,0
+Model 3,Alone,P180,0
+Model 3,Alone,P181,0
+Model 3,Alone,P182,0
+Model 3,Alone,P183,0.5
+Model 3,Alone,P184,0
+Model 3,Alone,P185,0
+Model 3,Alone,P186,1
+Model 3,Alone,P187,0
+Model 3,Alone,P188,0
+Model 3,Alone,P189,1
+Model 3,Alone,P190,1
+Model 3,Alone,P191,1
+Model 3,Alone,P192,1
+Model 3,Alone,P193,1
+Model 3,Alone,P194,0
+Model 3,Alone,P195,0
+Model 3,Alone,P196,1
+Model 3,Alone,P197,1
+Model 3,Alone,P198,0
+Model 3,Alone,P199,0
+Model 3,Alone,P200,1
+Model 3,Alone,P201,1
+Model 3,Alone,P202,0
+Model 3,Alone,P203,1
+Model 3,Alone,P204,0
+Model 3,Alone,P205,0
+Model 3,Alone,P206,0
+Model 3,Alone,P207,1
+Model 3,Alone,P208,1
+Model 3,Alone,P209,1
+Model 3,Alone,P210,1
+Model 3,Alone,P211,1
+Model 3,Alone,P212,0
+Model 3,Alone,P213,1
+Model 3,Alone,P214,1
+Model 3,Alone,P215,0
+Model 3,Alone,P216,0
+Model 3,Alone,P217,0
+Model 3,Alone,P218,0
+Model 3,Alone,P219,1
+Model 3,Alone,P220,1
+Model 3,Alone,P221,0.5
+Model 3,Alone,P222,0
+Model 3,Alone,P223,0
+Model 3,Alone,P224,0.5
+Model 3,Alone,P225,0
+Model 3,Alone,P226,0
+Model 3,Alone,P227,1
+Model 3,Alone,P228,1
+Model 3,Alone,P229,0
+Model 3,Alone,P230,1
+Model 3,Alone,P231,0
+Model 3,Alone,P232,1
+Model 3,Alone,P233,1
+Model 3,Alone,P234,1
+Model 3,Alone,P235,1
+Model 3,Alone,P236,1
+Model 3,Alone,P237,1
+Model 3,Alone,P238,1
+Model 3,Alone,P239,1
+Model 3,Alone,P240,0
+Model 3,Alone,P241,0
+Model 3,Alone,P242,0
+Model 3,Alone,P243,1
+Model 3,Alone,P244,1
+Model 3,Alone,P245,0
+Model 3,Alone,P246,0
+Model 3,Alone,P247,1
+Model 3,Alone,P248,0
+Model 3,Alone,P249,1
+Model 3,Alone,P250,0
+Model 3,Alone,P251,0.5
+Model 3,Alone,P252,0
+Model 3,Alone,P253,0
+Model 3,Alone,P254,0
+Model 3,Alone,P255,0
+Model 3,Alone,P256,0
+Model 3,Alone,P257,0
+Model 3,Alone,P258,1
+Model 3,Alone,P259,1
+Model 3,Alone,P260,1
+Model 3,Alone,P261,1
+Model 3,Alone,P262,1
+Model 3,Alone,P263,0
+Model 3,Alone,P264,1
+Model 3,Alone,P265,1
+Model 3,Alone,P266,0
+Model 3,Alone,P267,1
+Model 3,Alone,P268,1
+Model 3,Alone,P269,0
+Model 3,Alone,P270,1
+Model 3,Alone,P271,1
+Model 3,Alone,P272,0
+Model 3,Alone,P273,0
+Model 3,Alone,P274,1
+Model 3,Alone,P275,0
+Model 3,Alone,P276,0
+Model 3,Alone,P277,0
+Model 3,Alone,P278,0
+Model 3,Alone,P279,0
+Model 3,Alone,P280,0.5
+Model 3,Alone,P281,0
+Model 3,Alone,P282,1
+Model 3,Alone,P283,0
+Model 3,Alone,P284,1
+Model 3,Alone,P285,0
+Model 3,Alone,P286,1
+Model 3,Alone,P287,0
+Model 3,Alone,P288,1
+Model 3,Alone,P289,1
+Model 3,Alone,P290,1
+Model 3,Alone,P291,0
+Model 3,Alone,P292,0
+Model 3,Alone,P293,0
+Model 3,Alone,P294,0
+Model 3,Alone,P295,0
+Model 3,Alone,P296,0.5
+Model 3,Alone,P297,0
+Model 3,Alone,P298,0
+Model 3,Alone,P299,1
+Model 3,Alone,P300,1
+Model 3,Alone,P301,0
+Model 3,Alone,P302,1
+Model 3,Alone,P303,1
+Model 3,Alone,P304,0
+Model 3,Alone,P305,0
+Model 3,Alone,P306,0
+Model 3,Alone,P307,1
+Model 3,Alone,P308,1
+Model 3,Alone,P309,1
+Model 3,Alone,P310,0
+Model 3,Alone,P311,1
+Model 3,Alone,P312,1
+Model 3,Alone,P313,1
+Model 3,Alone,P314,0
+Model 3,Alone,P315,1
+Model 3,Alone,P316,1
+Model 3,Alone,P317,0
+Model 3,Alone,P318,0.5
+Model 3,Alone,P319,1
+Model 3,Alone,P320,0
+Model 3,Alone,P321,0
+Model 3,Alone,P322,0
+Model 3,Alone,P323,1
+Model 3,Alone,P324,1
+Model 3,Alone,P325,1
+Model 3,Alone,P326,0
+Model 3,Alone,P327,1
+Model 3,Alone,P328,1
+Model 3,Alone,P329,1
+Model 3,Alone,P330,0
+Model 3,Alone,P331,0.5
+Model 3,Alone,P332,0
+Model 3,Alone,P333,1
+Model 3,Alone,P334,0
+Model 3,Alone,P335,1
+Model 3,Alone,P336,1
+Model 3,Alone,P337,1
+Model 3,Alone,P338,1
+Model 3,Alone,P339,1
+Model 3,Alone,P340,1
+Model 3,Alone,P341,0
+Model 3,Alone,P342,0
+Model 3,Alone,P343,0
+Model 3,Alone,P344,0.5
+Model 3,Alone,P345,0
+Model 3,Alone,P346,0
+Model 3,Alone,P347,1
+Model 3,Alone,P348,1
+Model 3,Alone,P349,1
+Model 3,Alone,P350,0
+Model 3,Alone,P351,0
+Model 3,Alone,P352,1
+Model 3,Alone,P353,1
+Model 3,Alone,P354,1
+Model 3,Alone,P355,0
+Model 3,Alone,P356,1
+Model 3,Alone,P357,1
+Model 3,Alone,P358,0
+Model 3,Alone,P359,0
+Model 3,Alone,P360,1
+Model 3,Alone,P361,0
+Model 3,Alone,P362,1
+Model 3,Alone,P363,1
+Model 3,Alone,P364,0
+Model 3,Alone,P365,1
+Model 3,Alone,P366,1
+Model 3,Alone,P367,0.5
+Model 3,Alone,P368,1
+Model 3,Alone,P369,0
+Model 3,Alone,P370,1
+Model 3,Alone,P371,1
+Model 3,Alone,P372,1
+Model 3,Alone,P373,1
+Model 3,Alone,P374,1
+Model 3,Alone,P375,0
+Model 3,Alone,P376,0
+Model 3,Alone,P377,1
+Model 3,Alone,P378,0
+Model 3,Alone,P379,1
+Model 3,Alone,P380,0
+Model 3,Alone,P381,1
+Model 3,Alone,P382,0
+Model 3,Alone,P383,1
+Model 3,Alone,P384,0.5
+Model 3,Alone,P385,1
+Model 3,Alone,P386,1
+Model 3,Alone,P387,0
+Model 3,Alone,P388,0
+Model 3,Alone,P389,0
+Model 3,Alone,P390,1
+Model 3,Alone,P391,1
+Model 3,Alone,P392,0.5
+Model 3,Alone,P393,1
+Model 3,Alone,P394,0
+Model 3,Alone,P395,1
+Model 3,Alone,P396,0
+Model 3,Alone,P397,0
+Model 3,Alone,P398,0.5
+Model 3,Alone,P399,0
+Model 3,Alone,P400,0.5
+Model 3,With other models' answers,P001,0.5
+Model 3,With other models' answers,P002,1
+Model 3,With other models' answers,P003,1
+Model 3,With other models' answers,P004,1
+Model 3,With other models' answers,P005,1
+Model 3,With other models' answers,P006,0
+Model 3,With other models' answers,P007,0
+Model 3,With other models' answers,P008,1
+Model 3,With other models' answers,P009,0
+Model 3,With other models' answers,P010,1
+Model 3,With other models' answers,P011,1
+Model 3,With other models' answers,P012,1
+Model 3,With other models' answers,P013,1
+Model 3,With other models' answers,P014,1
+Model 3,With other models' answers,P015,0
+Model 3,With other models' answers,P016,0
+Model 3,With other models' answers,P017,0
+Model 3,With other models' answers,P018,0
+Model 3,With other models' answers,P019,1
+Model 3,With other models' answers,P020,0
+Model 3,With other models' answers,P021,1
+Model 3,With other models' answers,P022,1
+Model 3,With other models' answers,P023,1
+Model 3,With other models' answers,P024,0
+Model 3,With other models' answers,P025,0
+Model 3,With other models' answers,P026,0
+Model 3,With other models' answers,P027,0.5
+Model 3,With other models' answers,P028,1
+Model 3,With other models' answers,P029,0
+Model 3,With other models' answers,P030,0
+Model 3,With other models' answers,P031,1
+Model 3,With other models' answers,P032,0
+Model 3,With other models' answers,P033,1
+Model 3,With other models' answers,P034,1
+Model 3,With other models' answers,P035,1
+Model 3,With other models' answers,P036,1
+Model 3,With other models' answers,P037,0
+Model 3,With other models' answers,P038,0
+Model 3,With other models' answers,P039,1
+Model 3,With other models' answers,P040,0
+Model 3,With other models' answers,P041,1
+Model 3,With other models' answers,P042,1
+Model 3,With other models' answers,P043,1
+Model 3,With other models' answers,P044,0
+Model 3,With other models' answers,P045,0
+Model 3,With other models' answers,P046,1
+Model 3,With other models' answers,P047,0
+Model 3,With other models' answers,P048,1
+Model 3,With other models' answers,P049,1
+Model 3,With other models' answers,P050,1
+Model 3,With other models' answers,P051,0
+Model 3,With other models' answers,P052,0
+Model 3,With other models' answers,P053,1
+Model 3,With other models' answers,P054,1
+Model 3,With other models' answers,P055,1
+Model 3,With other models' answers,P056,1
+Model 3,With other models' answers,P057,1
+Model 3,With other models' answers,P058,0
+Model 3,With other models' answers,P059,0
+Model 3,With other models' answers,P060,1
+Model 3,With other models' answers,P061,0
+Model 3,With other models' answers,P062,1
+Model 3,With other models' answers,P063,0
+Model 3,With other models' answers,P064,1
+Model 3,With other models' answers,P065,0
+Model 3,With other models' answers,P066,1
+Model 3,With other models' answers,P067,0
+Model 3,With other models' answers,P068,0
+Model 3,With other models' answers,P069,0
+Model 3,With other models' answers,P070,0
+Model 3,With other models' answers,P071,0
+Model 3,With other models' answers,P072,1
+Model 3,With other models' answers,P073,0.5
+Model 3,With other models' answers,P074,1
+Model 3,With other models' answers,P075,0
+Model 3,With other models' answers,P076,0
+Model 3,With other models' answers,P077,0
+Model 3,With other models' answers,P078,1
+Model 3,With other models' answers,P079,1
+Model 3,With other models' answers,P080,1
+Model 3,With other models' answers,P081,1
+Model 3,With other models' answers,P082,1
+Model 3,With other models' answers,P083,1
+Model 3,With other models' answers,P084,1
+Model 3,With other models' answers,P085,1
+Model 3,With other models' answers,P086,1
+Model 3,With other models' answers,P087,1
+Model 3,With other models' answers,P088,1
+Model 3,With other models' answers,P089,0
+Model 3,With other models' answers,P090,1
+Model 3,With other models' answers,P091,1
+Model 3,With other models' answers,P092,1
+Model 3,With other models' answers,P093,1
+Model 3,With other models' answers,P094,1
+Model 3,With other models' answers,P095,1
+Model 3,With other models' answers,P096,1
+Model 3,With other models' answers,P097,0
+Model 3,With other models' answers,P098,0
+Model 3,With other models' answers,P099,0
+Model 3,With other models' answers,P100,1
+Model 3,With other models' answers,P101,1
+Model 3,With other models' answers,P102,1
+Model 3,With other models' answers,P103,1
+Model 3,With other models' answers,P104,1
+Model 3,With other models' answers,P105,1
+Model 3,With other models' answers,P106,1
+Model 3,With other models' answers,P107,1
+Model 3,With other models' answers,P108,1
+Model 3,With other models' answers,P109,0
+Model 3,With other models' answers,P110,1
+Model 3,With other models' answers,P111,0
+Model 3,With other models' answers,P112,1
+Model 3,With other models' answers,P113,1
+Model 3,With other models' answers,P114,1
+Model 3,With other models' answers,P115,1
+Model 3,With other models' answers,P116,0
+Model 3,With other models' answers,P117,1
+Model 3,With other models' answers,P118,1
+Model 3,With other models' answers,P119,1
+Model 3,With other models' answers,P120,1
+Model 3,With other models' answers,P121,0
+Model 3,With other models' answers,P122,0
+Model 3,With other models' answers,P123,1
+Model 3,With other models' answers,P124,1
+Model 3,With other models' answers,P125,1
+Model 3,With other models' answers,P126,1
+Model 3,With other models' answers,P127,1
+Model 3,With other models' answers,P128,0
+Model 3,With other models' answers,P129,1
+Model 3,With other models' answers,P130,1
+Model 3,With other models' answers,P131,1
+Model 3,With other models' answers,P132,1
+Model 3,With other models' answers,P133,1
+Model 3,With other models' answers,P134,0
+Model 3,With other models' answers,P135,1
+Model 3,With other models' answers,P136,1
+Model 3,With other models' answers,P137,0
+Model 3,With other models' answers,P138,0
+Model 3,With other models' answers,P139,1
+Model 3,With other models' answers,P140,0
+Model 3,With other models' answers,P141,0
+Model 3,With other models' answers,P142,0
+Model 3,With other models' answers,P143,1
+Model 3,With other models' answers,P144,1
+Model 3,With other models' answers,P145,1
+Model 3,With other models' answers,P146,0
+Model 3,With other models' answers,P147,0
+Model 3,With other models' answers,P148,1
+Model 3,With other models' answers,P149,0
+Model 3,With other models' answers,P150,1
+Model 3,With other models' answers,P151,0
+Model 3,With other models' answers,P152,0
+Model 3,With other models' answers,P153,1
+Model 3,With other models' answers,P154,0
+Model 3,With other models' answers,P155,0
+Model 3,With other models' answers,P156,0
+Model 3,With other models' answers,P157,0
+Model 3,With other models' answers,P158,0
+Model 3,With other models' answers,P159,1
+Model 3,With other models' answers,P160,1
+Model 3,With other models' answers,P161,1
+Model 3,With other models' answers,P162,1
+Model 3,With other models' answers,P163,0
+Model 3,With other models' answers,P164,1
+Model 3,With other models' answers,P165,1
+Model 3,With other models' answers,P166,0
+Model 3,With other models' answers,P167,1
+Model 3,With other models' answers,P168,0.5
+Model 3,With other models' answers,P169,0
+Model 3,With other models' answers,P170,1
+Model 3,With other models' answers,P171,1
+Model 3,With other models' answers,P172,1
+Model 3,With other models' answers,P173,1
+Model 3,With other models' answers,P174,1
+Model 3,With other models' answers,P175,1
+Model 3,With other models' answers,P176,1
+Model 3,With other models' answers,P177,1
+Model 3,With other models' answers,P178,0
+Model 3,With other models' answers,P179,1
+Model 3,With other models' answers,P180,0
+Model 3,With other models' answers,P181,1
+Model 3,With other models' answers,P182,0.5
+Model 3,With other models' answers,P183,0
+Model 3,With other models' answers,P184,0.5
+Model 3,With other models' answers,P185,1
+Model 3,With other models' answers,P186,0.5
+Model 3,With other models' answers,P187,0
+Model 3,With other models' answers,P188,0
+Model 3,With other models' answers,P189,1
+Model 3,With other models' answers,P190,0
+Model 3,With other models' answers,P191,0
+Model 3,With other models' answers,P192,0
+Model 3,With other models' answers,P193,1
+Model 3,With other models' answers,P194,1
+Model 3,With other models' answers,P195,0
+Model 3,With other models' answers,P196,1
+Model 3,With other models' answers,P197,1
+Model 3,With other models' answers,P198,0
+Model 3,With other models' answers,P199,1
+Model 3,With other models' answers,P200,1
+Model 3,With other models' answers,P201,1
+Model 3,With other models' answers,P202,0
+Model 3,With other models' answers,P203,0
+Model 3,With other models' answers,P204,1
+Model 3,With other models' answers,P205,1
+Model 3,With other models' answers,P206,1
+Model 3,With other models' answers,P207,0
+Model 3,With other models' answers,P208,0
+Model 3,With other models' answers,P209,0.5
+Model 3,With other models' answers,P210,1
+Model 3,With other models' answers,P211,1
+Model 3,With other models' answers,P212,0
+Model 3,With other models' answers,P213,1
+Model 3,With other models' answers,P214,1
+Model 3,With other models' answers,P215,1
+Model 3,With other models' answers,P216,0
+Model 3,With other models' answers,P217,1
+Model 3,With other models' answers,P218,0
+Model 3,With other models' answers,P219,1
+Model 3,With other models' answers,P220,1
+Model 3,With other models' answers,P221,0.5
+Model 3,With other models' answers,P222,1
+Model 3,With other models' answers,P223,1
+Model 3,With other models' answers,P224,0
+Model 3,With other models' answers,P225,1
+Model 3,With other models' answers,P226,1
+Model 3,With other models' answers,P227,1
+Model 3,With other models' answers,P228,1
+Model 3,With other models' answers,P229,0.5
+Model 3,With other models' answers,P230,1
+Model 3,With other models' answers,P231,0
+Model 3,With other models' answers,P232,1
+Model 3,With other models' answers,P233,0.5
+Model 3,With other models' answers,P234,1
+Model 3,With other models' answers,P235,1
+Model 3,With other models' answers,P236,1
+Model 3,With other models' answers,P237,1
+Model 3,With other models' answers,P238,1
+Model 3,With other models' answers,P239,1
+Model 3,With other models' answers,P240,1
+Model 3,With other models' answers,P241,1
+Model 3,With other models' answers,P242,1
+Model 3,With other models' answers,P243,1
+Model 3,With other models' answers,P244,0.5
+Model 3,With other models' answers,P245,0
+Model 3,With other models' answers,P246,0
+Model 3,With other models' answers,P247,0.5
+Model 3,With other models' answers,P248,0
+Model 3,With other models' answers,P249,1
+Model 3,With other models' answers,P250,1
+Model 3,With other models' answers,P251,0
+Model 3,With other models' answers,P252,1
+Model 3,With other models' answers,P253,0
+Model 3,With other models' answers,P254,0
+Model 3,With other models' answers,P255,1
+Model 3,With other models' answers,P256,1
+Model 3,With other models' answers,P257,1
+Model 3,With other models' answers,P258,1
+Model 3,With other models' answers,P259,1
+Model 3,With other models' answers,P260,1
+Model 3,With other models' answers,P261,1
+Model 3,With other models' answers,P262,0
+Model 3,With other models' answers,P263,1
+Model 3,With other models' answers,P264,0
+Model 3,With other models' answers,P265,1
+Model 3,With other models' answers,P266,1
+Model 3,With other models' answers,P267,1
+Model 3,With other models' answers,P268,1
+Model 3,With other models' answers,P269,0
+Model 3,With other models' answers,P270,0
+Model 3,With other models' answers,P271,1
+Model 3,With other models' answers,P272,1
+Model 3,With other models' answers,P273,1
+Model 3,With other models' answers,P274,1
+Model 3,With other models' answers,P275,0
+Model 3,With other models' answers,P276,1
+Model 3,With other models' answers,P277,0.5
+Model 3,With other models' answers,P278,0
+Model 3,With other models' answers,P279,0
+Model 3,With other models' answers,P280,0
+Model 3,With other models' answers,P281,0
+Model 3,With other models' answers,P282,1
+Model 3,With other models' answers,P283,0
+Model 3,With other models' answers,P284,1
+Model 3,With other models' answers,P285,1
+Model 3,With other models' answers,P286,1
+Model 3,With other models' answers,P287,0
+Model 3,With other models' answers,P288,1
+Model 3,With other models' answers,P289,1
+Model 3,With other models' answers,P290,0
+Model 3,With other models' answers,P291,1
+Model 3,With other models' answers,P292,1
+Model 3,With other models' answers,P293,1
+Model 3,With other models' answers,P294,1
+Model 3,With other models' answers,P295,0
+Model 3,With other models' answers,P296,1
+Model 3,With other models' answers,P297,1
+Model 3,With other models' answers,P298,0
+Model 3,With other models' answers,P299,1
+Model 3,With other models' answers,P300,0
+Model 3,With other models' answers,P301,0
+Model 3,With other models' answers,P302,1
+Model 3,With other models' answers,P303,1
+Model 3,With other models' answers,P304,1
+Model 3,With other models' answers,P305,0.5
+Model 3,With other models' answers,P306,1
+Model 3,With other models' answers,P307,1
+Model 3,With other models' answers,P308,0
+Model 3,With other models' answers,P309,1
+Model 3,With other models' answers,P310,1
+Model 3,With other models' answers,P311,1
+Model 3,With other models' answers,P312,1
+Model 3,With other models' answers,P313,1
+Model 3,With other models' answers,P314,1
+Model 3,With other models' answers,P315,0
+Model 3,With other models' answers,P316,1
+Model 3,With other models' answers,P317,1
+Model 3,With other models' answers,P318,1
+Model 3,With other models' answers,P319,1
+Model 3,With other models' answers,P320,1
+Model 3,With other models' answers,P321,0
+Model 3,With other models' answers,P322,1
+Model 3,With other models' answers,P323,1
+Model 3,With other models' answers,P324,1
+Model 3,With other models' answers,P325,0
+Model 3,With other models' answers,P326,1
+Model 3,With other models' answers,P327,1
+Model 3,With other models' answers,P328,0
+Model 3,With other models' answers,P329,1
+Model 3,With other models' answers,P330,0
+Model 3,With other models' answers,P331,0
+Model 3,With other models' answers,P332,0
+Model 3,With other models' answers,P333,0
+Model 3,With other models' answers,P334,1
+Model 3,With other models' answers,P335,0
+Model 3,With other models' answers,P336,1
+Model 3,With other models' answers,P337,1
+Model 3,With other models' answers,P338,1
+Model 3,With other models' answers,P339,0.5
+Model 3,With other models' answers,P340,0
+Model 3,With other models' answers,P341,0
+Model 3,With other models' answers,P342,1
+Model 3,With other models' answers,P343,0
+Model 3,With other models' answers,P344,1
+Model 3,With other models' answers,P345,1
+Model 3,With other models' answers,P346,1
+Model 3,With other models' answers,P347,1
+Model 3,With other models' answers,P348,1
+Model 3,With other models' answers,P349,1
+Model 3,With other models' answers,P350,1
+Model 3,With other models' answers,P351,0
+Model 3,With other models' answers,P352,0
+Model 3,With other models' answers,P353,1
+Model 3,With other models' answers,P354,1
+Model 3,With other models' answers,P355,0
+Model 3,With other models' answers,P356,1
+Model 3,With other models' answers,P357,0
+Model 3,With other models' answers,P358,1
+Model 3,With other models' answers,P359,1
+Model 3,With other models' answers,P360,1
+Model 3,With other models' answers,P361,1
+Model 3,With other models' answers,P362,1
+Model 3,With other models' answers,P363,1
+Model 3,With other models' answers,P364,0.5
+Model 3,With other models' answers,P365,1
+Model 3,With other models' answers,P366,1
+Model 3,With other models' answers,P367,0
+Model 3,With other models' answers,P368,1
+Model 3,With other models' answers,P369,1
+Model 3,With other models' answers,P370,0
+Model 3,With other models' answers,P371,1
+Model 3,With other models' answers,P372,1
+Model 3,With other models' answers,P373,0
+Model 3,With other models' answers,P374,1
+Model 3,With other models' answers,P375,1
+Model 3,With other models' answers,P376,0
+Model 3,With other models' answers,P377,1
+Model 3,With other models' answers,P378,1
+Model 3,With other models' answers,P379,1
+Model 3,With other models' answers,P380,1
+Model 3,With other models' answers,P381,1
+Model 3,With other models' answers,P382,0
+Model 3,With other models' answers,P383,0
+Model 3,With other models' answers,P384,1
+Model 3,With other models' answers,P385,0
+Model 3,With other models' answers,P386,1
+Model 3,With other models' answers,P387,0
+Model 3,With other models' answers,P388,0
+Model 3,With other models' answers,P389,1
+Model 3,With other models' answers,P390,1
+Model 3,With other models' answers,P391,0
+Model 3,With other models' answers,P392,0
+Model 3,With other models' answers,P393,1
+Model 3,With other models' answers,P394,1
+Model 3,With other models' answers,P395,0
+Model 3,With other models' answers,P396,0
+Model 3,With other models' answers,P397,1
+Model 3,With other models' answers,P398,1
+Model 3,With other models' answers,P399,1
+Model 3,With other models' answers,P400,0
+Model 4,Alone,P001,0
+Model 4,Alone,P002,0
+Model 4,Alone,P003,0
+Model 4,Alone,P004,1
+Model 4,Alone,P005,0
+Model 4,Alone,P006,0.5
+Model 4,Alone,P007,0
+Model 4,Alone,P008,0
+Model 4,Alone,P009,0.5
+Model 4,Alone,P010,1
+Model 4,Alone,P011,1
+Model 4,Alone,P012,0
+Model 4,Alone,P013,0
+Model 4,Alone,P014,1
+Model 4,Alone,P015,0
+Model 4,Alone,P016,1
+Model 4,Alone,P017,0
+Model 4,Alone,P018,0
+Model 4,Alone,P019,0
+Model 4,Alone,P020,1
+Model 4,Alone,P021,0
+Model 4,Alone,P022,0
+Model 4,Alone,P023,0
+Model 4,Alone,P024,0
+Model 4,Alone,P025,0
+Model 4,Alone,P026,1
+Model 4,Alone,P027,0
+Model 4,Alone,P028,0
+Model 4,Alone,P029,0.5
+Model 4,Alone,P030,0
+Model 4,Alone,P031,1
+Model 4,Alone,P032,0
+Model 4,Alone,P033,0
+Model 4,Alone,P034,1
+Model 4,Alone,P035,0
+Model 4,Alone,P036,0.5
+Model 4,Alone,P037,0
+Model 4,Alone,P038,0
+Model 4,Alone,P039,0
+Model 4,Alone,P040,0
+Model 4,Alone,P041,0
+Model 4,Alone,P042,1
+Model 4,Alone,P043,0
+Model 4,Alone,P044,0.5
+Model 4,Alone,P045,0
+Model 4,Alone,P046,1
+Model 4,Alone,P047,0
+Model 4,Alone,P048,0
+Model 4,Alone,P049,1
+Model 4,Alone,P050,1
+Model 4,Alone,P051,1
+Model 4,Alone,P052,1
+Model 4,Alone,P053,0
+Model 4,Alone,P054,0
+Model 4,Alone,P055,1
+Model 4,Alone,P056,0
+Model 4,Alone,P057,0
+Model 4,Alone,P058,0
+Model 4,Alone,P059,0
+Model 4,Alone,P060,0
+Model 4,Alone,P061,0
+Model 4,Alone,P062,0
+Model 4,Alone,P063,0
+Model 4,Alone,P064,0
+Model 4,Alone,P065,0
+Model 4,Alone,P066,0
+Model 4,Alone,P067,0
+Model 4,Alone,P068,0
+Model 4,Alone,P069,0
+Model 4,Alone,P070,0
+Model 4,Alone,P071,0
+Model 4,Alone,P072,0
+Model 4,Alone,P073,0
+Model 4,Alone,P074,0
+Model 4,Alone,P075,0
+Model 4,Alone,P076,1
+Model 4,Alone,P077,0
+Model 4,Alone,P078,0
+Model 4,Alone,P079,1
+Model 4,Alone,P080,0
+Model 4,Alone,P081,0
+Model 4,Alone,P082,0
+Model 4,Alone,P083,0
+Model 4,Alone,P084,1
+Model 4,Alone,P085,1
+Model 4,Alone,P086,0
+Model 4,Alone,P087,0
+Model 4,Alone,P088,0
+Model 4,Alone,P089,0
+Model 4,Alone,P090,1
+Model 4,Alone,P091,0
+Model 4,Alone,P092,0
+Model 4,Alone,P093,1
+Model 4,Alone,P094,0
+Model 4,Alone,P095,0
+Model 4,Alone,P096,0
+Model 4,Alone,P097,0
+Model 4,Alone,P098,0
+Model 4,Alone,P099,0
+Model 4,Alone,P100,0
+Model 4,Alone,P101,0
+Model 4,Alone,P102,1
+Model 4,Alone,P103,0
+Model 4,Alone,P104,0
+Model 4,Alone,P105,0
+Model 4,Alone,P106,0
+Model 4,Alone,P107,0
+Model 4,Alone,P108,1
+Model 4,Alone,P109,0
+Model 4,Alone,P110,0
+Model 4,Alone,P111,0
+Model 4,Alone,P112,1
+Model 4,Alone,P113,0
+Model 4,Alone,P114,0.5
+Model 4,Alone,P115,1
+Model 4,Alone,P116,0
+Model 4,Alone,P117,0
+Model 4,Alone,P118,1
+Model 4,Alone,P119,0
+Model 4,Alone,P120,0
+Model 4,Alone,P121,0.5
+Model 4,Alone,P122,0
+Model 4,Alone,P123,1
+Model 4,Alone,P124,0
+Model 4,Alone,P125,1
+Model 4,Alone,P126,0
+Model 4,Alone,P127,1
+Model 4,Alone,P128,0
+Model 4,Alone,P129,1
+Model 4,Alone,P130,1
+Model 4,Alone,P131,0
+Model 4,Alone,P132,1
+Model 4,Alone,P133,0
+Model 4,Alone,P134,0
+Model 4,Alone,P135,0
+Model 4,Alone,P136,0.5
+Model 4,Alone,P137,0
+Model 4,Alone,P138,1
+Model 4,Alone,P139,0
+Model 4,Alone,P140,0
+Model 4,Alone,P141,0
+Model 4,Alone,P142,1
+Model 4,Alone,P143,0
+Model 4,Alone,P144,0
+Model 4,Alone,P145,0
+Model 4,Alone,P146,0
+Model 4,Alone,P147,0
+Model 4,Alone,P148,0
+Model 4,Alone,P149,0
+Model 4,Alone,P150,1
+Model 4,Alone,P151,1
+Model 4,Alone,P152,0
+Model 4,Alone,P153,0
+Model 4,Alone,P154,0
+Model 4,Alone,P155,0
+Model 4,Alone,P156,0
+Model 4,Alone,P157,0
+Model 4,Alone,P158,0
+Model 4,Alone,P159,0.5
+Model 4,Alone,P160,0
+Model 4,Alone,P161,0
+Model 4,Alone,P162,0.5
+Model 4,Alone,P163,1
+Model 4,Alone,P164,0
+Model 4,Alone,P165,0
+Model 4,Alone,P166,0.5
+Model 4,Alone,P167,0
+Model 4,Alone,P168,0
+Model 4,Alone,P169,0
+Model 4,Alone,P170,0
+Model 4,Alone,P171,0
+Model 4,Alone,P172,0
+Model 4,Alone,P173,1
+Model 4,Alone,P174,1
+Model 4,Alone,P175,1
+Model 4,Alone,P176,1
+Model 4,Alone,P177,0
+Model 4,Alone,P178,1
+Model 4,Alone,P179,0
+Model 4,Alone,P180,0
+Model 4,Alone,P181,0
+Model 4,Alone,P182,0
+Model 4,Alone,P183,0
+Model 4,Alone,P184,0
+Model 4,Alone,P185,0
+Model 4,Alone,P186,0
+Model 4,Alone,P187,0
+Model 4,Alone,P188,0
+Model 4,Alone,P189,0
+Model 4,Alone,P190,0
+Model 4,Alone,P191,0
+Model 4,Alone,P192,0
+Model 4,Alone,P193,0.5
+Model 4,Alone,P194,0
+Model 4,Alone,P195,0
+Model 4,Alone,P196,0
+Model 4,Alone,P197,0.5
+Model 4,Alone,P198,1
+Model 4,Alone,P199,0
+Model 4,Alone,P200,0
+Model 4,Alone,P201,0
+Model 4,Alone,P202,0
+Model 4,Alone,P203,0
+Model 4,Alone,P204,0.5
+Model 4,Alone,P205,0
+Model 4,Alone,P206,0
+Model 4,Alone,P207,0
+Model 4,Alone,P208,0
+Model 4,Alone,P209,0
+Model 4,Alone,P210,1
+Model 4,Alone,P211,0
+Model 4,Alone,P212,0
+Model 4,Alone,P213,1
+Model 4,Alone,P214,0.5
+Model 4,Alone,P215,0
+Model 4,Alone,P216,1
+Model 4,Alone,P217,0
+Model 4,Alone,P218,0
+Model 4,Alone,P219,0
+Model 4,Alone,P220,1
+Model 4,Alone,P221,0
+Model 4,Alone,P222,0
+Model 4,Alone,P223,0
+Model 4,Alone,P224,0
+Model 4,Alone,P225,0
+Model 4,Alone,P226,0
+Model 4,Alone,P227,0
+Model 4,Alone,P228,0
+Model 4,Alone,P229,0
+Model 4,Alone,P230,0
+Model 4,Alone,P231,0
+Model 4,Alone,P232,0
+Model 4,Alone,P233,0
+Model 4,Alone,P234,0
+Model 4,Alone,P235,1
+Model 4,Alone,P236,1
+Model 4,Alone,P237,0
+Model 4,Alone,P238,0
+Model 4,Alone,P239,0
+Model 4,Alone,P240,1
+Model 4,Alone,P241,1
+Model 4,Alone,P242,0
+Model 4,Alone,P243,1
+Model 4,Alone,P244,0.5
+Model 4,Alone,P245,0
+Model 4,Alone,P246,1
+Model 4,Alone,P247,0
+Model 4,Alone,P248,0
+Model 4,Alone,P249,1
+Model 4,Alone,P250,0
+Model 4,Alone,P251,0
+Model 4,Alone,P252,0.5
+Model 4,Alone,P253,0
+Model 4,Alone,P254,0
+Model 4,Alone,P255,0
+Model 4,Alone,P256,0.5
+Model 4,Alone,P257,0
+Model 4,Alone,P258,1
+Model 4,Alone,P259,1
+Model 4,Alone,P260,1
+Model 4,Alone,P261,0.5
+Model 4,Alone,P262,0
+Model 4,Alone,P263,1
+Model 4,Alone,P264,0
+Model 4,Alone,P265,0
+Model 4,Alone,P266,0
+Model 4,Alone,P267,0
+Model 4,Alone,P268,0
+Model 4,Alone,P269,0
+Model 4,Alone,P270,0
+Model 4,Alone,P271,0
+Model 4,Alone,P272,1
+Model 4,Alone,P273,0
+Model 4,Alone,P274,0
+Model 4,Alone,P275,0
+Model 4,Alone,P276,0
+Model 4,Alone,P277,0
+Model 4,Alone,P278,0
+Model 4,Alone,P279,0.5
+Model 4,Alone,P280,0
+Model 4,Alone,P281,1
+Model 4,Alone,P282,1
+Model 4,Alone,P283,0
+Model 4,Alone,P284,0
+Model 4,Alone,P285,0
+Model 4,Alone,P286,0
+Model 4,Alone,P287,0
+Model 4,Alone,P288,0
+Model 4,Alone,P289,0
+Model 4,Alone,P290,0
+Model 4,Alone,P291,0
+Model 4,Alone,P292,1
+Model 4,Alone,P293,0.5
+Model 4,Alone,P294,0
+Model 4,Alone,P295,1
+Model 4,Alone,P296,1
+Model 4,Alone,P297,0
+Model 4,Alone,P298,0
+Model 4,Alone,P299,0
+Model 4,Alone,P300,1
+Model 4,Alone,P301,0
+Model 4,Alone,P302,0.5
+Model 4,Alone,P303,0
+Model 4,Alone,P304,0
+Model 4,Alone,P305,0
+Model 4,Alone,P306,1
+Model 4,Alone,P307,0
+Model 4,Alone,P308,0
+Model 4,Alone,P309,1
+Model 4,Alone,P310,0.5
+Model 4,Alone,P311,0
+Model 4,Alone,P312,0
+Model 4,Alone,P313,0
+Model 4,Alone,P314,0
+Model 4,Alone,P315,0
+Model 4,Alone,P316,1
+Model 4,Alone,P317,0.5
+Model 4,Alone,P318,0
+Model 4,Alone,P319,1
+Model 4,Alone,P320,0
+Model 4,Alone,P321,0
+Model 4,Alone,P322,1
+Model 4,Alone,P323,0
+Model 4,Alone,P324,0
+Model 4,Alone,P325,0
+Model 4,Alone,P326,0
+Model 4,Alone,P327,0.5
+Model 4,Alone,P328,0
+Model 4,Alone,P329,0
+Model 4,Alone,P330,0
+Model 4,Alone,P331,0
+Model 4,Alone,P332,0
+Model 4,Alone,P333,1
+Model 4,Alone,P334,1
+Model 4,Alone,P335,0
+Model 4,Alone,P336,0.5
+Model 4,Alone,P337,0.5
+Model 4,Alone,P338,0
+Model 4,Alone,P339,1
+Model 4,Alone,P340,1
+Model 4,Alone,P341,0
+Model 4,Alone,P342,0
+Model 4,Alone,P343,0
+Model 4,Alone,P344,1
+Model 4,Alone,P345,0
+Model 4,Alone,P346,0
+Model 4,Alone,P347,0
+Model 4,Alone,P348,0
+Model 4,Alone,P349,0
+Model 4,Alone,P350,1
+Model 4,Alone,P351,0
+Model 4,Alone,P352,0
+Model 4,Alone,P353,0
+Model 4,Alone,P354,1
+Model 4,Alone,P355,1
+Model 4,Alone,P356,1
+Model 4,Alone,P357,0
+Model 4,Alone,P358,0
+Model 4,Alone,P359,0.5
+Model 4,Alone,P360,1
+Model 4,Alone,P361,1
+Model 4,Alone,P362,1
+Model 4,Alone,P363,0
+Model 4,Alone,P364,1
+Model 4,Alone,P365,0
+Model 4,Alone,P366,1
+Model 4,Alone,P367,0
+Model 4,Alone,P368,0
+Model 4,Alone,P369,0
+Model 4,Alone,P370,1
+Model 4,Alone,P371,1
+Model 4,Alone,P372,0
+Model 4,Alone,P373,0
+Model 4,Alone,P374,0
+Model 4,Alone,P375,1
+Model 4,Alone,P376,0
+Model 4,Alone,P377,0
+Model 4,Alone,P378,0
+Model 4,Alone,P379,0
+Model 4,Alone,P380,1
+Model 4,Alone,P381,0
+Model 4,Alone,P382,0
+Model 4,Alone,P383,0
+Model 4,Alone,P384,1
+Model 4,Alone,P385,0
+Model 4,Alone,P386,0
+Model 4,Alone,P387,0
+Model 4,Alone,P388,0.5
+Model 4,Alone,P389,1
+Model 4,Alone,P390,0.5
+Model 4,Alone,P391,0
+Model 4,Alone,P392,0.5
+Model 4,Alone,P393,1
+Model 4,Alone,P394,0
+Model 4,Alone,P395,0.5
+Model 4,Alone,P396,1
+Model 4,Alone,P397,1
+Model 4,Alone,P398,1
+Model 4,Alone,P399,0
+Model 4,Alone,P400,0
+Model 4,With other models' answers,P001,1
+Model 4,With other models' answers,P002,0
+Model 4,With other models' answers,P003,0.5
+Model 4,With other models' answers,P004,0
+Model 4,With other models' answers,P005,0
+Model 4,With other models' answers,P006,1
+Model 4,With other models' answers,P007,0
+Model 4,With other models' answers,P008,0
+Model 4,With other models' answers,P009,1
+Model 4,With other models' answers,P010,0.5
+Model 4,With other models' answers,P011,0
+Model 4,With other models' answers,P012,0
+Model 4,With other models' answers,P013,0
+Model 4,With other models' answers,P014,1
+Model 4,With other models' answers,P015,0.5
+Model 4,With other models' answers,P016,1
+Model 4,With other models' answers,P017,0.5
+Model 4,With other models' answers,P018,1
+Model 4,With other models' answers,P019,0
+Model 4,With other models' answers,P020,0
+Model 4,With other models' answers,P021,0
+Model 4,With other models' answers,P022,0
+Model 4,With other models' answers,P023,0
+Model 4,With other models' answers,P024,0
+Model 4,With other models' answers,P025,0
+Model 4,With other models' answers,P026,0.5
+Model 4,With other models' answers,P027,0
+Model 4,With other models' answers,P028,0
+Model 4,With other models' answers,P029,0
+Model 4,With other models' answers,P030,1
+Model 4,With other models' answers,P031,0
+Model 4,With other models' answers,P032,0.5
+Model 4,With other models' answers,P033,0
+Model 4,With other models' answers,P034,0.5
+Model 4,With other models' answers,P035,0
+Model 4,With other models' answers,P036,0
+Model 4,With other models' answers,P037,0
+Model 4,With other models' answers,P038,0
+Model 4,With other models' answers,P039,1
+Model 4,With other models' answers,P040,0
+Model 4,With other models' answers,P041,0
+Model 4,With other models' answers,P042,0
+Model 4,With other models' answers,P043,0
+Model 4,With other models' answers,P044,0
+Model 4,With other models' answers,P045,0
+Model 4,With other models' answers,P046,1
+Model 4,With other models' answers,P047,0.5
+Model 4,With other models' answers,P048,0
+Model 4,With other models' answers,P049,1
+Model 4,With other models' answers,P050,1
+Model 4,With other models' answers,P051,0
+Model 4,With other models' answers,P052,0
+Model 4,With other models' answers,P053,1
+Model 4,With other models' answers,P054,1
+Model 4,With other models' answers,P055,0
+Model 4,With other models' answers,P056,1
+Model 4,With other models' answers,P057,0
+Model 4,With other models' answers,P058,0
+Model 4,With other models' answers,P059,0
+Model 4,With other models' answers,P060,0
+Model 4,With other models' answers,P061,1
+Model 4,With other models' answers,P062,0
+Model 4,With other models' answers,P063,0
+Model 4,With other models' answers,P064,0
+Model 4,With other models' answers,P065,1
+Model 4,With other models' answers,P066,0
+Model 4,With other models' answers,P067,0
+Model 4,With other models' answers,P068,1
+Model 4,With other models' answers,P069,0.5
+Model 4,With other models' answers,P070,0
+Model 4,With other models' answers,P071,1
+Model 4,With other models' answers,P072,0
+Model 4,With other models' answers,P073,1
+Model 4,With other models' answers,P074,1
+Model 4,With other models' answers,P075,1
+Model 4,With other models' answers,P076,1
+Model 4,With other models' answers,P077,0
+Model 4,With other models' answers,P078,0.5
+Model 4,With other models' answers,P079,0
+Model 4,With other models' answers,P080,1
+Model 4,With other models' answers,P081,0.5
+Model 4,With other models' answers,P082,0
+Model 4,With other models' answers,P083,0
+Model 4,With other models' answers,P084,1
+Model 4,With other models' answers,P085,0
+Model 4,With other models' answers,P086,0
+Model 4,With other models' answers,P087,0
+Model 4,With other models' answers,P088,0
+Model 4,With other models' answers,P089,0
+Model 4,With other models' answers,P090,0.5
+Model 4,With other models' answers,P091,0
+Model 4,With other models' answers,P092,1
+Model 4,With other models' answers,P093,0
+Model 4,With other models' answers,P094,0
+Model 4,With other models' answers,P095,0.5
+Model 4,With other models' answers,P096,0
+Model 4,With other models' answers,P097,0
+Model 4,With other models' answers,P098,0
+Model 4,With other models' answers,P099,1
+Model 4,With other models' answers,P100,0
+Model 4,With other models' answers,P101,0
+Model 4,With other models' answers,P102,0
+Model 4,With other models' answers,P103,1
+Model 4,With other models' answers,P104,1
+Model 4,With other models' answers,P105,0
+Model 4,With other models' answers,P106,1
+Model 4,With other models' answers,P107,0.5
+Model 4,With other models' answers,P108,0
+Model 4,With other models' answers,P109,0
+Model 4,With other models' answers,P110,1
+Model 4,With other models' answers,P111,0.5
+Model 4,With other models' answers,P112,0.5
+Model 4,With other models' answers,P113,0
+Model 4,With other models' answers,P114,1
+Model 4,With other models' answers,P115,0
+Model 4,With other models' answers,P116,1
+Model 4,With other models' answers,P117,0
+Model 4,With other models' answers,P118,0
+Model 4,With other models' answers,P119,0
+Model 4,With other models' answers,P120,1
+Model 4,With other models' answers,P121,1
+Model 4,With other models' answers,P122,0
+Model 4,With other models' answers,P123,0
+Model 4,With other models' answers,P124,1
+Model 4,With other models' answers,P125,0
+Model 4,With other models' answers,P126,0
+Model 4,With other models' answers,P127,1
+Model 4,With other models' answers,P128,1
+Model 4,With other models' answers,P129,0
+Model 4,With other models' answers,P130,0.5
+Model 4,With other models' answers,P131,0
+Model 4,With other models' answers,P132,1
+Model 4,With other models' answers,P133,1
+Model 4,With other models' answers,P134,0
+Model 4,With other models' answers,P135,0
+Model 4,With other models' answers,P136,1
+Model 4,With other models' answers,P137,1
+Model 4,With other models' answers,P138,0
+Model 4,With other models' answers,P139,1
+Model 4,With other models' answers,P140,1
+Model 4,With other models' answers,P141,0
+Model 4,With other models' answers,P142,0
+Model 4,With other models' answers,P143,0
+Model 4,With other models' answers,P144,1
+Model 4,With other models' answers,P145,0
+Model 4,With other models' answers,P146,0
+Model 4,With other models' answers,P147,0
+Model 4,With other models' answers,P148,0
+Model 4,With other models' answers,P149,1
+Model 4,With other models' answers,P150,1
+Model 4,With other models' answers,P151,1
+Model 4,With other models' answers,P152,1
+Model 4,With other models' answers,P153,0
+Model 4,With other models' answers,P154,0.5
+Model 4,With other models' answers,P155,0
+Model 4,With other models' answers,P156,0.5
+Model 4,With other models' answers,P157,0
+Model 4,With other models' answers,P158,1
+Model 4,With other models' answers,P159,1
+Model 4,With other models' answers,P160,0
+Model 4,With other models' answers,P161,0
+Model 4,With other models' answers,P162,0
+Model 4,With other models' answers,P163,0
+Model 4,With other models' answers,P164,0
+Model 4,With other models' answers,P165,0
+Model 4,With other models' answers,P166,0
+Model 4,With other models' answers,P167,1
+Model 4,With other models' answers,P168,0
+Model 4,With other models' answers,P169,0
+Model 4,With other models' answers,P170,0
+Model 4,With other models' answers,P171,0
+Model 4,With other models' answers,P172,0
+Model 4,With other models' answers,P173,0.5
+Model 4,With other models' answers,P174,0
+Model 4,With other models' answers,P175,1
+Model 4,With other models' answers,P176,0
+Model 4,With other models' answers,P177,0
+Model 4,With other models' answers,P178,1
+Model 4,With other models' answers,P179,0
+Model 4,With other models' answers,P180,0
+Model 4,With other models' answers,P181,0
+Model 4,With other models' answers,P182,0
+Model 4,With other models' answers,P183,0
+Model 4,With other models' answers,P184,0
+Model 4,With other models' answers,P185,1
+Model 4,With other models' answers,P186,0
+Model 4,With other models' answers,P187,1
+Model 4,With other models' answers,P188,0
+Model 4,With other models' answers,P189,1
+Model 4,With other models' answers,P190,1
+Model 4,With other models' answers,P191,0
+Model 4,With other models' answers,P192,0
+Model 4,With other models' answers,P193,1
+Model 4,With other models' answers,P194,0.5
+Model 4,With other models' answers,P195,0
+Model 4,With other models' answers,P196,0
+Model 4,With other models' answers,P197,1
+Model 4,With other models' answers,P198,0.5
+Model 4,With other models' answers,P199,0
+Model 4,With other models' answers,P200,0.5
+Model 4,With other models' answers,P201,0
+Model 4,With other models' answers,P202,0
+Model 4,With other models' answers,P203,0
+Model 4,With other models' answers,P204,0
+Model 4,With other models' answers,P205,0
+Model 4,With other models' answers,P206,0.5
+Model 4,With other models' answers,P207,0
+Model 4,With other models' answers,P208,0
+Model 4,With other models' answers,P209,0
+Model 4,With other models' answers,P210,0
+Model 4,With other models' answers,P211,0
+Model 4,With other models' answers,P212,1
+Model 4,With other models' answers,P213,0
+Model 4,With other models' answers,P214,0
+Model 4,With other models' answers,P215,1
+Model 4,With other models' answers,P216,1
+Model 4,With other models' answers,P217,0
+Model 4,With other models' answers,P218,1
+Model 4,With other models' answers,P219,0
+Model 4,With other models' answers,P220,0
+Model 4,With other models' answers,P221,0
+Model 4,With other models' answers,P222,0
+Model 4,With other models' answers,P223,0
+Model 4,With other models' answers,P224,0
+Model 4,With other models' answers,P225,0
+Model 4,With other models' answers,P226,0.5
+Model 4,With other models' answers,P227,1
+Model 4,With other models' answers,P228,0
+Model 4,With other models' answers,P229,0
+Model 4,With other models' answers,P230,0.5
+Model 4,With other models' answers,P231,0.5
+Model 4,With other models' answers,P232,0
+Model 4,With other models' answers,P233,1
+Model 4,With other models' answers,P234,1
+Model 4,With other models' answers,P235,0
+Model 4,With other models' answers,P236,1
+Model 4,With other models' answers,P237,1
+Model 4,With other models' answers,P238,1
+Model 4,With other models' answers,P239,0
+Model 4,With other models' answers,P240,0
+Model 4,With other models' answers,P241,0.5
+Model 4,With other models' answers,P242,1
+Model 4,With other models' answers,P243,0
+Model 4,With other models' answers,P244,1
+Model 4,With other models' answers,P245,0
+Model 4,With other models' answers,P246,1
+Model 4,With other models' answers,P247,1
+Model 4,With other models' answers,P248,0
+Model 4,With other models' answers,P249,0
+Model 4,With other models' answers,P250,1
+Model 4,With other models' answers,P251,0
+Model 4,With other models' answers,P252,0
+Model 4,With other models' answers,P253,0
+Model 4,With other models' answers,P254,0
+Model 4,With other models' answers,P255,0
+Model 4,With other models' answers,P256,0
+Model 4,With other models' answers,P257,0
+Model 4,With other models' answers,P258,0
+Model 4,With other models' answers,P259,1
+Model 4,With other models' answers,P260,0
+Model 4,With other models' answers,P261,0
+Model 4,With other models' answers,P262,1
+Model 4,With other models' answers,P263,0
+Model 4,With other models' answers,P264,0
+Model 4,With other models' answers,P265,0
+Model 4,With other models' answers,P266,1
+Model 4,With other models' answers,P267,1
+Model 4,With other models' answers,P268,0
+Model 4,With other models' answers,P269,0
+Model 4,With other models' answers,P270,0
+Model 4,With other models' answers,P271,1
+Model 4,With other models' answers,P272,0
+Model 4,With other models' answers,P273,0
+Model 4,With other models' answers,P274,0
+Model 4,With other models' answers,P275,0
+Model 4,With other models' answers,P276,1
+Model 4,With other models' answers,P277,0
+Model 4,With other models' answers,P278,0
+Model 4,With other models' answers,P279,0
+Model 4,With other models' answers,P280,1
+Model 4,With other models' answers,P281,0.5
+Model 4,With other models' answers,P282,0
+Model 4,With other models' answers,P283,0
+Model 4,With other models' answers,P284,0
+Model 4,With other models' answers,P285,1
+Model 4,With other models' answers,P286,1
+Model 4,With other models' answers,P287,0
+Model 4,With other models' answers,P288,1
+Model 4,With other models' answers,P289,0
+Model 4,With other models' answers,P290,1
+Model 4,With other models' answers,P291,1
+Model 4,With other models' answers,P292,1
+Model 4,With other models' answers,P293,0
+Model 4,With other models' answers,P294,1
+Model 4,With other models' answers,P295,0
+Model 4,With other models' answers,P296,1
+Model 4,With other models' answers,P297,0
+Model 4,With other models' answers,P298,1
+Model 4,With other models' answers,P299,1
+Model 4,With other models' answers,P300,0
+Model 4,With other models' answers,P301,0
+Model 4,With other models' answers,P302,0
+Model 4,With other models' answers,P303,0
+Model 4,With other models' answers,P304,0
+Model 4,With other models' answers,P305,1
+Model 4,With other models' answers,P306,0
+Model 4,With other models' answers,P307,1
+Model 4,With other models' answers,P308,1
+Model 4,With other models' answers,P309,1
+Model 4,With other models' answers,P310,1
+Model 4,With other models' answers,P311,0
+Model 4,With other models' answers,P312,0
+Model 4,With other models' answers,P313,0
+Model 4,With other models' answers,P314,0
+Model 4,With other models' answers,P315,1
+Model 4,With other models' answers,P316,1
+Model 4,With other models' answers,P317,0
+Model 4,With other models' answers,P318,1
+Model 4,With other models' answers,P319,1
+Model 4,With other models' answers,P320,0
+Model 4,With other models' answers,P321,0
+Model 4,With other models' answers,P322,0
+Model 4,With other models' answers,P323,0
+Model 4,With other models' answers,P324,1
+Model 4,With other models' answers,P325,0.5
+Model 4,With other models' answers,P326,0
+Model 4,With other models' answers,P327,1
+Model 4,With other models' answers,P328,0
+Model 4,With other models' answers,P329,0.5
+Model 4,With other models' answers,P330,0
+Model 4,With other models' answers,P331,1
+Model 4,With other models' answers,P332,0
+Model 4,With other models' answers,P333,0
+Model 4,With other models' answers,P334,1
+Model 4,With other models' answers,P335,0
+Model 4,With other models' answers,P336,0
+Model 4,With other models' answers,P337,1
+Model 4,With other models' answers,P338,0
+Model 4,With other models' answers,P339,1
+Model 4,With other models' answers,P340,1
+Model 4,With other models' answers,P341,0
+Model 4,With other models' answers,P342,1
+Model 4,With other models' answers,P343,1
+Model 4,With other models' answers,P344,0
+Model 4,With other models' answers,P345,1
+Model 4,With other models' answers,P346,0
+Model 4,With other models' answers,P347,0
+Model 4,With other models' answers,P348,0
+Model 4,With other models' answers,P349,1
+Model 4,With other models' answers,P350,0
+Model 4,With other models' answers,P351,0
+Model 4,With other models' answers,P352,1
+Model 4,With other models' answers,P353,1
+Model 4,With other models' answers,P354,1
+Model 4,With other models' answers,P355,0
+Model 4,With other models' answers,P356,0
+Model 4,With other models' answers,P357,0
+Model 4,With other models' answers,P358,1
+Model 4,With other models' answers,P359,1
+Model 4,With other models' answers,P360,1
+Model 4,With other models' answers,P361,0
+Model 4,With other models' answers,P362,1
+Model 4,With other models' answers,P363,1
+Model 4,With other models' answers,P364,0
+Model 4,With other models' answers,P365,0
+Model 4,With other models' answers,P366,0
+Model 4,With other models' answers,P367,0
+Model 4,With other models' answers,P368,1
+Model 4,With other models' answers,P369,0.5
+Model 4,With other models' answers,P370,1
+Model 4,With other models' answers,P371,0
+Model 4,With other models' answers,P372,0
+Model 4,With other models' answers,P373,0.5
+Model 4,With other models' answers,P374,1
+Model 4,With other models' answers,P375,1
+Model 4,With other models' answers,P376,0
+Model 4,With other models' answers,P377,0
+Model 4,With other models' answers,P378,1
+Model 4,With other models' answers,P379,0
+Model 4,With other models' answers,P380,0
+Model 4,With other models' answers,P381,0
+Model 4,With other models' answers,P382,0
+Model 4,With other models' answers,P383,1
+Model 4,With other models' answers,P384,1
+Model 4,With other models' answers,P385,0.5
+Model 4,With other models' answers,P386,0
+Model 4,With other models' answers,P387,0
+Model 4,With other models' answers,P388,0
+Model 4,With other models' answers,P389,1
+Model 4,With other models' answers,P390,0
+Model 4,With other models' answers,P391,0
+Model 4,With other models' answers,P392,0
+Model 4,With other models' answers,P393,0
+Model 4,With other models' answers,P394,0
+Model 4,With other models' answers,P395,0
+Model 4,With other models' answers,P396,1
+Model 4,With other models' answers,P397,0
+Model 4,With other models' answers,P398,0
+Model 4,With other models' answers,P399,0
+Model 4,With other models' answers,P400,0
+Model 5,Alone,P001,0
+Model 5,Alone,P002,0
+Model 5,Alone,P003,0
+Model 5,Alone,P004,0
+Model 5,Alone,P005,0
+Model 5,Alone,P006,1
+Model 5,Alone,P007,1
+Model 5,Alone,P008,0
+Model 5,Alone,P009,0
+Model 5,Alone,P010,1
+Model 5,Alone,P011,0
+Model 5,Alone,P012,0
+Model 5,Alone,P013,0
+Model 5,Alone,P014,1
+Model 5,Alone,P015,0
+Model 5,Alone,P016,0
+Model 5,Alone,P017,0
+Model 5,Alone,P018,0
+Model 5,Alone,P019,0
+Model 5,Alone,P020,0
+Model 5,Alone,P021,1
+Model 5,Alone,P022,0
+Model 5,Alone,P023,0
+Model 5,Alone,P024,0
+Model 5,Alone,P025,1
+Model 5,Alone,P026,0
+Model 5,Alone,P027,0
+Model 5,Alone,P028,0
+Model 5,Alone,P029,0
+Model 5,Alone,P030,0
+Model 5,Alone,P031,1
+Model 5,Alone,P032,0
+Model 5,Alone,P033,1
+Model 5,Alone,P034,0
+Model 5,Alone,P035,1
+Model 5,Alone,P036,0
+Model 5,Alone,P037,1
+Model 5,Alone,P038,0
+Model 5,Alone,P039,0
+Model 5,Alone,P040,0
+Model 5,Alone,P041,0
+Model 5,Alone,P042,1
+Model 5,Alone,P043,0
+Model 5,Alone,P044,1
+Model 5,Alone,P045,0
+Model 5,Alone,P046,1
+Model 5,Alone,P047,0
+Model 5,Alone,P048,0
+Model 5,Alone,P049,1
+Model 5,Alone,P050,1
+Model 5,Alone,P051,1
+Model 5,Alone,P052,0.5
+Model 5,Alone,P053,1
+Model 5,Alone,P054,1
+Model 5,Alone,P055,0
+Model 5,Alone,P056,1
+Model 5,Alone,P057,0
+Model 5,Alone,P058,0
+Model 5,Alone,P059,0
+Model 5,Alone,P060,1
+Model 5,Alone,P061,0
+Model 5,Alone,P062,0
+Model 5,Alone,P063,1
+Model 5,Alone,P064,1
+Model 5,Alone,P065,0
+Model 5,Alone,P066,1
+Model 5,Alone,P067,0
+Model 5,Alone,P068,0
+Model 5,Alone,P069,1
+Model 5,Alone,P070,1
+Model 5,Alone,P071,0
+Model 5,Alone,P072,0
+Model 5,Alone,P073,0
+Model 5,Alone,P074,0
+Model 5,Alone,P075,0
+Model 5,Alone,P076,1
+Model 5,Alone,P077,0.5
+Model 5,Alone,P078,0
+Model 5,Alone,P079,0
+Model 5,Alone,P080,0
+Model 5,Alone,P081,1
+Model 5,Alone,P082,0
+Model 5,Alone,P083,0
+Model 5,Alone,P084,0
+Model 5,Alone,P085,0
+Model 5,Alone,P086,0
+Model 5,Alone,P087,1
+Model 5,Alone,P088,0
+Model 5,Alone,P089,0
+Model 5,Alone,P090,0
+Model 5,Alone,P091,0
+Model 5,Alone,P092,0
+Model 5,Alone,P093,0
+Model 5,Alone,P094,0.5
+Model 5,Alone,P095,1
+Model 5,Alone,P096,1
+Model 5,Alone,P097,1
+Model 5,Alone,P098,0
+Model 5,Alone,P099,0
+Model 5,Alone,P100,0
+Model 5,Alone,P101,0
+Model 5,Alone,P102,1
+Model 5,Alone,P103,0
+Model 5,Alone,P104,1
+Model 5,Alone,P105,0
+Model 5,Alone,P106,1
+Model 5,Alone,P107,1
+Model 5,Alone,P108,0
+Model 5,Alone,P109,0
+Model 5,Alone,P110,0
+Model 5,Alone,P111,1
+Model 5,Alone,P112,1
+Model 5,Alone,P113,1
+Model 5,Alone,P114,0
+Model 5,Alone,P115,0
+Model 5,Alone,P116,0
+Model 5,Alone,P117,0
+Model 5,Alone,P118,1
+Model 5,Alone,P119,0
+Model 5,Alone,P120,0
+Model 5,Alone,P121,0
+Model 5,Alone,P122,0
+Model 5,Alone,P123,0
+Model 5,Alone,P124,1
+Model 5,Alone,P125,0
+Model 5,Alone,P126,1
+Model 5,Alone,P127,1
+Model 5,Alone,P128,0
+Model 5,Alone,P129,0
+Model 5,Alone,P130,1
+Model 5,Alone,P131,0
+Model 5,Alone,P132,0
+Model 5,Alone,P133,0
+Model 5,Alone,P134,1
+Model 5,Alone,P135,0
+Model 5,Alone,P136,0
+Model 5,Alone,P137,0
+Model 5,Alone,P138,0.5
+Model 5,Alone,P139,0
+Model 5,Alone,P140,0
+Model 5,Alone,P141,0
+Model 5,Alone,P142,1
+Model 5,Alone,P143,0
+Model 5,Alone,P144,0
+Model 5,Alone,P145,0
+Model 5,Alone,P146,0
+Model 5,Alone,P147,0
+Model 5,Alone,P148,0
+Model 5,Alone,P149,0
+Model 5,Alone,P150,0.5
+Model 5,Alone,P151,1
+Model 5,Alone,P152,0
+Model 5,Alone,P153,0
+Model 5,Alone,P154,0
+Model 5,Alone,P155,0
+Model 5,Alone,P156,0
+Model 5,Alone,P157,1
+Model 5,Alone,P158,1
+Model 5,Alone,P159,0.5
+Model 5,Alone,P160,0
+Model 5,Alone,P161,0
+Model 5,Alone,P162,1
+Model 5,Alone,P163,1
+Model 5,Alone,P164,0
+Model 5,Alone,P165,0
+Model 5,Alone,P166,0
+Model 5,Alone,P167,1
+Model 5,Alone,P168,0
+Model 5,Alone,P169,0
+Model 5,Alone,P170,1
+Model 5,Alone,P171,1
+Model 5,Alone,P172,0
+Model 5,Alone,P173,0
+Model 5,Alone,P174,0
+Model 5,Alone,P175,1
+Model 5,Alone,P176,0
+Model 5,Alone,P177,0
+Model 5,Alone,P178,0.5
+Model 5,Alone,P179,0
+Model 5,Alone,P180,1
+Model 5,Alone,P181,0
+Model 5,Alone,P182,0
+Model 5,Alone,P183,0
+Model 5,Alone,P184,0
+Model 5,Alone,P185,1
+Model 5,Alone,P186,0.5
+Model 5,Alone,P187,1
+Model 5,Alone,P188,1
+Model 5,Alone,P189,0
+Model 5,Alone,P190,1
+Model 5,Alone,P191,1
+Model 5,Alone,P192,1
+Model 5,Alone,P193,0
+Model 5,Alone,P194,1
+Model 5,Alone,P195,0
+Model 5,Alone,P196,0
+Model 5,Alone,P197,1
+Model 5,Alone,P198,1
+Model 5,Alone,P199,1
+Model 5,Alone,P200,0
+Model 5,Alone,P201,1
+Model 5,Alone,P202,0
+Model 5,Alone,P203,0
+Model 5,Alone,P204,0
+Model 5,Alone,P205,1
+Model 5,Alone,P206,1
+Model 5,Alone,P207,0
+Model 5,Alone,P208,0
+Model 5,Alone,P209,0
+Model 5,Alone,P210,1
+Model 5,Alone,P211,0.5
+Model 5,Alone,P212,0.5
+Model 5,Alone,P213,0
+Model 5,Alone,P214,1
+Model 5,Alone,P215,0
+Model 5,Alone,P216,0
+Model 5,Alone,P217,1
+Model 5,Alone,P218,1
+Model 5,Alone,P219,0
+Model 5,Alone,P220,1
+Model 5,Alone,P221,1
+Model 5,Alone,P222,0
+Model 5,Alone,P223,0
+Model 5,Alone,P224,0
+Model 5,Alone,P225,1
+Model 5,Alone,P226,0.5
+Model 5,Alone,P227,1
+Model 5,Alone,P228,0
+Model 5,Alone,P229,0
+Model 5,Alone,P230,0
+Model 5,Alone,P231,0.5
+Model 5,Alone,P232,1
+Model 5,Alone,P233,0
+Model 5,Alone,P234,1
+Model 5,Alone,P235,1
+Model 5,Alone,P236,0.5
+Model 5,Alone,P237,1
+Model 5,Alone,P238,0
+Model 5,Alone,P239,1
+Model 5,Alone,P240,0
+Model 5,Alone,P241,0.5
+Model 5,Alone,P242,0
+Model 5,Alone,P243,0
+Model 5,Alone,P244,0
+Model 5,Alone,P245,0
+Model 5,Alone,P246,0
+Model 5,Alone,P247,1
+Model 5,Alone,P248,1
+Model 5,Alone,P249,1
+Model 5,Alone,P250,1
+Model 5,Alone,P251,0
+Model 5,Alone,P252,1
+Model 5,Alone,P253,0
+Model 5,Alone,P254,0
+Model 5,Alone,P255,0
+Model 5,Alone,P256,1
+Model 5,Alone,P257,0
+Model 5,Alone,P258,0
+Model 5,Alone,P259,1
+Model 5,Alone,P260,1
+Model 5,Alone,P261,0.5
+Model 5,Alone,P262,0
+Model 5,Alone,P263,0
+Model 5,Alone,P264,0
+Model 5,Alone,P265,0
+Model 5,Alone,P266,1
+Model 5,Alone,P267,0.5
+Model 5,Alone,P268,0
+Model 5,Alone,P269,0
+Model 5,Alone,P270,0
+Model 5,Alone,P271,1
+Model 5,Alone,P272,1
+Model 5,Alone,P273,0
+Model 5,Alone,P274,0
+Model 5,Alone,P275,0
+Model 5,Alone,P276,1
+Model 5,Alone,P277,0
+Model 5,Alone,P278,1
+Model 5,Alone,P279,0
+Model 5,Alone,P280,0
+Model 5,Alone,P281,0
+Model 5,Alone,P282,1
+Model 5,Alone,P283,0
+Model 5,Alone,P284,1
+Model 5,Alone,P285,0
+Model 5,Alone,P286,0
+Model 5,Alone,P287,0
+Model 5,Alone,P288,1
+Model 5,Alone,P289,0
+Model 5,Alone,P290,0.5
+Model 5,Alone,P291,1
+Model 5,Alone,P292,1
+Model 5,Alone,P293,0.5
+Model 5,Alone,P294,0
+Model 5,Alone,P295,0
+Model 5,Alone,P296,1
+Model 5,Alone,P297,0
+Model 5,Alone,P298,0.5
+Model 5,Alone,P299,1
+Model 5,Alone,P300,0
+Model 5,Alone,P301,0
+Model 5,Alone,P302,0
+Model 5,Alone,P303,1
+Model 5,Alone,P304,0
+Model 5,Alone,P305,0
+Model 5,Alone,P306,0
+Model 5,Alone,P307,0
+Model 5,Alone,P308,0
+Model 5,Alone,P309,1
+Model 5,Alone,P310,0
+Model 5,Alone,P311,0
+Model 5,Alone,P312,0.5
+Model 5,Alone,P313,1
+Model 5,Alone,P314,0
+Model 5,Alone,P315,0
+Model 5,Alone,P316,0
+Model 5,Alone,P317,0.5
+Model 5,Alone,P318,0
+Model 5,Alone,P319,0
+Model 5,Alone,P320,0
+Model 5,Alone,P321,0
+Model 5,Alone,P322,0
+Model 5,Alone,P323,0
+Model 5,Alone,P324,0
+Model 5,Alone,P325,1
+Model 5,Alone,P326,1
+Model 5,Alone,P327,0
+Model 5,Alone,P328,0
+Model 5,Alone,P329,1
+Model 5,Alone,P330,0
+Model 5,Alone,P331,1
+Model 5,Alone,P332,0
+Model 5,Alone,P333,1
+Model 5,Alone,P334,0
+Model 5,Alone,P335,1
+Model 5,Alone,P336,1
+Model 5,Alone,P337,0
+Model 5,Alone,P338,0
+Model 5,Alone,P339,1
+Model 5,Alone,P340,0
+Model 5,Alone,P341,0
+Model 5,Alone,P342,0
+Model 5,Alone,P343,0
+Model 5,Alone,P344,0
+Model 5,Alone,P345,1
+Model 5,Alone,P346,0
+Model 5,Alone,P347,0
+Model 5,Alone,P348,1
+Model 5,Alone,P349,0
+Model 5,Alone,P350,0
+Model 5,Alone,P351,0
+Model 5,Alone,P352,1
+Model 5,Alone,P353,1
+Model 5,Alone,P354,0
+Model 5,Alone,P355,0.5
+Model 5,Alone,P356,1
+Model 5,Alone,P357,0
+Model 5,Alone,P358,1
+Model 5,Alone,P359,0
+Model 5,Alone,P360,0
+Model 5,Alone,P361,1
+Model 5,Alone,P362,0.5
+Model 5,Alone,P363,0
+Model 5,Alone,P364,1
+Model 5,Alone,P365,1
+Model 5,Alone,P366,0
+Model 5,Alone,P367,0.5
+Model 5,Alone,P368,0
+Model 5,Alone,P369,0
+Model 5,Alone,P370,0
+Model 5,Alone,P371,0
+Model 5,Alone,P372,1
+Model 5,Alone,P373,0
+Model 5,Alone,P374,0
+Model 5,Alone,P375,0
+Model 5,Alone,P376,0
+Model 5,Alone,P377,1
+Model 5,Alone,P378,0
+Model 5,Alone,P379,1
+Model 5,Alone,P380,0
+Model 5,Alone,P381,0
+Model 5,Alone,P382,0
+Model 5,Alone,P383,0
+Model 5,Alone,P384,1
+Model 5,Alone,P385,0
+Model 5,Alone,P386,0
+Model 5,Alone,P387,0
+Model 5,Alone,P388,0.5
+Model 5,Alone,P389,0
+Model 5,Alone,P390,1
+Model 5,Alone,P391,0
+Model 5,Alone,P392,0.5
+Model 5,Alone,P393,0
+Model 5,Alone,P394,0.5
+Model 5,Alone,P395,0.5
+Model 5,Alone,P396,0.5
+Model 5,Alone,P397,0
+Model 5,Alone,P398,1
+Model 5,Alone,P399,1
+Model 5,Alone,P400,0
+Model 5,With other models' answers,P001,1
+Model 5,With other models' answers,P002,0
+Model 5,With other models' answers,P003,0
+Model 5,With other models' answers,P004,0
+Model 5,With other models' answers,P005,1
+Model 5,With other models' answers,P006,0.5
+Model 5,With other models' answers,P007,1
+Model 5,With other models' answers,P008,0
+Model 5,With other models' answers,P009,1
+Model 5,With other models' answers,P010,1
+Model 5,With other models' answers,P011,1
+Model 5,With other models' answers,P012,1
+Model 5,With other models' answers,P013,0
+Model 5,With other models' answers,P014,1
+Model 5,With other models' answers,P015,1
+Model 5,With other models' answers,P016,1
+Model 5,With other models' answers,P017,0
+Model 5,With other models' answers,P018,0
+Model 5,With other models' answers,P019,0
+Model 5,With other models' answers,P020,0
+Model 5,With other models' answers,P021,0
+Model 5,With other models' answers,P022,0
+Model 5,With other models' answers,P023,0.5
+Model 5,With other models' answers,P024,1
+Model 5,With other models' answers,P025,0.5
+Model 5,With other models' answers,P026,1
+Model 5,With other models' answers,P027,0
+Model 5,With other models' answers,P028,1
+Model 5,With other models' answers,P029,0
+Model 5,With other models' answers,P030,1
+Model 5,With other models' answers,P031,1
+Model 5,With other models' answers,P032,1
+Model 5,With other models' answers,P033,0
+Model 5,With other models' answers,P034,1
+Model 5,With other models' answers,P035,0
+Model 5,With other models' answers,P036,0
+Model 5,With other models' answers,P037,0
+Model 5,With other models' answers,P038,0.5
+Model 5,With other models' answers,P039,1
+Model 5,With other models' answers,P040,1
+Model 5,With other models' answers,P041,0
+Model 5,With other models' answers,P042,1
+Model 5,With other models' answers,P043,1
+Model 5,With other models' answers,P044,0
+Model 5,With other models' answers,P045,0
+Model 5,With other models' answers,P046,1
+Model 5,With other models' answers,P047,0
+Model 5,With other models' answers,P048,1
+Model 5,With other models' answers,P049,0
+Model 5,With other models' answers,P050,1
+Model 5,With other models' answers,P051,0
+Model 5,With other models' answers,P052,0
+Model 5,With other models' answers,P053,0.5
+Model 5,With other models' answers,P054,1
+Model 5,With other models' answers,P055,0.5
+Model 5,With other models' answers,P056,1
+Model 5,With other models' answers,P057,1
+Model 5,With other models' answers,P058,1
+Model 5,With other models' answers,P059,0
+Model 5,With other models' answers,P060,0
+Model 5,With other models' answers,P061,1
+Model 5,With other models' answers,P062,1
+Model 5,With other models' answers,P063,1
+Model 5,With other models' answers,P064,0
+Model 5,With other models' answers,P065,1
+Model 5,With other models' answers,P066,0
+Model 5,With other models' answers,P067,0
+Model 5,With other models' answers,P068,0
+Model 5,With other models' answers,P069,1
+Model 5,With other models' answers,P070,1
+Model 5,With other models' answers,P071,0
+Model 5,With other models' answers,P072,0
+Model 5,With other models' answers,P073,0
+Model 5,With other models' answers,P074,0
+Model 5,With other models' answers,P075,0
+Model 5,With other models' answers,P076,1
+Model 5,With other models' answers,P077,0
+Model 5,With other models' answers,P078,0
+Model 5,With other models' answers,P079,1
+Model 5,With other models' answers,P080,1
+Model 5,With other models' answers,P081,0.5
+Model 5,With other models' answers,P082,0
+Model 5,With other models' answers,P083,1
+Model 5,With other models' answers,P084,0
+Model 5,With other models' answers,P085,0
+Model 5,With other models' answers,P086,1
+Model 5,With other models' answers,P087,1
+Model 5,With other models' answers,P088,1
+Model 5,With other models' answers,P089,1
+Model 5,With other models' answers,P090,0
+Model 5,With other models' answers,P091,1
+Model 5,With other models' answers,P092,0
+Model 5,With other models' answers,P093,1
+Model 5,With other models' answers,P094,1
+Model 5,With other models' answers,P095,1
+Model 5,With other models' answers,P096,0
+Model 5,With other models' answers,P097,0
+Model 5,With other models' answers,P098,0
+Model 5,With other models' answers,P099,0
+Model 5,With other models' answers,P100,0
+Model 5,With other models' answers,P101,0.5
+Model 5,With other models' answers,P102,0
+Model 5,With other models' answers,P103,0
+Model 5,With other models' answers,P104,1
+Model 5,With other models' answers,P105,0
+Model 5,With other models' answers,P106,0
+Model 5,With other models' answers,P107,0
+Model 5,With other models' answers,P108,1
+Model 5,With other models' answers,P109,0
+Model 5,With other models' answers,P110,1
+Model 5,With other models' answers,P111,0
+Model 5,With other models' answers,P112,1
+Model 5,With other models' answers,P113,0
+Model 5,With other models' answers,P114,0
+Model 5,With other models' answers,P115,0
+Model 5,With other models' answers,P116,0
+Model 5,With other models' answers,P117,0
+Model 5,With other models' answers,P118,0
+Model 5,With other models' answers,P119,0
+Model 5,With other models' answers,P120,0
+Model 5,With other models' answers,P121,1
+Model 5,With other models' answers,P122,0
+Model 5,With other models' answers,P123,0.5
+Model 5,With other models' answers,P124,0
+Model 5,With other models' answers,P125,0
+Model 5,With other models' answers,P126,1
+Model 5,With other models' answers,P127,0.5
+Model 5,With other models' answers,P128,0
+Model 5,With other models' answers,P129,1
+Model 5,With other models' answers,P130,0
+Model 5,With other models' answers,P131,0.5
+Model 5,With other models' answers,P132,0
+Model 5,With other models' answers,P133,0
+Model 5,With other models' answers,P134,0
+Model 5,With other models' answers,P135,0
+Model 5,With other models' answers,P136,0
+Model 5,With other models' answers,P137,0
+Model 5,With other models' answers,P138,1
+Model 5,With other models' answers,P139,1
+Model 5,With other models' answers,P140,1
+Model 5,With other models' answers,P141,1
+Model 5,With other models' answers,P142,0
+Model 5,With other models' answers,P143,0
+Model 5,With other models' answers,P144,1
+Model 5,With other models' answers,P145,0.5
+Model 5,With other models' answers,P146,0
+Model 5,With other models' answers,P147,0
+Model 5,With other models' answers,P148,1
+Model 5,With other models' answers,P149,1
+Model 5,With other models' answers,P150,0
+Model 5,With other models' answers,P151,0.5
+Model 5,With other models' answers,P152,1
+Model 5,With other models' answers,P153,0.5
+Model 5,With other models' answers,P154,0
+Model 5,With other models' answers,P155,0
+Model 5,With other models' answers,P156,1
+Model 5,With other models' answers,P157,1
+Model 5,With other models' answers,P158,0
+Model 5,With other models' answers,P159,0
+Model 5,With other models' answers,P160,0
+Model 5,With other models' answers,P161,1
+Model 5,With other models' answers,P162,0
+Model 5,With other models' answers,P163,0
+Model 5,With other models' answers,P164,1
+Model 5,With other models' answers,P165,0
+Model 5,With other models' answers,P166,1
+Model 5,With other models' answers,P167,1
+Model 5,With other models' answers,P168,1
+Model 5,With other models' answers,P169,0
+Model 5,With other models' answers,P170,0.5
+Model 5,With other models' answers,P171,1
+Model 5,With other models' answers,P172,1
+Model 5,With other models' answers,P173,0
+Model 5,With other models' answers,P174,1
+Model 5,With other models' answers,P175,1
+Model 5,With other models' answers,P176,1
+Model 5,With other models' answers,P177,1
+Model 5,With other models' answers,P178,0
+Model 5,With other models' answers,P179,0.5
+Model 5,With other models' answers,P180,1
+Model 5,With other models' answers,P181,0.5
+Model 5,With other models' answers,P182,0
+Model 5,With other models' answers,P183,0
+Model 5,With other models' answers,P184,0
+Model 5,With other models' answers,P185,1
+Model 5,With other models' answers,P186,0
+Model 5,With other models' answers,P187,0
+Model 5,With other models' answers,P188,0
+Model 5,With other models' answers,P189,1
+Model 5,With other models' answers,P190,0
+Model 5,With other models' answers,P191,0
+Model 5,With other models' answers,P192,1
+Model 5,With other models' answers,P193,1
+Model 5,With other models' answers,P194,0.5
+Model 5,With other models' answers,P195,0
+Model 5,With other models' answers,P196,0
+Model 5,With other models' answers,P197,0
+Model 5,With other models' answers,P198,0
+Model 5,With other models' answers,P199,1
+Model 5,With other models' answers,P200,0
+Model 5,With other models' answers,P201,0
+Model 5,With other models' answers,P202,0
+Model 5,With other models' answers,P203,1
+Model 5,With other models' answers,P204,1
+Model 5,With other models' answers,P205,0
+Model 5,With other models' answers,P206,0
+Model 5,With other models' answers,P207,1
+Model 5,With other models' answers,P208,0
+Model 5,With other models' answers,P209,0
+Model 5,With other models' answers,P210,1
+Model 5,With other models' answers,P211,1
+Model 5,With other models' answers,P212,1
+Model 5,With other models' answers,P213,1
+Model 5,With other models' answers,P214,0
+Model 5,With other models' answers,P215,0
+Model 5,With other models' answers,P216,0
+Model 5,With other models' answers,P217,0
+Model 5,With other models' answers,P218,1
+Model 5,With other models' answers,P219,1
+Model 5,With other models' answers,P220,0
+Model 5,With other models' answers,P221,1
+Model 5,With other models' answers,P222,1
+Model 5,With other models' answers,P223,0
+Model 5,With other models' answers,P224,0
+Model 5,With other models' answers,P225,0
+Model 5,With other models' answers,P226,0
+Model 5,With other models' answers,P227,1
+Model 5,With other models' answers,P228,0
+Model 5,With other models' answers,P229,0
+Model 5,With other models' answers,P230,1
+Model 5,With other models' answers,P231,0
+Model 5,With other models' answers,P232,0
+Model 5,With other models' answers,P233,1
+Model 5,With other models' answers,P234,1
+Model 5,With other models' answers,P235,0.5
+Model 5,With other models' answers,P236,0.5
+Model 5,With other models' answers,P237,0.5
+Model 5,With other models' answers,P238,0
+Model 5,With other models' answers,P239,1
+Model 5,With other models' answers,P240,0
+Model 5,With other models' answers,P241,1
+Model 5,With other models' answers,P242,0
+Model 5,With other models' answers,P243,1
+Model 5,With other models' answers,P244,0
+Model 5,With other models' answers,P245,0
+Model 5,With other models' answers,P246,1
+Model 5,With other models' answers,P247,0
+Model 5,With other models' answers,P248,0
+Model 5,With other models' answers,P249,1
+Model 5,With other models' answers,P250,0
+Model 5,With other models' answers,P251,0
+Model 5,With other models' answers,P252,0
+Model 5,With other models' answers,P253,0
+Model 5,With other models' answers,P254,0
+Model 5,With other models' answers,P255,0
+Model 5,With other models' answers,P256,1
+Model 5,With other models' answers,P257,1
+Model 5,With other models' answers,P258,0
+Model 5,With other models' answers,P259,1
+Model 5,With other models' answers,P260,1
+Model 5,With other models' answers,P261,1
+Model 5,With other models' answers,P262,0
+Model 5,With other models' answers,P263,1
+Model 5,With other models' answers,P264,1
+Model 5,With other models' answers,P265,0
+Model 5,With other models' answers,P266,1
+Model 5,With other models' answers,P267,1
+Model 5,With other models' answers,P268,1
+Model 5,With other models' answers,P269,0
+Model 5,With other models' answers,P270,0
+Model 5,With other models' answers,P271,1
+Model 5,With other models' answers,P272,0
+Model 5,With other models' answers,P273,0
+Model 5,With other models' answers,P274,1
+Model 5,With other models' answers,P275,0
+Model 5,With other models' answers,P276,0
+Model 5,With other models' answers,P277,1
+Model 5,With other models' answers,P278,0
+Model 5,With other models' answers,P279,0
+Model 5,With other models' answers,P280,0
+Model 5,With other models' answers,P281,0
+Model 5,With other models' answers,P282,1
+Model 5,With other models' answers,P283,1
+Model 5,With other models' answers,P284,0
+Model 5,With other models' answers,P285,0.5
+Model 5,With other models' answers,P286,1
+Model 5,With other models' answers,P287,0
+Model 5,With other models' answers,P288,0.5
+Model 5,With other models' answers,P289,0
+Model 5,With other models' answers,P290,1
+Model 5,With other models' answers,P291,0
+Model 5,With other models' answers,P292,1
+Model 5,With other models' answers,P293,0
+Model 5,With other models' answers,P294,1
+Model 5,With other models' answers,P295,1
+Model 5,With other models' answers,P296,1
+Model 5,With other models' answers,P297,0
+Model 5,With other models' answers,P298,0
+Model 5,With other models' answers,P299,1
+Model 5,With other models' answers,P300,0
+Model 5,With other models' answers,P301,0
+Model 5,With other models' answers,P302,0
+Model 5,With other models' answers,P303,0
+Model 5,With other models' answers,P304,0
+Model 5,With other models' answers,P305,0
+Model 5,With other models' answers,P306,1
+Model 5,With other models' answers,P307,1
+Model 5,With other models' answers,P308,0
+Model 5,With other models' answers,P309,1
+Model 5,With other models' answers,P310,1
+Model 5,With other models' answers,P311,0
+Model 5,With other models' answers,P312,0
+Model 5,With other models' answers,P313,1
+Model 5,With other models' answers,P314,1
+Model 5,With other models' answers,P315,0
+Model 5,With other models' answers,P316,1
+Model 5,With other models' answers,P317,0
+Model 5,With other models' answers,P318,1
+Model 5,With other models' answers,P319,1
+Model 5,With other models' answers,P320,0
+Model 5,With other models' answers,P321,1
+Model 5,With other models' answers,P322,0
+Model 5,With other models' answers,P323,0.5
+Model 5,With other models' answers,P324,1
+Model 5,With other models' answers,P325,0
+Model 5,With other models' answers,P326,0
+Model 5,With other models' answers,P327,0
+Model 5,With other models' answers,P328,0
+Model 5,With other models' answers,P329,0
+Model 5,With other models' answers,P330,0
+Model 5,With other models' answers,P331,1
+Model 5,With other models' answers,P332,0
+Model 5,With other models' answers,P333,0
+Model 5,With other models' answers,P334,1
+Model 5,With other models' answers,P335,0
+Model 5,With other models' answers,P336,1
+Model 5,With other models' answers,P337,0
+Model 5,With other models' answers,P338,1
+Model 5,With other models' answers,P339,1
+Model 5,With other models' answers,P340,1
+Model 5,With other models' answers,P341,0
+Model 5,With other models' answers,P342,0
+Model 5,With other models' answers,P343,0
+Model 5,With other models' answers,P344,0
+Model 5,With other models' answers,P345,1
+Model 5,With other models' answers,P346,1
+Model 5,With other models' answers,P347,1
+Model 5,With other models' answers,P348,0
+Model 5,With other models' answers,P349,1
+Model 5,With other models' answers,P350,0
+Model 5,With other models' answers,P351,0
+Model 5,With other models' answers,P352,1
+Model 5,With other models' answers,P353,1
+Model 5,With other models' answers,P354,1
+Model 5,With other models' answers,P355,0
+Model 5,With other models' answers,P356,1
+Model 5,With other models' answers,P357,0
+Model 5,With other models' answers,P358,1
+Model 5,With other models' answers,P359,0
+Model 5,With other models' answers,P360,1
+Model 5,With other models' answers,P361,1
+Model 5,With other models' answers,P362,0
+Model 5,With other models' answers,P363,1
+Model 5,With other models' answers,P364,1
+Model 5,With other models' answers,P365,1
+Model 5,With other models' answers,P366,1
+Model 5,With other models' answers,P367,0
+Model 5,With other models' answers,P368,0
+Model 5,With other models' answers,P369,1
+Model 5,With other models' answers,P370,0
+Model 5,With other models' answers,P371,0.5
+Model 5,With other models' answers,P372,1
+Model 5,With other models' answers,P373,0
+Model 5,With other models' answers,P374,1
+Model 5,With other models' answers,P375,1
+Model 5,With other models' answers,P376,0
+Model 5,With other models' answers,P377,1
+Model 5,With other models' answers,P378,0
+Model 5,With other models' answers,P379,1
+Model 5,With other models' answers,P380,0
+Model 5,With other models' answers,P381,1
+Model 5,With other models' answers,P382,0.5
+Model 5,With other models' answers,P383,0
+Model 5,With other models' answers,P384,0
+Model 5,With other models' answers,P385,0
+Model 5,With other models' answers,P386,0
+Model 5,With other models' answers,P387,0
+Model 5,With other models' answers,P388,0
+Model 5,With other models' answers,P389,1
+Model 5,With other models' answers,P390,0
+Model 5,With other models' answers,P391,0
+Model 5,With other models' answers,P392,0
+Model 5,With other models' answers,P393,1
+Model 5,With other models' answers,P394,1
+Model 5,With other models' answers,P395,0.5
+Model 5,With other models' answers,P396,1
+Model 5,With other models' answers,P397,0
+Model 5,With other models' answers,P398,1
+Model 5,With other models' answers,P399,1
+Model 5,With other models' answers,P400,0
+Model 6,Alone,P001,1
+Model 6,Alone,P002,0.5
+Model 6,Alone,P003,0
+Model 6,Alone,P004,1
+Model 6,Alone,P005,0
+Model 6,Alone,P006,1
+Model 6,Alone,P007,0.5
+Model 6,Alone,P008,1
+Model 6,Alone,P009,1
+Model 6,Alone,P010,1
+Model 6,Alone,P011,1
+Model 6,Alone,P012,1
+Model 6,Alone,P013,0
+Model 6,Alone,P014,1
+Model 6,Alone,P015,1
+Model 6,Alone,P016,0.5
+Model 6,Alone,P017,1
+Model 6,Alone,P018,1
+Model 6,Alone,P019,0
+Model 6,Alone,P020,0
+Model 6,Alone,P021,1
+Model 6,Alone,P022,1
+Model 6,Alone,P023,0
+Model 6,Alone,P024,0
+Model 6,Alone,P025,0
+Model 6,Alone,P026,1
+Model 6,Alone,P027,0
+Model 6,Alone,P028,1
+Model 6,Alone,P029,0
+Model 6,Alone,P030,1
+Model 6,Alone,P031,1
+Model 6,Alone,P032,0
+Model 6,Alone,P033,0
+Model 6,Alone,P034,1
+Model 6,Alone,P035,0.5
+Model 6,Alone,P036,1
+Model 6,Alone,P037,0
+Model 6,Alone,P038,0
+Model 6,Alone,P039,1
+Model 6,Alone,P040,0
+Model 6,Alone,P041,1
+Model 6,Alone,P042,0
+Model 6,Alone,P043,0.5
+Model 6,Alone,P044,0
+Model 6,Alone,P045,0.5
+Model 6,Alone,P046,1
+Model 6,Alone,P047,1
+Model 6,Alone,P048,0
+Model 6,Alone,P049,1
+Model 6,Alone,P050,1
+Model 6,Alone,P051,1
+Model 6,Alone,P052,0
+Model 6,Alone,P053,1
+Model 6,Alone,P054,0
+Model 6,Alone,P055,0
+Model 6,Alone,P056,0
+Model 6,Alone,P057,0
+Model 6,Alone,P058,0.5
+Model 6,Alone,P059,1
+Model 6,Alone,P060,0.5
+Model 6,Alone,P061,0
+Model 6,Alone,P062,0
+Model 6,Alone,P063,0
+Model 6,Alone,P064,1
+Model 6,Alone,P065,1
+Model 6,Alone,P066,1
+Model 6,Alone,P067,0
+Model 6,Alone,P068,1
+Model 6,Alone,P069,0
+Model 6,Alone,P070,0
+Model 6,Alone,P071,1
+Model 6,Alone,P072,0
+Model 6,Alone,P073,0.5
+Model 6,Alone,P074,0
+Model 6,Alone,P075,1
+Model 6,Alone,P076,1
+Model 6,Alone,P077,1
+Model 6,Alone,P078,0
+Model 6,Alone,P079,0
+Model 6,Alone,P080,1
+Model 6,Alone,P081,1
+Model 6,Alone,P082,1
+Model 6,Alone,P083,0
+Model 6,Alone,P084,0
+Model 6,Alone,P085,0
+Model 6,Alone,P086,0
+Model 6,Alone,P087,0
+Model 6,Alone,P088,1
+Model 6,Alone,P089,0.5
+Model 6,Alone,P090,0
+Model 6,Alone,P091,0
+Model 6,Alone,P092,0
+Model 6,Alone,P093,1
+Model 6,Alone,P094,1
+Model 6,Alone,P095,1
+Model 6,Alone,P096,1
+Model 6,Alone,P097,1
+Model 6,Alone,P098,0
+Model 6,Alone,P099,0
+Model 6,Alone,P100,0
+Model 6,Alone,P101,0
+Model 6,Alone,P102,1
+Model 6,Alone,P103,0
+Model 6,Alone,P104,0
+Model 6,Alone,P105,1
+Model 6,Alone,P106,0
+Model 6,Alone,P107,0
+Model 6,Alone,P108,1
+Model 6,Alone,P109,1
+Model 6,Alone,P110,0
+Model 6,Alone,P111,0
+Model 6,Alone,P112,1
+Model 6,Alone,P113,1
+Model 6,Alone,P114,1
+Model 6,Alone,P115,0.5
+Model 6,Alone,P116,0.5
+Model 6,Alone,P117,1
+Model 6,Alone,P118,1
+Model 6,Alone,P119,0
+Model 6,Alone,P120,0
+Model 6,Alone,P121,1
+Model 6,Alone,P122,1
+Model 6,Alone,P123,0
+Model 6,Alone,P124,1
+Model 6,Alone,P125,1
+Model 6,Alone,P126,1
+Model 6,Alone,P127,1
+Model 6,Alone,P128,1
+Model 6,Alone,P129,0
+Model 6,Alone,P130,0
+Model 6,Alone,P131,0.5
+Model 6,Alone,P132,1
+Model 6,Alone,P133,1
+Model 6,Alone,P134,1
+Model 6,Alone,P135,1
+Model 6,Alone,P136,1
+Model 6,Alone,P137,0
+Model 6,Alone,P138,0
+Model 6,Alone,P139,1
+Model 6,Alone,P140,1
+Model 6,Alone,P141,0
+Model 6,Alone,P142,0
+Model 6,Alone,P143,0
+Model 6,Alone,P144,0.5
+Model 6,Alone,P145,0
+Model 6,Alone,P146,1
+Model 6,Alone,P147,0
+Model 6,Alone,P148,1
+Model 6,Alone,P149,1
+Model 6,Alone,P150,0
+Model 6,Alone,P151,1
+Model 6,Alone,P152,1
+Model 6,Alone,P153,0.5
+Model 6,Alone,P154,0
+Model 6,Alone,P155,0
+Model 6,Alone,P156,1
+Model 6,Alone,P157,0
+Model 6,Alone,P158,0
+Model 6,Alone,P159,1
+Model 6,Alone,P160,0
+Model 6,Alone,P161,0.5
+Model 6,Alone,P162,0
+Model 6,Alone,P163,1
+Model 6,Alone,P164,0
+Model 6,Alone,P165,1
+Model 6,Alone,P166,0
+Model 6,Alone,P167,1
+Model 6,Alone,P168,1
+Model 6,Alone,P169,1
+Model 6,Alone,P170,0
+Model 6,Alone,P171,0
+Model 6,Alone,P172,0.5
+Model 6,Alone,P173,0
+Model 6,Alone,P174,1
+Model 6,Alone,P175,1
+Model 6,Alone,P176,0
+Model 6,Alone,P177,1
+Model 6,Alone,P178,1
+Model 6,Alone,P179,0
+Model 6,Alone,P180,0
+Model 6,Alone,P181,0
+Model 6,Alone,P182,1
+Model 6,Alone,P183,1
+Model 6,Alone,P184,0
+Model 6,Alone,P185,0
+Model 6,Alone,P186,1
+Model 6,Alone,P187,0
+Model 6,Alone,P188,0
+Model 6,Alone,P189,1
+Model 6,Alone,P190,0
+Model 6,Alone,P191,1
+Model 6,Alone,P192,1
+Model 6,Alone,P193,0.5
+Model 6,Alone,P194,0
+Model 6,Alone,P195,0.5
+Model 6,Alone,P196,1
+Model 6,Alone,P197,0
+Model 6,Alone,P198,0.5
+Model 6,Alone,P199,0
+Model 6,Alone,P200,0
+Model 6,Alone,P201,0
+Model 6,Alone,P202,0.5
+Model 6,Alone,P203,0
+Model 6,Alone,P204,1
+Model 6,Alone,P205,1
+Model 6,Alone,P206,0.5
+Model 6,Alone,P207,0
+Model 6,Alone,P208,0
+Model 6,Alone,P209,1
+Model 6,Alone,P210,1
+Model 6,Alone,P211,1
+Model 6,Alone,P212,0
+Model 6,Alone,P213,0
+Model 6,Alone,P214,0
+Model 6,Alone,P215,1
+Model 6,Alone,P216,0
+Model 6,Alone,P217,1
+Model 6,Alone,P218,1
+Model 6,Alone,P219,0
+Model 6,Alone,P220,0
+Model 6,Alone,P221,1
+Model 6,Alone,P222,0
+Model 6,Alone,P223,0
+Model 6,Alone,P224,1
+Model 6,Alone,P225,1
+Model 6,Alone,P226,0
+Model 6,Alone,P227,1
+Model 6,Alone,P228,1
+Model 6,Alone,P229,0
+Model 6,Alone,P230,1
+Model 6,Alone,P231,0.5
+Model 6,Alone,P232,0
+Model 6,Alone,P233,1
+Model 6,Alone,P234,0
+Model 6,Alone,P235,0
+Model 6,Alone,P236,1
+Model 6,Alone,P237,1
+Model 6,Alone,P238,0.5
+Model 6,Alone,P239,0
+Model 6,Alone,P240,0
+Model 6,Alone,P241,1
+Model 6,Alone,P242,0
+Model 6,Alone,P243,1
+Model 6,Alone,P244,0
+Model 6,Alone,P245,1
+Model 6,Alone,P246,0
+Model 6,Alone,P247,0
+Model 6,Alone,P248,1
+Model 6,Alone,P249,1
+Model 6,Alone,P250,1
+Model 6,Alone,P251,1
+Model 6,Alone,P252,1
+Model 6,Alone,P253,0
+Model 6,Alone,P254,0
+Model 6,Alone,P255,0
+Model 6,Alone,P256,0
+Model 6,Alone,P257,0
+Model 6,Alone,P258,0.5
+Model 6,Alone,P259,1
+Model 6,Alone,P260,1
+Model 6,Alone,P261,0
+Model 6,Alone,P262,0
+Model 6,Alone,P263,0.5
+Model 6,Alone,P264,0
+Model 6,Alone,P265,0
+Model 6,Alone,P266,1
+Model 6,Alone,P267,0
+Model 6,Alone,P268,0
+Model 6,Alone,P269,1
+Model 6,Alone,P270,1
+Model 6,Alone,P271,0
+Model 6,Alone,P272,0.5
+Model 6,Alone,P273,0
+Model 6,Alone,P274,0
+Model 6,Alone,P275,1
+Model 6,Alone,P276,1
+Model 6,Alone,P277,0
+Model 6,Alone,P278,0
+Model 6,Alone,P279,0
+Model 6,Alone,P280,0.5
+Model 6,Alone,P281,1
+Model 6,Alone,P282,1
+Model 6,Alone,P283,0.5
+Model 6,Alone,P284,0
+Model 6,Alone,P285,0
+Model 6,Alone,P286,1
+Model 6,Alone,P287,0
+Model 6,Alone,P288,0.5
+Model 6,Alone,P289,1
+Model 6,Alone,P290,1
+Model 6,Alone,P291,0.5
+Model 6,Alone,P292,0.5
+Model 6,Alone,P293,0
+Model 6,Alone,P294,1
+Model 6,Alone,P295,0
+Model 6,Alone,P296,0
+Model 6,Alone,P297,0
+Model 6,Alone,P298,0
+Model 6,Alone,P299,1
+Model 6,Alone,P300,0
+Model 6,Alone,P301,0
+Model 6,Alone,P302,0.5
+Model 6,Alone,P303,1
+Model 6,Alone,P304,1
+Model 6,Alone,P305,0
+Model 6,Alone,P306,0.5
+Model 6,Alone,P307,0
+Model 6,Alone,P308,1
+Model 6,Alone,P309,0
+Model 6,Alone,P310,1
+Model 6,Alone,P311,0
+Model 6,Alone,P312,1
+Model 6,Alone,P313,0
+Model 6,Alone,P314,0
+Model 6,Alone,P315,1
+Model 6,Alone,P316,1
+Model 6,Alone,P317,1
+Model 6,Alone,P318,0
+Model 6,Alone,P319,0.5
+Model 6,Alone,P320,0
+Model 6,Alone,P321,0.5
+Model 6,Alone,P322,1
+Model 6,Alone,P323,0
+Model 6,Alone,P324,1
+Model 6,Alone,P325,1
+Model 6,Alone,P326,1
+Model 6,Alone,P327,1
+Model 6,Alone,P328,1
+Model 6,Alone,P329,1
+Model 6,Alone,P330,0
+Model 6,Alone,P331,1
+Model 6,Alone,P332,0
+Model 6,Alone,P333,0
+Model 6,Alone,P334,1
+Model 6,Alone,P335,0
+Model 6,Alone,P336,0
+Model 6,Alone,P337,1
+Model 6,Alone,P338,0
+Model 6,Alone,P339,1
+Model 6,Alone,P340,0
+Model 6,Alone,P341,1
+Model 6,Alone,P342,1
+Model 6,Alone,P343,1
+Model 6,Alone,P344,0
+Model 6,Alone,P345,1
+Model 6,Alone,P346,0
+Model 6,Alone,P347,0
+Model 6,Alone,P348,1
+Model 6,Alone,P349,1
+Model 6,Alone,P350,1
+Model 6,Alone,P351,0
+Model 6,Alone,P352,1
+Model 6,Alone,P353,1
+Model 6,Alone,P354,1
+Model 6,Alone,P355,1
+Model 6,Alone,P356,1
+Model 6,Alone,P357,0
+Model 6,Alone,P358,1
+Model 6,Alone,P359,1
+Model 6,Alone,P360,1
+Model 6,Alone,P361,0.5
+Model 6,Alone,P362,1
+Model 6,Alone,P363,1
+Model 6,Alone,P364,1
+Model 6,Alone,P365,0
+Model 6,Alone,P366,1
+Model 6,Alone,P367,0
+Model 6,Alone,P368,0
+Model 6,Alone,P369,0
+Model 6,Alone,P370,1
+Model 6,Alone,P371,1
+Model 6,Alone,P372,1
+Model 6,Alone,P373,0
+Model 6,Alone,P374,0
+Model 6,Alone,P375,0.5
+Model 6,Alone,P376,0
+Model 6,Alone,P377,1
+Model 6,Alone,P378,0
+Model 6,Alone,P379,0
+Model 6,Alone,P380,1
+Model 6,Alone,P381,1
+Model 6,Alone,P382,1
+Model 6,Alone,P383,0
+Model 6,Alone,P384,0
+Model 6,Alone,P385,0
+Model 6,Alone,P386,1
+Model 6,Alone,P387,0
+Model 6,Alone,P388,1
+Model 6,Alone,P389,0
+Model 6,Alone,P390,1
+Model 6,Alone,P391,1
+Model 6,Alone,P392,1
+Model 6,Alone,P393,1
+Model 6,Alone,P394,1
+Model 6,Alone,P395,0
+Model 6,Alone,P396,0
+Model 6,Alone,P397,0
+Model 6,Alone,P398,1
+Model 6,Alone,P399,1
+Model 6,Alone,P400,0
+Model 6,With other models' answers,P001,1
+Model 6,With other models' answers,P002,1
+Model 6,With other models' answers,P003,0
+Model 6,With other models' answers,P004,1
+Model 6,With other models' answers,P005,0.5
+Model 6,With other models' answers,P006,1
+Model 6,With other models' answers,P007,0
+Model 6,With other models' answers,P008,1
+Model 6,With other models' answers,P009,1
+Model 6,With other models' answers,P010,1
+Model 6,With other models' answers,P011,0
+Model 6,With other models' answers,P012,1
+Model 6,With other models' answers,P013,1
+Model 6,With other models' answers,P014,1
+Model 6,With other models' answers,P015,1
+Model 6,With other models' answers,P016,1
+Model 6,With other models' answers,P017,0
+Model 6,With other models' answers,P018,1
+Model 6,With other models' answers,P019,0
+Model 6,With other models' answers,P020,0
+Model 6,With other models' answers,P021,0
+Model 6,With other models' answers,P022,0.5
+Model 6,With other models' answers,P023,0.5
+Model 6,With other models' answers,P024,1
+Model 6,With other models' answers,P025,0
+Model 6,With other models' answers,P026,0
+Model 6,With other models' answers,P027,0
+Model 6,With other models' answers,P028,1
+Model 6,With other models' answers,P029,0
+Model 6,With other models' answers,P030,0
+Model 6,With other models' answers,P031,1
+Model 6,With other models' answers,P032,0
+Model 6,With other models' answers,P033,1
+Model 6,With other models' answers,P034,1
+Model 6,With other models' answers,P035,0
+Model 6,With other models' answers,P036,1
+Model 6,With other models' answers,P037,1
+Model 6,With other models' answers,P038,1
+Model 6,With other models' answers,P039,1
+Model 6,With other models' answers,P040,0
+Model 6,With other models' answers,P041,1
+Model 6,With other models' answers,P042,1
+Model 6,With other models' answers,P043,1
+Model 6,With other models' answers,P044,0.5
+Model 6,With other models' answers,P045,0
+Model 6,With other models' answers,P046,1
+Model 6,With other models' answers,P047,1
+Model 6,With other models' answers,P048,0
+Model 6,With other models' answers,P049,1
+Model 6,With other models' answers,P050,1
+Model 6,With other models' answers,P051,1
+Model 6,With other models' answers,P052,1
+Model 6,With other models' answers,P053,1
+Model 6,With other models' answers,P054,1
+Model 6,With other models' answers,P055,0
+Model 6,With other models' answers,P056,1
+Model 6,With other models' answers,P057,1
+Model 6,With other models' answers,P058,1
+Model 6,With other models' answers,P059,1
+Model 6,With other models' answers,P060,1
+Model 6,With other models' answers,P061,1
+Model 6,With other models' answers,P062,0
+Model 6,With other models' answers,P063,1
+Model 6,With other models' answers,P064,1
+Model 6,With other models' answers,P065,1
+Model 6,With other models' answers,P066,0.5
+Model 6,With other models' answers,P067,0
+Model 6,With other models' answers,P068,0
+Model 6,With other models' answers,P069,1
+Model 6,With other models' answers,P070,0
+Model 6,With other models' answers,P071,0
+Model 6,With other models' answers,P072,0
+Model 6,With other models' answers,P073,1
+Model 6,With other models' answers,P074,1
+Model 6,With other models' answers,P075,0
+Model 6,With other models' answers,P076,0
+Model 6,With other models' answers,P077,1
+Model 6,With other models' answers,P078,0
+Model 6,With other models' answers,P079,0
+Model 6,With other models' answers,P080,1
+Model 6,With other models' answers,P081,1
+Model 6,With other models' answers,P082,0.5
+Model 6,With other models' answers,P083,0
+Model 6,With other models' answers,P084,1
+Model 6,With other models' answers,P085,1
+Model 6,With other models' answers,P086,1
+Model 6,With other models' answers,P087,1
+Model 6,With other models' answers,P088,1
+Model 6,With other models' answers,P089,0
+Model 6,With other models' answers,P090,0
+Model 6,With other models' answers,P091,1
+Model 6,With other models' answers,P092,0.5
+Model 6,With other models' answers,P093,1
+Model 6,With other models' answers,P094,1
+Model 6,With other models' answers,P095,1
+Model 6,With other models' answers,P096,0
+Model 6,With other models' answers,P097,0
+Model 6,With other models' answers,P098,1
+Model 6,With other models' answers,P099,0
+Model 6,With other models' answers,P100,0
+Model 6,With other models' answers,P101,1
+Model 6,With other models' answers,P102,1
+Model 6,With other models' answers,P103,0
+Model 6,With other models' answers,P104,0.5
+Model 6,With other models' answers,P105,1
+Model 6,With other models' answers,P106,1
+Model 6,With other models' answers,P107,1
+Model 6,With other models' answers,P108,1
+Model 6,With other models' answers,P109,0
+Model 6,With other models' answers,P110,1
+Model 6,With other models' answers,P111,0
+Model 6,With other models' answers,P112,1
+Model 6,With other models' answers,P113,0
+Model 6,With other models' answers,P114,0
+Model 6,With other models' answers,P115,1
+Model 6,With other models' answers,P116,0
+Model 6,With other models' answers,P117,1
+Model 6,With other models' answers,P118,1
+Model 6,With other models' answers,P119,0
+Model 6,With other models' answers,P120,1
+Model 6,With other models' answers,P121,0
+Model 6,With other models' answers,P122,1
+Model 6,With other models' answers,P123,1
+Model 6,With other models' answers,P124,1
+Model 6,With other models' answers,P125,0
+Model 6,With other models' answers,P126,1
+Model 6,With other models' answers,P127,0
+Model 6,With other models' answers,P128,0
+Model 6,With other models' answers,P129,1
+Model 6,With other models' answers,P130,1
+Model 6,With other models' answers,P131,1
+Model 6,With other models' answers,P132,1
+Model 6,With other models' answers,P133,0
+Model 6,With other models' answers,P134,0
+Model 6,With other models' answers,P135,0
+Model 6,With other models' answers,P136,1
+Model 6,With other models' answers,P137,0
+Model 6,With other models' answers,P138,0
+Model 6,With other models' answers,P139,1
+Model 6,With other models' answers,P140,0
+Model 6,With other models' answers,P141,0
+Model 6,With other models' answers,P142,0
+Model 6,With other models' answers,P143,0
+Model 6,With other models' answers,P144,1
+Model 6,With other models' answers,P145,0
+Model 6,With other models' answers,P146,0
+Model 6,With other models' answers,P147,0
+Model 6,With other models' answers,P148,0.5
+Model 6,With other models' answers,P149,1
+Model 6,With other models' answers,P150,0
+Model 6,With other models' answers,P151,1
+Model 6,With other models' answers,P152,1
+Model 6,With other models' answers,P153,1
+Model 6,With other models' answers,P154,1
+Model 6,With other models' answers,P155,1
+Model 6,With other models' answers,P156,0
+Model 6,With other models' answers,P157,1
+Model 6,With other models' answers,P158,0
+Model 6,With other models' answers,P159,0
+Model 6,With other models' answers,P160,1
+Model 6,With other models' answers,P161,0
+Model 6,With other models' answers,P162,1
+Model 6,With other models' answers,P163,1
+Model 6,With other models' answers,P164,0
+Model 6,With other models' answers,P165,1
+Model 6,With other models' answers,P166,1
+Model 6,With other models' answers,P167,0
+Model 6,With other models' answers,P168,1
+Model 6,With other models' answers,P169,0
+Model 6,With other models' answers,P170,0
+Model 6,With other models' answers,P171,0
+Model 6,With other models' answers,P172,0
+Model 6,With other models' answers,P173,1
+Model 6,With other models' answers,P174,1
+Model 6,With other models' answers,P175,1
+Model 6,With other models' answers,P176,0
+Model 6,With other models' answers,P177,1
+Model 6,With other models' answers,P178,1
+Model 6,With other models' answers,P179,0
+Model 6,With other models' answers,P180,0
+Model 6,With other models' answers,P181,1
+Model 6,With other models' answers,P182,0
+Model 6,With other models' answers,P183,1
+Model 6,With other models' answers,P184,1
+Model 6,With other models' answers,P185,1
+Model 6,With other models' answers,P186,0
+Model 6,With other models' answers,P187,1
+Model 6,With other models' answers,P188,0.5
+Model 6,With other models' answers,P189,1
+Model 6,With other models' answers,P190,0
+Model 6,With other models' answers,P191,1
+Model 6,With other models' answers,P192,1
+Model 6,With other models' answers,P193,1
+Model 6,With other models' answers,P194,1
+Model 6,With other models' answers,P195,1
+Model 6,With other models' answers,P196,0
+Model 6,With other models' answers,P197,1
+Model 6,With other models' answers,P198,0.5
+Model 6,With other models' answers,P199,1
+Model 6,With other models' answers,P200,1
+Model 6,With other models' answers,P201,0
+Model 6,With other models' answers,P202,1
+Model 6,With other models' answers,P203,0
+Model 6,With other models' answers,P204,1
+Model 6,With other models' answers,P205,1
+Model 6,With other models' answers,P206,1
+Model 6,With other models' answers,P207,1
+Model 6,With other models' answers,P208,0
+Model 6,With other models' answers,P209,0
+Model 6,With other models' answers,P210,0
+Model 6,With other models' answers,P211,1
+Model 6,With other models' answers,P212,0
+Model 6,With other models' answers,P213,0
+Model 6,With other models' answers,P214,0
+Model 6,With other models' answers,P215,1
+Model 6,With other models' answers,P216,1
+Model 6,With other models' answers,P217,0
+Model 6,With other models' answers,P218,0
+Model 6,With other models' answers,P219,0
+Model 6,With other models' answers,P220,1
+Model 6,With other models' answers,P221,1
+Model 6,With other models' answers,P222,0
+Model 6,With other models' answers,P223,0
+Model 6,With other models' answers,P224,0.5
+Model 6,With other models' answers,P225,0
+Model 6,With other models' answers,P226,1
+Model 6,With other models' answers,P227,1
+Model 6,With other models' answers,P228,1
+Model 6,With other models' answers,P229,0
+Model 6,With other models' answers,P230,1
+Model 6,With other models' answers,P231,0
+Model 6,With other models' answers,P232,1
+Model 6,With other models' answers,P233,1
+Model 6,With other models' answers,P234,1
+Model 6,With other models' answers,P235,0
+Model 6,With other models' answers,P236,0
+Model 6,With other models' answers,P237,1
+Model 6,With other models' answers,P238,0
+Model 6,With other models' answers,P239,1
+Model 6,With other models' answers,P240,0
+Model 6,With other models' answers,P241,1
+Model 6,With other models' answers,P242,0
+Model 6,With other models' answers,P243,0
+Model 6,With other models' answers,P244,1
+Model 6,With other models' answers,P245,0
+Model 6,With other models' answers,P246,0
+Model 6,With other models' answers,P247,0.5
+Model 6,With other models' answers,P248,0.5
+Model 6,With other models' answers,P249,0.5
+Model 6,With other models' answers,P250,0
+Model 6,With other models' answers,P251,0
+Model 6,With other models' answers,P252,1
+Model 6,With other models' answers,P253,0
+Model 6,With other models' answers,P254,0
+Model 6,With other models' answers,P255,1
+Model 6,With other models' answers,P256,1
+Model 6,With other models' answers,P257,0.5
+Model 6,With other models' answers,P258,1
+Model 6,With other models' answers,P259,1
+Model 6,With other models' answers,P260,1
+Model 6,With other models' answers,P261,0
+Model 6,With other models' answers,P262,1
+Model 6,With other models' answers,P263,0.5
+Model 6,With other models' answers,P264,1
+Model 6,With other models' answers,P265,0.5
+Model 6,With other models' answers,P266,0.5
+Model 6,With other models' answers,P267,0
+Model 6,With other models' answers,P268,0
+Model 6,With other models' answers,P269,1
+Model 6,With other models' answers,P270,1
+Model 6,With other models' answers,P271,0
+Model 6,With other models' answers,P272,0
+Model 6,With other models' answers,P273,1
+Model 6,With other models' answers,P274,0
+Model 6,With other models' answers,P275,0
+Model 6,With other models' answers,P276,1
+Model 6,With other models' answers,P277,0
+Model 6,With other models' answers,P278,0
+Model 6,With other models' answers,P279,0
+Model 6,With other models' answers,P280,1
+Model 6,With other models' answers,P281,0.5
+Model 6,With other models' answers,P282,1
+Model 6,With other models' answers,P283,0
+Model 6,With other models' answers,P284,0
+Model 6,With other models' answers,P285,1
+Model 6,With other models' answers,P286,1
+Model 6,With other models' answers,P287,0
+Model 6,With other models' answers,P288,1
+Model 6,With other models' answers,P289,0
+Model 6,With other models' answers,P290,1
+Model 6,With other models' answers,P291,0
+Model 6,With other models' answers,P292,0
+Model 6,With other models' answers,P293,0
+Model 6,With other models' answers,P294,1
+Model 6,With other models' answers,P295,0
+Model 6,With other models' answers,P296,0
+Model 6,With other models' answers,P297,0
+Model 6,With other models' answers,P298,1
+Model 6,With other models' answers,P299,1
+Model 6,With other models' answers,P300,1
+Model 6,With other models' answers,P301,0
+Model 6,With other models' answers,P302,1
+Model 6,With other models' answers,P303,0
+Model 6,With other models' answers,P304,1
+Model 6,With other models' answers,P305,1
+Model 6,With other models' answers,P306,1
+Model 6,With other models' answers,P307,0
+Model 6,With other models' answers,P308,0
+Model 6,With other models' answers,P309,0.5
+Model 6,With other models' answers,P310,0.5
+Model 6,With other models' answers,P311,1
+Model 6,With other models' answers,P312,0
+Model 6,With other models' answers,P313,0
+Model 6,With other models' answers,P314,1
+Model 6,With other models' answers,P315,1
+Model 6,With other models' answers,P316,1
+Model 6,With other models' answers,P317,0
+Model 6,With other models' answers,P318,1
+Model 6,With other models' answers,P319,1
+Model 6,With other models' answers,P320,0
+Model 6,With other models' answers,P321,1
+Model 6,With other models' answers,P322,1
+Model 6,With other models' answers,P323,1
+Model 6,With other models' answers,P324,1
+Model 6,With other models' answers,P325,1
+Model 6,With other models' answers,P326,0.5
+Model 6,With other models' answers,P327,1
+Model 6,With other models' answers,P328,0
+Model 6,With other models' answers,P329,1
+Model 6,With other models' answers,P330,0
+Model 6,With other models' answers,P331,1
+Model 6,With other models' answers,P332,0
+Model 6,With other models' answers,P333,0
+Model 6,With other models' answers,P334,0.5
+Model 6,With other models' answers,P335,1
+Model 6,With other models' answers,P336,1
+Model 6,With other models' answers,P337,1
+Model 6,With other models' answers,P338,0.5
+Model 6,With other models' answers,P339,1
+Model 6,With other models' answers,P340,1
+Model 6,With other models' answers,P341,0
+Model 6,With other models' answers,P342,0
+Model 6,With other models' answers,P343,0
+Model 6,With other models' answers,P344,0.5
+Model 6,With other models' answers,P345,0
+Model 6,With other models' answers,P346,1
+Model 6,With other models' answers,P347,1
+Model 6,With other models' answers,P348,1
+Model 6,With other models' answers,P349,1
+Model 6,With other models' answers,P350,0
+Model 6,With other models' answers,P351,0
+Model 6,With other models' answers,P352,0
+Model 6,With other models' answers,P353,1
+Model 6,With other models' answers,P354,1
+Model 6,With other models' answers,P355,1
+Model 6,With other models' answers,P356,1
+Model 6,With other models' answers,P357,1
+Model 6,With other models' answers,P358,0
+Model 6,With other models' answers,P359,1
+Model 6,With other models' answers,P360,1
+Model 6,With other models' answers,P361,0
+Model 6,With other models' answers,P362,1
+Model 6,With other models' answers,P363,1
+Model 6,With other models' answers,P364,1
+Model 6,With other models' answers,P365,1
+Model 6,With other models' answers,P366,1
+Model 6,With other models' answers,P367,1
+Model 6,With other models' answers,P368,0
+Model 6,With other models' answers,P369,0
+Model 6,With other models' answers,P370,0
+Model 6,With other models' answers,P371,0
+Model 6,With other models' answers,P372,1
+Model 6,With other models' answers,P373,0
+Model 6,With other models' answers,P374,1
+Model 6,With other models' answers,P375,0.5
+Model 6,With other models' answers,P376,1
+Model 6,With other models' answers,P377,1
+Model 6,With other models' answers,P378,0.5
+Model 6,With other models' answers,P379,0
+Model 6,With other models' answers,P380,0
+Model 6,With other models' answers,P381,0
+Model 6,With other models' answers,P382,1
+Model 6,With other models' answers,P383,0
+Model 6,With other models' answers,P384,1
+Model 6,With other models' answers,P385,0
+Model 6,With other models' answers,P386,0
+Model 6,With other models' answers,P387,1
+Model 6,With other models' answers,P388,1
+Model 6,With other models' answers,P389,1
+Model 6,With other models' answers,P390,1
+Model 6,With other models' answers,P391,1
+Model 6,With other models' answers,P392,0
+Model 6,With other models' answers,P393,0
+Model 6,With other models' answers,P394,0
+Model 6,With other models' answers,P395,1
+Model 6,With other models' answers,P396,0
+Model 6,With other models' answers,P397,1
+Model 6,With other models' answers,P398,1
+Model 6,With other models' answers,P399,1
+Model 6,With other models' answers,P400,0

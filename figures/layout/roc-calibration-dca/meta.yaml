@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'ROC, calibration, and decision-curve analysis'
+title_zh: 'ROC、校准曲线与决策曲线分析（三联图）'
+slug: 'roc-calibration-dca'
+category: 'layout'
+tags:
+  - 'roc'
+  - 'calibration'
+  - 'decision-curve'
+  - 'net-benefit'
+  - 'classifier'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+seed: 20261129
+data_columns:
+  case_id: 'case identifier (integer; each case appears once per model)'
+  outcome: 'binary event (1 = event, 0 = none)'
+  model: 'model name (string; one ROC / calibration / decision curve per model)'
+  predicted_risk: 'predicted event probability (0-1)'
+when_to_use: 'Show discrimination (ROC with AUROC), calibration (binned curve with ECE) and clinical net benefit against threshold probability together for one or more risk models.'
+customize: 'Replace data.csv with case-level outcome and predicted_risk for each model. plot.py computes AUROC, binned ECE (n_bins equal-width bins) and net benefit on pt_grid; change n_bins, pt_grid or label_pt at the top of plot.py.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules.'

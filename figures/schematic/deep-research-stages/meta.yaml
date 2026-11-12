@@ -1,0 +1,20 @@
+title: Deep research in four stages
+title_zh: 深度研究（Deep Research）四阶段流程
+slug: deep-research-stages
+category: schematic
+style: house
+tags:
+  - llm-agent
+  - deep-research
+  - web-search
+  - pipeline
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+references:
+  - url: https://arxiv.org/abs/2508.12752
+    figure: Fig. 1
+when_to_use: 画深度研究智能体的四阶段流程：计划（把问题拆成子目标）→提问（把子目标变成检索查询）→网页探索（检索、打开、阅读网页，可回到提问补新查询）→报告生成（汇总证据写成带引用的报告）。上排是阶段卡片，下排是每个阶段的通用产物示例；左侧输入为问题和可选限制，右侧输出为报告和检索记录。与 research-agent-pipeline（文献综述→实验→报告）不同，本图只讲网页检索型深度研究。
+customize: 改 `build.py` 底部 figure 段里的 `st`（阶段图标、标题、正文）、`cols`（每阶段颜色）、`pills()` 的产物示例文字，以及输入/输出卡片；回环箭头 “new queries” 的坐标在 iteration 组。改完运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio、preview.png（只写新文件，目标目录已有同名文件时拒绝运行）。也可在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`。脚本在文字出框、重叠、压框线、连线穿字、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。
+lang: drawio

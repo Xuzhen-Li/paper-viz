@@ -1,0 +1,28 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Ks distribution and LTR insertion age (house style)'
+title_zh: 'Ks 分布与 LTR 插入时间（house 风格）'
+slug: 'ks-ltr-age'
+category: 'genome'
+tags:
+  - 'ks'
+  - 'whole-genome-duplication'
+  - 'ltr'
+  - 'retrotransposon'
+  - 'insertion-time'
+  - 'histogram'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  panel: 'ks 或 ltr'
+  group: '系列名（基因对类型或 LTR 超家族）'
+  value: 'ks 行为 Ks；ltr 行为两端 LTR 的 K2P 距离 K'
+when_to_use: 'a 面板看旁系/直系同源基因对 Ks 峰（全基因组复制与物种分化），b 面板看完整 LTR 反转录转座子的插入时间分布时用。'
+customize: 'data.csv 按 panel 填两类行；plot.py 顶部改 mu（T = K / 2r 的替换速率，单位 substitutions/site/year）、peak_windows/peak_side、ks_max、age_max。速率在图上写成纯文本（例如 1.3e-8），不用 mathtext 上标。'
+lang: 'Python'
+style: 'house'
+cells: '4x1'
+seed: 20261117
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. This v2 keeps the same simulated data as the first draft and rewrites the rate annotation in plain text so every glyph stays at or above 6 pt.'

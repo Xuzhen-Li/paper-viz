@@ -1,0 +1,22 @@
+title: Conversable agents and conversation topologies
+title_zh: 可对话 agent 与多种对话拓扑（双 agent、群聊、层级）
+slug: multi-agent-topologies
+category: schematic
+style: house
+targets_id: S05
+tags:
+  - llm
+  - multi-agent
+  - conversation
+  - topology
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [181, 89]
+references:
+  - url: https://arxiv.org/abs/2308.08155
+    figure: Fig. 1
+when_to_use: 左侧说明单个可对话 agent 可由 LLM、工具/代码、人或其组合驱动（含颜色=角色图例）；右侧三种拓扑：双 agent 对话、由 manager 选择发言者的群聊、带嵌套子对话的层级结构。角色名为通用名。
+customize: 改 `build.py` 底部 figure 段里的坐标、文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。常改项：`agent()` 调用里的位置、名称和角色（llm/exec/human/lead），`link()` 的单向/双向；`ROLE` 颜色映射。
+lang: drawio

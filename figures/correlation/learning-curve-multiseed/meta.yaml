@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used).
+title: 'Learning curves across random seeds'
+title_zh: '多种子学习曲线'
+slug: 'learning-curve-multiseed'
+category: 'correlation'
+tags:
+  - 'learning-curve'
+  - 'multi-seed'
+  - 'validation-error'
+  - 'training-set-size'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  'method': 'method name (one mean curve per method)'
+  'seed': 'random seed index (integer)'
+  'n_train': 'training-set size (integer)'
+  'val_error': 'validation error'
+when_to_use: 'Compare how a metric changes with training-set size (or epoch) when several random seeds are available, showing every seed, the mean and a spread band.'
+customize: 'Replace data.csv with method, seed, n_train and the metric. plot.py draws one thin line per seed, a bold across-seed mean and a mean +/- 1 s.d. band (ddof = 1); the seed count is read from the data. The log x-axis uses plain-number tick labels (no mathtext exponents). Single 2x2 panel: +2 pt bump applied up front, save_house(bump=0).'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+references_note: 'Layout idea only (multi-seed learning curves with mean and spread band). Simulated data with seed 20261135; placeholder method names. No published values, images or tracings are used.'
+seed: 20261135

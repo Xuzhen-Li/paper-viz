@@ -1,0 +1,30 @@
+# Simulated data. Chart type only; no images taken from any source.
+title: 'Haplotype block structure (house style)'
+title_zh: '单倍型块结构图（house 风格）'
+slug: 'haplotype-blocks'
+category: 'heatmap'
+tags:
+  - 'haplotype'
+  - 'haplotype-block'
+  - 'phased'
+  - 'heatmap'
+  - 'sweep'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  hap: '单倍型编号'
+  group: '群体'
+  block: '所属单倍型块'
+  snp: 'SNP 编号'
+  pos: 'SNP 位置（bp）'
+  allele: '等位基因：0 参考 / 1 替代'
+when_to_use: '展示分相单倍型在若干单倍型块上的结构、各群体内主单倍型的频率差异（例如某块在一个群体中被扫荡成单一单倍型）时用。'
+customize: '在 data.csv 填每条单倍型 × SNP 一行；plot.py 顶部改 group_order、sort_block、block_gap、cells。图上 Hd 为组内 Nei 单倍型多样性，从 data.csv 按群体、按块计算；n 也从数据计算。群体色条、名称和 Simulated data 脚注都画在坐标框内。'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+seed: 20261115
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. This v4 keeps the same simulated data as v3 and changes the upper-left n line to n = 24 haplotypes per group (n computed from data.csv as in v3). A small in-frame top band was added so that longer line does not collide with the B1 title; per-group n and Hd, and title/Hd data-y, stay as in v3.'

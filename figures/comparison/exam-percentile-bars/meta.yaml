@@ -1,0 +1,32 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used; no pvr, no _apply_canvas call in plot.py).
+title: 'Exam percentile bars: two models compared'
+title_zh: '考试百分位水平条：两模型对照'
+slug: 'exam-percentile-bars'
+category: 'comparison'
+style: 'house'
+targets_id: 'T09'
+tags:
+  - 'llm'
+  - 'benchmark'
+  - 'exam'
+  - 'percentile'
+  - 'horizontal-bar'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  'exam': 'exam name (placeholder string; one row of bars per exam)'
+  'model': 'model name (placeholder string; two models)'
+  'percentile': 'percentile of simulated human test-takers the model beats (0-100)'
+canvas_mm: [135, 89]
+cells: '3x2'
+references:
+  - url: 'https://arxiv.org/abs/2303.08774'
+    figure: 'Fig. [待确认]'
+when_to_use: 'Compare two models (or two versions) across many exams or benchmarks scored as a percentile of human test-takers; long category names go on the y axis.'
+customize: 'Replace data.csv with exam, model and percentile (two models; the last model in the file is used for sorting and drawn on top of each pair). plot.py breaks the dashed 50th-percentile line wherever a value label would sit on it. The "higher on k/n exams" count is computed from the data.'
+lang: 'Python'
+references_note: 'Layout idea only. Simulated data (seed 20261309), placeholder exam and model names; no published values, images or tracings are used. Figure number in TARGETS is [待确认].'
+seed: 20261309

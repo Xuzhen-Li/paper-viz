@@ -1,0 +1,26 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# v2 (2026-11-13 CST) of scaling-law: new folder scaling-law-v2; v1 folder unchanged. Fixes layout review 1-1 (footnote / labels as plain text, no mathtext superscripts; all glyphs >= 6.3 pt) and 2-1 (x ticks only at decades holding data).
+# Rendered with matplotlib + styles/python/house.py (R was not available when this was drawn).
+title: 'Scaling law: loss vs model size (house style)'
+title_zh: '缩放定律：损失-参数量双对数图（house 风格）'
+slug: 'scaling-law'
+category: 'correlation'
+tags:
+  - 'scaling-law'
+  - 'llm'
+  - 'log-log'
+  - 'power-law'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  params: '模型参数量（非嵌入层，数值）'
+  tokens: '训练 token 数（数值；每个取值画一组颜色）'
+  loss: '验证集损失（nats/token，数值）'
+when_to_use: '比较不同模型规模（可再按数据量分组）下的验证损失、展示幂律缩放关系时用。'
+customize: '在 `data.csv` 填 `params`、`tokens`、`loss`；`plot.py` 顶部改 `x_label`、`y_label`、`y_ticks` 和 `group_label`。每组用 L = E + A·N^(-α) 拟合，α 写在线尾标签里（纯文本，不用 mathtext 上标）。'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules in styles/style-contract.md.'

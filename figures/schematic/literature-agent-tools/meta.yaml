@@ -1,0 +1,21 @@
+title: Tool-using literature question-answering agent
+title_zh: 文献问答 agent 的工具集（检索 / 收集证据 / 追引用 / 作答）
+slug: literature-agent-tools
+category: schematic
+style: house
+tags:
+  - ai4science
+  - agent
+  - literature
+  - rag
+  - tool-use
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+when_to_use: "画文献问答 agent：LLM agent 读当前状态（论文、证据笔记、草稿），每步调用一个工具——检索论文、收集证据、追引用、写答案——直到能作答；证据不足时再检索或回答“无法作答”。工具名为通用名，不沿用原文工具名和原文文字。"
+customize: "改 `build.py` 底部 figure 段里的坐标、卡片文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行，不会覆盖）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 等编辑器改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出画布或出框、文字重叠、游离标签压到框线、连线穿过文字、小于 6 pt、线宽超出 0.5-1.6 pt 或文字对比度低于 4.5:1 时报错退出。"
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2409.13740
+    figure: "Fig. 1A"

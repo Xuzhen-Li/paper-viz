@@ -1,0 +1,41 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used; no pvr, no _apply_canvas call in plot.py).
+# v2 (2026-11-13 CST) of preference-split-bars: new folder preference-split-bars-v2; v1 folder unchanged.
+title: 'Preference split bars and multi-dimension scores: two systems'
+title_zh: '逐任务偏好分割条 + 多维评分对比'
+slug: 'preference-split-bars'
+category: 'comparison'
+style: 'house'
+targets_id: 'T15'
+version: 2
+supersedes: 'redraws/preference-split-bars/ (v1, unchanged)'
+changes_v2:
+  - 'The T975 table is now keyed by degrees of freedom; lookup is T975[n - 1]; n = 10 → df = 9 → 2.262.'
+  - 'The silent 1.96 fallback was removed so a missing df errors instead of being labelled a t interval.'
+tags:
+  - 'llm'
+  - 'agent'
+  - 'human-evaluation'
+  - 'preference'
+  - 'split-bar'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  'record': 'preference (one per rater x task) or score (one per rater x task x system x dimension)'
+  'rater': 'rater id (string)'
+  'task': 'task name (placeholder string)'
+  'system': 'preference rows: the chosen answer (System A, System B or Tie); score rows: the system scored'
+  'dimension': 'score rows: evaluation dimension (generic name); empty for preference rows'
+  'score': 'score rows: integer score 1-10; empty for preference rows'
+canvas_mm: [183, 89]
+cells: '4x2'
+references:
+  - url: 'https://arxiv.org/abs/2304.05376'
+    figure: 'Fig. 4'
+when_to_use: 'Human (or model) evaluation of two systems: per-task preference shares as 100 % split bars, next to per-dimension scores with rater-level dots and a mean with 95 % CI.'
+customize: 'Replace data.csv (long format, see data_columns). Panel a sorts tasks by the share preferring the first system and prints counts A / tie / B; panel b averages each rater over tasks, then shows the across-rater mean with a 95 % t interval (t quantile from a lookup table keyed by df = raters - 1). Rater and task counts are read from the data. No tests are run and no P values are printed.'
+lang: 'Python'
+references_note: 'Layout idea only. Simulated data (seed 20261315), placeholder system, task and generic dimension names; no published values, images or tracings are used.'
+seed: 20261315
