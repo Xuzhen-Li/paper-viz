@@ -1,0 +1,34 @@
+# Simulated data (seed 71070). Layout idea only; no published values, images or tracings are used.
+# Rendered with matplotlib + styles/python/house.py (imported, not copied); plot.py does not import pvr.
+title: 'Pairwise win-rate matrix with marginal average win rate and battle counts'
+title_zh: '胜率矩阵 + 顶部平均胜率 + 右侧对局数'
+slug: 'winrate-marginals'
+version: 1
+category: 'comparison'
+tags: ['win-rate', 'pairwise', 'arena', 'heatmap', 'marginals', 'wilson', 'house-style']
+packages: ['matplotlib', 'numpy', 'scipy']
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+canvas_mm: '183 x 89'
+data_columns:
+  battle: 'battle id'
+  model_a: 'model shown on side A (generic label)'
+  model_b: 'model shown on side B (generic label)'
+  winner: 'model_a, model_b or tie'
+panels:
+  a: 'average win rate per model (unweighted mean of its row in b), aligned with the matrix columns; dashed = 50%'
+  b: 'share (%) of decided battles the row model won against the column model; ties excluded; blue-red scale centred at 50%'
+  c: 'battles per model, decided plus ties, aligned with the matrix rows'
+  d: 'pooled share of decided battles won per model with a 95% Wilson score interval'
+statistics: 'Wilson score interval with z = norm.ppf(0.975), implemented in plot.py. No tests, no P values.'
+when_to_use: 'Summarise a pairwise arena: who beats whom, each model average win rate, and how many battles each estimate rests on.'
+customize: 'Edit data.csv (one row per battle). span (colour limits 50 +/- span) and conf_level are at the top of plot.py; numeral colour is black or white, whichever has the higher contrast on the cell fill (asserted >= 4.5:1).'
+differs_from: 'win-rate-matrix is the matrix alone; head-to-head-grid is many small pairwise matrices. This adds top and right marginals and a Wilson-interval panel, from new simulated battle-level data.'
+redraw_of:
+  catalog_id: 'C07'
+  reference: 'https://arxiv.org/abs/2403.04132'
+  figure: 'Fig. 2'
+  figure_number_checked: true
+  note: 'Layout idea only. Data are simulated with a fixed seed; no published values, images or tracings are used.'
+seed: 71070

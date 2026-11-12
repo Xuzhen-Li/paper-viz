@@ -1,0 +1,39 @@
+# Simulated data (seed 71050). Layout idea only; no published values, images or tracings are used.
+# Rendered with matplotlib + styles/python/house.py (imported via a path relative to plot.py, not copied); plot.py does not import pvr.
+# v2: only the panel-a agent labels were repositioned to clear the grey CI bars, points and Pareto line; data and seed unchanged.
+title: 'Agent evaluation dashboard: Pareto front, cost breakdown, accuracy with CI'
+title_zh: '智能体评测三联图：Pareto 前沿、成本分解、准确率置信区间'
+slug: 'agent-eval-dashboard'
+version: 2
+targets_id: 'C05'
+category: 'composition'
+tags: ['agent', 'evaluation', 'pareto', 'cost', 'confidence-interval', 'dashboard', 'house-style']
+packages: ['matplotlib', 'numpy', 'scipy']
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+canvas_mm: [183, 89]
+data_columns:
+  agent: 'agent name (generic strategy label)'
+  run: 'repeat index (1..runs)'
+  n_tasks: 'tasks attempted in this run'
+  n_solved: 'tasks solved in this run'
+  cost_prompt_usd: 'API cost of prompt tokens in this run (USD)'
+  cost_completion_usd: 'API cost of completion tokens in this run (USD)'
+  cost_retry_tool_usd: 'API cost of retries and tool calls in this run (USD)'
+panels:
+  a: 'mean accuracy vs mean total cost per run (log x); Pareto front as a step line; vertical bars = 95% Student t CI of the run accuracies'
+  b: 'mean cost per run, stacked by part; the printed total is the sum of the stacked part means'
+  c: 'mean accuracy with 95% Student t CI (df = runs - 1) and the single runs'
+statistics: 'CI = mean +/- t(0.975, df = runs - 1) * SD / sqrt(runs), computed with scipy.stats.t.ppf; no tests, no P values.'
+when_to_use: 'Compare agents on accuracy and cost at once: which are on the cost-accuracy Pareto front, where their money goes, and how uncertain the accuracy is over repeated runs.'
+customize: 'Edit data.csv (one row per agent x run). Runs, tasks, front, totals and CIs are computed in plot.py; label offsets for panel a are in the offsets dict at the top of plot.py and are tuned for this data.csv.'
+differs_from: 'pareto-compute-v2 is a single accuracy-compute Pareto panel; this is a three-panel dashboard with new simulated run-level data (cost parts, repeated runs, t intervals).'
+changes_from_v1: 'Panel a only: labels for Retry x3, Retry x5, Tree search, Debate x3, Self-reflect and Planner-executor moved so they no longer cross the grey CI bars (Self-reflect, Tree search above their CI bar, Planner-executor below, Debate x3 beside its bar under the Tree search bar). Single call and Escalate model unchanged. data.csv and make_data.py are byte-identical to v1; seed, t intervals, costs and the Pareto rule are unchanged.'
+redraw_of:
+  catalog_id: 'C05'
+  reference: 'https://arxiv.org/abs/2407.01502'
+  figure: 'Fig. 1–2'
+  figure_number_checked: true
+  note: 'Layout idea only. Data are simulated with a fixed seed; no published values, images or tracings are used.'
+seed: 71050
