@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: LM agent working through an agent-computer interface
+title_zh: 语言模型 agent 通过专用接口操作计算机
+slug: agent-computer-interface
+category: schematic
+tags:
+  - llm
+  - agent
+  - software-engineering
+  - tool-use
+  - interface
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 说明为 agent 设计的命令接口如何改善表现时用：左区是模型与压缩后的历史，中区是搜索、查看、编辑、提交四类命令和精简的反馈，右区是终端与任务；红线为观察结果回到历史。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/agent-computer-interface/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`CM`（命令类别与说明）、反馈卡片三行文字、右区两张卡片。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2405.15793
+    figure: Fig. 1

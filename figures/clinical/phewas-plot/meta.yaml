@@ -1,0 +1,29 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Phenome-wide association plot of one variant
+title_zh: 全表型组关联图（PheWAS）
+slug: phewas-plot
+category: clinical
+tags:
+  - phewas
+  - association
+  - ehr
+  - pleiotropy
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  phecode: 表型编码
+  phenotype: 表型名称
+  category: 表型大类（按出现顺序排）
+  p: 双侧 P 值
+  beta: 效应量（正为风险增加）
+when_to_use: 一个变异（或一个暴露）同时检验上千种表型时用：横轴按表型大类分组着色，纵轴 -log10 P，三角朝上表示风险增加、朝下表示降低，红色虚线为 Bonferroni 线，最显著的几个表型直接标名。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`alpha`（Bonferroni 前的总显著水平）、`n_label`（标名个数）。
+lang: Python
+style: house
+cells: 4x2
+references:
+  - url: https://doi.org/10.1093/bioinformatics/btq126
+    figure: [待确认]

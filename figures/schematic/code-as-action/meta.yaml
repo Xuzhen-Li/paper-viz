@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: JSON tool calls versus executable code actions
+title_zh: JSON 工具调用与可执行代码动作对比
+slug: code-as-action
+category: schematic
+tags:
+  - llm
+  - agent
+  - tool-use
+  - code-execution
+  - comparison
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 说明 agent 用代码当动作的好处时用：左区每轮只能发一个 JSON 工具调用，三轮才拿齐结果；右区一段代码在解释器里循环调用工具，观察结果（输出或报错）绿色回传给 agent。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/code-as-action/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：两区标题、`calls` 的轮数与 JSON 文本、右区代码卡片的三行代码。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2402.01030
+    figure: Fig. 2

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="66.000mm" viewBox="0 0 183.000 66.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>rlhf-three-steps</title>
+<desc>Schematic: three-step RLHF pipeline (SFT, reward model, PPO). Layout type only; numbers are illustrative.</desc>
+<rect x="0" y="0" width="183.000" height="66.000" fill="#ffffff"/>
+<g id="zone-step1">
+<rect x="1.000" y="1.000" width="59.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="30.500" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Step 1  Supervised fine-tuning</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+</g>
+<g id="zone-step2">
+<rect x="62.000" y="1.000" width="59.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Step 2  Reward model</text>
+<text x="63.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+</g>
+<g id="zone-step3">
+<rect x="123.000" y="1.000" width="59.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="152.500" y="4.600" font-size="2.6811" fill="#2e7d32" text-anchor="middle" font-weight="bold" xml:space="preserve">Step 3  RL against the reward</text>
+<text x="124.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+</g>
+<g id="step1">
+<rect x="6.000" y="8.000" width="49.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="30.500" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Prompt sampled</text>
+<text x="30.500" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">from the prompt set</text>
+<rect x="6.000" y="22.000" width="49.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="30.500" y="25.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Labeler writes demonstration</text>
+<text x="30.500" y="29.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">desired output, ~13k pairs</text>
+<rect x="6.000" y="36.000" width="49.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="30.500" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Fine-tune base model</text>
+<text x="30.500" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">next-token loss on demos</text>
+<rect x="6.000" y="50.000" width="49.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="30.500" y="53.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">SFT policy</text>
+<text x="30.500" y="57.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">initial policy and reference</text>
+</g>
+<g id="step2">
+<rect x="67.000" y="8.000" width="49.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="91.500" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Prompt + K outputs</text>
+<text x="91.500" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">sampled from SFT policy</text>
+<rect x="67.000" y="22.000" width="49.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="91.500" y="25.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Labeler ranks outputs</text>
+<text x="91.500" y="29.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">D &gt; C &gt; A = B</text>
+<rect x="67.000" y="36.000" width="49.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="91.500" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Train reward model</text>
+<text x="91.500" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">pairwise loss on rankings</text>
+<rect x="67.000" y="50.000" width="49.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="91.500" y="53.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reward model r(x, y)</text>
+<text x="91.500" y="57.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">scalar score per output</text>
+</g>
+<g id="step3">
+<rect x="128.000" y="8.000" width="49.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.500" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">New prompt</text>
+<text x="152.500" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">not seen in step 1-2</text>
+<rect x="128.000" y="22.000" width="49.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.500" y="25.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Policy writes output</text>
+<text x="152.500" y="29.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">initialised from SFT</text>
+<rect x="128.000" y="36.000" width="49.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.500" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reward model scores it</text>
+<text x="152.500" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">r minus KL to reference</text>
+<rect x="128.000" y="50.000" width="49.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.500" y="53.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">PPO update of policy</text>
+<text x="152.500" y="57.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">repeat over batches</text>
+</g>
+<g id="arrows">
+<polyline points="30.500,16.298 30.500,20.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="30.500,21.700 29.880,20.200 31.120,20.200" fill="#1c2430"/>
+<polyline points="30.500,30.298 30.500,34.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="30.500,35.700 29.880,34.200 31.120,34.200" fill="#1c2430"/>
+<polyline points="30.500,44.298 30.500,48.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="30.500,49.700 29.880,48.200 31.120,48.200" fill="#1c2430"/>
+<polyline points="91.500,16.298 91.500,20.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="91.500,21.700 90.880,20.200 92.120,20.200" fill="#1c2430"/>
+<polyline points="91.500,30.298 91.500,34.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="91.500,35.700 90.880,34.200 92.120,34.200" fill="#1c2430"/>
+<polyline points="91.500,44.298 91.500,48.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="91.500,49.700 90.880,48.200 92.120,48.200" fill="#1c2430"/>
+<polyline points="152.500,16.298 152.500,20.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="152.500,21.700 151.880,20.200 153.120,20.200" fill="#1c2430"/>
+<polyline points="152.500,30.298 152.500,34.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="152.500,35.700 151.880,34.200 153.120,34.200" fill="#1c2430"/>
+<polyline points="152.500,44.298 152.500,48.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="152.500,49.700 151.880,48.200 153.120,48.200" fill="#1c2430"/>
+<polyline points="55.000,54.149 59.500,54.149 59.500,12.149 65.500,12.149" fill="none" stroke="#1F72AE" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="66.700,12.149 65.200,12.769 65.200,11.529" fill="#1F72AE"/>
+<polyline points="116.000,54.149 120.500,54.149 120.500,40.149 126.500,40.149" fill="none" stroke="#e08a3a" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="127.700,40.149 126.200,40.769 126.200,39.529" fill="#e08a3a"/>
+<polyline points="131.000,50.000 131.000,31.798" fill="none" stroke="#2e7d32" stroke-width="0.1764" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polygon points="131.000,30.598 131.620,32.098 130.380,32.098" fill="#2e7d32"/>
+</g>
+</svg>

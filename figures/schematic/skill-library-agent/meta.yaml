@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Lifelong agent with curriculum, iterative prompting and a skill library
+title_zh: 自动课程、迭代提示与技能库的终身学习 agent
+slug: skill-library-agent
+category: schematic
+tags:
+  - llm
+  - agent
+  - skill-library
+  - lifelong-learning
+  - code-generation
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 画"提出任务-写代码-执行-反馈-自检-存技能"的 agent 闭环时用：左区课程模块按状态提出下一任务，中区多轮迭代提示（红线为未通过时修改），右区技能库在通过后存入新程序，并在写代码前检索相关技能（绿色虚线）。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/skill-library-agent/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`SK`（技能名列表）、中区四张卡片的说明、迭代轮数写在中区标题里。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2305.16291
+    figure: Fig. 2

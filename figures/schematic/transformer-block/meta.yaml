@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Encoder-decoder transformer block
+title_zh: 编码器-解码器 Transformer 结构
+slug: transformer-block
+category: schematic
+tags:
+  - llm
+  - transformer
+  - attention
+  - architecture
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 介绍 Transformer 结构时用：自下而上，左栏编码器、右栏解码器，橙色为自注意力，紫色为交叉注意力（紫线表示编码器输出提供键和值），蓝色为前馈层，灰线为残差连接。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/transformer-block/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：各 `f.card(...)` 的标题与颜色、两个区块的 `x N` 标题、残差线的 `y0` 起点。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/1706.03762
+    figure: Fig. 1

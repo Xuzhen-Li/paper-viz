@@ -1,0 +1,29 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Sashimi plot of a cassette exon in two conditions
+title_zh: 可变剪接 Sashimi 图（两种条件）
+slug: sashimi-plot
+category: genome
+tags:
+  - rna-seq
+  - alternative-splicing
+  - sashimi
+  - junction
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  condition: 条件（gene 行为外显子注释）
+  type: coverage / junction / exon
+  start: 起点（bp）
+  end: 终点（bp）
+  value: 覆盖度、junction 读数或外显子序号
+when_to_use: 展示某个外显子在两种条件下包含与跳过的变化时用：每行一种条件，柱为覆盖度，弧线为剪接 junction 并写读数（包含型弧在上，跳过型弧在下），右上角写 PSI，底部为基因模型。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cond_cols`（条件与颜色）；跳过型 junction 按"第一个外显子末端到最后一个外显子起点"识别。
+lang: Python
+style: house
+cells: 4x2
+references:
+  - url: https://doi.org/10.1093/bioinformatics/btv034
+    figure: [待确认]

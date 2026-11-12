@@ -1,0 +1,29 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Fish plot of clonal evolution
+title_zh: 克隆演化鱼图
+slug: fish-plot
+category: composition
+tags:
+  - clonal-evolution
+  - fish-plot
+  - tumour
+  - subclone
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  day: 采样时间（天）
+  timepoint: 采样点名称
+  clone: 克隆名
+  parent: 母克隆（根克隆留空）
+  ccf: 癌细胞分数（%，含其子克隆）
+when_to_use: 展示肿瘤（或微生物群体）克隆随时间和治疗的兴衰时用：带高为癌细胞分数，子克隆嵌套在母克隆内，竖虚线为采样点并在顶部标名，灰色带为治疗期，克隆名写在各自最宽处。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`clone_cols`（克隆颜色）、`lead_days`（新克隆在首次检出前多少天开始出现）、`therapy`（治疗期）。
+lang: Python
+style: house
+cells: 4x2
+references:
+  - url: https://doi.org/10.1186/s12864-016-3195-z
+    figure: [待确认]

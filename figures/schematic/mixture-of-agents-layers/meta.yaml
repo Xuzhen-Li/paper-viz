@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Layered mixture-of-agents
+title_zh: 分层多 agent 混合（Mixture-of-Agents）
+slug: mixture-of-agents-layers
+category: schematic
+tags:
+  - llm
+  - agent
+  - ensemble
+  - multi-agent
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 画"多层多个模型、每层读上一层全部回答、最后由聚合者综合"的集成结构时用：三层三色，层间全连接细线，最后一层箭头汇入聚合者。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/mixture-of-agents-layers/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`NAMES`（每层的 agent 名）、`COL`（每层主色）、层数与 `x0` 间距。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2406.04692
+    figure: Fig. 2

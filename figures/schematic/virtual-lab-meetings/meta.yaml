@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Virtual lab of LLM agents with team and individual meetings
+title_zh: 大模型 agent 虚拟实验室：团队会议与个人会议
+slug: virtual-lab-meetings
+category: schematic
+tags:
+  - llm
+  - agent
+  - ai4science
+  - multi-agent
+  - human-in-the-loop
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 画"人给议程、PI agent 主持多位专家 agent 开会、批评者把关"的科研协作流程时用：左区是人的议程、审阅与产出，中区团队会议多轮讨论，右区单个专家与批评者反复修改。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/virtual-lab-meetings/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：三位专家的标题与领域、会议轮数、右区三张卡片文字。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41586-025-09442-9
+    figure: Fig. 1

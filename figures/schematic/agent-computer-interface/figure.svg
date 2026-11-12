@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="58.000mm" viewBox="0 0 183.000 58.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>agent-computer-interface</title>
+<desc>Schematic: LM agent working through an agent-computer interface. Layout type only; command names generic.</desc>
+<rect x="0" y="0" width="183.000" height="58.000" fill="#ffffff"/>
+<g id="zone-lm">
+<rect x="1.000" y="1.000" width="40.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="21.000" y="4.600" font-size="2.6811" fill="#9a5bd1" text-anchor="middle" font-weight="bold" xml:space="preserve">LM agent</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="4.000" y="12.000" width="34.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="21.000" y="15.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Language model</text>
+<text x="21.000" y="19.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">thought + one</text>
+<text x="21.000" y="21.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">command per turn</text>
+<rect x="4.000" y="34.000" width="34.000" height="11.098" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="21.000" y="37.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">History</text>
+<text x="21.000" y="41.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">older observations</text>
+<text x="21.000" y="43.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">collapsed to one line</text>
+</g>
+<g id="zone-aci">
+<rect x="45.000" y="1.000" width="90.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="90.000" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Agent-computer interface</text>
+<text x="46.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="49.000" y="10.000" width="40.000" height="8.208" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="69.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Search</text>
+<text x="69.000" y="16.958" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">find_file, search_dir</text>
+<rect x="49.000" y="19.600" width="40.000" height="8.208" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="69.000" y="23.009" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">View</text>
+<text x="69.000" y="26.558" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">open, scroll (100-line window)</text>
+<rect x="49.000" y="29.200" width="40.000" height="8.208" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="69.000" y="32.609" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Edit</text>
+<text x="69.000" y="36.158" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">edit lines + linter guard</text>
+<rect x="49.000" y="38.800" width="40.000" height="8.208" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="69.000" y="42.209" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Submit</text>
+<text x="69.000" y="45.758" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">diff of the repo</text>
+<rect x="94.000" y="30.000" width="37.000" height="13.898" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="112.500" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Feedback</text>
+<text x="112.500" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">short, structured output</text>
+<text x="112.500" y="39.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">"no output" made explicit</text>
+<text x="112.500" y="42.648" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">lint errors block bad edits</text>
+</g>
+<g id="zone-pc">
+<rect x="139.000" y="1.000" width="43.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="160.500" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Computer</text>
+<text x="140.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+<rect x="143.000" y="12.000" width="35.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="160.500" y="15.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Linux shell</text>
+<text x="160.500" y="19.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">repository files,</text>
+<text x="160.500" y="21.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">tests, tools</text>
+<rect x="143.000" y="34.000" width="35.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="160.500" y="37.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Task</text>
+<text x="160.500" y="41.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">issue text</text>
+<text x="160.500" y="43.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">from a repository</text>
+</g>
+<g id="arrows">
+<polyline points="38.000,15.549 47.500,15.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="48.700,15.549 47.200,16.169 47.200,14.929" fill="#1c2430"/>
+<polyline points="89.000,14.104 141.000,14.104 141.000,15.549 141.500,15.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="142.700,15.549 141.200,16.169 141.200,14.929" fill="#1c2430"/>
+<text x="115.000" y="12.904" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">command</text>
+<polyline points="143.000,20.549 137.500,20.549 137.500,36.949 132.500,36.949" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="131.300,36.949 132.800,36.329 132.800,37.569" fill="#CC312C"/>
+<polyline points="112.500,43.898 112.500,51.500 21.000,51.500 21.000,46.598" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="21.000,45.398 21.620,46.898 20.380,46.898" fill="#CC312C"/>
+<polyline points="21.000,34.000 21.000,24.598" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="21.000,23.398 21.620,24.898 20.380,24.898" fill="#1c2430"/>
+<polyline points="160.500,45.098 160.500,54.500 42.500,54.500 42.500,20.049 39.500,20.049" fill="none" stroke="#1F72AE" stroke-width="0.1764" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polygon points="38.300,20.049 39.800,19.429 39.800,20.669" fill="#1F72AE"/>
+<text x="162.000" y="49.400" font-size="2.1167" fill="#1F72AE" text-anchor="start" xml:space="preserve">given once</text>
+<text x="162.000" y="52.000" font-size="2.1167" fill="#1F72AE" text-anchor="start" xml:space="preserve">at the start</text>
+<text x="70.000" y="50.400" font-size="2.1167" fill="#CC312C" text-anchor="middle" xml:space="preserve">observation</text>
+</g>
+</svg>

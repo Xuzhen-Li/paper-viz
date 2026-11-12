@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Single-cell copy-number heatmap
+title_zh: 单细胞拷贝数热图（按染色体分块）
+slug: cnv-heatmap
+category: heatmap
+tags:
+  - cnv
+  - single-cell
+  - tumour
+  - copy-number
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  cell: 细胞编号
+  group: 细胞分组（参考或肿瘤亚克隆）
+  chrN_kk: 其余每列为一个基因组 bin 的 log2 比值，列名为染色体_序号
+when_to_use: 从单细胞数据推断拷贝数并比较亚克隆时用：行是细胞、列是按染色体排的基因组 bin，红色为扩增、蓝色为缺失；左侧色条与框内右上角文字标出分组和细胞数，色条紧贴右侧。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`group_cols`（分组颜色）、`lim`（色标范围）。
+lang: Python
+style: house
+cells: 4x2
+references:
+  - url: https://github.com/broadinstitute/infercnv
+    figure: [待确认]

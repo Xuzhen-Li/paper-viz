@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Rainfall plot of inter-mutation distances
+title_zh: 突变间距降雨图（kataegis 局部高突变）
+slug: rainfall-plot
+category: genome
+tags:
+  - rainfall
+  - kataegis
+  - somatic-mutation
+  - genome-wide
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  chrom: 染色体（字符串，按出现顺序排）
+  pos: 位置（bp，整数）
+  substitution: 替换类型（C>A 等 6 类）
+when_to_use: 看体细胞突变是否在局部成簇时用：横轴按染色体首尾相接，纵轴是与前一个突变的距离（log10 bp），成簇区掉到底部并标注；6 类替换颜色直接写在框内左上角。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`classes`（替换类型与颜色顺序）、`kataegis_max_bp`（成簇的间距阈值，连续 ≥6 个间距低于阈值记为一簇）。
+lang: Python
+style: house
+cells: 4x1
+references:
+  - url: https://doi.org/10.1016/j.cell.2012.04.024
+    figure: [待确认]

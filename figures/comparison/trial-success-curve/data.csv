@@ -1,0 +1,41 @@
+method,trial,solved,n_tasks
+Base,1,68,134
+Base,2,68,134
+Base,3,68,134
+Base,4,68,134
+Base,5,68,134
+Base,6,68,134
+Base,7,68,134
+Base,8,68,134
+Base,9,68,134
+Base,10,68,134
+Retry,1,59,134
+Retry,2,63,134
+Retry,3,66,134
+Retry,4,69,134
+Retry,5,70,134
+Retry,6,71,134
+Retry,7,75,134
+Retry,8,76,134
+Retry,9,79,134
+Retry,10,79,134
+Self-critique,1,75,134
+Self-critique,2,79,134
+Self-critique,3,85,134
+Self-critique,4,86,134
+Self-critique,5,88,134
+Self-critique,6,88,134
+Self-critique,7,88,134
+Self-critique,8,94,134
+Self-critique,9,95,134
+Self-critique,10,95,134
+Critique + memory,1,73,134
+Critique + memory,2,77,134
+Critique + memory,3,87,134
+Critique + memory,4,93,134
+Critique + memory,5,96,134
+Critique + memory,6,97,134
+Critique + memory,7,99,134
+Critique + memory,8,103,134
+Critique + memory,9,106,134
+Critique + memory,10,107,134
