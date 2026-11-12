@@ -50,12 +50,12 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 
 <!-- CATALOG:START -->
 
-共 144 张。
+共 150 张。
 
 | 分类 | 中文 | 数量 |
 |------|------|------|
 | `distribution` | 分布 | 11 |
-| `comparison` | 比较 | 15 |
+| `comparison` | 比较 | 16 |
 | `correlation` | 相关 | 13 |
 | `composition` | 组成 | 14 |
 | `heatmap` | 热图 | 4 |
@@ -68,8 +68,8 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 | `network` | 网络 | 2 |
 | `microbiome-ecology` | 微生物与生态 | 5 |
 | `clinical` | 临床 | 3 |
-| `layout` | 拼图 | 6 |
-| `schematic` | 流程图 | 21 |
+| `layout` | 拼图 | 7 |
+| `schematic` | 流程图 | 25 |
 
 ### 分布 `distribution`（11）
 
@@ -78,7 +78,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/distribution/ecdf/preview.png" width="200" alt="经验累积分布">
 <img src="figures/distribution/histogram/preview.png" width="200" alt="直方图">
 
-### 比较 `comparison`（15）
+### 比较 `comparison`（16）
 
 <img src="figures/comparison/ablation-bar/preview.png" width="200" alt="消融实验柱图（house 风格）">
 <img src="figures/comparison/bar-grouped/preview.png" width="200" alt="分组柱状图">
@@ -164,7 +164,7 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/clinical/km/preview.png" width="200" alt="Kaplan-Meier 生存曲线">
 <img src="figures/clinical/roc/preview.png" width="200" alt="ROC 曲线">
 
-### 拼图 `layout`（6）
+### 拼图 `layout`（7）
 
 <img src="figures/layout/composite-figure/preview.png" width="200" alt="四面板拼图">
 <img src="figures/layout/house-ensemble-multiples/preview.png" width="200" alt="集合成员小多图与侧边箱线（house 风格）">
@@ -172,12 +172,12 @@ Agents can look up templates through catalog.json and llms.txt. New figures defa
 <img src="figures/layout/house-mosaic-gwas/preview.png" width="200" alt="GWAS 拼版：4×1 曼哈顿图、区域图、基因型效应、等位基因频率（house 风格，4×2）">
 <img src="figures/layout/house-mosaic-transcriptome/preview.png" width="200" alt="转录组总览拼版：PCA、DEG 计数、热图、GO 森林图、UpSet、环图（house 风格，4×3）">
 
-### 流程图 `schematic`（21）
+### 流程图 `schematic`（25）
 
 <img src="figures/schematic/adna-processing/preview.png" width="200" alt="古 DNA 处理步骤">
 <img src="figures/schematic/adna-swimlane/preview.png" width="200" alt="古 DNA 分工泳道">
+<img src="figures/schematic/agent-brain-perception-action/preview.png" width="200" alt="大模型 agent 概念框架：感知、大脑、行动">
 <img src="figures/schematic/assembly-compare/preview.png" width="200" alt="组装策略对比">
-<img src="figures/schematic/assembly-iteration/preview.png" width="200" alt="基因组组装迭代">
 <!-- CATALOG:END -->
 
 </details>
