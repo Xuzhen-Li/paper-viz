@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="56.000mm" viewBox="0 0 183.000 56.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>genomic-fm-eval</title>
+<desc>Schematic: genomic language model pretraining, then probing versus fine-tuning. Layout type only; numbers illustrative.</desc>
+<rect x="0" y="0" width="183.000" height="56.000" fill="#ffffff"/>
+<g id="zone-pre">
+<rect x="1.000" y="1.000" width="86.000" height="54.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="44.000" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Pretraining</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="5.000" y="10.000" width="34.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="22.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Genomes</text>
+<text x="22.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">human + many species</text>
+<rect x="5.000" y="27.000" width="34.000" height="11.098" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="22.000" y="30.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Tokens</text>
+<text x="22.000" y="34.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">6-mers, 1,000 per</text>
+<text x="22.000" y="36.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">sequence window</text>
+<rect x="46.000" y="15.000" width="37.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="64.500" y="18.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Transformer LM</text>
+<text x="64.500" y="22.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">masked-token objective</text>
+<text x="64.500" y="24.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">0.5 to 2.5 B parameters</text>
+<polyline points="22.000,18.298 22.000,25.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="22.000,26.700 21.380,25.200 22.620,25.200" fill="#1c2430"/>
+<polyline points="39.000,32.549 42.500,32.549 42.500,20.549 44.500,20.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="45.700,20.549 44.200,21.169 44.200,19.929" fill="#1c2430"/>
+<text x="44.000" y="47.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">ACGTTA CGGATT ... masked 15%</text>
+</g>
+<g id="zone-eval">
+<rect x="90.000" y="1.000" width="92.000" height="54.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="136.000" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Evaluation on downstream tasks</text>
+<text x="91.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="94.000" y="10.000" width="34.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="111.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Frozen embeddings</text>
+<text x="111.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">mean over tokens</text>
+<rect x="94.000" y="28.000" width="34.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="111.000" y="31.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Probing</text>
+<text x="111.000" y="35.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">logistic regression</text>
+<text x="111.000" y="37.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">or small MLP</text>
+<rect x="134.000" y="10.000" width="44.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="156.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Parameter-efficient</text>
+<text x="156.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">fine-tuning, few</text>
+<text x="156.000" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">added weights</text>
+<rect x="134.000" y="28.000" width="44.000" height="11.098" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="156.000" y="31.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Task scores</text>
+<text x="156.000" y="35.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">promoters, enhancers,</text>
+<text x="156.000" y="37.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">splice sites, marks</text>
+<polyline points="83.000,18.549 92.000,18.549 92.000,14.149 92.500,14.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="93.700,14.149 92.200,14.769 92.200,13.529" fill="#1c2430"/>
+<polyline points="111.000,18.298 111.000,26.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="111.000,27.700 110.380,26.200 111.620,26.200" fill="#1c2430"/>
+<polyline points="128.000,33.549 132.500,33.549" fill="none" stroke="#9a5bd1" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="133.700,33.549 132.200,34.169 132.200,32.929" fill="#9a5bd1"/>
+<polyline points="156.000,21.098 156.000,26.500" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="156.000,27.700 155.380,26.200 156.620,26.200" fill="#e08a3a"/>
+<polyline points="83.000,23.549 88.500,23.549 88.500,7.200 156.000,7.200 156.000,8.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polygon points="156.000,9.700 155.380,8.200 156.620,8.200" fill="#1c2430"/>
+<text x="136.000" y="48.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">compare both routes on the same 18 tasks (example)</text>
+</g>
+</svg>
