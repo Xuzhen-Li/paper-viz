@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="62.000mm" viewBox="0 0 183.000 62.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>skill-library-agent</title>
+<desc>Schematic: lifelong agent with automatic curriculum, iterative prompting and a skill library. Layout type only; skill names invented.</desc>
+<rect x="0" y="0" width="183.000" height="62.000" fill="#ffffff"/>
+<g id="zone-cur">
+<rect x="1.000" y="1.000" width="38.000" height="60.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="20.000" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Curriculum</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="4.000" y="12.000" width="32.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="20.000" y="15.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Next task</text>
+<text x="20.000" y="19.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">proposed from agent</text>
+<text x="20.000" y="21.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">state and progress</text>
+<rect x="4.000" y="36.000" width="32.000" height="11.098" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="20.000" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Agent state</text>
+<text x="20.000" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">inventory, position,</text>
+<text x="20.000" y="45.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">tasks done or failed</text>
+</g>
+<g id="zone-loop">
+<rect x="42.000" y="1.000" width="94.000" height="60.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="89.000" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Iterative prompting (up to 4 rounds per task)</text>
+<text x="43.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="46.000" y="12.000" width="38.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="65.000" y="15.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">LLM writes code</text>
+<text x="65.000" y="19.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">program for the task,</text>
+<text x="65.000" y="21.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">reusing stored skills</text>
+<rect x="94.000" y="12.000" width="38.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="113.000" y="15.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Run in environment</text>
+<text x="113.000" y="19.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">game world or simulator</text>
+<rect x="94.000" y="36.000" width="38.000" height="11.098" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="113.000" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Feedback</text>
+<text x="113.000" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">environment messages,</text>
+<text x="113.000" y="45.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">execution errors</text>
+<rect x="46.000" y="36.000" width="38.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="65.000" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Self-verification</text>
+<text x="65.000" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">LLM critic: task done?</text>
+<polyline points="84.000,17.549 92.500,17.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="93.700,17.549 92.200,18.169 92.200,16.929" fill="#1c2430"/>
+<polyline points="113.000,20.298 113.000,34.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="113.000,35.700 112.380,34.200 113.620,34.200" fill="#1c2430"/>
+<polyline points="94.000,41.549 85.500,41.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="84.300,41.549 85.800,40.929 85.800,42.169" fill="#1c2430"/>
+<polyline points="65.000,36.000 65.000,24.598" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="65.000,23.398 65.620,24.898 64.380,24.898" fill="#CC312C"/>
+<text x="66.500" y="31.000" font-size="2.1167" fill="#CC312C" text-anchor="start" xml:space="preserve">no: revise</text>
+</g>
+<g id="zone-lib">
+<rect x="139.000" y="1.000" width="43.000" height="60.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="160.500" y="4.600" font-size="2.6811" fill="#2e7d32" text-anchor="middle" font-weight="bold" xml:space="preserve">Skill library</text>
+<text x="140.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+<rect x="143.000" y="10.000" width="35.000" height="5.209" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="160.500" y="13.049" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">mine_wood()</text>
+<rect x="143.000" y="18.200" width="35.000" height="5.209" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="160.500" y="21.249" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">craft_table()</text>
+<rect x="143.000" y="26.400" width="35.000" height="5.209" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="160.500" y="29.449" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">make_pickaxe()</text>
+<rect x="143.000" y="34.600" width="35.000" height="5.209" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="160.500" y="37.649" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">smelt_iron()</text>
+<text x="160.500" y="48.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">indexed by an embedding</text>
+<text x="160.500" y="51.000" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">of each skill description</text>
+</g>
+<g id="flow">
+<polyline points="36.000,17.549 44.500,17.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="45.700,17.549 44.200,18.169 44.200,16.929" fill="#1c2430"/>
+<polyline points="20.000,36.000 20.000,24.598" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="20.000,23.398 20.620,24.898 19.380,24.898" fill="#1c2430"/>
+<polyline points="65.000,44.298 65.000,55.000 160.500,55.000 160.500,41.309" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="160.500,40.109 161.120,41.609 159.880,41.609" fill="#2e7d32"/>
+<text x="118.000" y="53.600" font-size="2.1167" fill="#2e7d32" text-anchor="middle" xml:space="preserve">yes: store the program as a new skill</text>
+<polyline points="143.000,12.605 138.000,12.605 138.000,9.000 65.000,9.000 65.000,10.500" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polygon points="65.000,11.700 64.380,10.200 65.620,10.200" fill="#2e7d32"/>
+<text x="110.000" y="7.800" font-size="2.1167" fill="#2e7d32" text-anchor="middle" xml:space="preserve">retrieve top-5 related skills</text>
+<polyline points="46.000,40.149 37.500,40.149" fill="none" stroke="#5b6878" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="36.300,40.149 37.800,39.529 37.800,40.769" fill="#5b6878"/>
+<text x="20.000" y="52.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">state updated after each run</text>
+</g>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="52.000mm" viewBox="0 0 183.000 52.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>sop-role-pipeline</title>
+<desc>Schematic: role-based multi-agent pipeline with a shared message pool. Layout type only; roles generic.</desc>
+<rect x="0" y="0" width="183.000" height="52.000" fill="#ffffff"/>
+<g id="frame">
+<rect x="1.000" y="1.000" width="181.000" height="50.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Standard operating procedure: each role hands a document to the next</text>
+<rect x="5.000" y="10.000" width="30.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="20.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Product manager</text>
+<text x="20.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">writes: requirements doc</text>
+<rect x="40.500" y="10.000" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="55.500" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Architect</text>
+<text x="55.500" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">writes: system design, APIs</text>
+<rect x="76.000" y="10.000" width="30.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="91.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Project manager</text>
+<text x="91.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">writes: task list</text>
+<rect x="111.500" y="10.000" width="30.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="126.500" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Engineer</text>
+<text x="126.500" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">writes: code</text>
+<rect x="147.000" y="10.000" width="30.000" height="8.298" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="162.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">QA engineer</text>
+<text x="162.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">writes: tests, bug report</text>
+</g>
+<g id="handoff">
+<polyline points="35.000,14.149 39.000,14.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="40.200,14.149 38.700,14.769 38.700,13.529" fill="#1c2430"/>
+<polyline points="70.500,14.149 74.500,14.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="75.700,14.149 74.200,14.769 74.200,13.529" fill="#1c2430"/>
+<polyline points="106.000,14.149 110.000,14.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="111.200,14.149 109.700,14.769 109.700,13.529" fill="#1c2430"/>
+<polyline points="141.500,14.149 145.500,14.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="146.700,14.149 145.200,14.769 145.200,13.529" fill="#1c2430"/>
+</g>
+<g id="pool">
+<rect x="5.000" y="33.000" width="172.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="91.000" y="36.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Shared message pool</text>
+<text x="91.000" y="40.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">every role publishes its document; each role subscribes only to the documents it needs</text>
+<polyline points="17.000,18.298 17.000,31.500" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="17.000,32.700 16.380,31.200 17.620,31.200" fill="#5b6878"/>
+<polyline points="23.000,33.000 23.000,19.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="23.000,18.598 23.620,20.098 22.380,20.098" fill="#5b6878"/>
+<polyline points="52.500,18.298 52.500,31.500" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="52.500,32.700 51.880,31.200 53.120,31.200" fill="#5b6878"/>
+<polyline points="58.500,33.000 58.500,19.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="58.500,18.598 59.120,20.098 57.880,20.098" fill="#5b6878"/>
+<polyline points="88.000,18.298 88.000,31.500" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="88.000,32.700 87.380,31.200 88.620,31.200" fill="#5b6878"/>
+<polyline points="94.000,33.000 94.000,19.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="94.000,18.598 94.620,20.098 93.380,20.098" fill="#5b6878"/>
+<polyline points="123.500,18.298 123.500,31.500" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="123.500,32.700 122.880,31.200 124.120,31.200" fill="#5b6878"/>
+<polyline points="129.500,33.000 129.500,19.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="129.500,18.598 130.120,20.098 128.880,20.098" fill="#5b6878"/>
+<polyline points="159.000,18.298 159.000,31.500" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="159.000,32.700 158.380,31.200 159.620,31.200" fill="#5b6878"/>
+<polyline points="165.000,33.000 165.000,19.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="165.000,18.598 165.620,20.098 164.380,20.098" fill="#5b6878"/>
+<text x="152.500" y="27.600" font-size="2.1167" fill="#5b6878" text-anchor="end" xml:space="preserve">publish</text>
+<text x="166.500" y="27.600" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">subscribe</text>
+<polyline points="162.000,10.000 162.000,6.500 126.500,6.500 126.500,8.500" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="126.500,9.700 125.880,8.200 127.120,8.200" fill="#CC312C"/>
+<text x="144.250" y="5.400" font-size="2.1167" fill="#CC312C" text-anchor="middle" xml:space="preserve">fix and re-test</text>
+</g>
+</svg>

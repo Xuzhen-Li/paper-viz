@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="60.000mm" viewBox="0 0 183.000 60.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>action-space-agent</title>
+<desc>Schematic: agent whose action space is mined from the literature, then plan-code-execute. Layout type only; labels generic.</desc>
+<rect x="0" y="0" width="183.000" height="60.000" fill="#ffffff"/>
+<g id="zone-build">
+<rect x="1.000" y="1.000" width="74.000" height="58.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="38.000" y="4.600" font-size="2.6811" fill="#2aa198" text-anchor="middle" font-weight="bold" xml:space="preserve">Build the action space (offline)</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="4.000" y="12.000" width="26.000" height="11.098" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="17.000" y="15.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Literature</text>
+<text x="17.000" y="19.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">papers per</text>
+<text x="17.000" y="21.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">subfield</text>
+<rect x="4.000" y="34.000" width="26.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="17.000" y="37.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">LLM mining</text>
+<text x="17.000" y="41.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">tasks, tools,</text>
+<text x="17.000" y="43.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">data used</text>
+<rect x="38.000" y="10.000" width="34.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="55.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Tools</text>
+<text x="55.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">wrapped as functions</text>
+<rect x="38.000" y="24.000" width="34.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="55.000" y="27.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Databases</text>
+<text x="55.000" y="31.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">query interfaces</text>
+<rect x="38.000" y="38.000" width="34.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="55.000" y="41.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Software</text>
+<text x="55.000" y="45.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">installed packages</text>
+<polyline points="17.000,23.098 17.000,32.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="17.000,33.700 16.380,32.200 17.620,32.200" fill="#1c2430"/>
+<polyline points="30.000,39.549 34.000,39.549 34.000,14.149 36.500,14.149" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="37.700,14.149 36.200,14.769 36.200,13.529" fill="#1c2430"/>
+<polyline points="30.000,39.549 34.000,39.549 34.000,28.149 36.500,28.149" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="37.700,28.149 36.200,28.769 36.200,27.529" fill="#1c2430"/>
+<polyline points="30.000,39.549 34.000,39.549 34.000,42.149 36.500,42.149" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="37.700,42.149 36.200,42.769 36.200,41.529" fill="#1c2430"/>
+</g>
+<g id="zone-run">
+<rect x="78.000" y="1.000" width="104.000" height="58.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="130.000" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Answer a query (online)</text>
+<text x="79.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="82.000" y="10.000" width="28.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="96.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Query</text>
+<text x="96.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">biomedical task</text>
+<rect x="82.000" y="30.000" width="28.000" height="11.098" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="96.000" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Retriever</text>
+<text x="96.000" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">picks resources</text>
+<text x="96.000" y="39.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">for this query</text>
+<rect x="117.000" y="10.000" width="28.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="131.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Plan</text>
+<text x="131.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">numbered steps</text>
+<rect x="150.000" y="10.000" width="28.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="164.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Code</text>
+<text x="164.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">calls tools and</text>
+<text x="164.000" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">databases</text>
+<rect x="150.000" y="30.000" width="28.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="164.000" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Sandbox</text>
+<text x="164.000" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">runs code</text>
+<rect x="117.000" y="30.000" width="28.000" height="11.098" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="131.000" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Observe</text>
+<text x="131.000" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">outputs, errors;</text>
+<text x="131.000" y="39.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">update plan</text>
+<rect x="117.000" y="47.000" width="28.000" height="5.499" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="131.000" y="50.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Answer</text>
+<polyline points="96.000,18.298 96.000,28.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="96.000,29.700 95.380,28.200 96.620,28.200" fill="#1c2430"/>
+<polyline points="110.000,29.549 113.500,29.549 113.500,14.149 115.500,14.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="116.700,14.149 115.200,14.769 115.200,13.529" fill="#1c2430"/>
+<polyline points="145.000,14.149 148.500,14.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="149.700,14.149 148.200,14.769 148.200,13.529" fill="#1c2430"/>
+<polyline points="164.000,21.098 164.000,28.500" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="164.000,29.700 163.380,28.200 164.620,28.200" fill="#1c2430"/>
+<polyline points="150.000,34.149 146.500,34.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="145.300,34.149 146.800,33.529 146.800,34.769" fill="#1c2430"/>
+<polyline points="131.000,30.000 131.000,19.798" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="131.000,18.598 131.620,20.098 130.380,20.098" fill="#CC312C"/>
+<polyline points="131.000,41.098 131.000,45.500" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="131.000,46.700 130.380,45.200 131.620,45.200" fill="#2e7d32"/>
+<text x="132.500" y="45.400" font-size="2.1167" fill="#2e7d32" text-anchor="start" xml:space="preserve">done</text>
+<polyline points="72.000,28.149 80.500,28.149" fill="none" stroke="#2aa198" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="81.700,28.149 80.200,28.769 80.200,27.529" fill="#2aa198"/>
+</g>
+</svg>
