@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="66.000mm" viewBox="0 0 183.000 66.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>grpo-vs-ppo</title>
+<desc>Schematic: PPO versus GRPO for reinforcement learning of language models. Layout type only; labels invented.</desc>
+<rect x="0" y="0" width="183.000" height="66.000" fill="#ffffff"/>
+<g id="zone-ppo">
+<rect x="1.000" y="1.000" width="181.000" height="31.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">PPO: advantage from a learned value model</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+</g>
+<g id="zone-grpo">
+<rect x="1.000" y="34.000" width="181.000" height="31.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="37.600" font-size="2.6811" fill="#2e7d32" text-anchor="middle" font-weight="bold" xml:space="preserve">GRPO: advantage from a group of sampled outputs (no value model)</text>
+<text x="2.200" y="37.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+</g>
+<g id="ppo">
+<rect x="5.000" y="13.000" width="18.000" height="5.499" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="14.000" y="16.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Prompt q</text>
+<rect x="29.000" y="13.000" width="28.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="43.000" y="16.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Policy model</text>
+<text x="43.000" y="20.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">trained</text>
+<rect x="63.000" y="13.000" width="18.000" height="5.499" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="72.000" y="16.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Output o</text>
+<rect x="88.000" y="7.500" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="103.000" y="10.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reference model</text>
+<text x="103.000" y="14.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">frozen, KL term</text>
+<rect x="88.000" y="19.500" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="103.000" y="22.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reward model</text>
+<text x="103.000" y="26.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">frozen, score r</text>
+<rect x="124.000" y="19.500" width="26.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="137.000" y="22.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Value model</text>
+<text x="137.000" y="26.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">trained, V(s)</text>
+<rect x="155.000" y="13.000" width="24.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="167.000" y="16.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">GAE</text>
+<text x="167.000" y="20.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">A = f(r, V)</text>
+<polyline points="23.000,15.749 27.500,15.749" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="28.700,15.749 27.200,16.369 27.200,15.129" fill="#1c2430"/>
+<polyline points="57.000,17.149 61.500,17.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="62.700,17.149 61.200,17.769 61.200,16.529" fill="#1c2430"/>
+<polyline points="81.000,15.749 84.500,15.749 84.500,11.649 86.500,11.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="87.700,11.649 86.200,12.269 86.200,11.029" fill="#1c2430"/>
+<polyline points="84.500,15.749 84.500,23.649 86.500,23.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="87.700,23.649 86.200,24.269 86.200,23.029" fill="#1c2430"/>
+<polyline points="118.000,23.649 122.500,23.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="123.700,23.649 122.200,24.269 122.200,23.029" fill="#1c2430"/>
+<polyline points="118.000,11.649 152.500,11.649 152.500,15.649 153.500,15.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="154.700,15.649 153.200,16.269 153.200,15.029" fill="#1c2430"/>
+<polyline points="150.000,23.649 152.500,23.649 152.500,18.649 153.500,18.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="154.700,18.649 153.200,19.269 153.200,18.029" fill="#1c2430"/>
+<text x="140.000" y="6.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">policy and value both updated each step</text>
+</g>
+<g id="grpo">
+<rect x="5.000" y="46.000" width="18.000" height="5.499" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="14.000" y="49.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Prompt q</text>
+<rect x="29.000" y="46.000" width="28.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="43.000" y="49.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Policy model</text>
+<text x="43.000" y="53.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">trained</text>
+<rect x="63.000" y="39.500" width="18.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="72.000" y="42.549" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">o1</text>
+<rect x="63.000" y="45.100" width="18.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="72.000" y="48.149" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">o2</text>
+<rect x="63.000" y="50.700" width="18.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="72.000" y="53.749" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">o3</text>
+<rect x="63.000" y="56.300" width="18.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="72.000" y="59.349" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">oG</text>
+<rect x="88.000" y="40.500" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="103.000" y="43.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reference model</text>
+<text x="103.000" y="47.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">frozen, KL term</text>
+<rect x="88.000" y="52.500" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="103.000" y="55.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reward model</text>
+<text x="103.000" y="59.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">scores r1 ... rG</text>
+<rect x="124.000" y="46.000" width="26.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="137.000" y="49.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Group norm</text>
+<text x="137.000" y="53.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">A_i = (r_i - mean) / sd</text>
+<rect x="155.000" y="46.000" width="24.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="167.000" y="49.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Policy loss</text>
+<text x="167.000" y="53.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">clip + KL</text>
+<polyline points="23.000,48.749 27.500,48.749" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="28.700,48.749 27.200,49.369 27.200,48.129" fill="#1c2430"/>
+<polyline points="57.000,50.149 60.000,50.149 60.000,42.105 61.500,42.105" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="62.700,42.105 61.200,42.725 61.200,41.485" fill="#1c2430"/>
+<polyline points="57.000,50.149 60.000,50.149 60.000,47.705 61.500,47.705" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="62.700,47.705 61.200,48.325 61.200,47.085" fill="#1c2430"/>
+<polyline points="57.000,50.149 60.000,50.149 60.000,53.305 61.500,53.305" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="62.700,53.305 61.200,53.925 61.200,52.685" fill="#1c2430"/>
+<polyline points="57.000,50.149 60.000,50.149 60.000,58.905 61.500,58.905" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="62.700,58.905 61.200,59.525 61.200,58.285" fill="#1c2430"/>
+<polyline points="81.000,47.705 84.500,47.705 84.500,44.649 86.500,44.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="87.700,44.649 86.200,45.269 86.200,44.029" fill="#1c2430"/>
+<polyline points="84.500,47.705 84.500,56.649 86.500,56.649" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="87.700,56.649 86.200,57.269 86.200,56.029" fill="#1c2430"/>
+<polyline points="118.000,56.649 121.000,56.649 121.000,50.149 122.500,50.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="123.700,50.149 122.200,50.769 122.200,49.529" fill="#1c2430"/>
+<polyline points="150.000,50.149 153.500,50.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="154.700,50.149 153.200,50.769 153.200,49.529" fill="#1c2430"/>
+<polyline points="118.000,44.649 167.000,44.649 167.000,44.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="167.000,45.700 166.380,44.200 167.620,44.200" fill="#1c2430"/>
+<text x="43.000" y="57.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">G = 16 samples per prompt</text>
+<text x="150.000" y="62.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">saves the memory of a value network</text>
+</g>
+</svg>

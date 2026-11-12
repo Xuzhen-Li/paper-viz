@@ -1,0 +1,30 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Module-trait correlation heatmap
+title_zh: 共表达模块与性状相关热图
+slug: module-trait-heatmap
+category: heatmap
+tags:
+  - wgcna
+  - co-expression
+  - module
+  - correlation
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  module: 模块名（ME 前缀）
+  module_size: 模块基因数
+  trait: 性状
+  r: Pearson 相关系数
+  p: 双侧 P 值
+  n: 样本数
+when_to_use: 共表达网络分析后看哪个模块与哪个性状相关时用：格子颜色为相关系数，格内上行写 r、下行括号写 P，行名后括号是模块基因数，色条放在框右侧中部。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cmap`（发散色板）；行列顺序按 `data.csv` 中模块与性状首次出现的顺序。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1186/1471-2105-9-559
+    figure: [待确认]
