@@ -1,0 +1,29 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Mendelian randomisation scatter with IVW and MR-Egger fits
+title_zh: 孟德尔随机化散点图（IVW 与 MR-Egger 斜率）
+slug: mr-scatter
+category: correlation
+tags:
+  - mendelian-randomisation
+  - causal-inference
+  - gwas
+  - scatter
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  snp: 工具变量 SNP
+  beta_exposure: SNP 对暴露的效应
+  se_exposure: 其标准误
+  beta_outcome: SNP 对结局的效应
+  se_outcome: 其标准误
+when_to_use: 两样本孟德尔随机化报告主结果时用：每个点是一个工具变量，灰色十字为 95% CI；橙线是过原点的 IVW 估计，绿色虚线是带截距的 MR-Egger，截距偏离 0 提示水平多效性；斜率与区间写在框内。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：轴标题 `x_label`/`y_label`；如需加加权中位数等方法，在 IVW 之后再加一条线并在框内同色直标。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.7554/eLife.34408
+    figure: [待确认]

@@ -1,0 +1,61 @@
+module,module_size,trait,r,p,n
+MEturquoise,1820,Height,-0.172,0.288,40
+MEturquoise,1820,Leaf area,0.135,0.406,40
+MEturquoise,1820,Yield,0.836,1.99e-11,40
+MEturquoise,1820,Flowering,0.016,0.924,40
+MEturquoise,1820,Drought score,0.143,0.377,40
+MEturquoise,1820,Sugar,0.163,0.314,40
+MEblue,1311,Height,-0.532,0.000407,40
+MEblue,1311,Leaf area,-0.563,0.000153,40
+MEblue,1311,Yield,0.176,0.279,40
+MEblue,1311,Flowering,-0.273,0.0878,40
+MEblue,1311,Drought score,0.139,0.393,40
+MEblue,1311,Sugar,0.078,0.631,40
+MEbrown,954,Height,-0.271,0.0906,40
+MEbrown,954,Leaf area,0.188,0.245,40
+MEbrown,954,Yield,0.658,3.91e-06,40
+MEbrown,954,Flowering,0.04,0.807,40
+MEbrown,954,Drought score,0.191,0.237,40
+MEbrown,954,Sugar,0.031,0.848,40
+MEyellow,702,Height,0.137,0.401,40
+MEyellow,702,Leaf area,-0.188,0.245,40
+MEyellow,702,Yield,-0.01,0.951,40
+MEyellow,702,Flowering,0.309,0.0528,40
+MEyellow,702,Drought score,0.595,5.22e-05,40
+MEyellow,702,Sugar,0.078,0.633,40
+MEgreen,588,Height,-0.021,0.9,40
+MEgreen,588,Leaf area,0.149,0.36,40
+MEgreen,588,Yield,0.114,0.483,40
+MEgreen,588,Flowering,0.26,0.105,40
+MEgreen,588,Drought score,0.285,0.0748,40
+MEgreen,588,Sugar,0.154,0.341,40
+MEred,431,Height,-0.271,0.0905,40
+MEred,431,Leaf area,0.006,0.969,40
+MEred,431,Yield,-0.02,0.904,40
+MEred,431,Flowering,-0.67,2.31e-06,40
+MEred,431,Drought score,-0.376,0.0169,40
+MEred,431,Sugar,-0.092,0.571,40
+MEblack,377,Height,-0.088,0.59,40
+MEblack,377,Leaf area,-0.076,0.641,40
+MEblack,377,Yield,0.222,0.168,40
+MEblack,377,Flowering,-0.105,0.519,40
+MEblack,377,Drought score,-0.006,0.972,40
+MEblack,377,Sugar,0.293,0.0666,40
+MEpink,290,Height,-0.043,0.794,40
+MEpink,290,Leaf area,0.242,0.132,40
+MEpink,290,Yield,-0.041,0.803,40
+MEpink,290,Flowering,0.033,0.84,40
+MEpink,290,Drought score,-0.001,0.994,40
+MEpink,290,Sugar,0.54,0.000324,40
+MEmagenta,214,Height,-0.145,0.372,40
+MEmagenta,214,Leaf area,-0.094,0.563,40
+MEmagenta,214,Yield,-0.011,0.946,40
+MEmagenta,214,Flowering,-0.071,0.665,40
+MEmagenta,214,Drought score,-0.102,0.533,40
+MEmagenta,214,Sugar,0.302,0.058,40
+MEpurple,158,Height,-0.068,0.677,40
+MEpurple,158,Leaf area,0.067,0.682,40
+MEpurple,158,Yield,-0.075,0.645,40
+MEpurple,158,Flowering,-0.256,0.111,40
+MEpurple,158,Drought score,-0.135,0.407,40
+MEpurple,158,Sugar,-0.341,0.0313,40

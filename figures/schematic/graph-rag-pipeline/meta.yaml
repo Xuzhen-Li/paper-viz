@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Graph-based retrieval-augmented generation pipeline
+title_zh: 图索引检索增强生成（GraphRAG）流程
+slug: graph-rag-pipeline
+category: schematic
+tags:
+  - llm
+  - rag
+  - knowledge-graph
+  - pipeline
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 同时画"建索引"和"回答问题"两段流程时用：上行是文档到知识图谱再到社区，下行是问题经社区摘要 map-reduce 得到全局回答，紫色折线连接两行；底部一行写对比结果。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/graph-rag-pipeline/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`names` 与 `names2`（两行卡片的标题、说明、颜色）、`CW`/`GX`（卡宽与间距）、小网络插图的点 `pts` 与边。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2404.16130
+    figure: Fig. 1

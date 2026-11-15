@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Prior-fitted network for tabular prediction
+title_zh: 先验拟合网络：合成数据预训练、一次前向预测表格
+slug: prior-fitted-network
+category: schematic
+tags:
+  - ai4science
+  - tabular
+  - foundation-model
+  - in-context-learning
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 说明表格基础模型的两阶段时用：左区从先验抽取大量合成表格训练 Transformer 预测留出标签，右区把真实训练行和测试行一起输入同一个模型，一次前向得到预测，不做梯度更新。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/prior-fitted-network/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：合成表格卡片数、两区标题、右区四张卡片的说明。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41586-024-08328-6
+    figure: Fig. 1 [待确认]

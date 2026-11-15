@@ -1,0 +1,30 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Velocity streamlines on a cell embedding
+title_zh: 细胞嵌入上的 RNA 速度流线图
+slug: velocity-stream
+category: dimension-reduction
+tags:
+  - single-cell
+  - rna-velocity
+  - trajectory
+  - embedding
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  cell: 细胞编号
+  cluster: 细胞群
+  x: 嵌入坐标 1
+  y: 嵌入坐标 2
+  vx: 速度向量 x 分量
+  vy: 速度向量 y 分量
+when_to_use: 展示细胞分化方向时用：点为细胞并按群着色，黑色流线由每个细胞的速度向量经高斯核平滑到网格后画出，群名直接写在图中。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cols`（群与颜色）、`bandwidth`（平滑核宽度）、`label_pos`（群名位置）。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1038/s41587-020-0591-3
+    figure: [待确认]

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="89.000mm" height="66.000mm" viewBox="0 0 89.000 66.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>lora-adapter</title>
+<desc>Schematic: low-rank adapter beside a frozen pretrained weight. Layout type only; numbers illustrative.</desc>
+<rect x="0" y="0" width="89.000" height="66.000" fill="#ffffff"/>
+<g id="frame">
+<rect x="1.000" y="1.000" width="87.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="44.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Low-rank adaptation of one layer</text>
+</g>
+<g id="blocks">
+<rect x="30.000" y="54.500" width="29.000" height="5.300" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="44.500" y="57.609" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">input x (d)</text>
+<rect x="30.000" y="7.500" width="29.000" height="5.300" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="44.500" y="10.609" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">output h = Wx + BAx</text>
+<rect x="5.000" y="23.000" width="30.000" height="22.000" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="20.000" y="33.260" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Pretrained W</text>
+<text x="20.000" y="36.899" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">d x d, frozen</text>
+<rect x="48.000" y="35.000" width="34.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="65.000" y="38.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">A  (r x d)</text>
+<text x="65.000" y="42.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">init: random normal</text>
+<rect x="48.000" y="19.000" width="34.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="65.000" y="22.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">B  (d x r)</text>
+<text x="65.000" y="26.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">init: zeros</text>
+</g>
+<g id="arrows">
+<polyline points="44.500,54.500 44.500,51.000 20.000,51.000 20.000,46.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="20.000,45.300 20.620,46.800 19.380,46.800" fill="#1c2430"/>
+<polyline points="44.500,51.000 65.000,51.000 65.000,44.798" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="65.000,43.598 65.620,45.098 64.380,45.098" fill="#1c2430"/>
+<polyline points="65.000,35.000 65.000,28.798" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="65.000,27.598 65.620,29.098 64.380,29.098" fill="#e08a3a"/>
+<polyline points="20.000,23.000 20.000,16.000 41.400,16.000" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="42.600,16.000 41.100,16.620 41.100,15.380" fill="#1c2430"/>
+<polyline points="65.000,19.000 65.000,16.000 47.600,16.000" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="46.400,16.000 47.900,15.380 47.900,16.620" fill="#e08a3a"/>
+<circle cx="44.500" cy="16.000" r="1.600" fill="#ffffff" stroke="#1c2430" stroke-width="0.2822"/>
+<text x="44.500" y="16.800" font-size="2.4694" fill="#1c2430" text-anchor="middle" xml:space="preserve">+</text>
+<polyline points="44.500,14.400 44.500,14.300" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="44.500,13.100 45.120,14.600 43.880,14.600" fill="#1c2430"/>
+<text x="66.500" y="32.600" font-size="2.1167" fill="#e08a3a" text-anchor="start" xml:space="preserve">rank r = 8</text>
+<text x="66.500" y="49.400" font-size="2.1167" fill="#e08a3a" text-anchor="start" xml:space="preserve">trained</text>
+<text x="20.000" y="48.000" font-size="2.1167" fill="#1F72AE" text-anchor="middle" xml:space="preserve">no gradient</text>
+<text x="44.500" y="63.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">trainable share 2rd / d^2 = 0.4% at d = 4096</text>
+</g>
+</svg>

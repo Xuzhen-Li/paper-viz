@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Polygenic score distribution and prevalence by percentile
+title_zh: 多基因评分分布与按百分位的患病率
+slug: prs-percentile
+category: layout
+tags:
+  - polygenic-score
+  - risk
+  - gwas
+  - clinical
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  id: 个体编号
+  prs: 标准化多基因评分
+  case: 是否患病（0/1）
+when_to_use: 展示多基因评分的区分能力时用：a 为病例与对照的评分密度并直接标名，b 为按评分百分位分箱的患病率，顶端几个百分位红色高亮，框内写顶端与其余人群的优势比和 95% CI（Woolf 法，双侧）。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`top`（顶端比例）、`n_bins`（百分位分箱数）。
+lang: Python
+style: house
+cells: 4x2
+references:
+  - url: https://doi.org/10.1038/s41588-018-0183-z
+    figure: [待确认]

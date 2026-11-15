@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Encoder-processor-decoder graph network for forecasting
+title_zh: 编码-处理-解码图神经网络预报流程
+slug: encoder-processor-decoder
+category: schematic
+tags:
+  - ai4science
+  - weather
+  - graph-neural-network
+  - architecture
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 介绍网格到网格的图神经网络预报模型时用：左边是 t 时刻的经纬网格，编码器映射到多尺度网格，处理器做多层消息传递，解码器映回网格得到 t + 6 h，橙色虚线表示自回归滚动预报。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/encoder-processor-decoder/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：三张卡片的说明、`grid()` 的点阵大小、六边形网格半径 `r`。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.science.org/doi/10.1126/science.adi2336
+    figure: Fig. 1 [待确认]

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="56.000mm" viewBox="0 0 183.000 56.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>prior-fitted-network</title>
+<desc>Schematic: prior-fitted network trained on synthetic tables, then used in one forward pass. Layout type only.</desc>
+<rect x="0" y="0" width="183.000" height="56.000" fill="#ffffff"/>
+<g id="zone-train">
+<rect x="1.000" y="1.000" width="98.000" height="54.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="50.000" y="4.600" font-size="2.6811" fill="#9a5bd1" text-anchor="middle" font-weight="bold" xml:space="preserve">Offline: learn to predict from synthetic tasks</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="5.000" y="11.000" width="28.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="19.000" y="14.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Prior</text>
+<text x="19.000" y="18.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">random causal</text>
+<text x="19.000" y="20.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">graphs, noise</text>
+<rect x="40.000" y="9.000" width="24.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="52.000" y="12.049" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">synthetic table 1</text>
+<rect x="40.000" y="17.400" width="24.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="52.000" y="20.449" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">synthetic table 2</text>
+<rect x="40.000" y="25.800" width="24.000" height="5.209" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="52.000" y="28.849" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">synthetic table 3</text>
+<text x="52.000" y="37.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">... millions</text>
+<rect x="70.000" y="11.000" width="25.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="82.500" y="14.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Transformer</text>
+<text x="82.500" y="18.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">predict held-out</text>
+<text x="82.500" y="20.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">labels</text>
+<polyline points="33.000,16.549 36.500,16.549 36.500,11.605 38.500,11.605" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="39.700,11.605 38.200,12.225 38.200,10.985" fill="#1c2430"/>
+<polyline points="64.000,11.605 67.000,11.605 67.000,16.549 68.500,16.549" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="69.700,16.549 68.200,17.169 68.200,15.929" fill="#1c2430"/>
+<polyline points="33.000,16.549 36.500,16.549 36.500,20.005 38.500,20.005" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="39.700,20.005 38.200,20.625 38.200,19.385" fill="#1c2430"/>
+<polyline points="64.000,20.005 67.000,20.005 67.000,16.549 68.500,16.549" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="69.700,16.549 68.200,17.169 68.200,15.929" fill="#1c2430"/>
+<polyline points="33.000,16.549 36.500,16.549 36.500,28.405 38.500,28.405" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="39.700,28.405 38.200,29.025 38.200,27.785" fill="#1c2430"/>
+<polyline points="64.000,28.405 67.000,28.405 67.000,16.549 68.500,16.549" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="69.700,16.549 68.200,17.169 68.200,15.929" fill="#1c2430"/>
+<text x="50.000" y="47.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">loss: cross-entropy on held-out rows</text>
+</g>
+<g id="zone-use">
+<rect x="102.000" y="1.000" width="80.000" height="54.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="142.000" y="4.600" font-size="2.6811" fill="#2e7d32" text-anchor="middle" font-weight="bold" xml:space="preserve">Online: one forward pass, no gradient steps</text>
+<text x="103.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="106.000" y="10.000" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="121.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Training rows</text>
+<text x="121.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">features + labels</text>
+<rect x="106.000" y="26.000" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="121.000" y="29.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Test rows</text>
+<text x="121.000" y="33.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">features only</text>
+<rect x="142.000" y="15.000" width="36.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="160.000" y="18.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Same transformer</text>
+<text x="160.000" y="22.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">attends from test rows</text>
+<text x="160.000" y="24.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">to training rows</text>
+<rect x="142.000" y="37.000" width="36.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="160.000" y="40.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Predictions</text>
+<text x="160.000" y="44.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">class probabilities</text>
+<polyline points="136.000,14.149 139.000,14.149 139.000,18.549 140.500,18.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="141.700,18.549 140.200,19.169 140.200,17.929" fill="#1c2430"/>
+<polyline points="136.000,30.149 139.000,30.149 139.000,22.549 140.500,22.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="141.700,22.549 140.200,23.169 140.200,21.929" fill="#1c2430"/>
+<polyline points="160.000,26.098 160.000,35.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="160.000,36.700 159.380,35.200 160.620,35.200" fill="#1c2430"/>
+<text x="121.000" y="47.600" font-size="2.1167" fill="#e08a3a" text-anchor="middle" xml:space="preserve">weights frozen after offline training</text>
+</g>
+</svg>

@@ -1,0 +1,49 @@
+outcome,covariates,sample,model,estimate,se
+Outcome A,No covariates,All samples,OLS,0.2659,0.0642
+Outcome A,No covariates,All samples,Mixed model,0.2825,0.0486
+Outcome A,No covariates,Exclude outliers,OLS,0.3441,0.0515
+Outcome A,No covariates,Exclude outliers,Mixed model,0.2934,0.0414
+Outcome A,Age + sex,All samples,OLS,0.2525,0.07
+Outcome A,Age + sex,All samples,Mixed model,0.2382,0.047
+Outcome A,Age + sex,Exclude outliers,OLS,0.2213,0.0692
+Outcome A,Age + sex,Exclude outliers,Mixed model,0.2561,0.0653
+Outcome A,Full set,All samples,OLS,0.1775,0.0548
+Outcome A,Full set,All samples,Mixed model,0.1611,0.0418
+Outcome A,Full set,Exclude outliers,OLS,0.1786,0.0481
+Outcome A,Full set,Exclude outliers,Mixed model,0.1981,0.0419
+Outcome B,No covariates,All samples,OLS,0.2523,0.0661
+Outcome B,No covariates,All samples,Mixed model,0.1907,0.0669
+Outcome B,No covariates,Exclude outliers,OLS,0.2306,0.0406
+Outcome B,No covariates,Exclude outliers,Mixed model,0.2213,0.04
+Outcome B,Age + sex,All samples,OLS,0.1789,0.0531
+Outcome B,Age + sex,All samples,Mixed model,0.1486,0.0497
+Outcome B,Age + sex,Exclude outliers,OLS,0.1673,0.0495
+Outcome B,Age + sex,Exclude outliers,Mixed model,0.2067,0.061
+Outcome B,Full set,All samples,OLS,0.1651,0.064
+Outcome B,Full set,All samples,Mixed model,0.0701,0.0496
+Outcome B,Full set,Exclude outliers,OLS,0.1169,0.0552
+Outcome B,Full set,Exclude outliers,Mixed model,0.1513,0.0471
+Outcome C,No covariates,All samples,OLS,0.153,0.068
+Outcome C,No covariates,All samples,Mixed model,0.1889,0.0653
+Outcome C,No covariates,Exclude outliers,OLS,0.2021,0.0685
+Outcome C,No covariates,Exclude outliers,Mixed model,0.1701,0.0681
+Outcome C,Age + sex,All samples,OLS,0.1435,0.0472
+Outcome C,Age + sex,All samples,Mixed model,0.173,0.0602
+Outcome C,Age + sex,Exclude outliers,OLS,0.1453,0.0539
+Outcome C,Age + sex,Exclude outliers,Mixed model,0.1018,0.0592
+Outcome C,Full set,All samples,OLS,0.0905,0.0608
+Outcome C,Full set,All samples,Mixed model,0.0557,0.0513
+Outcome C,Full set,Exclude outliers,OLS,0.0883,0.0458
+Outcome C,Full set,Exclude outliers,Mixed model,0.0654,0.0639
+Outcome D,No covariates,All samples,OLS,0.3431,0.0614
+Outcome D,No covariates,All samples,Mixed model,0.3669,0.0682
+Outcome D,No covariates,Exclude outliers,OLS,0.324,0.0617
+Outcome D,No covariates,Exclude outliers,Mixed model,0.389,0.0446
+Outcome D,Age + sex,All samples,OLS,0.2509,0.0654
+Outcome D,Age + sex,All samples,Mixed model,0.2926,0.0566
+Outcome D,Age + sex,Exclude outliers,OLS,0.2618,0.0688
+Outcome D,Age + sex,Exclude outliers,Mixed model,0.2641,0.0521
+Outcome D,Full set,All samples,OLS,0.2298,0.0526
+Outcome D,Full set,All samples,Mixed model,0.2284,0.068
+Outcome D,Full set,Exclude outliers,OLS,0.2345,0.0498
+Outcome D,Full set,Exclude outliers,Mixed model,0.1949,0.0456

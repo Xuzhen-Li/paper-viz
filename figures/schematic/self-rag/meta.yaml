@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Retrieval on demand with self-critique tokens
+title_zh: 按需检索与自我批判的检索增强生成（Self-RAG）
+slug: self-rag
+category: schematic
+tags:
+  - llm
+  - rag
+  - retrieval
+  - self-critique
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 说明模型先判断要不要检索、再对每个候选段落打相关性、支持度和有用性标记并择优时用：上支为检索后并行生成三个候选，下支为不检索直接生成，橙色卡片写各自的批判标记，绿色卡片择优后进入下一段。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/self-rag/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：候选段落数、橙色卡片里的标记与分数、两条分支的说明文字。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2310.11511
+    figure: Fig. 1

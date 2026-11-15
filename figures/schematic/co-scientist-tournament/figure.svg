@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="66.000mm" viewBox="0 0 183.000 66.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>co-scientist-tournament</title>
+<desc>Schematic: multi-agent hypothesis generation with tournament ranking. Layout type only; agent names generic, Elo values invented.</desc>
+<rect x="0" y="0" width="183.000" height="66.000" fill="#ffffff"/>
+<g id="zone-input">
+<rect x="1.000" y="1.000" width="36.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="19.000" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Scientist</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="4.000" y="10.000" width="30.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="19.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Research goal</text>
+<text x="19.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">plain-language aim</text>
+<text x="19.000" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">constraints, prefs</text>
+<rect x="4.000" y="30.000" width="30.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="19.000" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Feedback</text>
+<text x="19.000" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">reviews, own ideas</text>
+<text x="19.000" y="39.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">chat at any time</text>
+<rect x="4.000" y="48.000" width="30.000" height="11.098" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="19.000" y="51.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Ranked hypotheses</text>
+<text x="19.000" y="55.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">top-k with protocol</text>
+<text x="19.000" y="57.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">and evidence</text>
+</g>
+<g id="zone-system">
+<rect x="39.000" y="1.000" width="143.000" height="64.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="110.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Multi-agent system (shared memory, async tasks)</text>
+<text x="40.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="44.000" y="10.000" width="34.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="61.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Supervisor</text>
+<text x="61.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">parses goal, plans</text>
+<text x="61.000" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">assigns agent tasks</text>
+<rect x="44.000" y="48.000" width="34.000" height="11.098" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="61.000" y="51.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Context memory</text>
+<text x="61.000" y="55.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">state of all hypotheses</text>
+<text x="61.000" y="57.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">and tournament</text>
+<rect x="86.000" y="10.000" width="29.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="100.500" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Generation</text>
+<text x="100.500" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">literature + debate</text>
+<rect x="118.000" y="10.000" width="29.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="132.500" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reflection</text>
+<text x="132.500" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">review, verify</text>
+<rect x="150.000" y="10.000" width="29.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="164.500" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Ranking</text>
+<text x="164.500" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Elo tournament</text>
+<rect x="86.000" y="29.000" width="29.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="100.500" y="32.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Meta-review</text>
+<text x="100.500" y="36.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">summarise critiques</text>
+<rect x="118.000" y="29.000" width="29.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="132.500" y="32.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Proximity</text>
+<text x="132.500" y="36.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">cluster, dedupe</text>
+<rect x="150.000" y="29.000" width="29.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="164.500" y="32.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Evolution</text>
+<text x="164.500" y="36.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">combine, simplify</text>
+</g>
+<g id="elo">
+<text x="86.000" y="50.100" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">Elo after 3 rounds (example)</text>
+<text x="86.000" y="54.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">H3</text>
+<rect x="91.000" y="52.300" width="47.000" height="2.200" rx="0.00" fill="#e08a3a" stroke="none" stroke-width="0.0000"/>
+<text x="139.000" y="54.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">1288</text>
+<text x="86.000" y="57.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">H1</text>
+<rect x="91.000" y="55.300" width="35.250" height="2.200" rx="0.00" fill="#F5BA7A" stroke="none" stroke-width="0.0000"/>
+<text x="127.250" y="57.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">1241</text>
+<text x="86.000" y="60.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">H7</text>
+<rect x="91.000" y="58.300" width="28.250" height="2.200" rx="0.00" fill="#F5BA7A" stroke="none" stroke-width="0.0000"/>
+<text x="120.250" y="60.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">1213</text>
+<text x="86.000" y="63.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">H2</text>
+<rect x="91.000" y="61.300" width="19.000" height="2.200" rx="0.00" fill="#F5BA7A" stroke="none" stroke-width="0.0000"/>
+<text x="111.000" y="63.100" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">1176</text>
+</g>
+<g id="arrows">
+<polyline points="34.000,15.549 42.500,15.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="43.700,15.549 42.200,16.169 42.200,14.929" fill="#1c2430"/>
+<polyline points="34.000,35.549 40.500,35.549 40.500,18.549 42.500,18.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="43.700,18.549 42.200,19.169 42.200,17.929" fill="#1c2430"/>
+<polyline points="78.000,15.549 84.500,15.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="85.700,15.549 84.200,16.169 84.200,14.929" fill="#1c2430"/>
+<polyline points="61.000,21.098 61.000,46.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="61.000,47.700 60.380,46.200 61.620,46.200" fill="#1c2430"/>
+<polyline points="44.000,53.549 35.800,53.549" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="34.600,53.549 36.100,52.929 36.100,54.169" fill="#2e7d32"/>
+<polyline points="115.000,14.149 116.500,14.149" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="117.700,14.149 116.200,14.769 116.200,13.529" fill="#e08a3a"/>
+<polyline points="147.000,14.149 148.500,14.149" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="149.700,14.149 148.200,14.769 148.200,13.529" fill="#e08a3a"/>
+<polyline points="164.500,18.298 164.500,27.500" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="164.500,28.700 163.880,27.200 165.120,27.200" fill="#e08a3a"/>
+<polyline points="150.000,33.149 148.500,33.149" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="147.300,33.149 148.800,32.529 148.800,33.769" fill="#e08a3a"/>
+<polyline points="118.000,33.149 116.500,33.149" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="115.300,33.149 116.800,32.529 116.800,33.769" fill="#e08a3a"/>
+<polyline points="100.500,29.000 100.500,19.798" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="100.500,18.598 101.120,20.098 99.880,20.098" fill="#e08a3a"/>
+<text x="102.000" y="25.400" font-size="2.1167" fill="#e08a3a" text-anchor="start" xml:space="preserve">generate-debate-evolve loop</text>
+</g>
+</svg>

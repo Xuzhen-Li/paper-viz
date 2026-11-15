@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Multi-agent hypothesis generation with tournament ranking
+title_zh: 多 agent 科学假设生成与锦标赛排名
+slug: co-scientist-tournament
+category: schematic
+tags:
+  - llm
+  - agent
+  - ai4science
+  - multi-agent
+  - hypothesis-generation
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 画 AI 辅助科研的多 agent 系统时用：左区是科学家给出目标与反馈、拿到排名后的假设；右区由监督者分派任务，六个专门 agent 组成生成-评审-排名-进化闭环，共享记忆保存状态，右下小条形图示意 Elo 排名。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/co-scientist-tournament/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`AG`（六个 agent 的名称与说明）、Elo 小条形图的四组数值、左区三张卡片文字。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2502.18864
+    figure: Fig. 2 (arXiv v1)

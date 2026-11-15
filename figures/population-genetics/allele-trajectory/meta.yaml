@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Allele frequency trajectories from time-series ancient DNA
+title_zh: 古 DNA 时间序列的等位频率轨迹
+slug: allele-trajectory
+category: population-genetics
+tags:
+  - ancient-dna
+  - selection
+  - allele-frequency
+  - time-series
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  locus: 位点名
+  years_bp: 时间段中点（距今年数）
+  n_chrom: 该时段染色体数
+  n_derived: 其中携带衍生等位的数目
+when_to_use: 用不同时期样本看某个等位频率是否在受选择上升时用：点大小为样本量，竖线为 Wilson 95% CI，似然比显著的位点画出 logistic 拟合曲线，左上角同色写各位点的选择系数。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`loci`（位点与颜色）、`gen_years`（每代年数）；拟合用网格极大似然，只依赖 numpy。
+lang: Python
+style: house
+cells: 3x2
+references:
+  - url: https://doi.org/10.1038/nature16152
+    figure: [待确认]

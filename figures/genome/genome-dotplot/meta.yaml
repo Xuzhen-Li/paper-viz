@@ -1,0 +1,31 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Whole-genome alignment dot plot
+title_zh: 两基因组比对点图
+slug: genome-dotplot
+category: genome
+tags:
+  - genome-alignment
+  - dotplot
+  - synteny
+  - structural-variation
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  q_chr: 查询基因组染色体
+  q_start: 查询起点（bp）
+  q_end: 查询终点（bp）
+  t_chr: 目标基因组染色体
+  t_start: 目标起点（bp；反向比对时大于终点）
+  t_end: 目标终点（bp）
+  identity: 比对一致度（%）
+when_to_use: 比较两个组装的整体共线性时用：每段比对画成一条线段，按一致度分三档着色（图例放在框内右下），反向线段是倒位，跑到别的染色体上的线段是易位；染色体长度另存 `lengths.csv`。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`bins`（一致度分档与颜色）；`lengths.csv` 的 `genome`/`chr`/`length` 决定坐标轴上染色体的顺序和长度。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.7717/peerj.4958
+    figure: [待确认]

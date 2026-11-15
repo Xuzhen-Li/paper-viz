@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Sparse mixture-of-experts layer with top-2 routing
+title_zh: 稀疏混合专家层的 top-2 路由
+slug: moe-routing
+category: schematic
+tags:
+  - llm
+  - mixture-of-experts
+  - routing
+  - architecture
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 解释稀疏混合专家层时用：路由器对 4 个专家给出概率（小条形图），只激活概率最高的两个（橙色实线框），输出为两者按重新归一化的权重相加；其余专家为灰色虚线框。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/moe-routing/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`probs`（各专家的路由概率，前两名自动高亮）、输出卡片里的加权式。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2101.03961
+    figure: Fig. 2 (shows top-1 routing; this template shows top-2)

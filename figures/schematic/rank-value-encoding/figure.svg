@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="58.000mm" viewBox="0 0 183.000 58.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>rank-value-encoding</title>
+<desc>Schematic: rank-value encoding of single-cell transcriptomes for a transformer. Layout type only; genes and numbers invented.</desc>
+<rect x="0" y="0" width="183.000" height="58.000" fill="#ffffff"/>
+<g id="zone-enc">
+<rect x="1.000" y="1.000" width="112.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="57.000" y="4.600" font-size="2.6811" fill="#2aa198" text-anchor="middle" font-weight="bold" xml:space="preserve">Encode one cell as a ranked list of genes</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<text x="16.000" y="11.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">counts</text>
+<text x="45.000" y="11.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">count / corpus median</text>
+<text x="86.000" y="11.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">rank order -&gt; tokens</text>
+<text x="5.000" y="17.400" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">GENE1</text>
+<rect x="17.000" y="15.000" width="14.400" height="3.400" rx="0.00" fill="#1F72AE" stroke="none" stroke-width="0.0000"/>
+<rect x="38.000" y="15.000" width="3.900" height="3.400" rx="0.00" fill="#2aa198" stroke="none" stroke-width="0.0000"/>
+<text x="42.900" y="17.400" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">1.5</text>
+<text x="5.000" y="23.600" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">GENE2</text>
+<rect x="17.000" y="21.200" width="4.800" height="3.400" rx="0.00" fill="#1F72AE" stroke="none" stroke-width="0.0000"/>
+<rect x="38.000" y="21.200" width="13.000" height="3.400" rx="0.00" fill="#2aa198" stroke="none" stroke-width="0.0000"/>
+<text x="52.000" y="23.600" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">5.0</text>
+<text x="5.000" y="29.800" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">GENE3</text>
+<rect x="17.000" y="27.400" width="9.600" height="3.400" rx="0.00" fill="#1F72AE" stroke="none" stroke-width="0.0000"/>
+<rect x="38.000" y="27.400" width="3.120" height="3.400" rx="0.00" fill="#2aa198" stroke="none" stroke-width="0.0000"/>
+<text x="42.120" y="29.800" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">1.2</text>
+<text x="5.000" y="36.000" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">GENE4</text>
+<rect x="17.000" y="33.600" width="1.600" height="3.400" rx="0.00" fill="#1F72AE" stroke="none" stroke-width="0.0000"/>
+<rect x="38.000" y="33.600" width="1.300" height="3.400" rx="0.00" fill="#2aa198" stroke="none" stroke-width="0.0000"/>
+<text x="40.300" y="36.000" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">0.5</text>
+<text x="5.000" y="42.200" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">GENE5</text>
+<rect x="17.000" y="39.800" width="6.400" height="3.400" rx="0.00" fill="#1F72AE" stroke="none" stroke-width="0.0000"/>
+<rect x="38.000" y="39.800" width="13.000" height="3.400" rx="0.00" fill="#2aa198" stroke="none" stroke-width="0.0000"/>
+<text x="52.000" y="42.200" font-size="2.1167" fill="#1c2430" text-anchor="start" xml:space="preserve">5.0</text>
+<rect x="80.000" y="15.000" width="26.000" height="4.400" rx="0.80" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.1764"/>
+<text x="93.000" y="18.000" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">1. GENE2</text>
+<rect x="80.000" y="21.200" width="26.000" height="4.400" rx="0.80" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.1764"/>
+<text x="93.000" y="24.200" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">2. GENE5</text>
+<rect x="80.000" y="27.400" width="26.000" height="4.400" rx="0.80" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.1764"/>
+<text x="93.000" y="30.400" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">3. GENE1</text>
+<rect x="80.000" y="33.600" width="26.000" height="4.400" rx="0.80" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.1764"/>
+<text x="93.000" y="36.600" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">4. GENE3</text>
+<rect x="80.000" y="39.800" width="26.000" height="4.400" rx="0.80" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.1764"/>
+<text x="93.000" y="42.800" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">5. GENE4</text>
+<text x="57.000" y="50.600" font-size="2.1167" fill="#2aa198" text-anchor="middle" xml:space="preserve">housekeeping genes drop, cell-specific genes rise</text>
+<polyline points="68.000,30.000 78.300,30.000" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="79.500,30.000 78.000,30.620 78.000,29.380" fill="#1c2430"/>
+</g>
+<g id="zone-model">
+<rect x="116.000" y="1.000" width="66.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="149.000" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Model</text>
+<text x="117.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="120.000" y="11.000" width="58.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="149.000" y="14.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Transformer encoder</text>
+<text x="149.000" y="18.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">up to 2,048 gene tokens per cell</text>
+<text x="149.000" y="20.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">pretrain: predict masked genes</text>
+<rect x="120.000" y="31.000" width="27.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="133.500" y="34.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Fine-tune</text>
+<text x="133.500" y="38.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">cell type,</text>
+<text x="133.500" y="40.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">disease state</text>
+<rect x="151.000" y="31.000" width="27.000" height="11.098" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="164.500" y="34.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">In silico</text>
+<text x="164.500" y="38.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">delete a token,</text>
+<text x="164.500" y="40.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">read shift</text>
+<polyline points="106.300,30.000 114.500,30.000 114.500,16.549 118.500,16.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="119.700,16.549 118.200,17.169 118.200,15.929" fill="#1c2430"/>
+<polyline points="133.500,22.098 133.500,29.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="133.500,30.700 132.880,29.200 134.120,29.200" fill="#1c2430"/>
+<polyline points="164.500,22.098 164.500,29.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="164.500,30.700 163.880,29.200 165.120,29.200" fill="#1c2430"/>
+<text x="149.000" y="50.600" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">about 30 M cells (example)</text>
+</g>
+</svg>

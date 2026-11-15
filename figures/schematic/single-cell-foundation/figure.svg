@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="58.000mm" viewBox="0 0 183.000 58.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>single-cell-foundation</title>
+<desc>Schematic: single-cell foundation model from token embedding to downstream tasks. Layout type only; sizes illustrative.</desc>
+<rect x="0" y="0" width="183.000" height="58.000" fill="#ffffff"/>
+<g id="zone-in">
+<rect x="1.000" y="1.000" width="56.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="29.000" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Input embedding per gene</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="5.000" y="10.000" width="32.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="21.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Gene token</text>
+<text x="21.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">gene identity</text>
+<rect x="5.000" y="23.000" width="32.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="21.000" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Value token</text>
+<text x="21.000" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">binned expression</text>
+<rect x="5.000" y="36.000" width="32.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="21.000" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Condition token</text>
+<text x="21.000" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">batch, modality</text>
+<rect x="42.000" y="23.000" width="12.000" height="5.300" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="48.000" y="26.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">sum</text>
+<polyline points="37.000,14.149 39.500,14.149 39.500,25.650 40.500,25.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="41.700,25.650 40.200,26.270 40.200,25.030" fill="#1c2430"/>
+<polyline points="37.000,27.149 39.500,27.149 39.500,25.650 40.500,25.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="41.700,25.650 40.200,26.270 40.200,25.030" fill="#1c2430"/>
+<polyline points="37.000,40.149 39.500,40.149 39.500,25.650 40.500,25.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="41.700,25.650 40.200,26.270 40.200,25.030" fill="#1c2430"/>
+</g>
+<g id="zone-model">
+<rect x="60.000" y="1.000" width="58.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="89.000" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Pretraining</text>
+<text x="61.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="64.000" y="10.000" width="50.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="89.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Transformer x 12</text>
+<text x="89.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">attention mask: predict unknown</text>
+<text x="89.000" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">genes from known ones</text>
+<rect x="64.000" y="30.000" width="50.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="89.000" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Cell embedding</text>
+<text x="89.000" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">pooled &lt;cls&gt; token</text>
+<polyline points="89.000,21.098 89.000,28.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="89.000,29.700 88.380,28.200 89.620,28.200" fill="#1c2430"/>
+<text x="89.000" y="49.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">tens of millions of cells (example)</text>
+</g>
+<g id="zone-down">
+<rect x="121.000" y="1.000" width="61.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="151.500" y="4.600" font-size="2.6811" fill="#2e7d32" text-anchor="middle" font-weight="bold" xml:space="preserve">Fine-tune or use embeddings</text>
+<text x="122.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+<rect x="126.000" y="9.000" width="52.000" height="5.300" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.000" y="12.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Cell-type annotation</text>
+<rect x="126.000" y="20.200" width="52.000" height="5.300" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.000" y="23.309" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Batch integration</text>
+<rect x="126.000" y="31.400" width="52.000" height="5.300" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.000" y="34.509" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Perturbation response</text>
+<rect x="126.000" y="42.600" width="52.000" height="5.300" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="152.000" y="45.709" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Gene network inference</text>
+<polyline points="54.000,25.650 57.500,25.650 57.500,15.549 62.500,15.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="63.700,15.549 62.200,16.169 62.200,14.929" fill="#1c2430"/>
+<polyline points="114.000,34.149 123.500,34.149 123.500,11.650 124.500,11.650" fill="none" stroke="#2e7d32" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="125.700,11.650 124.200,12.270 124.200,11.030" fill="#2e7d32"/>
+<polyline points="114.000,34.149 123.500,34.149 123.500,22.850 124.500,22.850" fill="none" stroke="#2e7d32" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="125.700,22.850 124.200,23.470 124.200,22.230" fill="#2e7d32"/>
+<polyline points="114.000,34.149 123.500,34.149 123.500,34.050 124.500,34.050" fill="none" stroke="#2e7d32" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="125.700,34.050 124.200,34.670 124.200,33.430" fill="#2e7d32"/>
+<polyline points="114.000,34.149 123.500,34.149 123.500,45.250 124.500,45.250" fill="none" stroke="#2e7d32" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="125.700,45.250 124.200,45.870 124.200,44.630" fill="#2e7d32"/>
+</g>
+</svg>

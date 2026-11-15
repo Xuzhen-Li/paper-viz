@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="66.000mm" viewBox="0 0 183.000 66.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>agent-brain-perception-action</title>
+<desc>Schematic: conceptual LLM agent with perception, brain and action modules in a loop with the environment. Layout type only.</desc>
+<rect x="0" y="0" width="183.000" height="66.000" fill="#ffffff"/>
+<g id="zone-perception">
+<rect x="1.000" y="1.000" width="43.000" height="53.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="22.500" y="4.600" font-size="2.6811" fill="#2aa198" text-anchor="middle" font-weight="bold" xml:space="preserve">Perception</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+</g>
+<g id="zone-brain">
+<rect x="47.000" y="1.000" width="89.000" height="53.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Brain (LLM)</text>
+<text x="48.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+</g>
+<g id="zone-action">
+<rect x="139.000" y="1.000" width="43.000" height="53.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="160.500" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Action</text>
+<text x="140.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+</g>
+<g id="perception">
+<rect x="4.000" y="8.000" width="37.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="22.500" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Text input</text>
+<text x="22.500" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">instructions, chat</text>
+<rect x="4.000" y="23.000" width="37.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="22.500" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Visual input</text>
+<text x="22.500" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">images, screens</text>
+<rect x="4.000" y="38.000" width="37.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="22.500" y="41.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Other signals</text>
+<text x="22.500" y="45.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">audio, sensors, APIs</text>
+</g>
+<g id="brain">
+<rect x="50.000" y="8.000" width="40.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="70.000" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Natural language</text>
+<text x="70.000" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">understand + generate</text>
+<rect x="93.000" y="8.000" width="40.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="113.000" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Knowledge</text>
+<text x="113.000" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">world, common sense</text>
+<rect x="50.000" y="23.000" width="40.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="70.000" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Memory</text>
+<text x="70.000" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">short- and long-term</text>
+<rect x="93.000" y="23.000" width="40.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="113.000" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reasoning + planning</text>
+<text x="113.000" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">decompose, reflect</text>
+<rect x="50.000" y="38.000" width="83.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="91.500" y="41.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Decision</text>
+<text x="91.500" y="45.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">choose next tool call, message or move</text>
+</g>
+<g id="action">
+<rect x="142.000" y="8.000" width="37.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="160.500" y="11.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Text output</text>
+<text x="160.500" y="15.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">answers, plans</text>
+<rect x="142.000" y="23.000" width="37.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="160.500" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Tool use</text>
+<text x="160.500" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">search, code, lab APIs</text>
+<rect x="142.000" y="38.000" width="37.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="160.500" y="41.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Embodied action</text>
+<text x="160.500" y="45.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">robot, GUI clicks</text>
+</g>
+<g id="arrows">
+<polyline points="41.000,12.149 48.500,12.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="49.700,12.149 48.200,12.769 48.200,11.529" fill="#1c2430"/>
+<polyline points="41.000,27.149 48.500,27.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="49.700,27.149 48.200,27.769 48.200,26.529" fill="#1c2430"/>
+<polyline points="41.000,42.149 48.500,42.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="49.700,42.149 48.200,42.769 48.200,41.529" fill="#1c2430"/>
+<polyline points="133.000,12.149 140.500,12.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="141.700,12.149 140.200,12.769 140.200,11.529" fill="#1c2430"/>
+<polyline points="133.000,27.149 140.500,27.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="141.700,27.149 140.200,27.769 140.200,26.529" fill="#1c2430"/>
+<polyline points="133.000,42.149 140.500,42.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="141.700,42.149 140.200,42.769 140.200,41.529" fill="#1c2430"/>
+</g>
+<g id="env">
+<rect x="47.000" y="56.500" width="89.000" height="5.300" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="91.500" y="59.609" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Environment: web, software, laboratory, other agents and humans</text>
+<polyline points="160.500,54.000 160.500,59.150 137.500,59.150" fill="none" stroke="#2e7d32" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="136.300,59.150 137.800,58.530 137.800,59.770" fill="#2e7d32"/>
+<polyline points="47.000,59.150 22.500,59.150 22.500,55.500" fill="none" stroke="#2e7d32" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="22.500,54.300 23.120,55.800 21.880,55.800" fill="#2e7d32"/>
+<text x="150.000" y="57.950" font-size="2.1167" fill="#2e7d32" text-anchor="middle" xml:space="preserve">acts on</text>
+<text x="34.000" y="57.950" font-size="2.1167" fill="#2e7d32" text-anchor="middle" xml:space="preserve">observed</text>
+</g>
+</svg>

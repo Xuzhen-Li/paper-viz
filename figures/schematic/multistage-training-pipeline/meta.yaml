@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Multi-stage training pipeline of a reasoning language model
+title_zh: 推理大模型的多阶段训练流程
+slug: multistage-training-pipeline
+category: schematic
+tags:
+  - llm
+  - training-pipeline
+  - reinforcement-learning
+  - sft
+  - reasoning
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 介绍 SFT 与强化学习交替的多阶段训练时用：上区四个阶段从左到右，蓝色为监督微调、橙色为强化学习，灰线表示用上一阶段检查点采样数据；下区虚线框是纯强化学习变体与蒸馏两个旁支。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/multistage-training-pipeline/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`ST`（每阶段标题、两行说明、颜色）、下区两张虚线卡片。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2501.12948
+    figure: Fig. 2 (arXiv HTML numbering)

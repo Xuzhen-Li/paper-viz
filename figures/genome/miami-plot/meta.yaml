@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Miami plot of two GWAS traits
+title_zh: 双性状 GWAS 镜像曼哈顿图（Miami 图）
+slug: miami-plot
+category: genome
+tags:
+  - gwas
+  - manhattan
+  - miami
+  - pleiotropy
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  trait: 性状代码（A 在上，B 在下）
+  chrom: 染色体（整数）
+  pos: 位置（bp，整数）
+  p: P 值（数值）
+when_to_use: 比较两个性状（或两个群体、两种模型）的全基因组关联结果时用：上半是性状 A，下半是性状 B，虚线为全基因组显著线，两者共有的位点在中线上用菱形标出。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`traits`（两行标签）、`gw`（显著线）、`shared_window`（判定共有位点的距离）。
+lang: Python
+style: house
+cells: 4x2
+references:
+  - url: https://doi.org/10.1093/bioinformatics/btq419
+    figure: [待确认，作为区域关联图的相关参考]

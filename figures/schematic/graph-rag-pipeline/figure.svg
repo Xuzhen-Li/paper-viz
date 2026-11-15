@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="60.000mm" viewBox="0 0 183.000 60.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>graph-rag-pipeline</title>
+<desc>Schematic: graph-based retrieval-augmented generation, indexing and query pipelines. Layout type only; numbers illustrative.</desc>
+<rect x="0" y="0" width="183.000" height="60.000" fill="#ffffff"/>
+<g id="zone-index">
+<rect x="1.000" y="1.000" width="181.000" height="31.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Indexing time (once per corpus)</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+</g>
+<g id="zone-query">
+<rect x="1.000" y="34.000" width="181.000" height="25.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="37.600" font-size="2.6811" fill="#2e7d32" text-anchor="middle" font-weight="bold" xml:space="preserve">Query time (global question)</text>
+<text x="2.200" y="37.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+</g>
+<g id="index-cards">
+<rect x="5.000" y="9.500" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="20.000" y="12.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Source documents</text>
+<text x="20.000" y="16.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">thousands of texts</text>
+<rect x="41.000" y="9.500" width="30.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="56.000" y="12.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Text chunks</text>
+<text x="56.000" y="16.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">600 tokens, overlap 100</text>
+<rect x="77.000" y="9.500" width="30.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="92.000" y="12.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Entities + relations</text>
+<text x="92.000" y="16.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">LLM extraction</text>
+<rect x="113.000" y="9.500" width="30.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="128.000" y="12.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Knowledge graph</text>
+<text x="128.000" y="16.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">nodes, edges, claims</text>
+<rect x="149.000" y="9.500" width="30.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="164.000" y="12.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Communities</text>
+<text x="164.000" y="16.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Leiden, levels C0-C3</text>
+<polyline points="35.000,13.649 39.500,13.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="40.700,13.649 39.200,14.269 39.200,13.029" fill="#1c2430"/>
+<polyline points="71.000,13.649 75.500,13.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="76.700,13.649 75.200,14.269 75.200,13.029" fill="#1c2430"/>
+<polyline points="107.000,13.649 111.500,13.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="112.700,13.649 111.200,14.269 111.200,13.029" fill="#1c2430"/>
+<polyline points="143.000,13.649 147.500,13.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="148.700,13.649 147.200,14.269 147.200,13.029" fill="#1c2430"/>
+<polyline points="119.000,22.298 125.000,20.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="125.000,20.798 131.000,23.298" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="131.000,23.298 137.000,21.298" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="125.000,20.798 123.000,25.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="131.000,23.298 134.000,26.298" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="137.000,21.298 134.000,26.298" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="119.000,22.298 123.000,25.798" fill="none" stroke="#5b6878" stroke-width="0.1764" stroke-linejoin="round"/>
+<circle cx="119.000" cy="22.298" r="0.900" fill="#e08a3a" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="125.000" cy="20.798" r="0.900" fill="#e08a3a" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="131.000" cy="23.298" r="0.900" fill="#e08a3a" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="137.000" cy="21.298" r="0.900" fill="#9a5bd1" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="123.000" cy="25.798" r="0.900" fill="#9a5bd1" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="134.000" cy="26.298" r="0.900" fill="#9a5bd1" stroke="#1c2430" stroke-width="0.1764"/>
+</g>
+<g id="query-cards">
+<rect x="5.000" y="42.500" width="30.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="20.000" y="45.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">User question</text>
+<text x="20.000" y="49.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">"main themes?"</text>
+<rect x="41.000" y="42.500" width="30.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="56.000" y="45.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Community summaries</text>
+<text x="56.000" y="49.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">one per community</text>
+<rect x="77.000" y="42.500" width="30.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="92.000" y="45.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Map: partial answers</text>
+<text x="92.000" y="49.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">LLM per summary + score</text>
+<rect x="113.000" y="42.500" width="30.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="128.000" y="45.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Reduce: rank + merge</text>
+<text x="128.000" y="49.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">top scores to context</text>
+<rect x="149.000" y="42.500" width="30.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="164.000" y="45.909" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Global answer</text>
+<text x="164.000" y="49.548" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">with cited communities</text>
+<polyline points="35.000,46.649 39.500,46.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="40.700,46.649 39.200,47.269 39.200,46.029" fill="#1c2430"/>
+<polyline points="71.000,46.649 75.500,46.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="76.700,46.649 75.200,47.269 75.200,46.029" fill="#1c2430"/>
+<polyline points="107.000,46.649 111.500,46.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="112.700,46.649 111.200,47.269 111.200,46.029" fill="#1c2430"/>
+<polyline points="143.000,46.649 147.500,46.649" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="148.700,46.649 147.200,47.269 147.200,46.029" fill="#1c2430"/>
+<polyline points="164.000,17.798 164.000,30.000 56.000,30.000 56.000,41.000" fill="none" stroke="#9a5bd1" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="56.000,42.200 55.380,40.700 56.620,40.700" fill="#9a5bd1"/>
+<text x="118.000" y="29.200" font-size="2.1167" fill="#9a5bd1" text-anchor="middle" xml:space="preserve">summarise each community (LLM)</text>
+<text x="92.000" y="56.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">Head-to-head vs vector RAG: comprehensiveness win rate 72%, diversity 62% (illustrative values)</text>
+</g>
+</svg>

@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: "Genomic language model: pretraining, probing and fine-tuning"
+title_zh: 基因组语言模型：预训练与探针、微调两种评估
+slug: genomic-fm-eval
+category: schematic
+tags:
+  - ai4science
+  - genomics
+  - foundation-model
+  - language-model
+  - evaluation
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 介绍 DNA 语言模型的训练与评估设计时用：左区多物种基因组切成 k-mer token 做掩码预训练，右区比较冻结嵌入加探针与参数高效微调两条路线，在同一组下游任务上打分。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/genomic-fm-eval/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：左区 token 与模型规模说明、右区四张卡片、底部任务数说明。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41592-024-02523-z
+    figure: Fig. 1 [待确认]

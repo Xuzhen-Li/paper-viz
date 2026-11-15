@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Half-eye plot of posterior distributions with intervals
+title_zh: 后验分布半眼图（66% 与 95% 区间）
+slug: halfeye-interval
+category: distribution
+tags:
+  - bayesian
+  - posterior
+  - interval
+  - uncertainty
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  group: 组名（自上而下按出现顺序）
+  draw: 抽样序号
+  value: 后验抽样值
+when_to_use: 报告贝叶斯模型或 bootstrap 的分组效应时用：每行上半是密度，点为中位数，粗线为 66% 区间，细线为 95% 区间，左侧写效应大于 0 的后验概率，合并估计用橙色区分。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`x_label`、`widths`（内外两档区间）；需要别的组高亮时改 `col` 一行的判断。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://mjskay.github.io/ggdist/
+    figure: [待确认]

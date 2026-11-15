@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="68.000mm" viewBox="0 0 183.000 68.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>design-validate-funnel</title>
+<desc>Schematic: generative design funnel from generated backbones to confirmed binders. Layout type only; counts invented.</desc>
+<rect x="0" y="0" width="183.000" height="68.000" fill="#ffffff"/>
+<g id="frame">
+<rect x="1.000" y="1.000" width="181.000" height="66.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Design-filter-test funnel (counts per stage, invented)</text>
+</g>
+<g id="stage-1">
+<rect x="5.000" y="9.000" width="52.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="31.000" y="12.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Generate backbones</text>
+<text x="31.000" y="16.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">diffusion model, target-conditioned</text>
+<rect x="76.473" y="10.200" width="83.055" height="5.898" rx="0.80" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="118.000" y="14.149" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">10,000</text>
+</g>
+<g id="stage-2">
+<rect x="5.000" y="19.898" width="52.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="31.000" y="23.307" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Design sequences</text>
+<text x="31.000" y="26.947" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">inverse folding, 8 per backbone</text>
+<rect x="68.000" y="21.098" width="100.000" height="5.898" rx="0.80" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="118.000" y="25.047" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">80,000</text>
+<text x="176.000" y="25.047" font-size="2.1167" fill="#5b6878" text-anchor="end" xml:space="preserve">x 8</text>
+<polyline points="31.000,17.698 31.000,18.398" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="31.000,19.598 30.380,18.098 31.620,18.098" fill="#1c2430"/>
+</g>
+<g id="stage-3">
+<rect x="5.000" y="30.797" width="52.000" height="8.298" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="31.000" y="34.206" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Predict and filter</text>
+<text x="31.000" y="37.845" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">pLDDT &gt; 80, RMSD &lt; 2 A</text>
+<rect x="84.978" y="31.997" width="66.044" height="5.898" rx="0.80" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="118.000" y="35.946" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">1,240</text>
+<text x="176.000" y="35.946" font-size="2.1167" fill="#5b6878" text-anchor="end" xml:space="preserve">1.55% kept</text>
+<polyline points="31.000,28.597 31.000,29.297" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="31.000,30.497 30.380,28.997 31.620,28.997" fill="#1c2430"/>
+</g>
+<g id="stage-4">
+<rect x="5.000" y="41.695" width="52.000" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="31.000" y="45.104" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Test in the lab</text>
+<text x="31.000" y="48.743" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">expression + binding assay</text>
+<rect x="95.403" y="42.895" width="45.195" height="5.898" rx="0.80" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="118.000" y="46.844" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">96</text>
+<text x="176.000" y="46.844" font-size="2.1167" fill="#5b6878" text-anchor="end" xml:space="preserve">7.74% kept</text>
+<polyline points="31.000,39.495 31.000,40.195" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="31.000,41.395 30.380,39.895 31.620,39.895" fill="#1c2430"/>
+</g>
+<g id="stage-5">
+<rect x="5.000" y="52.593" width="52.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="31.000" y="56.002" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Confirmed binders</text>
+<text x="31.000" y="59.641" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Kd &lt; 1 uM</text>
+<rect x="102.223" y="53.793" width="31.554" height="5.898" rx="0.80" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="118.000" y="57.742" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">18</text>
+<text x="176.000" y="57.742" font-size="2.1167" fill="#5b6878" text-anchor="end" xml:space="preserve">18.8% kept</text>
+<polyline points="31.000,50.393 31.000,51.093" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="31.000,52.293 30.380,50.793 31.620,50.793" fill="#1c2430"/>
+<text x="160.000" y="64.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">bar width on a log scale</text>
+</g>
+</svg>

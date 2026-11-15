@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Funnel plot with pseudo 95% limits and Egger test
+title_zh: Meta 分析漏斗图（伪 95% 界与 Egger 检验）
+slug: funnel-plot
+category: clinical
+tags:
+  - meta-analysis
+  - funnel-plot
+  - publication-bias
+  - egger
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  study: 研究编号
+  log_or: 效应量（对数优势比）
+  se: 标准误
+when_to_use: Meta 分析检查小样本研究效应或发表偏倚时用：纵轴标准误倒置，灰色三角是固定效应估计的伪 95% 界，框内写固定效应、Egger 截距与 P（双侧，正态近似，未作多重校正）。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`x_label`；如用随机效应模型，把 `fe` 换成随机效应估计并改框内文字。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1136/bmj.d4002
+    figure: [待确认]

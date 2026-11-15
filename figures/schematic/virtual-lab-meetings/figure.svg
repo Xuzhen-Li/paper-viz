@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="64.000mm" viewBox="0 0 183.000 64.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>virtual-lab-meetings</title>
+<desc>Schematic: LLM agents in team and individual meetings guided by a human. Layout type only; roles generic.</desc>
+<rect x="0" y="0" width="183.000" height="64.000" fill="#ffffff"/>
+<g id="zone-human">
+<rect x="1.000" y="1.000" width="38.000" height="62.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="20.000" y="4.600" font-size="2.6811" fill="#1F72AE" text-anchor="middle" font-weight="bold" xml:space="preserve">Human researcher</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="4.000" y="10.000" width="32.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="20.000" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Agenda</text>
+<text x="20.000" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">project goal</text>
+<text x="20.000" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">questions to answer</text>
+<rect x="4.000" y="30.000" width="32.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="20.000" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Review</text>
+<text x="20.000" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">reads summaries</text>
+<text x="20.000" y="39.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">picks next agenda</text>
+<rect x="4.000" y="48.000" width="32.000" height="11.098" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="20.000" y="51.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Outputs</text>
+<text x="20.000" y="55.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">code, designs,</text>
+<text x="20.000" y="57.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">experiment list</text>
+</g>
+<g id="zone-team">
+<rect x="42.000" y="1.000" width="88.000" height="62.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="86.000" y="4.600" font-size="2.6811" fill="#9a5bd1" text-anchor="middle" font-weight="bold" xml:space="preserve">Team meeting (3 rounds)</text>
+<text x="43.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="68.000" y="9.000" width="36.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="86.000" y="12.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">PI agent</text>
+<text x="86.000" y="16.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">sets questions, summarises</text>
+<rect x="45.000" y="26.000" width="25.500" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="57.750" y="29.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Specialist 1</text>
+<text x="57.750" y="33.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">immunology</text>
+<rect x="73.500" y="26.000" width="25.500" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="86.250" y="29.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Specialist 2</text>
+<text x="86.250" y="33.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">machine learning</text>
+<rect x="102.000" y="26.000" width="25.500" height="8.298" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="114.750" y="29.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Specialist 3</text>
+<text x="114.750" y="33.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">comp. biology</text>
+<rect x="66.000" y="45.000" width="40.000" height="8.298" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="86.000" y="48.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Critic agent</text>
+<text x="86.000" y="52.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">flags errors, asks for rigour</text>
+<polyline points="86.000,17.298 86.000,21.500 57.750,21.500 57.750,24.500" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="57.750,25.700 57.130,24.200 58.370,24.200" fill="#9a5bd1"/>
+<polyline points="57.750,34.298 57.750,41.000 86.000,41.000 86.000,43.500" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="86.000,44.700 85.380,43.200 86.620,43.200" fill="#e08a3a"/>
+<polyline points="86.000,17.298 86.000,21.500 86.250,21.500 86.250,24.500" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="86.250,25.700 85.630,24.200 86.870,24.200" fill="#9a5bd1"/>
+<polyline points="86.250,34.298 86.250,41.000 86.000,41.000 86.000,43.500" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="86.000,44.700 85.380,43.200 86.620,43.200" fill="#e08a3a"/>
+<polyline points="86.000,17.298 86.000,21.500 114.750,21.500 114.750,24.500" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="114.750,25.700 114.130,24.200 115.370,24.200" fill="#9a5bd1"/>
+<polyline points="114.750,34.298 114.750,41.000 86.000,41.000 86.000,43.500" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="86.000,44.700 85.380,43.200 86.620,43.200" fill="#e08a3a"/>
+<polyline points="106.000,49.149 126.000,49.149 126.000,13.149 105.500,13.149" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="104.300,13.149 105.800,12.529 105.800,13.769" fill="#CC312C"/>
+<text x="115.500" y="55.400" font-size="2.1167" fill="#CC312C" text-anchor="middle" xml:space="preserve">next round</text>
+</g>
+<g id="zone-solo">
+<rect x="133.000" y="1.000" width="49.000" height="62.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="157.500" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Individual meeting</text>
+<text x="134.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">c</text>
+<rect x="137.000" y="10.000" width="41.000" height="11.098" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="157.500" y="13.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">One specialist</text>
+<text x="157.500" y="17.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">writes code or a design</text>
+<text x="157.500" y="19.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">for one sub-task</text>
+<rect x="137.000" y="30.000" width="41.000" height="8.298" rx="1.20" fill="#F6DEDE" stroke="#CC312C" stroke-width="0.2822"/>
+<text x="157.500" y="33.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Critic agent</text>
+<text x="157.500" y="37.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">reviews the draft</text>
+<rect x="137.000" y="48.000" width="41.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="157.500" y="51.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Revised output</text>
+<text x="157.500" y="55.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">after 3 critique rounds</text>
+<polyline points="150.000,21.098 150.000,28.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="150.000,29.700 149.380,28.200 150.620,28.200" fill="#1c2430"/>
+<polyline points="165.000,30.000 165.000,22.598" fill="none" stroke="#CC312C" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="165.000,21.398 165.620,22.898 164.380,22.898" fill="#CC312C"/>
+<polyline points="157.500,38.298 157.500,46.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="157.500,47.700 156.880,46.200 158.120,46.200" fill="#1c2430"/>
+</g>
+<g id="flow">
+<polyline points="36.000,13.000 66.500,13.000" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="67.700,13.000 66.200,13.620 66.200,12.380" fill="#1c2430"/>
+<polyline points="68.000,16.000 40.500,16.000 40.500,35.549 37.500,35.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="36.300,35.549 37.800,34.929 37.800,36.169" fill="#1c2430"/>
+<text x="44.000" y="19.600" font-size="2.1167" fill="#5b6878" text-anchor="start" xml:space="preserve">summary</text>
+<polyline points="20.000,41.098 20.000,46.500" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="20.000,47.700 19.380,46.200 20.620,46.200" fill="#1c2430"/>
+<polyline points="104.000,10.949 135.500,10.949" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="136.700,10.949 135.200,11.569 135.200,10.329" fill="#1c2430"/>
+<polyline points="157.500,56.298 157.500,61.400 20.000,61.400 20.000,60.598" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="20.000,59.398 20.620,60.898 19.380,60.898" fill="#2e7d32"/>
+</g>
+</svg>

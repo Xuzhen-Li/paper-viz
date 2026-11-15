@@ -1,0 +1,7 @@
+genome,chr,length
+query,Q1,42000000
+query,Q2,35000000
+query,Q3,28000000
+target,T1,44000000
+target,T2,33000000
+target,T3,29000000

@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Precision-recall curves with iso-F1 contours
+title_zh: 精确率-召回率曲线与等 F1 线
+slug: pr-curve-isof1
+category: clinical
+tags:
+  - precision-recall
+  - classifier
+  - imbalanced
+  - evaluation
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  sample: 样本编号
+  label: 真实标签（0/1）
+  score_a: 模型 A 打分
+  score_b: 模型 B 打分
+when_to_use: 阳性样本少、ROC 显得过于乐观时用：每个模型一条 PR 曲线并在线旁写平均精确率（AP），灰色点线是等 F1 线（数值标在顶端），灰色虚线是按阳性比例的随机基线。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`models`（列名、显示名、颜色）、`iso_f1`（等 F1 线取值）。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1371/journal.pone.0118432
+    figure: [待确认]

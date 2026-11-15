@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Decision curve analysis of two prediction models
+title_zh: 决策曲线分析（两个预测模型的净获益）
+slug: decision-curve
+category: clinical
+tags:
+  - decision-curve
+  - net-benefit
+  - prediction-model
+  - clinical
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  patient: 患者编号
+  outcome: 结局（0/1）
+  risk_a: 模型 A 的预测风险（0-1）
+  risk_b: 模型 B 的预测风险（0-1）
+when_to_use: 评价预测模型在不同干预阈值下是否值得用时用：横轴是阈值概率，纵轴是净获益，灰线为全部干预、黑线为都不干预，两条模型曲线直接在线旁标名；灰色带标出模型 A 同时优于两种默认策略和模型 B 的阈值范围。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`models`（列名、显示名与颜色）、`thresholds`（阈值范围与步长）。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1177/0272989X06295361
+    figure: [待确认]

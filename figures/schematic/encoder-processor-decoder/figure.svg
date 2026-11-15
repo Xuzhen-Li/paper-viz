@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="58.000mm" viewBox="0 0 183.000 58.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>encoder-processor-decoder</title>
+<desc>Schematic: encoder-processor-decoder graph network for weather forecasting. Layout type only; numbers illustrative.</desc>
+<rect x="0" y="0" width="183.000" height="58.000" fill="#ffffff"/>
+<g id="frame">
+<rect x="1.000" y="1.000" width="181.000" height="56.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Encode to a mesh, process with message passing, decode to the grid</text>
+</g>
+<g id="grid-in">
+<circle cx="6.000" cy="16.000" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="6.000" cy="19.200" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="6.000" cy="22.400" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="6.000" cy="25.600" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="6.000" cy="28.800" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="9.200" cy="16.000" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="9.200" cy="19.200" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="9.200" cy="22.400" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="9.200" cy="25.600" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="9.200" cy="28.800" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="12.400" cy="16.000" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="12.400" cy="19.200" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="12.400" cy="22.400" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="12.400" cy="25.600" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="12.400" cy="28.800" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="15.600" cy="16.000" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="15.600" cy="19.200" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="15.600" cy="22.400" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="15.600" cy="25.600" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="15.600" cy="28.800" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="18.800" cy="16.000" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="18.800" cy="19.200" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="18.800" cy="22.400" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="18.800" cy="25.600" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="18.800" cy="28.800" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="22.000" cy="16.000" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="22.000" cy="19.200" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="22.000" cy="22.400" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="22.000" cy="25.600" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<circle cx="22.000" cy="28.800" r="0.550" fill="#1F72AE" stroke="none" stroke-width="0.1764"/>
+<text x="14.000" y="35.400" font-size="2.1167" fill="#1F72AE" text-anchor="middle" xml:space="preserve">state at t</text>
+<text x="14.000" y="38.000" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">(lat-lon grid)</text>
+<rect x="30.000" y="18.000" width="30.000" height="11.098" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="45.000" y="21.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Encoder</text>
+<text x="45.000" y="25.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">grid -&gt; mesh</text>
+<text x="45.000" y="27.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">one GNN layer</text>
+</g>
+<g id="mesh">
+<polyline points="81.000,23.000 90.000,23.000" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="90.000,23.000 85.500,30.794" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="81.000,23.000 85.500,30.794" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="85.500,30.794 76.500,30.794" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="81.000,23.000 76.500,30.794" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="76.500,30.794 72.000,23.000" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="81.000,23.000 72.000,23.000" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="72.000,23.000 76.500,15.206" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="81.000,23.000 76.500,15.206" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="76.500,15.206 85.500,15.206" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="81.000,23.000 85.500,15.206" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="85.500,15.206 90.000,23.000" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round"/>
+<polyline points="90.000,23.000 76.500,30.794" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polyline points="76.500,30.794 76.500,15.206" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polyline points="76.500,15.206 90.000,23.000" fill="none" stroke="#9a5bd1" stroke-width="0.1764" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<circle cx="81.000" cy="23.000" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="90.000" cy="23.000" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="85.500" cy="30.794" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="76.500" cy="30.794" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="72.000" cy="23.000" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="76.500" cy="15.206" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<circle cx="85.500" cy="15.206" r="0.900" fill="#ffffff" stroke="#1c2430" stroke-width="0.1764"/>
+<rect x="66.000" y="36.000" width="30.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="81.000" y="39.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Processor</text>
+<text x="81.000" y="43.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">16 message-passing</text>
+<text x="81.000" y="45.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">layers on multi-mesh</text>
+<rect x="102.000" y="18.000" width="30.000" height="11.098" rx="1.20" fill="#e3f4f1" stroke="#2aa198" stroke-width="0.2822"/>
+<text x="117.000" y="21.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Decoder</text>
+<text x="117.000" y="25.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">mesh -&gt; grid</text>
+<text x="117.000" y="27.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">one GNN layer</text>
+</g>
+<g id="grid-out">
+<circle cx="140.000" cy="16.000" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="140.000" cy="19.200" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="140.000" cy="22.400" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="140.000" cy="25.600" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="140.000" cy="28.800" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="143.200" cy="16.000" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="143.200" cy="19.200" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="143.200" cy="22.400" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="143.200" cy="25.600" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="143.200" cy="28.800" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="146.400" cy="16.000" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="146.400" cy="19.200" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="146.400" cy="22.400" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="146.400" cy="25.600" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="146.400" cy="28.800" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="149.600" cy="16.000" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="149.600" cy="19.200" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="149.600" cy="22.400" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="149.600" cy="25.600" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="149.600" cy="28.800" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="152.800" cy="16.000" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="152.800" cy="19.200" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="152.800" cy="22.400" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="152.800" cy="25.600" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="152.800" cy="28.800" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="156.000" cy="16.000" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="156.000" cy="19.200" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="156.000" cy="22.400" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="156.000" cy="25.600" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<circle cx="156.000" cy="28.800" r="0.550" fill="#e08a3a" stroke="none" stroke-width="0.1764"/>
+<text x="148.000" y="35.400" font-size="2.1167" fill="#e08a3a" text-anchor="middle" xml:space="preserve">state at t + 6 h</text>
+<text x="148.000" y="38.000" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">(added to state at t)</text>
+</g>
+<g id="arrows">
+<polyline points="23.500,23.549 28.500,23.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="29.700,23.549 28.200,24.169 28.200,22.929" fill="#1c2430"/>
+<polyline points="60.000,23.549 69.300,23.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="70.500,23.549 69.000,24.169 69.000,22.929" fill="#1c2430"/>
+<polyline points="91.500,23.549 100.500,23.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="101.700,23.549 100.200,24.169 100.200,22.929" fill="#1c2430"/>
+<polyline points="132.000,23.549 137.300,23.549" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="138.500,23.549 137.000,24.169 137.000,22.929" fill="#1c2430"/>
+<polyline points="158.500,26.000 176.000,26.000 176.000,52.000 14.000,52.000 14.000,40.600" fill="none" stroke="#e08a3a" stroke-width="0.2822" stroke-linejoin="round" stroke-dasharray="0.9 0.6"/>
+<polygon points="14.000,39.400 14.620,40.900 13.380,40.900" fill="#e08a3a"/>
+<polyline points="81.000,32.400 81.000,35.800" fill="none" stroke="#9a5bd1" stroke-width="0.2822" stroke-linejoin="round"/>
+<text x="95.000" y="50.600" font-size="2.1167" fill="#e08a3a" text-anchor="middle" xml:space="preserve">autoregressive rollout: feed the prediction back in</text>
+<text x="81.000" y="11.800" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">dashed: long-range mesh edges</text>
+</g>
+</svg>

@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Rank-value encoding of single-cell transcriptomes
+title_zh: 单细胞转录组的秩值编码与 Transformer
+slug: rank-value-encoding
+category: schematic
+tags:
+  - ai4science
+  - single-cell
+  - foundation-model
+  - transformer
+  - tokenisation
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 解释"把一个细胞写成按相对表达排序的基因序列"再送入 Transformer 时用：左区三列依次是原始计数、除以全库中位数后的值、排序后的基因 token，右区是预训练模型与微调、虚拟删除两类下游用法。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/rank-value-encoding/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`GN`、`raw`、`med`（示例基因及其计数和全库中位数，排序自动计算）、右区卡片文字。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41586-023-06139-9
+    figure: Fig. 1 [待确认]

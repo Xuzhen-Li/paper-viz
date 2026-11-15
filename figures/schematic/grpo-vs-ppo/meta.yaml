@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: PPO versus GRPO for reinforcement learning of language models
+title_zh: PPO 与 GRPO 强化学习流程对比
+slug: grpo-vs-ppo
+category: schematic
+tags:
+  - llm
+  - reinforcement-learning
+  - grpo
+  - ppo
+  - comparison
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 说明两种策略优化方法差在哪里时用：上行 PPO 用奖励模型和价值模型经 GAE 算优势，下行 GRPO 对同一提示采样一组输出、组内归一化奖励得到优势，不需要价值模型；橙色是训练中的模型，蓝色是冻结模型。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/grpo-vs-ppo/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：各 `f.card(...)` 的标题与说明、组大小标注 `G = 16`、两区标题。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2501.12948
+    figure: Fig. 3 (arXiv HTML numbering)

@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Low-rank adapter beside a frozen weight (LoRA)
+title_zh: 冻结权重旁加低秩适配器（LoRA）
+slug: lora-adapter
+category: schematic
+tags:
+  - llm
+  - fine-tuning
+  - lora
+  - parameter-efficient
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 解释参数高效微调时用：左边蓝色是冻结的预训练权重，右边橙色是可训练的低秩矩阵 A 与 B，两路输出相加；底部一行写可训练参数占比。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/lora-adapter/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：秩 `rank r = 8`、底部占比算式、A 与 B 的初始化说明。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2106.09685
+    figure: Fig. 1

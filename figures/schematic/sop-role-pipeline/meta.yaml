@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Role-based multi-agent pipeline with a shared message pool
+title_zh: 按标准流程分工的多角色 agent 流水线与共享消息池
+slug: sop-role-pipeline
+category: schematic
+tags:
+  - llm
+  - multi-agent
+  - software-engineering
+  - workflow
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 画多个角色 agent 按标准作业流程依次交付文档时用：上行五个角色从左到右传递产物，下方共享消息池表示发布与订阅，红色回线表示测试不通过时返工。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/sop-role-pipeline/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`ROLES`（角色名、产物、颜色）、消息池说明、返工回线连接的两个角色。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2308.00352
+    figure: Fig. 1

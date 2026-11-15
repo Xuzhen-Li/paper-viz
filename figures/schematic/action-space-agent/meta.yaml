@@ -1,0 +1,20 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Agent with an action space mined from the literature
+title_zh: 从文献挖掘动作空间的通用科研 agent
+slug: action-space-agent
+category: schematic
+tags:
+  - llm
+  - agent
+  - ai4science
+  - biomedicine
+  - tool-use
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 画"先离线构建工具与数据库、再在线检索-计划-写码-执行"的科研 agent 时用：左区从文献挖出工具、数据库和软件，右区按查询检索资源，计划、写代码、在沙箱执行，观察后更新计划直到给出答案。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/action-space-agent/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`RES`（资源类别与说明）、右区六张卡片的文字。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://cs.stanford.edu/~jure/pubs/biomni-biorxiv25.pdf
+    figure: Fig. 1

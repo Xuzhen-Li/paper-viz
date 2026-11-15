@@ -1,0 +1,26 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Four-way plot of fold changes in two contrasts
+title_zh: 两组对比倍数变化的四象限图
+slug: quadrant-fc
+category: differential-expression
+tags:
+  - fold-change
+  - four-way-plot
+  - rna-seq
+  - quadrant
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  gene: 基因 ID
+  lfc_a: 对比 1 的 log2 倍数变化
+  lfc_b: 对比 2 的 log2 倍数变化
+when_to_use: 比较两种处理（或两个物种、两个时间点）的差异表达是否一致时用：两轴各为一个对比的 log2FC，虚线为阈值，四个象限的基因分别着色并在角上写数量，框内写相关系数。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cut`（两轴共用的 |log2FC| 阈值）、轴标题、象限颜色 `cols`。
+lang: Python
+style: house
+cells: 2x2
+references: []
+references_note: No single published figure is redrawn; this is a common layout for comparing two differential-expression contrasts.

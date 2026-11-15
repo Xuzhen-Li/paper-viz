@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Single-cell foundation model from token embedding to downstream tasks
+title_zh: 单细胞基础模型：输入嵌入、预训练与下游任务
+slug: single-cell-foundation
+category: schematic
+tags:
+  - ai4science
+  - single-cell
+  - foundation-model
+  - transformer
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 介绍单细胞基础模型的整体框架时用：左区每个基因的三种 token 相加成输入，中区 Transformer 预训练并输出细胞嵌入，右区列出注释、批次整合、扰动预测、基因网络等下游任务。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/single-cell-foundation/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`IN`（输入 token 种类）、`DN`（下游任务列表）、中区两张卡片的说明。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41592-024-02201-0
+    figure: Fig. 1 [待确认]

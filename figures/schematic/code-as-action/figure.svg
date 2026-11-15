@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="62.000mm" viewBox="0 0 183.000 62.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>code-as-action</title>
+<desc>Schematic: JSON tool calls versus executable code actions for an LLM agent. Layout type only; code invented.</desc>
+<rect x="0" y="0" width="183.000" height="62.000" fill="#ffffff"/>
+<g id="zone-json">
+<rect x="1.000" y="1.000" width="89.000" height="60.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="45.500" y="4.600" font-size="2.6811" fill="#5b6878" text-anchor="middle" font-weight="bold" xml:space="preserve">Text or JSON actions: one tool call per turn</text>
+<text x="2.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">a</text>
+<rect x="4.000" y="24.000" width="20.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="14.000" y="27.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Agent</text>
+<text x="14.000" y="31.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">LLM</text>
+<rect x="31.000" y="9.000" width="30.000" height="7.919" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="46.000" y="12.049" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">turn 1: {"tool": "lookup",</text>
+<text x="46.000" y="14.758" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">"arg": "city 1"}</text>
+<rect x="31.000" y="22.000" width="30.000" height="7.919" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="46.000" y="25.049" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">turn 2: {"tool": "lookup",</text>
+<text x="46.000" y="27.758" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">"arg": "city 2"}</text>
+<rect x="31.000" y="35.000" width="30.000" height="7.919" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="46.000" y="38.049" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">turn 3: {"tool": "lookup",</text>
+<text x="46.000" y="40.758" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">"arg": "city 3"}</text>
+<rect x="68.000" y="24.000" width="19.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="77.500" y="27.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Tools</text>
+<text x="77.500" y="31.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">one result</text>
+<text x="77.500" y="33.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">per turn</text>
+<polyline points="24.000,28.149 27.500,28.149 27.500,12.959 29.500,12.959" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="30.700,12.959 29.200,13.579 29.200,12.339" fill="#1c2430"/>
+<polyline points="61.000,12.959 64.500,12.959 64.500,29.549 66.500,29.549" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="67.700,29.549 66.200,30.169 66.200,28.929" fill="#1c2430"/>
+<polyline points="24.000,28.149 27.500,28.149 27.500,25.959 29.500,25.959" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="30.700,25.959 29.200,26.579 29.200,25.339" fill="#1c2430"/>
+<polyline points="61.000,25.959 64.500,25.959 64.500,29.549 66.500,29.549" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="67.700,29.549 66.200,30.169 66.200,28.929" fill="#1c2430"/>
+<polyline points="24.000,28.149 27.500,28.149 27.500,38.959 29.500,38.959" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="30.700,38.959 29.200,39.579 29.200,38.339" fill="#1c2430"/>
+<polyline points="61.000,38.959 64.500,38.959 64.500,29.549 66.500,29.549" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="67.700,29.549 66.200,30.169 66.200,28.929" fill="#1c2430"/>
+<text x="45.500" y="52.400" font-size="2.1167" fill="#5b6878" text-anchor="middle" xml:space="preserve">3 turns, results compared in text</text>
+</g>
+<g id="zone-code">
+<rect x="93.000" y="1.000" width="89.000" height="60.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="137.500" y="4.600" font-size="2.6811" fill="#e08a3a" text-anchor="middle" font-weight="bold" xml:space="preserve">Code actions: one program per turn</text>
+<text x="94.200" y="4.600" font-size="3.5278" fill="#1c2430" text-anchor="start" font-weight="bold" xml:space="preserve">b</text>
+<rect x="96.000" y="24.000" width="20.000" height="8.298" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="106.000" y="27.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Agent</text>
+<text x="106.000" y="31.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">LLM</text>
+<rect x="121.000" y="9.000" width="34.000" height="10.628" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="138.000" y="12.049" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">res = [lookup(c)</text>
+<text x="138.000" y="14.758" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">       for c in cities]</text>
+<text x="138.000" y="17.468" font-size="2.1167" fill="#1c2430" text-anchor="middle" xml:space="preserve">print(max(res))</text>
+<rect x="160.000" y="24.000" width="19.000" height="11.098" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="169.500" y="27.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Python</text>
+<text x="169.500" y="31.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">runs code,</text>
+<text x="169.500" y="33.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">calls tools</text>
+<rect x="121.000" y="37.000" width="34.000" height="8.298" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="138.000" y="40.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Observation</text>
+<text x="138.000" y="44.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">stdout or error trace</text>
+<polyline points="116.000,26.149 118.000,26.149 118.000,14.314 119.500,14.314" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="120.700,14.314 119.200,14.934 119.200,13.694" fill="#1c2430"/>
+<polyline points="155.000,14.314 157.500,14.314 157.500,27.549 158.500,27.549" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="159.700,27.549 158.200,28.169 158.200,26.929" fill="#1c2430"/>
+<polyline points="160.000,32.549 157.500,32.549 157.500,41.149 156.500,41.149" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="155.300,41.149 156.800,40.529 156.800,41.769" fill="#2e7d32"/>
+<polyline points="121.000,41.149 118.000,41.149 118.000,31.149 117.500,31.149" fill="none" stroke="#2e7d32" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="116.300,31.149 117.800,30.529 117.800,31.769" fill="#2e7d32"/>
+<text x="137.500" y="56.400" font-size="2.1167" fill="#e08a3a" text-anchor="middle" xml:space="preserve">1 turn; loops and variables stay in code</text>
+</g>
+</svg>

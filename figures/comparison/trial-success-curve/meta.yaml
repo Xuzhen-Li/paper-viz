@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Cumulative success over repeated trials
+title_zh: 多次尝试的累计成功率曲线
+slug: trial-success-curve
+category: comparison
+tags:
+  - agent
+  - evaluation
+  - learning-curve
+  - benchmark
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  method: 方法名
+  trial: 第几次尝试
+  solved: 累计解决的任务数
+  n_tasks: 任务总数
+when_to_use: 比较 agent 方法随尝试次数增加的累计解决率时用：每条线一个方法并在右端直接标名，色带为 Wilson 95% 置信区间，左上角写最好方法从第 1 次到最后一次的提升。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`cols`（方法与颜色，顺序不影响右端标签的防重叠）。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://arxiv.org/abs/2303.11366
+    figure: Fig. 3a

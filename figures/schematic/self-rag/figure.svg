@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.000mm" height="60.000mm" viewBox="0 0 183.000 60.000" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif">
+<title>self-rag</title>
+<desc>Schematic: retrieval on demand with self-critique tokens (relevance, support, usefulness). Layout type only; scores invented.</desc>
+<rect x="0" y="0" width="183.000" height="60.000" fill="#ffffff"/>
+<g id="frame">
+<rect x="1.000" y="1.000" width="181.000" height="58.000" rx="1.60" fill="#f2f4f7" stroke="#c9ced6" stroke-width="0.1764"/>
+<text x="91.500" y="4.600" font-size="2.6811" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Retrieve on demand, then critique each candidate</text>
+</g>
+<g id="cards">
+<rect x="4.000" y="24.000" width="20.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="14.000" y="27.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Prompt</text>
+<text x="14.000" y="31.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">+ text so far</text>
+<rect x="29.000" y="23.000" width="24.000" height="11.098" rx="1.20" fill="#efe3f7" stroke="#9a5bd1" stroke-width="0.2822"/>
+<text x="41.000" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Retrieve?</text>
+<text x="41.000" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">LM emits a</text>
+<text x="41.000" y="32.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">reflection token</text>
+<rect x="60.000" y="9.000" width="22.000" height="8.298" rx="1.20" fill="#DEE4F0" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="71.000" y="12.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Retriever</text>
+<text x="71.000" y="16.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">top-3 passages</text>
+<rect x="89.000" y="5.000" width="20.000" height="5.300" rx="1.20" fill="#ffffff" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="99.000" y="8.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">passage d1</text>
+<rect x="89.000" y="15.000" width="20.000" height="5.300" rx="1.20" fill="#ffffff" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="99.000" y="18.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">passage d2</text>
+<rect x="89.000" y="25.000" width="20.000" height="5.300" rx="1.20" fill="#ffffff" stroke="#1F72AE" stroke-width="0.2822"/>
+<text x="99.000" y="28.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">passage d3</text>
+<rect x="114.000" y="5.000" width="34.000" height="5.300" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="131.000" y="8.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Rel yes  Sup full  Use 5</text>
+<rect x="114.000" y="15.000" width="34.000" height="5.300" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="131.000" y="18.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Rel yes  Sup part  Use 4</text>
+<rect x="114.000" y="25.000" width="34.000" height="5.300" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="131.000" y="28.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Rel no  Sup none  Use 2</text>
+<rect x="60.000" y="43.000" width="49.000" height="8.298" rx="1.20" fill="#ffffff" stroke="#5b6878" stroke-width="0.2822"/>
+<text x="84.500" y="46.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">No retrieval</text>
+<text x="84.500" y="50.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">generate segment directly</text>
+<rect x="114.000" y="43.000" width="34.000" height="5.300" rx="1.20" fill="#fde8d4" stroke="#e08a3a" stroke-width="0.2822"/>
+<text x="131.000" y="46.109" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">Use 4</text>
+<rect x="154.000" y="23.000" width="25.000" height="11.098" rx="1.20" fill="#e8f3ea" stroke="#2e7d32" stroke-width="0.2822"/>
+<text x="166.500" y="26.409" font-size="2.3989" fill="#1c2430" text-anchor="middle" font-weight="bold" xml:space="preserve">Pick best</text>
+<text x="166.500" y="30.048" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">weighted score</text>
+<text x="166.500" y="32.848" font-size="2.1872" fill="#1c2430" text-anchor="middle" xml:space="preserve">of the tokens</text>
+</g>
+<g id="arrows">
+<polyline points="24.000,28.149 27.500,28.149" fill="none" stroke="#1c2430" stroke-width="0.4233" stroke-linejoin="round"/>
+<polygon points="28.700,28.149 27.200,28.769 27.200,27.529" fill="#1c2430"/>
+<polyline points="41.000,23.000 41.000,13.149 58.500,13.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="59.700,13.149 58.200,13.769 58.200,12.529" fill="#1c2430"/>
+<text x="42.200" y="12.400" font-size="2.1167" fill="#9a5bd1" text-anchor="start" xml:space="preserve">yes</text>
+<polyline points="41.000,34.098 41.000,47.149 58.500,47.149" fill="none" stroke="#1c2430" stroke-width="0.2822" stroke-linejoin="round"/>
+<polygon points="59.700,47.149 58.200,47.769 58.200,46.529" fill="#1c2430"/>
+<text x="42.200" y="47.000" font-size="2.1167" fill="#9a5bd1" text-anchor="start" xml:space="preserve">no</text>
+<polyline points="82.000,13.149 85.500,13.149 85.500,7.650 87.500,7.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="88.700,7.650 87.200,8.270 87.200,7.030" fill="#1c2430"/>
+<polyline points="109.000,7.650 112.500,7.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="113.700,7.650 112.200,8.270 112.200,7.030" fill="#1c2430"/>
+<polyline points="148.000,7.650 151.000,7.650 151.000,28.549 152.500,28.549" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="153.700,28.549 152.200,29.169 152.200,27.929" fill="#e08a3a"/>
+<polyline points="82.000,13.149 85.500,13.149 85.500,17.650 87.500,17.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="88.700,17.650 87.200,18.270 87.200,17.030" fill="#1c2430"/>
+<polyline points="109.000,17.650 112.500,17.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="113.700,17.650 112.200,18.270 112.200,17.030" fill="#1c2430"/>
+<polyline points="148.000,17.650 151.000,17.650 151.000,28.549 152.500,28.549" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="153.700,28.549 152.200,29.169 152.200,27.929" fill="#e08a3a"/>
+<polyline points="82.000,13.149 85.500,13.149 85.500,27.650 87.500,27.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="88.700,27.650 87.200,28.270 87.200,27.030" fill="#1c2430"/>
+<polyline points="109.000,27.650 112.500,27.650" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="113.700,27.650 112.200,28.270 112.200,27.030" fill="#1c2430"/>
+<polyline points="148.000,27.650 151.000,27.650 151.000,28.549 152.500,28.549" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="153.700,28.549 152.200,29.169 152.200,27.929" fill="#e08a3a"/>
+<polyline points="109.000,47.149 112.500,47.149" fill="none" stroke="#1c2430" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="113.700,47.149 112.200,47.769 112.200,46.529" fill="#1c2430"/>
+<polyline points="148.000,45.650 151.000,45.650 151.000,29.749" fill="none" stroke="#e08a3a" stroke-width="0.1764" stroke-linejoin="round"/>
+<polygon points="151.000,28.549 151.620,30.049 150.380,30.049" fill="#e08a3a"/>
+<text x="131.000" y="38.600" font-size="2.1167" fill="#e08a3a" text-anchor="middle" xml:space="preserve">segment + critique tokens</text>
+<text x="166.500" y="40.200" font-size="2.1167" fill="#2e7d32" text-anchor="middle" xml:space="preserve">append, repeat</text>
+<text x="166.500" y="43.000" font-size="2.1167" fill="#2e7d32" text-anchor="middle" xml:space="preserve">for next segment</text>
+</g>
+</svg>

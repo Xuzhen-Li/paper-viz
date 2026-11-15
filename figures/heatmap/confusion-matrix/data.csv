@@ -1,0 +1,65 @@
+true,predicted,count
+B cell,B cell,407
+B cell,CD4 T,2
+B cell,CD8 T,2
+B cell,NK,4
+B cell,Monocyte,0
+B cell,DC,2
+B cell,Platelet,0
+B cell,Plasma,3
+CD4 T,B cell,1
+CD4 T,CD4 T,784
+CD4 T,CD8 T,101
+CD4 T,NK,3
+CD4 T,Monocyte,5
+CD4 T,DC,7
+CD4 T,Platelet,2
+CD4 T,Plasma,7
+CD8 T,B cell,5
+CD8 T,CD4 T,57
+CD8 T,CD8 T,495
+CD8 T,NK,47
+CD8 T,Monocyte,0
+CD8 T,DC,1
+CD8 T,Platelet,2
+CD8 T,Plasma,3
+NK,B cell,3
+NK,CD4 T,1
+NK,CD8 T,52
+NK,NK,266
+NK,Monocyte,1
+NK,DC,2
+NK,Platelet,3
+NK,Plasma,2
+Monocyte,B cell,7
+Monocyte,CD4 T,3
+Monocyte,CD8 T,4
+Monocyte,NK,2
+Monocyte,Monocyte,729
+Monocyte,DC,27
+Monocyte,Platelet,5
+Monocyte,Plasma,3
+DC,B cell,0
+DC,CD4 T,0
+DC,CD8 T,1
+DC,NK,1
+DC,Monocyte,24
+DC,DC,94
+DC,Platelet,0
+DC,Plasma,0
+Platelet,B cell,1
+Platelet,CD4 T,0
+Platelet,CD8 T,0
+Platelet,NK,0
+Platelet,Monocyte,1
+Platelet,DC,0
+Platelet,Platelet,88
+Platelet,Plasma,0
+Plasma,B cell,21
+Plasma,CD4 T,1
+Plasma,CD8 T,0
+Plasma,NK,0
+Plasma,Monocyte,0
+Plasma,DC,1
+Plasma,Platelet,0
+Plasma,Plasma,37

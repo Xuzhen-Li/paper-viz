@@ -1,0 +1,27 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Row-normalised confusion matrix
+title_zh: 行归一化混淆矩阵
+slug: confusion-matrix
+category: heatmap
+tags:
+  - confusion-matrix
+  - classification
+  - cell-type-annotation
+  - evaluation
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  true: 真实类别
+  predicted: 预测类别
+  count: 计数
+when_to_use: 评估分类或细胞类型注释时用：每行按真实类别归一化，对角线加粗写比例，非对角只写大于阈值的混淆，行名后括号是该类样本数，框内右上角写总体准确率与宏平均 F1。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`show_min`（非对角显示阈值）、类别顺序（按 `data.csv` 中 `true` 列首次出现顺序）。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1038/s41592-024-02201-0
+    figure: [待确认]

@@ -1,0 +1,21 @@
+day,timepoint,clone,parent,ccf
+0,Diagnosis,C1,,99
+120,Remission,C1,,15
+300,Relapse 1,C1,,80
+520,Relapse 2,C1,,99
+0,Diagnosis,C2,C1,40
+120,Remission,C2,C1,8
+300,Relapse 1,C2,C1,5
+520,Relapse 2,C2,C1,3
+0,Diagnosis,C3,C1,20
+120,Remission,C3,C1,4
+300,Relapse 1,C3,C1,60
+520,Relapse 2,C3,C1,30
+0,Diagnosis,C4,C3,0
+120,Remission,C4,C3,1
+300,Relapse 1,C4,C3,30
+520,Relapse 2,C4,C3,10
+0,Diagnosis,C5,C1,0
+120,Remission,C5,C1,0
+300,Relapse 1,C5,C1,2
+520,Relapse 2,C5,C1,60

@@ -1,0 +1,19 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: Design-filter-test funnel with counts per stage
+title_zh: 生成式设计的筛选漏斗（各阶段数量）
+slug: design-validate-funnel
+category: schematic
+tags:
+  - ai4science
+  - protein-design
+  - generative-model
+  - funnel
+packages:
+  - draw.io
+data_columns: {}
+when_to_use: 报告"大量生成、计算筛选、少量实验验证"的设计流程时用：左列是各阶段的方法与阈值，右列条宽按对数刻度表示数量并写出数字，最右写保留比例。
+customize: 改 `build.py` 后运行 `python3 figures/schematic/design-validate-funnel/build.py` 重新生成，或在 draw.io 里打开 `template.drawio` 直接编辑。常改项：`STG`（阶段名、说明、数量、颜色），条宽按 log10 数量自动计算。标签出框、互相重叠或字号小于 6 pt 时脚本报错退出。
+lang: drawio
+references:
+  - url: https://www.nature.com/articles/s41586-023-06415-8
+    figure: Fig. 1 [待确认]

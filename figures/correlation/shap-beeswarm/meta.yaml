@@ -1,0 +1,28 @@
+# Layout type redrawn from scratch with simulated data or invented labels. References are links only (URL + figure number); no text or images copied.
+title: SHAP beeswarm summary of feature effects
+title_zh: SHAP 蜂群图（特征贡献汇总）
+slug: shap-beeswarm
+category: correlation
+tags:
+  - shap
+  - explainable-ai
+  - feature-importance
+  - beeswarm
+  - house-style
+packages:
+  - matplotlib
+  - numpy
+  - pandas
+data_columns:
+  sample: 样本编号
+  feature: 特征名
+  value: 特征值（缩放到 0-1，用于着色）
+  shap: SHAP 值
+when_to_use: 解释树模型或其他模型的预测时用：每行一个特征，按平均 |SHAP| 从上到下排（数值写在特征名后），每个点是一个样本，横轴为 SHAP 值，颜色表示特征值高低，色条放在框内右下角。
+customize: 改 `plot.py` 顶部参数块后在本目录运行 `python3 plot.py`；换数据时按列名替换 `data.csv`（`make_data.py` 用固定种子生成模拟数据）。常改项：`row_height`（每行蜂群的半高）；配色在 `cmap` 一行修改。
+lang: Python
+style: house
+cells: 2x2
+references:
+  - url: https://doi.org/10.1038/s42256-019-0138-9
+    figure: [待确认]
