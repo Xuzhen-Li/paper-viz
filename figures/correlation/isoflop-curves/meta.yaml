@@ -1,0 +1,19 @@
+# Simulated data. Chart type only; no images taken from any source.
+title: IsoFLOP curves with compute-optimal fit
+title_zh: 等计算量（IsoFLOP）曲线与最优模型规模拟合
+slug: isoflop-curves
+category: correlation
+tags: [scaling-law, llm, isoflop, log-scale, power-law, ai4science]
+packages: [matplotlib, numpy]
+lang: Python
+style: house
+cells: '3x1'
+data_columns:
+  compute_flops: training compute budget (FLOPs); one curve per value
+  params: model parameters N
+  tokens: training tokens D = C / (6N)
+  loss: final training loss
+when_to_use: Show a U-shaped loss-vs-size curve for each fixed compute budget, mark the fitted minimum, and fit how the optimum scales with compute (scaling-law papers, hyper-parameter sweeps).
+customize: Change the budgets or the quadratic fit order in plot.py; panel b fits a log-log line to the per-budget minima. Log-axis tick labels are plain text (1e8, 1e19, ...) so exponents stay at the tick size.
+references_note: 'Layout idea only (arXiv:2203.15556 Figure 3). Data are simulated with seed 20261113 from a Chinchilla-style parametric loss whose constants E, A, B, alpha and beta are those reported by Hoffmann et al. 2022; the plotted points are not published values, and no image was traced. This v4 keeps the v3 3x1 canvas and data; it merges the panel-a fit/diamond key into the upper-right footnote block and moves the panel-b slope label to the lower-right corner. It does not replace earlier drafts.'
+seed: 20261113

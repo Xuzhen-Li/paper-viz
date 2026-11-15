@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used).
+title: 'Event-study plot of dynamic estimates'
+title_zh: '事件研究图（相对时间动态效应）'
+slug: 'event-study'
+category: 'comparison'
+tags:
+  - 'event-study'
+  - 'dynamic-treatment-effect'
+  - 'confidence-interval'
+  - 'panel'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+data_columns:
+  unit_id: 'unit identifier (integer)'
+  time: 'period relative to the event (integer; 0 is the event period)'
+  y: 'outcome (arbitrary units)'
+when_to_use: 'Show how an outcome changes with time relative to an event, with a pre-period, an omitted reference period and interval estimates. This template is not a causal claim.'
+customize: 'Replace data.csv with a balanced or nearly balanced unit-period panel. plot.py fits a unit fixed-effects (within) OLS on period dummies, omits REF = -1 (coefficient fixed at 0, open circle), and draws 95% CIs from unit-clustered standard errors (G/(G-1) adjustment, t critical value with G-1 d.f.). Change REF or LEVEL at the top of plot.py. Single 2x2 panel: the +2 pt bump is applied up front and save_house is called with bump=0.'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+references_note: 'Layout idea only (event-study / dynamic treatment-effect plot with a pre-period reference). Simulated data with seed 20261133. No published values, images or tracings are used; estimates are not a causal claim.'
+seed: 20261133

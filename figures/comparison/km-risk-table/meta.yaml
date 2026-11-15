@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Kaplan-Meier curves with number-at-risk table'
+title_zh: 'Kaplan-Meier 生存曲线 + 风险人数表'
+slug: 'km-risk-table'
+category: 'comparison'
+tags:
+  - 'survival'
+  - 'kaplan-meier'
+  - 'log-rank'
+  - 'number-at-risk'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261121
+data_columns:
+  subject: 'subject identifier (placeholder string)'
+  group: 'group name (placeholder string)'
+  time: 'follow-up time (months)'
+  event: '1 = event observed, 0 = right-censored'
+when_to_use: 'Compare time-to-event curves between a few groups, with censoring marks, 95% CI bands and the number still at risk under the time axis.'
+customize: 'Replace data.csv with one row per subject. plot.py computes the Kaplan-Meier estimate, Greenwood 95% CI (plain, clipped to [0, 1]), the number at risk at risk_times, n, and one k-group log-rank test (two-sided, chi-square with k - 1 df; single test, no multiplicity correction). Edit risk_times at the top of plot.py.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules. Staging try3; earlier tries are kept unchanged in _staging.'

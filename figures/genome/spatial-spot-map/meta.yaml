@@ -1,0 +1,32 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Spatial spot map with region clusters and two feature channels (house style)'
+title_zh: '空间 spot 图：区域聚类与两个分子通道（house 风格）'
+slug: 'spatial-spot-map'
+category: 'genome'
+tags:
+  - 'spatial-transcriptomics'
+  - 'spatial-multi-omics'
+  - 'spot-map'
+  - 'tissue'
+  - 'clustering'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  spot: 'spot 编号'
+  x_um: 'spot 中心 x 坐标（µm）'
+  y_um: 'spot 中心 y 坐标（µm）'
+  region: '区域（聚类）标签，如 Region 1'
+  feature_a: '通道 A 的强度（如某转录本 log1p 计数）'
+  feature_b: '通道 B 的强度（如某 m/z 峰的相对强度）'
+when_to_use: '在组织切片坐标上展示空间 spot 的区域聚类，并在同一批 spot 上并排看一两个分子通道（转录本、代谢物 m/z 等）的空间分布时用。'
+customize: 'data.csv 每个 spot 一行；plot.py 顶部改 spot_d（spot 直径 µm）、scalebar_um、channels（列名、标题、单位）、cells。区域颜色按 Region 编号取 house 色板；n 和各区域 spot 数从 data.csv 计算。色标按 1–99 百分位截断，色条、图例和 Simulated data 脚注都在坐标框内。'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+seed: 20261121
+references:
+  - 'https://www.nature.com/articles/s41592-026-03140-8 Fig. 1e [待确认 具体面板]'
+references_note: 'Layout idea only (spot map on tissue + region labels + per-spot molecular intensity); not traced from the published figure. All labels generic.'

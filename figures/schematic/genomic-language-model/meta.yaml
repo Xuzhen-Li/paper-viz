@@ -1,0 +1,30 @@
+title: "DNA language model: pretraining and task distribution across biological scales (v2)"
+title_zh: "DNA 语言模型：预训练与跨分子 / 系统 / 基因组尺度的任务分布（v2）"
+slug: genomic-language-model
+version: v2
+supersedes_content_of: "redraws/genomic-language-model/ (v1, unchanged)"
+targets_id: S37
+category: schematic
+style: house
+tags:
+  - ai4science
+  - genomics
+  - language-model
+  - overview
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [183, 89]
+references:
+  - url: https://www.science.org/doi/10.1126/science.ado9336
+    figure: "Fig. 1 [待确认]"
+changes_v2:
+  - "Gene essentiality (from the genes around it) moved from Predict x Systems to Predict x Genome."
+  - "v1 card Region scoring (likelihood of long stretches) removed from Predict x Genome."
+  - "Predict x Systems left without a task name: dashed empty cell with the note no task claimed in the source text used here."
+  - "Design x Systems body reworded to co-designed protein-RNA or protein-DNA (optional absorb of the 3.2 note)."
+  - "Pretraining column, Predict x Molecular, Design x Molecular and Design x Genome-length cards, canvas and layout unchanged."
+when_to_use: "画 DNA 语言模型（Evo 类）的任务分布：左侧预训练（基因组集合 → 单核苷酸 token → 自回归长上下文模型，无任务标签），右侧按分子 / 系统 / 基因组三个尺度 × 预测（零样本）/ 设计（生成）两行排任务卡片。卡片按所用原文已写到的任务填写：预测×分子 = 突变对蛋白、RNA 与调控 DNA 功能的影响；预测×基因组 = 由周围基因判断基因必需性；预测×系统在所用原文里没有声明任务，留虚线空格；设计×分子 = 单分子蛋白或 RNA 编码序列；设计×系统 = 共设计的蛋白–RNA 或蛋白–DNA 多组件系统；设计×基因组 = 基因组长度的长序列生成。不含真实基因名或编辑靶点序列。"
+customize: "改 `build.py` 底部 figure 段：`cells` 字典按 (行, 列) 改任务卡片标题与正文，预测×系统空格在 `nb` 那几行，`heads` 改尺度表头，token 字母在 `ATGCCATG` 字符串；运行 `python3 build.py <新的空目录>`（只写新文件）。也可直接在 draw.io 打开 `template.drawio`。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt、对比度低于 4.5:1 或任何连线穿过文字时报错退出。"
+lang: drawio

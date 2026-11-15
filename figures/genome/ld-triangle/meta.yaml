@@ -1,0 +1,30 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'LD triangle heatmap (house style)'
+title_zh: '连锁不平衡三角热图（house 风格）'
+slug: 'ld-triangle'
+category: 'genome'
+tags:
+  - 'linkage-disequilibrium'
+  - 'ld'
+  - 'r2'
+  - 'haplotype-block'
+  - 'heatmap'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  snp1: '第一个 SNP 编号'
+  pos1: '第一个 SNP 位置（bp）'
+  snp2: '第二个 SNP 编号'
+  pos2: '第二个 SNP 位置（bp）'
+  r2: '两 SNP 间连锁不平衡 r²（0-1）'
+when_to_use: '展示一个区段内所有 SNP 两两之间的 LD（r²），看单倍型块边界、块内连锁强度，并标出先导 SNP 位置时用。'
+customize: '在 data.csv 填 snp1/pos1/snp2/pos2/r2（每对一行）；plot.py 顶部改 blocks（块首尾 SNP）、lead_snp（None 则不标）、chrom_label、cells。'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+seed: 20261113
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'
+# [待确认] 任务要求 R；本机无 R 解释器（未安装，按规定不安装），改用仓库 styles/python/house.py 的 Python house 实现。

@@ -1,0 +1,41 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Coordinated multi-view: embedding, spatial and heatmap with linked clusters (house style)'
+title_zh: '协调多视图：嵌入图、空间图与热图联动着色（house 风格）'
+slug: 'coordinated-views'
+category: 'genome'
+tags:
+  - 'coordinated-views'
+  - 'linked-views'
+  - 'single-cell'
+  - 'spatial-transcriptomics'
+  - 'embedding'
+  - 'heatmap'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  cell: '细胞编号'
+  cluster: '聚类标签，如 Cluster 1'
+  emb_1: '二维嵌入坐标 1（如 UMAP 1）'
+  emb_2: '二维嵌入坐标 2'
+  x_um: '空间 x 坐标（µm）'
+  y_um: '空间 y 坐标（µm）'
+  Gene A: '各基因列（Gene A ... Gene J）：log 归一化表达量'
+when_to_use: '同一批细胞要在嵌入空间、组织空间和标记基因热图三个视图里并排展示，并用统一的聚类颜色和同一个被选中的聚类把三个视图联系起来时用。'
+customize: 'data.csv 每个细胞一行，基因列以 "Gene " 开头；plot.py 顶部改 selected（被勾出的聚类）、pt_size、cells。热图为各聚类均值按基因在聚类间做 z-score，色标对称；n 和被选聚类的细胞数从 data.csv 计算。图例与色条、Simulated data 脚注都在坐标框内。'
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+seed: 20261122
+references:
+  - 'https://www.nature.com/articles/s41592-024-02436-x Fig. [待确认]'
+references_note: 'Layout idea only (coordinated embedding + spatial + heatmap views); not traced from the published figure. All labels generic.'
+version: 2
+supersedes: 'redraws/coordinated-views/ (v1, unchanged)'
+changes_v2:
+  - 'Text-only contrast fix: panel a label ''Cluster 2'' #F77E12 -> #B95E0E and ''Cluster 6'' #62B4E7 -> #437B9E (dark variants of the same swatch). Points, squares and heatmap keep the house palette.'
+  - 'Heatmap: 0.3 pt white separators between cells (review ②-C4).'
+  - 'Panel b spans the same height as a and c (review ②-C5); equal x/y scale kept by widening the y range evenly; scale bar and selection note keep their offsets from the frame. Layout frozen before saving so PDF/PNG/preview share one geometry.'
+  - 'House import path resolves the worktree styles/python from redraws/; no pvr, no _apply_canvas. Data, wording, n from data.csv unchanged.'

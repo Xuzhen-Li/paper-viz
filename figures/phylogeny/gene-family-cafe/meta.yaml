@@ -1,0 +1,32 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Gene family expansion and contraction on a species tree (house style)'
+title_zh: '物种树上的基因家族扩张/收缩（house 风格）'
+slug: 'gene-family-cafe'
+category: 'phylogeny'
+tags:
+  - 'gene-family'
+  - 'expansion'
+  - 'contraction'
+  - 'species-tree'
+  - 'birth-death'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  node: '节点名（叶为物种名）'
+  parent: '父节点（根为空）'
+  age: '节点年龄（Mya，叶为 0）'
+  expanded: '该枝扩张家族数'
+  contracted: '该枝收缩家族数'
+  rapid_expanded: '叶：快速扩张家族数（BH 校正 q < 0.05）'
+  rapid_contracted: '叶：快速收缩家族数（BH 校正 q < 0.05）'
+when_to_use: '在定年物种树每条枝上标出基因家族扩张/收缩数目，并在右侧用发散柱给出各物种显著快速变化的家族数时用。'
+customize: 'data.csv 每节点一行；plot.py 顶部改 time_ticks、tip_space、rapid_note（须与所用家族显著性度量及多重校正方法一致）、cells。'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+seed: 20261118
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'
+# [待确认] 任务要求 R；本机无 R 解释器（未安装，按规定不安装），改用仓库 styles/python/house.py 的 Python house 实现。

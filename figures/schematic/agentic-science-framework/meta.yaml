@@ -1,0 +1,20 @@
+title: Agentic science framework (capability x process x discipline)
+title_zh: 智能体科学分层框架（能力 × 流程 × 学科）
+slug: agentic-science-framework
+category: schematic
+style: house
+tags:
+  - ai4science
+  - llm-agent
+  - framework
+  - survey-overview
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+references:
+  - url: https://arxiv.org/abs/2508.14111
+    figure: Fig. 2
+when_to_use: 综述类总览图：把“智能体科学”画成三层。底层是智能体的通用能力（规划、工具使用、记忆、多智能体协作、自我改进），中层是一轮科研流程（假设→实验→分析→验证，验证后进入下一轮），顶层是应用学科（生命科学、化学、材料、物理等）。层间箭头表示“能力支撑每个阶段”“同一流程用于各学科”。与 llm-agent-module-framework（单个智能体的模块堆叠）不同，本图强调能力、流程、学科三个维度的分层关系。
+customize: 改 `build.py` 底部 figure 段里三层的卡片文字、图标名（`gicon()` 中 helix/molecule/lattice/atom/up 或套件 `icon()` 里的图标）和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）；卡片数量由 `row_x(n, ...)` 自动均分宽度。改完运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio、preview.png（只写新文件，目标目录已有同名文件时拒绝运行）。也可在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`。脚本在文字出框、重叠、压框线、连线穿字、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。
+lang: drawio

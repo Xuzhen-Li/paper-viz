@@ -1,0 +1,33 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Regional association plot (house style)'
+title_zh: '区域关联图（house 风格）'
+slug: 'gwas-regional'
+category: 'genome'
+tags:
+  - 'gwas'
+  - 'regional-association'
+  - 'locus'
+  - 'ld'
+  - 'recombination'
+  - 'gene-track'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  track: '行类型：snp / recomb / gene'
+  name: 'SNP 或基因名'
+  start: '位置或基因起点（bp）'
+  end: '位置或基因终点（bp）'
+  strand: '基因链向 + / -（仅 gene 行）'
+  value: 'snp 行为 -log10 P；recomb 行为重组率 cM/Mb'
+  r2: '与先导 SNP 的 r²（仅 snp 行）'
+when_to_use: '放大展示单个关联位点：-log10 P 随位置变化、按与先导 SNP 的 r² 着色，下方附重组率轨道和基因轨道；不用于全基因组 Manhattan。'
+customize: '在 data.csv 按 track 填三类行；plot.py 顶部改 gw_threshold（全基因组校正阈值）、test_note（检验名、双尾、是否校正）、r2_breaks、chrom_label。显著性只用校正阈值线表达，不按未校正 P 着色或打星。'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261114
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md.'
+# [待确认] 任务要求 R；本机无 R 解释器（未安装，按规定不安装），改用仓库 styles/python/house.py 的 Python house 实现。

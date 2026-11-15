@@ -1,0 +1,31 @@
+title: "Active-learning discovery loop: generate, filter, validate, retrain (v2)"
+title_zh: "主动学习发现环：候选生成 → GNN 过滤 → DFT 验证 → 回灌（v2：组成路线先过滤、后 AIRSS 建结构）"
+slug: active-learning-discovery
+version: v2
+supersedes_content_of: "redraws/active-learning-discovery/ (v1, unchanged)"
+targets_id: S41
+category: schematic
+style: house
+tags:
+  - ai4science
+  - materials
+  - active-learning
+  - loop
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [183, 89]
+references:
+  - url: https://www.nature.com/articles/s41586-023-06735-9
+    figure: "Fig. 1 [待确认]"
+changes_v2:
+  - "Composition route reordered: new compositions (relaxed oxidation-state rules) -> composition graph-network filter on reduced formulas without structure -> AIRSS initialises 100 random structures per kept composition -> DFT."
+  - "No random structures before the filter; v1 card Random search (new compositions, random structures) replaced."
+  - "Filter shown as two graph-network models: composition model (top lane) and structure model (bottom lane, substitution route -> DFT)."
+  - "Substitution card reads partial substitutions (SAPS) in known structures (optional absorb of the 4.4 note)."
+  - "Both feedback loops unchanged: all new DFT labels retrain the filter; stable results seed new substitutions."
+  - "Column 4 narrowed and the bottom band tightened (optional absorb of layout note 2-3); canvas unchanged."
+when_to_use: "画主动学习材料发现环的两条候选路线：结构路线 = 已知结构中的部分替换（SAPS）→ 结构图网络过滤 → DFT；组成路线 = 新组成（放宽氧化态规则）→ 组成图网络只看约化化学式（无结构）过滤 → 对每个保留组成用 AIRSS 初始化 100 个随机结构 → DFT。验证稳定的候选进入稳定集合；全部新 DFT 标签回灌重训过滤模型，稳定结果作为下一轮替换的种子。只用通用标签，不含材料名或化学式，数量与命中率未画。"
+customize: "改 `build.py` 底部 figure 段：`LA` / `LB` 两条泳道的纵向范围，四个分区的卡片文字，两条回路（`loops` 组里的折线坐标与标签）；运行 `python3 build.py <新的空目录>`（只写新文件）。也可直接在 draw.io 打开 `template.drawio`。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt、对比度低于 4.5:1 或任何连线穿过文字时报错退出。"
+lang: drawio

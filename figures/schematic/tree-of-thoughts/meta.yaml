@@ -1,0 +1,17 @@
+title: Tree-of-thoughts search
+title_zh: 思维树（Tree of Thoughts）搜索
+slug: tree-of-thoughts
+category: schematic
+style: house
+tags:
+  - llm
+  - reasoning
+  - tree-search
+  - planning
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+when_to_use: "画思维树搜索：每个状态生成若干候选思路，LLM 给状态打分（v），按搜索规则保留或剪枝。左侧示例树只示一种搜索，图上标明“Example: BFS, b = 2”：每层按 v 保留最高的 2 个状态并展开，其余剪枝且不再展开（被剪节点的 v 都低于同层被保留的节点），最后一层取 v 最高的状态，绿色为选中路径；右侧三步说明生成、评价、搜索（BFS 或 DFS）。"
+customize: "改 `build.py` 底部 figure 段里的坐标、卡片文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行，不会覆盖）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 等编辑器改 `figure.svg`（文字是可编辑矢量文字）。常改项：`node()` 调用里的节点位置、分值和类型（input/open/best/pruned）、`edge()` 的连线类型；改分值时须保持“每层被剪节点的 v 低于同层被保留节点”，b 改了要同步改左上标题。右侧 `steps` 的文字。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或文字对比度低于 4.5:1 时报错退出。"
+lang: drawio

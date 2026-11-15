@@ -1,0 +1,38 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout; not copied).
+# v2 (2026-11-13 CST) of raincloud-paired: new folder raincloud-paired-v2; v1 folder unchanged.
+title: 'Paired raincloud: repeated measures with pairing lines'
+title_zh: '重复测量雨云图（配对连线）'
+slug: 'raincloud-paired'
+version: 2
+supersedes: 'redraws/raincloud-paired/ (v1, unchanged)'
+targets_id: 'T28'
+category: 'distribution'
+tags:
+  - 'raincloud'
+  - 'paired'
+  - 'repeated-measures'
+  - 'half-violin'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+canvas_mm: [89, 89]
+seed: 20261328
+data_columns:
+  subject: 'subject id (string)'
+  condition: 'condition label (string; exactly two, first = left)'
+  value: 'observed value (numeric, a.u.)'
+when_to_use: 'Two repeated conditions per subject: show both distributions (clouds, boxes, points) and every subject''s change as a line. Unpaired variant: an ordinary raincloud.'
+customize: 'One row per subject x condition. Subjects missing a condition are drawn as points without a line and are left out of the change statistics. The mean within-subject change uses a t CI (ci_level). No P value is computed.'
+changes_v2:
+  - 'Each half-violin / cloud is clipped to that condition''s observed min/max; the v1 0.22 × combined-span KDE extension is removed so the Condition 2 tail no longer crosses the footnote.'
+  - 'The mean-change line now spells out that the difference is Condition 2 − Condition 1.'
+references:
+  - url: 'https://doi.org/10.12688/wellcomeopenres.15191.1'
+    figure: 'Fig. [待确认]'
+references_note: 'Chart type only; the published figure was not downloaded or redrawn. Simulated data; layout follows the house rules.'

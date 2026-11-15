@@ -1,0 +1,17 @@
+title: AI Scientist research loop
+title_zh: AI Scientist 科研闭环（想法-实验-写论文-自动评审-存档）
+slug: ai-scientist-loop
+category: schematic
+style: house
+tags:
+  - ai4science
+  - agent
+  - automated-research
+  - loop
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+when_to_use: 画 AI Scientist 式的端到端自动科研闭环：从研究方向和代码模板出发，提出想法并查新，写代码跑计算实验，用结果写成完整论文，由 LLM 自动评审打分，论文和评分存入不断增长的存档，存档再为下一轮想法提供条件；按计算预算重复。写作和评审都在环内，不是“失败-反思-重试”同一任务的环（那是 reflexion-cycle）。
+customize: 改 `build.py` 底部 figure 段里的坐标、卡片文字和颜色（`HOUSE` 色板及 `tint()`/`dark()`/`mix()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行，不会覆盖）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 等编辑器改 `figure.svg`（文字是可编辑矢量文字）。常改项：四张卡（Idea / Experiments / Write paper / Automated review）的正文、存档条的说明、底部终止条件。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或文字对比度低于 4.5:1 时报错退出。
+lang: drawio

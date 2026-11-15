@@ -1,0 +1,32 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used; no pvr, no _apply_canvas call in plot.py).
+title: 'Paired gain bars: one model alone vs with other models answers'
+title_zh: '单模型 vs 加入他模型回答后的胜率成对条'
+slug: 'paired-gain-bars'
+category: 'comparison'
+style: 'house'
+targets_id: 'T13'
+tags:
+  - 'llm'
+  - 'multi-agent'
+  - 'win-rate'
+  - 'paired-bar'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  'model': 'model name (placeholder string)'
+  'condition': 'answering condition (two levels: alone / with other models answers)'
+  'prompt': 'prompt id (string)'
+  'outcome': 'judge outcome vs the reference answer: 1 win, 0.5 tie, 0 loss'
+canvas_mm: [135, 89]
+cells: '3x2'
+references:
+  - url: 'https://arxiv.org/abs/2406.04692'
+    figure: 'Fig. 1'
+when_to_use: 'Show, for each of several models, a score under a baseline condition next to the same model under an added condition, with the gain written above each pair.'
+customize: 'Replace data.csv with model, condition (two levels, in the order baseline, added), prompt and outcome. Win rate = mean outcome x 100; bars are sorted by the second condition; the prompt count per bar is read from the data and printed. No error bars are drawn (single proportion per bar).'
+lang: 'Python'
+references_note: 'Layout idea only. Simulated data (seed 20261313), placeholder model and prompt names; no published values, images or tracings are used.'
+seed: 20261313

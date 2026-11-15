@@ -1,0 +1,103 @@
+record,bubble,type,pos_kb,allele,length_bp,path
+bubble,B1,SNV,7.84,0,1,
+bubble,B1,SNV,7.84,1,1,
+bubble,B2,insertion,17.63,0,0,
+bubble,B2,insertion,17.63,1,2700,
+bubble,B3,deletion,24.06,0,2700,
+bubble,B3,deletion,24.06,1,0,
+bubble,B4,divergent,34.71,0,1000,
+bubble,B4,divergent,34.71,1,1300,
+bubble,B4,divergent,34.71,2,2100,
+bubble,B5,insertion,45.41,0,0,
+bubble,B5,insertion,45.41,1,400,
+bubble,B6,SNV,55.87,0,1,
+bubble,B6,SNV,55.87,1,1,
+bubble,B7,deletion,65.84,0,1200,
+bubble,B7,deletion,65.84,1,0,
+bubble,B8,insertion,74.12,0,0,
+bubble,B8,insertion,74.12,1,5100,
+bubble,B9,divergent,85.18,0,1900,
+bubble,B9,divergent,85.18,1,1100,
+bubble,B9,divergent,85.18,2,400,
+bubble,B10,SNV,94.65,0,1,
+bubble,B10,SNV,94.65,1,1,
+path,B1,,,0,,Path 1
+path,B2,,,0,,Path 1
+path,B3,,,0,,Path 1
+path,B4,,,0,,Path 1
+path,B5,,,0,,Path 1
+path,B6,,,0,,Path 1
+path,B7,,,0,,Path 1
+path,B8,,,0,,Path 1
+path,B9,,,0,,Path 1
+path,B10,,,0,,Path 1
+path,B1,,,0,,Path 2
+path,B2,,,0,,Path 2
+path,B3,,,0,,Path 2
+path,B4,,,2,,Path 2
+path,B5,,,1,,Path 2
+path,B6,,,1,,Path 2
+path,B7,,,1,,Path 2
+path,B8,,,1,,Path 2
+path,B9,,,1,,Path 2
+path,B10,,,0,,Path 2
+path,B1,,,0,,Path 3
+path,B2,,,0,,Path 3
+path,B3,,,1,,Path 3
+path,B4,,,2,,Path 3
+path,B5,,,1,,Path 3
+path,B6,,,0,,Path 3
+path,B7,,,0,,Path 3
+path,B8,,,0,,Path 3
+path,B9,,,0,,Path 3
+path,B10,,,1,,Path 3
+path,B1,,,0,,Path 4
+path,B2,,,0,,Path 4
+path,B3,,,0,,Path 4
+path,B4,,,2,,Path 4
+path,B5,,,0,,Path 4
+path,B6,,,1,,Path 4
+path,B7,,,1,,Path 4
+path,B8,,,0,,Path 4
+path,B9,,,2,,Path 4
+path,B10,,,1,,Path 4
+path,B1,,,0,,Path 5
+path,B2,,,0,,Path 5
+path,B3,,,1,,Path 5
+path,B4,,,1,,Path 5
+path,B5,,,1,,Path 5
+path,B6,,,0,,Path 5
+path,B7,,,1,,Path 5
+path,B8,,,0,,Path 5
+path,B9,,,0,,Path 5
+path,B10,,,0,,Path 5
+path,B1,,,1,,Path 6
+path,B2,,,0,,Path 6
+path,B3,,,1,,Path 6
+path,B4,,,0,,Path 6
+path,B5,,,0,,Path 6
+path,B6,,,1,,Path 6
+path,B7,,,0,,Path 6
+path,B8,,,1,,Path 6
+path,B9,,,0,,Path 6
+path,B10,,,1,,Path 6
+path,B1,,,1,,Path 7
+path,B2,,,1,,Path 7
+path,B3,,,1,,Path 7
+path,B4,,,2,,Path 7
+path,B5,,,0,,Path 7
+path,B6,,,0,,Path 7
+path,B7,,,0,,Path 7
+path,B8,,,0,,Path 7
+path,B9,,,0,,Path 7
+path,B10,,,0,,Path 7
+path,B1,,,0,,Path 8
+path,B2,,,0,,Path 8
+path,B3,,,0,,Path 8
+path,B4,,,0,,Path 8
+path,B5,,,0,,Path 8
+path,B6,,,1,,Path 8
+path,B7,,,0,,Path 8
+path,B8,,,0,,Path 8
+path,B9,,,0,,Path 8
+path,B10,,,0,,Path 8

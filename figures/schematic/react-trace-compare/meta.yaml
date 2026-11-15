@@ -1,0 +1,23 @@
+title: "Four prompting modes: standard, CoT, act-only, ReAct"
+title_zh: "四种提示方式轨迹对比（Standard / CoT / Act-only / ReAct）"
+slug: react-trace-compare
+category: schematic
+style: house
+targets_id: S01
+tags:
+  - llm
+  - agent
+  - reasoning
+  - tool-use
+  - trajectory
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [181, 89]
+references:
+  - url: https://arxiv.org/abs/2210.03629
+    figure: "Fig. 1"
+when_to_use: "同一问题下四种提示方式并排：直接回答、只推理（CoT）、只行动（Act/Obs）、推理与行动交替（ReAct）；蓝=Thought，橙=Act，绿=Obs，紫=Answer。用于说明 agent 轨迹里思考与动作/观察交替的差别。与 react-loop（单个推理-行动-观察循环）不同。"
+customize: "改 `build.py` 底部 figure 段里的坐标、文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。常改项：`COLS` 里每栏的标题、行（类型 T/A/O/F、编号、文字）和底注；`KIND` 里的颜色和图标。"
+lang: drawio

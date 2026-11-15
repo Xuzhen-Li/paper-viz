@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Paired before/after spaghetti plot'
+title_zh: '配对前后意大利面条图（个体连线）'
+slug: 'paired-spaghetti'
+category: 'comparison'
+tags:
+  - 'paired'
+  - 'spaghetti'
+  - 'before-after'
+  - 'within-subject'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261127
+data_columns:
+  subject: 'subject identifier (string)'
+  group: 'group name (string; one panel per group)'
+  condition: 'condition label (string; exactly two, first = left)'
+  value: 'observed response (numeric, a.u.)'
+when_to_use: 'Show every subject as a line between two paired conditions (before/after), so that individual changes stay visible next to the condition means. Not for showing a difference distribution (paired estimation plot) or a two-group Gardner-Altman plot.'
+customize: 'Replace data.csv with one row per subject and condition. plot.py keeps only subjects that have both conditions, counts n per group, draws the condition mean with a t-based CI (ci_level) beside each end, and prints the mean within-subject change with its t CI. No P value is printed.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules.'

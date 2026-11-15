@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used).
+title: 'Critical-difference diagram after a Friedman test'
+title_zh: '临界差（CD）图（Friedman / Nemenyi）'
+slug: 'critical-difference'
+category: 'comparison'
+tags:
+  - 'critical-difference'
+  - 'friedman'
+  - 'nemenyi'
+  - 'ranks'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+data_columns:
+  'dataset': 'dataset label (string)'
+  'method': 'method name (string)'
+  'score': 'score (higher is better)'
+when_to_use: 'Compare several methods across the same datasets by average rank after a Friedman test, and show which methods a Nemenyi critical difference does not separate.'
+customize: 'Replace data.csv with dataset, method and score (higher is better). plot.py ranks methods within each dataset (average ties), runs the Friedman omnibus test (chi-square, k-1 d.f., upper tail, single test) and draws the Nemenyi CD at ALPHA = 0.05 (two-sided, family-wise over all pairs via the studentized range). Bars join maximal runs of methods whose average ranks differ by less than the CD. Test name, sidedness and correction are printed in the in-frame footnote.'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+references_note: 'Layout idea only (Demsar-style critical-difference diagram). Simulated data with seed 20261136; placeholder method and dataset labels. No published values, images or tracings are used.'
+seed: 20261136

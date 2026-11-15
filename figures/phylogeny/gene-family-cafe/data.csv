@@ -1,0 +1,16 @@
+node,parent,age,expanded,contracted,rapid_expanded,rapid_contracted
+root,,120,0,0,,
+n1,root,90,269,417,,
+n2,n1,62,247,370,,
+n3,n2,24,349,505,,
+n4,n1,41,459,673,,
+n5,root,78,343,583,,
+n6,n5,31,410,660,,
+Species A,n3,0,189,334,10,8
+Species B,n3,0,226,345,7,12
+Species C,n2,0,1461,896,80,43
+Species D,n4,0,381,614,18,28
+Species E,n4,0,376,560,32,19
+Species F,n6,0,309,464,19,20
+Species G,n6,0,264,421,15,14
+Species H,n5,0,687,1084,43,43

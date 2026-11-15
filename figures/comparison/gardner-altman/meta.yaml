@@ -1,0 +1,25 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Two-group unpaired Gardner-Altman estimation plot'
+title_zh: '两组非配对 Gardner-Altman 估计图（原始点 + 均值差 bootstrap 分布）'
+slug: 'gardner-altman'
+category: 'comparison'
+tags:
+  - 'gardner-altman'
+  - 'estimation'
+  - 'mean-difference'
+  - 'bootstrap'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261125
+data_columns:
+  group: 'exactly two group names, e.g. Control / Treatment (string)'
+  value: 'observed response (numeric, a.u.)'
+when_to_use: 'Compare two unpaired groups: raw values as a swarm in the left panel, and the mean difference with its bootstrap distribution and 95% CI in the right panel on an aligned difference axis (zero at the first group mean). This is the classic two-group form, not a multi-group Cumming plot (see estimation-plot).'
+customize: 'Replace data.csv with one row per observation and exactly two groups (first listed = reference). plot.py computes n, both means, the mean difference, and its 95% percentile-bootstrap CI (5000 resamples, fixed seed). No P value is printed.'
+references_note: 'Layout idea only: Ho et al. 2019, Nature Methods, https://www.nature.com/articles/s41592-019-0470-3, Fig. 1 (two-group data graphics; Gardner-Altman form). TARGETS T19. No image was traced or uploaded; simulated data.'

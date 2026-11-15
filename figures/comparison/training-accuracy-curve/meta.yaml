@@ -1,0 +1,35 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used; no pvr, no _apply_canvas call in plot.py).
+title: 'Training-accuracy curve: pass@1 and majority vote vs training step'
+title_zh: '训练步数-准确率曲线：pass@1 与多数投票 + 参考水平线'
+slug: 'training-accuracy-curve'
+category: 'comparison'
+style: 'house'
+targets_id: 'T10'
+tags:
+  - 'llm'
+  - 'reinforcement-learning'
+  - 'training-curve'
+  - 'pass-at-1'
+  - 'majority-vote'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  'model': 'model name; the training policy has a step, the reference model has an empty step'
+  'step': 'training step of the checkpoint (integer; empty for the reference model)'
+  'problem': 'problem id (string)'
+  'n_samples': 'answers sampled per problem (k; the same for every row)'
+  'n_correct': 'number of the k answers that were correct'
+  'majority_correct': '1 if the most frequent of the k answers was correct (ties broken at random), else 0'
+canvas_mm: [89, 89]
+cells: '2x2'
+references:
+  - url: 'https://arxiv.org/abs/2501.12948'
+    figure: 'Fig. 1 (arXiv HTML 编号)'
+when_to_use: 'Show how a benchmark score develops over training checkpoints under two scoring rules (mean single-sample accuracy and majority vote over the same samples), against a fixed reference model.'
+customize: 'Replace data.csv with per-problem counts per checkpoint. pass@1 = mean over problems of n_correct / n_samples; majority vote = mean of majority_correct. The reference model (empty step) gives the two dashed lines in the matching colours. Problem count and k are read from the data. Single 2x2 panel: +2 pt bump applied up front (apply_house_style(single_panel=True)), save_house(bump=0).'
+lang: 'Python'
+references_note: 'Layout idea only. Simulated data (seed 20261310), placeholder model and problem names; no published values, images or tracings are used.'
+seed: 20261310

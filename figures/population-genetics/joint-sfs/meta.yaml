@@ -1,0 +1,29 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Joint site frequency spectrum (house style)'
+title_zh: '二维联合位点频率谱（house 风格）'
+slug: 'joint-sfs'
+category: 'population-genetics'
+tags:
+  - 'sfs'
+  - 'joint-sfs'
+  - '2d-sfs'
+  - 'demography'
+  - 'fst'
+  - 'heatmap'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  d1: '群体 1 中衍生等位基因计数（0..n1）'
+  d2: '群体 2 中衍生等位基因计数（0..n2）'
+  count: '该格 SNP 数'
+when_to_use: '比较两个群体的联合位点频率谱（如人口历史推断前的观测 2D SFS），看共享多态、群体特有变异与分化程度时用。'
+customize: 'data.csv 填全部 (d1, d2) 格子；plot.py 顶部改 pop1/pop2 名称、cells。图上 Hudson Fst 和 S 从谱计算。'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261120
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. v3: same data.csv as v2 (byte-identical); the colour-bar title SNPs now sits inside the main heatmap frame (empty cells Pop 1 = 1-3, Pop 2 = 15), not above it. Does not replace v2.'
+# [待确认] 任务要求 R；本机无 R 解释器（未安装，按规定不安装），改用仓库 styles/python/house.py 的 Python house 实现。

@@ -1,0 +1,32 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout; not copied).
+title: 'Head-to-head grid: win-rate heatmaps per metric and corpus'
+title_zh: '多指标 head-to-head 胜率小热图阵列'
+slug: 'head-to-head-grid'
+category: 'heatmap'
+tags:
+  - 'win-rate'
+  - 'head-to-head'
+  - 'small-multiples'
+  - 'llm-evaluation'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+lang: 'Python'
+style: 'house'
+cells: '4x2'
+seed: 20261307
+data_columns:
+  corpus: 'corpus name (string; one panel row per corpus)'
+  metric: 'metric name (string; one panel column per metric)'
+  question: 'question id (string)'
+  method_a: 'first method of the pair (string)'
+  method_b: 'second method of the pair (string)'
+  outcome: 'judgment: a, b or tie'
+when_to_use: 'Several judged criteria (metrics) and/or corpora, each with all pairwise method comparisons: one small win-rate matrix per metric so that rankings can be compared across metrics. For a single pairwise matrix use win-rate-matrix.'
+customize: 'One row per judgment in data.csv. plot.py counts questions per pair, scores ties as tie_weight (0.5), and colours the row-method win rate on a diverging scale centred at 50%. Diagonal cells are blank. No test is run.'
+references:
+  - url: 'https://arxiv.org/abs/2404.16130'
+    figure: 'Fig. 2'
+references_note: 'Chart type only; the published figure was not downloaded or redrawn. Simulated data; layout follows the house rules.'

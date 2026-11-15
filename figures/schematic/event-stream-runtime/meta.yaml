@@ -1,0 +1,26 @@
+title: Agent abstraction, event stream and sandbox runtime
+title_zh: agent 抽象、事件流、沙箱运行时三部分
+slug: event-stream-runtime
+category: schematic
+style: house
+targets_id: S15
+tags:
+  - llm
+  - agent
+  - software-engineering
+  - sandbox
+  - event-stream
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+canvas_mm: [181, 89]
+references:
+  - url: https://arxiv.org/abs/2407.16741
+    figure: Fig. 2 / Fig. 4
+when_to_use: 说明 agent 平台三层：agent 读取事件历史并给出下一个动作；有序、只追加的事件流（消息/动作/观察）；隔离容器里的动作执行服务调用 shell、Python 内核、浏览器并把结果作为观察写回。示例事件为通用文字。
+customize: 改 `build.py` 底部 figure 段里的坐标、文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt 或对比度低于 4.5:1 时报错退出。常改项：`EV` 事件列表（类型、文字、颜色）；agent hub 三项；`tools` 运行时工具名和图标。
+lang: drawio
+version: v2
+supersedes: event-stream-runtime (v1, kept unchanged)
+changes_v2: 「read / write」标签从 x=157.5 mm（压在中间虚线 x=155.5 上）移到中间与右侧虚线的中点 x=162.15 mm（y=49.6 不变）；三条虚线不变；build.py 的 check() 新增「线/箭头笔划不得穿过文字框」检查。其余版式、画布 181×89 mm 与 v1 相同。

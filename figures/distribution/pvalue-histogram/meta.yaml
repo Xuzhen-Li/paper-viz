@@ -1,0 +1,24 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'P-value histograms with a Uniform(0,1) reference'
+title_zh: 'P 值直方图（均匀分布参照）'
+slug: 'pvalue-histogram'
+category: 'distribution'
+tags:
+  - 'p-value'
+  - 'histogram'
+  - 'uniform-null'
+  - 'pi0'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+lang: 'Python'
+style: 'house'
+cells: '3x1'
+seed: 20261130
+data_columns:
+  set: 'set name (string; one panel per set)'
+  p_value: 'p-value (0-1)'
+when_to_use: 'Inspect the distribution of many p-values against the Uniform(0,1) density expected under the null, for example a well-behaved null set next to a set with excess near 0. Colour marks the set only; no p-value threshold, star or p-based colouring.'
+customize: 'Replace data.csv with set and p_value. plot.py draws one density histogram per set (bin_width), the Uniform(0,1) density line and a descriptive Storey pi0 estimate (share of p > lam divided by 1 - lam, capped at 1). No test is run on the histogram.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules.'

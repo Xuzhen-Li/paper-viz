@@ -1,0 +1,20 @@
+title: Hierarchical memory for a fixed-context LLM
+title_zh: 固定上下文 LLM 的分层记忆（主上下文 + 外部存储 + 函数调用）
+slug: hierarchical-memory
+category: schematic
+style: house
+tags:
+  - llm
+  - agent
+  - memory
+  - context-window
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+when_to_use: "画 LLM agent 的分层记忆：主上下文（系统指令、工作上下文、FIFO 消息队列）是 prompt 本身，由固定上下文窗口的 LLM 处理器读取；外部上下文（归档存储、回忆存储）不在 prompt 里，只能经函数调用读写；队列管理器接收事件、把消息写入回忆存储，函数执行器执行 LLM 发出的调用并把结果放回 FIFO 队列。与已有 `agent-memory`（Generative Agents 记忆流）不同。"
+customize: "改 `build.py` 底部 figure 段里的坐标、卡片文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行，不会覆盖）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 等编辑器改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出画布或出框、文字重叠、游离标签压到框线、连线穿过文字、小于 6 pt、线宽超出 0.5-1.6 pt 或文字对比度低于 4.5:1 时报错退出。"
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2310.08560
+    figure: "Fig. 3"

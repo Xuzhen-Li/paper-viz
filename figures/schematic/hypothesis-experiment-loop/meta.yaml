@@ -1,0 +1,20 @@
+title: AI hypothesis-experiment loop
+title_zh: AI 假设—实验闭环（假设→挑选→实验→解读→下一轮）
+slug: hypothesis-experiment-loop
+category: schematic
+style: house
+tags:
+  - ai4science
+  - agent
+  - lab-automation
+  - hypothesis
+packages:
+  - draw.io
+  - Python
+data_columns: {}
+when_to_use: "画 AI 科学家式闭环：文献 agent 提出假设和候选干预，LLM 两两比较排序挑出少数候选送实验室，研究人员做实验（示例为细胞筛选），数据分析 agent 解读结果、更新证据，进入下一轮。左侧输入（疾病名用占位 \"disease X\"、文献库），右侧输出（排序清单、经实验检验的候选）。疾病和实验名都是通用占位，不含真实药物或疾病名。"
+customize: "改 `build.py` 底部 figure 段里的坐标、卡片文字和颜色（`HOUSE` 色板及 `tint()`/`dark()` 派生色）后运行 `python3 build.py <新的空目录>` 生成 figure.svg、template.drawio 和 preview.png（脚本只写新文件，目标目录已有同名文件时拒绝运行，不会覆盖）；也可直接在 draw.io 打开 `template.drawio` 或在 Inkscape 等编辑器改 `figure.svg`（文字是可编辑矢量文字）。脚本在文字出画布或出框、文字重叠、游离标签压到框线、连线穿过文字、小于 6 pt、线宽超出 0.5-1.6 pt 或文字对比度低于 4.5:1 时报错退出。"
+lang: drawio
+references:
+  - url: https://arxiv.org/abs/2505.13400
+    figure: "Fig. 1"

@@ -1,0 +1,31 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout; not copied).
+title: 'Violin grid: scores by domain and base model'
+title_zh: '按领域 × 基座模型的分数小提琴阵列'
+slug: 'violin-grid'
+category: 'distribution'
+tags:
+  - 'violin'
+  - 'small-multiples'
+  - 'scores'
+  - 'llm-evaluation'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '4x1'
+seed: 20261318
+data_columns:
+  domain: 'domain name (string; one panel per domain)'
+  model: 'base model name (string; one violin per model)'
+  paper: 'item id (string)'
+  score: 'review score (numeric, 1-10)'
+when_to_use: 'Compare score distributions across two crossed factors (panels x violins) when n per cell is moderate (about 20-60).'
+customize: 'One row per scored item. plot.py draws a KDE violin (bw factor bw) per model and domain, with the IQR bar and median point inside and n under each violin; threshold sets the dashed reference score. No test is run.'
+references:
+  - url: 'https://arxiv.org/abs/2408.06292'
+    figure: 'Fig. 4'
+references_note: 'Chart type only; the published figure was not downloaded or redrawn. Simulated data; layout follows the house rules.'

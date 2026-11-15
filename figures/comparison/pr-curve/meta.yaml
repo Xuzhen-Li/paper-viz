@@ -1,0 +1,25 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Precision-recall curves with a random-classifier baseline'
+title_zh: '精确率-召回率曲线（含随机分类器基线）'
+slug: 'pr-curve'
+category: 'comparison'
+tags:
+  - 'precision-recall'
+  - 'classifier'
+  - 'average-precision'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261128
+data_columns:
+  model: 'model name (string)'
+  item: 'item identifier, shared across models (string)'
+  label: '1 = positive class, 0 = negative (integer)'
+  score: 'higher means more likely positive (numeric)'
+when_to_use: 'Compare binary classifiers on an imbalanced task with classic precision-recall curves; the random-classifier baseline sits at precision = positive-class prevalence. No iso-F1 contours.'
+customize: 'Replace data.csv with model, item, label and score (every model scored on the same items). plot.py computes the precision-recall curve, step-wise average precision, n positive / n negative and the prevalence baseline from the file. Labels must be 0/1.'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules.'

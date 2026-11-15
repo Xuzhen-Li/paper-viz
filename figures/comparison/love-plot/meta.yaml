@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (R not used).
+title: 'Love plot of covariate balance before and after weighting'
+title_zh: 'Love 图（加权前后协变量绝对标准化均差）'
+slug: 'love-plot'
+category: 'comparison'
+tags:
+  - 'love-plot'
+  - 'covariate-balance'
+  - 'standardized-mean-difference'
+  - 'weighting'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  'unit_id': 'unit identifier (integer)'
+  'treated': 'treatment indicator (1 = treated, 0 = control)'
+  'weight': 'stabilized inverse-probability weight (used only for the weighted |SMD|)'
+  '(other columns)': 'covariates (continuous or 0/1); one |SMD| per column'
+when_to_use: 'Diagnose covariate balance in an observational comparison: absolute standardized mean differences before and after weighting or matching, against the conventional |SMD| = 0.1 threshold.'
+customize: 'Replace data.csv with unit-level treated, weight and covariate columns. plot.py uses the unweighted pooled s.d. (pooled Bernoulli s.d. for 0/1 covariates) as the denominator at both stages, so only the numerator changes with weighting. SMD_REF sets the threshold line; the in-frame key counts covariates above it. Single 2x2 panel: +2 pt bump applied up front, save_house(bump=0).'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+references_note: 'Layout idea only (Love plot of absolute SMDs before vs after weighting with a 0.1 reference). Simulated data with seed 20261132; propensity score re-estimated by logistic regression in make_data.py. No published values, images or tracings are used.'
+seed: 20261132

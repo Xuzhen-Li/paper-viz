@@ -1,0 +1,31 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+title: 'Haplotype x site allele matrix sorted by core-haplotype tract length (house style)'
+title_zh: '单倍型 × 位点等位矩阵（按与核心单倍型一致的片段长度排序，house 风格）'
+slug: 'haplotype-matrix'
+category: 'population-genetics'
+tags:
+  - 'haplotype'
+  - 'selective-sweep'
+  - 'core-haplotype'
+  - 'phased'
+  - 'allele-matrix'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'pandas'
+data_columns:
+  hap: '单倍型编号'
+  pop: '群体，如 Pop 1'
+  site: '位点名，如 Site 1'
+  pos: '位点位置（bp）'
+  allele: '等位基因：0 祖先 / 1 衍生'
+when_to_use: '看一个焦点位点周围的分相单倍型：携带衍生等位的单倍型是否共享一条长核心单倍型（选择性清除的信号），以及各群体中核心单倍型被重组打断的程度时用。与按块划分的 haplotype-blocks 不同，这里是逐位点矩阵，并按与核心单倍型一致的片段长度排序。'
+customize: 'data.csv 每条单倍型 × 位点一行；plot.py 顶部改 focal_site、pop_order、bar_w、polarise（True：格子表示该位点等位是否与核心单倍型相同；False：表示衍生/祖先等位，并在顶部加一行核心单倍型）、cells。核心单倍型 = 焦点位点为衍生等位的单倍型（各群体合并）逐位点多数等位；排序键 = 跨焦点位点、与核心单倍型连续一致的片段长度（kb，首末一致位点之间的距离），并列时按全窗口一致位点比例；右侧条形即该片段长度。n、携带者数都从 data.csv 计算。图上不做检验。'
+lang: 'Python'
+style: 'house'
+cells: '3x2'
+seed: 20261123
+references:
+  - '来源待补 [待确认]'
+references_note: 'Source figure not yet identified [待确认]; layout follows the house rules in styles/style-contract.md. All labels generic.'

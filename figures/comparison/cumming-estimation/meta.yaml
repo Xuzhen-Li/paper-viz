@@ -1,0 +1,31 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout; not copied).
+title: 'Cumming estimation plot: multiple groups vs a shared control'
+title_zh: '多组共享对照的 Cumming 估计图（上原始、下效应）'
+slug: 'cumming-estimation'
+category: 'comparison'
+tags:
+  - 'estimation'
+  - 'cumming'
+  - 'shared-control'
+  - 'bootstrap'
+  - 'mean-difference'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+  - 'scipy'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+seed: 20261320
+data_columns:
+  subject: 'subject id (string)'
+  group: 'group name (string; the shared control is named in plot.py)'
+  value: 'observed response (numeric, a.u.)'
+when_to_use: 'Three or more independent groups each compared with the same control: raw data on top, every mean difference vs the shared control with its bootstrap distribution below. For two groups use gardner-altman.'
+customize: 'One row per subject. Set control in plot.py. Mean differences use a percentile bootstrap (n_boot resamples, boot_seed, ci_level). The upper gapped line is mean +/- 1 s.d. No P value is computed.'
+references:
+  - url: 'https://www.nature.com/articles/s41592-019-0470-3'
+    figure: 'Fig. [待确认]'
+references_note: 'Chart type only; the published figure was not downloaded or redrawn. Simulated data; layout follows the house rules.'

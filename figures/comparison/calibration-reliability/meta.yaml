@@ -1,0 +1,24 @@
+# Simulated data (seed 20261113). Rendered with matplotlib + styles/python/house.py only.
+# v2 (2026-11-13 CST) of calibration-reliability: new folder calibration-reliability-v2; v1 folder unchanged. Fixes layout review 1-6 (on-figure Simulated data footnote), 1-7 (no redraws/_lib/pvr.py), 2-5 (panel-b label darkened to >= 3:1) and 2-6 (nonstandard legend key dropped).
+title: "Reliability diagrams with ECE"
+title_zh: "可靠性图（校准曲线）与 ECE"
+slug: calibration-reliability
+category: comparison
+tags: [calibration, reliability-diagram, llm, classifier, ece]
+packages: [matplotlib, numpy]
+lang: Python
+style: house
+data_columns:
+  model: "model name (one panel each)"
+  confidence: "predicted probability"
+  correct: "1 if correct else 0"
+when_to_use: "Compare how well predicted confidence matches observed accuracy for two models; bars per confidence bin against the diagonal, with expected calibration error in the panel."
+customize: "Change the number of bins in plot.py (bins = np.linspace(0, 1, 11)). n and ECE are computed from data.csv."
+redraw_of:
+  catalog_id: S005
+  reference: https://arxiv.org/abs/2303.08774
+  figure: "Figure 8"
+  figure_number_checked: true
+  note: "Layout idea only. Data are simulated with a fixed seed; no published values, images or tracings are used."
+seed: 20261113
+cells: [2, 1]

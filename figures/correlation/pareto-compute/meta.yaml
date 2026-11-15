@@ -1,0 +1,27 @@
+# Simulated data. Chart type only; no code, text or images taken from any source.
+# v2 (2026-11-13 CST) of pareto-compute: new folder pareto-compute-v2; v1 folder unchanged. Fixes layout review 1-5 (labels placed after the +2 pt bump, >= 2 pt inside the frame) and 2-3 (Dominated next to the grey points).
+# Rendered with matplotlib + styles/python/house.py (R was not available when this was drawn).
+title: 'Accuracy-compute Pareto front (house style)'
+title_zh: '准确率-算力 Pareto 前沿（house 风格）'
+slug: 'pareto-compute'
+category: 'correlation'
+tags:
+  - 'pareto'
+  - 'compute'
+  - 'efficiency'
+  - 'llm'
+  - 'house-style'
+packages:
+  - 'matplotlib'
+  - 'numpy'
+data_columns:
+  model: '模型名（字符串；前沿上的点会标名）'
+  family: '模型系列（字符串，仅记录）'
+  flops: '训练算力（FLOPs，数值）'
+  accuracy: '准确率（%，数值）'
+when_to_use: '比较许多模型的效果与成本，突出在同等或更少算力下没有被超越的模型时用。'
+customize: '在 `data.csv` 填 `model`、`flops`、`accuracy`（横轴可换成参数量、推理成本或延迟）；`plot.py` 顶部改轴标题，`label_front = False` 可关掉前沿点名称。标签位置按固定顺序逐个尝试，不随机；避让检查在 +2 pt 字号之后做，标签至少离框 2 pt、彼此至少隔 2 pt。'
+lang: 'Python'
+style: 'house'
+cells: '2x2'
+references_note: 'No published figure was redrawn; chart type only, simulated data, layout follows the house rules in styles/style-contract.md.'
