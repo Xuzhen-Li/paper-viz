@@ -1,0 +1,36 @@
+# Simulated data (seed 71060). Layout idea only; no published values, images or tracings are used.
+# Rendered with matplotlib + styles/python/house.py (imported, not copied); plot.py does not import pvr.
+title: 'Reliability diagrams before and after temperature scaling, with ECE'
+title_zh: '温度缩放前后的可靠性图对照（含 ECE）'
+slug: 'calibration-before-after'
+version: 2
+category: 'comparison'
+tags: ['calibration', 'reliability-diagram', 'temperature-scaling', 'ece', 'classifier', 'house-style']
+packages: ['matplotlib', 'numpy', 'scipy']
+lang: 'Python'
+style: 'house'
+targets_id: 'C06'
+cells: '4x2'
+canvas_mm: [183, 89]
+data_columns:
+  split: 'val (used only to fit the temperature) or test (shown in the diagrams)'
+  example: 'example id'
+  label: 'true class index (0-9)'
+  logit_0: 'raw logit of class 0; logit_1 ... logit_9 likewise'
+panels:
+  a: 'test reliability diagram of the raw softmax (T = 1): accuracy per confidence bin, hatched red = gap to the bin mean confidence, dashed = perfect calibration; ECE printed'
+  b: 'same test logits divided by the temperature fitted on val; ECE printed'
+  c: 'test examples per confidence bin before and after'
+  d: 'val negative log-likelihood vs temperature, with T = 1 and the fitted T marked'
+statistics: 'ECE = sum over 10 equal-width bins of (n_bin / n) * |accuracy_bin - mean confidence_bin|, printed to 3 decimals; T minimises mean val NLL (scipy minimize_scalar, bounded 0.25-10). No tests, no P values.'
+when_to_use: 'Show what post-hoc temperature scaling does to the calibration of one classifier: same accuracy, confidence pulled toward accuracy, lower ECE.'
+customize: 'Edit data.csv (any number of logit_ columns). n_bins, ece_decimals and small_n (bins whose n is printed) are at the top of plot.py.'
+differs_from: 'calibration-reliability-v2 compares two models; calibration-curve is a single reliability panel. This shows one simulated classifier before vs after temperature scaling, with ECE in both panels, bin counts and the temperature fit.'
+redraw_of:
+  catalog_id: 'C06'
+  reference: 'https://arxiv.org/abs/1706.04599'
+  figure: 'Fig. 1'
+  figure_number_checked: true
+  note: 'Layout idea only (from the TARGETS brief; no local copy of the paper was read). Data are simulated with a fixed seed; no published values, images or tracings are used.'
+seed: 71060
+changes_from_v1: 'v2 only moves the panel-d "T = 1 / NLL 0.981" annotation up and to the right of the T = 1 point so it sits fully inside the axes frame (in v1 it crossed the left spine). Data, seed, fitted T, ECE and NLL values are unchanged; data.csv and make_data.py are byte-identical to v1. house.py is located relative to plot.py (no absolute paths).'

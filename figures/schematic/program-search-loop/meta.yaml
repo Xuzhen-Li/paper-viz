@@ -1,0 +1,31 @@
+title: "FunSearch program-search loop"
+title_zh: "FunSearch 程序搜索闭环（函数空间进化搜索）"
+slug: program-search-loop
+version: 1
+category: schematic
+style: house
+targets_id: S22
+tags:
+  - llm
+  - ai4science
+  - evolutionary-search
+  - program-search
+  - flowchart
+packages:
+  - Python
+  - Pillow
+  - librsvg
+  - draw.io
+lang: drawio
+data_columns: {}
+canvas_mm: [183, 89]
+cells: "183 x 89 mm canvas (width 183 mm)"
+counterpart: "evolutionary-llm-search-loop (S21, matplotlib 2x1 version; layout compared only, no files copied)"
+references:
+  - url: "https://www.nature.com/articles/s41586-023-06924-6"
+    doi: "10.1038/s41586-023-06924-6"
+    citation: "Romera-Paredes B. et al. Mathematical discoveries from program search with large language models. Nature 625, 468-475 (2024; published online 2023-12-14)"
+    figure: "Fig. 1"
+references_note: "Chart type only. No published figure was downloaded, traced or redrawn; node wording comes from the paper text (abstract and method text already on disk). The on-disk HTML caption is Fig. 1: Overview of FunSearch."
+when_to_use: "画 LLM + 评估器的程序搜索闭环（FunSearch 式）：用户写的规格（evaluate 函数、可选 solve 骨架、待进化函数的初始版本）→ 按岛屿保存的程序库 → best-shot 提示（k 个按分数排序的程序）→ 预训练 LLM 采样新函数体 → 评估器运行 main()、打分并丢弃错误程序 → 正确程序写回程序库；任何时候可取出最高分程序。"
+customize: "改 build.py 底部 figure 段里的坐标、文字和颜色（HOUSE 色板及 tint()/dark() 派生色），然后运行 python3 build.py <新的空目录> 生成 figure.svg、template.drawio 和 preview.png（只写新文件，目标目录已有同名文件时拒绝运行）。也可在 draw.io 打开 template.drawio 或在 Inkscape 改 figure.svg（可编辑矢量文字）。脚本在文字出框、重叠、小于 6 pt、线宽超出 0.5-1.6 pt、对比度低于 4.5:1 或连线穿过文字时报错退出。"
