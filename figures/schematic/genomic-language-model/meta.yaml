@@ -1,8 +1,8 @@
-title: "DNA language model: pretraining and task distribution across biological scales (v2)"
-title_zh: "DNA 语言模型：预训练与跨分子 / 系统 / 基因组尺度的任务分布（v2）"
+title: "DNA language model: pretraining and task distribution across biological scales"
+title_zh: "DNA 语言模型：预训练与跨分子 / 系统 / 基因组尺度的任务分布"
 slug: genomic-language-model
 version: v2
-supersedes_content_of: "redraws/genomic-language-model/ (v1, unchanged)"
+supersedes_content_of: "redraws/genomic-language-model/ (earlier version, unchanged)"
 targets_id: S37
 category: schematic
 style: house
@@ -21,7 +21,7 @@ references:
     figure: "Fig. 1 [待确认]"
 changes_v2:
   - "Gene essentiality (from the genes around it) moved from Predict x Systems to Predict x Genome."
-  - "v1 card Region scoring (likelihood of long stretches) removed from Predict x Genome."
+  - "Earlier card Region scoring (likelihood of long stretches) removed from Predict x Genome."
   - "Predict x Systems left without a task name: dashed empty cell with the note no task claimed in the source text used here."
   - "Design x Systems body reworded to co-designed protein-RNA or protein-DNA (optional absorb of the 3.2 note)."
   - "Pretraining column, Predict x Molecular, Design x Molecular and Design x Genome-length cards, canvas and layout unchanged."

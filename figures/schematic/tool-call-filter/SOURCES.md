@@ -4,7 +4,7 @@
 
 - Schick T. et al. Toolformer: Language Models Can Teach Themselves to Use Tools (2023). https://arxiv.org/abs/2302.04761 , Fig. 2
 
-只借用图型（版式思路），按通用流程重画；文字、示例和数值都是脚本写入的通用占位内容。论文标题、arXiv 号和图号沿用 `TARGETS.md`（S02，已核 ✓），本轮未上网复核，也未下载论文或任何期刊图。
+只借用图型（版式思路），按通用流程重画；文字、示例和数值都是脚本写入的通用占位内容。论文标题、arXiv 号和图号沿用 `TARGETS.md`（S02，已核 ✓），未上网复核，也未下载论文或任何期刊图。
 
 ## 图标来源
 

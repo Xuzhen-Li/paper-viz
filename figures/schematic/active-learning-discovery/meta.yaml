@@ -1,8 +1,8 @@
-title: "Active-learning discovery loop: generate, filter, validate, retrain (v2)"
-title_zh: "主动学习发现环：候选生成 → GNN 过滤 → DFT 验证 → 回灌（v2：组成路线先过滤、后 AIRSS 建结构）"
+title: "Active-learning discovery loop: generate, filter, validate, retrain"
+title_zh: "主动学习发现环：候选生成 → GNN 过滤 → DFT 验证 → 回灌（组成路线先过滤、后 AIRSS 建结构）"
 slug: active-learning-discovery
 version: v2
-supersedes_content_of: "redraws/active-learning-discovery/ (v1, unchanged)"
+supersedes_content_of: "redraws/active-learning-discovery/ (earlier version, unchanged)"
 targets_id: S41
 category: schematic
 style: house
@@ -21,7 +21,7 @@ references:
     figure: "Fig. 1 [待确认]"
 changes_v2:
   - "Composition route reordered: new compositions (relaxed oxidation-state rules) -> composition graph-network filter on reduced formulas without structure -> AIRSS initialises 100 random structures per kept composition -> DFT."
-  - "No random structures before the filter; v1 card Random search (new compositions, random structures) replaced."
+  - "No random structures before the filter; the earlier Random search (new compositions, random structures) card was replaced."
   - "Filter shown as two graph-network models: composition model (top lane) and structure model (bottom lane, substitution route -> DFT)."
   - "Substitution card reads partial substitutions (SAPS) in known structures (optional absorb of the 4.4 note)."
   - "Both feedback loops unchanged: all new DFT labels retrain the filter; stable results seed new substitutions."

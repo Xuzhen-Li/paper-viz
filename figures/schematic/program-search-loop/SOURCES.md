@@ -1,10 +1,10 @@
-# program-search-loop（v1）：来源说明
+# program-search-loop：来源说明
 
 ## 方法来源（只写 URL + 图号，不附原图，未描摹原图）
 
 - Romera-Paredes B., Barekatain M. et al. Mathematical discoveries from program search with large language models. Nature 625, 468-475 (2024; published online 2023-12-14). https://www.nature.com/articles/s41586-023-06924-6 , DOI 10.1038/s41586-023-06924-6 , Fig. [待确认]
 
-图号按 `TARGETS.md`（S22：Fig. 1 [待确认]）写成 `Fig. [待确认]`，本轮未确认。只借用图型（流程闭环），节点文字取自论文正文/摘要的文字描述，没有下载、保存、复制或描摹任何期刊图，也没有用到论文里的数值。
+图号按 `TARGETS.md`（S22：Fig. 1 [待确认]）写成 `Fig. [待确认]`，尚未确认。只借用图型（流程闭环），节点文字取自论文正文/摘要的文字描述，没有下载、保存、复制或描摹任何期刊图，也没有用到论文里的数值。
 
 读过的本地文字（已在盘上，只读，未复制图片）：
 

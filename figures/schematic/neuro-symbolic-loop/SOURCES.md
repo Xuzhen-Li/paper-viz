@@ -4,7 +4,7 @@
 
 - Trinh T. H. et al. Solving olympiad geometry without human demonstrations. Nature (2024). https://www.nature.com/articles/s41586-023-06747-5 , [待确认]（TARGETS.md S42）
 
-图是该类方法的通用示意，版式为本脚本原创布局，不是对原图的描摹；文字是通用描述，没有抄录原文。论文、URL 和图号沿用 `TARGETS.md` 与任务书，本轮未上网复核，未下载论文或任何期刊图。
+图是该类方法的通用示意，版式为本脚本原创布局，不是对原图的描摹；文字是通用描述，没有抄录原文。论文、URL 和图号沿用 `TARGETS.md`，未上网复核，未下载论文或任何期刊图。
 
 ## 图标来源
 
@@ -17,4 +17,4 @@
 - 绘图工具段原样复制自 `redraws/tree-of-thoughts-v2/build.py`，另加两项检查：连线穿过文字、游离标签压框线。未用 house.py / pvr / `_apply_canvas`。
 - preview.png 由 librsvg 按 600 dpi 从 figure.svg 渲染。
 
-注：图号 [待确认]（`TARGETS.md` 未定），本轮未复核。
+注：图号 [待确认]（`TARGETS.md` 未定），未复核。

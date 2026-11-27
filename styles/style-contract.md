@@ -328,7 +328,7 @@ Arial → Helvetica → Liberation Sans → DejaVu Sans（按机器上有的取�
 | 参考线（虚线） | 0.5 | `pv_house_lw("ref")` |
 | 误差棒 | 0.7 | `pv_house_lw("errorbar")` |
 
-- 点：shape 21（实心圆加描边），描边 `#000000`；≤200 个点不透明。**以定稿 demo A 的 ggplot 值为准**：`HOUSE_POINT`（`size = 2.3, stroke = 0.3`），实际填充直径约 1.9 mm、描边约 0.43 pt、外径约 2.0 mm（`pv_point_dims()` 可算）。STYLE §5 里“1.2–1.4 mm”与它自己给的 ggplot `size = 2.2–2.6` 对不上，这里按 Jason 确认的 demo A 观感取 ggplot 值。Python `house.POINT` / `house.SCATTER` 由同一公式换算，物理尺寸与 R 相同（测试里两边各画一个点比对外径）。
+- 点：shape 21（实心圆加描边），描边 `#000000`；≤200 个点不透明。**以 demo A 的 ggplot 值为准**：`HOUSE_POINT`（`size = 2.3, stroke = 0.3`），实际填充直径约 1.9 mm、描边约 0.43 pt、外径约 2.0 mm（`pv_point_dims()` 可算）。STYLE §5 里“1.2–1.4 mm”与它自己给的 ggplot `size = 2.2–2.6` 对不上，这里按 demo A 的视觉目标取 ggplot 值。Python `house.POINT` / `house.SCATTER` 由同一公式换算，物理尺寸与 R 相同（测试里两边各画一个点比对外径）。
 - **点规格统一**：普通数据点（散点、折线上的点）一律 `shape = HOUSE_POINT$shape, size = HOUSE_POINT$size, stroke = HOUSE_POINT$stroke`（21 / 2.3 / 0.3），不在图里另写数字。只有下面两种例外改 size，shape 和 stroke 仍取常量，写法是在 plot.R 顶部 `utils::modifyList(HOUSE_POINT, list(size = …))`：
   - **点估计**（森林图、dot plot）：`size = 3–3.5`（STYLE §5，直径约 1.8–2.2 mm），示例 `house-forest` 用 `est_point`（3.2）。
   - **叠在柱或箱体上的原始点**：比普通点小，`shape 21`、`stroke = 0.3`。柱图 `size = 1.6, alpha = 0.8`；雨云/箱线的抖动点 `size = 1.2–1.6, alpha = 0.7`（STYLE §12），示例 `house-raincloud` 用 `raw_point`（1.6）。
@@ -366,7 +366,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 * 浅色包含：#a3c7da, #accc8a, #e49698, #ecba73, #c4b1d1, #efe89c。
 * 深色包含：#2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29。
 * 完整交错顺序为：#a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29。
-* 标签对比规则：组色对白底对比度 ≥ 3:1 时标签用组色，否则用 #1A1A1A。例如 Iberia, W Europe, Balkans 标签使用 #1A1A1A，Caucasus, Central Asia, East Asia 使用组色。新 house 图负号和连字符一律用 ASCII "-"（避免引入第二种字体子集）；旧图在按批次改风格时统一。
+* 标签对比规则：组色对白底对比度 ≥ 3:1 时标签用组色，否则用 #1A1A1A。例如 Iberia, W Europe, Balkans 标签使用 #1A1A1A，Caucasus, Central Asia, East Asia 使用组色。新 house 图负号和连字符一律用 ASCII "-"（避免引入第二种字体子集）；旧图在后续改风格时统一。
 * `#6B6B6B`（house_grey 的 mid）只用于白底上的文字。
 * 示例路径写 figures/population-genetics/house-pca-geo/ 和 figures/genome/house-manhattan/；theme_viz.R 和 house.py 只是配色代码（palette code only）。
 
@@ -381,7 +381,7 @@ R 与 Python 同一套：`pv_palette("house")`（R 在 `theme_viz.R` 里，旧�
 * Dark colors are: #2072aa, #339a39, #d02623, #e17927, #623f88, #ab5a29.
 * The complete alternating order is: #a3c7da, #2072aa, #accc8a, #339a39, #e49698, #d02623, #ecba73, #e17927, #c4b1d1, #623f88, #efe89c, #ab5a29.
 * Label contrast rule: Use group color for labels if contrast against white background is ≥ 3:1, otherwise use #1A1A1A. For example, labels for Iberia, W Europe, and Balkans use #1A1A1A, while Caucasus, Central Asia, and East Asia use group colors.
-* Use ASCII "-" for all minus signs and hyphens in new house figures (avoids a second font subset); older figures are unified when restyled in their batch.
+* Use ASCII "-" for all minus signs and hyphens in new house figures (avoids a second font subset); older figures are unified when restyled.
 * `#6B6B6B` (house_grey mid) is used only for text on white backgrounds.
 * Example paths are figures/population-genetics/house-pca-geo/ and figures/genome/house-manhattan/; theme_viz.R and house.py are palette code only.
 

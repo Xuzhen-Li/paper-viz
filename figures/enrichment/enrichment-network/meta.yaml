@@ -29,7 +29,7 @@ references:
   - '来源待补 [待确认]'
 references_note: 'Source figure not yet identified [待确认]; layout follows the house rules in styles/style-contract.md. All labels generic; no real GO/KEGG terms.'
 version: 2
-supersedes: 'redraws/enrichment-network/ (v1, unchanged)'
+supersedes: 'redraws/enrichment-network/ (earlier version, unchanged)'
 changes_v2:
   - 'Text-only contrast fix: title ''Cluster 2 (6 pathways)'' #F77E12 -> #B95E0E (dark variant of the same swatch). Node fills, white/black node numerals and the #119B76 Cluster 3 title unchanged.'
   - 'House import path resolves the worktree styles/python from redraws/; no pvr, no _apply_canvas. Data, wording, statistics, typography (labels set after the +2 pt bump, save_house(..., bump=0)) unchanged.'

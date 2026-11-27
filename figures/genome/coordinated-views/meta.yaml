@@ -33,9 +33,9 @@ references:
   - 'https://www.nature.com/articles/s41592-024-02436-x Fig. [待确认]'
 references_note: 'Layout idea only (coordinated embedding + spatial + heatmap views); not traced from the published figure. All labels generic.'
 version: 2
-supersedes: 'redraws/coordinated-views/ (v1, unchanged)'
+supersedes: 'redraws/coordinated-views/ (earlier version, unchanged)'
 changes_v2:
   - 'Text-only contrast fix: panel a label ''Cluster 2'' #F77E12 -> #B95E0E and ''Cluster 6'' #62B4E7 -> #437B9E (dark variants of the same swatch). Points, squares and heatmap keep the house palette.'
-  - 'Heatmap: 0.3 pt white separators between cells (review ②-C4).'
-  - 'Panel b spans the same height as a and c (review ②-C5); equal x/y scale kept by widening the y range evenly; scale bar and selection note keep their offsets from the frame. Layout frozen before saving so PDF/PNG/preview share one geometry.'
+  - 'Heatmap: 0.3 pt white separators between cells.'
+  - 'Panel b spans the same height as a and c; equal x/y scale kept by widening the y range evenly; scale bar and selection note keep their offsets from the frame. Layout frozen before saving so PDF/PNG/preview share one geometry.'
   - 'House import path resolves the worktree styles/python from redraws/; no pvr, no _apply_canvas. Data, wording, n from data.csv unchanged.'

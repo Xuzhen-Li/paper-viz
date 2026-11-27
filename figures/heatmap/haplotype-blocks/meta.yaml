@@ -27,4 +27,4 @@ lang: 'Python'
 style: 'house'
 cells: '3x2'
 seed: 20261115
-references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. This v4 keeps the same simulated data as v3 and changes the upper-left n line to n = 24 haplotypes per group (n computed from data.csv as in v3). A small in-frame top band was added so that longer line does not collide with the B1 title; per-group n and Hd, and title/Hd data-y, stay as in v3.'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. This revision keeps the same simulated data as the previous version and changes the upper-left n line to n = 24 haplotypes per group (n computed from data.csv as before). A small in-frame top band was added so that longer line does not collide with the B1 title; per-group n and Hd, and title/Hd data-y, stay unchanged.'

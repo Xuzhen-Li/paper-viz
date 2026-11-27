@@ -4,7 +4,7 @@
 
 - Abramson J. et al. Accurate structure prediction of biomolecular interactions with AlphaFold 3 (2024). https://www.nature.com/articles/s41586-024-07487-w , Fig. 1 [待确认 面板]
 
-只借用版式思路（通用流程），未描摹原图；所有标签为通用名称，不含真实蛋白、基因、物种或材料名。标题、URL 与图号沿用 `TARGETS.md`，[待确认] 原样保留；本轮未上网复核，未下载论文或任何期刊图。
+只借用版式思路（通用流程），未描摹原图；所有标签为通用名称，不含真实蛋白、基因、物种或材料名。标题、URL 与图号沿用 `TARGETS.md`，[待确认] 原样保留；未上网复核，未下载论文或任何期刊图。
 
 ## 图标来源
 

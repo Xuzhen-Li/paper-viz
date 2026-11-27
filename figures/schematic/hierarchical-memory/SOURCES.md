@@ -4,7 +4,7 @@
 
 - Packer C. et al. MemGPT: Towards LLMs as Operating Systems (2023). https://arxiv.org/abs/2310.08560 , Fig. 3（TARGETS.md S32）
 
-图是该类方法的通用示意，版式为本脚本原创布局，不是对原图的描摹；文字是通用描述，没有抄录原文。论文、URL 和图号沿用 `TARGETS.md` 与任务书，本轮未上网复核，未下载论文或任何期刊图。
+图是该类方法的通用示意，版式为本脚本原创布局，不是对原图的描摹；文字是通用描述，没有抄录原文。论文、URL 和图号沿用 `TARGETS.md`，未上网复核，未下载论文或任何期刊图。
 
 ## 图标来源
 

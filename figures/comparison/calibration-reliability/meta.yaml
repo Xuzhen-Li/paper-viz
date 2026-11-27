@@ -1,5 +1,5 @@
 # Simulated data (seed 20261113). Rendered with matplotlib + styles/python/house.py only.
-# v2 (2026-11-13 CST) of calibration-reliability: new folder calibration-reliability-v2; v1 folder unchanged. Fixes layout review 1-6 (on-figure Simulated data footnote), 1-7 (no redraws/_lib/pvr.py), 2-5 (panel-b label darkened to >= 3:1) and 2-6 (nonstandard legend key dropped).
+# Updated revision (2026-11-13 CST) of calibration-reliability: new folder calibration-reliability-v2; earlier folder unchanged. Fixes layout issues: on-figure Simulated data footnote, removing redraws/_lib/pvr.py dependency, darkening panel-b label to >= 3:1, and dropping the nonstandard legend key.
 title: "Reliability diagrams with ECE"
 title_zh: "可靠性图（校准曲线）与 ECE"
 slug: calibration-reliability
