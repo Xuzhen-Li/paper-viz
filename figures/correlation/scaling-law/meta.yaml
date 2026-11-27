@@ -1,5 +1,5 @@
 # Simulated data. Chart type only; no code, text or images taken from any source.
-# v2 (2026-11-13 CST) of scaling-law: new folder scaling-law-v2; v1 folder unchanged. Fixes layout review 1-1 (footnote / labels as plain text, no mathtext superscripts; all glyphs >= 6.3 pt) and 2-1 (x ticks only at decades holding data).
+# Updated revision (2026-11-13 CST) of scaling-law: new folder scaling-law-v2; earlier folder unchanged. Fixes layout issues: footnote / labels as plain text (no mathtext superscripts; all glyphs >= 6.3 pt) and x ticks only at decades holding data.
 # Rendered with matplotlib + styles/python/house.py (R was not available when this was drawn).
 title: 'Scaling law: loss vs model size (house style)'
 title_zh: '缩放定律：损失-参数量双对数图（house 风格）'

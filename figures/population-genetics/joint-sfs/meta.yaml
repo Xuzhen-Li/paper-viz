@@ -25,5 +25,5 @@ lang: 'Python'
 style: 'house'
 cells: '2x2'
 seed: 20261120
-references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. v3: same data.csv as v2 (byte-identical); the colour-bar title SNPs now sits inside the main heatmap frame (empty cells Pop 1 = 1-3, Pop 2 = 15), not above it. Does not replace v2.'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. Updated revision: same data.csv as the earlier version (byte-identical); the colour-bar title SNPs now sits inside the main heatmap frame (empty cells Pop 1 = 1-3, Pop 2 = 15), not above it. Does not replace the earlier version.'
 # [待确认] 任务要求 R；本机无 R 解释器（未安装，按规定不安装），改用仓库 styles/python/house.py 的 Python house 实现。

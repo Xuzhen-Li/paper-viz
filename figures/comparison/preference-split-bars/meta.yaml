@@ -1,6 +1,6 @@
 # Simulated data. Chart type only; no code, text or images taken from any source.
 # Rendered with matplotlib + styles/python/house.py (R not used; no pvr, no _apply_canvas call in plot.py).
-# v2 (2026-11-13 CST) of preference-split-bars: new folder preference-split-bars-v2; v1 folder unchanged.
+# Updated revision (2026-11-13 CST) of preference-split-bars: new folder preference-split-bars-v2; earlier folder unchanged.
 title: 'Preference split bars and multi-dimension scores: two systems'
 title_zh: '逐任务偏好分割条 + 多维评分对比'
 slug: 'preference-split-bars'
@@ -8,7 +8,7 @@ category: 'comparison'
 style: 'house'
 targets_id: 'T15'
 version: 2
-supersedes: 'redraws/preference-split-bars/ (v1, unchanged)'
+supersedes: 'redraws/preference-split-bars/ (earlier version, unchanged)'
 changes_v2:
   - 'The T975 table is now keyed by degrees of freedom; lookup is T975[n - 1]; n = 10 → df = 9 → 2.262.'
   - 'The silent 1.96 fallback was removed so a missing df errors instead of being labelled a t interval.'

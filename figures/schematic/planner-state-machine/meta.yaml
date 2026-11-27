@@ -1,8 +1,8 @@
-title: LLM planner with state-machine task execution (v2)
-title_zh: LLM 规划器 + 任务分解 + 状态机执行（v2：每个状态 = 一轮交互，人类用户全程监督；通用标签）
+title: LLM planner with state-machine task execution
+title_zh: LLM 规划器 + 任务分解 + 状态机执行（每个状态 = 一轮交互，人类用户全程监督；通用标签）
 slug: planner-state-machine
 version: v2
-supersedes_content_of: redraws/planner-state-machine/ (v1, unchanged)
+supersedes_content_of: redraws/planner-state-machine/ (earlier version, unchanged)
 category: schematic
 style: house
 targets_id: S17

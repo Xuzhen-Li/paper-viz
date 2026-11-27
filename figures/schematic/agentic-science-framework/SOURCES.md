@@ -4,7 +4,7 @@
 
 - From AI for Science to Agentic Science (survey), 2025. https://arxiv.org/abs/2508.14111 , Fig. 2（TARGETS.md S43）
 
-标题、URL 和图号沿用 `TARGETS.md`（标为已核对 ✓）；本轮未上网复核，未下载论文或任何期刊图。
+标题、URL 和图号沿用 `TARGETS.md`（标为已核对 ✓）；未上网复核，未下载论文或任何期刊图。
 版式是自拟的通用示意图，只借用“分阶段/分层”的思路；文字为通用标签，不是原图的逐字复制。
 
 ## 图标来源

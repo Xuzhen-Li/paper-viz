@@ -4,7 +4,7 @@
 
 - Rafailov R. et al. Direct Preference Optimization: Your Language Model is Secretly a Reward Model (2023). https://arxiv.org/abs/2305.18290 , Fig. 1（TARGETS.md S27）
 
-图是该类方法的通用示意，版式为本脚本原创布局，不是对原图的描摹；文字是通用描述，没有抄录原文。论文、URL 和图号沿用 `TARGETS.md` 与任务书，本轮未上网复核，未下载论文或任何期刊图。
+图是该类方法的通用示意，版式为本脚本原创布局，不是对原图的描摹；文字是通用描述，没有抄录原文。论文、URL 和图号沿用 `TARGETS.md`，未上网复核，未下载论文或任何期刊图。
 
 ## 图标来源
 
@@ -17,4 +17,4 @@
 - 绘图工具段原样复制自 `redraws/tree-of-thoughts-v2/build.py`，另加两项检查：连线穿过文字、游离标签压框线。未用 house.py / pvr / `_apply_canvas`。
 - preview.png 由 librsvg 按 600 dpi 从 figure.svg 渲染。
 
-注：任务书写 Fig. 1 已核实；`TARGETS.md` 该行“核实”列仍为 [待确认]，本轮未复核。
+注：2026-11-13（UTC+8）记录为「Fig. 1 已核实」，但 `TARGETS.md` 该行“核实”列仍为 [待确认]，此后未再复核。

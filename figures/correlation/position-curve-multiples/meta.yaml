@@ -1,6 +1,6 @@
 # Simulated data. Chart type only; no code, text or images taken from any source.
 # Rendered with matplotlib + styles/python/house.py (imported from the worktree checkout via paths relative to plot.py; not copied).
-# Version 2: y-tick label fix for panels a-c only (C04 review item 1-1); data and seed unchanged.
+# Updated revision: y-tick label fix for panels a-c only; data and seed unchanged.
 title: 'Position-curve small multiples: accuracy by answer position at 10, 20 and 30 documents'
 title_zh: '位置曲线小多图：10/20/30 篇文档下答案位置与准确率'
 slug: 'position-curve-multiples'
@@ -37,4 +37,4 @@ distinct_from:
 references:
   - url: 'https://arxiv.org/abs/2307.03172'
     figure: 'Fig. 5'
-references_note: 'v2 corrects only the panel a-c y-tick labels so each printed label equals its data coordinate (v1 printed 0.3-0.8 at 0.35-0.85, 0.05 too low); ticks now 0.4-0.8. data.csv, make_data.py and seed are byte-identical to v1; curves, Wilson bands, panel d and n unchanged. Chart type only; the published figures were not downloaded, traced or redrawn. Context lengths 10/20/30 total documents follow the paper text (Sect. 2.3). In that paper, Fig. 3 and Fig. 4 are schematics; the position-accuracy results are Fig. 5. Fig. 7 (key-value retrieval) is not part of this redraw. Curves and counts are invented; new seed 20261404.'
+references_note: 'This revision corrects only the panel a-c y-tick labels so each printed label equals its data coordinate (previously 0.3-0.8 was printed at 0.35-0.85, 0.05 too low); ticks now 0.4-0.8. data.csv, make_data.py and seed are byte-identical to the earlier version; curves, Wilson bands, panel d and n unchanged. Chart type only; the published figures were not downloaded, traced or redrawn. Context lengths 10/20/30 total documents follow the paper text (Sect. 2.3). In that paper, Fig. 3 and Fig. 4 are schematics; the position-accuracy results are Fig. 5. Fig. 7 (key-value retrieval) is not part of this redraw. Curves and counts are invented; new seed 20261404.'

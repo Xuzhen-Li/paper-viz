@@ -1,6 +1,6 @@
 # Simulated data (seed 71050). Layout idea only; no published values, images or tracings are used.
 # Rendered with matplotlib + styles/python/house.py (imported via a path relative to plot.py, not copied); plot.py does not import pvr.
-# v2: only the panel-a agent labels were repositioned to clear the grey CI bars, points and Pareto line; data and seed unchanged.
+# Updated revision: only the panel-a agent labels were repositioned to clear the grey CI bars, points and Pareto line; data and seed unchanged.
 title: 'Agent evaluation dashboard: Pareto front, cost breakdown, accuracy with CI'
 title_zh: '智能体评测三联图：Pareto 前沿、成本分解、准确率置信区间'
 slug: 'agent-eval-dashboard'
@@ -29,7 +29,7 @@ statistics: 'CI = mean +/- t(0.975, df = runs - 1) * SD / sqrt(runs), computed w
 when_to_use: 'Compare agents on accuracy and cost at once: which are on the cost-accuracy Pareto front, where their money goes, and how uncertain the accuracy is over repeated runs.'
 customize: 'Edit data.csv (one row per agent x run). Runs, tasks, front, totals and CIs are computed in plot.py; label offsets for panel a are in the offsets dict at the top of plot.py and are tuned for this data.csv.'
 differs_from: 'pareto-compute-v2 is a single accuracy-compute Pareto panel; this is a three-panel dashboard with new simulated run-level data (cost parts, repeated runs, t intervals).'
-changes_from_v1: 'Panel a only: labels for Retry x3, Retry x5, Tree search, Debate x3, Self-reflect and Planner-executor moved so they no longer cross the grey CI bars (Self-reflect, Tree search above their CI bar, Planner-executor below, Debate x3 beside its bar under the Tree search bar). Single call and Escalate model unchanged. data.csv and make_data.py are byte-identical to v1; seed, t intervals, costs and the Pareto rule are unchanged.'
+changes_from_v1: 'Panel a only: labels for Retry x3, Retry x5, Tree search, Debate x3, Self-reflect and Planner-executor moved so they no longer cross the grey CI bars (Self-reflect, Tree search above their CI bar, Planner-executor below, Debate x3 beside its bar under the Tree search bar). Single call and Escalate model unchanged. data.csv and make_data.py are byte-identical to the earlier version; seed, t intervals, costs and the Pareto rule are unchanged.'
 redraw_of:
   catalog_id: 'C05'
   reference: 'https://arxiv.org/abs/2407.01502'

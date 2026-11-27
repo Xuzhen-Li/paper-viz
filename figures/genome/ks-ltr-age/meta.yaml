@@ -25,4 +25,4 @@ lang: 'Python'
 style: 'house'
 cells: '4x1'
 seed: 20261117
-references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. This v2 keeps the same simulated data as the first draft and rewrites the rate annotation in plain text so every glyph stays at or above 6 pt.'
+references_note: 'No published reference figure; layout follows the house rules in styles/style-contract.md. This revision keeps the same simulated data as the earlier version and rewrites the rate annotation in plain text so every glyph stays at or above 6 pt.'

@@ -1,5 +1,5 @@
 # Simulated data. Chart type only; no code, text or images taken from any source.
-# v2 (2026-11-13 CST) of pareto-compute: new folder pareto-compute-v2; v1 folder unchanged. Fixes layout review 1-5 (labels placed after the +2 pt bump, >= 2 pt inside the frame) and 2-3 (Dominated next to the grey points).
+# Updated revision (2026-11-13 CST) of pareto-compute: new folder pareto-compute-v2; earlier folder unchanged. Fixes layout issues: labels placed after the +2 pt bump (>= 2 pt inside the frame) and Dominated placed next to the grey points.
 # Rendered with matplotlib + styles/python/house.py (R was not available when this was drawn).
 title: 'Accuracy-compute Pareto front (house style)'
 title_zh: '准确率-算力 Pareto 前沿（house 风格）'

@@ -38,5 +38,5 @@ distinct_from:
 references:
   - url: 'https://arxiv.org/abs/2203.15556'
     figure: 'Fig. 2–3'
-v2_note: 'v2 only separates the panel-c target-budget dashed line from the lower-right footnote: the line at target_flops (1e24; same colour, 0.5 pt, same dash pattern) now stops 1 mm above the footnote text box instead of running full height. data.csv and make_data.py are byte-identical to v1; seed, fits, slopes (0.50/0.46) and extrapolated sizes (92.3B/55B) unchanged.'
+v2_note: 'This revision only separates the panel-c target-budget dashed line from the lower-right footnote: the line at target_flops (1e24; same colour, 0.5 pt, same dash pattern) now stops 1 mm above the footnote text box instead of running full height. data.csv and make_data.py are byte-identical to the earlier version; seed, fits, slopes (0.50/0.46) and extrapolated sizes (92.3B/55B) unchanged.'
 references_note: 'Chart type only; the published figures were not downloaded, traced or redrawn. Simulation constants are invented (not the published fit); new seed 20261403.'
